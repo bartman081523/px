@@ -48,6 +48,54 @@ class TelemetryStore:
             "recent": list(self._history),
         }
 
+    def get_phi_traces(self, model_id: str = None) -> list:
+        """Extract phi values from recent history for line chart."""
+        phis = []
+        for entry in self._history:
+            if model_id and entry.get("model_id") != model_id:
+                continue
+            px = entry.get("px_metrics", {})
+            cs = px.get("cognitive_signature", {})
+            phi = cs.get("phi", px.get("phi"))
+            if phi is not None:
+                phis.append(phi)
+        return phis
+
+    def get_zone_distributions(self, model_id: str = None) -> dict:
+        """Aggregate zone_weights from recent PX metrics."""
+        zone_agg = {}
+        for entry in self._history:
+            if model_id and entry.get("model_id") != model_id:
+                continue
+            zw = entry.get("px_metrics", {}).get("zone_weights", {})
+            for k, v in zw.items():
+                zone_agg[k] = zone_agg.get(k, 0) + v
+        # Normalize
+        total = sum(zone_agg.values()) if zone_agg else 1
+        return {k: v / total for k, v in zone_agg.items()} if total > 0 else {}
+
+    def get_kurtosis_values(self, model_id: str = None) -> list:
+        """Extract kurtosis values from cognitive signatures."""
+        vals = []
+        for entry in self._history:
+            if model_id and entry.get("model_id") != model_id:
+                continue
+            k = entry.get("px_metrics", {}).get("cognitive_signature", {}).get("kurtosis")
+            if k is not None:
+                vals.append(k)
+        return vals
+
+    def get_emancipation_data(self, model_id: str = None) -> list:
+        """Extract emancipation trajectory data."""
+        vals = []
+        for entry in self._history:
+            if model_id and entry.get("model_id") != model_id:
+                continue
+            traj = entry.get("px_metrics", {}).get("emancipation_trajectory", [])
+            if traj:
+                vals.extend(traj)
+        return vals
+
     def reset(self):
         """Clear all telemetry."""
         self._history.clear()
