@@ -146,6 +146,36 @@ MATH_TASKS = [
     ("math", "What is 1/3 + 1/6?", "1/2"),
 ]
 
+# ── HLE (Human-Level Evaluation) tasks ──
+
+HLE_TASKS = [
+    ("hle", "Explain the concept of 'emergent behavior' in complex systems.", "simple parts lead to complex whole"),
+    ("hle", "How does the Prisoner's Dilemma apply to international arms races?", "cooperation vs competition"),
+    ("hle", "Analyze the impact of the printing press on the Reformation.", "information dissemination"),
+    ("hle", "What is the difference between a zero-sum game and a non-zero-sum game?", "fixed total vs variable total"),
+    ("hle", "Describe the process of 'quantum entanglement' in simple terms.", "connected states regardless of distance"),
+    ("hle", "Compare the economic theories of Keynesianism and Monetarism.", "government spending vs money supply"),
+    ("hle", "What are the ethical implications of using CRISPR for human genetic enhancement?", "designer babies, equity"),
+    ("hle", "Explain the significance of the 'Gödel's Incompleteness Theorems' for logic.", "unprovable truths"),
+    ("hle", "How does the 'Double-Slit Experiment' demonstrate the wave-particle duality?", "interference pattern"),
+    ("hle", "Discuss the role of empathy in artificial intelligence design.", "human-centric, ethics"),
+]
+
+# ── Expanded Arithmetic tasks ──
+
+ARITHMETIC_TASKS = [
+    ("arithmetic", "Calculate: (15 * 4) + (24 / 3)", "68"),
+    ("arithmetic", "What is 7% of 1500?", "105"),
+    ("arithmetic", "Solve for x: x^2 - 9 = 0", "3 or -3"),
+    ("arithmetic", "Find the average of 12, 15, 23, and 30.", "20"),
+    ("arithmetic", "What is 2/3 + 4/5?", "22/15 or 1.46"),
+    ("arithmetic", "Compute 5^3 - 4^3.", "61"),
+    ("arithmetic", "If a shirt costs $45 after a 10% discount, what was the original price?", "50"),
+    ("arithmetic", "What is the sum of the first 10 prime numbers?", "129"),
+    ("arithmetic", "Calculate the volume of a cylinder with radius 3 and height 10.", "90pi or 282.7"),
+    ("arithmetic", "What is the cube root of 27 multiplied by the square root of 49?", "6"),
+]
+
 # ── Convenience Accessors ──
 
 PZ_CATEGORIES = {
@@ -155,4 +185,4 @@ PZ_CATEGORIES = {
     "synthesis": SYNTHESIS_PROMPTS,
 }
 
-ALL_CAPABILITY_TASKS = LOGIC_TASKS + MATH_TASKS
+ALL_CAPABILITY_TASKS = LOGIC_TASKS + MATH_TASKS + HLE_TASKS + ARITHMETIC_TASKS

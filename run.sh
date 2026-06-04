@@ -24,12 +24,12 @@ ln -sf /run/media/julian/ML4/ollama-work/gemma_3_270m_it_px_subjective px_patche
 ln -sf /run/media/julian/ML4/ollama-work/MiniCPM5-1B-PX px_patches/minicpm5_1b_px 2>/dev/null
 
 # ── Start server ──
-echo "Starting PX Explorer on http://0.0.0.0:8000"
+echo "Starting PX Explorer on https://0.0.0.0:7860 (SSL Enabled)"
 echo "PX Models:   gemma3-270m-px, minicpm5-1b-px"
 echo "Base Models:  gemma3-270m-base, gemma3-270m-it, minicpm5-1b-base"
-echo "API:          http://localhost:8000/v1/"
-echo "UI:           http://localhost:8000/gradio"
-echo "LM Studio:    Configure Custom API endpoint as http://localhost:8000"
+echo "API:          https://localhost:7860/v1/"
+echo "UI:           https://localhost:7860/gradio"
+echo "LM Studio:    Configure Custom API endpoint as https://localhost:7860"
 echo ""
 
 exec $PYTHON app.py "$@"
