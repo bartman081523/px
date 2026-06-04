@@ -118,7 +118,12 @@ async def chat_completions(request: ChatCompletionRequest):
         raise HTTPException(404, f"Model {model_id} not found")
 
     try:
-        model_entry = await manager.get_model(model_id, px_subjective=request.px_subjective)
+        model_entry = await manager.get_model(
+            model_id,
+            px_subjective=request.px_subjective,
+            px_gamma=request.px_gamma,
+            px_routing_mode=request.px_routing_mode,
+        )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
 
@@ -185,7 +190,12 @@ async def completions(request: CompletionRequest):
         raise HTTPException(404, f"Model {model_id} not found")
 
     try:
-        model_entry = await manager.get_model(model_id, px_subjective=request.px_subjective)
+        model_entry = await manager.get_model(
+            model_id,
+            px_subjective=request.px_subjective,
+            px_gamma=request.px_gamma,
+            px_routing_mode=request.px_routing_mode,
+        )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
 

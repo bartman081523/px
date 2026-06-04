@@ -34,8 +34,10 @@ class ChatCompletionRequest(BaseModel):
     max_tokens: Optional[int] = 512
     stream: Optional[bool] = False
     stop: Optional[Union[str, List[str]]] = None
-    # PX extension: switch to Subjective mode per-request
+    # PX extensions
     px_subjective: Optional[bool] = False
+    px_gamma: Optional[float] = None           # Override gamma for LTI/ADC injection
+    px_routing_mode: Optional[str] = None      # "adaptive" or "fixed"
 
 
 class CompletionRequest(BaseModel):
@@ -46,7 +48,10 @@ class CompletionRequest(BaseModel):
     max_tokens: Optional[int] = 512
     stream: Optional[bool] = False
     stop: Optional[Union[str, List[str]]] = None
+    # PX extensions
     px_subjective: Optional[bool] = False
+    px_gamma: Optional[float] = None
+    px_routing_mode: Optional[str] = None
 
 
 # ── Response Models ──
