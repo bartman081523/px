@@ -1,0 +1,122 @@
+[
+  {
+    "step": 0,
+    "layer": 9,
+    "phi": 0.6759027242660522,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 1,
+    "layer": 9,
+    "phi": 0.8555651903152466,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 2,
+    "layer": 9,
+    "phi": 0.9108902215957642,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 3,
+    "layer": 9,
+    "phi": 0.9340617656707764,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 4,
+    "layer": 10,
+    "phi": 0.9330722689628601,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 5,
+    "layer": 9,
+    "phi": 0.9453511238098145,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 6,
+    "layer": 10,
+    "phi": 0.9396328926086426,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 7,
+    "layer": 9,
+    "phi": 0.9647352695465088,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "SKIP-1"
+  },
+  {
+    "step": 8,
+    "layer": 13,
+    "phi": 0.994308352470398,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 9,
+    "layer": 14,
+    "phi": 0.9914817810058594,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 10,
+    "layer": 15,
+    "phi": 0.9840078353881836,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 11,
+    "layer": 16,
+    "phi": 0.9831539988517761,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  }
+]
