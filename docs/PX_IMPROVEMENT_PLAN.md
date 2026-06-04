@@ -31,5 +31,8 @@ Evaluate using the comprehensive suite.
 *   Investigate the `create_causal_mask` behavior further.
 *   Implement zone-specific `n_loops` and `gamma` in `auto_tune.py` (Subjective mode). Rigid zones (math) get more loops/higher gamma; fluid zones (creative) get fewer loops/lower gamma.
 
-### Step 4: Final Validation
-Run the full comprehensive benchmark and ultra-hard benchmark. Compare the optimized PX patch against the unpatched baseline.
+### Step 4: Cross-Architecture Evaluation (Gemma3 vs MiniCPM)
+Run the exact same tests (Capability + Ultra Hard) on Gemma3-270M (Baseline, Peak, Subjective) to provide a comparative grounding. Does the Llama architecture inherently struggle with certain reasoning loops that Gemma3 handles well? 
+
+### Step 5: Final Validation
+Run the full comprehensive benchmark and ultra-hard benchmark. Compare the optimized PX patch against the unpatched baseline and the cross-architecture results.
