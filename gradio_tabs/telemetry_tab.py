@@ -26,7 +26,7 @@ def build_telemetry_tab(manager: ModelManager):
             headers=["Metric", "Value"],
             label="Server Summary",
             row_count=5,
-            col_count=2,
+            column_count=2,
         )
 
     # ── Visualizations ──
