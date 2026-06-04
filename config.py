@@ -105,11 +105,15 @@ MODEL_REGISTRY = {
 # Server Configuration
 # ═══════════════════════════════════════════════════════════════════════════════
 
+import os
+
 SERVER_CONFIG = {
-    "host": "0.0.0.0",
-    "port": 8000,
+    "host": os.environ.get("PX_HOST", "0.0.0.0"),
+    "port": int(os.environ.get("PX_PORT", 7860)),
     "default_model": "minicpm5-1b-px",
     "default_max_tokens": 512,
     "default_temperature": 0.7,
     "default_top_p": 0.9,
+    "ssl_cert": os.environ.get("SSL_CERTFILE"),
+    "ssl_key": os.environ.get("SSL_KEYFILE"),
 }

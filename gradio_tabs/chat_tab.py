@@ -1,23 +1,90 @@
 """
-chat_tab.py — Gradio Chat Tab with Full Parameter Control
-=========================================================
+chat_tab.py — Gradio Chat Tab with Full Parameter Control & Session Management
+=============================================================================
 Chat interface with model selector, parameter sliders, and PX-specific controls.
+Includes session management (BrowserState, JSON Import/Export).
 """
 
 import gradio as gr
 import torch
 import asyncio
-from typing import Optional
+import os
+import json
+from typing import Optional, List, Dict, Any
 
 from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from generators import generate_chat_completion
+from sessions import save_session, load_session, get_new_session_id, list_sessions
+
+
+# ── Session Handlers ──
+
+def on_load(session_id):
+    """Called when the page loads."""
+    if session_id is None:
+        session_id = get_new_session_id()
+    
+    data = load_session(session_id)
+    history = data.get("history", [])
+    return session_id, history, gr.update(choices=list_sessions())
+
+def handle_new_session():
+    new_id = get_new_session_id()
+    return new_id, [], gr.update(choices=list_sessions())
+
+def handle_load_saved(session_id):
+    if not session_id:
+        return gr.update(), [], gr.update(choices=list_sessions())
+    data = load_session(session_id)
+    return session_id, data.get("history", []), gr.update(choices=list_sessions())
+
+def handle_export(session_id, history):
+    if not history:
+        return gr.update(visible=False)
+    path = f"exported_session_{session_id}.json"
+    with open(path, "w") as f:
+        json.dump({"session_id": session_id, "history": history}, f, indent=2)
+    return gr.update(value=path, visible=True)
+
+def handle_import(file_obj):
+    if file_obj is None:
+        return gr.update(), []
+    try:
+        with open(file_obj.name, "r") as f:
+            data = json.load(f)
+        new_id = data.get("session_id", get_new_session_id())
+        history = data.get("history", [])
+        save_session(new_id, history)
+        return new_id, history
+    except Exception as e:
+        print(f"Import error: {e}")
+        return gr.update(), []
 
 
 def build_chat_tab(manager: ModelManager):
     """Build and return the Chat tab components."""
 
+    # ── Client-side state ──
+    # BrowserState persists in the user's browser (localStorage)
+    session_id_state = gr.BrowserState(default_value=None, storage_key="px_session_id")
+
     model_choices = list(MODEL_REGISTRY.keys())
+
+    with gr.Sidebar(label="Sessions"):
+        gr.Markdown("### Session Management")
+        new_session_btn = gr.Button("New Session", variant="secondary")
+        session_list_refresh = gr.Button("Refresh List", size="sm")
+        session_dropdown = gr.Dropdown(choices=list_sessions(), label="Saved Sessions")
+        load_session_btn = gr.Button("Load Selected", size="sm")
+        
+        gr.Markdown("---")
+        gr.Markdown("### Import/Export")
+        export_btn = gr.Button("Download Session (JSON)")
+        export_file = gr.File(label="Exported JSON", visible=False)
+        
+        import_file = gr.File(label="Import Session JSON", file_types=[".json"])
+        import_btn = gr.Button("Import & Load")
 
     with gr.Row():
         model_select = gr.Dropdown(
@@ -80,19 +147,13 @@ def build_chat_tab(manager: ModelManager):
     )
 
     # ── Chat function ──
-    def chat_respond(message, history, model_id, px_subj, temp, tp, mt, gamma, routing):
+    def chat_respond(message, history, model_id, px_subj, temp, tp, mt, gamma, routing, session_id):
         """Send message and get response."""
         if not message.strip():
-            return history, ""
+            return history, "", None, session_id
 
-        # Build messages list from history (Gradio Chatbot: list of [user, assistant] pairs)
-        messages = []
-        for pair in history:
-            if pair[0]:
-                messages.append({"role": "user", "content": pair[0]})
-            if pair[1]:
-                messages.append({"role": "assistant", "content": pair[1]})
-        messages.append({"role": "user", "content": message})
+        # Build messages list from history (Gradio messages format: list of dictionaries)
+        messages = history + [{"role": "user", "content": message}]
 
         # Get model entry (async call from sync context)
         loop = asyncio.new_event_loop()
@@ -101,7 +162,7 @@ def build_chat_tab(manager: ModelManager):
                 manager.get_model(
                     model_id,
                     px_subjective=px_subj,
-                    px_gamma=gamma if gamma != 0.08 else None,  # Skip if default
+                    px_gamma=gamma if gamma != 0.08 else None,
                     px_routing_mode=routing if routing != "adaptive" else None,
                 )
             )
@@ -112,6 +173,7 @@ def build_chat_tab(manager: ModelManager):
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
 
+        # Note: apply_chat_template expects a list of dictionaries
         input_text = tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )
@@ -130,32 +192,68 @@ def build_chat_tab(manager: ModelManager):
         new_tokens = outputs[0][input_len:]
         text = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
-        # Update history (Gradio format: list of [user, assistant] pairs)
-        history = history + [[message, text]]
+        # Update history
+        history = history + [
+            {"role": "user", "content": message},
+            {"role": "assistant", "content": text},
+        ]
+
+        # Save to disk
+        save_session(session_id, history, model_id=model_id)
 
         # Get PX metrics
         px_metrics = manager.get_px_metrics(model_id)
 
-        return history, "", px_metrics
+        return history, "", px_metrics, session_id
 
     # ── Wire up events ──
+    
     send_btn.click(
         fn=chat_respond,
         inputs=[msg_input, chatbot, model_select, px_subjective,
-                temperature, top_p, max_tokens, px_gamma, px_routing_mode],
-        outputs=[chatbot, msg_input, px_metrics_display],
+                temperature, top_p, max_tokens, px_gamma, px_routing_mode, session_id_state],
+        outputs=[chatbot, msg_input, px_metrics_display, session_id_state],
     )
 
     msg_input.submit(
         fn=chat_respond,
         inputs=[msg_input, chatbot, model_select, px_subjective,
-                temperature, top_p, max_tokens, px_gamma, px_routing_mode],
-        outputs=[chatbot, msg_input, px_metrics_display],
+                temperature, top_p, max_tokens, px_gamma, px_routing_mode, session_id_state],
+        outputs=[chatbot, msg_input, px_metrics_display, session_id_state],
     )
 
     clear_btn.click(
-        fn=lambda: ([], "", None),
-        outputs=[chatbot, msg_input, px_metrics_display],
+        fn=lambda sid: ([], "", None, sid),
+        inputs=[session_id_state],
+        outputs=[chatbot, msg_input, px_metrics_display, session_id_state],
     )
 
-    return model_select
+    new_session_btn.click(
+        fn=handle_new_session,
+        outputs=[session_id_state, chatbot, session_dropdown]
+    )
+    
+    load_session_btn.click(
+        fn=handle_load_saved,
+        inputs=[session_dropdown],
+        outputs=[session_id_state, chatbot, session_dropdown]
+    )
+    
+    export_btn.click(
+        fn=handle_export,
+        inputs=[session_id_state, chatbot],
+        outputs=[export_file]
+    )
+    
+    import_btn.click(
+        fn=handle_import,
+        inputs=[import_file],
+        outputs=[session_id_state, chatbot]
+    )
+
+    session_list_refresh.click(
+        fn=lambda: gr.update(choices=list_sessions()),
+        outputs=[session_dropdown]
+    )
+
+    return session_id_state, chatbot, session_dropdown

@@ -1,0 +1,342 @@
+[
+  {
+    "step": 0,
+    "layer": 9,
+    "phi": 0.7852053642272949,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 1,
+    "layer": 9,
+    "phi": 0.9378880262374878,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 2,
+    "layer": 9,
+    "phi": 0.9551598429679871,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 3,
+    "layer": 10,
+    "phi": 0.9171034097671509,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 4,
+    "layer": 9,
+    "phi": 0.9621518850326538,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": false,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 5,
+    "layer": 10,
+    "phi": 0.955527663230896,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 6,
+    "layer": 9,
+    "phi": 0.9602676630020142,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 7,
+    "layer": 10,
+    "phi": 0.9657325148582458,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 8,
+    "layer": 11,
+    "phi": 0.944870114326477,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 9,
+    "layer": 9,
+    "phi": 0.9715967774391174,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "SKIP-1"
+  },
+  {
+    "step": 10,
+    "layer": 11,
+    "phi": 0.9643428325653076,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 11,
+    "layer": 12,
+    "phi": 0.9275199174880981,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 12,
+    "layer": 10,
+    "phi": 0.9426807165145874,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 13,
+    "layer": 11,
+    "phi": 0.9656046032905579,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 14,
+    "layer": 12,
+    "phi": 0.9278067350387573,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 15,
+    "layer": 10,
+    "phi": 0.9658868908882141,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 16,
+    "layer": 11,
+    "phi": 0.9669846296310425,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 17,
+    "layer": 12,
+    "phi": 0.9670703411102295,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 18,
+    "layer": 13,
+    "phi": 0.8959692120552063,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 19,
+    "layer": 11,
+    "phi": 0.970326840877533,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "SKIP-1"
+  },
+  {
+    "step": 20,
+    "layer": 13,
+    "phi": 0.9589150547981262,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 21,
+    "layer": 12,
+    "phi": 0.9692408442497253,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 22,
+    "layer": 13,
+    "phi": 0.9753857254981995,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 23,
+    "layer": 14,
+    "phi": 0.943093478679657,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 24,
+    "layer": 12,
+    "phi": 0.9622779488563538,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 25,
+    "layer": 13,
+    "phi": 0.9785370230674744,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "SKIP-1"
+  },
+  {
+    "step": 26,
+    "layer": 15,
+    "phi": 0.9182993173599243,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-2"
+  },
+  {
+    "step": 27,
+    "layer": 13,
+    "phi": 0.9730861186981201,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "SKIP-1"
+  },
+  {
+    "step": 28,
+    "layer": 15,
+    "phi": 0.9625065326690674,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 29,
+    "layer": 16,
+    "phi": 0.9533365964889526,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 30,
+    "layer": 15,
+    "phi": 0.9521356821060181,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "NEXT"
+  },
+  {
+    "step": 31,
+    "layer": 16,
+    "phi": 0.959111750125885,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 13,
+    "routing": "BACK-1"
+  },
+  {
+    "step": 32,
+    "layer": 15,
+    "phi": 0.9546999335289001,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  },
+  {
+    "step": 33,
+    "layer": 16,
+    "phi": 0.9657334089279175,
+    "gamma": 0.06,
+    "energy": 1.0,
+    "rba_active": true,
+    "hub": 15,
+    "routing": "NEXT"
+  }
+]
