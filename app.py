@@ -33,13 +33,7 @@ engine = BenchmarkEngine(manager)
 
 
 # ── Build Gradio Blocks ──
-with gr.Blocks(
-    title="PX Cognitive Architecture Explorer",
-    theme=gr.themes.Soft(),
-    css="""
-    .gradio-container { max-width: 1200px; margin: auto; }
-    """
-) as demo:
+with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
     gr.Markdown("""
     # 🧠 PX Cognitive Architecture Explorer
     **Phenomenological eXtension** — Model-agnostic PX patch system with cognitive evaluation.

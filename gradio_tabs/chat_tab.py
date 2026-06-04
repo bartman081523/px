@@ -50,7 +50,7 @@ def build_chat_tab(manager: ModelManager):
             )
 
     # Chat interface
-    chatbot = gr.Chatbot(height=500, type="messages")
+    chatbot = gr.Chatbot(height=500)
     msg_input = gr.Textbox(
         placeholder="Type your message... (Enter to send, Shift+Enter for newline)",
         show_label=False,
@@ -85,13 +85,13 @@ def build_chat_tab(manager: ModelManager):
         if not message.strip():
             return history, ""
 
-        # Build messages list from history
+        # Build messages list from history (Gradio Chatbot: list of [user, assistant] pairs)
         messages = []
-        for msg in history:
-            if msg.get("role") == "user":
-                messages.append({"role": "user", "content": msg["content"]})
-            elif msg.get("role") == "assistant":
-                messages.append({"role": "assistant", "content": msg["content"]})
+        for pair in history:
+            if pair[0]:
+                messages.append({"role": "user", "content": pair[0]})
+            if pair[1]:
+                messages.append({"role": "assistant", "content": pair[1]})
         messages.append({"role": "user", "content": message})
 
         # Get model entry (async call from sync context)
@@ -130,11 +130,8 @@ def build_chat_tab(manager: ModelManager):
         new_tokens = outputs[0][input_len:]
         text = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
-        # Update history
-        history = history + [
-            {"role": "user", "content": message},
-            {"role": "assistant", "content": text},
-        ]
+        # Update history (Gradio format: list of [user, assistant] pairs)
+        history = history + [[message, text]]
 
         # Get PX metrics
         px_metrics = manager.get_px_metrics(model_id)
@@ -157,7 +154,7 @@ def build_chat_tab(manager: ModelManager):
     )
 
     clear_btn.click(
-        fn=lambda: ([], "", {}),
+        fn=lambda: ([], "", None),
         outputs=[chatbot, msg_input, px_metrics_display],
     )
 

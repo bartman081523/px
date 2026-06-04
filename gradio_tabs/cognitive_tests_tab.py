@@ -61,7 +61,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
             headers=["Category", "Accuracy", "Tasks"],
             label="Summary Results",
             row_count=5,
-            col_count=3,
+            column_count=3,
         )
         results_json = gr.JSON(label="Full Results")
 
