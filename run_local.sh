@@ -28,7 +28,7 @@ if [ ! -f "$SSL_CERTFILE" ] || [ ! -f "$SSL_KEYFILE" ]; then
     echo "[SSL] Zertifikat erstellt: $SSL_CERTFILE"
 fi
 
-echo "=== PX-DMT Local Debug Start (HTTPS) ==="
+echo "=== PX-Subjective Local Debug Start (HTTPS) ==="
 echo "HOST: $PX_HOST"
 echo "PORT: $PX_PORT"
 echo "DEBUG_ROUTING=$DEBUG_ROUTING"
