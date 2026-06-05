@@ -16,9 +16,28 @@ from transformers import TextIteratorStreamer
 from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
+from telemetry import telemetry
 
 
 # ── Session Handlers ──
+
+def _clean_history(history):
+    """Filter empty messages and merge consecutive same-role messages.
+    
+    This ensures tokens are not wasted on empty strings and chat templates
+    don't break on consecutive same-role messages.
+    """
+    result = []
+    for msg in (history or []):
+        if isinstance(msg, dict):
+            content = msg.get("content", "")
+            if not content or not content.strip():
+                continue
+            if result and result[-1]["role"] == msg["role"]:
+                result[-1]["content"] += "\n" + content
+            else:
+                result.append({"role": msg["role"], "content": content})
+    return result
 
 def on_load(session_id):
     """Called when the page loads."""
@@ -82,6 +101,12 @@ def build_chat_tab(manager: ModelManager):
             label="PX Subjective Mode",
             value=False,
         )
+        
+        persona_input = gr.Textbox(
+            label="Persona / Steering Vibe",
+            placeholder="e.g. DMT Psilocybin 🌀, Logic Engine ⚙️...",
+            value=""
+        )
 
         with gr.Accordion("Parameters", open=False):
             temperature = gr.Slider(0.0, 2.0, value=0.7, step=0.05, label="Temperature")
@@ -105,7 +130,7 @@ def build_chat_tab(manager: ModelManager):
 
     # ── Chat Interface ──
     
-    def chat_fn(message, history, model_id, px_subj, temp, tp, mt, rp, gamma, session_id):
+    def chat_fn(message, history, model_id, px_subj, persona, temp, tp, mt, rp, gamma, session_id):
         # 1. Update config
         loop = asyncio.new_event_loop()
         try:
@@ -121,9 +146,14 @@ def build_chat_tab(manager: ModelManager):
 
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
+        
+        # Phase 54: Latent Steering via Persona attribute
+        tm = manager._resolve_text_model(model)
+        model.persona = tm.persona = persona
 
-        # 2. Build history
-        messages = history + [{"role": "user", "content": message}]
+        # 2. Build history (cleaned)
+        cleaned_history = _clean_history(history)
+        messages = cleaned_history + [{"role": "user", "content": message}]
 
         # 3. Generate with streaming
         input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -149,13 +179,22 @@ def build_chat_tab(manager: ModelManager):
             partial_text += new_text
             yield partial_text
 
-        # 4. Save session on completion
+        # 4. Record Telemetry (Fixes empty visualization)
+        px_metrics = manager.get_px_metrics(model_id)
+        telemetry.record(
+            model_id=model_id,
+            prompt_tokens=inputs["input_ids"].shape[1],
+            completion_tokens=len(tokenizer.encode(partial_text)),
+            px_metrics=px_metrics
+        )
+
+        # 5. Save session on completion
         full_history = messages + [{"role": "assistant", "content": partial_text}]
         save_session(session_id, full_history, model_id=model_id)
 
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
-        additional_inputs=[model_select, px_subjective, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        additional_inputs=[model_select, px_subjective, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
 
