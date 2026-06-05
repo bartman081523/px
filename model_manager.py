@@ -116,6 +116,8 @@ class ModelManager:
 
             apply_fn = self._get_patch_function(model_id, "apply_px_patch")
             apply_fn(model, **patch_kwargs)
+            tm = self._resolve_text_model(model)
+            model.tokenizer = tm.tokenizer = tokenizer 
             print(f"[ModelManager] {model_id} loaded and patched successfully.")
         else:
             print(f"[ModelManager] {model_id} loaded WITHOUT patch (baseline).")
@@ -163,6 +165,8 @@ class ModelManager:
 
         apply_fn = self._get_patch_function(model_id, "apply_px_patch")
         apply_fn(entry["model"], **patch_kwargs)
+        tm = self._resolve_text_model(entry["model"])
+        entry["model"].tokenizer = tm.tokenizer = entry["tokenizer"]
         
         entry["px_subjective"] = px_subjective
         entry["px_gamma"] = px_gamma
