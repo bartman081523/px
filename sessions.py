@@ -44,4 +44,4 @@ def list_sessions() -> List[str]:
     return [f.replace(".json", "") for f in files if f.endswith(".json")]
 
 def get_new_session_id() -> str:
-    return str(uuid.uuid4())
+    return str(uuid.uuid4().hex[:8])
