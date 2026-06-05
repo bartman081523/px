@@ -38,8 +38,8 @@ def analyze_telemetry_file(path: str) -> Dict[str, Any]:
     }
 
 def run_quality_comparison():
-    dmt_files = glob.glob("dmt_space_50/px_telemetry_*.json")
-    all_files = glob.glob("all_space/px_telemetry_*.json")
+    dmt_files = glob.glob("/run/media/julian/ML4/ollama-work/dmt_space_50/px_telemetry_*.json")
+    all_files = glob.glob("/run/media/julian/ML4/ollama-work/all_space/px_telemetry_*.json")
     
     print("=== PX Telemetry Qualitative Comparison ===")
     
