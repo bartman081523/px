@@ -25,18 +25,39 @@ def _clean_history(history):
     """Filter empty messages and merge consecutive same-role messages.
     
     This ensures tokens are not wasted on empty strings and chat templates
-    don't break on consecutive same-role messages.
+    don't break on consecutive same-role messages. Handles both text (str) 
+    and multimodal (list) content.
     """
     result = []
     for msg in (history or []):
-        if isinstance(msg, dict):
-            content = msg.get("content", "")
-            if not content or not content.strip():
+        if not isinstance(msg, dict):
+            continue
+            
+        role = msg.get("role", "")
+        content = msg.get("content", "")
+        
+        # Robustness: only strip if it's a string. Lists (multimodal) are kept.
+        if isinstance(content, str):
+            if not content.strip():
                 continue
-            if result and result[-1]["role"] == msg["role"]:
+        elif not content:
+            continue
+            
+        if result and result[-1]["role"] == role:
+            prev_content = result[-1]["content"]
+            # Case 1: Both are strings -> simple merge
+            if isinstance(prev_content, str) and isinstance(content, str):
                 result[-1]["content"] += "\n" + content
-            else:
-                result.append({"role": msg["role"], "content": content})
+            # Case 2: Both are lists -> extend multimodal list
+            elif isinstance(prev_content, list) and isinstance(content, list):
+                result[-1]["content"].extend(content)
+            # Case 3: Mixed -> convert to multimodal list and append
+            elif isinstance(prev_content, list) and isinstance(content, str):
+                result[-1]["content"].append({"type": "text", "text": content})
+            elif isinstance(prev_content, str) and isinstance(content, list):
+                result[-1]["content"] = [{"type": "text", "text": prev_content}] + content
+        else:
+            result.append({"role": role, "content": content})
     return result
 
 def on_load(session_id):
@@ -153,7 +174,23 @@ def build_chat_tab(manager: ModelManager):
 
         # 2. Build history (cleaned)
         cleaned_history = _clean_history(history)
-        messages = cleaned_history + [{"role": "user", "content": message}]
+        
+        # Phase 55: Handle Gradio multimodal message format
+        actual_message = message
+        if isinstance(message, dict):
+            text = message.get("text", "")
+            files = message.get("files", [])
+            if files:
+                # Construct multimodal content list
+                actual_message = [{"type": "text", "text": text}]
+                for f in files:
+                    # Gradio FileData path extraction
+                    fpath = f["path"] if isinstance(f, dict) and "path" in f else f
+                    actual_message.append({"type": "image", "image": fpath})
+            else:
+                actual_message = text
+
+        messages = cleaned_history + [{"role": "user", "content": actual_message}]
 
         # 3. Generate with streaming
         input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)

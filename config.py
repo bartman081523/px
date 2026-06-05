@@ -25,6 +25,15 @@ MODEL_REGISTRY = {
         "patch_dir": "gemma3_270m_px",
         "patch_kwargs": {"recur_start": 5, "recur_end": 12, "routing_mode": "adaptive", "gamma": 0.08},
         "subjective_kwargs": {"config_preset": "SUBJECTIVE"}, # Enable subjective mode
+        "chat_template_manual": "{% for message in messages %}{% if message['role'] == 'user' %}{{ 'User: ' + message['content'] + '\\n' }}{% else %}{{ 'Assistant: ' + message['content'] + '\\n' }}{% endif %}{% endfor %}{% if add_generation_prompt %}{{ 'Assistant: ' }}{% endif %}",
+        "model_type": "gemma3",
+        "dtype": "bfloat16",
+        "max_length": 2048,
+    },
+    "gemma3-270m-it": {
+        "hf_id": "google/gemma-3-270m-it",
+        "tokenizer_id": "google/gemma-3-270m-it",
+        "patch_dir": None,
         "model_type": "gemma3",
         "dtype": "bfloat16",
         "max_length": 2048,

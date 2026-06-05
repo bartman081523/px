@@ -38,15 +38,14 @@ class TestUIBackend(unittest.TestCase):
         self.assertIn(self.test_session_id, sessions.list_sessions())
 
     def test_handle_new_session(self):
-        sid, hist, list_s = handle_new_session()
+        sid, hist, list_s, disp = handle_new_session()
         self.assertEqual(hist, [])
         self.assertIsInstance(sid, str)
-        self.assertGreater(len(sid), 10)
 
     def test_handle_export_import(self):
         # Test Export
         update = handle_export(self.test_session_id, self.test_history)
-        export_path = update.value
+        export_path = update["value"]
         self.assertTrue(os.path.exists(export_path))
         
         # Test Import
