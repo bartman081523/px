@@ -1,7 +1,7 @@
 """
-chat_tab.py — Gradio Chat Tab with ChatInterface & DMT Protocol
+chat_tab.py — Gradio Chat Tab with ChatInterface & Subjective Mode
 ================================================================
-Integrated chat interface with session management and DMT protocol steering.
+Integrated chat interface with session management and PX steering.
 """
 
 import gradio as gr
@@ -82,11 +82,6 @@ def build_chat_tab(manager: ModelManager):
             label="PX Subjective Mode",
             value=False,
         )
-        dmt_protocol = gr.Checkbox(
-            label="DMT Protocol (High-Fi)",
-            value=False,
-            info="Enables Memory, ERPU, Agency"
-        )
 
         with gr.Accordion("Parameters", open=False):
             temperature = gr.Slider(0.0, 2.0, value=0.7, step=0.05, label="Temperature")
@@ -110,26 +105,17 @@ def build_chat_tab(manager: ModelManager):
 
     # ── Chat Interface ──
     
-    def chat_fn(message, history, model_id, px_subj, dmt_on, temp, tp, mt, rp, gamma, session_id):
-        # 1. Update config based on DMT Protocol toggle
+    def chat_fn(message, history, model_id, px_subj, temp, tp, mt, rp, gamma, session_id):
+        # 1. Update config
         loop = asyncio.new_event_loop()
         try:
-            # Subjective must be on for DMT
-            is_subjective = px_subj or dmt_on
-            preset = "DMT" if dmt_on else "SUBJECTIVE"
-            
             model_entry = loop.run_until_complete(
                 manager.get_model(
                     model_id,
-                    px_subjective=is_subjective,
+                    px_subjective=px_subj,
                     px_gamma=gamma,
-                    px_config_preset=preset
                 )
             )
-            # Re-patch if preset changed
-            if model_entry.get("px_config_preset") != preset:
-                 manager._reapply_patch(model_id, px_subjective=is_subjective, px_gamma=gamma, px_config_preset=preset)
-                 model_entry["px_config_preset"] = preset
         finally:
             loop.close()
 
@@ -169,7 +155,7 @@ def build_chat_tab(manager: ModelManager):
 
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
-        additional_inputs=[model_select, px_subjective, dmt_protocol, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        additional_inputs=[model_select, px_subjective, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
 
