@@ -24,7 +24,8 @@ class ModelManager:
         self._px_metrics: Dict[str, dict] = {}     # model_id -> latest metrics
 
     async def get_model(self, model_id: str, px_subjective: bool = False,
-                         px_gamma: float = None, px_routing_mode: str = None) -> dict:
+                         px_gamma: float = None, px_routing_mode: str = None,
+                         px_config_preset: str = None) -> dict:
         """Get a loaded model, loading lazily if needed.
 
         If model is loaded with different subjective/gamma/routing mode,
@@ -36,14 +37,18 @@ class ModelManager:
         if model_id in self._models:
             entry = self._models[model_id]
             current_subjective = entry.get("px_subjective", False)
+            current_preset = entry.get("px_config_preset")
+            
             needs_repatch = current_subjective != px_subjective
-            # Also re-patch if gamma or routing mode changed
+            if px_config_preset is not None and current_preset != px_config_preset:
+                needs_repatch = True
             if px_gamma is not None and entry.get("px_gamma") != px_gamma:
                 needs_repatch = True
             if px_routing_mode is not None and entry.get("px_routing_mode") != px_routing_mode:
                 needs_repatch = True
+                
             if needs_repatch:
-                self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode)
+                self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
             self._last_used[model_id] = time.time()
             return entry
 
@@ -53,7 +58,7 @@ class ModelManager:
 
         self._loading[model_id] = True
         try:
-            entry = self._load_model(model_id, px_subjective, px_gamma, px_routing_mode)
+            entry = self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
             self._models[model_id] = entry
             self._last_used[model_id] = time.time()
             return entry
@@ -61,13 +66,15 @@ class ModelManager:
             self._loading[model_id] = False
 
     def _load_model(self, model_id: str, px_subjective: bool,
-                     px_gamma: float = None, px_routing_mode: str = None) -> dict:
+                     px_gamma: float = None, px_routing_mode: str = None,
+                     px_config_preset: str = None) -> dict:
         """Load model weights + tokenizer + apply PX patch."""
         registry = MODEL_REGISTRY[model_id]
         hf_id = registry["hf_id"]
         tok_id = registry["tokenizer_id"]
+        model_type = registry.get("model_type", "gemma3")
 
-        print(f"[ModelManager] Loading {model_id} from {hf_id} (subjective={px_subjective})...")
+        print(f"[ModelManager] Loading {model_id} from {hf_id} (type={model_type}, subjective={px_subjective}, preset={px_config_preset})...")
 
         # Load tokenizer
         tokenizer = AutoTokenizer.from_pretrained(tok_id)
@@ -77,17 +84,31 @@ class ModelManager:
 
         # Load model
         dtype = getattr(torch, registry["dtype"])
-        model = AutoModelForCausalLM.from_pretrained(
-            hf_id,
-            torch_dtype=dtype,
-            device_map="auto",
-        )
+        
+        if model_type == "gemma3_conditional":
+            from transformers import Gemma3ForConditionalGeneration
+            model = Gemma3ForConditionalGeneration.from_pretrained(
+                hf_id,
+                torch_dtype=dtype,
+                device_map="auto",
+            )
+        else:
+            model = AutoModelForCausalLM.from_pretrained(
+                hf_id,
+                torch_dtype=dtype,
+                device_map="auto",
+            )
 
         # Apply PX patch (skip for unpatched baseline models)
         if registry.get("patch_dir") is not None:
             patch_kwargs = dict(registry["patch_kwargs"])
             if px_subjective and registry.get("subjective_kwargs"):
                 patch_kwargs.update(registry["subjective_kwargs"])
+            
+            # Preset override
+            if px_config_preset is not None:
+                patch_kwargs["config_preset"] = px_config_preset
+            
             if px_gamma is not None:
                 patch_kwargs["gamma"] = px_gamma
             if px_routing_mode is not None:
@@ -106,16 +127,18 @@ class ModelManager:
             "px_subjective": px_subjective,
             "px_gamma": px_gamma,
             "px_routing_mode": px_routing_mode,
-            "model_type": registry["model_type"],
+            "px_config_preset": px_config_preset,
+            "model_type": model_type,
         }
 
     def _reapply_patch(self, model_id: str, px_subjective: bool,
-                        px_gamma: float = None, px_routing_mode: str = None):
+                        px_gamma: float = None, px_routing_mode: str = None,
+                        px_config_preset: str = None):
         """Re-apply PX patch with different settings (no weight reload)."""
         entry = self._models[model_id]
         registry = entry["registry"]
 
-        print(f"[ModelManager] Re-patching {model_id} (subjective={px_subjective}, gamma={px_gamma}, routing={px_routing_mode})...")
+        print(f"[ModelManager] Re-patching {model_id} (subjective={px_subjective}, gamma={px_gamma}, routing={px_routing_mode}, preset={px_config_preset})...")
 
         # Remove existing patch
         remove_fn = self._get_patch_function(model_id, "remove_px_patch")
@@ -129,6 +152,10 @@ class ModelManager:
         patch_kwargs = dict(registry["patch_kwargs"])
         if px_subjective and registry.get("subjective_kwargs"):
             patch_kwargs.update(registry["subjective_kwargs"])
+        
+        if px_config_preset is not None:
+            patch_kwargs["config_preset"] = px_config_preset
+            
         if px_gamma is not None:
             patch_kwargs["gamma"] = px_gamma
         if px_routing_mode is not None:
@@ -136,9 +163,11 @@ class ModelManager:
 
         apply_fn = self._get_patch_function(model_id, "apply_px_patch")
         apply_fn(entry["model"], **patch_kwargs)
+        
         entry["px_subjective"] = px_subjective
         entry["px_gamma"] = px_gamma
         entry["px_routing_mode"] = px_routing_mode
+        entry["px_config_preset"] = px_config_preset
 
     def _get_patch_function(self, model_id: str, function_name: str):
         """Import patch module and get a function by name."""
