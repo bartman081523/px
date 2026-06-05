@@ -1,0 +1,63 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+================================================================================
+  ULTRA HARD EVALUATION: MiniCPM5-1B vs PX-Mod
+================================================================================
+
+>>> Evaluating minicpm5-1b...
+[ModelManager] Loading minicpm5-1b from openbmb/MiniCPM5-1B (type=llama, subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:11, 18.94it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 584.19it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 763.75it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 677.69it/s]
+[ModelManager] minicpm5-1b loaded WITHOUT patch (baseline).
+  Accuracy: 60.00%
+[ModelManager] minicpm5-1b unloaded.
+
+>>> Evaluating minicpm5-1b-px...
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (type=llama, subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:  44%|████▍     | 97/219 [00:00<00:00, 969.69it/s]Loading weights:  89%|████████▉ | 195/219 [00:00<00:00, 967.29it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 982.85it/s]
+[minicpm5-px] Peak patch active for L24. Preset: SUBJECTIVE.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space/run_ultra_hard_eval.py", line 68, in <module>
+    run_ultra_hard_evaluation()
+  File "/run/media/julian/ML4/ollama-work/all_space/run_ultra_hard_eval.py", line 30, in run_ultra_hard_evaluation
+    res = engine.run_ultra_hard_benchmark(model_id, px_subjective=px_subj)
+  File "/run/media/julian/ML4/ollama-work/all_space/benchmark_engine.py", line 367, in run_ultra_hard_benchmark
+    return self._run_ultra_hard_impl(model_id, px_subjective, progress_cb)
+  File "/run/media/julian/ML4/ollama-work/all_space/benchmark_engine.py", line 402, in _run_ultra_hard_impl
+    outputs = model.generate(**inputs, max_new_tokens=400, do_sample=False)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2580, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2773, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3819, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 474, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space/px_patches/minicpm5_1b_px/patch.py", line 140, in _px_forward
+    hidden_states = self.layers[i](hidden_states, attention_mask=causal_mask, past_key_values=past_key_values, **kwargs)[0]
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 316, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 266, in forward
+    cos, sin = position_embeddings
+TypeError: cannot unpack non-iterable NoneType object

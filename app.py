@@ -48,7 +48,7 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
     with gr.Tabs():
         with gr.Tab("💬 Chat"):
-            session_id_state, chatbot, session_dropdown = build_chat_tab(manager)
+            session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
 
         with gr.Tab("🧪 Cognitive Tests"):
             build_cognitive_tests_tab(manager, engine)
@@ -61,17 +61,13 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
     # ── Initialization ──
     def init_app(session_id):
-        from sessions import load_session, get_new_session_id, list_sessions
-        if session_id is None:
-            session_id = get_new_session_id()
-        data = load_session(session_id)
-        history = data.get("history", [])
-        return session_id, history, gr.update(choices=list_sessions())
+        from gradio_tabs.chat_tab import on_load
+        return on_load(session_id)
 
     demo.load(
         fn=init_app,
         inputs=[session_id_state],
-        outputs=[session_id_state, chatbot, session_dropdown]
+        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
     )
 
     gr.Markdown("""

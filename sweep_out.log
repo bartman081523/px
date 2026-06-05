@@ -1,0 +1,109 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Starting PX Parameter Sweep on MiniCPM5-1B-PX (Peak Mode)...
+
+--- Testing gamma_0.04_loops_4 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:11, 18.79it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 584.37it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 765.26it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 679.04it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.040.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.2667
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.04_loops_8 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:13, 16.60it/s]Loading weights:  45%|████▍     | 98/219 [00:00<00:00, 528.30it/s]Loading weights:  89%|████████▊ | 194/219 [00:00<00:00, 711.13it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 633.34it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.040.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.3
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.04_loops_10 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:13, 16.55it/s]Loading weights:  45%|████▌     | 99/219 [00:00<00:00, 531.84it/s]Loading weights:  89%|████████▊ | 194/219 [00:00<00:00, 709.32it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 637.06it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.040.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.25
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.08_loops_4 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   0%|          | 1/219 [00:00<00:26,  8.29it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 555.58it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 743.99it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 651.32it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.080.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.3667
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.08_loops_8 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   0%|          | 1/219 [00:00<00:27,  7.82it/s]Loading weights:  43%|████▎     | 95/219 [00:00<00:00, 494.97it/s]Loading weights:  85%|████████▍ | 186/219 [00:00<00:00, 663.20it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 601.62it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.080.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.3667
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.08_loops_10 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   0%|          | 1/219 [00:00<00:27,  7.87it/s]Loading weights:  47%|████▋     | 104/219 [00:00<00:00, 548.28it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 737.74it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 641.62it/s]
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.080.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Capability Acc: 0.3667
+Ultra Hard Acc: 0.6
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b-px unloaded.
+
+--- Testing gamma_0.12_loops_4 ---
+[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/219 [00:00<00:05, 39.90it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 1531.93it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.120.
+[ModelManager] minicpm5-1b-px loaded and patched successfully.
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space/run_sweep.py", line 47, in <module>
+    run_sweep()
+  File "/run/media/julian/ML4/ollama-work/all_space/run_sweep.py", line 28, in run_sweep
+    res = engine._run_capability_impl("minicpm5-1b-px", False, None)
+  File "/run/media/julian/ML4/ollama-work/all_space/benchmark_engine.py", line 180, in _run_capability_impl
+    outputs = model.generate(**inputs, max_new_tokens=30, do_sample=False)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2580, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2773, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3819, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 487, in forward
+    logits = self.lm_head(hidden_states[:, slice_indices, :])
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/hooks.py", line 187, in new_forward
+    args, kwargs = module._hf_hook.pre_forward(module, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/hooks.py", line 50, in wrapper
+    return wrapper._compiled_fn(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/_dynamo/eval_frame.py", line 1298, in _fn
+    return fn(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/hooks.py", line 378, in pre_forward
+    set_module_tensor_to_device(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/utils/modeling.py", line 343, in set_module_tensor_to_device
+    new_value = value.to(device, non_blocking=non_blocking)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 391.12 MiB is free. Including non-PyTorch memory, this process has 8.90 GiB memory in use. Process 901485 has 1.94 GiB memory in use. Of the allocated memory 8.69 GiB is allocated by PyTorch, and 97.58 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

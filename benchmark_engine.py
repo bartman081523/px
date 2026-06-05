@@ -17,8 +17,9 @@ from config import MODEL_REGISTRY
 from test_prompts import (
     PZ_CATEGORIES, CALIBRATION_PROMPTS, ALL_CAPABILITY_TASKS,
     MATH_PROMPTS, LOGIC_PROMPTS, CREATIVE_PROMPTS, SYNTHESIS_PROMPTS,
+    ULTRA_HARD_TASKS,
 )
-
+import re
 
 # ── Statistical Functions (pure math, no dependencies) ──
 
@@ -99,6 +100,27 @@ def score_answer(output: str, expected: str) -> float:
     return 0.0
 
 
+def score_numeric(output: str, expected: str) -> float:
+    nums = re.findall(r"[-+]?\d*\.\d+|\d+", output)
+    if not nums: return 0.0
+    for n in nums:
+        try:
+            if abs(float(n) - float(expected)) < 1e-3: return 1.0
+        except: pass
+    return 0.0
+
+def score_ultra_hard_task(output: str, expected: str, atype: str) -> float:
+    out_lower = output.strip().lower().replace("’", "'")
+    if atype == "numeric": 
+        return score_numeric(output, expected)
+    elif atype == "contains": 
+        return 1.0 if str(expected).lower() in out_lower else 0.0
+    elif atype == "contains_word":
+        words = [str(expected).lower()]
+        return 1.0 if any(re.search(rf"\b{w}\b", out_lower) for w in words) else 0.0
+    return 0.0
+
+
 # ── Benchmark Engine ──
 
 class BenchmarkEngine:
@@ -147,7 +169,7 @@ class BenchmarkEngine:
         total_tasks = len(ALL_CAPABILITY_TASKS)
 
         results = []
-        category_scores = {"logic": [], "math": []}
+        category_scores = {}
 
         for i, (category, prompt, expected) in enumerate(ALL_CAPABILITY_TASKS):
             if progress_cb:
@@ -160,6 +182,8 @@ class BenchmarkEngine:
             text = tokenizer.decode(outputs[0][input_len:], skip_special_tokens=True).strip()
 
             score = score_answer(text, expected)
+            if category not in category_scores:
+                category_scores[category] = []
             category_scores[category].append(score)
 
             results.append({
@@ -176,8 +200,10 @@ class BenchmarkEngine:
         # Aggregate
         all_scores = [r["score"] for r in results]
         overall = statistics.mean(all_scores) if all_scores else 0
-        logic_acc = statistics.mean(category_scores["logic"]) if category_scores["logic"] else 0
-        math_acc = statistics.mean(category_scores["math"]) if category_scores["math"] else 0
+        logic_acc = statistics.mean(category_scores.get("logic", [])) if category_scores.get("logic", []) else 0
+        math_acc = statistics.mean(category_scores.get("math", [])) if category_scores.get("math", []) else 0
+        hle_acc = statistics.mean(category_scores.get("hle", [])) if category_scores.get("hle", []) else 0
+        arithmetic_acc = statistics.mean(category_scores.get("arithmetic", [])) if category_scores.get("arithmetic", []) else 0
 
         return {
             "model_id": model_id,
@@ -185,6 +211,8 @@ class BenchmarkEngine:
             "overall_accuracy": round(overall, 4),
             "logic_accuracy": round(logic_acc, 4),
             "math_accuracy": round(math_acc, 4),
+            "hle_accuracy": round(hle_acc, 4),
+            "arithmetic_accuracy": round(arithmetic_acc, 4),
             "total_tasks": total_tasks,
             "per_task": results,
             "px_metrics": px_metrics,
@@ -322,6 +350,86 @@ class BenchmarkEngine:
             "all_td": all_td,
             "all_phi": all_phi,
             "all_kurtosis": all_kurtosis,
+        }
+
+    def run_ultra_hard_benchmark(
+        self,
+        model_id: str,
+        px_subjective: bool = False,
+        progress_cb: Optional[Callable] = None,
+    ) -> dict:
+        """Run the ultra-hard benchmark."""
+        if not self._gpu_lock.acquire(blocking=False):
+            return {"error": "A benchmark is already running. Please wait."}
+
+        self._running = True
+        try:
+            return self._run_ultra_hard_impl(model_id, px_subjective, progress_cb)
+        finally:
+            self._gpu_lock.release()
+            self._running = False
+
+    def _run_ultra_hard_impl(self, model_id, px_subjective, progress_cb):
+        import asyncio
+        loop = asyncio.new_event_loop()
+        try:
+            model_entry = loop.run_until_complete(
+                self.manager.get_model(model_id, px_subjective=px_subjective)
+            )
+        finally:
+            loop.close()
+
+        model = model_entry["model"]
+        tokenizer = model_entry["tokenizer"]
+        total_tasks = len(ULTRA_HARD_TASKS)
+
+        results = []
+        category_scores = {}
+
+        for i, (category, prompt, expected, atype) in enumerate(ULTRA_HARD_TASKS):
+            if progress_cb:
+                progress_cb(i, total_tasks)
+
+            # Use chat template if model has it, else raw
+            if tokenizer.chat_template:
+                chat = [{"role": "user", "content": prompt}]
+                input_text = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)
+                inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+            else:
+                inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+                
+            with torch.no_grad():
+                outputs = model.generate(**inputs, max_new_tokens=400, do_sample=False)
+            input_len = inputs["input_ids"].shape[1]
+            text = tokenizer.decode(outputs[0][input_len:], skip_special_tokens=True).strip()
+
+            score = score_ultra_hard_task(text, expected, atype)
+            
+            if category not in category_scores:
+                category_scores[category] = []
+            category_scores[category].append(score)
+
+            results.append({
+                "category": category,
+                "prompt": prompt[:60],
+                "expected": expected,
+                "output": text[:80],
+                "score": score,
+            })
+
+        # Compute PX metrics if patched
+        px_metrics = self.manager.get_px_metrics(model_id)
+
+        all_scores = [r["score"] for r in results]
+        overall = statistics.mean(all_scores) if all_scores else 0
+
+        return {
+            "model_id": model_id,
+            "px_subjective": px_subjective,
+            "overall_accuracy": round(overall, 4),
+            "total_tasks": total_tasks,
+            "per_task": results,
+            "px_metrics": px_metrics,
         }
 
     def run_baseline_comparison(

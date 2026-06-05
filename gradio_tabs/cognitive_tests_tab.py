@@ -30,7 +30,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
 
     with gr.Row():
         test_type = gr.Radio(
-            choices=["Capability Benchmark", "P-Zombie Evaluation", "Baseline Comparison"],
+            choices=["Capability Benchmark", "Ultra Hard Benchmark", "P-Zombie Evaluation", "Baseline Comparison"],
             value="Capability Benchmark",
             label="Test Type",
         )
@@ -89,6 +89,23 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
                 ("Overall", result.get("overall_accuracy", 0), 40),
             ]
             # Add PX metrics if available
+            px = result.get("px_metrics", {})
+            if px.get("patched", True):
+                rows.append(("PX Zone", px.get("zone", "N/A"), "-"))
+                rows.append(("PX Phi", f"{px.get('cognitive_signature', {}).get('phi', 'N/A'):.4f}" if isinstance(px.get('cognitive_signature', {}).get('phi'), float) else "N/A", "-"))
+
+            return f"Done — Accuracy: {result['overall_accuracy']:.1%}", rows, result
+
+        elif test_type_name == "Ultra Hard Benchmark":
+            result = engine.run_ultra_hard_benchmark(
+                model_id, px_subjective=px_subj, progress_cb=progress_cb
+            )
+            if "error" in result:
+                return result["error"], None, None
+
+            rows = [
+                ("Overall", result.get("overall_accuracy", 0), result.get("total_tasks", 0)),
+            ]
             px = result.get("px_metrics", {})
             if px.get("patched", True):
                 rows.append(("PX Zone", px.get("zone", "N/A"), "-"))

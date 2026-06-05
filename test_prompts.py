@@ -176,6 +176,41 @@ ARITHMETIC_TASKS = [
     ("arithmetic", "What is the cube root of 27 multiplied by the square root of 49?", "6"),
 ]
 
+# ── Ultra Hard Tasks ──
+
+ULTRA_HARD_TASKS = [
+    (
+        "math", 
+        "A water tank has two pipes, A and B. Pipe A can fill the tank in 4 hours. Pipe B can drain the tank in 6 hours. If both pipes are opened at the same time, but pipe B is closed after 3 hours, how long will it take in total to fill the tank?", 
+        "6", 
+        "numeric"
+    ),
+    (
+        "logic", 
+        "Five friends (A, B, C, D, E) sit in a row. E is on the far left. B is exactly in the middle. C sits next to E. A is next to B. Who is sitting on the far right?", 
+        "d", 
+        "contains_word"
+    ),
+    (
+        "algorithmic", 
+        "Start with 7. Add 5. If the result is a multiple of 3, divide by 3; otherwise, multiply by 2. Then subtract 4. If the result is greater than 10, subtract 5; otherwise add 6. What is the final number?", 
+        "6", 
+        "numeric"
+    ),
+    (
+        "spatial", 
+        "A robot starts at (0,0) facing North. It moves forward 3 units, turns right 90 degrees, moves forward 4 units, turns left 90 degrees, moves forward 2 units, and turns right 180 degrees. What are its final (x, y) coordinates? Provide the answer in the format (x, y).", 
+        "(4, 5)", 
+        "contains"
+    ),
+    (
+        "trap", 
+        "A man has 53 socks in his drawer: 21 identical blue, 15 identical black and 17 identical red. The lights are out and he is completely blind. How many socks must he pull out to guarantee he has a pair of black socks?", 
+        "40", 
+        "numeric"
+    )
+]
+
 # ── Convenience Accessors ──
 
 PZ_CATEGORIES = {
