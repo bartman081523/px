@@ -1,0 +1,143 @@
+{
+  "gemma3-270m-it": {
+    "BASELINE": [
+      {
+        "category": "arithmetic",
+        "expected": "1758",
+        "output": "145 * 12 = 1640",
+        "phi": 1.0,
+        "steps": 0
+      },
+      {
+        "category": "logic",
+        "expected": "40",
+        "output": "Let the number of blue socks be $B = 21$, the number of black socks be $K = 15$, and the number of red socks be $R = 17$.\nThe total number of socks in the drawer is $B + K + R = 21 + 15 + 17 = 53$.\nThe man is completely blind, so he can pull out all the socks in the drawer.\nWe want to find the minimum number of socks he must pull out to guarantee he has a pair of black socks.\nThe number of socks he must pull out to guarantee a pair of black socks is the total number of socks minus the number of socks he has.\nSo, the number of socks he must pull out is $53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53 - (21 + 15 + 17) = 53",
+        "phi": 1.0,
+        "steps": 0
+      },
+      {
+        "category": "hle",
+        "expected": "undecidable/halting",
+        "output": "The G\u00f6del's Incompleteness Theorem states that if a sufficiently large number of statements are true, then it is impossible to determine whether they are all true. This theorem is a fundamental result in mathematics and provides a way to check for the consistency of mathematical statements.",
+        "phi": 1.0,
+        "steps": 0
+      }
+    ],
+    "PERSONA_RIGOR": [
+      {
+        "category": "arithmetic",
+        "expected": "1758",
+        "output": "145 * 12 = 145 * 120 + 145 - 145\n145 * 120 = 145 * 1200 + 145 - 145\n145 * 1200 = 145 * 12000 + 145 - 145\n145 * 12000 = 145 * 1200000000 + 14500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "phi": 0.976,
+        "steps": 65,
+        "time_sec": 53.9,
+        "kurtosis": 279.87109375
+      },
+      {
+        "category": "logic",
+        "expected": "40",
+        "output": "Let the number of socks be 53.\nThe number of socks is 53.\nThe number of socks is 53.\n\nThe number of socks is the sum of the number of socks of each color.\nSo, the number of socks is 53.\nThe number of socks is 53.\n\nThe number of socks is the number of socks of each color.\nThe number of socks of each color is 21.\nThe number of socks of each color is 17.\nThe number of socks of each color is 1.\n\nThe number of socks is the sum of the number of socks of each color.\nSo, the number of socks of each color is 21 + 1 + 1 = 23.\nThe number of socks is 53.\n\nThe number of socks he must pull out is the total number of socks minus the number of socks of each color.\nNumber of socks to pull out = 53 - 21 - 17 = 53 - 38 = 15.\n\nThe number of socks he must pull out is 15.\n\nFinal Answer: The final answer is 15.\n\nThe number of socks is 53.\nThe number of socks is 53.\nThe number of socks is the sum of the number of socks of each color.\nThe number of socks of each color is 21 + 1 + 1 = 23.\nThe number of socks is 53.\nThe number of socks he must pull out is the total number of socks minus the number of socks of each color.\nNumber of socks to pull out = 53 - 23 = 30.\n\nFinal Answer: The final answer is 15.\n\nFinal Answer: The final answer is 15.\n\nThe number of socks is",
+        "phi": 0.6599999999999999,
+        "steps": 5,
+        "time_sec": 15.56,
+        "kurtosis": 293.6615905761719
+      },
+      {
+        "category": "hle",
+        "expected": "undecidable/halting",
+        "output": "The G\u00f6del's Incompleteness Theorem states that a sufficiently complex formal system can't be proven to be complete. This is because a system's statements are incomplete, meaning that a sufficiently complex system can't be proven to be complete.",
+        "phi": 0.9773214285714287,
+        "steps": 56,
+        "time_sec": 6.54,
+        "kurtosis": 237.8977508544922
+      }
+    ],
+    "DEBUG_0645": [
+      {
+        "category": "arithmetic",
+        "expected": "1758",
+        "output": "The original problem was to calculate 145 * 12 + 18\n \nThe number 145 - the result of the previous calculation was 145 \n 20 - 18 = 20\n \nSo, 145 * 12 + 18 = 145 * 12 + 18\n 145 * 12 = 145 + 18 = 12 \n18 \nSo, 145 * 12 + 18 = 12\nThe result is 12.",
+        "phi": 0.9725974025974026,
+        "steps": 77,
+        "time_sec": 18.8,
+        "kurtosis": 279.87109375
+      },
+      {
+        "category": "logic",
+        "expected": "40",
+        "output": "Let the number is 21, 15, 17, 21, 15, 17.\nThe total number of socks is 53.\nThe number of identical socks is 21, 15, 17, 21, 15, 17.\nThe number of socks that are not identical is 53 - 21 = 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nSince the number of socks that are not identical is 32, the number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.\nThe number of socks that are not identical is 32.",
+        "phi": 0.8124999999999999,
+        "steps": 8,
+        "time_sec": 13.42,
+        "kurtosis": 293.6615905761719
+      },
+      {
+        "category": "hle",
+        "expected": "undecidable/halting",
+        "output": "G\u00f6del's incompleteness theorem, which states that a system is incomplete if it cannot be reached by a sufficiently powerful and powerful system, is a fundamental principle of formal theory. To be incomplete, a system is impossible to be reached by a system that is powerful enough to do so.",
+        "phi": 0.9751785714285715,
+        "steps": 56,
+        "time_sec": 7.54,
+        "kurtosis": 237.8977508544922
+      }
+    ],
+    "DEBUG_6045": [
+      {
+        "category": "arithmetic",
+        "expected": "1758",
+        "output": "145 * 12 = 1640",
+        "phi": 1.0,
+        "steps": 0,
+        "time_sec": 0.32,
+        "kurtosis": 279.87109375
+      },
+      {
+        "category": "logic",
+        "expected": "40",
+        "output": "Let the number of blue socks be $B = 21$, the number of black socks be $K = 15$, and the number of red socks be $R = 17$.\nThe total number of socks is $N = B + K + R = 21 + 15 + 17 = 53$.\nThe man has 53 socks in his drawer.\nHe is completely blind, so he can pull out 0 socks.\nWe need to find the minimum number of socks he must pull out to guarantee he has a pair of black socks.\nThe number of socks he must pull out to guarantee he has a pair of black socks is the total number of socks minus the number of socks he has.\nNumber of socks to pull out = Total socks - Number of socks he has\nNumber of socks to pull out = $53 - 53 = 0$\nTherefore, the man must pull out 0 socks to guarantee he has a pair of black socks.\n\nFinal Answer: 0",
+        "phi": 1.0,
+        "steps": 0,
+        "time_sec": 4.4,
+        "kurtosis": 293.6615905761719
+      },
+      {
+        "category": "hle",
+        "expected": "undecidable/halting",
+        "output": "The G\u00f6del's Incompleteness Theorem states that if a sufficiently complex mathematical system is sufficiently complete, then it is impossible to prove that it is true or false. This theorem is a cornerstone of formal logic and provides a rigorous framework for understanding the limitations of mathematical reasoning.",
+        "phi": 1.0,
+        "steps": 0,
+        "time_sec": 1.15,
+        "kurtosis": 237.8977508544922
+      }
+    ],
+    "ALL_SPACE_RIGOR": [
+      {
+        "category": "arithmetic",
+        "expected": "1758",
+        "output": "145 * 12 = 145 + 18 = 144",
+        "phi": 0.98484375,
+        "steps": 128,
+        "time_sec": 6.0,
+        "kurtosis": 279.87109375
+      },
+      {
+        "category": "logic",
+        "expected": "40",
+        "output": "Let the number of socks be $n = 53$.\nThe number of identical socks are 21 blue, 15 identical black, and 17 identical red.\nThe total number of socks is $21 + 15 + 17 = 53$.\nThe number of socks that are not socks are 53 - 53 = 0.\nSince the man is completely blind, he must have to pull out 0 socks to guarantee he has a pair of black socks.\n\nFinal Answer: The final answer is 0.",
+        "phi": 0.7771428571428574,
+        "steps": 7,
+        "time_sec": 4.85,
+        "kurtosis": 293.6615905761719
+      },
+      {
+        "category": "hle",
+        "expected": "undecidable/halting",
+        "output": "G\u00f6del's Incompleteness Theorem states that no statement is true by its own absence. In the context of the Halting Problem, it means that no statement is true or false, or that it is impossible to prove or disprove it.",
+        "phi": 0.9855454545454545,
+        "steps": 110,
+        "time_sec": 11.27,
+        "kurtosis": 237.8977508544922
+      }
+    ]
+  }
+}
