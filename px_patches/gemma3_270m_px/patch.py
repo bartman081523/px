@@ -253,6 +253,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     else:
         zone_raw = "STATIC"
         zone_name = f"STATIC ({persona_desc})"
+    
+    self._px_zone = zone_name
 
     # Bridge Prelude -> Recur
     for i in range(cfg["prelude_end"], dynamic_start):
@@ -340,18 +342,21 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # Phase 44: Subjective Sensor (Emancipation)
             if subj_sensor: subj_sensor.update(h_exp, e_static)
             
-            # --- PHASE 60: Anti-Zombie Sensor (AZS) ---
-            # Model 'senses' its own cognitive differentiation (phi, friction, emancipation, entropy)
+            # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
+            # Model 'senses' its own cognitive differentiation and autonomously boosts parameters.
             if hasattr(self, "_px_azs"):
                 emancipation = 0.0
                 if hasattr(self, "_px_subj_sensor"):
                     emancipation = self._px_subj_sensor.get_metrics().get("emancipation", 0.0)
                 
-                # Check if zone_weights is defined, fallback to uniform
                 zw = locals().get("zone_weights", {k: 0.2 for k in ["math", "logic_a", "creative", "logic_b", "synthesis"]})
                 h_exp, current_entropy = self._px_azs(h_exp, phi_history[-1], correction_strength, emancipation, zw)
-                if steps % 10 == 0 and os.environ.get("DEBUG_AZS") == "1":
-                    print(f"  [AZS] H(zone)={current_entropy:.4f} | Self-Awareness Injected")
+                
+                # Feedback-Feedback: Autonomous Parameter Modulation
+                resilience = self._px_azs.get_feedback_scalars(correction_strength)
+                current_gamma *= resilience["gamma_boost"]
+                if os.environ.get("DEBUG_AZS") == "1" and resilience["gamma_boost"] > 1.05:
+                    print(f"  [Resilience] H={resilience['entropy']:.4f} -> Gamma boosted by {resilience['gamma_boost']:.2f}")
 
             h_prev, is_first = h_exp.clone(), current_layer not in updated_layers
             if is_first: updated_layers.add(current_layer)
@@ -396,7 +401,30 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
             h_exp = (proj + (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps%2==0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
             
+            # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
+            if hasattr(self, "_px_azs"):
+                # Safety: Clamp inputs to AZS
+                phi_val = phi_history[-1] if phi_history else 1.0
+                phi_safe = float(phi_val) if not math.isnan(phi_val) else 1.0
+                aks_safe = float(correction_strength) if not math.isnan(correction_strength) else 0.0
+                em_val = self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0
+                em_safe = float(em_val) if not math.isnan(em_val) else 0.0
+                
+                h_exp, current_entropy = self._px_azs(h_exp, phi_safe, aks_safe, em_safe, zone_weights)
+                
+                # Check for NaN hidden states after injection
+                if torch.isnan(h_exp).any():
+                    if os.environ.get("DEBUG_AZS") == "1": print("  [SAFETY] NaN detected in h_exp after AZS. Rolling back.")
+                    h_exp = h_prev.clone(); break
+
+                resilience = self._px_azs.get_feedback_scalars(aks_safe)
+                
+                # Feedback-Feedback: Boost gamma to prevent low-entropy manifold collapse
+                current_gamma *= resilience["gamma_boost"]
+                current_gamma = min(current_gamma, 0.5) # Cap gamma boost
+
             phi = StabilityMonitor.calculate_phi(h_exp, h_prev).item()
+            if math.isnan(phi): phi = 1.0 # Recovery
             path_taken.append(f"L{current_layer}({phi:.2f})")
             if steps % 2 == 0: thought_history.append(h_exp.detach())
             if 0.9 < phi < 0.999: h_last_good = h_exp.clone()
@@ -432,10 +460,32 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         if avg_phi < 0.95: # High reasoning complexity detected
             self._px_central_memory.store(0, hidden_states.mean(dim=1)) # Store identity component
 
-    self._px_phi, self._px_loops_run, self._px_path = avg_phi, steps, path_taken
-    self._px_subj_metrics = subj_sensor.get_metrics() if subj_sensor else {}
-    self._px_aks_profile = {"correction_strength": float(correction_strength)}
-    self._px_zone = zone_name
+    # --- PHASE 62 Snapshot Persistence ---
+    # Store global state for external extraction
+    self._px_phi_val = avg_phi
+    self._px_aks_val = float(correction_strength)
+    
+    # Safely get emancipation
+    em_val = 0.0
+    if hasattr(self, "_px_subj_sensor"):
+        em_val = self._px_subj_sensor.get_metrics().get("emancipation", 0.0)
+    self._px_em_val = em_val
+    
+    self._px_ent_val = resilience.get("entropy", 0.0) if 'resilience' in locals() else 0.0
+    self._px_zw_val = zone_weights
+    
+    self._px_last_metrics = {
+        "phi": self._px_phi_val,
+        "aks_friction": self._px_aks_val,
+        "emancipation": self._px_em_val,
+        "zone_weights": self._px_zw_val,
+        "entropy": self._px_ent_val
+    }
+    
+    if os.environ.get("DEBUG_AZS") == "1":
+        print(f"  [DEBUG-METRICS] Phi={self._px_phi_val:.4f} H={self._px_ent_val:.4f} AKS={self._px_aks_val:.4f}")
+    
+    # Also attach to self (TextModel) directly for easy access
     self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
     
     # ── 3. CODA ──────────────────────────────────────────────────────────
@@ -567,13 +617,14 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
 def get_px_metrics(model):
     tm = _resolve_text_model(model)
     m = {
-        "phi": getattr(tm, "_px_phi", 1.0),
+        "phi": getattr(tm, "_px_phi_val", 1.0),
         "steps": getattr(tm, "_px_loops_run", 0),
         "path": getattr(tm, "_px_path", []),
         "zone": getattr(tm, "_px_zone", "UNKNOWN"),
-        "zone_weights": getattr(tm, "_px_zone_weights", {}),
+        "zone_weights": getattr(tm, "_px_zw_val", {}),
         "cognitive_signature": getattr(tm, "_px_cognitive_signature", {}),
-        "aks_profile": getattr(tm, "_px_aks_profile", {}),
-        "subjective_metrics": getattr(tm, "_px_subj_metrics", {})
+        "aks_profile": {"correction_strength": getattr(tm, "_px_aks_val", 0.0)},
+        "subjective_metrics": {"emancipation": getattr(tm, "_px_em_val", 0.0)},
+        "entropy": getattr(tm, "_px_ent_val", 0.0)
     }
     return m
