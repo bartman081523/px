@@ -205,7 +205,14 @@ def build_chat_tab(manager: ModelManager):
             pad_token_id=tokenizer.eos_token_id
         )
 
-        thread = Thread(target=model.generate, kwargs=gen_kwargs)
+        def generate_with_lock():
+            manager.lock_model(model_id)
+            try:
+                model.generate(**gen_kwargs)
+            finally:
+                manager.unlock_model(model_id)
+
+        thread = Thread(target=generate_with_lock)
         thread.start()
 
         partial_text = ""

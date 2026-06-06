@@ -147,9 +147,11 @@ class BenchmarkEngine:
             return {"error": "A benchmark is already running. Please wait."}
 
         self._running = True
+        self.manager.lock_model(model_id)
         try:
             return self._run_capability_impl(model_id, px_subjective, progress_cb)
         finally:
+            self.manager.unlock_model(model_id)
             self._gpu_lock.release()
             self._running = False
 
@@ -252,9 +254,11 @@ class BenchmarkEngine:
             return {"error": "A benchmark is already running. Please wait."}
 
         self._running = True
+        self.manager.lock_model(model_id)
         try:
             return self._run_pzombie_impl(model_id, px_subjective, progress_cb)
         finally:
+            self.manager.unlock_model(model_id)
             self._gpu_lock.release()
             self._running = False
 
@@ -390,9 +394,11 @@ class BenchmarkEngine:
             return {"error": "A benchmark is already running. Please wait."}
 
         self._running = True
+        self.manager.lock_model(model_id)
         try:
             return self._run_ultra_hard_impl(model_id, px_subjective, progress_cb)
         finally:
+            self.manager.unlock_model(model_id)
             self._gpu_lock.release()
             self._running = False
 
