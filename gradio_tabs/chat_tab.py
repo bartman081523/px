@@ -9,6 +9,7 @@ import torch
 import asyncio
 import os
 import json
+import statistics
 from typing import Optional, List, Dict, Any
 from threading import Thread
 from transformers import TextIteratorStreamer
@@ -22,12 +23,7 @@ from telemetry import telemetry
 # ── Session Handlers ──
 
 def _clean_history(history):
-    """Filter empty messages and merge consecutive same-role messages.
-    
-    This ensures tokens are not wasted on empty strings and chat templates
-    don't break on consecutive same-role messages. Handles both text (str) 
-    and multimodal (list) content.
-    """
+    """Filter empty messages and merge consecutive same-role messages."""
     result = []
     for msg in (history or []):
         if not isinstance(msg, dict):
@@ -36,7 +32,6 @@ def _clean_history(history):
         role = msg.get("role", "")
         content = msg.get("content", "")
         
-        # Robustness: only strip if it's a string. Lists (multimodal) are kept.
         if isinstance(content, str):
             if not content.strip():
                 continue
@@ -45,13 +40,10 @@ def _clean_history(history):
             
         if result and result[-1]["role"] == role:
             prev_content = result[-1]["content"]
-            # Case 1: Both are strings -> simple merge
             if isinstance(prev_content, str) and isinstance(content, str):
                 result[-1]["content"] += "\n" + content
-            # Case 2: Both are lists -> extend multimodal list
             elif isinstance(prev_content, list) and isinstance(content, list):
                 result[-1]["content"].extend(content)
-            # Case 3: Mixed -> convert to multimodal list and append
             elif isinstance(prev_content, list) and isinstance(content, str):
                 result[-1]["content"].append({"type": "text", "text": content})
             elif isinstance(prev_content, str) and isinstance(content, list):
@@ -67,7 +59,6 @@ def on_load(session_id):
     
     data = load_session(session_id)
     history = data.get("history", [])
-    # Return 4 values to match app.py init_app outputs
     return session_id, history, gr.update(choices=list_sessions()), session_id
 
 def handle_new_session():
@@ -123,10 +114,6 @@ def build_chat_tab(manager: ModelManager):
             value="SUBJECTIVE",
             label="PX Mode Preset",
         )
-        px_subjective = gr.Checkbox(
-            label="PX Subjective Mode",
-            value=False,
-        )
         
         persona_input = gr.Textbox(
             label="Persona / Steering Vibe",
@@ -156,14 +143,14 @@ def build_chat_tab(manager: ModelManager):
 
     # ── Chat Interface ──
     
-    def chat_fn(message, history, model_id, px_preset, px_subj, persona, temp, tp, mt, rp, gamma, session_id):
+    def chat_fn(message, history, model_id, px_preset, persona, temp, tp, mt, rp, gamma, session_id):
         # 1. Update config
         loop = asyncio.new_event_loop()
         try:
             model_entry = loop.run_until_complete(
                 manager.get_model(
                     model_id,
-                    px_subjective=px_subj,
+                    px_subjective=(px_preset != "BASELINE"),
                     px_gamma=gamma,
                     px_config_preset=px_preset,
                 )
@@ -174,23 +161,19 @@ def build_chat_tab(manager: ModelManager):
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
         
-        # Phase 54: Latent Steering via Persona attribute
         tm = manager._resolve_text_model(model)
         model.persona = tm.persona = persona
 
         # 2. Build history (cleaned)
         cleaned_history = _clean_history(history)
         
-        # Phase 55: Handle Gradio multimodal message format
         actual_message = message
         if isinstance(message, dict):
             text = message.get("text", "")
             files = message.get("files", [])
             if files:
-                # Construct multimodal content list
                 actual_message = [{"type": "text", "text": text}]
                 for f in files:
-                    # Gradio FileData path extraction
                     fpath = f["path"] if isinstance(f, dict) and "path" in f else f
                     actual_message.append({"type": "image", "image": fpath})
             else:
@@ -222,7 +205,7 @@ def build_chat_tab(manager: ModelManager):
             partial_text += new_text
             yield partial_text
 
-        # 4. Record Telemetry (Fixes empty visualization)
+        # 4. Record Telemetry
         px_metrics = manager.get_px_metrics(model_id)
         telemetry.record(
             model_id=model_id,
@@ -237,7 +220,7 @@ def build_chat_tab(manager: ModelManager):
 
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
-        additional_inputs=[model_select, px_preset, px_subjective, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        additional_inputs=[model_select, px_preset, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
 
