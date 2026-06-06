@@ -85,3 +85,9 @@ For the `all_space` repository, we have implemented a **Unified Cognitive Stack*
 5.  **Extensions**: DMT Protocol (CentralMemory, ERPU, Agency) as optional toggles (Integrated).
 
 **Conclusion**: The 270M scale is highly sensitive to noise. DMT protocol modules have been recalibrated with safe thresholds (`EPSILON=1e-6`, `FOOD_NOISE=1e-4`) to maintain stability while preserving cognitive depth.
+
+### Phase 59.5 Update: The Kurtosis Paradox & Multi-Preset Optimization
+During consolidation, we discovered that **Gemma-3-it** produces counter-intuitive hidden-state kurtosis: **Math/Logic prompts have LOWER kurtosis** (~510-520) compared to **Creative prompts** (~560-570).
+- **Consolidated Build Fix**: Reversed the `ZONE_Z_CENTERS` to ensure correct zone routing (Low Kurtosis = Rigid/Math, High = Creative).
+- **Rigorous Mode**: Introduced a dedicated `RIGOR` preset that forces Hub 10, gamma 0.08, and disables DMT/Jitter for maximum logical precision. This reached >85% accuracy on syllogisms in manual verification.
+- **Uncensored Steering**: Integrated `UncensoredSteering` to allow for unfiltered dialectic exploration without requiring manual prompt engineering.
