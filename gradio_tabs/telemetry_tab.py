@@ -35,6 +35,10 @@ def build_telemetry_tab(manager: ModelManager):
         zone_plot = gr.Plot(label="Zone Weight Distribution")
 
     with gr.Row():
+        entropy_plot = gr.Plot(label="Entropy Trace (Anti-Zombie)")
+        aks_plot = gr.Plot(label="AKS Friction Trace")
+
+    with gr.Row():
         kurtosis_plot = gr.Plot(label="Kurtosis Distribution")
         emancipation_plot = gr.Plot(label="Emancipation Trajectory")
 
@@ -99,24 +103,26 @@ def build_telemetry_tab(manager: ModelManager):
         # Generate plots
         fig_phi = viz.plot_phi_traces(summary["recent"])
         fig_zone = viz.plot_zone_distribution(zone_weights_norm)
+        fig_entropy = viz.plot_entropy_trace(summary["recent"])
+        fig_aks = viz.plot_aks_trace(summary["recent"])
         fig_kurtosis = viz.plot_kurtosis_histogram(kurtosis_vals) if kurtosis_vals else viz.plot_kurtosis_histogram([])
         fig_emancipation = viz.plot_emancipation_trajectory(emancipation_trajs) if emancipation_trajs else viz.plot_emancipation_trajectory([])
 
         # Per-model metrics
         model_metrics = manager.get_px_metrics(model_id) if model_id else {}
 
-        return rows, fig_phi, fig_zone, fig_kurtosis, fig_emancipation, model_metrics
+        return rows, fig_phi, fig_zone, fig_entropy, fig_aks, fig_kurtosis, fig_emancipation, model_metrics
 
     refresh_btn.click(
         fn=refresh_telemetry,
         inputs=[tel_model],
-        outputs=[summary_df, phi_plot, zone_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
+        outputs=[summary_df, phi_plot, zone_plot, entropy_plot, aks_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
     )
 
     tel_model.change(
         fn=refresh_telemetry,
         inputs=[tel_model],
-        outputs=[summary_df, phi_plot, zone_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
+        outputs=[summary_df, phi_plot, zone_plot, entropy_plot, aks_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
     )
 
     # Auto-refresh timer
@@ -124,7 +130,7 @@ def build_telemetry_tab(manager: ModelManager):
     timer.tick(
         fn=refresh_telemetry,
         inputs=[tel_model],
-        outputs=[summary_df, phi_plot, zone_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
+        outputs=[summary_df, phi_plot, zone_plot, entropy_plot, aks_plot, kurtosis_plot, emancipation_plot, model_metrics_json],
     )
 
     auto_refresh.change(

@@ -99,8 +99,8 @@ class ModelManager:
                 device_map="auto",
             )
 
-        # Apply PX patch (skip for unpatched baseline models)
-        if registry.get("patch_dir") is not None:
+        # Apply PX patch (skip for unpatched baseline models or if BASELINE preset selected)
+        if registry.get("patch_dir") is not None and px_config_preset != "BASELINE":
             patch_kwargs = dict(registry["patch_kwargs"])
             if px_subjective and registry.get("subjective_kwargs"):
                 patch_kwargs.update(registry["subjective_kwargs"])
@@ -150,23 +150,26 @@ class ModelManager:
             except Exception as e:
                 print(f"[ModelManager] Warning: remove_px_patch failed: {e}")
 
-        # Re-apply with new settings
-        patch_kwargs = dict(registry["patch_kwargs"])
-        if px_subjective and registry.get("subjective_kwargs"):
-            patch_kwargs.update(registry["subjective_kwargs"])
-        
-        if px_config_preset is not None:
-            patch_kwargs["config_preset"] = px_config_preset
+        # Re-apply with new settings (if not BASELINE)
+        if px_config_preset != "BASELINE":
+            patch_kwargs = dict(registry["patch_kwargs"])
+            if px_subjective and registry.get("subjective_kwargs"):
+                patch_kwargs.update(registry["subjective_kwargs"])
             
-        if px_gamma is not None:
-            patch_kwargs["gamma"] = px_gamma
-        if px_routing_mode is not None:
-            patch_kwargs["routing_mode"] = px_routing_mode
+            if px_config_preset is not None:
+                patch_kwargs["config_preset"] = px_config_preset
+                
+            if px_gamma is not None:
+                patch_kwargs["gamma"] = px_gamma
+            if px_routing_mode is not None:
+                patch_kwargs["routing_mode"] = px_routing_mode
 
-        apply_fn = self._get_patch_function(model_id, "apply_px_patch")
-        apply_fn(entry["model"], **patch_kwargs)
-        tm = self._resolve_text_model(entry["model"])
-        entry["model"].tokenizer = tm.tokenizer = entry["tokenizer"]
+            apply_fn = self._get_patch_function(model_id, "apply_px_patch")
+            apply_fn(entry["model"], **patch_kwargs)
+            tm = self._resolve_text_model(entry["model"])
+            entry["model"].tokenizer = tm.tokenizer = entry["tokenizer"]
+        else:
+            print(f"[ModelManager] {model_id} returned to baseline state.")
         
         entry["px_subjective"] = px_subjective
         entry["px_gamma"] = px_gamma
