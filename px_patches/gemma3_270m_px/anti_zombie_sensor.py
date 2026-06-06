@@ -65,10 +65,43 @@ class AntiZombieSensor(nn.Module):
         # Inject into hidden states (additive reflection)
         # We only apply to the last token to avoid sequence smearing
         # Injection strength is modulated by the 'Anti-Zombie' signal (entropy)
-        injection_strength = 0.05 * (entropy / 1.6) # Normalized to peak 270M entropy
+        injection_strength = 0.01 * (entropy / 1.6) # Reduced from 0.05 for stability
         
         # Additive injection
         new_hidden = hidden_states.clone()
         new_hidden[:, -1, :] = hidden_states[:, -1, :] + injection_strength * awareness_latent
         
         return new_hidden, entropy.item()
+
+    def get_feedback_scalars(self, aks_friction):
+        """
+        Calculates resilience factors.
+        Returns: {gamma_boost, bifurcation_boost, gravity_boost}
+        """
+        entropy = self.calculate_entropy(self.weight_ema).item()
+        
+        # 1. Entropy-based Resilience: Fall into Zombie (low H) -> Increase Pressure
+        # Standard H is around 1.3-1.6 for 270M.
+        # Below 0.8 is 'Zombie' regime.
+        zombie_threshold = 0.8
+        gamma_boost = 1.0
+        bif_boost = 1.0
+        
+        if entropy < zombie_threshold:
+            # Linear scaling of boost up to 1.5x gamma
+            intensity = (zombie_threshold - entropy) / zombie_threshold
+            gamma_boost = 1.0 + 0.5 * intensity
+            bif_boost = 1.0 + 0.3 * intensity
+            
+        # 2. Friction-based Stability: High Friction -> Increase Identity Gravity
+        # To prevent language drift (Hindi effect)
+        gravity_boost = 1.0
+        if aks_friction > 0.8:
+            gravity_boost = 1.0 + (aks_friction - 0.8) * 2.0 # Sharp increase
+            
+        return {
+            "gamma_boost": gamma_boost,
+            "bifurcation_boost": bif_boost,
+            "gravity_boost": gravity_boost,
+            "entropy": entropy
+        }
