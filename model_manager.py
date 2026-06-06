@@ -17,11 +17,12 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
 class ModelManager:
-    def __init__(self):
+    def __init__(self, max_loaded_models: int = 1):
         self._models: Dict[str, dict] = {}        # model_id -> loaded entry
         self._loading: Dict[str, bool] = {}        # model_id -> loading flag
         self._last_used: Dict[str, float] = {}     # model_id -> timestamp
         self._px_metrics: Dict[str, dict] = {}     # model_id -> latest metrics
+        self.max_loaded_models = max_loaded_models
 
     async def get_model(self, model_id: str, px_subjective: bool = False,
                          px_gamma: float = None, px_routing_mode: str = None,
@@ -51,6 +52,13 @@ class ModelManager:
                 self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
             self._last_used[model_id] = time.time()
             return entry
+
+        # Handle auto-unloading before loading new model
+        while len(self._models) >= self.max_loaded_models:
+            # Unload LRU model
+            lru_model = min(self._last_used, key=self._last_used.get)
+            print(f"[ModelManager] Unloading LRU model {lru_model} to free memory...")
+            self.unload(lru_model)
 
         # Lazy load
         if self._loading.get(model_id):
@@ -272,6 +280,8 @@ class ModelManager:
             del entry["tokenizer"]
             if model_id in self._px_metrics:
                 del self._px_metrics[model_id]
+            if model_id in self._last_used:
+                del self._last_used[model_id]
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             print(f"[ModelManager] {model_id} unloaded.")
