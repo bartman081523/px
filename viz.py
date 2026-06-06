@@ -221,3 +221,54 @@ def plot_comparison_bars(results: dict) -> matplotlib.figure.Figure:
 
     fig.tight_layout()
     return fig
+def plot_entropy_trace(recent_telemetry: list) -> matplotlib.figure.Figure:
+    """Line chart: zone entropy (H) values over recent requests."""
+    fig, ax = plt.subplots(figsize=(10, 4))
+    if not recent_telemetry:
+        ax.text(0.5, 0.5, "No telemetry data yet", ha="center", va="center", color="gray")
+        ax.set_title("Entropy Trace (No Data)")
+        fig.tight_layout()
+        return fig
+
+    ents = []
+    labels = []
+    for i, entry in enumerate(recent_telemetry):
+        ent = entry.get("px_metrics", {}).get("entropy", 0.0)
+        ents.append(ent)
+        labels.append(f"R{i+1}")
+
+    ax.plot(range(len(ents)), ents, "o-", color="#C44E52", markersize=4, linewidth=1)
+    ax.fill_between(range(len(ents)), ents, alpha=0.1, color="#C44E52")
+    ax.set_ylabel("Entropy (H)")
+    ax.set_xlabel("Request #")
+    ax.set_title("Cognitive Entropy (H) — Anti-Zombie Status")
+    ax.set_ylim(-0.1, 2.5)
+    ax.axhline(y=0.8, color="red", linestyle="--", alpha=0.5, label="Zombie Threshold")
+    ax.legend(fontsize=8, loc="upper right")
+    fig.tight_layout()
+    return fig
+
+def plot_aks_trace(recent_telemetry: list) -> matplotlib.figure.Figure:
+    """Line chart: AKS Friction over recent requests."""
+    fig, ax = plt.subplots(figsize=(10, 4))
+    if not recent_telemetry:
+        ax.text(0.5, 0.5, "No telemetry data yet", ha="center", va="center", color="gray")
+        ax.set_title("AKS Friction Trace (No Data)")
+        fig.tight_layout()
+        return fig
+
+    aks_vals = []
+    labels = []
+    for i, entry in enumerate(recent_telemetry):
+        aks = entry.get("px_metrics", {}).get("aks_friction", 0.0)
+        aks_vals.append(aks)
+        labels.append(f"R{i+1}")
+
+    ax.plot(range(len(aks_vals)), aks_vals, "o-", color="#8172B2", markersize=4, linewidth=1)
+    ax.fill_between(range(len(aks_vals)), aks_vals, alpha=0.1, color="#8172B2")
+    ax.set_ylabel("AKS Friction")
+    ax.set_xlabel("Request #")
+    ax.set_title("AKS Cognitive Friction — Correction Strength")
+    ax.set_ylim(-0.1, 1.1)
+    fig.tight_layout()
+    return fig

@@ -118,6 +118,11 @@ def build_chat_tab(manager: ModelManager):
             value=model_choices[0],
             label="Current Model",
         )
+        px_preset = gr.Dropdown(
+            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
+            value="SUBJECTIVE",
+            label="PX Mode Preset",
+        )
         px_subjective = gr.Checkbox(
             label="PX Subjective Mode",
             value=False,
@@ -151,7 +156,7 @@ def build_chat_tab(manager: ModelManager):
 
     # ── Chat Interface ──
     
-    def chat_fn(message, history, model_id, px_subj, persona, temp, tp, mt, rp, gamma, session_id):
+    def chat_fn(message, history, model_id, px_preset, px_subj, persona, temp, tp, mt, rp, gamma, session_id):
         # 1. Update config
         loop = asyncio.new_event_loop()
         try:
@@ -160,6 +165,7 @@ def build_chat_tab(manager: ModelManager):
                     model_id,
                     px_subjective=px_subj,
                     px_gamma=gamma,
+                    px_config_preset=px_preset,
                 )
             )
         finally:
@@ -231,7 +237,7 @@ def build_chat_tab(manager: ModelManager):
 
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
-        additional_inputs=[model_select, px_subjective, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        additional_inputs=[model_select, px_preset, px_subjective, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
 
