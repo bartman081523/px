@@ -81,17 +81,20 @@ def handle_export(session_id, history):
 
 def handle_import(file_obj):
     if file_obj is None:
-        return gr.skip(), []
+        return gr.skip(), [], gr.skip(), gr.skip()
     try:
         with open(file_obj.name, "r") as f:
             data = json.load(f)
         new_id = data.get("session_id", get_new_session_id())
         history = data.get("history", [])
         save_session(new_id, history)
-        return new_id, history
+        return new_id, history, gr.update(choices=list_sessions(), value=new_id), new_id
     except Exception as e:
         print(f"Import error: {e}")
-        return gr.skip(), []
+        return gr.skip(), [], gr.skip(), gr.skip()
+
+def handle_refresh():
+    return gr.update(choices=list_sessions())
 
 
 def build_chat_tab(manager: ModelManager):
@@ -131,7 +134,9 @@ def build_chat_tab(manager: ModelManager):
         gr.Markdown("---")
         gr.Markdown("### Sessions")
         new_session_btn = gr.Button("New Session", variant="secondary")
-        session_dropdown = gr.Dropdown(choices=list_sessions(), label="Saved Sessions")
+        with gr.Row():
+            session_dropdown = gr.Dropdown(choices=list_sessions(), label="Saved Sessions", scale=4)
+            refresh_sessions_btn = gr.Button("🔄", scale=1)
         load_session_btn = gr.Button("Load Selected", size="sm")
         session_id_display = gr.Textbox(label="Current ID", interactive=False)
         
@@ -180,6 +185,9 @@ def build_chat_tab(manager: ModelManager):
                 actual_message = text
 
         messages = cleaned_history + [{"role": "user", "content": actual_message}]
+
+        # Phase 63: Proactive Auto-save (save user message before generation)
+        save_session(session_id, messages, model_id=model_id)
 
         # 3. Generate with streaming
         input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -238,6 +246,7 @@ def build_chat_tab(manager: ModelManager):
     )
     
     export_btn.click(fn=handle_export, inputs=[session_id_state, chat_interface.chatbot], outputs=[export_file])
-    import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chat_interface.chatbot])
+    import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chat_interface.chatbot, session_dropdown, session_id_display])
+    refresh_sessions_btn.click(fn=handle_refresh, outputs=[session_dropdown])
 
     return session_id_state, chat_interface.chatbot, session_dropdown, session_id_display

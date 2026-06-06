@@ -38,10 +38,12 @@ def load_session(session_id: str) -> Dict[str, Any]:
         return json.load(f)
 
 def list_sessions() -> List[str]:
-    """List all available session IDs."""
+    """List all available session IDs, sorted by modification time (newest first)."""
     ensure_session_dir()
-    files = os.listdir(SESSION_DIR)
-    return [f.replace(".json", "") for f in files if f.endswith(".json")]
+    files = [f for f in os.listdir(SESSION_DIR) if f.endswith(".json")]
+    # Sort by mtime
+    files.sort(key=lambda x: os.path.getmtime(os.path.join(SESSION_DIR, x)), reverse=True)
+    return [f.replace(".json", "") for f in files]
 
 def get_new_session_id() -> str:
     return str(uuid.uuid4().hex[:8])
