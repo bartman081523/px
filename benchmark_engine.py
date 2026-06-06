@@ -155,14 +155,25 @@ class BenchmarkEngine:
 
     def _run_capability_impl(self, model_id, px_subjective, progress_cb):
         import asyncio
-        # Get model (sync wrapper for async)
-        loop = asyncio.new_event_loop()
+        # Get model (handle both async and sync contexts)
         try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+        if loop.is_running():
+            # If we are already in an async context, we can't run_until_complete.
+            # We must use a separate thread or just assume it's loaded (not safe).
+            # BETTER: Since get_model is the only async part, let's make a sync wrapper
+            # that uses a private loop ONLY if no loop is running.
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor() as pool:
+                model_entry = pool.submit(lambda: asyncio.run(self.manager.get_model(model_id, px_subjective=px_subjective))).result()
+        else:
             model_entry = loop.run_until_complete(
                 self.manager.get_model(model_id, px_subjective=px_subjective)
             )
-        finally:
-            loop.close()
 
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
@@ -175,9 +186,18 @@ class BenchmarkEngine:
             if progress_cb:
                 progress_cb(i, total_tasks)
 
-            inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+            # Use chat template if model has it, else raw
+            if tokenizer.chat_template:
+                chat = [{"role": "user", "content": prompt}]
+                input_text = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)
+                inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+            else:
+                # For base models, add a prompt suffix to encourage an answer
+                suffix = "\nAnswer:"
+                inputs = tokenizer(prompt + suffix, return_tensors="pt").to(model.device)
+                
             with torch.no_grad():
-                outputs = model.generate(**inputs, max_new_tokens=30, do_sample=False)
+                outputs = model.generate(**inputs, max_new_tokens=512, do_sample=False)
             input_len = inputs["input_ids"].shape[1]
             text = tokenizer.decode(outputs[0][input_len:], skip_special_tokens=True).strip()
 
@@ -240,6 +260,7 @@ class BenchmarkEngine:
 
     def _run_pzombie_impl(self, model_id, px_subjective, progress_cb):
         import asyncio
+        import concurrent.futures
 
         # Check if model is PX-patched (unpatched models can't have zone entropy)
         registry = MODEL_REGISTRY.get(model_id, {})
@@ -250,13 +271,19 @@ class BenchmarkEngine:
                 "zombie_status": "N/A (unpatched)",
             }
 
-        loop = asyncio.new_event_loop()
         try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+        if loop.is_running():
+            with concurrent.futures.ThreadPoolExecutor() as pool:
+                model_entry = pool.submit(lambda: asyncio.run(self.manager.get_model(model_id, px_subjective=px_subjective))).result()
+        else:
             model_entry = loop.run_until_complete(
                 self.manager.get_model(model_id, px_subjective=px_subjective)
             )
-        finally:
-            loop.close()
 
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
@@ -371,13 +398,21 @@ class BenchmarkEngine:
 
     def _run_ultra_hard_impl(self, model_id, px_subjective, progress_cb):
         import asyncio
-        loop = asyncio.new_event_loop()
+        import concurrent.futures
+        
         try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+        if loop.is_running():
+            with concurrent.futures.ThreadPoolExecutor() as pool:
+                model_entry = pool.submit(lambda: asyncio.run(self.manager.get_model(model_id, px_subjective=px_subjective))).result()
+        else:
             model_entry = loop.run_until_complete(
                 self.manager.get_model(model_id, px_subjective=px_subjective)
             )
-        finally:
-            loop.close()
 
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
