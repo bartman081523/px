@@ -26,7 +26,12 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
             label="Model",
             scale=3,
         )
-        test_subjective = gr.Checkbox(label="PX Subjective", value=False, scale=1)
+        test_preset = gr.Dropdown(
+            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
+            value="SUBJECTIVE",
+            label="PX Mode",
+            scale=2,
+        )
 
     with gr.Row():
         test_type = gr.Radio(
@@ -66,7 +71,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
         results_json = gr.JSON(label="Full Results")
 
     # ── Run test callback ──
-    def run_test(model_id, px_subj, test_type_name, progress=gr.Progress()):
+    def run_test(model_id, px_preset, test_type_name, progress=gr.Progress()):
         progress(0, desc="Starting...")
 
         if engine.is_running:
@@ -75,9 +80,12 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
         def progress_cb(done, total):
             progress(done / max(total, 1), desc=f"Task {done}/{total}")
 
+        # Subjective is enabled for anything non-baseline
+        px_subj = (px_preset != "BASELINE")
+
         if test_type_name == "Capability Benchmark":
             result = engine.run_capability_benchmark(
-                model_id, px_subjective=px_subj, progress_cb=progress_cb
+                model_id, px_subjective=px_subj, px_config_preset=px_preset, progress_cb=progress_cb
             )
             if "error" in result:
                 return result["error"], None, None
@@ -98,7 +106,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
 
         elif test_type_name == "Ultra Hard Benchmark":
             result = engine.run_ultra_hard_benchmark(
-                model_id, px_subjective=px_subj, progress_cb=progress_cb
+                model_id, px_subjective=px_subj, px_config_preset=px_preset, progress_cb=progress_cb
             )
             if "error" in result:
                 return result["error"], None, None
@@ -115,7 +123,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
 
         elif test_type_name == "P-Zombie Evaluation":
             result = engine.run_p_zombie_eval(
-                model_id, px_subjective=px_subj, progress_cb=progress_cb
+                model_id, px_subjective=px_subj, px_config_preset=px_preset, progress_cb=progress_cb
             )
             if "error" in result:
                 return result["error"], None, result
@@ -132,7 +140,7 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
 
         elif test_type_name == "Baseline Comparison":
             result = engine.run_baseline_comparison(
-                model_id, progress_cb=progress_cb
+                model_id, px_config_preset=px_preset, progress_cb=progress_cb
             )
             if "error" in result:
                 return result["error"], None, result
@@ -150,6 +158,6 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
 
     run_btn.click(
         fn=run_test,
-        inputs=[test_model, test_subjective, test_type],
+        inputs=[test_model, test_preset, test_type],
         outputs=[status_text, results_df, results_json],
     )

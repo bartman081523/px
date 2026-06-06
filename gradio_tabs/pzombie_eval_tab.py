@@ -1,7 +1,7 @@
 """
 pzombie_eval_tab.py — Gradio P-Zombie / Anti-P-Zombie Evaluation Tab
 =====================================================================
-Runs zone entropy ANOVA with visualization. Compares PX-Peak vs PX-Subjective.
+Runs zone entropy ANOVA with visualization. Compares different PX modes.
 """
 
 import gradio as gr
@@ -17,27 +17,22 @@ import viz
 def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
     """Build and return the P-Zombie Evaluation tab components."""
 
-    # Only PX models can run P-Zombie eval
+    # Only PX-capable models
     px_models = [mid for mid, reg in MODEL_REGISTRY.items() if reg.get("patch_dir") is not None]
-    all_models = list(MODEL_REGISTRY.keys())
 
     with gr.Row():
         pz_model = gr.Dropdown(
             choices=px_models,
             value=px_models[0] if px_models else None,
-            label="PX Model",
+            label="Model",
             scale=2,
         )
-        pz_subjective = gr.Checkbox(label="Subjective Mode", value=False, scale=1)
-
-    with gr.Row():
-        compare_model = gr.Dropdown(
-            choices=px_models,
-            value=px_models[1] if len(px_models) > 1 else None,
-            label="Compare With (optional)",
+        pz_preset = gr.Dropdown(
+            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
+            value="SUBJECTIVE",
+            label="PX Mode",
             scale=2,
         )
-        compare_subjective = gr.Checkbox(label="Subjective (compare)", value=False, scale=1)
 
     # ── Pre-registered Hypotheses ──
     with gr.Accordion("SciMind4 Pre-registered Hypotheses", open=True):
@@ -59,7 +54,7 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
 
     with gr.Row():
         run_pz_btn = gr.Button("Run P-Zombie Evaluation", variant="primary")
-        run_compare_btn = gr.Button("Run Comparison (Peak vs Subjective)", variant="secondary")
+        run_compare_btn = gr.Button("Run Baseline vs Subjective Comparison", variant="secondary")
 
     pz_status = gr.Textbox(label="Status", value="Ready", interactive=False)
 
@@ -75,7 +70,7 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
     pz_results_json = gr.JSON(label="Full Results")
 
     # ── Run P-Zombie eval ──
-    def run_pz(model_id, px_subj, progress=gr.Progress()):
+    def run_pz(model_id, px_preset, progress=gr.Progress()):
         progress(0, desc="Starting P-Zombie evaluation...")
 
         if engine.is_running:
@@ -84,8 +79,11 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
         def progress_cb(done, total):
             progress(done / max(total, 1), desc=f"Prompt {done}/{total}")
 
+        # Implicit subjective mode for non-baseline
+        px_subj = (px_preset != "BASELINE")
+
         result = engine.run_p_zombie_eval(
-            model_id, px_subjective=px_subj, progress_cb=progress_cb
+            model_id, px_subjective=px_subj, px_config_preset=px_preset, progress_cb=progress_cb
         )
 
         if "error" in result:
@@ -104,9 +102,9 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
 
         return status, fig_bars, fig_scatter, result
 
-    # ── Run Peak vs Subjective comparison ──
+    # ── Run Baseline vs Subjective comparison ──
     def run_comparison(model_id, progress=gr.Progress()):
-        progress(0, desc="Running Peak mode...")
+        progress(0, desc="Running Baseline mode...")
 
         if engine.is_running:
             return "Benchmark already running", None, None, None
@@ -114,27 +112,27 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
         def progress_cb(done, total):
             progress(done / max(total, 1) / 2, desc=f"Prompt {done}/{total}")
 
-        # Run Peak
-        peak_result = engine.run_p_zombie_eval(
-            model_id, px_subjective=False, progress_cb=progress_cb
+        # Run Baseline (Unpatched)
+        base_result = engine.run_p_zombie_eval(
+            model_id, px_subjective=False, px_config_preset="BASELINE", progress_cb=progress_cb
         )
 
-        if "error" in peak_result:
-            return peak_result["error"], None, None, {"peak": peak_result}
+        if "error" in base_result:
+            return base_result["error"], None, None, {"baseline": base_result}
 
         progress(0.5, desc="Running Subjective mode...")
 
-        # Run Subjective
+        # Run Subjective (Patched)
         subj_result = engine.run_p_zombie_eval(
-            model_id, px_subjective=True, progress_cb=progress_cb
+            model_id, px_subjective=True, px_config_preset="SUBJECTIVE", progress_cb=progress_cb
         )
 
         if "error" in subj_result:
-            return subj_result["error"], None, None, {"peak": peak_result, "subjective": subj_result}
+            return subj_result["error"], None, None, {"baseline": base_result, "subjective": subj_result}
 
         # Comparison visualization
         comparison = {
-            f"{model_id} (Peak)": peak_result,
+            f"{model_id} (Baseline)": base_result,
             f"{model_id} (Subjective)": subj_result,
         }
         fig_comp = viz.plot_comparison_bars(comparison)
@@ -148,14 +146,14 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
             r_sq_subj,
         )
 
-        status = (f"Peak: η²={peak_result.get('eta_squared',0):.4f}, R²={peak_result.get('r_squared_td',0):.4f} — {peak_result.get('zombie_status','?')}\n"
+        status = (f"Baseline: η²={base_result.get('eta_squared',0):.4f}, R²={base_result.get('r_squared_td',0):.4f} — {base_result.get('zombie_status','?')}\n"
                  f"Subj: η²={subj_result.get('eta_squared',0):.4f}, R²={subj_result.get('r_squared_td',0):.4f} — {subj_result.get('zombie_status','?')}")
 
-        return status, fig_bars, fig_scatter, {"peak": peak_result, "subjective": subj_result}
+        return status, fig_bars, fig_scatter, {"baseline": base_result, "subjective": subj_result}
 
     run_pz_btn.click(
         fn=run_pz,
-        inputs=[pz_model, pz_subjective],
+        inputs=[pz_model, pz_preset],
         outputs=[pz_status, pz_entropy_plot, pz_scatter_plot, pz_results_json],
     )
 
