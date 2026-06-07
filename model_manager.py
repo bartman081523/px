@@ -25,8 +25,10 @@ class ModelManager:
         self._px_metrics: Dict[str, dict] = {}     # model_id -> latest metrics
         self._busy: set = set()                    # model_id -> set of active usage
         self.max_loaded_models = max_loaded_models
+        self._lock = asyncio.Lock()                # Global lock for model state changes
 
     def lock_model(self, model_id: str):
+        # ... (rest of methods)
         """Mark a model as busy (in use by a thread)."""
         self._busy.add(model_id)
 
@@ -42,85 +44,66 @@ class ModelManager:
     async def get_model(self, model_id: str, px_subjective: bool = False,
                          px_gamma: float = None, px_routing_mode: str = None,
                          px_config_preset: str = None) -> dict:
-        """Get a loaded model, loading lazily if needed.
+        """Get a loaded model, loading lazily if needed."""
+        async with self._lock:
+            if model_id not in MODEL_REGISTRY:
+                raise ValueError(f"Unknown model: {model_id}")
 
-        If model is loaded with different subjective/gamma/routing mode,
-        re-apply the patch (no weight reload needed).
-        """
-        if model_id not in MODEL_REGISTRY:
-            raise ValueError(f"Unknown model: {model_id}")
-
-        if model_id in self._models:
-            entry = self._models[model_id]
-            current_subjective = entry.get("px_subjective", False)
-            current_preset = entry.get("px_config_preset")
-            
-            needs_repatch = current_subjective != px_subjective
-            if px_config_preset is not None and current_preset != px_config_preset:
-                needs_repatch = True
-            if px_gamma is not None and entry.get("px_gamma") != px_gamma:
-                needs_repatch = True
-            if px_routing_mode is not None and entry.get("px_routing_mode") != px_routing_mode:
-                needs_repatch = True
+            if model_id in self._models:
+                entry = self._models[model_id]
+                current_subjective = entry.get("px_subjective", False)
+                current_preset = entry.get("px_config_preset")
                 
-            if needs_repatch:
-                # Safety: wait if model is busy before re-patching
-                wait_start = time.time()
-                while self.is_busy(model_id):
-                    if time.time() - wait_start > 10.0: # 10s timeout
-                        print(f"[ModelManager] Warning: Timeout waiting for {model_id} to be free for re-patching.")
-                        break
+                needs_repatch = current_subjective != px_subjective
+                if px_config_preset is not None and current_preset != px_config_preset:
+                    needs_repatch = True
+                if px_gamma is not None and entry.get("px_gamma") != px_gamma:
+                    needs_repatch = True
+                if px_routing_mode is not None and entry.get("px_routing_mode") != px_routing_mode:
+                    needs_repatch = True
+                    
+                if needs_repatch:
+                    # Safety: wait until model is free before re-patching
+                    # A generation might take a while, especially with recursion.
+                    print(f"[ModelManager] Waiting for {model_id} to be free for re-patching...")
+                    # We are holding self._lock, but we might need to wait for is_busy.
+                    # This is tricky because if we wait here, we block ALL other get_model calls.
+                    # But re-patching is rare and must be exclusive.
+                    while self.is_busy(model_id):
+                        # Release control but stay in lock (not ideal for all models, 
+                        # but necessary for this model)
+                        await asyncio.sleep(0.1)
+                    self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
+                self._last_used[model_id] = time.time()
+                return entry
+
+            # Handle auto-unloading before loading new model
+            while len(self._models) >= self.max_loaded_models:
+                # Unload LRU model
+                lru_model = min(self._last_used, key=self._last_used.get)
+                
+                # Safety: wait if model is busy
+                print(f"[ModelManager] Waiting for {lru_model} to be free for unloading...")
+                while self.is_busy(lru_model):
                     await asyncio.sleep(0.1)
-                self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
-            self._last_used[model_id] = time.time()
-            return entry
+                
+                print(f"[ModelManager] Unloading model {lru_model} to free memory...")
+                self.unload(lru_model)
 
-        # Handle auto-unloading before loading new model
-        while len(self._models) >= self.max_loaded_models:
-            # Unload LRU model
-            lru_model = min(self._last_used, key=self._last_used.get)
-            
-            # Safety: wait if model is busy
-            wait_start = time.time()
-            is_timed_out = False
-            while self.is_busy(lru_model):
-                if time.time() - wait_start > 30.0: # 30s timeout for unloading
-                    print(f"[ModelManager] CRITICAL: Timeout waiting for {lru_model} to be free for unloading.")
-                    is_timed_out = True
-                    break
-                await asyncio.sleep(0.1)
-            
-            if is_timed_out:
-                # Try another model if capacity > 1, else we have to fail or force it
-                if self.max_loaded_models > 1:
-                    # Sort models by last_used and pick the first non-busy one
-                    sorted_models = sorted(self._last_used.keys(), key=lambda k: self._last_used[k])
-                    found_alternative = False
-                    for m in sorted_models:
-                        if not self.is_busy(m):
-                            lru_model = m
-                            found_alternative = True
-                            break
-                    if not found_alternative:
-                        raise RuntimeError("All loaded models are busy and cannot be unloaded.")
-                else:
-                    print(f"[ModelManager] Force-unloading busy model {lru_model} due to timeout.")
+            # Lazy load
+            if self._loading.get(model_id):
+                raise RuntimeError(f"Model {model_id} is currently loading")
 
-            print(f"[ModelManager] Unloading model {lru_model} to free memory...")
-            self.unload(lru_model)
-
-        # Lazy load
-        if self._loading.get(model_id):
-            raise RuntimeError(f"Model {model_id} is currently loading")
-
-        self._loading[model_id] = True
-        try:
-            entry = self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset)
-            self._models[model_id] = entry
-            self._last_used[model_id] = time.time()
-            return entry
-        finally:
-            self._loading[model_id] = False
+            self._loading[model_id] = True
+            try:
+                # Run blocking load in a thread to keep event loop alive
+                loop = asyncio.get_running_loop()
+                entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset))
+                self._models[model_id] = entry
+                self._last_used[model_id] = time.time()
+                return entry
+            finally:
+                self._loading[model_id] = False
 
     def _load_model(self, model_id: str, px_subjective: bool,
                      px_gamma: float = None, px_routing_mode: str = None,
