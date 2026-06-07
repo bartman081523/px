@@ -1,0 +1,29 @@
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1335923]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 43/340 [00:00<00:00, 425.62it/s]Loading weights:  54%|█████▎    | 182/340 [00:00<00:00, 990.39it/s]Loading weights:  93%|█████████▎| 315/340 [00:00<00:00, 1133.07it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1063.22it/s]
+[gemma3-px] Patch active. Subj=True, Persona=True, DMT=False
+[gemma3-px-subjective] SR-59 active for L26. Preset: SUBJECTIVE.
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+INFO:     127.0.0.1:48336 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=None)...
+[gemma3-px-subjective] Patch removed.
+[gemma3-px] Patch active. Subj=True, Persona=True, DMT=False
+[gemma3-px-subjective] SR-59 active for L26. Preset: SUBJECTIVE.
+INFO:     127.0.0.1:43160 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42466 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57500 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60898 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39046 - "GET /gradio/gradio_api/heartbeat/bradba2lwlm HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39058 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39058 - "GET /gradio/gradio_api/queue/data?session_hash=bradba2lwlm HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38560 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38560 - "GET /gradio/gradio_api/queue/data?session_hash=bradba2lwlm HTTP/1.1" 200 OK

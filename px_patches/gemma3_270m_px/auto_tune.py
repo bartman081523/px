@@ -171,6 +171,10 @@ class AutoCalibrator:
             self.token_diversity_mean = None
             self.token_diversity_std = None
 
+        # Empirical range (SR-59i)
+        self.k_min = None
+        self.k_max = None
+
         # Calibrated zone parameters (absolute kurtosis, for fallback)
         self.zone_centers: Dict[str, float] = {}
         self.zone_sigmas: Dict[str, float] = {}
@@ -241,23 +245,23 @@ class AutoCalibrator:
         self._online_k_m2 += delta * delta2
 
     def calibrate(self):
-        """Compute adaptive zone parameters from empirical distribution.
+        """Compute adaptive zone parameters from empirical distribution."""
+        # Filter out non-finite samples to avoid statistics crashes (SR-59i)
+        k_samples = [k for k in self.k_samples if math.isfinite(k)]
+        phi_samples = [p for p in self.phi_samples if math.isfinite(p)]
+        td_samples = [t for t in self.token_diversity_samples if math.isfinite(t)]
 
-        SR-59c: Sets blend weight based on scale, not CV ratio.
-        At all scales, kurtosis gets at least 50% weight because it's the
-        only signal with significant between-category variation (η²=0.14-0.20).
-        """
-        if len(self.k_samples) < 2:
+        if len(k_samples) < 2:
             return
 
         # ── Kurtosis calibration ──
-        self.k_mean = statistics.mean(self.k_samples)
-        self.k_std = max(statistics.stdev(self.k_samples), 5.0)
-        self.k_min = min(self.k_samples)
-        self.k_max = max(self.k_samples)
+        self.k_mean = statistics.mean(k_samples)
+        self.k_std = max(statistics.stdev(k_samples), 5.0)
+        self.k_min = min(k_samples)
+        self.k_max = max(k_samples)
 
         # Initialize online stats from calibration data
-        self._online_n = len(self.k_samples)
+        self._online_n = len(k_samples)
         self._online_k_mean = self.k_mean
         self._online_k_m2 = self.k_std ** 2 * self._online_n
 
@@ -287,25 +291,22 @@ class AutoCalibrator:
         }
 
         # ── Phi calibration ──
-        if len(self.phi_samples) >= 2:
-            self.phi_mean = statistics.mean(self.phi_samples)
-            self.phi_std = max(statistics.stdev(self.phi_samples), 0.01)
+        if len(phi_samples) >= 2:
+            self.phi_mean = statistics.mean(phi_samples)
+            self.phi_std = max(statistics.stdev(phi_samples), 0.01)
         else:
             self.phi_mean = 0.9
             self.phi_std = 0.05
 
         # ── Token diversity calibration (SR-59c: robust normalization) ──
-        if len(self.token_diversity_samples) >= 2:
-            self.token_diversity_mean = statistics.mean(self.token_diversity_samples)
+        if len(td_samples) >= 2:
+            self.token_diversity_mean = statistics.mean(td_samples)
             # SR-59c FIX: Use MIN_TD_STD to prevent z-score saturation
-            # The calibration TD (0.75) is far below test TD (0.81-0.83),
-            # causing extreme z-scores (6-8) that saturate the sigmoid.
-            # A minimum std of 0.10 ensures z-scores stay in [-3, +3].
-            raw_std = statistics.stdev(self.token_diversity_samples)
+            raw_std = statistics.stdev(td_samples)
             self.token_diversity_std = max(raw_std, MIN_TD_STD)
-        elif len(self.token_diversity_samples) == 1:
-            self.token_diversity_mean = self.token_diversity_samples[0]
-            self.token_diversity_std = MIN_TD_STD  # Conservative default
+        elif len(td_samples) == 1:
+            self.token_diversity_mean = td_samples[0]
+            self.token_diversity_std = MIN_TD_STD
 
         # ── Blend weight (SR-59c: scale-aware, not CV-based) ──
         # SR-59b used CV ratio to set blend weight, but this was wrong:
@@ -419,16 +420,8 @@ class AutoCalibrator:
         return {k: v / W for k, v in weights.items()}
 
     def _compute_scf_weights(self, token_diversity: float) -> Dict[str, float]:
-        """Compute zone weights from Input Content Fingerprint.
-
-        SR-59c FIX: Uses MIN_TD_STD (0.10) to prevent z-score saturation.
-        Previously, calibration td_std=0.01 caused test z-scores of 6-8,
-        saturating the sigmoid and routing all inputs to "creative".
-
-        With MIN_TD_STD=0.10, typical test TD (0.81-0.83) produces
-        z-scores of 0.6-0.8, which map to reasonable phi_signal values.
-        """
-        if self.token_diversity_mean is None:
+        """Compute zone weights from Input Content Fingerprint."""
+        if self.token_diversity_mean is None or token_diversity is None:
             return None
 
         # Z-score normalize token diversity (with robust std)
