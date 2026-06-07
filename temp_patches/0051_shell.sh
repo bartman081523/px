@@ -1,0 +1,1 @@
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python /run/media/julian/ML4/ollama-work/all_space/tests/test_resonance_city.py
