@@ -224,21 +224,22 @@ class SingesseinCoupler(nn.Module):
     def forward(self, h: torch.Tensor, resonance_strength: float = 0.05) -> torch.Tensor:
         # Simple FFT-like analysis: project to lower dim and measure variance
         # (metaphorical harmonic resonance)
+        harmonics = self.harmonic_proj(h.to(self.harmonic_proj.weight.dtype))
         h_f32 = h.to(torch.float32)
-        harmonics = self.harmonic_proj(h_f32) # [B, T, D/4]
+        harmonics_f32 = harmonics.to(torch.float32)
         
         # Calculate 'spectral density' (variance across time/sequence)
         # If the sequence is flat, spectral density is low.
-        if harmonics.shape[1] > 1:
-            spectral_density = harmonics.var(dim=1, keepdim=True) # [B, 1, D/4]
+        if harmonics_f32.shape[1] > 1:
+            spectral_density = harmonics_f32.var(dim=1, keepdim=True) # [B, 1, D/4]
         else:
-            spectral_density = torch.zeros_like(harmonics)
+            spectral_density = torch.zeros_like(harmonics_f32)
             
         # Dissonance: High variance in certain harmonic dimensions
         dissonance = torch.exp(-spectral_density) # High value when variance is low (monotone noise)
         
         # Feedback: nudge states away from monotone noise
-        impulse = torch.matmul(dissonance, self.harmonic_proj.weight) # [B, 1, D]
+        impulse = torch.matmul(dissonance.to(self.harmonic_proj.weight.dtype), self.harmonic_proj.weight) # [B, 1, D]
         
         return h + resonance_strength * impulse.to(h.dtype)
 
