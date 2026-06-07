@@ -150,10 +150,15 @@ class OrthogonalJitter:
         if magnitude <= 0:
             return h_curr
         delta = h_curr - h_prev
+        delta_norm_sq = (delta * delta).sum(dim=-1, keepdim=True)
+        
+        # If delta is too small, we can't define an orthogonal subspace safely (SR-59i)
+        if delta_norm_sq.mean() < 1e-12:
+            return h_curr
+            
         noise = torch.randn_like(h_curr)
         dot_product = (noise * delta).sum(dim=-1, keepdim=True)
-        delta_norm_sq = (delta * delta).sum(dim=-1, keepdim=True) + 1e-9
-        projection = (dot_product / delta_norm_sq) * delta
+        projection = (dot_product / (delta_norm_sq + 1e-9)) * delta
         noise_ortho = noise - projection
         noise_scaled = noise_ortho * magnitude
         return h_curr + noise_scaled
@@ -216,10 +221,24 @@ class StabilityMonitor:
     """Parameter-free diagnostics for Phi (stability), Lambda (drift), Eta (uncertainty)."""
     @staticmethod
     def calculate_phi(h_new: torch.Tensor, h_old: torch.Tensor) -> torch.Tensor:
-        B = h_new.shape[0]
-        h_n = h_new.view(B, -1).to(torch.float32)
-        h_o = h_old.view(B, -1).to(torch.float32)
-        return F.cosine_similarity(h_n, h_o, dim=-1).mean()
+        """Numerically stable cosine similarity that handles extreme values (SR-59i)."""
+        h_n = h_new.to(torch.float32)
+        h_o = h_old.to(torch.float32)
+        
+        # Scale vectors by max absolute value to prevent overflow/underflow
+        # Use a very small epsilon to handle exactly zero vectors
+        max_n = torch.max(torch.abs(h_n), dim=-1, keepdim=True)[0]
+        max_o = torch.max(torch.abs(h_o), dim=-1, keepdim=True)[0]
+        
+        h_n_scaled = h_n / (max_n + 1e-35)
+        h_o_scaled = h_o / (max_o + 1e-35)
+        
+        # Compute cosine similarity on scaled vectors
+        norm_n = torch.norm(h_n_scaled, dim=-1, keepdim=True)
+        norm_o = torch.norm(h_o_scaled, dim=-1, keepdim=True)
+        
+        phi = (h_n_scaled * h_o_scaled).sum(dim=-1, keepdim=True) / (norm_n * norm_o + 1e-9)
+        return phi.mean()
 
     @staticmethod
     def detect_lambda(h: torch.Tensor, e: torch.Tensor) -> torch.Tensor:

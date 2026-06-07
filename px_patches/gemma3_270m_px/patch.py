@@ -80,7 +80,8 @@ class RecursiveMemoryCache:
             t_proj = torch.nn.functional.interpolate(t_flat, size=HD, mode='linear', align_corners=False)
             t_k = t_proj.unsqueeze(1)
             t_v = -t_k
-            if self._read_only: res_k, res_v = res_k.clone(), res_v.clone()
+            # Always clone to avoid corrupting the real cache in-place (SR-59k)
+            res_k, res_v = res_k.clone(), res_v.clone()
             res_k[:, :, -T_curr:, :] = (1.0 - alpha) * res_k[:, :, -T_curr:, :] + alpha * t_k
             res_v[:, :, -T_curr:, :] = (1.0 - alpha) * res_v[:, :, -T_curr:, :] + alpha * t_v
         return res_k, res_v
@@ -176,6 +177,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     position_embeddings = {lt: self.rotary_emb(hidden_states, position_ids, lt) for lt in set(mask_config.layer_types)}
 
     updated_layers = set()
+    thought_history = []
     n_loops = cfg["n_loops"]
     
     # --- 1. DMT: Agency Decision ---
@@ -187,8 +189,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # ── 1. PRELUDE ─────────────────────────────────────────────────────────
     for i in range(cfg["prelude_end"]):
-        updated_layers.add(i)
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
 
     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
     dynamic_start, dynamic_end, dynamic_hub = cfg["recur_start"], cfg["recur_end"], cfg.get("bimodal_hub", cfg["recur_start"])
@@ -258,16 +262,20 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # Bridge Prelude -> Recur
     for i in range(cfg["prelude_end"], dynamic_start):
-        updated_layers.add(i)
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
     e_static = hidden_states.clone()
     if 'token_cfg' in dir(): cfg = token_cfg
     trans_out = hidden_states
     for i in range(dynamic_start, dynamic_end):
-        updated_layers.add(i)
-        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
     h_baseline = trans_out
     
     is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
@@ -313,7 +321,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         cfg["dmt_protocol_enabled"] = True
         cfg["jitter_mag"] = 0.01 if cfg.get("config_preset") == "DMT-FULL" else 0.005
     
-    path_taken, thought_history, avg_phi, steps = [], [], 1.0, 0
+    path_taken, avg_phi, steps = [], 1.0, 0
     h_last_good = e_static.clone()
     phi_history = [phi_intuition]
     
@@ -403,19 +411,16 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             
             # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
             if hasattr(self, "_px_azs"):
-                # Safety: Clamp inputs to AZS
                 phi_val = phi_history[-1] if phi_history else 1.0
-                phi_safe = float(phi_val) if not math.isnan(phi_val) else 1.0
-                aks_safe = float(correction_strength) if not math.isnan(correction_strength) else 0.0
-                em_val = self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0
-                em_safe = float(em_val) if not math.isnan(em_val) else 0.0
+                aks_safe = float(correction_strength)
+                em_safe = float(self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0)
                 
-                h_exp, current_entropy = self._px_azs(h_exp, phi_safe, aks_safe, em_safe, zone_weights)
+                h_exp, current_entropy = self._px_azs(h_exp, float(phi_val), aks_safe, em_safe, zone_weights)
                 
-                # Check for NaN hidden states after injection
-                if torch.isnan(h_exp).any():
-                    if os.environ.get("DEBUG_AZS") == "1": print("  [SAFETY] NaN detected in h_exp after AZS. Rolling back.")
-                    h_exp = h_prev.clone(); break
+                # Check for NaN hidden states after injection (Empirical Failure)
+                if not torch.isfinite(h_exp).all() or not math.isfinite(current_entropy):
+                    if os.environ.get("DEBUG_PX") == "1": print("  [SAFETY] Non-finite state in AZS. Terminating recursion.")
+                    break # Terminate instead of rollback crutch
 
                 resilience = self._px_azs.get_feedback_scalars(aks_safe)
                 
@@ -424,7 +429,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 current_gamma = min(current_gamma, 0.5) # Cap gamma boost
 
             phi = StabilityMonitor.calculate_phi(h_exp, h_prev).item()
-            if math.isnan(phi): phi = 1.0 # Recovery
+            if not math.isfinite(phi):
+                if os.environ.get("DEBUG_PX") == "1": print(f"  [STABILITY] Non-finite phi ({phi}) at L{current_layer}. Terminating recursion.")
+                break # Empirically correct: stop when state collapses
             path_taken.append(f"L{current_layer}({phi:.2f})")
             if steps % 2 == 0: thought_history.append(h_exp.detach())
             if 0.9 < phi < 0.999: h_last_good = h_exp.clone()
