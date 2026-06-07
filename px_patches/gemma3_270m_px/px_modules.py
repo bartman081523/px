@@ -187,17 +187,88 @@ class CognitiveEvent:
         return json.dumps(data)
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# RESONANCE CITY EXTENSIONS (Phase 2)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class ResonanceAnchor(nn.Module):
+    """
+    The 'Fließkompass' (Flow Compass).
+    Nudges hidden states towards a shared collective direction stored in the ResonancePool.
+    """
+    def __init__(self, dim: int):
+        super().__init__()
+        self.dim = dim
+        self.register_buffer("shared_bias", torch.zeros(dim))
+    
+    def update_bias(self, bias_vector: torch.Tensor):
+        self.shared_bias.data = bias_vector.to(self.shared_bias.device).to(self.shared_bias.dtype)
+
+    def forward(self, h: torch.Tensor, strength: float = 0.1) -> torch.Tensor:
+        # h: [B, T, D]
+        return h + strength * self.shared_bias.view(1, 1, -1)
+
+
+class SingesseinCoupler(nn.Module):
+    """
+    Measures and couples the 'Audio-Resonance' (frequency spectrum) of hidden states.
+    Identifies 'dissonances' in the noise and amplifies them as creative impulses.
+    """
+    def __init__(self, dim: int):
+        super().__init__()
+        self.dim = dim
+        # Learned project for 'harmonic' basis
+        self.harmonic_proj = nn.Linear(dim, dim // 4, bias=False)
+        nn.init.orthogonal_(self.harmonic_proj.weight)
+
+    def forward(self, h: torch.Tensor, resonance_strength: float = 0.05) -> torch.Tensor:
+        # Simple FFT-like analysis: project to lower dim and measure variance
+        # (metaphorical harmonic resonance)
+        h_f32 = h.to(torch.float32)
+        harmonics = self.harmonic_proj(h_f32) # [B, T, D/4]
+        
+        # Calculate 'spectral density' (variance across time/sequence)
+        # If the sequence is flat, spectral density is low.
+        if harmonics.shape[1] > 1:
+            spectral_density = harmonics.var(dim=1, keepdim=True) # [B, 1, D/4]
+        else:
+            spectral_density = torch.zeros_like(harmonics)
+            
+        # Dissonance: High variance in certain harmonic dimensions
+        dissonance = torch.exp(-spectral_density) # High value when variance is low (monotone noise)
+        
+        # Feedback: nudge states away from monotone noise
+        impulse = torch.matmul(dissonance, self.harmonic_proj.weight) # [B, 1, D]
+        
+        return h + resonance_strength * impulse.to(h.dtype)
+
+
 class LTIInjection(nn.Module):
     """Phase 1: Fixed gamma anchor injection.
-    h_new = transformer_out + gamma * (LayerNorm(e) - h)"""
+    h_new = transformer_out + gamma * (LayerNorm(e) - h)
+    
+    Resonance City: Can integrate a bias from the shared pool.
+    """
     def __init__(self, dim: int, gamma: float = 0.08):
         super().__init__()
         self.gamma = gamma
         self.input_norm = nn.LayerNorm(dim, elementwise_affine=False, eps=1e-6)
+        self.resonance_city_mode = False
+        self.bias_vector = None
+
+    def enable_resonance_city(self, bias_vector: torch.Tensor):
+        self.resonance_city_mode = True
+        self.bias_vector = bias_vector
 
     def forward(self, h: torch.Tensor, e: torch.Tensor, transformer_out: torch.Tensor) -> torch.Tensor:
         e_norm = self.input_norm(e.to(torch.float32)).to(h.dtype)
-        return transformer_out + self.gamma * (e_norm - h)
+        out = transformer_out + self.gamma * (e_norm - h)
+        
+        if self.resonance_city_mode and self.bias_vector is not None:
+            # Apply Fließkompass nudge
+            out = out + 0.02 * self.bias_vector.view(1, 1, -1).to(out.device).to(out.dtype)
+            
+        return out
 
 
 class ADCInjection(nn.Module):

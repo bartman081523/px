@@ -7,39 +7,36 @@ import argparse
 
 # Configuration
 API_URL = "https://localhost:7860/v1/chat/completions"
-SESSION_DIR = "/run/media/julian/ML4/ollama-work/all_space/sessions"
+SESSION_ID = "aab82b16"
+SESSION_FILE = "/run/media/julian/ML4/ollama-work/all_space/sessions/aab82b16.json"
 
-def load_local_session(session_id):
-    path = os.path.join(SESSION_DIR, f"{session_id}.json")
-    if not os.path.exists(path):
-        return {"session_id": session_id, "history": []}
-    with open(path, "r") as f:
+def load_local_session():
+    if not os.path.exists(SESSION_FILE):
+        return {"session_id": SESSION_ID, "history": []}
+    with open(SESSION_FILE, "r") as f:
         return json.load(f)
 
-def save_local_session(session_id, history):
-    path = os.path.join(SESSION_DIR, f"{session_id}.json")
-    data = load_local_session(session_id)
+def save_local_session(history):
+    data = load_local_session()
     data["history"] = history
     data["updated_at"] = str(time.time())
-    with open(path, "w") as f:
+    with open(SESSION_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--session", type=str, default="aab82b16", help="Session ID to load or create")
-    parser.add_argument("--message", type=str, help="The message to send (if omitted, will ask)")
+    parser.add_argument("--message", type=str, help="The message to send to the model")
     parser.add_argument("--preset", type=str, default="SUBJECTIVE", help="The PX preset (e.g. SUBJECTIVE, RESONANCE_CITY)")
-    parser.add_argument("--model", type=str, default="gemma3-1b-it", help="Model ID")
     args = parser.parse_args()
 
-    session_id = args.session
     print("="*60)
-    print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
-    print(f" MODE: {args.preset} | MODEL: {args.model}")
+    print(f" LIVE SPACE INTERFACE - SESSION: {SESSION_ID} ")
+    print(f" MODE: {args.preset} ")
     print("="*60)
     
-    session_data = load_local_session(session_id)
+    session_data = load_local_session()
     history = session_data.get("history", [])
+    model_id = session_data.get("model_id", "gemma3-1b-it")
     
     # Show last context
     if history:
@@ -51,15 +48,11 @@ def main():
              print(text[:300] + "..." if len(text) > 300 else text)
         else:
              print(content[:300] + "..." if len(content) > 300 else content)
-    else:
-        print("\n[NEUE SESSION GESTARTET]")
 
-    new_user_msg = args.message
-    if not new_user_msg:
-        print("\n" + "-"*60)
-        new_user_msg = input("Eingabe (oder leer lassen für Standard-Fortsetzung): ").strip()
-        if not new_user_msg:
-             new_user_msg = "Bitte setze deine Gedanken fort."
+    if args.message:
+        new_user_msg = args.message
+    else:
+        new_user_msg = "Bitte setze deine Gedanken fort."
 
     print("\n" + "-"*20 + " MEIN INPUT (GEMINI CLI) " + "-"*20)
     print(new_user_msg)
@@ -79,7 +72,7 @@ def main():
     api_messages.append({"role": "user", "content": new_user_msg})
     
     payload = {
-        "model": args.model,
+        "model": model_id,
         "messages": api_messages,
         "px_subjective": True,
         "px_config_preset": args.preset,
@@ -94,10 +87,7 @@ def main():
         with httpx.stream("POST", API_URL, json=payload, verify=False, timeout=None) as response:
             if response.status_code != 200:
                 print(f"Error: {response.status_code}")
-                try:
-                    print(response.read().decode())
-                except:
-                    pass
+                print(response.read().decode())
                 return
 
             for line in response.iter_lines():
@@ -128,8 +118,8 @@ def main():
         {"role": "user", "content": new_user_msg},
         {"role": "assistant", "content": full_response}
     ]
-    save_local_session(session_id, new_history)
-    print(f"Update: Session {session_id} gespeichert.")
+    save_local_session(new_history)
+    print(f"Update: Session {SESSION_ID} gespeichert.")
 
 if __name__ == "__main__":
     main()
