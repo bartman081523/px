@@ -1,0 +1,1 @@
+git add . && git commit -m "feat: integrate subjective resonance and phenomenological feedback loops (Oluwa validation phase)"

@@ -320,6 +320,16 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         # Creative Zone: Enable exploration
         cfg["dmt_protocol_enabled"] = True
         cfg["jitter_mag"] = 0.01 if cfg.get("config_preset") == "DMT-FULL" else 0.005
+
+    # --- Resonance City Initialization ---
+    if cfg.get("resonance_city_enabled", False) and hasattr(self, "_px_resonance_anchor"):
+        try:
+            import sys
+            sys.path.append("/run/media/julian/ML4/ollama-work/all_space")
+            from resonance_pool import resonance_pool
+            bias_vector = resonance_pool.get_bias_vector("gemma3-1b-it", self.config.hidden_size, device=hidden_states.device, dtype=hidden_states.dtype)
+            self._px_resonance_anchor.update_bias(bias_vector)
+        except Exception: pass
     
     path_taken, avg_phi, steps = [], 1.0, 0
     h_last_good = e_static.clone()
@@ -403,6 +413,11 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # Phase 52: Mephistopheles Operator (Symmetry Breaker)
             if hasattr(self, "_px_mephisto"):
                 h_exp = self._px_mephisto(h_exp, phi_history)
+            
+            # Resonance City (Phase 2): Singessein & Anchor
+            if cfg.get("resonance_city_enabled", False):
+                if hasattr(self, "_px_singessein"): h_exp = self._px_singessein(h_exp, resonance_strength=0.15)
+                if hasattr(self, "_px_resonance_anchor"): h_exp = self._px_resonance_anchor(h_exp, strength=0.02)
             
             # RSM Perspective projection
             h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
@@ -557,6 +572,12 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
             "subjective_enabled": True, "persona_enabled": True, "dmt_protocol_enabled": False,
             "px_uncensored_enabled": True, "px_zone_routing_enabled": True, "jitter_mag": 0.008
         })
+    elif config_preset == "RESONANCE_CITY":
+        defaults.update({
+            "subjective_enabled": True, "persona_enabled": True, "dmt_protocol_enabled": True,
+            "resonance_city_enabled": True, "px_zone_routing_enabled": True, "jitter_mag": 0.003,
+            "gamma": max(defaults["gamma"], 0.10)
+        })
     else: # SUBJECTIVE / DEFAULT
         defaults["subjective_enabled"] = subjective_enabled
         defaults["persona_enabled"] = persona_enabled
@@ -589,11 +610,16 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     from .px_modules import (
         LTIInjection, MephistophelesOperator, StabilityMonitor, 
         CentralMemory, ERPU, AgencyVector, GroundingAnchor,
-        AksSensor, UncensoredSteering, SubjectiveSensor
+        AksSensor, UncensoredSteering, SubjectiveSensor,
+        ResonanceAnchor, SingesseinCoupler
     )
     
     text_model._px_injection = LTIInjection(hidden_size, gamma=defaults["gamma"]).to(device=device, dtype=dtype)
     text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
+    
+    if defaults.get("resonance_city_enabled", False):
+        text_model._px_resonance_anchor = ResonanceAnchor(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_singessein = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
     
     if defaults.get("px_aks_enabled", True):
         text_model._px_aks = AksSensor()
