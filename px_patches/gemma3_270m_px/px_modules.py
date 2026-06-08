@@ -88,21 +88,26 @@ class AksSensor:
     """Anna Karenina Sensor (AKS). Reports topological friction and correction."""
     def __init__(self):
         self.divergence_buffer = []
-        self.correction_strength = 0.0
-        self.last_divergence = 0.0
+        self.correction_strength = None # Will be initialized as Tensor
+        self.last_divergence = None
 
-    def step(self, h_exp: torch.Tensor, e_static: torch.Tensor, steps: int) -> Dict[str, float]:
-        dist = 1.0 - StabilityMonitor.calculate_phi(h_exp, e_static).item()
+    def step(self, h_exp: torch.Tensor, e_static: torch.Tensor, steps: int) -> Dict[str, torch.Tensor]:
+        if self.correction_strength is None:
+            self.correction_strength = torch.tensor(0.0, device=h_exp.device, dtype=h_exp.dtype)
+        
+        dist = 1.0 - StabilityMonitor.calculate_phi(h_exp, e_static)
         self.last_divergence = dist
         if steps > 2:
             self.divergence_buffer.append(dist)
             if len(self.divergence_buffer) >= 3:
                 vel = self.divergence_buffer[-1] - self.divergence_buffer[-2]
                 acc = (self.divergence_buffer[-1] - self.divergence_buffer[-2]) - (self.divergence_buffer[-2] - self.divergence_buffer[-3])
-                if acc > 0.001 and vel > 0:
-                    self.correction_strength = min(1.0, self.correction_strength + 0.1)
-                else:
-                    self.correction_strength = max(0.0, self.correction_strength - 0.05)
+                
+                # Tensor-native control
+                mask = (acc > 0.001) & (vel > 0.0)
+                change = torch.where(mask, torch.tensor(0.1, device=h_exp.device, dtype=h_exp.dtype), torch.tensor(-0.05, device=h_exp.device, dtype=h_exp.dtype))
+                self.correction_strength = torch.clamp(self.correction_strength + change, 0.0, 1.0)
+                
         return {"divergence": dist, "correction": self.correction_strength}
 
 

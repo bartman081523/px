@@ -164,7 +164,15 @@ async def chat_completions(request: ChatCompletionRequest):
 
     # Collect PX metrics
     px_metrics = manager.get_px_metrics(model_id)
-    telemetry.record(model_id, result["prompt_tokens"], result["completion_tokens"], px_metrics)
+    prompt_text = messages[-1]["content"] if messages else ""
+    telemetry.record(
+        model_id, 
+        result["prompt_tokens"], 
+        result["completion_tokens"], 
+        px_metrics,
+        prompt_text=prompt_text,
+        completion_text=result["text"]
+    )
 
     return ChatCompletionResponse(
         model=model_id,
@@ -233,7 +241,14 @@ async def completions(request: CompletionRequest):
         raise HTTPException(500, f"Generation failed: {e}")
 
     px_metrics = manager.get_px_metrics(model_id)
-    telemetry.record(model_id, result["prompt_tokens"], result["completion_tokens"], px_metrics)
+    telemetry.record(
+        model_id, 
+        result["prompt_tokens"], 
+        result["completion_tokens"], 
+        px_metrics,
+        prompt_text=request.prompt,
+        completion_text=result["text"]
+    )
 
     return CompletionResponse(
         model=model_id,
