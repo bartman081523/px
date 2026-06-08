@@ -69,7 +69,7 @@ class RecursiveMemoryCache:
         is_full = not self._is_sliding_layer(layer_idx)
         if self._thoughts and layer_idx >= 6 and is_full:
             B, H_kv, T_res, HD = res_k.shape
-            T_curr, alpha = key_states.shape[-2], 0.15
+            T_curr, alpha = key_states.shape[-2], 0.10
             n_t = len(self._thoughts[-6:])
             if n_t > 2:
                 weights = torch.cat([torch.linspace(0.4, 1.0, n_t//2, device=res_k.device),
@@ -334,6 +334,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     path_taken, avg_phi, steps = [], 1.0, 0
     h_last_good = e_static.clone()
     phi_history = [phi_intuition]
+    loop_entry_gamma = current_gamma # Save for resilience modulation (anti-exponential bug)
     
     aks = getattr(self, "_px_aks", None)
     subj_sensor = getattr(self, "_px_subj_sensor", None)
@@ -440,7 +441,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 resilience = self._px_azs.get_feedback_scalars(aks_safe)
                 
                 # Feedback-Feedback: Boost gamma to prevent low-entropy manifold collapse
-                current_gamma *= resilience["gamma_boost"]
+                # Fixed: Apply to loop_entry_gamma, not cumulatively
+                current_gamma = loop_entry_gamma * resilience["gamma_boost"]
                 current_gamma = min(current_gamma, 0.5) # Cap gamma boost
 
             phi = StabilityMonitor.calculate_phi(h_exp, h_prev).item()
@@ -588,7 +590,7 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     else: # SUBJECTIVE / DEFAULT
         defaults["subjective_enabled"] = subjective_enabled
         defaults["persona_enabled"] = persona_enabled
-        defaults["dmt_protocol_enabled"] = dmt_protocol_enabled
+        defaults["dmt_protocol_enabled"] = True # Enabled by default for subjectivity
     
     defaults["routing_mode"] = routing_mode
     if gamma != 0.08: defaults["gamma"] = gamma

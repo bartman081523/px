@@ -65,7 +65,7 @@ class AntiZombieSensor(nn.Module):
         # Inject into hidden states (additive reflection)
         # We only apply to the last token to avoid sequence smearing
         # Injection strength is modulated by the 'Anti-Zombie' signal (entropy)
-        injection_strength = 0.01 * (entropy / 1.6) # Reduced from 0.05 for stability
+        injection_strength = 0.005 * (entropy / 1.6) # Reduced from 0.01 for stability
         
         # Additive injection
         new_hidden = hidden_states.clone()
