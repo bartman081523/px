@@ -7,11 +7,14 @@ from dmt_space_50.
 """
 
 import time
+import os
+import json
+import datetime
 from collections import deque
 from typing import Optional
 
 MAX_HISTORY = 100  # Keep last 100 request metrics
-
+TELEMETRY_DIR = "/run/media/julian/ML4/ollama-work/all_space/telemetry"
 
 class TelemetryStore:
     def __init__(self, max_history: int = MAX_HISTORY):
@@ -21,6 +24,7 @@ class TelemetryStore:
             "total_tokens_generated": 0,
             "total_prompt_tokens": 0,
         }
+        os.makedirs(TELEMETRY_DIR, exist_ok=True)
 
     def record(
         self,
@@ -28,18 +32,33 @@ class TelemetryStore:
         prompt_tokens: int,
         completion_tokens: int,
         px_metrics: Optional[dict] = None,
+        prompt_text: Optional[str] = None,
+        completion_text: Optional[str] = None,
     ):
         """Record a request's metrics."""
-        self._history.append({
+        entry = {
             "timestamp": time.time(),
+            "datetime": datetime.datetime.now().isoformat(),
             "model_id": model_id,
             "prompt_tokens": prompt_tokens,
             "completion_tokens": completion_tokens,
             "px_metrics": px_metrics or {},
-        })
+            "prompt": prompt_text,
+            "completion": completion_text,
+        }
+        self._history.append(entry)
         self._totals["total_requests"] += 1
         self._totals["total_tokens_generated"] += completion_tokens
         self._totals["total_prompt_tokens"] += prompt_tokens
+
+        # Persist to disk
+        try:
+            ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            filename = os.path.join(TELEMETRY_DIR, f"px_telemetry_{ts}.json")
+            with open(filename, "w") as f:
+                json.dump(entry, f, indent=2)
+        except Exception as e:
+            print(f"[Telemetry] Failed to save telemetry file: {e}")
 
     def get_summary(self) -> dict:
         """Get aggregate and recent metrics."""
