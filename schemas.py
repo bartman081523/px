@@ -38,6 +38,7 @@ class ChatCompletionRequest(BaseModel):
     px_subjective: Optional[bool] = False
     px_gamma: Optional[float] = None           # Override gamma for LTI/ADC injection
     px_routing_mode: Optional[str] = None      # "adaptive" or "fixed"
+    px_config_preset: Optional[str] = None     # e.g. "RIGOR", "RESONANCE_CITY"
 
 
 class CompletionRequest(BaseModel):
@@ -52,6 +53,7 @@ class CompletionRequest(BaseModel):
     px_subjective: Optional[bool] = False
     px_gamma: Optional[float] = None
     px_routing_mode: Optional[str] = None
+    px_config_preset: Optional[str] = None
 
 
 # ── Response Models ──
