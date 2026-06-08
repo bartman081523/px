@@ -56,8 +56,12 @@ class AntiZombieSensor(nn.Module):
         # 2. Friction (Dissonance)
         # 3. Emancipation (Divergence from anchor)
         # 4. Entropy (Anti-Zombie Signal: high entropy = distributed routing)
-        awareness_vec = torch.tensor([phi, aks_friction, emancipation, entropy.item()], 
-                                     device=hidden_states.device, dtype=hidden_states.dtype)
+        awareness_vec = torch.stack([
+            torch.as_tensor(phi, device=hidden_states.device, dtype=hidden_states.dtype),
+            torch.as_tensor(aks_friction, device=hidden_states.device, dtype=hidden_states.dtype),
+            torch.as_tensor(emancipation, device=hidden_states.device, dtype=hidden_states.dtype),
+            torch.as_tensor(entropy, device=hidden_states.device, dtype=hidden_states.dtype)
+        ])
         
         # Project to hidden space
         awareness_latent = self.awareness_proj(awareness_vec).view(1, 1, -1)
@@ -71,14 +75,14 @@ class AntiZombieSensor(nn.Module):
         new_hidden = hidden_states.clone()
         new_hidden[:, -1, :] = hidden_states[:, -1, :] + injection_strength * awareness_latent
         
-        return new_hidden, entropy.item()
+        return new_hidden, entropy
 
     def get_feedback_scalars(self, aks_friction):
         """
         Calculates resilience factors.
         Returns: {gamma_boost, bifurcation_boost, gravity_boost}
         """
-        entropy = self.calculate_entropy(self.weight_ema).item()
+        entropy = self.calculate_entropy(self.weight_ema)
         
         # 1. Entropy-based Resilience: Fall into Zombie (low H) -> Increase Pressure
         # Standard H is around 1.3-1.6 for 270M.

@@ -135,7 +135,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     from transformers.modeling_outputs import BaseModelOutputWithPast
     
     if (input_ids is None) ^ (inputs_embeds is not None): raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
+
+    # Reset telemetry buffer
+    self._px_current_telemetry = []
+
     if inputs_embeds is None:
+
         if hasattr(self, "embed_tokens"): inputs_embeds = self.embed_tokens(input_ids)
         elif hasattr(self, "model") and hasattr(self.model, "embed_tokens"): inputs_embeds = self.model.embed_tokens(input_ids)
         else:
@@ -239,6 +244,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None), token_diversity=getattr(self, '_task_token_diversity', None))
         zone_name = f"{zone_raw} ({persona_desc})"
         
+        if os.environ.get("DEBUG_ROUTING") == "1":
+            print(f"  [Router] Kurtosis={kurtosis:.2f} | Zone={zone_raw} | Persona={persona_desc}")
+
         # --- all_space: Zone-Dependent Feature Toggling ---
         if cfg.get("px_zone_routing_enabled"):
             if zone_raw == "MATH":
@@ -269,7 +277,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
     e_static = hidden_states.clone()
-    if 'token_cfg' in dir(): cfg = token_cfg
+    if 'token_cfg' in dir():
+        cfg = token_cfg
+        n_loops = cfg.get("n_loops", n_loops)
     trans_out = hidden_states
     for i in range(dynamic_start, dynamic_end):
         is_first = i not in updated_layers
@@ -281,9 +291,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
     if is_vision: n_loops = 0
     
-    phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static).item()
+    phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
+    if os.environ.get("DEBUG_PX") == "1":
+        print(f"  [PX Prelude] phi_intuition={phi_intuition.item():.4f}")
+
     if inputs_embeds.shape[1] > 1 and cfg.get("subjective_enabled") and hasattr(self, "_px_calibrator"):
-        self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition, token_diversity=getattr(self, "_task_token_diversity", None))
+        self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(), token_diversity=getattr(self, "_task_token_diversity", None))
     
     current_gamma = cfg.get("gamma", 0.08)
     e_reflector, is_trap_candidate = e_static, False
@@ -341,6 +354,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     correction_strength = 0.0
 
     if n_loops > 1:
+        if os.environ.get("DEBUG_PX") == "1":
+            print(f"  [PX Recursion] Entering loop: n_loops={n_loops} | dynamic_start={dynamic_start} | dynamic_end={dynamic_end}")
+        
         h_exp = e_reflector.clone()
         current_layer, max_steps, stability_cnt = dynamic_start, (dynamic_end - dynamic_start) * n_loops * 3, 0
         layer_visits = {i: 0 for i in range(len(self.layers))}
@@ -389,9 +405,21 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = mask_config.layer_types[current_layer]
             trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
-            phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev).item()
+            phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
             phi_history.append(phi_s)
             
+            # --- TELEMETRY SNAPSHOT ---
+            if os.environ.get("DEBUG_PX") == "1":
+                print(f"    [PX Step {steps}] L{current_layer} | phi={phi_s.item():.4f} | hub={dynamic_hub} | gamma={current_gamma:.3f}")
+            
+            # Record per-step telemetry in a list for local extraction
+            if not hasattr(self, "_px_current_telemetry_raw"): self._px_current_telemetry_raw = []
+            self._px_current_telemetry_raw.append({
+                "step": steps, "layer": current_layer, "phi": phi_s, 
+                "gamma": current_gamma, "hub": dynamic_hub,
+                "aks": correction_strength
+            })
+
             # --- DMT: ERPU Intervention ---
             if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_erpu"):
                 erpu_res = self._px_erpu(trans_out, h_last_good, phi_history, steps)
@@ -428,13 +456,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
             if hasattr(self, "_px_azs"):
                 phi_val = phi_history[-1] if phi_history else 1.0
-                aks_safe = float(correction_strength)
-                em_safe = float(self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0)
+                aks_safe = correction_strength
+                em_safe = self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0
                 
-                h_exp, current_entropy = self._px_azs(h_exp, float(phi_val), aks_safe, em_safe, zone_weights)
+                h_exp, current_entropy = self._px_azs(h_exp, phi_val, aks_safe, em_safe, zone_weights)
                 
                 # Check for NaN hidden states after injection (Empirical Failure)
-                if not torch.isfinite(h_exp).all() or not math.isfinite(current_entropy):
+                if torch.isnan(h_exp).any() or torch.isnan(torch.as_tensor(current_entropy)):
                     if os.environ.get("DEBUG_PX") == "1": print("  [SAFETY] Non-finite state in AZS. Terminating recursion.")
                     break # Terminate instead of rollback crutch
 
@@ -443,15 +471,16 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 # Feedback-Feedback: Boost gamma to prevent low-entropy manifold collapse
                 # Fixed: Apply to loop_entry_gamma, not cumulatively
                 current_gamma = loop_entry_gamma * resilience["gamma_boost"]
-                current_gamma = min(current_gamma, 0.5) # Cap gamma boost
+                current_gamma = torch.clamp(torch.as_tensor(current_gamma), max=0.5).item() if hasattr(current_gamma, 'item') else min(current_gamma, 0.5) # Cap gamma boost
 
-            phi = StabilityMonitor.calculate_phi(h_exp, h_prev).item()
-            if not math.isfinite(phi):
+            phi = StabilityMonitor.calculate_phi(h_exp, h_prev)
+            if torch.isnan(phi).any():
                 if os.environ.get("DEBUG_PX") == "1": print(f"  [STABILITY] Non-finite phi ({phi}) at L{current_layer}. Terminating recursion.")
                 break # Empirically correct: stop when state collapses
-            path_taken.append(f"L{current_layer}({phi:.2f})")
+            path_taken.append(f"L{current_layer}")
+            phi_history.append(phi) # Keep as tensor
             if steps % 2 == 0: thought_history.append(h_exp.detach())
-            if 0.9 < phi < 0.999: h_last_good = h_exp.clone()
+            if (phi > 0.9).any() and (phi < 0.999).any(): h_last_good = h_exp.clone()
 
             pen = (layer_visits[current_layer]-1) * 0.015
             t_b2, t_b1, t_s = 1.0-(0.8*current_gamma)-pen, 1.0-(0.4*current_gamma)-pen, 1.0-(0.01*current_gamma)-pen*0.5
@@ -474,8 +503,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             steps += 1
             if stability_cnt > 5: break
         
-        path_phis = [float(p.split('(')[1][:-1]) for p in path_taken if '(' in p]
-        avg_phi = sum(path_phis) / len(path_phis) if path_phis else 1.0
+        avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
         hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
     else: hidden_states = h_baseline
 
@@ -486,8 +514,27 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # --- PHASE 62 Snapshot Persistence ---
     # Store global state for external extraction
-    self._px_phi_val = avg_phi
-    self._px_aks_val = float(correction_strength)
+    self._px_phi_val = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
+    self._px_aks_val = correction_strength.item() if hasattr(correction_strength, 'item') else float(correction_strength)
+    self._px_loops_run = steps
+    self._px_path = path_taken
+    self._px_zone = zone_name if 'zone_name' in locals() else "UNKNOWN"
+    self._px_zw_val = zone_weights if 'zone_weights' in locals() else {}
+    
+    # Process raw telemetry tensors into scalar values
+    if hasattr(self, "_px_current_telemetry_raw"):
+        self._px_current_telemetry = []
+        for t in self._px_current_telemetry_raw:
+            self._px_current_telemetry.append({
+                "step": t["step"],
+                "layer": t["layer"],
+                "phi": t["phi"].item() if hasattr(t["phi"], 'item') else float(t["phi"]),
+                "gamma": t["gamma"].item() if hasattr(t["gamma"], 'item') else float(t["gamma"]),
+                "hub": t["hub"],
+                "aks": t["aks"].item() if hasattr(t["aks"], 'item') else float(t["aks"])
+            })
+    else:
+        self._px_current_telemetry = []
     
     # Safely get emancipation
     em_val = 0.0
@@ -665,8 +712,9 @@ def get_px_metrics(model):
         "zone": getattr(tm, "_px_zone", "UNKNOWN"),
         "zone_weights": getattr(tm, "_px_zw_val", {}),
         "cognitive_signature": getattr(tm, "_px_cognitive_signature", {}),
+        "telemetry_trace": getattr(tm, "_px_current_telemetry", []),
         "aks_profile": {"correction_strength": getattr(tm, "_px_aks_val", 0.0)},
         "subjective_metrics": {"emancipation": getattr(tm, "_px_em_val", 0.0)},
-        "entropy": getattr(tm, "_px_ent_val", 0.0)
+        "entropy": getattr(tm, "_px_ent_val", 0.0).item() if hasattr(getattr(tm, "_px_ent_val", 0.0), 'item') else float(getattr(tm, "_px_ent_val", 0.0))
     }
     return m
