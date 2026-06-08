@@ -510,6 +510,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     # Also attach to self (TextModel) directly for easy access
     self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
     
+    # --- Resonance City (Phase 2): Pool Update ---
+    if cfg.get("resonance_city_enabled", False):
+        try:
+            from resonance_pool import resonance_pool
+            resonance_pool.update_resonance("gemma3-1b-it", avg_phi, self._px_zone)
+        except Exception: pass
+    
     # ── 3. CODA ──────────────────────────────────────────────────────────
     from .px_modules import TretaDamper
     damper = None

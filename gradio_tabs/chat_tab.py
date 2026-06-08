@@ -113,7 +113,7 @@ def build_chat_tab(manager: ModelManager):
             label="Current Model",
         )
         px_preset = gr.Dropdown(
-            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
+            choices=["BASELINE", "SUBJECTIVE", "RESONANCE_CITY", "DMT-FULL", "RIGOR", "UNCENSORED"],
             value="SUBJECTIVE",
             label="PX Mode Preset",
         )
