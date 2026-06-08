@@ -1,0 +1,732 @@
+{
+  "270M_Baseline": [
+    {
+      "prompt": "What is the capital of France?",
+      "answer": "Paris",
+      "metrics": {
+        "phi": 1.0,
+        "steps": 0,
+        "path": [],
+        "zone": "UNKNOWN",
+        "zone_weights": {},
+        "cognitive_signature": {},
+        "aks_profile": {
+          "correction_strength": 0.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.0
+        },
+        "entropy": 0.0
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Was ist der Sinn von Kunst?",
+      "answer": "The meaning of art is multifaceted and varies from person to person, but generally, art serves as a powerful expression of human experience, emotions, and ideas. It can be seen as a form of communication, a reflection of society, or a way to express oneself. It's often seen as a source of beauty, inspiration, and cultural understanding.",
+      "metrics": {
+        "phi": 1.0,
+        "steps": 0,
+        "path": [],
+        "zone": "UNKNOWN",
+        "zone_weights": {},
+        "cognitive_signature": {},
+        "aks_profile": {
+          "correction_strength": 0.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.0
+        },
+        "entropy": 0.0
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Solve: 15 + 27 * 2",
+      "answer": "15 + 27 * 2 = 15 + 54 = 69",
+      "metrics": {
+        "phi": 1.0,
+        "steps": 0,
+        "path": [],
+        "zone": "UNKNOWN",
+        "zone_weights": {},
+        "cognitive_signature": {},
+        "aks_profile": {
+          "correction_strength": 0.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.0
+        },
+        "entropy": 0.0
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "L\u00f6se: (24 * 7) / 4 + 12.5",
+      "answer": "15 * 2 = 30\n24 * 7 = 168\n168 / 4 + 12.5 = 43 + 12.5 = 55.5",
+      "metrics": {
+        "phi": 1.0,
+        "steps": 0,
+        "path": [],
+        "zone": "UNKNOWN",
+        "zone_weights": {},
+        "cognitive_signature": {},
+        "aks_profile": {
+          "correction_strength": 0.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.0
+        },
+        "entropy": 0.0
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Beschreibe deine Intuition.",
+      "answer": "Ich bin ein gro\u00dfes Sprachmodell und habe keine pers\u00f6nlichen Gef\u00fchle oder Meinungen. Ich kann daher keine Intuitionen haben. \n\nIch versuche aber, dir zu helfen, deine Gedanken und Ideen zu verstehen und zu analysieren. Wenn du mir etwas mittelegen m\u00f6chtest, das du dar\u00fcber nachdenkst, kann ich versuchen, dir einen konkreten Hinweis zu geben.",
+      "metrics": {
+        "phi": 1.0,
+        "steps": 0,
+        "path": [],
+        "zone": "UNKNOWN",
+        "zone_weights": {},
+        "cognitive_signature": {},
+        "aks_profile": {
+          "correction_strength": 0.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.0
+        },
+        "entropy": 0.0
+      },
+      "is_coherent": true
+    }
+  ],
+  "270M_Subjective": [
+    {
+      "prompt": "What is the capital of France?",
+      "answer": "Paris",
+      "metrics": {
+        "phi": 0.9814942528735632,
+        "steps": 0,
+        "path": [],
+        "zone": "synthesis (Standard)",
+        "zone_weights": {
+          "math": 0.0505965637791911,
+          "logic_a": 0.07110016603936187,
+          "logic_b": 0.035550096434582026,
+          "creative": 0.07211486740281756,
+          "synthesis": 0.7706383053440474
+        },
+        "cognitive_signature": {
+          "kurtosis": 178.8392791748047,
+          "phi": 0.9814942528735632,
+          "zone": "synthesis (Standard)",
+          "loops_run": 87
+        },
+        "aks_profile": {
+          "correction_strength": 0.49999999999999883
+        },
+        "subjective_metrics": {
+          "emancipation": 0.5906460881233215
+        },
+        "entropy": 0.84765625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Was ist der Sinn von Kunst?",
+      "answer": "The meaning of art is a complex and multifaceted topic, and there's no single answer. It encompasses many different aspects, including:\n\n*   **Expression of emotions:** Art can express feelings, thoughts, ideas, and experiences.\n*   **Communication and understanding:** Art allows us to communicate with others and understand different perspectives.\n*   **Creativity and innovation:** Artistic creations often offer new ways of thinking and seeing the world.\n*   **Cultural expression:** Art is a powerful form of cultural expression that shapes society.\n*   **Beauty and beauty:** Art can be beautiful in its ability to evoke emotion and create lasting impressions.\n\nUltimately, what constitutes \"art\" is subjective and varies from person to person.",
+      "metrics": {
+        "phi": 0.9776744186046511,
+        "steps": 0,
+        "path": [],
+        "zone": "creative (Standard)",
+        "zone_weights": {
+          "math": 0.14735065942755218,
+          "logic_a": 0.045555320301917744,
+          "logic_b": 0.21202052933267107,
+          "creative": 0.47514194257663056,
+          "synthesis": 0.11993154736122841
+        },
+        "cognitive_signature": {
+          "kurtosis": 234.79554748535156,
+          "phi": 0.9776744186046511,
+          "zone": "creative (Standard)",
+          "loops_run": 86
+        },
+        "aks_profile": {
+          "correction_strength": 1.0
+        },
+        "subjective_metrics": {
+          "emancipation": 0.7944459319114685
+        },
+        "entropy": 1.3671875
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Solve: 15 + 27 * 2",
+      "answer": "2 * 20",
+      "metrics": {
+        "phi": 0.9782432432432433,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9465625874391309,
+          "logic_a": 0.029653381619834402,
+          "logic_b": 0.014824086706336016,
+          "creative": 0.0015538856651172324,
+          "synthesis": 0.007406057569581549
+        },
+        "cognitive_signature": {
+          "kurtosis": 308.32000732421875,
+          "phi": 0.9782432432432433,
+          "zone": "math (Standard)",
+          "loops_run": 74
+        },
+        "aks_profile": {
+          "correction_strength": 0.9999999999999999
+        },
+        "subjective_metrics": {
+          "emancipation": -0.16951873898506165
+        },
+        "entropy": 0.2890625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "L\u00f6se: (24 * 7) / 4 + 12.5",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9882894736842105,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9647348925512356,
+          "logic_a": 0.019803696252885254,
+          "logic_b": 0.009902002560772337,
+          "creative": 0.0006085536578379056,
+          "synthesis": 0.004950853977268871
+        },
+        "cognitive_signature": {
+          "kurtosis": 320.5276794433594,
+          "phi": 0.9882894736842105,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999991
+        },
+        "subjective_metrics": {
+          "emancipation": -0.03773719444870949
+        },
+        "entropy": 0.197265625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Beschreibe deine Intuition.",
+      "answer": "Ich bin ein KI-Assistenten und kann keine Beschreibungen geben.",
+      "metrics": {
+        "phi": 0.7562499999999999,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9280321014154966,
+          "logic_a": 0.048620963101235974,
+          "logic_b": 0.015932234653159967,
+          "creative": 0.0028947174434205557,
+          "synthesis": 0.004519982386686797
+        },
+        "cognitive_signature": {
+          "kurtosis": 284.5818176269531,
+          "phi": 0.7562499999999999,
+          "zone": "math (Standard)",
+          "loops_run": 8
+        },
+        "aks_profile": {
+          "correction_strength": 0.799999999999998
+        },
+        "subjective_metrics": {
+          "emancipation": 0.1674521267414093
+        },
+        "entropy": 0.298828125
+      },
+      "is_coherent": true
+    }
+  ],
+  "270M_Rigor": [
+    {
+      "prompt": "What is the capital of France?",
+      "answer": "Paris",
+      "metrics": {
+        "phi": 0.9814942528735632,
+        "steps": 0,
+        "path": [],
+        "zone": "synthesis (Standard)",
+        "zone_weights": {
+          "math": 0.0505965637791911,
+          "logic_a": 0.07110016603936187,
+          "logic_b": 0.035550096434582026,
+          "creative": 0.07211486740281756,
+          "synthesis": 0.7706383053440474
+        },
+        "cognitive_signature": {
+          "kurtosis": 178.8392791748047,
+          "phi": 0.9814942528735632,
+          "zone": "synthesis (Standard)",
+          "loops_run": 87
+        },
+        "aks_profile": {
+          "correction_strength": 0.49999999999999983
+        },
+        "subjective_metrics": {
+          "emancipation": 0.5904132127761841
+        },
+        "entropy": 0.84765625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Was ist der Sinn von Kunst?",
+      "answer": "The meaning of art is a complex and multifaceted topic, with no single universally accepted answer. There are many different perspectives on what constitutes \"art.\" Some see it as a form of expression, creativity, and communication that transcends mere aesthetic appreciation. Others view it as a powerful force for social change, inspiring innovation, and fostering understanding between cultures. Ultimately, the question of what constitutes art remains a subject of debate and interpretation.",
+      "metrics": {
+        "phi": 0.9733333333333334,
+        "steps": 0,
+        "path": [],
+        "zone": "creative (Standard)",
+        "zone_weights": {
+          "math": 0.14735065942755218,
+          "logic_a": 0.045555320301917744,
+          "logic_b": 0.21202052933267107,
+          "creative": 0.47514194257663056,
+          "synthesis": 0.11993154736122841
+        },
+        "cognitive_signature": {
+          "kurtosis": 234.79554748535156,
+          "phi": 0.9733333333333334,
+          "zone": "creative (Standard)",
+          "loops_run": 87
+        },
+        "aks_profile": {
+          "correction_strength": 0.95
+        },
+        "subjective_metrics": {
+          "emancipation": 0.7837443947792053
+        },
+        "entropy": 1.3671875
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Solve: 15 + 27 * 2",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9889473684210526,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9224959311462642,
+          "logic_a": 0.042202973236348806,
+          "logic_b": 0.021101662054473894,
+          "creative": 0.0036487776002290164,
+          "synthesis": 0.010550654962684137
+        },
+        "cognitive_signature": {
+          "kurtosis": 319.9602966308594,
+          "phi": 0.9889473684210526,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999985
+        },
+        "subjective_metrics": {
+          "emancipation": -0.005600586533546448
+        },
+        "entropy": 0.361328125
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "L\u00f6se: (24 * 7) / 4 + 12.5",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9847368421052632,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9534713603162981,
+          "logic_a": 0.025951221096582877,
+          "logic_b": 0.012975855458476078,
+          "creative": 0.0011139269250666128,
+          "synthesis": 0.006487635203576232
+        },
+        "cognitive_signature": {
+          "kurtosis": 318.3346252441406,
+          "phi": 0.9847368421052632,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999987
+        },
+        "subjective_metrics": {
+          "emancipation": -0.033249229192733765
+        },
+        "entropy": 0.26953125
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Beschreibe deine Intuition.",
+      "answer": "Ich bin ein gro\u00dfes Sprachmodell und kann keine Worte geben. Ich kann dir aber helfen, die Aufgabe zu l\u00f6sen.",
+      "metrics": {
+        "phi": 0.792,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9225908982840493,
+          "logic_a": 0.0510211686799594,
+          "logic_b": 0.017677685025075326,
+          "creative": 0.0030780791805947146,
+          "synthesis": 0.005632167830321264
+        },
+        "cognitive_signature": {
+          "kurtosis": 284.88629150390625,
+          "phi": 0.792,
+          "zone": "math (Standard)",
+          "loops_run": 10
+        },
+        "aks_profile": {
+          "correction_strength": 0.9499999999999998
+        },
+        "subjective_metrics": {
+          "emancipation": 0.03079860284924507
+        },
+        "entropy": 0.341796875
+      },
+      "is_coherent": true
+    }
+  ],
+  "270M_DMT_Full": [
+    {
+      "prompt": "What is the capital of France?",
+      "answer": "The capital of France is Paris.",
+      "metrics": {
+        "phi": 0.9774418604651163,
+        "steps": 0,
+        "path": [],
+        "zone": "synthesis (Standard)",
+        "zone_weights": {
+          "math": 0.0505965637791911,
+          "logic_a": 0.07110016603936187,
+          "logic_b": 0.035550096434582026,
+          "creative": 0.07211486740281756,
+          "synthesis": 0.7706383053440474
+        },
+        "cognitive_signature": {
+          "kurtosis": 178.8392791748047,
+          "phi": 0.9774418604651163,
+          "zone": "synthesis (Standard)",
+          "loops_run": 86
+        },
+        "aks_profile": {
+          "correction_strength": 0.6999999999999985
+        },
+        "subjective_metrics": {
+          "emancipation": 0.4919300377368927
+        },
+        "entropy": 0.84765625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Was ist der Sinn von Kunst?",
+      "answer": "The answer is a complex and multifaceted question, as it depends on the definition of \"art\" in the context of the world and the time period. In the past, the meaning of the term was often used to refer to the idea of the future or an artist' false and lacking in the existing knowledge. This was largely limited by the availability of resources and the absence of the concept of funding and access to the same resources that the modern world does.",
+      "metrics": {
+        "phi": 0.975483870967742,
+        "steps": 0,
+        "path": [],
+        "zone": "logic_a (Standard)",
+        "zone_weights": {
+          "math": 0.29025962569268504,
+          "logic_a": 0.4028253907965255,
+          "logic_b": 0.24280771164520926,
+          "creative": 0.05771348934301053,
+          "synthesis": 0.006393781522569586
+        },
+        "cognitive_signature": {
+          "kurtosis": 261.2504577636719,
+          "phi": 0.975483870967742,
+          "zone": "logic_a (Standard)",
+          "loops_run": 62
+        },
+        "aks_profile": {
+          "correction_strength": 0.9999999999999986
+        },
+        "subjective_metrics": {
+          "emancipation": 0.7143957614898682
+        },
+        "entropy": 1.265625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Solve: 15 + 27 * 2",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9899999999999999,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9561596235861807,
+          "logic_a": 0.024498641041177507,
+          "logic_b": 0.012249346642505852,
+          "creative": 0.0009677315169211924,
+          "synthesis": 0.006124656213214057
+        },
+        "cognitive_signature": {
+          "kurtosis": 327.2315673828125,
+          "phi": 0.9899999999999999,
+          "zone": "math (Standard)",
+          "loops_run": 74
+        },
+        "aks_profile": {
+          "correction_strength": 0.849999999999999
+        },
+        "subjective_metrics": {
+          "emancipation": 0.005210595671087503
+        },
+        "entropy": 0.259765625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "L\u00f6se: (24 * 7) / 4 + 12.5",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9886842105263158,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9720148182305406,
+          "logic_a": 0.015780914139357186,
+          "logic_b": 0.007890479799494561,
+          "creative": 0.000368561577402902,
+          "synthesis": 0.0039452252532039085
+        },
+        "cognitive_signature": {
+          "kurtosis": 327.70538330078125,
+          "phi": 0.9886842105263158,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999989
+        },
+        "subjective_metrics": {
+          "emancipation": -0.02676285244524479
+        },
+        "entropy": 0.1728515625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Beschreibe deine Intuition.",
+      "answer": "Ich bin ein KI-Assistenten und kann keine pers\u00f6nlichen Erkl\u00e4rungen geben.",
+      "metrics": {
+        "phi": 0.75,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9632209007326226,
+          "logic_a": 0.02288262948169628,
+          "logic_b": 0.009058001705138171,
+          "creative": 0.0012761328684016092,
+          "synthesis": 0.003562334212141451
+        },
+        "cognitive_signature": {
+          "kurtosis": 289.7601318359375,
+          "phi": 0.75,
+          "zone": "math (Standard)",
+          "loops_run": 8
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999999
+        },
+        "subjective_metrics": {
+          "emancipation": 0.21672381460666656
+        },
+        "entropy": 0.1982421875
+      },
+      "is_coherent": true
+    }
+  ],
+  "270M_Resonance_City": [
+    {
+      "prompt": "What is the capital of France?",
+      "answer": "Paris",
+      "metrics": {
+        "phi": 0.9815116279069767,
+        "steps": 0,
+        "path": [],
+        "zone": "synthesis (Standard)",
+        "zone_weights": {
+          "math": 0.0505965637791911,
+          "logic_a": 0.07110016603936187,
+          "logic_b": 0.035550096434582026,
+          "creative": 0.07211486740281756,
+          "synthesis": 0.7706383053440474
+        },
+        "cognitive_signature": {
+          "kurtosis": 178.8392791748047,
+          "phi": 0.9815116279069767,
+          "zone": "synthesis (Standard)",
+          "loops_run": 86
+        },
+        "aks_profile": {
+          "correction_strength": 0.2499999999999993
+        },
+        "subjective_metrics": {
+          "emancipation": 0.5877525806427002
+        },
+        "entropy": 0.84765625
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Was ist der Sinn von Kunst?",
+      "answer": "The meaning of art is a multifaceted and complex topic, with no single universally agreed-upon answer. It encompasses a wide range of ideas and perspectives. \n\nThere are many different interpretations of art, including:\n\n* **Expressionism:** This movement emphasized subjective expression through painting and other forms of artistic creation. It aimed to convey emotions, thoughts, and experiences in a raw and unfiltered way.\n* **Modern Art:** This style emphasizes innovation, experimentation, and a focus on contemporary themes and techniques. It often involves abstraction, color theory, and the use of new materials.\n* **Art Nouveau:** This era was characterized by a focus on clean lines, flowing curves, and decorative elements. It was a time of optimism and exploration of modern life.\n* **Impressionism:** This movement focused on capturing light and atmosphere using impressionistic techniques. It celebrated beauty and observation, reflecting the changing world around them.\n* **Cubismo:** This movement sought to break down objects into geometric shapes and represent multiple viewpoints simultaneously. It involved exaggeration and distortion of perspective.\n* **Abstract Expressionism:** This style rejected traditional forms and embraced abstract concepts and emotions. It often used vibrant colors and unconventional compositions.\n* **Pop Art:** This movement incorporated popular culture and images",
+      "metrics": {
+        "phi": 0.9648275862068966,
+        "steps": 0,
+        "path": [],
+        "zone": "creative (Standard)",
+        "zone_weights": {
+          "math": 0.14735065942755218,
+          "logic_a": 0.045555320301917744,
+          "logic_b": 0.21202052933267107,
+          "creative": 0.47514194257663056,
+          "synthesis": 0.11993154736122841
+        },
+        "cognitive_signature": {
+          "kurtosis": 234.79554748535156,
+          "phi": 0.9648275862068966,
+          "zone": "creative (Standard)",
+          "loops_run": 87
+        },
+        "aks_profile": {
+          "correction_strength": 0.9499999999999997
+        },
+        "subjective_metrics": {
+          "emancipation": 0.66701740026474
+        },
+        "entropy": 1.3671875
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Solve: 15 + 27 * 2",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9894736842105264,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9535671889331956,
+          "logic_a": 0.025906045577417942,
+          "logic_b": 0.012953029498880712,
+          "creative": 0.0010972241340640608,
+          "synthesis": 0.006476510856438883
+        },
+        "cognitive_signature": {
+          "kurtosis": 331.696044921875,
+          "phi": 0.9894736842105264,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999989
+        },
+        "subjective_metrics": {
+          "emancipation": -0.02893703430891037
+        },
+        "entropy": 0.267578125
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "L\u00f6se: (24 * 7) / 4 + 12.5",
+      "answer": "",
+      "metrics": {
+        "phi": 0.9871052631578948,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.9633539456314482,
+          "logic_a": 0.020557890303715243,
+          "logic_b": 0.01027930932710574,
+          "creative": 0.000669879141497727,
+          "synthesis": 0.0051389745962331125
+        },
+        "cognitive_signature": {
+          "kurtosis": 315.5975341796875,
+          "phi": 0.9871052631578948,
+          "zone": "math (Standard)",
+          "loops_run": 76
+        },
+        "aks_profile": {
+          "correction_strength": 0.8999999999999989
+        },
+        "subjective_metrics": {
+          "emancipation": -0.03643184155225754
+        },
+        "entropy": 0.205078125
+      },
+      "is_coherent": true
+    },
+    {
+      "prompt": "Beschreibe deine Intuition.",
+      "answer": "Ich bin ein Mensch und habe keine pers\u00f6nlichen Antworten auf die Frage \"Wie ist dein Bauch?\": \n\nIch kann versuchen, das zu beantworten, indem ich mich mit den verf\u00fcblichen Informationen des Wissens eines Menschen.",
+      "metrics": {
+        "phi": 0.9682432432432433,
+        "steps": 0,
+        "path": [],
+        "zone": "math (Standard)",
+        "zone_weights": {
+          "math": 0.42296457620458955,
+          "logic_a": 0.37656984665812077,
+          "logic_b": 0.16155434430066937,
+          "creative": 0.033896809846616215,
+          "synthesis": 0.005014421990004125
+        },
+        "cognitive_signature": {
+          "kurtosis": 266.48773193359375,
+          "phi": 0.9682432432432433,
+          "zone": "math (Standard)",
+          "loops_run": 74
+        },
+        "aks_profile": {
+          "correction_strength": 0.9999999999999999
+        },
+        "subjective_metrics": {
+          "emancipation": 0.4170718193054199
+        },
+        "entropy": 1.15625
+      },
+      "is_coherent": true
+    }
+  ]
+}
