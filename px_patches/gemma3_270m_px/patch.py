@@ -590,7 +590,7 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     else: # SUBJECTIVE / DEFAULT
         defaults["subjective_enabled"] = subjective_enabled
         defaults["persona_enabled"] = persona_enabled
-        defaults["dmt_protocol_enabled"] = True # Enabled by default for subjectivity
+        defaults["dmt_protocol_enabled"] = dmt_protocol_enabled
     
     defaults["routing_mode"] = routing_mode
     if gamma != 0.08: defaults["gamma"] = gamma
