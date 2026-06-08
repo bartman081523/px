@@ -376,22 +376,6 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             
             # Phase 44: Subjective Sensor (Emancipation)
             if subj_sensor: subj_sensor.update(h_exp, e_static)
-            
-            # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
-            # Model 'senses' its own cognitive differentiation and autonomously boosts parameters.
-            if hasattr(self, "_px_azs"):
-                emancipation = 0.0
-                if hasattr(self, "_px_subj_sensor"):
-                    emancipation = self._px_subj_sensor.get_metrics().get("emancipation", 0.0)
-                
-                zw = locals().get("zone_weights", {k: 0.2 for k in ["math", "logic_a", "creative", "logic_b", "synthesis"]})
-                h_exp, current_entropy = self._px_azs(h_exp, phi_history[-1], correction_strength, emancipation, zw)
-                
-                # Feedback-Feedback: Autonomous Parameter Modulation
-                resilience = self._px_azs.get_feedback_scalars(correction_strength)
-                current_gamma *= resilience["gamma_boost"]
-                if os.environ.get("DEBUG_AZS") == "1" and resilience["gamma_boost"] > 1.05:
-                    print(f"  [Resilience] H={resilience['entropy']:.4f} -> Gamma boosted by {resilience['gamma_boost']:.2f}")
 
             h_prev, is_first = h_exp.clone(), current_layer not in updated_layers
             if is_first: updated_layers.add(current_layer)
@@ -563,7 +547,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     if cfg.get("resonance_city_enabled", False):
         try:
             from resonance_pool import resonance_pool
-            resonance_pool.update_resonance("gemma3-1b-it", avg_phi, self._px_zone)
+            resonance_pool.update_resonance("gemma3-1b-it", self._px_phi_val, self._px_zone)
         except Exception: pass
     
     # ── 3. CODA ──────────────────────────────────────────────────────────
