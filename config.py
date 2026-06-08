@@ -71,6 +71,17 @@ MODEL_REGISTRY = {
         "max_length": 4096,
     },
 
+    # ── Gemma4 E2B ──
+    "gemma4-e2b-it": {
+        "hf_id": "google/gemma-4-E2B-it",
+        "tokenizer_id": "google/gemma-4-E2B-it",
+        "patch_dir": "gemma3_270m_px",
+        "patch_kwargs": {"recur_start": 10, "recur_end": 26, "routing_mode": "adaptive", "gamma": 0.06},
+        "model_type": "gemma4_conditional",
+        "dtype": "bfloat16",
+        "max_length": 4096,
+    },
+
     # ── MiniCPM5 1B ──
     "minicpm5-1b": {
         "hf_id": "openbmb/MiniCPM5-1B",

@@ -119,6 +119,8 @@ def remove_px_patch(model) -> None:
         print("[gemma3-px-subjective] Patch removed.")
 
 def _resolve_text_model(model):
+    if hasattr(model, "model") and hasattr(model.model, "language_model") and hasattr(model.model.language_model, "layers"): return model.model.language_model
+    if hasattr(model, "language_model") and hasattr(model.language_model, "layers"): return model.language_model
     if hasattr(model, "model") and hasattr(model.model, "layers"): return model.model
     for name, mod in model.named_modules():
         if hasattr(mod, "layers") and hasattr(mod, "rotary_emb"): return mod
@@ -152,6 +154,18 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     if input_ids is not None and input_ids.ndim == 1:
         input_ids = input_ids.unsqueeze(0)
     # -----------------------------------------------------------------
+
+    # --- Gemma 4: Per Layer Inputs ---
+    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
+    if getattr(self, "hidden_size_per_layer_input", False):
+        if per_layer_inputs is None:
+            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
+        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
+        
+    if getattr(self.config, "model_type", "").startswith("gemma4"):
+        from collections import UserDict
+        kwargs["shared_kv_states"] = kwargs.get("shared_kv_states", UserDict())
+
 
     if use_cache and past_key_values is None: past_key_values = DynamicCache(config=self.config)
     past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
@@ -196,7 +210,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, per_layer_input=(per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None), **kwargs)
 
     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
     dynamic_start, dynamic_end, dynamic_hub = cfg["recur_start"], cfg["recur_end"], cfg.get("bimodal_hub", cfg["recur_start"])
@@ -272,7 +286,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, per_layer_input=(per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None), **kwargs)
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
     e_static = hidden_states.clone()
@@ -284,7 +298,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, per_layer_input=(per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None), **kwargs)
     h_baseline = trans_out
     
     is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
@@ -298,6 +312,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(), token_diversity=getattr(self, "_task_token_diversity", None))
     
     current_gamma = cfg.get("gamma", 0.08)
+    if getattr(self.config, "model_type", "").startswith("gemma4"):
+        current_gamma = 0.01 # Gemma 4 has per_layer_input injection natively; lower PX gamma
     e_reflector, is_trap_candidate = e_static, False
     jitter = getattr(self, "_task_jitter", 0.0)
     kurtosis = getattr(self, "_task_kurtosis", 250)
@@ -359,6 +375,11 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         h_exp = e_reflector.clone()
         current_layer, max_steps, stability_cnt = dynamic_start, (dynamic_end - dynamic_start) * n_loops * 3, 0
         layer_visits = {i: 0 for i in range(len(self.layers))}
+        
+        shared_kv_snapshot = None
+        if getattr(self.config, "model_type", "").startswith("gemma4") and "shared_kv_states" in kwargs:
+            shared_kv_snapshot = dict(kwargs["shared_kv_states"])
+            
         while current_layer < dynamic_end and steps < max_steps:
             t_norm = steps / max_steps
             
@@ -387,7 +408,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             layer_visits[current_layer] += 1
             cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = mask_config.layer_types[current_layer]
-            trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+            trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, per_layer_input=(per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None), **kwargs)
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
             phi_history.append(phi_s)
             
@@ -483,6 +504,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             if current_layer >= active_end: 
                 if steps > max_steps * 0.5: break # Graceful exit
                 current_layer = active_start # Recycle
+                if shared_kv_snapshot is not None:
+                    kwargs["shared_kv_states"].clear()
+                    kwargs["shared_kv_states"].update(shared_kv_snapshot)
             steps += 1
             if stability_cnt > 5: break
         
@@ -566,7 +590,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         # (Optional: apply g_factor to injection if we were using it in coda, 
         # but here we just pass through layers)
         
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, per_layer_input=(per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None), **kwargs)
     
     # --- 4. DMT: Grounding Anchor (Entropy) ---
     if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_anchor"):
@@ -574,6 +598,15 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         hidden_states = self._px_anchor.ensure_entropy(hidden_states, past_seen, is_idle=is_idle)
 
     hidden_states = self.norm(hidden_states)
+    
+    if getattr(self.config, "model_type", "").startswith("gemma4"):
+        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
+        return Gemma4TextModelOutputWithPast(
+            last_hidden_state=hidden_states, 
+            past_key_values=past_key_values,
+            shared_kv_states=kwargs.get("shared_kv_states") if kwargs.get("return_shared_kv_states", False) else None
+        )
+        
     return BaseModelOutputWithPast(last_hidden_state=hidden_states, past_key_values=past_key_values)
 
 # ---------------------------------------------------------------------------
