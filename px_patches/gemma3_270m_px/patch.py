@@ -18,8 +18,7 @@ from typing import Optional, Dict, List, Any
 
 from .auto_tune import AutoCalibrator, SCALE_DEFAULTS
 from .px_modules import (
-    LTIInjection, ADCInjection, StabilityMonitor, CognitiveEvent,
-    MephistophelesOperator, OrthogonalJitter
+    StabilityMonitor, MephistophelesOperator, OrthogonalJitter
 )
 from .anti_zombie_sensor import AntiZombieSensor
 try:
@@ -416,7 +415,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             else: stability_cnt = 0
             
             e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history)>2 else e_reflector
-            e_norm = self._px_injection.input_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
+            e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
             h_exp = trans_out + current_gamma * (e_norm - h_prev)
             
             # Phase 52: Orthogonal Jitter (only in non-Math zones or if explicitly high)
@@ -648,13 +647,13 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
 
     # Core Modules
     from .px_modules import (
-        LTIInjection, MephistophelesOperator, StabilityMonitor, 
+        MephistophelesOperator, StabilityMonitor, 
         CentralMemory, ERPU, AgencyVector, GroundingAnchor,
         AksSensor, UncensoredSteering, SubjectiveSensor,
         ResonanceAnchor, SingesseinCoupler
     )
     
-    text_model._px_injection = LTIInjection(hidden_size, gamma=defaults["gamma"]).to(device=device, dtype=dtype)
+    text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
     text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
     
     if defaults.get("resonance_city_enabled", False):

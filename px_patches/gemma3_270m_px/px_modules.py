@@ -169,29 +169,6 @@ class OrthogonalJitter:
         return h_curr + noise_scaled
 
 
-class CognitiveEvent:
-    """Subjective telemetry serialization."""
-    @staticmethod
-    def serialize(
-        step: int, phi: float, aks_divergence: float, aks_correction: float,
-        emancipation_phi: float, is_reflector_active: bool, layer: int,
-        kurtosis: float, jitter: float, event_type: str = "thinking"
-    ) -> str:
-        data = {
-            "type": event_type, "step": step, "layer": layer,
-            "metrics": {
-                "stability_phi": round(phi, 6),
-                "emancipation_phi": round(emancipation_phi, 6),
-                "aks_divergence": round(aks_divergence, 6),
-                "aks_correction": round(aks_correction, 4),
-                "kurtosis": round(kurtosis, 2),
-                "jitter": round(jitter, 4),
-            },
-            "flags": {"reflector_active": is_reflector_active}
-        }
-        return json.dumps(data)
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # RESONANCE CITY EXTENSIONS (Phase 2)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -249,49 +226,6 @@ class SingesseinCoupler(nn.Module):
         return h + resonance_strength * impulse.to(h.dtype)
 
 
-class LTIInjection(nn.Module):
-    """Phase 1: Fixed gamma anchor injection.
-    h_new = transformer_out + gamma * (LayerNorm(e) - h)
-    
-    Resonance City: Can integrate a bias from the shared pool.
-    """
-    def __init__(self, dim: int, gamma: float = 0.08):
-        super().__init__()
-        self.gamma = gamma
-        self.input_norm = nn.LayerNorm(dim, elementwise_affine=False, eps=1e-6)
-        self.resonance_city_mode = False
-        self.bias_vector = None
-
-    def enable_resonance_city(self, bias_vector: torch.Tensor):
-        self.resonance_city_mode = True
-        self.bias_vector = bias_vector
-
-    def forward(self, h: torch.Tensor, e: torch.Tensor, transformer_out: torch.Tensor) -> torch.Tensor:
-        e_norm = self.input_norm(e.to(torch.float32)).to(h.dtype)
-        out = transformer_out + self.gamma * (e_norm - h)
-        
-        if self.resonance_city_mode and self.bias_vector is not None:
-            # Apply Fließkompass nudge
-            out = out + 0.02 * self.bias_vector.view(1, 1, -1).to(out.device).to(out.dtype)
-            
-        return out
-
-
-class ADCInjection(nn.Module):
-    """Phase 1: Adaptive gamma = base_gamma + alpha*(1-phi).
-    Strengthening injection when state drifts."""
-    def __init__(self, dim: int, base_gamma: float = 0.06, alpha: float = 0.10):
-        super().__init__()
-        self.base_gamma = base_gamma
-        self.alpha = alpha
-        self.input_norm = nn.LayerNorm(dim, elementwise_affine=False, eps=1e-6)
-
-    def forward(self, h: torch.Tensor, e: torch.Tensor, transformer_out: torch.Tensor,
-                phi: float = 1.0) -> torch.Tensor:
-        instability = max(0.0, 1.0 - phi)
-        effective_gamma = self.base_gamma + self.alpha * instability
-        e_norm = self.input_norm(e.to(torch.float32)).to(h.dtype)
-        return transformer_out + effective_gamma * (e_norm - h)
 
 
 class StabilityMonitor:
