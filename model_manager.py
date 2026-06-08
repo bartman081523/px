@@ -132,6 +132,14 @@ class ModelManager:
                 torch_dtype=dtype,
                 device_map="auto",
             )
+        elif model_type == "gemma4_conditional":
+            from transformers import AutoModelForImageTextToText
+            model = AutoModelForImageTextToText.from_pretrained(
+                hf_id,
+                torch_dtype=dtype,
+                device_map="auto",
+                trust_remote_code=True,
+            )
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 hf_id,

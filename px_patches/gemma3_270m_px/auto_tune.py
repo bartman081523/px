@@ -67,6 +67,7 @@ SCALE_DEFAULTS = {
     # hidden_size: (recur_start, recur_end, hub, n_loops, gamma)
     640:   dict(recur_start=5,  recur_end=12, hub=10, n_loops=8, gamma=0.08),
     1152:  dict(recur_start=10, recur_end=20, hub=18, n_loops=8, gamma=0.12),
+    1536:  dict(recur_start=10, recur_end=26, hub=18, n_loops=6, gamma=0.06),
     2560:  dict(recur_start=8,  recur_end=22, hub=16, n_loops=6, gamma=0.05),
     4096:  dict(recur_start=10, recur_end=30, hub=20, n_loops=6, gamma=0.04),
 }
@@ -159,6 +160,13 @@ class AutoCalibrator:
         elif hidden_size == 1152: # 1B
             self.k_mean = 1113.0
             self.k_std = 5.0
+            self.phi_mean = 0.95
+            self.phi_std = 0.02
+            self.token_diversity_mean = 0.82
+            self.token_diversity_std = 0.10
+        elif hidden_size == 1536: # 2B (Gemma-4 E2B)
+            self.k_mean = 1000.0
+            self.k_std = 10.0
             self.phi_mean = 0.95
             self.phi_std = 0.02
             self.token_diversity_mean = 0.82
