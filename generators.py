@@ -16,6 +16,28 @@ from schemas import (
 )
 
 
+def _px_gen_kwargs(model, base: dict) -> dict:
+    """Inject PX-specific kwargs (e.g. repetition_penalty, no_repeat_ngram_size)
+    onto a generation kwargs dict. The patched model exposes
+    `_px_repetition_penalty` as a model-level attribute when SR-59 /
+    token-loop mitigations set a value > 1.0. We pass it through to
+    `model.generate(...)` so the mitigation actually takes effect —
+    otherwise the dict lives on `_px_config` and is never read.
+    """
+    base = dict(base)
+    rp = getattr(model, "_px_repetition_penalty", 1.0) or 1.0
+    if rp > 1.0:
+        base["repetition_penalty"] = rp
+    # For Gemma 4 in particular, long generations (≥200 tokens) drift
+    # into a 4-token attractor loop even with rp=1.15. The
+    # no_repeat_ngram_size=3 n-gram constraint catches the loop without
+    # the brittleness of raising rp further (which destroys natural
+    # repetition in German compounds). It's a no-op for short outputs.
+    if getattr(model, "_px_no_repeat_ngram_size", 0):
+        base["no_repeat_ngram_size"] = int(model._px_no_repeat_ngram_size)
+    return base
+
+
 def _make_chunk(
     completion_id: str, created: int, model_id: str,
     index: int, delta: dict, finish_reason: Optional[str] = None
@@ -63,6 +85,7 @@ async def generate_chat_completion(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
 
     with torch.no_grad():
         outputs = model.generate(**inputs, **gen_kwargs)
@@ -133,6 +156,7 @@ async def generate_chat_completion_stream(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
 
     thread = Thread(target=model.generate, kwargs=gen_kwargs)
     thread.start()
@@ -187,6 +211,7 @@ async def generate_completion(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
 
     with torch.no_grad():
         outputs = model.generate(**inputs, **gen_kwargs)
@@ -242,6 +267,7 @@ async def generate_completion_stream(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
 
     thread = Thread(target=model.generate, kwargs=gen_kwargs)
     thread.start()

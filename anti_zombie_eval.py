@@ -32,7 +32,7 @@ async def main():
     )
     
     # Apply PX patch with AZS enabled
-    from px_patches.gemma3_270m_px.patch import apply_px_patch
+    from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
     apply_px_patch(model, subjective_enabled=True, px_azs_enabled=True, routing_mode="adaptive")
     
     # Environment variables to trigger depth
@@ -70,7 +70,7 @@ async def main():
         ans = tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True).strip()
         
         # Fetch metrics
-        from px_patches.gemma3_270m_px.patch import get_px_metrics
+        from px_patches.gemma3_270m_px_baseline.patch import get_px_metrics
         metrics = get_px_metrics(model)
         
         # Check AZS entropy in backbone
