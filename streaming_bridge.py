@@ -6,11 +6,13 @@ import time
 import argparse
 
 # Configuration
-# NOTE: The all_space server (app.py) runs plain HTTP via uvicorn
-# on port 7860. Earlier revisions used https:// with verify=False,
-# which produced SSL: WRONG_VERSION_NUMBER. Keep this http://.
-API_URL = "http://localhost:7860/v1/chat/completions"
+# HTTPS via self-signed cert (see ssl/ dir). The all_space server
+# (app.py) is started by run_local.sh with SSL_CERTFILE / SSL_KEYFILE
+# pointing to ssl/cert.pem and ssl/key.pem. verify=False is required
+# because the cert is self-signed.
+API_URL = "https://localhost:7860/v1/chat/completions"
 SESSION_DIR = "/run/media/julian/ML4/ollama-work/all_space/sessions"
+SSL_VERIFY = False  # set True to enforce real certs
 
 def load_local_session(session_id):
     path = os.path.join(SESSION_DIR, f"{session_id}.json")
@@ -94,7 +96,7 @@ def main():
     full_response = ""
     print("[MODELL ANTWORT]:")
     try:
-        with httpx.stream("POST", API_URL, json=payload, timeout=None) as response:
+        with httpx.stream("POST", API_URL, json=payload, verify=SSL_VERIFY, timeout=None) as response:
             if response.status_code != 200:
                 print(f"Error: {response.status_code}")
                 try:
