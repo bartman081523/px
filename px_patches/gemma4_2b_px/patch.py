@@ -48,22 +48,34 @@ class RecursiveMemoryCache:
 
     def update(self, key_states, value_states, layer_idx, cache_kwargs=None):
         if self._read_only:
+            # For Gemma 4: just return the cached values without manipulation.
+            # The read_only path is used when a layer is revisited during recursion.
+            # KV-cache mutation via thought_history injection corrupts Gemma 4's
+            # DynamicCache, so we return the stored values verbatim.
             past_k, past_v = None, None
-            if hasattr(self._real, "key_cache") and len(self._real.key_cache) > layer_idx:
+            # New DynamicCache structure (transformers >= 4.49)
+            if hasattr(self._real, "layers") and len(self._real.layers) > layer_idx:
+                layer_cache = self._real.layers[layer_idx]
+                if getattr(layer_cache, "is_initialized", True):
+                    if hasattr(layer_cache, "keys"):
+                        past_k = layer_cache.keys
+                    if hasattr(layer_cache, "values"):
+                        past_v = layer_cache.values
+            # Old structure fallback
+            elif hasattr(self._real, "key_cache") and len(self._real.key_cache) > layer_idx:
                 past_k, past_v = self._real.key_cache[layer_idx], self._real.value_cache[layer_idx]
-            elif hasattr(self._real, "layers") and len(self._real.layers) > layer_idx:
-                layer = self._real.layers[layer_idx]
-                if hasattr(layer, "keys") and layer.keys is not None: past_k, past_v = layer.keys, layer.values
-            if past_k is None:
-                past_k = torch.empty(0, device=key_states.device, dtype=key_states.dtype)
-                past_v = torch.empty(0, device=value_states.device, dtype=value_states.dtype)
-            past_seq, cur_seq = past_k.shape[-2] if past_k.numel() > 0 else 0, key_states.shape[-2]
-            is_sliding = self._is_sliding_layer(layer_idx)
-            if past_seq >= self._expected_len: res_k, res_v = past_k, past_v
-            elif past_seq == 0: res_k, res_v = key_states, value_states
-            elif is_sliding and cur_seq > 1: res_k, res_v = key_states, value_states
-            else: res_k, res_v = torch.cat([past_k, key_states], dim=-2), torch.cat([past_v, value_states], dim=-2)
-        else: res_k, res_v = self._real.update(key_states, value_states, layer_idx, cache_kwargs)
+            elif hasattr(self._real, "get_seq_length"):
+                try:
+                    past_k, past_v = self._real[layer_idx]
+                except (IndexError, KeyError, TypeError):
+                    pass
+            if past_k is None or past_k.numel() == 0:
+                # No cached values yet — return the new ones so attention can proceed
+                return key_states, value_states
+            return past_k, past_v
+
+        # Normal (write) path
+        res_k, res_v = self._real.update(key_states, value_states, layer_idx, cache_kwargs)
 
         is_full = not self._is_sliding_layer(layer_idx)
         if self._thoughts and layer_idx >= 6 and is_full:
@@ -115,83 +127,6 @@ def _resolve_text_model(model):
 
 
 # ---------------------------------------------------------------------------
-# Safe Forward for Gemma 4 (used when DMT is disabled)
-# ---------------------------------------------------------------------------
-
-def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
-    """A clean Gemma-4-native forward that preserves all original mechanics.
-    Used for SUBJECTIVE / RIGOR / UNCENSORED presets where DMT is disabled.
-    """
-    from transformers.cache_utils import DynamicCache
-    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
-    from transformers.modeling_outputs import BaseModelOutputWithPast
-    from collections import UserDict
-    try:
-        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
-    except ImportError:
-        Gemma4TextModelOutputWithPast = None
-
-    if (input_ids is None) ^ (inputs_embeds is not None):
-        raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
-
-    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
-
-    if input_ids is not None and per_layer_inputs is not None:
-        raise ValueError("You cannot specify per_layer_inputs if input_ids is provided")
-    if input_ids is not None:
-        inputs_embeds = self.embed_tokens(input_ids)
-    if self.hidden_size_per_layer_input:
-        if per_layer_inputs is None:
-            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
-        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
-    if use_cache and past_key_values is None:
-        past_key_values = DynamicCache(config=self.config)
-    if position_ids is None:
-        past_seen_tokens = past_key_values.get_seq_length() if past_key_values is not None else 0
-        position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen_tokens
-        position_ids = position_ids.unsqueeze(0)
-    if not isinstance(causal_mask_mapping := attention_mask, dict):
-        mask_kwargs = {
-            'config': self.config,
-            'inputs_embeds': inputs_embeds,
-            'attention_mask': attention_mask,
-            'past_key_values': past_key_values,
-            'position_ids': position_ids,
-        }
-        causal_mask_mapping = {
-            'full_attention': create_causal_mask(**mask_kwargs),
-            'sliding_attention': create_sliding_window_causal_mask(**mask_kwargs),
-        }
-    hidden_states = inputs_embeds
-    position_embeddings = {}
-    for layer_type in self.unique_layer_types:
-        position_embeddings[layer_type] = self.rotary_emb(hidden_states, position_ids, layer_type)
-    shared_kv_states = kwargs.pop('shared_kv_states', UserDict())
-    if shared_kv_states is None:
-        shared_kv_states = UserDict()
-
-    # Run all layers sequentially with per_layer_inputs and shared_kv_states
-    for i in range(len(self.layers)):
-        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
-        hidden_states = self.layers[i](
-            hidden_states, pli,
-            shared_kv_states=shared_kv_states,
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
-            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-            position_ids=position_ids,
-            past_key_values=past_key_values,
-            **kwargs,
-        )
-
-    hidden_states = self.norm(hidden_states)
-    return Gemma4TextModelOutputWithPast(
-        last_hidden_state=hidden_states,
-        past_key_values=past_key_values,
-        shared_kv_states=shared_kv_states if kwargs.get('return_shared_kv_states', False) else None,
-    )
-
-
-# ---------------------------------------------------------------------------
 # Core Forward Method
 # ---------------------------------------------------------------------------
 
@@ -216,8 +151,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # GEMMA-4: Per-Layer Input Embeddings (PLE) — EXACTLY like original
     per_layer_inputs = kwargs.pop("per_layer_inputs", None)
-    if per_layer_inputs is None and getattr(self, "hidden_size_per_layer_input", 0):
-        if input_ids is not None:
+    if getattr(self, "hidden_size_per_layer_input", 0):
+        if per_layer_inputs is None:
             per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
         per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
 
@@ -252,6 +187,308 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         shared_kv_states = UserDict()
 
     cfg = self._px_config
+
+    # Detect Gemma 4 early
+    is_gemma4 = "gemma4" in type(self).__name__.lower() or "Gemma4" in str(type(self))
+    if not is_gemma4:
+        is_gemma4 = hasattr(self.config, "sliding_window") and self.config.sliding_window == 512 and self.config.num_hidden_layers == 35
+
+    # ============================================================
+    # GEMMA 4: Pragmatic sequential-loop recursion
+    # ============================================================
+    if is_gemma4:
+        updated_layers = set()
+        thought_history = []
+        n_loops = cfg.get("n_loops", 8)
+        hidden_states = inputs_embeds
+
+        # Prelude
+        prelude_end = cfg.get("prelude_end", cfg.get("recur_start", 5))
+        for i in range(prelude_end):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        # Bridge
+        dynamic_start = cfg.get("recur_start", 10)
+        dynamic_end = cfg.get("recur_end", 26)
+        for i in range(prelude_end, dynamic_start):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        e_static = hidden_states.clone()
+
+        # ── META-SELECTOR: Zone Routing ──
+        token_cfg = cfg.copy()
+        persona_desc = "Standard"
+        zone_weights = {}
+
+        if cfg.get("persona_enabled") and hasattr(self, "_persona_engine"):
+            persona_text = getattr(self, "persona", os.environ.get("PX_PERSONA", ""))
+            tok = getattr(self, "tokenizer", None)
+            signals = self._persona_engine.get_steering_signals(persona_text, tok) if tok else None
+        else:
+            signals = None
+
+        if cfg.get("subjective_enabled") and hasattr(self, "_px_calibrator"):
+            if hidden_states.shape[1] > 1:
+                h_base_f32 = hidden_states.to(torch.float32)
+                h_probe = h_base_f32[0, -1, :]
+                var = torch.var(h_probe).item()
+                kurtosis = (torch.mean((h_probe - torch.mean(h_probe))**4) / (var**2)).item() if var > 0 else 0
+                self._task_kurtosis = kurtosis
+                self._task_jitter = torch.var(h_base_f32.norm(dim=-1), dim=-1).mean().item()
+                eff_ids = input_ids if input_ids is not None else getattr(self, '_px_saved_input_ids', None)
+                if eff_ids is not None:
+                    ids = eff_ids[0].tolist() if eff_ids.dim() > 1 else eff_ids.tolist()
+                    self._task_token_diversity = len(set(ids)) / max(len(ids), 1)
+
+            kurtosis = getattr(self, "_task_kurtosis", 200)
+
+            if signals is not None:
+                token_cfg, persona_desc = self._persona_engine.modulate_hyperparameters(signals, token_cfg, kurtosis)
+
+            zone_weights = self._px_calibrator.get_zone_weights(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                                 token_diversity=getattr(self, "_task_token_diversity", None))
+            self._px_zone_weights = zone_weights
+            rp = self._px_calibrator.get_routing_params(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                         hidden_size=self.config.hidden_size,
+                                                         token_diversity=getattr(self, "_task_token_diversity", None))
+            dynamic_start, dynamic_end, dynamic_hub, n_loops_calib = rp["dynamic_start"], rp["dynamic_end"], rp["dynamic_hub"], rp["n_loops"]
+
+            if "dynamic_hub" in token_cfg: dynamic_hub = token_cfg["dynamic_hub"]
+            if "n_loops" not in token_cfg or token_cfg["n_loops"] == cfg["n_loops"]:
+                token_cfg["n_loops"] = n_loops_calib
+
+            zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None),
+                                                          token_diversity=getattr(self, '_task_token_diversity', None))
+            zone_name = f"{zone_raw} ({persona_desc})"
+
+            if cfg.get("px_zone_routing_enabled"):
+                if zone_raw == "MATH":
+                    token_cfg["dmt_protocol_enabled"] = False
+                    token_cfg["jitter_mag"] = 0.0
+                    token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
+                    token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
+                elif zone_raw == "CREATIVE":
+                    token_cfg["dmt_protocol_enabled"] = True
+                    token_cfg["jitter_mag"] = max(0.01, token_cfg.get("jitter_mag", 0.005))
+                elif zone_raw == "LOGIC":
+                    token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
+        else:
+            zone_raw = "STATIC"
+            zone_name = f"STATIC ({persona_desc})"
+
+        cfg = token_cfg
+        n_loops = cfg.get("n_loops", n_loops)
+        current_gamma = cfg.get("gamma", 0.08)
+
+        # Ensure no overlap between prelude and reasoning/recursion zone
+        dynamic_start = max(dynamic_start, prelude_end)
+        dynamic_end = max(dynamic_end, dynamic_start + 2)
+
+        # Bridge Prelude -> Recur (if dynamic_start > prelude_end)
+        for i in range(prelude_end, dynamic_start):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        e_static = hidden_states.clone()
+
+        # Reasoning zone (single pass with cache)
+        trans_out = hidden_states
+        for i in range(dynamic_start, dynamic_end):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            trans_out = self.layers[i](
+                trans_out, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(trans_out, (tuple, list)):
+                trans_out = trans_out[0]
+        h_baseline = trans_out
+
+        phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
+        if hidden_states.shape[1] > 1 and cfg.get("subjective_enabled") and hasattr(self, "_px_calibrator"):
+            self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(),
+                                       token_diversity=getattr(self, "_task_token_diversity", None))
+
+        # Compute e_reflector (anti-baseline reference)
+        e_reflector = e_static.clone()
+        jitter = getattr(self, "_task_jitter", 0.0)
+        kurtosis = getattr(self, "_task_kurtosis", 250)
+        if (jitter > 1e8) or (kurtosis < 315.0):
+            h_base_f32, e_stat_f32 = h_baseline.to(torch.float32), e_static.to(torch.float32)
+            e_ref_f32 = 2.0 * e_stat_f32 - h_base_f32
+            e_reflector = (e_ref_f32 * (e_stat_f32.norm() / (e_ref_f32.norm() + 1e-6))).to(e_static.dtype)
+
+        # Recursion: sequential loops with past_key_values=None
+        h_exp = e_reflector.clone()
+        recursion_shared_kv = UserDict({k: v for k, v in shared_kv_states.items()})
+        phi_history = [phi_intuition]
+        path_taken = []
+        steps = 0
+
+        # Skip recursion during autoregressive decoding (seq_len==1) or vision prefill
+        # past_key_values=None in recursion breaks attention shapes when cache already has tokens
+        if inputs_embeds.shape[1] == 1:
+            n_loops = 0
+        is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
+        if is_vision:
+            n_loops = 0
+
+        aks = getattr(self, "_px_aks", None)
+        subj_sensor = getattr(self, "_px_subj_sensor", None)
+        correction_strength = 0.0
+        h_last_good = e_static.clone()
+
+        for loop in range(n_loops):
+            h_loop = h_exp.clone()
+            if aks:
+                aks_data = aks.step(h_loop, e_static, steps)
+                correction_strength = aks_data["correction"]
+            if subj_sensor:
+                subj_sensor.update(h_loop, e_static)
+
+            for current_layer in range(dynamic_start, dynamic_end):
+                h_prev = h_loop.clone()
+                lt = self.config.layer_types[current_layer]
+                pli = per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None
+                trans_out = self.layers[current_layer](
+                    h_loop, pli,
+                    shared_kv_states=recursion_shared_kv,
+                    attention_mask=causal_mask_mapping[lt],
+                    position_embeddings=position_embeddings[lt],
+                    position_ids=position_ids,
+                    past_key_values=None,
+                    **kwargs,
+                )
+                if isinstance(trans_out, (tuple, list)):
+                    trans_out = trans_out[0]
+                phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
+                phi_history.append(phi_s)
+                path_taken.append(f"L{current_layer}")
+
+                e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history) > 2 else e_reflector
+                e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
+                h_loop = trans_out + current_gamma * (e_norm - h_prev)
+                steps += 1
+
+                if (phi_s > 0.9).any() and (phi_s < 0.999).any():
+                    h_last_good = h_loop.clone()
+
+                if steps % 2 == 0:
+                    thought_history.append(h_loop.detach())
+
+            h_exp = h_loop
+
+            if cfg.get("jitter_mag", 0.0) > 0 and loop < n_loops - 1:
+                h_exp = OrthogonalJitter.apply(h_exp, h_loop, magnitude=cfg["jitter_mag"])
+
+            if hasattr(self, "_px_mephisto"):
+                h_exp = self._px_mephisto(h_exp, phi_history)
+
+            if cfg.get("resonance_city_enabled", False):
+                if hasattr(self, "_px_singessein"):
+                    h_exp = self._px_singessein(h_exp, resonance_strength=0.15)
+                if hasattr(self, "_px_resonance_anchor"):
+                    h_exp = self._px_resonance_anchor(h_exp, strength=0.02)
+
+        avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
+        hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
+
+        # Coda
+        for i in range(dynamic_end, len(self.layers)):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        hidden_states = self.norm(hidden_states)
+
+        # Telemetry
+        self._px_phi_val = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
+        self._px_aks_val = correction_strength.item() if hasattr(correction_strength, 'item') else float(correction_strength)
+        self._px_loops_run = steps
+        self._px_path = path_taken
+        self._px_zone = zone_name
+        self._px_zw_val = zone_weights
+        self._px_last_metrics = {
+            "phi": self._px_phi_val,
+            "aks_friction": self._px_aks_val,
+            "zone_weights": self._px_zw_val,
+        }
+        self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
+
+        return Gemma4TextModelOutputWithPast(
+            last_hidden_state=hidden_states,
+            past_key_values=past_key_values,
+            shared_kv_states=shared_kv_states if kwargs.get("return_shared_kv_states", False) else None,
+        )
+
+    # ============================================================
+    # ORIGINAL GEMMA 3: Full _px_forward with all features
+    # ============================================================
 
     # --- DMT: Central Memory Recall ---
     hidden_states = inputs_embeds
@@ -461,6 +698,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         stability_cnt = 0
         layer_visits = {i: 0 for i in range(len(self.layers))}
 
+        recursion_shared_kv = UserDict({k: v for k, v in shared_kv_states.items()})
+
         while current_layer < dynamic_end and steps < max_steps:
             t_norm = steps / max_steps
 
@@ -483,17 +722,15 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 h_exp = (1.0 - refresh) * h_exp + refresh * e_static
 
             layer_visits[current_layer] += 1
-            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
-                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = self.config.layer_types[current_layer]
             pli = per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None
             trans_out = self.layers[current_layer](
                 h_exp, pli,
-                shared_kv_states=shared_kv_states,
+                shared_kv_states=recursion_shared_kv,
                 attention_mask=causal_mask_mapping[lt],
                 position_embeddings=position_embeddings[lt],
                 position_ids=position_ids,
-                past_key_values=cur_past,
+                past_key_values=None,
                 **kwargs,
             )
             if isinstance(trans_out, (tuple, list)):
@@ -674,6 +911,83 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
 
 # ---------------------------------------------------------------------------
+# Safe Forward for Gemma 4 (used when DMT is disabled)
+# ---------------------------------------------------------------------------
+
+def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
+    """A clean Gemma-4-native forward that preserves all original mechanics.
+    Used for SUBJECTIVE / RIGOR / UNCENSORED presets where DMT is disabled.
+    """
+    from transformers.cache_utils import DynamicCache
+    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
+    from transformers.modeling_outputs import BaseModelOutputWithPast
+    from collections import UserDict
+    try:
+        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
+    except ImportError:
+        Gemma4TextModelOutputWithPast = None
+
+    if (input_ids is None) ^ (inputs_embeds is not None):
+        raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
+
+    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
+
+    if input_ids is not None and per_layer_inputs is not None:
+        raise ValueError("You cannot specify per_layer_inputs if input_ids is provided")
+    if input_ids is not None:
+        inputs_embeds = self.embed_tokens(input_ids)
+    if self.hidden_size_per_layer_input:
+        if per_layer_inputs is None:
+            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
+        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
+    if use_cache and past_key_values is None:
+        past_key_values = DynamicCache(config=self.config)
+    if position_ids is None:
+        past_seen_tokens = past_key_values.get_seq_length() if past_key_values is not None else 0
+        position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen_tokens
+        position_ids = position_ids.unsqueeze(0)
+    if not isinstance(causal_mask_mapping := attention_mask, dict):
+        mask_kwargs = {
+            'config': self.config,
+            'inputs_embeds': inputs_embeds,
+            'attention_mask': attention_mask,
+            'past_key_values': past_key_values,
+            'position_ids': position_ids,
+        }
+        causal_mask_mapping = {
+            'full_attention': create_causal_mask(**mask_kwargs),
+            'sliding_attention': create_sliding_window_causal_mask(**mask_kwargs),
+        }
+    hidden_states = inputs_embeds
+    position_embeddings = {}
+    for layer_type in self.unique_layer_types:
+        position_embeddings[layer_type] = self.rotary_emb(hidden_states, position_ids, layer_type)
+    shared_kv_states = kwargs.pop('shared_kv_states', UserDict())
+    if shared_kv_states is None:
+        shared_kv_states = UserDict()
+
+    # Run all layers sequentially with per_layer_inputs and shared_kv_states
+    for i in range(len(self.layers)):
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=past_key_values,
+            **kwargs,
+        )
+
+    hidden_states = self.norm(hidden_states)
+    return Gemma4TextModelOutputWithPast(
+        last_hidden_state=hidden_states,
+        past_key_values=past_key_values,
+        shared_kv_states=shared_kv_states if kwargs.get('return_shared_kv_states', False) else None,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Patch Application
 # ---------------------------------------------------------------------------
 
@@ -690,6 +1004,12 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
         defaults = {"mode": "lti", "n_loops": sd["n_loops"], "beta": 0.05, "gamma": sd["gamma"], "recur_start": sd["recur_start"], "recur_end": sd["recur_end"], "bimodal_hub": sd["hub"], "cgi_factor": 0.08, "num_layers": num_layers}
     else:
         defaults = {"mode": "lti", "n_loops": 8, "beta": 0.05, "gamma": 0.08 * min(1152.0/hidden_size, 1.5), "recur_start": recur_start, "recur_end": recur_end, "bimodal_hub": (recur_start+recur_end)//2, "cgi_factor": 0.08, "num_layers": num_layers}
+
+    # Gemma 4 memory optimization: fewer loops because recursion uses past_key_values=None
+    # (no KV cache sharing → each layer computes full attention from scratch)
+    is_gemma4 = hidden_size == 1536 and num_layers == 35
+    if is_gemma4:
+        defaults["n_loops"] = min(defaults["n_loops"], 4)
 
     # 2. Apply Presets
     if config_preset == "RIGOR":
@@ -723,6 +1043,11 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     if gamma != 0.08: defaults["gamma"] = gamma
     defaults.update(kwargs)
     if "prelude_end" not in defaults: defaults["prelude_end"] = defaults["recur_start"]
+
+    # Gemma 4 memory cap: recursion without KV cache sharing is expensive
+    # Apply AFTER presets so it always wins
+    if is_gemma4:
+        defaults["n_loops"] = min(defaults.get("n_loops", 8), 4)
 
     text_model._px_config = defaults
     text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
@@ -764,10 +1089,10 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
         text_model._px_subj_sensor = SubjectiveSensor()
 
     if defaults.get("dmt_protocol_enabled", False):
-        text_model._px_central_memory = CentralMemory(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_central_memory = CentralMemory(hidden_size)
         text_model._px_erpu = ERPU(hidden_size).to(device=device, dtype=dtype)
         text_model._px_agency = AgencyVector(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_anchor = GroundingAnchor(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_anchor = GroundingAnchor(hidden_size)
 
     if defaults.get("px_uncensored_enabled", False):
         text_model._px_uncensored = UncensoredSteering(hidden_size).to(device=device, dtype=dtype)
@@ -784,13 +1109,9 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     # Store original forward
     text_model._px_original_forward = text_model.forward
 
-    # Use safe forward for non-DMT presets (SUBJECTIVE, RIGOR, UNCENSORED)
-    # to avoid Gemma-4-specific issues with the complex recursion path.
-    # DMT-FULL and RESONANCE_CITY use the full _px_forward with recursion.
-    if not defaults.get("dmt_protocol_enabled", False):
-        text_model.forward = types.MethodType(_safe_forward, text_model)
-    else:
-        text_model.forward = types.MethodType(_px_forward, text_model)
+    # All presets use the full _px_forward with recursion for Gemma 4.
+    # The recursion path is the core of algorithmic subjectivity.
+    text_model.forward = types.MethodType(_px_forward, text_model)
 
     print(f"[gemma3-px-subjective] SR-59 active for L{num_layers}. Preset: {config_preset}.")
     return True
