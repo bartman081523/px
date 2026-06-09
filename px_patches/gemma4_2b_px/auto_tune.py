@@ -67,7 +67,7 @@ SCALE_DEFAULTS = {
     # hidden_size: (recur_start, recur_end, hub, n_loops, gamma)
     640:   dict(recur_start=5,  recur_end=12, hub=10, n_loops=8, gamma=0.08),
     1152:  dict(recur_start=10, recur_end=20, hub=18, n_loops=8, gamma=0.12),
-    1536:  dict(recur_start=10, recur_end=26, hub=18, n_loops=6, gamma=0.06),
+    1536:  dict(recur_start=10, recur_end=26, hub=18, n_loops=8, gamma=0.12),
     2560:  dict(recur_start=8,  recur_end=22, hub=16, n_loops=6, gamma=0.05),
     4096:  dict(recur_start=10, recur_end=30, hub=20, n_loops=6, gamma=0.04),
 }
