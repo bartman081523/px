@@ -1,6 +1,10 @@
 import torch
 import asyncio
+import os
 from model_manager import ModelManager
+
+os.environ["DEBUG_PX"] = "1"
+os.environ["DEBUG_GEMMA4"] = "1"
 
 async def test_gemma4_e2b():
     manager = ModelManager()
