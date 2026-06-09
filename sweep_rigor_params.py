@@ -23,7 +23,7 @@ async def main():
     model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map="auto", trust_remote_code=True)
     
     # Use the current best all_space patch but sweep parameters
-    from px_patches.gemma3_270m_px.patch import apply_px_patch
+    from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
     
     # Sweep Hub and Gamma
     results = []

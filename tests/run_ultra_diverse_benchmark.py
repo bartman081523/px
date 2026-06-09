@@ -44,7 +44,8 @@ async def run_benchmark():
         tokenizer = model_entry["tokenizer"]
         
         if "px" in model_id:
-            from px_patches.gemma3_270m_px.patch import apply_px_patch
+            # 2026-06-09: routed to isolated baseline (gemma3)
+            from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
             apply_px_patch(model, **px_kwargs)
             if px_kwargs.get("persona_enabled"):
                 model.persona = PERSONA

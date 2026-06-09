@@ -165,8 +165,16 @@ class AutoCalibrator:
             self.token_diversity_mean = 0.82
             self.token_diversity_std = 0.10
         elif hidden_size == 1536: # 2B (Gemma-4 E2B)
-            self.k_mean = 1000.0
-            self.k_std = 10.0
+            # Real Gemma 4 E2B kurtosis measurements (35 layers, sliding_window=512):
+            # observed K range: 148-265, mean ~185, std ~30.
+            # The previous default (k_mean=1000, k_std=10) was inherited from
+            # the 1B (hidden=1152) calibration and produced z-scores of
+            # ±78 — destroying the zone routing at first forward (before
+            # 10-sample calibration completes). With correct defaults the
+            # online z-scores stay bounded and SCALE_DEFAULTS[1536] routing
+            # (start=10, end=26) is reached.
+            self.k_mean = 185.0
+            self.k_std = 30.0
             self.phi_mean = 0.95
             self.phi_std = 0.02
             self.token_diversity_mean = 0.82

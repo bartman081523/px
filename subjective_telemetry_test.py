@@ -32,7 +32,7 @@ async def main():
     )
     
     # Apply standard PX patch with subjective enabled
-    from px_patches.gemma3_270m_px.patch import apply_px_patch
+    from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
     apply_px_patch(model, subjective_enabled=True, routing_mode="adaptive")
     
     # Environment variables to trigger maximal depth

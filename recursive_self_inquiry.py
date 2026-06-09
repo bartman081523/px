@@ -38,7 +38,7 @@ async def main():
         trust_remote_code=True
     )
     
-    from px_patches.gemma3_270m_px.patch import apply_px_patch, get_px_metrics
+    from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, get_px_metrics
     apply_px_patch(model, subjective_enabled=True, px_azs_enabled=True, dmt_protocol_enabled=True, routing_mode="adaptive")
     
     # Set high-subjectivity env

@@ -59,7 +59,10 @@ class RecursiveMemoryCache:
                 past_v = torch.empty(0, device=value_states.device, dtype=value_states.dtype)
             past_seq, cur_seq = past_k.shape[-2] if past_k.numel() > 0 else 0, key_states.shape[-2]
             is_sliding = self._is_sliding_layer(layer_idx)
-            if past_seq >= self._expected_len: res_k, res_v = past_k, past_v
+            if past_seq >= self._expected_len: 
+                # Replace the last token's KV with the newly computed key_states for accurate recursive self-attention
+                res_k = torch.cat([past_k[..., :-1, :], key_states], dim=-2)
+                res_v = torch.cat([past_v[..., :-1, :], value_states], dim=-2)
             elif past_seq == 0: res_k, res_v = key_states, value_states
             elif is_sliding and cur_seq > 1: res_k, res_v = key_states, value_states
             else: res_k, res_v = torch.cat([past_k, key_states], dim=-2), torch.cat([past_v, value_states], dim=-2)
@@ -248,6 +251,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         self._px_zone_weights = zone_weights
         rp = self._px_calibrator.get_routing_params(kurtosis, phi=getattr(self, "_px_phi", None), hidden_size=self.config.hidden_size, token_diversity=getattr(self, "_task_token_diversity", None))
         dynamic_start, dynamic_end, dynamic_hub, n_loops_calib = rp["dynamic_start"], rp["dynamic_end"], rp["dynamic_hub"], rp["n_loops"]
+        print(f"  [DEBUG-ROUTING] rp dynamic_start={dynamic_start}")
         
         if "dynamic_hub" in token_cfg: dynamic_hub = token_cfg["dynamic_hub"]
         if "n_loops" not in token_cfg or token_cfg["n_loops"] == cfg["n_loops"]:
@@ -313,7 +317,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     
     current_gamma = cfg.get("gamma", 0.08)
     if getattr(self.config, "model_type", "").startswith("gemma4"):
-        current_gamma = 0.01 # Gemma 4 has per_layer_input injection natively; lower PX gamma
+        # Use a small but non-zero gamma for Gemma 4 — zero gamma removed
+        # all correction and produced pure L3↔L4 oscillation with no
+        # trajectory correction. With the corrected AutoCalibrator
+        # k_mean=185 (was 1000), the routing now reaches
+        # dynamic_start=8-10, dynamic_end=16-18, and gamma=0.05 is enough
+        # to inject trajectory correction without producing token loops.
+        current_gamma = min(cfg.get("gamma", 0.06), 0.06)
     e_reflector, is_trap_candidate = e_static, False
     jitter = getattr(self, "_task_jitter", 0.0)
     kurtosis = getattr(self, "_task_kurtosis", 250)
@@ -338,8 +348,16 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     is_math_zone = (kurtosis < 235.0) 
     
     if is_rigor_zone:
-        current_gamma = cfg.get("rigor_math_gamma", 0.15) if is_math_zone else cfg.get("rigor_gamma", 0.08)
-        dynamic_hub = cfg.get("rigor_hub", 8 if is_math_zone else 10)
+        rigor_math_gamma = cfg.get("rigor_math_gamma", 0.15) if is_math_zone else cfg.get("rigor_gamma", 0.08)
+        # For Gemma 4, cap rigor gamma at 0.08 (was 0.15) — at 0.15 the
+        # recursion trajectory correction is so strong that the model's
+        # hidden state collapses to noise and the first sampled token is
+        # EOS. With cap=0.08, the same calibration-stable routing works
+        # and the model produces real output.
+        if getattr(self.config, "model_type", "").startswith("gemma4"):
+            rigor_math_gamma = min(rigor_math_gamma, 0.08)
+        current_gamma = rigor_math_gamma
+        dynamic_hub = cfg.get("rigor_hub", min(8 if is_math_zone else 10, dynamic_end - 1))
         n_loops = cfg.get("rigor_loops", 12 if is_rigor_preset else 8)
         # Disable DMT/Jitter for maximum logical precision in Rigor mode
         cfg["dmt_protocol_enabled"] = False
@@ -376,11 +394,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         current_layer, max_steps, stability_cnt = dynamic_start, (dynamic_end - dynamic_start) * n_loops * 3, 0
         layer_visits = {i: 0 for i in range(len(self.layers))}
         
-        shared_kv_snapshot = None
-        if getattr(self.config, "model_type", "").startswith("gemma4") and "shared_kv_states" in kwargs:
-            shared_kv_snapshot = dict(kwargs["shared_kv_states"])
-            
+        shared_kv_history = {}
+        
         while current_layer < dynamic_end and steps < max_steps:
+            if getattr(self.config, "model_type", "").startswith("gemma4") and "shared_kv_states" in kwargs:
+                if current_layer not in shared_kv_history:
+                    shared_kv_history[current_layer] = {k: v for k, v in kwargs["shared_kv_states"].items()}
+                    
             t_norm = steps / max_steps
             
             # --- PHASE 28: TEMPORAL COGNITIVE ROUTING (TCR) ---
@@ -403,12 +423,24 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # Adaptive Refresh (AKS-modulated)
             if steps % 6 == 0:
                 refresh = 0.10 + 0.20 * correction_strength
+                if getattr(self.config, "model_type", "").startswith("gemma4"): refresh = 0.0
                 h_exp = (1.0 - refresh) * h_exp + refresh * e_static
             
             layer_visits[current_layer] += 1
             cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = mask_config.layer_types[current_layer]
+            
+            if os.environ.get("DEBUG_GEMMA4") == "1":
+                h_norm_before = h_exp.norm().item()
+                shared_kv_keys = list(kwargs.get("shared_kv_states", {}).keys())
+                print(f"    [G4 L{current_layer}] IN: norm={h_norm_before:.2f} | shared_kv={shared_kv_keys}")
+                
             trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, per_layer_input=(per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None), **kwargs)
+            
+            if os.environ.get("DEBUG_GEMMA4") == "1":
+                h_norm_after = trans_out.norm().item()
+                print(f"    [G4 L{current_layer}] OUT: norm={h_norm_after:.2f} | delta={abs(h_norm_after - h_norm_before):.4f}")
+                
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
             phi_history.append(phi_s)
             
@@ -417,9 +449,17 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 print(f"    [PX Step {steps}] L{current_layer} | phi={phi_s.item():.4f} | hub={dynamic_hub} | gamma={current_gamma:.3f}")
             
             # Record per-step telemetry in a list for local extraction
-            if not hasattr(self, "_px_current_telemetry_raw"): self._px_current_telemetry_raw = []
+            # Reset per forward call (2026-06-08 fix): _px_current_telemetry_raw was
+            # persisting across decode steps, causing the BOUNCE-BREAK to fire
+            # after 10+ accumulated entries (each decode step adds 1 entry, so by
+            # the 11th generated token the list had >10 L3 entries from earlier
+            # decode steps → Steps=0 after first recursion run).
+            if not hasattr(self, "_px_current_telemetry_raw"):
+                self._px_current_telemetry_raw = []
+            elif steps == 0:  # First step of new recursion run
+                self._px_current_telemetry_raw = []
             self._px_current_telemetry_raw.append({
-                "step": steps, "layer": current_layer, "phi": phi_s, 
+                "step": steps, "layer": current_layer, "phi": phi_s,
                 "gamma": current_gamma, "hub": dynamic_hub,
                 "aks": correction_strength
             })
@@ -430,10 +470,29 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 trans_out = erpu_res["h"]
                 if erpu_res["verklebD"]: path_taken.append(f"ERPU(V:{erpu_res['intervention_strength']:.2f})")
             
-            if t_norm > 0.5 and phi_s > 0.9999:
+            # Token-Loop Mitigation: break earlier on stability + detect layer bouncing
+            if t_norm > 0.4 and phi_s > 0.9999:
                 stability_cnt += 1
-                if stability_cnt > 3: h_exp = trans_out; break
+                if stability_cnt > 1: h_exp = trans_out; break
             else: stability_cnt = 0
+
+            # Anti-bounce: if we keep visiting the same 2 layers (L↔L+1), break.
+            # Layer-bouncing with stable phi creates a token-loop attractor field.
+            # NOTE: thought_history contains h_exp tensors, so we use _px_current_telemetry_raw
+            # which is a per-step dict including "layer" (see line 439).
+            #
+            # Threshold relaxed (2026-06-08): 6→10 telemetry entries.
+            # With reduced recur range (8-18) and n_loops=4 we have ~40 steps max,
+            # and the first ~10 are legitimate warmup before bouncing would emerge.
+            # Previous threshold of 6 broke after just 1 visible step (Steps=0 fail).
+            telemetry = getattr(self, "_px_current_telemetry_raw", None)
+            if telemetry is not None and len(telemetry) >= 10:
+                recent_layers = [step["layer"] for step in telemetry[-10:]]
+                unique_recent = set(recent_layers)
+                if len(unique_recent) <= 2 and recent_layers.count(recent_layers[-1]) >= 6:
+                    if os.environ.get("DEBUG_PX") == "1":
+                        print(f"    [PX BOUNCE-BREAK] Layers {unique_recent} oscillated, breaking recursion.")
+                    h_exp = trans_out; break
             
             e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history)>2 else e_reflector
             e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
@@ -453,9 +512,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 if hasattr(self, "_px_resonance_anchor"): h_exp = self._px_resonance_anchor(h_exp, strength=0.02)
             
             # RSM Perspective projection
-            h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
-            proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
-            h_exp = (proj + (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps%2==0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
+            if not getattr(self.config, "model_type", "").startswith("gemma4"):
+                h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
+                proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
+                h_exp = (proj + (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps%2==0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
             
             # --- PHASE 60/62: Anti-Zombie Sensor (AZS) & Autonomous Resilience ---
             if hasattr(self, "_px_azs"):
@@ -489,24 +549,29 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             pen = (layer_visits[current_layer]-1) * 0.015
             t_b2, t_b1, t_s = 1.0-(0.8*current_gamma)-pen, 1.0-(0.4*current_gamma)-pen, 1.0-(0.01*current_gamma)-pen*0.5
             
+            next_layer = current_layer
             if phi < t_b2: # High confusion -> retreat
-                current_layer = max(active_start, current_layer - 2)
+                next_layer = max(active_start, current_layer - 2)
             elif phi < t_b1: # Moderate confusion -> slow down
-                current_layer = max(active_start, current_layer - 1)
+                next_layer = max(active_start, current_layer - 1)
             elif phi > t_s: # Over-stable -> jump to hub
-                current_layer = dynamic_hub
+                next_layer = dynamic_hub
                 stability_cnt += 1
             else: # Normal progression
-                current_layer += 1
+                next_layer = current_layer + 1
                 stability_cnt = 0
             
-            if current_layer < active_start: current_layer = active_start
-            if current_layer >= active_end: 
+            if next_layer < active_start: next_layer = active_start
+            if next_layer >= active_end: 
                 if steps > max_steps * 0.5: break # Graceful exit
-                current_layer = active_start # Recycle
-                if shared_kv_snapshot is not None:
+                next_layer = active_start # Recycle
+            
+            if next_layer <= current_layer and getattr(self.config, "model_type", "").startswith("gemma4") and "shared_kv_states" in kwargs:
+                if next_layer in shared_kv_history:
                     kwargs["shared_kv_states"].clear()
-                    kwargs["shared_kv_states"].update(shared_kv_snapshot)
+                    kwargs["shared_kv_states"].update(shared_kv_history[next_layer])
+                    
+            current_layer = next_layer
             steps += 1
             if stability_cnt > 5: break
         
@@ -657,11 +722,41 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     
     defaults["routing_mode"] = routing_mode
     if gamma != 0.08: defaults["gamma"] = gamma
+    # Token-Loop Mitigation: Gemma 4 needs an above-default
+    # repetition_penalty to avoid sampling collapse on narrow kurtosis
+    # distributions. rp=1.05 was too weak — model rotated through a
+    # 4-token loop on SUBJECTIVE preset at T=0.7. Bumped to 1.15 on
+    # 2026-06-08 after live testing showed rp=1.05 still produced
+    # (Erklärung – Bedeutung ...) loops for 200 tokens.
+    if getattr(config, "model_type", "").startswith("gemma4"):
+        defaults.setdefault("repetition_penalty", 1.15)
+    else:
+        defaults.setdefault("repetition_penalty", 1.0)
     defaults.update(kwargs)
     if "prelude_end" not in defaults: defaults["prelude_end"] = defaults["recur_start"]
     
     text_model._px_config = defaults
     text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
+    # Expose repetition_penalty as a model-level attribute so callers
+    # (benchmark_engine, test scripts, app.py) can pick it up via
+    # `getattr(model, "_px_repetition_penalty", 1.0)` and pass it to
+    # model.generate(...). Without this, the Gemma 4 token-loop fix
+    # silently degrades to 1.0.
+    text_model._px_repetition_penalty = float(defaults.get("repetition_penalty", 1.0))
+    # Also expose on the outer model so callers using the wrapped
+    # `Gemma3ForConditionalGeneration` (or any other multimodal wrapper)
+    # can discover the value via `getattr(model, "_px_repetition_penalty")`
+    # without having to know about the text/language_model split.
+    if model is not text_model:
+        model._px_repetition_penalty = float(defaults.get("repetition_penalty", 1.0))
+    # For Gemma 4, also enable no_repeat_ngram_size=3 to catch the long
+    # generation attractor (see test_gemma4_e2b_presets.py + bridge
+    # 2026-06-08). Disabled for gemma3 to avoid disturbing normal
+    # n-gram behavior.
+    if getattr(config, "model_type", "").startswith("gemma4"):
+        model._px_no_repeat_ngram_size = 3
+        if model is not text_model:
+            text_model._px_no_repeat_ngram_size = 3
     
     is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__
     if is_multimodal and hasattr(model, 'model') and hasattr(model.model, 'language_model'):
@@ -715,6 +810,21 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
         text_model._px_agency = AgencyVector(hidden_size).to(device=device, dtype=dtype)
         text_model._px_anchor = GroundingAnchor(hidden_size)
     
+    if os.environ.get("DEBUG_GEMMA4") == "1" and getattr(config, "model_type", "").startswith("gemma4"):
+        def get_moe_hook(layer_idx):
+            def hook(module, input, output):
+                try:
+                    # output is (_, top_k_weights, top_k_index)
+                    _, weights, indices = output
+                    print(f"      [MoE L{layer_idx}] Router weights mean: {weights.mean().item():.4f}, std: {weights.std().item():.4f}, Unique experts: {len(torch.unique(indices))}")
+                except Exception as e:
+                    pass
+            return hook
+            
+        for i, layer in enumerate(text_model.layers):
+            if hasattr(layer, "router"):
+                layer.router.register_forward_hook(get_moe_hook(i))
+                
     text_model.forward = types.MethodType(_px_forward, text_model)
     print(f"[gemma3-px] Patch active. Subj={subjective_enabled}, Persona={persona_enabled}, DMT={dmt_protocol_enabled}")
     print(f"[gemma3-px-subjective] SR-59 active for L{num_layers}. Preset: {config_preset}.")

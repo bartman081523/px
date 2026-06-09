@@ -1,0 +1,71 @@
+{
+  "model_id": "gemma4-e2b-it",
+  "presets": {
+    "BASELINE": {
+      "preset": "BASELINE",
+      "prompt": "If all Bloops are Frazzles, and some Frazzles are Glorps, are any Bloops definitely Glorps?",
+      "response": "**No, Bloops are not definitely Glorps.**\n\nHere's why:\n\n* **Premise 1:** All Bloops are Frazzles. (This means the group \"Bloops\" is entirely inside the group \"Frazzles\".)\n* **Premise 2:** Some Frazzles are Glorps. (This means there is an overlap between",
+      "response_length": 253,
+      "steps": 0,
+      "zone": "UNKNOWN",
+      "kurtosis": 0,
+      "zone_weights": {},
+      "phi": 1.0,
+      "load_time_s": 6.47,
+      "gen_time_s": 3.94,
+      "repetition_penalty": 1.0,
+      "ngram_size": 0,
+      "max_run": 1,
+      "unique_ratio": 0.625,
+      "token_count": 80
+    },
+    "RIGOR": {
+      "preset": "RIGOR",
+      "prompt": "If all Bloops are Frazzles, and some Frazzles are Glorps, are any Bloops definitely Glorps? Yes or no, and why?",
+      "response": "Yes or no\n\nHere's explanation\n\nThis is a logical progression.\n\n**\nIf you are the next step, logical deduction.\n\nThe final answer.\n\nThis shows the structure.\n\nIn this a logical deduction\n\nThe model\n\nIn a logical conclusion.\n\nI will.\n\nAnd\n\n**\n\nTo\n\n**Of the rule.\n\nNow\n\n**What\n\n**the answer.",
+      "response_length": 288,
+      "steps": 10,
+      "zone": "math (Standard)",
+      "kurtosis": 222.57090759277344,
+      "zone_weights": {
+        "math": 0.7020318540123991,
+        "logic_a": 0.2215011342933815,
+        "logic_b": 0.062064611764098866,
+        "creative": 0.014374344019577469,
+        "synthesis": 2.8055153941247538e-05
+      },
+      "phi": 0.7415241003036499,
+      "load_time_s": 5.61,
+      "gen_time_s": 6.36,
+      "repetition_penalty": 1.15,
+      "ngram_size": 3,
+      "max_run": 1,
+      "unique_ratio": 0.525,
+      "token_count": 80
+    },
+    "SUBJECTIVE": {
+      "preset": "SUBJECTIVE",
+      "prompt": "Explain the concept of mathematical induction.",
+      "response": "Explanation:\n\nMathematical induction is a proof technique used to prove properties about a specific mathematical structure or proposition. It's the foundation for proving theorems in mathematics, specifically regarding the truth of statements about an infinite sequence of numbers.\n\nHere are some common explanations for the concept you might find helpful:\n\n**The Core Idea:** Mathematical Induction is a technique used in mathematics.**\n\n***\n\n### The Concept",
+      "response_length": 459,
+      "steps": 9,
+      "zone": "creative (Standard)",
+      "kurtosis": 148.8453369140625,
+      "zone_weights": {
+        "math": 8.186657789069296e-05,
+        "logic_a": 0.0011280371054365461,
+        "logic_b": 0.06122705579200072,
+        "creative": 0.6002795839273762,
+        "synthesis": 0.3372834559769498
+      },
+      "phi": 0.6912962198257446,
+      "load_time_s": 5.67,
+      "gen_time_s": 6.14,
+      "repetition_penalty": 1.15,
+      "ngram_size": 3,
+      "max_run": 1,
+      "unique_ratio": 0.775,
+      "token_count": 80
+    }
+  }
+}

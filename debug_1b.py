@@ -7,7 +7,7 @@ import os
 # Ensure we can import from all_space
 sys.path.insert(0, os.getcwd())
 
-from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch, _resolve_text_model
+from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, _resolve_text_model
 
 def debug_1b_structure(model_id="google/gemma-3-1b-it"):
     print(f"--- Debugging Model Structure: {model_id} ---")

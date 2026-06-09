@@ -15,7 +15,7 @@ def run_debug_test(model_id="google/gemma-3-270m-it", config_preset="SUBJECTIVE"
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="cuda")
     
     if config_preset != "BASELINE":
-        from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch
+        from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
         apply_px_patch(model, config_preset=config_preset, jitter_mag=jitter)
     else:
         print("[Debug] BASELINE: Skipping PX patch.")

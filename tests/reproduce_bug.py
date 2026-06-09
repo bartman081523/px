@@ -7,7 +7,7 @@ import os
 # Ensure we can import from all_space
 sys.path.insert(0, os.getcwd())
 
-from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch
+from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
 
 def reproduce_error(model_id="google/gemma-3-270m-it"):
     print(f"--- Attempting to reproduce RuntimeError for {model_id} ---")

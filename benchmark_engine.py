@@ -297,10 +297,13 @@ class BenchmarkEngine:
         done = 0
 
         # ── Calibration (anti-Sharpshooter) ──
+        rp = getattr(model, "_px_repetition_penalty", 1.0) or 1.0
         for cp in CALIBRATION_PROMPTS:
             inputs = tokenizer(cp, return_tensors="pt").to(model.device)
             with torch.no_grad():
-                model.generate(**inputs, max_new_tokens=5, do_sample=False)
+                gen_kwargs = dict(max_new_tokens=5, do_sample=False)
+                if rp > 1.0: gen_kwargs["repetition_penalty"] = rp
+                model.generate(**inputs, **gen_kwargs)
             done += 1
             if progress_cb:
                 progress_cb(done, total_prompts)
@@ -321,7 +324,12 @@ class BenchmarkEngine:
             for prompt in prompts:
                 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
                 with torch.no_grad():
-                    model.generate(**inputs, max_new_tokens=5, do_sample=False)
+                    # Token-Loop Mitigation (2026-06-08): pass repetition_penalty
+                    # for Gemma 4 to prevent sampling collapse on narrow distributions
+                    gen_kwargs = dict(max_new_tokens=5, do_sample=False)
+                    rp = getattr(model, "_px_repetition_penalty", 1.0) or 1.0
+                    if rp > 1.0: gen_kwargs["repetition_penalty"] = rp
+                    model.generate(**inputs, **gen_kwargs)
 
                 metrics = self.manager.get_px_metrics(model_id)
                 zw = metrics.get("zone_weights", {})

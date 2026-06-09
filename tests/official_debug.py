@@ -9,7 +9,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 sys.path.insert(0, os.getcwd())
 
 from all_space.generators import generate_chat_completion
-from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch
+from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
 
 async def run_official_style_test(model_id="google/gemma-3-270m-it", config_preset="SUBJECTIVE"):
     print(f"--- Official Style Coherence Test: {model_id} (Preset={config_preset}) ---")

@@ -3,7 +3,7 @@ import torch
 import json
 import time
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch, get_px_metrics
+from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, get_px_metrics
 
 def run_space_style_test(model_id="google/gemma-3-270m-it"):
     print(f"--- Space-Style Coherence Test (Commit 2fdc442) ---")
