@@ -166,15 +166,17 @@ class AutoCalibrator:
             self.token_diversity_std = 0.10
         elif hidden_size == 1536: # 2B (Gemma-4 E2B)
             # Real Gemma 4 E2B kurtosis measurements (35 layers, sliding_window=512):
-            # observed K range: 148-265, mean ~185, std ~30.
-            # The previous default (k_mean=1000, k_std=10) was inherited from
-            # the 1B (hidden=1152) calibration and produced z-scores of
-            # ±78 — destroying the zone routing at first forward (before
-            # 10-sample calibration completes). With correct defaults the
-            # online z-scores stay bounded and SCALE_DEFAULTS[1536] routing
-            # (start=10, end=26) is reached.
-            self.k_mean = 185.0
-            self.k_std = 30.0
+            # 16-prompt subjective-prompt distribution (2026-06-09):
+            #   min=207.7, max=303.2, mean=250.7, range=95.5
+            # Updated 2026-06-09: old k_mean=185 produced z=+0.7 to +3.9 for
+            # typical subjective prompts → math zone dominated (math-center
+            # z=1.5, sigma=0.8) → SUBJECTIVE patch collapsed to `` ``` ``
+            # kauderwelsch on 15/16 subjective prompts.
+            # New defaults (k_mean=250, k_std=50) center subjective K=250 at
+            # z=0 (logic_b) and spread the distribution so K<235 routes to
+            # creative/synthesis and K>280 routes to logic_a.
+            self.k_mean = 250.0
+            self.k_std = 50.0
             self.phi_mean = 0.95
             self.phi_std = 0.02
             self.token_diversity_mean = 0.82

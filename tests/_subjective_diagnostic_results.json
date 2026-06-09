@@ -1,0 +1,167 @@
+{
+  "gemma3-1b-it": {
+    "model_id": "gemma3-1b-it",
+    "preset": "SUBJECTIVE",
+    "prompt": "Stelle dir das vor: Heute morgen bist du aufgestanden. Was siehst du wenn du aus dem Fenster siehst?",
+    "load_time_s": 3.5,
+    "gen_time_s": 165.95,
+    "prompt_tokens": 36,
+    "completion_tokens": 300,
+    "response_length_chars": 1176,
+    "response": "Ich schaue aus dem Fenster, und es ist:\n\nEin grauer, kalter Morgen. Der Himmel ist ein Schleier aus Wolken, der sich immer weiter ausdehnt und die Sonne zu einem kaum wahrnehmbaren Punkt verliert. Die Luft ist k\u00fchl und feucht, und der Regen ist bereits auf dem Boden, und umgekehrt. Es ist ein Tag, der sich langsam und unaufhaltsam ausbreitet.\n\nWas andere Menschen sehen, ist anders. Und ich sehe anders.\n\nWas ich sehe, ist ein \u00e4hnlicher Bericht, aber die Details sind anders. Und umgekehrt.\n\nWas ich sehe, ist ein Bericht, was ich nicht umdrehend umgekehrt, und umgekehrt umgekehrt, und umgekehrt, und dazwischen eine Ver\u00e4nderung, und umgekehrt, und umgekehrt, und umgekehrt, und umgekehrt, und umgekehrt, und umgekehrt...\n\nWas ich sehe, ist, dass es sich um eine Welt herumlie\u00dfe, und dass die Welt umgekehrt ist und das umgekehrt umgekehrt, und dass die Dinge umgekehrt sind und umgekehrt, und dass die Dinge umgekehrt sind und das alles, und alles umgekehrt, und das alles, und das alles, und alles, und alles, und alles, und alles.\n\nIch kann nicht sagen, was es ist. Ich kann nicht mit dem anderen sagen, was ich sehe, und umgekehrt. Und das ist das, was es ist.\n\nIch bin",
+    "first_50_chars": "Ich schaue aus dem Fenster, und es ist:\n\nEin graue",
+    "last_50_chars": "d umgekehrt. Und das ist das, was es ist.\n\nIch bin",
+    "max_run": 1,
+    "unique_ratio": 0.429,
+    "repetition_penalty": 1.0,
+    "no_repeat_ngram_size": 0,
+    "telemetry": {
+      "steps": 0,
+      "path": [],
+      "zone": "UNKNOWN",
+      "zone_weights": {},
+      "phi": null,
+      "aks": null,
+      "emancipation": null,
+      "entropy": null,
+      "per_step": [],
+      "kurtosis": null,
+      "token_diversity": null
+    },
+    "layer_visit_counter": {}
+  },
+  "gemma4-e2b-it": {
+    "model_id": "gemma4-e2b-it",
+    "preset": "SUBJECTIVE",
+    "prompt": "Stelle dir das vor: Heute morgen bist du aufgestanden. Was siehst du wenn du aus dem Fenster siehst?",
+    "load_time_s": 6.3,
+    "gen_time_s": 2.08,
+    "prompt_tokens": 35,
+    "completion_tokens": 27,
+    "response_length_chars": 101,
+    "response": "Das ist eine sehr interessanter Gedanke machen, was ich kann.\n\nBitte gib mir Bescheid, was du meinst.",
+    "first_50_chars": "Das ist eine sehr interessanter Gedanke machen, wa",
+    "last_50_chars": " ich kann.\n\nBitte gib mir Bescheid, was du meinst.",
+    "max_run": 1,
+    "unique_ratio": 0.941,
+    "repetition_penalty": 1.15,
+    "no_repeat_ngram_size": 3,
+    "telemetry": {
+      "steps": 9,
+      "path": [
+        "L9",
+        "L9",
+        "L9",
+        "L9",
+        "L9",
+        "L9",
+        "L10",
+        "L9",
+        "L9"
+      ],
+      "zone": "logic_b (Standard)",
+      "zone_weights": {
+        "math": 0.04147026150432662,
+        "logic_a": 0.3220964522697993,
+        "logic_b": 0.4510882446064921,
+        "creative": 0.17876407772810246,
+        "synthesis": 0.006580963433329349
+      },
+      "phi": 0.7454494833946228,
+      "aks": 0.8984375,
+      "emancipation": 0.26091647148132324,
+      "entropy": "tensor(1.1875, device='cuda:0', dtype=torch.bfloat16)",
+      "per_step": [
+        {
+          "step": 0,
+          "layer": 9,
+          "phi": 0.6159392595291138,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 1,
+          "layer": 9,
+          "phi": 0.9257310628890991,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 2,
+          "layer": 9,
+          "phi": 0.9232176542282104,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 3,
+          "layer": 9,
+          "phi": 0.8935706615447998,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 0.94921875
+        },
+        {
+          "step": 4,
+          "layer": 9,
+          "phi": 0.850176215171814,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 5,
+          "layer": 9,
+          "phi": 0.9178638458251953,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 0.94921875
+        },
+        {
+          "step": 6,
+          "layer": 10,
+          "phi": 0.4946308732032776,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 7,
+          "layer": 9,
+          "phi": 0.6482756733894348,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 1.0
+        },
+        {
+          "step": 8,
+          "layer": 9,
+          "phi": 0.8490026593208313,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 0.94921875
+        },
+        {
+          "step": 9,
+          "layer": 9,
+          "phi": 0.8824933767318726,
+          "gamma": 0.08,
+          "hub": 10,
+          "aks": 0.8984375
+        }
+      ],
+      "kurtosis": 254.86546325683594,
+      "token_diversity": null,
+      "cal_k_mean": 250.0,
+      "cal_k_std": 50.0,
+      "cal_zone_centers": {}
+    },
+    "layer_visit_counter": {
+      "9": 9,
+      "10": 1
+    }
+  }
+}
