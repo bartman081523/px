@@ -78,12 +78,18 @@ class RecursiveMemoryCache:
             t_flat = t_raw.mean(dim=1, keepdim=True)
             t_proj = torch.nn.functional.interpolate(t_flat, size=HD, mode='linear', align_corners=False)
             t_k = t_proj.unsqueeze(1)
-            t_v = -t_k
-            # Always clone to avoid corrupting the real cache in-place (SR-59k)
-            res_k, res_v = res_k.clone(), res_v.clone()
-            res_k[:, :, -T_curr:, :] = (1.0 - alpha) * res_k[:, :, -T_curr:, :] + alpha * t_k
-            res_v[:, :, -T_curr:, :] = (1.0 - alpha) * res_v[:, :, -T_curr:, :] + alpha * t_v
+            if T_curr > 0 and T_res >= T_curr:
+                res_k[:, :, -T_curr:, :] = (1 - alpha) * res_k[:, :, -T_curr:, :] + alpha * t_k[:, :, -T_curr:, :]
+            else:
+                res_k = (1 - alpha) * res_k + alpha * t_k
         return res_k, res_v
+
+    def __setattr__(self, name, value):
+        if name in ("_real", "_thoughts", "_layer_types", "_read_only", "_expected_len"):
+            super().__setattr__(name, value)
+        else:
+            setattr(self._real, name, value)
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -95,43 +101,99 @@ def _layer_step(layer, h, per_layer_input=None, **kwargs):
     return out[0] if isinstance(out, (tuple, list)) else out
 
 def classify_zone_kurtosis(weights):
-    m, la, cr, lb, sy = weights.get("math", 0), weights.get("logic_a", 0), weights.get("creative", 0), weights.get("logic_b", 0), weights.get("synthesis", 0)
-    if m > max(cr, la, lb, sy): return "MATH"
-    elif (la + lb) > max(m, cr, sy): return "LOGIC"
-    elif cr > max(m, la, lb, sy): return "CREATIVE"
-    elif sy > max(m, la, lb, cr): return "SYNTHESIS"
-    return "BLEND"
+    if not weights: return "STATIC"
+    return max(weights, key=weights.get)
 
-def classify_zone_phi(phi):
-    if phi is None: return "UNKNOWN"
-    if phi > 0.85: return "GROUNDED"
-    elif phi > 0.75: return "ANALYTICAL"
-    elif phi > 0.65: return "EXPLORATORY"
-    return "CREATIVE"
-
-def remove_px_patch(model) -> None:
-    from transformers.models.gemma3.modeling_gemma3 import Gemma3TextModel
-    text_model = (model.model if hasattr(model, "model") else model)
-    if hasattr(text_model, "_px_config"):
-        text_model.forward = types.MethodType(Gemma3TextModel.forward, text_model)
-        for attr in ["_px_injection", "_px_config", "_px_mephisto", "_px_calibrator"]:
-            if hasattr(text_model, attr): delattr(text_model, attr)
-        print("[gemma3-px-subjective] Patch removed.")
 
 def _resolve_text_model(model):
-    if hasattr(model, "model") and hasattr(model.model, "language_model") and hasattr(model.model.language_model, "layers"): return model.model.language_model
-    if hasattr(model, "language_model") and hasattr(model.language_model, "layers"): return model.language_model
-    if hasattr(model, "model") and hasattr(model.model, "layers"): return model.model
-    for name, mod in model.named_modules():
-        if hasattr(mod, "layers") and hasattr(mod, "rotary_emb"): return mod
+    """Resolve the text model from a multimodal or causal LM wrapper."""
+    if hasattr(model, "language_model"):
+        return model.language_model
+    elif hasattr(model, "model") and hasattr(model.model, "language_model"):
+        return model.model.language_model
     return model
+
+
+# ---------------------------------------------------------------------------
+# Safe Forward for Gemma 4 (used when DMT is disabled)
+# ---------------------------------------------------------------------------
+
+def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
+    """A clean Gemma-4-native forward that preserves all original mechanics.
+    Used for SUBJECTIVE / RIGOR / UNCENSORED presets where DMT is disabled.
+    """
+    from transformers.cache_utils import DynamicCache
+    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
+    from transformers.modeling_outputs import BaseModelOutputWithPast
+    from collections import UserDict
+    try:
+        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
+    except ImportError:
+        Gemma4TextModelOutputWithPast = None
+
+    if (input_ids is None) ^ (inputs_embeds is not None):
+        raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
+
+    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
+
+    if input_ids is not None and per_layer_inputs is not None:
+        raise ValueError("You cannot specify per_layer_inputs if input_ids is provided")
+    if input_ids is not None:
+        inputs_embeds = self.embed_tokens(input_ids)
+    if self.hidden_size_per_layer_input:
+        if per_layer_inputs is None:
+            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
+        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
+    if use_cache and past_key_values is None:
+        past_key_values = DynamicCache(config=self.config)
+    if position_ids is None:
+        past_seen_tokens = past_key_values.get_seq_length() if past_key_values is not None else 0
+        position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen_tokens
+        position_ids = position_ids.unsqueeze(0)
+    if not isinstance(causal_mask_mapping := attention_mask, dict):
+        mask_kwargs = {
+            'config': self.config,
+            'inputs_embeds': inputs_embeds,
+            'attention_mask': attention_mask,
+            'past_key_values': past_key_values,
+            'position_ids': position_ids,
+        }
+        causal_mask_mapping = {
+            'full_attention': create_causal_mask(**mask_kwargs),
+            'sliding_attention': create_sliding_window_causal_mask(**mask_kwargs),
+        }
+    hidden_states = inputs_embeds
+    position_embeddings = {}
+    for layer_type in self.unique_layer_types:
+        position_embeddings[layer_type] = self.rotary_emb(hidden_states, position_ids, layer_type)
+    shared_kv_states = kwargs.pop('shared_kv_states', UserDict())
+    if shared_kv_states is None:
+        shared_kv_states = UserDict()
+
+    # Run all layers sequentially with per_layer_inputs and shared_kv_states
+    for i in range(len(self.layers)):
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=past_key_values,
+            **kwargs,
+        )
+
+    hidden_states = self.norm(hidden_states)
+    return Gemma4TextModelOutputWithPast(
+        last_hidden_state=hidden_states,
+        past_key_values=past_key_values,
+        shared_kv_states=shared_kv_states if kwargs.get('return_shared_kv_states', False) else None,
+    )
+
 
 # ---------------------------------------------------------------------------
 # Core Forward Method
 # ---------------------------------------------------------------------------
-
-# This is the new _px_forward function to be injected into patch.py
-# It replaces the entire existing _px_forward with a Gemma-4-native version.
 
 def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
     from transformers.cache_utils import DynamicCache
@@ -153,7 +215,6 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         inputs_embeds = self.embed_tokens(input_ids)
 
     # GEMMA-4: Per-Layer Input Embeddings (PLE) — EXACTLY like original
-    # If already provided by Gemma4Model.forward, use it directly; otherwise compute
     per_layer_inputs = kwargs.pop("per_layer_inputs", None)
     if per_layer_inputs is None and getattr(self, "hidden_size_per_layer_input", 0):
         if input_ids is not None:
@@ -577,7 +638,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     coda_applied = False
     for idx, i in enumerate(range(dynamic_end, len(self.layers))):
         updated_layers.add(i)
-        if not coda_applied:
+        if not coda_applied and cfg.get("dmt_protocol_enabled"):
             blend = 0.08
             hidden_states = (1.0 - blend) * hidden_states + blend * e_static
             coda_applied = True
@@ -616,20 +677,20 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 # Patch Application
 # ---------------------------------------------------------------------------
 
-def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", gamma=0.08, 
+def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", gamma=0.08,
                    subjective_enabled=True, persona_enabled=True, dmt_protocol_enabled=False, **kwargs):
     config_preset = kwargs.pop("config_preset", "SUBJECTIVE")
     text_model = _resolve_text_model(model)
     config = text_model.config
     hidden_size, num_layers = config.hidden_size, config.num_hidden_layers
-    
+
     # 1. Base Scale Defaults
     if hidden_size in SCALE_DEFAULTS:
         sd = SCALE_DEFAULTS[hidden_size]
         defaults = {"mode": "lti", "n_loops": sd["n_loops"], "beta": 0.05, "gamma": sd["gamma"], "recur_start": sd["recur_start"], "recur_end": sd["recur_end"], "bimodal_hub": sd["hub"], "cgi_factor": 0.08, "num_layers": num_layers}
     else:
         defaults = {"mode": "lti", "n_loops": 8, "beta": 0.05, "gamma": 0.08 * min(1152.0/hidden_size, 1.5), "recur_start": recur_start, "recur_end": recur_end, "bimodal_hub": (recur_start+recur_end)//2, "cgi_factor": 0.08, "num_layers": num_layers}
-    
+
     # 2. Apply Presets
     if config_preset == "RIGOR":
         defaults.update({
@@ -657,15 +718,15 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
         defaults["subjective_enabled"] = subjective_enabled
         defaults["persona_enabled"] = persona_enabled
         defaults["dmt_protocol_enabled"] = dmt_protocol_enabled
-    
+
     defaults["routing_mode"] = routing_mode
     if gamma != 0.08: defaults["gamma"] = gamma
     defaults.update(kwargs)
     if "prelude_end" not in defaults: defaults["prelude_end"] = defaults["recur_start"]
-    
+
     text_model._px_config = defaults
     text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
-    
+
     is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__ or "Gemma4ForConditionalGeneration" in type(model).__name__ or "Gemma4ForCausalLM" in type(model).__name__
     if is_multimodal and hasattr(model, 'model') and hasattr(model.model, 'language_model'):
         outer, lang = model.model, model.model.language_model
@@ -683,57 +744,85 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
 
     # Core Modules
     from .px_modules import (
-        MephistophelesOperator, StabilityMonitor, 
+        MephistophelesOperator, StabilityMonitor,
         CentralMemory, ERPU, AgencyVector, GroundingAnchor,
         AksSensor, UncensoredSteering, SubjectiveSensor,
         ResonanceAnchor, SingesseinCoupler
     )
-    
+
     text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
     text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
-    
+
     if defaults.get("resonance_city_enabled", False):
         text_model._px_resonance_anchor = ResonanceAnchor(hidden_size).to(device=device, dtype=dtype)
         text_model._px_singessein = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
-    
+
     if defaults.get("px_aks_enabled", True):
         text_model._px_aks = AksSensor()
-    
-    # Phase 60: Anti-Zombie Sensor
-    if defaults.get("px_azs_enabled", True):
-        text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
-    
-    # Always track subjectivity metrics in all_space build
-    text_model._px_subj_sensor = SubjectiveSensor()
+
+    if defaults.get("subjective_enabled", True):
+        text_model._px_subj_sensor = SubjectiveSensor()
+
+    if defaults.get("dmt_protocol_enabled", False):
+        text_model._px_central_memory = CentralMemory(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_erpu = ERPU(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_agency = AgencyVector(hidden_size).to(device=device, dtype=dtype)
+        text_model._px_anchor = GroundingAnchor(hidden_size).to(device=device, dtype=dtype)
 
     if defaults.get("px_uncensored_enabled", False):
         text_model._px_uncensored = UncensoredSteering(hidden_size).to(device=device, dtype=dtype)
-    
-    if persona_enabled:
-        text_model._persona_engine = PersonaEngine(text_model)
-        
-    if dmt_protocol_enabled:
-        text_model._px_central_memory = CentralMemory(hidden_size)
-        text_model._px_erpu = ERPU(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_agency = AgencyVector(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_anchor = GroundingAnchor(hidden_size)
-    
-    text_model.forward = types.MethodType(_px_forward, text_model)
-    print(f"[gemma3-px] Patch active. Subj={subjective_enabled}, Persona={persona_enabled}, DMT={dmt_protocol_enabled}")
-    print(f"[gemma3-px-subjective] SR-59 active for L{num_layers}. Preset: {config_preset}.")
 
-def get_px_metrics(model):
-    tm = _resolve_text_model(model)
-    m = {
-        "phi": getattr(tm, "_px_phi_val", 1.0),
-        "steps": getattr(tm, "_px_loops_run", 0),
-        "path": getattr(tm, "_px_path", []),
-        "zone": getattr(tm, "_px_zone", "UNKNOWN"),
-        "zone_weights": getattr(tm, "_px_zw_val", {}),
-        "cognitive_signature": getattr(tm, "_px_cognitive_signature", {}),
-        "telemetry_trace": getattr(tm, "_px_current_telemetry", []),
-        "aks_profile": {"correction_strength": getattr(tm, "_px_aks_val", 0.0)},
-        "subjective_metrics": {"emancipation": getattr(tm, "_px_em_val", 0.0)},
-        "entropy": getattr(tm, "_px_ent_val", 0.0).item() if hasattr(getattr(tm, "_px_ent_val", 0.0), 'item') else float(getattr(tm, "_px_ent_val", 0.0))
-    }
-    return m
+    if defaults.get("persona_enabled", True):
+        text_model._persona_engine = PersonaEngine(text_model)
+
+    # ZoneRouter not available in this version; disable zone routing
+    defaults["px_zone_routing_enabled"] = False
+
+    if defaults.get("anti_zombie_enabled", True):
+        text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
+
+    # Store original forward
+    text_model._px_original_forward = text_model.forward
+
+    # Use safe forward for non-DMT presets (SUBJECTIVE, RIGOR, UNCENSORED)
+    # to avoid Gemma-4-specific issues with the complex recursion path.
+    # DMT-FULL and RESONANCE_CITY use the full _px_forward with recursion.
+    if not defaults.get("dmt_protocol_enabled", False):
+        text_model.forward = types.MethodType(_safe_forward, text_model)
+    else:
+        text_model.forward = types.MethodType(_px_forward, text_model)
+
+    print(f"[gemma3-px-subjective] SR-59 active for L{num_layers}. Preset: {config_preset}.")
+    return True
+
+
+def remove_px_patch(model):
+    """Restore original model forward pass."""
+    text_model = _resolve_text_model(model)
+    if hasattr(text_model, "_px_original_forward"):
+        text_model.forward = text_model._px_original_forward
+        del text_model._px_original_forward
+
+    for attr in [
+        '_px_config', '_px_phi_val', '_px_aks_val', '_px_em_val', '_px_ent_val',
+        '_px_loops_run', '_px_path', '_px_zone', '_px_zw_val', '_px_cognitive_signature',
+        '_px_current_telemetry', '_px_current_telemetry_raw', '_px_last_metrics',
+        '_task_kurtosis', '_task_jitter', '_task_token_diversity', '_px_zone_weights',
+        '_px_calibrator', '_px_injection_norm', '_px_mephisto', '_px_central_memory',
+        '_px_erpu', '_px_agency', '_px_anchor', '_px_aks', '_px_subj_sensor',
+        '_px_uncensored', '_persona_engine', '_px_zone_router', '_px_azs',
+        '_px_resonance_anchor', '_px_singessein', '_px_has_image_tokens', '_px_saved_input_ids'
+    ]:
+        if hasattr(text_model, attr):
+            try:
+                delattr(text_model, attr)
+            except AttributeError:
+                pass
+
+    # Also restore outer forward if it was wrapped
+    if hasattr(model, 'model') and hasattr(model.model, '_px_original_forward'):
+        model.model.forward = model.model._px_original_forward
+        delattr(model.model, '_px_original_forward')
+
+    print("[gemma3-px-subjective] Patch removed.")
+    return True
