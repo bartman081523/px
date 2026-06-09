@@ -6,7 +6,10 @@ import time
 import argparse
 
 # Configuration
-API_URL = "https://localhost:7860/v1/chat/completions"
+# NOTE: The all_space server (app.py) runs plain HTTP via uvicorn
+# on port 7860. Earlier revisions used https:// with verify=False,
+# which produced SSL: WRONG_VERSION_NUMBER. Keep this http://.
+API_URL = "http://localhost:7860/v1/chat/completions"
 SESSION_DIR = "/run/media/julian/ML4/ollama-work/all_space/sessions"
 
 def load_local_session(session_id):
@@ -91,7 +94,7 @@ def main():
     full_response = ""
     print("[MODELL ANTWORT]:")
     try:
-        with httpx.stream("POST", API_URL, json=payload, verify=False, timeout=None) as response:
+        with httpx.stream("POST", API_URL, json=payload, timeout=None) as response:
             if response.status_code != 200:
                 print(f"Error: {response.status_code}")
                 try:

@@ -9,7 +9,7 @@ def run_patched_baseline_test(model_id="google/gemma-3-270m-it"):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="cuda")
     
-    from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch
+    from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch
     apply_px_patch(model, config_preset="SUBJECTIVE")
     
     test_prompts = [

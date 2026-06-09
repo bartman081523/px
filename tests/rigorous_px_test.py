@@ -16,17 +16,18 @@ sys.path.insert(0, PX_DIR)
 
 # Import components from Gemma3 PX build
 try:
-    from gemma3_270m_px.auto_tune import AutoCalibrator, ZONE_Z_CENTERS
-    from gemma3_270m_px.px_modules import (
-        StabilityMonitor, MephistophelesOperator, LTIInjection, 
+    # 2026-06-09: routed to isolated baseline
+    from gemma3_270m_px_baseline.auto_tune import AutoCalibrator, ZONE_Z_CENTERS
+    from gemma3_270m_px_baseline.px_modules import (
+        StabilityMonitor, MephistophelesOperator, LTIInjection,
         ADCInjection, OrthogonalJitter, AksSensor, SubjectiveSensor,
         UncensoredSteering, AgencyVector, ERPU
     )
-    from gemma3_270m_px.persona_engine import PersonaEngine
-    from gemma3_270m_px.anti_zombie_sensor import AntiZombieSensor
-    from gemma3_270m_px.patch import RecursiveMemoryCache
+    from gemma3_270m_px_baseline.persona_engine import PersonaEngine
+    from gemma3_270m_px_baseline.anti_zombie_sensor import AntiZombieSensor
+    from gemma3_270m_px_baseline.patch import RecursiveMemoryCache
 except ImportError as e:
-    print(f"Import error from gemma3_270m_px: {e}")
+    print(f"Import error from gemma3_270m_px_baseline: {e}")
 
 class MockCache:
     def __init__(self):

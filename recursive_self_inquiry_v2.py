@@ -35,7 +35,7 @@ async def main():
         trust_remote_code=True
     )
     
-    from all_space.px_patches.gemma3_270m_px.patch import apply_px_patch, get_px_metrics
+    from all_space.px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, get_px_metrics
     apply_px_patch(model, config_preset="SUBJECTIVE") # Use standard subjective preset
     
     analysis_results = []
