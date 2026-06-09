@@ -486,7 +486,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # and the first ~10 are legitimate warmup before bouncing would emerge.
             # Previous threshold of 6 broke after just 1 visible step (Steps=0 fail).
             telemetry = getattr(self, "_px_current_telemetry_raw", None)
-            if telemetry is not None and len(telemetry) >= 10:
+            if telemetry is not None and len(telemetry) >= 10 and t_norm > 0.2:
                 recent_layers = [step["layer"] for step in telemetry[-10:]]
                 unique_recent = set(recent_layers)
                 if len(unique_recent) <= 2 and recent_layers.count(recent_layers[-1]) >= 6:
@@ -574,7 +574,21 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             current_layer = next_layer
             steps += 1
             if stability_cnt > 5: break
-        
+
+        # When recursion hits max_steps without converging, h_exp is a
+        # mid-recursion state (L11 when dynamic_end=17) — blending it in
+        # destabilizes the CODA and produces EOS on the first sampled
+        # token. Falling back to h_baseline preserves the patch's
+        # conservative mode (no subjective modulation) instead of
+        # injecting noise. The 45-step prefill tests showed that
+        # BOUNCE-BREAK convergence (Layers {9} or {9, 10}) preserves
+        # trajectory and produces real output; only the over-long
+        # runs hit this branch.
+        if steps >= max_steps - 1 and len(phi_history) > 50:
+            h_exp = h_baseline
+            if os.environ.get("DEBUG_PX") == "1":
+                print(f"  [PX MAX-STEPS FALLBACK] steps={steps}/{max_steps}; using h_baseline to avoid mid-recursion noise.")
+
         avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
         hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
     else: hidden_states = h_baseline

@@ -14,13 +14,15 @@ sys.path.insert(0, PX_DIR)
 
 # Import components
 try:
-    from gemma3_270m_px.auto_tune import AutoCalibrator
-    from gemma3_270m_px.px_modules import (
-        StabilityMonitor, MephistophelesOperator, LTIInjection, 
+    # 2026-06-09: routed to isolated baseline (gemma3 must be byte-identical
+    # to pre-gemma4 implementation)
+    from gemma3_270m_px_baseline.auto_tune import AutoCalibrator
+    from gemma3_270m_px_baseline.px_modules import (
+        StabilityMonitor, MephistophelesOperator, LTIInjection,
         ADCInjection, OrthogonalJitter, UncensoredSteering, AksSensor, SubjectiveSensor
     )
-    from gemma3_270m_px.persona_engine import PersonaEngine
-    from gemma3_270m_px.anti_zombie_sensor import AntiZombieSensor
+    from gemma3_270m_px_baseline.persona_engine import PersonaEngine
+    from gemma3_270m_px_baseline.anti_zombie_sensor import AntiZombieSensor
 except ImportError as e:
     print(f"Import error: {e}")
 
