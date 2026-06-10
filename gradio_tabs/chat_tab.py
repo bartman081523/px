@@ -233,8 +233,15 @@ def build_chat_tab(manager: ModelManager):
         full_history = messages + [{"role": "assistant", "content": partial_text}]
         save_session(session_id, full_history, model_id=model_id)
 
+    # Chatbot with auto-scrolling disabled
+    chatbot_component = gr.Chatbot(
+        autoscroll=False,
+        render=False,
+    )
+
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
+        chatbot=chatbot_component,
         additional_inputs=[model_select, px_preset, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
