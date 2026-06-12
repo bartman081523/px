@@ -113,15 +113,9 @@ def build_chat_tab(manager: ModelManager):
             label="Current Model",
         )
         px_preset = gr.Dropdown(
-            choices=["BASELINE", "SUBJECTIVE", "RESONANCE_CITY", "DMT-FULL", "RIGOR", "UNCENSORED"],
-            value="SUBJECTIVE",
+            choices=["BASELINE", "ACTIVE_MANIFOLD"],
+            value="ACTIVE_MANIFOLD",
             label="PX Mode Preset",
-        )
-        
-        persona_input = gr.Textbox(
-            label="Persona / Steering Vibe",
-            placeholder="e.g. DMT Psilocybin 🌀, Logic Engine ⚙️...",
-            value=""
         )
 
         with gr.Accordion("Parameters", open=False):
@@ -148,7 +142,7 @@ def build_chat_tab(manager: ModelManager):
 
     # ── Chat Interface ──
     
-    def chat_fn(message, history, model_id, px_preset, persona, temp, tp, mt, rp, gamma, session_id):
+    def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id):
         # 1. Update config
         loop = asyncio.new_event_loop()
         try:
@@ -165,9 +159,6 @@ def build_chat_tab(manager: ModelManager):
 
         model = model_entry["model"]
         tokenizer = model_entry["tokenizer"]
-        
-        tm = manager._resolve_text_model(model)
-        model.persona = tm.persona = persona
 
         # 2. Build history (cleaned)
         cleaned_history = _clean_history(history)
@@ -192,7 +183,7 @@ def build_chat_tab(manager: ModelManager):
         # 3. Generate with streaming
         input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-        
+
         streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
         gen_kwargs = dict(
             **inputs,
@@ -202,8 +193,28 @@ def build_chat_tab(manager: ModelManager):
             top_p=tp,
             repetition_penalty=rp,
             do_sample=temp > 0,
-            pad_token_id=tokenizer.eos_token_id
+            pad_token_id=tokenizer.eos_token_id,
         )
+
+        # Inject PX-specific kwargs (SR-59 repetition_penalty, ngram) — same as generators.py
+        try:
+            from generators import _px_gen_kwargs
+            gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+        except ImportError:
+            pass
+
+        # IT chat templates end with <end_of_turn> (token 106 for Gemma IT),
+        # not <eos> (token 1). Without this, the model emits the natural
+        # chat-end token and HF.generate keeps running until max_new_tokens
+        # is hit or the model falls into a degenerate attractor.
+        eot_id = tokenizer.convert_tokens_to_ids("<end_of_turn>")
+        if eot_id is not None and eot_id != tokenizer.eos_token_id:
+            eos_ids = list(gen_kwargs.get("eos_token_id", []) or [])
+            if isinstance(gen_kwargs.get("eos_token_id"), int):
+                eos_ids = [gen_kwargs["eos_token_id"]]
+            if eot_id not in eos_ids:
+                eos_ids.append(eot_id)
+            gen_kwargs["eos_token_id"] = eos_ids
 
         def generate_with_lock():
             manager.lock_model(model_id)
@@ -242,7 +253,7 @@ def build_chat_tab(manager: ModelManager):
     chat_interface = gr.ChatInterface(
         fn=chat_fn,
         chatbot=chatbot_component,
-        additional_inputs=[model_select, px_preset, persona_input, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        additional_inputs=[model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
     )
 

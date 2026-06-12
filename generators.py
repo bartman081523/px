@@ -23,18 +23,65 @@ def _px_gen_kwargs(model, base: dict) -> dict:
     token-loop mitigations set a value > 1.0. We pass it through to
     `model.generate(...)` so the mitigation actually takes effect —
     otherwise the dict lives on `_px_config` and is never read.
+
+    The attrs live on the text_model (e.g. model.model.language_model or
+    model.model), not the top-level wrapper — we walk named_modules to
+    find whichever sub-model has `_px_repetition_penalty` set.
     """
     base = dict(base)
-    rp = getattr(model, "_px_repetition_penalty", 1.0) or 1.0
-    if rp > 1.0:
+    rp = _find_px_attr(model, "_px_repetition_penalty", default=1.0) or 1.0
+    # Guard: only inject if the value is a real number > 1.0
+    if isinstance(rp, (int, float)) and rp > 1.0:
         base["repetition_penalty"] = rp
     # For Gemma 4 in particular, long generations (≥200 tokens) drift
     # into a 4-token attractor loop even with rp=1.15. The
     # no_repeat_ngram_size=3 n-gram constraint catches the loop without
     # the brittleness of raising rp further (which destroys natural
     # repetition in German compounds). It's a no-op for short outputs.
-    if getattr(model, "_px_no_repeat_ngram_size", 0):
-        base["no_repeat_ngram_size"] = int(model._px_no_repeat_ngram_size)
+    ngram = _find_px_attr(model, "_px_no_repeat_ngram_size", default=0) or 0
+    if isinstance(ngram, (int, float)) and ngram:
+        base["no_repeat_ngram_size"] = int(ngram)
+    return base
+
+
+def _find_px_attr(model, attr: str, default=None):
+    """Walk the module tree to find the first submodule carrying `attr`."""
+    val = getattr(model, attr, None)
+    if val is not None:
+        return val
+    for _, mod in model.named_modules():
+        val = getattr(mod, attr, None)
+        if val is not None:
+            return val
+    return default
+
+
+def _inject_eot_eos(base: dict, tokenizer) -> dict:
+    """IT chat templates end with <end_of_turn> (token 106 for Gemma IT),
+    not <eos> (token 1). Without this, the model emits the natural
+    chat-end token and HF.generate keeps running until max_new_tokens
+    is hit or the model falls into a degenerate attractor. We accept
+    eos_token_id as either int or list and append the chat-template
+    end-of-turn token if it is distinct from tokenizer.eos_token_id.
+    """
+    eot_id = tokenizer.convert_tokens_to_ids("<end_of_turn>")
+    if eot_id is None or eot_id == tokenizer.unk_token_id:
+        return base
+    if eot_id == tokenizer.eos_token_id:
+        return base
+    eos_field = base.get("eos_token_id")
+    eos_ids: list
+    if isinstance(eos_field, int):
+        eos_ids = [eos_field]
+    elif isinstance(eos_field, list):
+        eos_ids = list(eos_field)
+    elif eos_field is None:
+        eos_ids = []
+    else:
+        return base
+    if eot_id not in eos_ids:
+        eos_ids.append(eot_id)
+    base["eos_token_id"] = eos_ids
     return base
 
 
@@ -86,6 +133,7 @@ async def generate_chat_completion(
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     with torch.no_grad():
         outputs = model.generate(**inputs, **gen_kwargs)
@@ -157,6 +205,7 @@ async def generate_chat_completion_stream(
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     thread = Thread(target=model.generate, kwargs=gen_kwargs)
     thread.start()
@@ -212,6 +261,7 @@ async def generate_completion(
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     with torch.no_grad():
         outputs = model.generate(**inputs, **gen_kwargs)
@@ -268,6 +318,7 @@ async def generate_completion_stream(
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     thread = Thread(target=model.generate, kwargs=gen_kwargs)
     thread.start()

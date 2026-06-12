@@ -1,0 +1,23 @@
+{
+  "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?",
+  "completion": "Yes, you can conclude that some roses fade quickly. Here's the logic:\n\n* **Premise 1:** All roses are flowers.",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 31,
+  "gen_time_sec": 6.207265138626099,
+  "phi": 0.8694255352020264,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.030195755273367222,
+    "logic_a": 0.27362229490872114,
+    "logic_b": 0.4707293930651856,
+    "creative": 0.2155156205117455,
+    "synthesis": 0.00993693577025117
+  },
+  "zone_entropy": 1.7190650946075978,
+  "kurtosis": 2414.00390625,
+  "token_diversity_input": 0.6774193548387096,
+  "loops_run": 8,
+  "entropy": 1.1875
+}

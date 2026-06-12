@@ -58,44 +58,44 @@ class TestSessionRegression(unittest.TestCase):
         finally:
             loop.close()
 
-    def test_dmt_vibe_steering(self):
-        """Test if 'DMT' persona changes routing/hyperparams compared to baseline."""
+    def test_active_manifold_routing(self):
+        """Test if ACTIVE_MANIFOLD triggers the AutoCalibrator routing path."""
         loop = asyncio.new_event_loop()
         try:
-            # 1. Baseline (No Persona)
+            # 1. Baseline
             model_entry = loop.run_until_complete(
-                self.manager.get_model(self.model_id, px_subjective=True)
+                self.manager.get_model(self.model_id, px_config_preset="BASELINE")
             )
             model = model_entry["model"]
             tokenizer = model_entry["tokenizer"]
             tm = self.manager._resolve_text_model(model)
-            
-            model.persona = tm.persona = ""
+
             prompt = "Describe the nature of reality."
             inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-            
+
             with torch.no_grad():
                 model.generate(**inputs, max_new_tokens=1)
-            
+
             metrics_base = self.manager.get_px_metrics(self.model_id)
-            # gamma_base = model._px_config.get("gamma", 0.08)
-            
-            # 2. DMT Persona (High Chaos)
-            model.persona = tm.persona = "DMT 🌀"
+
+            # 2. ACTIVE_MANIFOLD
+            model_entry = loop.run_until_complete(
+                self.manager.get_model(self.model_id, px_config_preset="ACTIVE_MANIFOLD")
+            )
+            model = model_entry["model"]
+            tokenizer = model_entry["tokenizer"]
+            tm = self.manager._resolve_text_model(model)
+
             with torch.no_grad():
                 model.generate(**inputs, max_new_tokens=1)
-            
-            metrics_dmt = self.manager.get_px_metrics(self.model_id)
-            # Check if gamma was modulated (PersonaEngine should decrease gamma for chaos)
-            # Note: _px_config might be updated in-place or copied.
-            # In our implementation it's copied into token_cfg in _px_forward.
-            # So we might need to check internal state or the 'zone' name.
-            
-            zone_dmt = metrics_dmt.get("zone", "")
-            print(f"\n[Test] Persona: DMT 🌀 | Zone: {zone_dmt}")
-            
-            self.assertIn("Entropy", zone_dmt, "DMT persona should trigger Entropy modulation")
-            
+
+            metrics_am = self.manager.get_px_metrics(self.model_id)
+
+            zone_am = metrics_am.get("zone", "")
+            print(f"\n[Test] AM Zone: {zone_am}")
+            # ACTIVE_MANIFOLD must run the routing path (zone populated by AutoCalibrator)
+            self.assertNotEqual(zone_am, "STATIC",
+                                "ACTIVE_MANIFOLD must engage the AutoCalibrator")
         finally:
             loop.close()
 

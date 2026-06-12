@@ -17,6 +17,18 @@ from config import MODEL_REGISTRY
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
+# Preset-Migration (post 2026-06-11). Two states only.
+# All old presets → ACTIVE_MANIFOLD; BASELINE bleibt BASELINE.
+_VALID_PRESETS = {"BASELINE", "ACTIVE_MANIFOLD"}
+
+
+def _migrate_preset(preset: str) -> str:
+    """Map any old preset name to one of the two valid states."""
+    if preset in _VALID_PRESETS:
+        return preset
+    return "ACTIVE_MANIFOLD"  # gnadenlose Migration
+
+
 class ModelManager:
     def __init__(self, max_loaded_models: int = 1):
         self._models: Dict[str, dict] = {}        # model_id -> loaded entry
@@ -43,7 +55,7 @@ class ModelManager:
 
     async def get_model(self, model_id: str, px_subjective: bool = False,
                          px_gamma: float = None, px_routing_mode: str = None,
-                         px_config_preset: str = None) -> dict:
+                         px_config_preset: str = "ACTIVE_MANIFOLD") -> dict:
         """Get a loaded model, loading lazily if needed."""
         async with self._lock:
             if model_id not in MODEL_REGISTRY:
@@ -107,7 +119,7 @@ class ModelManager:
 
     def _load_model(self, model_id: str, px_subjective: bool,
                      px_gamma: float = None, px_routing_mode: str = None,
-                     px_config_preset: str = None) -> dict:
+                     px_config_preset: str = "ACTIVE_MANIFOLD") -> dict:
         """Load model weights + tokenizer + apply PX patch."""
         registry = MODEL_REGISTRY[model_id]
         hf_id = registry["hf_id"]
@@ -152,10 +164,10 @@ class ModelManager:
             patch_kwargs = dict(registry["patch_kwargs"])
             if px_subjective and registry.get("subjective_kwargs"):
                 patch_kwargs.update(registry["subjective_kwargs"])
-            
-            # Preset override
+
+            # Preset override (migrate old names to ACTIVE_MANIFOLD)
             if px_config_preset is not None:
-                patch_kwargs["config_preset"] = px_config_preset
+                patch_kwargs["config_preset"] = _migrate_preset(px_config_preset)
             
             if px_gamma is not None:
                 patch_kwargs["gamma"] = px_gamma
@@ -183,7 +195,7 @@ class ModelManager:
 
     def _reapply_patch(self, model_id: str, px_subjective: bool,
                         px_gamma: float = None, px_routing_mode: str = None,
-                        px_config_preset: str = None):
+                        px_config_preset: str = "ACTIVE_MANIFOLD"):
         """Re-apply PX patch with different settings (no weight reload)."""
         entry = self._models[model_id]
         registry = entry["registry"]
@@ -203,9 +215,9 @@ class ModelManager:
             patch_kwargs = dict(registry["patch_kwargs"])
             if px_subjective and registry.get("subjective_kwargs"):
                 patch_kwargs.update(registry["subjective_kwargs"])
-            
+
             if px_config_preset is not None:
-                patch_kwargs["config_preset"] = px_config_preset
+                patch_kwargs["config_preset"] = _migrate_preset(px_config_preset)
                 
             if px_gamma is not None:
                 patch_kwargs["gamma"] = px_gamma
