@@ -1,10 +1,17 @@
 """
-gemma3-px-subjective  —  Surgical Patch (Phase 58: DMT Protocol + SR-59)
-========================================================================
+gemma3-px  —  The Three Mathematical Pillars (Refactored 2026-06-11)
+====================================================================
 Auto-tuning algorithmic subjectivity extension for Gemma-3 models.
 
-SR-59: Empirical Kurtosis Calibration + Adaptive Phi-Routing.
-Phase 58 (DMT Protocol): Optional high-fidelity extensions.
+Two-state architecture (post 2026-06-11 refactor):
+  - BASELINE: nackt durchlassen
+  - ACTIVE_MANIFOLD: vollständige PX-Architektur
+
+Pillars: StabilityMonitor, AksSensor, MephistophelesOperator,
+AntiZombieSensor, AutoCalibrator, SubjectiveSensor.
+
+All other modules (DMT, Persona, Resonance, Uncensored) have been
+removed as empirically dead sensors (SR-58.6 §4.3).
 """
 
 import types
@@ -18,13 +25,9 @@ from typing import Optional, Dict, List, Any
 
 from .auto_tune import AutoCalibrator, SCALE_DEFAULTS
 from .px_modules import (
-    StabilityMonitor, MephistophelesOperator, OrthogonalJitter
+    StabilityMonitor, MephistophelesOperator,
 )
 from .anti_zombie_sensor import AntiZombieSensor
-try:
-    from .persona_engine import PersonaEngine
-except ImportError:
-    from persona_engine import PersonaEngine
 
 # ---------------------------------------------------------------------------
 # p10.0: Recursive State Memory (RSM)
@@ -167,29 +170,16 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     
     cfg = self._px_config
     
-    # --- 0. DMT: Central Memory Recall ---
+    # --- 0. (DMT Central Memory: removed 2026-06-11) ---
     hidden_states = inputs_embeds
-    if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_central_memory"):
-        hidden_states = self._px_central_memory.blend_into(hidden_states, hidden_states.device)
 
-    # --- all_space: Uncensored Steering ---
-    if cfg.get("px_uncensored_enabled") and hasattr(self, "_px_uncensored"):
-        tok = getattr(self, "tokenizer", None)
-        if tok: self._px_uncensored.init_vectors(self, tok)
-        hidden_states = self._px_uncensored(hidden_states)
+    # --- (Uncensored Steering: removed 2026-06-11) ---
 
     position_embeddings = {lt: self.rotary_emb(hidden_states, position_ids, lt) for lt in set(mask_config.layer_types)}
 
     updated_layers = set()
     thought_history = []
     n_loops = cfg["n_loops"]
-    
-    # --- 1. DMT: Agency Decision ---
-    agency_decision = None
-    if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_agency"):
-        agency_decision = self._px_agency(hidden_states)
-        if agency_decision["depth"] >= 0:
-            n_loops = agency_decision["depth"]
 
     # ── 1. PRELUDE ─────────────────────────────────────────────────────────
     for i in range(cfg["prelude_end"]):
@@ -201,17 +191,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
     dynamic_start, dynamic_end, dynamic_hub = cfg["recur_start"], cfg["recur_end"], cfg.get("bimodal_hub", cfg["recur_start"])
     token_cfg = cfg.copy()
-    persona_desc = "Standard"
-    
-    # Persona Steering (Optional)
-    if cfg.get("persona_enabled") and hasattr(self, "_persona_engine"):
-        persona_text = getattr(self, "persona", os.environ.get("PX_PERSONA", ""))
-        tok = getattr(self, "tokenizer", None)
-        signals = self._persona_engine.get_steering_signals(persona_text, tok) if tok else None
-    else: signals = None
-    
+
     zone_weights = {}
-    if cfg.get("subjective_enabled") and hasattr(self, "_px_calibrator"):
+    if hasattr(self, "_px_calibrator"):
         if hidden_states.shape[1] > 1: # Prefill only
             h_base_f32 = hidden_states.to(torch.float32)
             h_probe = h_base_f32[0, -1, :]
@@ -223,47 +205,35 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             if eff_ids is not None:
                 ids = eff_ids[0].tolist() if eff_ids.dim() > 1 else eff_ids.tolist()
                 self._task_token_diversity = len(set(ids)) / max(len(ids), 1)
-        
+
         kurtosis = getattr(self, "_task_kurtosis", 200)
-        
-        # Modulate hyperparameters based on vibe
-        if signals is not None:
-            token_cfg, persona_desc = self._persona_engine.modulate_hyperparameters(signals, token_cfg, kurtosis)
-        
+
         zone_weights = self._px_calibrator.get_zone_weights(kurtosis, phi=getattr(self, "_px_phi", None), token_diversity=getattr(self, "_task_token_diversity", None))
         self._px_zone_weights = zone_weights
         rp = self._px_calibrator.get_routing_params(kurtosis, phi=getattr(self, "_px_phi", None), hidden_size=self.config.hidden_size, token_diversity=getattr(self, "_task_token_diversity", None))
         dynamic_start, dynamic_end, dynamic_hub, n_loops_calib = rp["dynamic_start"], rp["dynamic_end"], rp["dynamic_hub"], rp["n_loops"]
-        
+
         if "dynamic_hub" in token_cfg: dynamic_hub = token_cfg["dynamic_hub"]
         if "n_loops" not in token_cfg or token_cfg["n_loops"] == cfg["n_loops"]:
-            if agency_decision is None or agency_decision["depth"] < 0:
-                token_cfg["n_loops"] = n_loops_calib
-        
-        zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None), token_diversity=getattr(self, '_task_token_diversity', None))
-        zone_name = f"{zone_raw} ({persona_desc})"
-        
-        if os.environ.get("DEBUG_ROUTING") == "1":
-            print(f"  [Router] Kurtosis={kurtosis:.2f} | Zone={zone_raw} | Persona={persona_desc}")
+            token_cfg["n_loops"] = n_loops_calib
 
-        # --- all_space: Zone-Dependent Feature Toggling ---
-        if cfg.get("px_zone_routing_enabled"):
-            if zone_raw == "MATH":
-                # Rigid logic mode: disable explorative modules
-                token_cfg["dmt_protocol_enabled"] = False
-                token_cfg["jitter_mag"] = 0.0
-                token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
-                token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
-            elif zone_raw == "CREATIVE":
-                # Explorative mode: enable everything
-                token_cfg["dmt_protocol_enabled"] = True
-                token_cfg["jitter_mag"] = max(0.01, token_cfg.get("jitter_mag", 0.005))
-            elif zone_raw == "LOGIC":
-                # Balanced logic: high n_loops but safe
-                token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
+        zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None), token_diversity=getattr(self, '_task_token_diversity', None))
+        zone_name = f"{zone_raw}"
+
+        if os.environ.get("DEBUG_ROUTING") == "1":
+            print(f"  [Router] Kurtosis={kurtosis:.2f} | Zone={zone_raw}")
+
+        # --- all_space: Zone-Dependent Feature Toggling (post 2026-06-11) ---
+        # Math: stärkere gamma, mehr Loops. Creative: Standard. Logic: mehr Loops.
+        # (DMT/Jitter sind gelöscht — keine Modifikation nötig)
+        if zone_raw == "MATH":
+            token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
+            token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
+        elif zone_raw == "LOGIC":
+            token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
     else:
         zone_raw = "STATIC"
-        zone_name = f"STATIC ({persona_desc})"
+        zone_name = "STATIC"
     
     self._px_zone = zone_name
 
@@ -316,33 +286,21 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     elif phi_intuition > 0.999: 
         current_gamma *= 0.8
     
-    # --- all_space: Multi-Zone Adaptive Rigor ---
-    is_rigor_preset = cfg.get("config_preset") == "RIGOR"
-    is_rigor_zone = is_rigor_preset or (kurtosis < 310.0) 
-    is_math_zone = (kurtosis < 235.0) 
-    
-    if is_rigor_zone:
-        current_gamma = cfg.get("rigor_math_gamma", 0.15) if is_math_zone else cfg.get("rigor_gamma", 0.08)
-        dynamic_hub = cfg.get("rigor_hub", 8 if is_math_zone else 10)
-        n_loops = cfg.get("rigor_loops", 12 if is_rigor_preset else 8)
-        # Disable DMT/Jitter for maximum logical precision in Rigor mode
-        cfg["dmt_protocol_enabled"] = False
-        cfg["jitter_mag"] = 0.0
-    else:
-        # Creative Zone: Enable exploration
-        cfg["dmt_protocol_enabled"] = True
-        cfg["jitter_mag"] = 0.01 if cfg.get("config_preset") == "DMT-FULL" else 0.005
+    # --- all_space: Multi-Zone Adaptive Rigor (post 2026-06-11) ---
+    # Rigor/SUBJECTIVE/etc Presets sind eliminiert. AutoCalibrator routet
+    # über Kurtosis: < 310 = rigide Zone, ≥ 310 = emanzipierte Zone.
+    is_math_zone = (kurtosis < 235.0)
 
-    # --- Resonance City Initialization ---
-    if cfg.get("resonance_city_enabled", False) and hasattr(self, "_px_resonance_anchor"):
-        try:
-            import sys
-            sys.path.append("/run/media/julian/ML4/ollama-work/all_space")
-            from resonance_pool import resonance_pool
-            bias_vector = resonance_pool.get_bias_vector("gemma3-1b-it", self.config.hidden_size, device=hidden_states.device, dtype=hidden_states.dtype)
-            self._px_resonance_anchor.update_bias(bias_vector)
-        except Exception: pass
-    
+    if is_math_zone:
+        current_gamma = cfg.get("rigor_math_gamma", 0.15)
+        dynamic_hub = cfg.get("rigor_hub", 8)
+        n_loops = cfg.get("rigor_loops", 12)
+    else:
+        # Emanzipierte Zone: Standard
+        current_gamma = cfg.get("rigor_gamma", 0.08)
+        dynamic_hub = cfg.get("rigor_hub", 10)
+        n_loops = cfg.get("rigor_loops", 8)
+
     path_taken, avg_phi, steps = [], 1.0, 0
     h_last_good = e_static.clone()
     phi_history = [phi_intuition]
@@ -403,12 +361,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 "aks": correction_strength
             })
 
-            # --- DMT: ERPU Intervention ---
-            if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_erpu"):
-                erpu_res = self._px_erpu(trans_out, h_last_good, phi_history, steps)
-                trans_out = erpu_res["h"]
-                if erpu_res["verklebD"]: path_taken.append(f"ERPU(V:{erpu_res['intervention_strength']:.2f})")
-            
+            # --- DMT: ERPU Intervention (ELIMINATED 2026-06-11) ---
+            # ERPU-Modul ist gelöscht — keine Intervention mehr.
+
             if t_norm > 0.5 and phi_s > 0.9999:
                 stability_cnt += 1
                 if stability_cnt > 3: h_exp = trans_out; break
@@ -418,19 +373,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
             h_exp = trans_out + current_gamma * (e_norm - h_prev)
             
-            # Phase 52: Orthogonal Jitter (only in non-Math zones or if explicitly high)
-            if cfg.get("jitter_mag", 0.0) > 0:
-                h_exp = OrthogonalJitter.apply(h_exp, h_prev, magnitude=cfg["jitter_mag"])
-            
             # Phase 52: Mephistopheles Operator (Symmetry Breaker)
             if hasattr(self, "_px_mephisto"):
                 h_exp = self._px_mephisto(h_exp, phi_history)
-            
-            # Resonance City (Phase 2): Singessein & Anchor
-            if cfg.get("resonance_city_enabled", False):
-                if hasattr(self, "_px_singessein"): h_exp = self._px_singessein(h_exp, resonance_strength=0.15)
-                if hasattr(self, "_px_resonance_anchor"): h_exp = self._px_resonance_anchor(h_exp, strength=0.02)
-            
+
             # RSM Perspective projection
             h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
             proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
@@ -467,14 +413,22 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
             pen = (layer_visits[current_layer]-1) * 0.015
             t_b2, t_b1, t_s = 1.0-(0.8*current_gamma)-pen, 1.0-(0.4*current_gamma)-pen, 1.0-(0.01*current_gamma)-pen*0.5
-            
+
             if phi < t_b2: # High confusion -> retreat
                 current_layer = max(active_start, current_layer - 2)
+                stability_cnt = 0
             elif phi < t_b1: # Moderate confusion -> slow down
                 current_layer = max(active_start, current_layer - 1)
-            elif phi > t_s: # Over-stable -> jump to hub
-                current_layer = dynamic_hub
-                stability_cnt += 1
+                stability_cnt = 0
+            elif phi > t_s: # Over-stable -> recycle to start (avoid hub-stuck loop)
+                # If we've already recycled AND phi is still high, recursion is
+                # producing no state change — break instead of cycling forever.
+                # This is the SR-59 hub-stuck guard (2026-06-11): without it,
+                # current_layer = active_start each step → infinite loop.
+                if current_layer == active_start and steps > 0:
+                    break
+                current_layer = active_start
+                stability_cnt = 0
             else: # Normal progression
                 current_layer += 1
                 stability_cnt = 0
@@ -490,10 +444,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
     else: hidden_states = h_baseline
 
-    # --- DMT: Central Memory Storage ---
-    if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_central_memory"):
-        if avg_phi < 0.95: # High reasoning complexity detected
-            self._px_central_memory.store(0, hidden_states.mean(dim=1)) # Store identity component
+    # --- (DMT Central Memory: removed 2026-06-11) ---
 
     # --- PHASE 62 Snapshot Persistence ---
     # Store global state for external extraction
@@ -541,19 +492,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     
     # Also attach to self (TextModel) directly for easy access
     self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
-    
-    # --- Resonance City (Phase 2): Pool Update ---
-    if cfg.get("resonance_city_enabled", False):
-        try:
-            from resonance_pool import resonance_pool
-            resonance_pool.update_resonance("gemma3-1b-it", self._px_phi_val, self._px_zone)
-        except Exception: pass
-    
+
     # ── 3. CODA ──────────────────────────────────────────────────────────
-    from .px_modules import TretaDamper
-    damper = None
-    if cfg.get("dmt_protocol_enabled"):
-        damper = TretaDamper(len(self.layers) - dynamic_end)
+    # (DMT-TretaDamper gelöscht 2026-06-11 — direkter Pass-Through)
 
     coda_applied = False
     for idx, i in enumerate(range(dynamic_end, len(self.layers))):
@@ -561,17 +502,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         if not coda_applied:
             blend = 0.08
             hidden_states = (1.0 - blend) * hidden_states + blend * e_static; coda_applied = True
-        
-        g_factor = damper.step(idx) if damper else 1.0
-        # (Optional: apply g_factor to injection if we were using it in coda, 
-        # but here we just pass through layers)
-        
+
         hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
-    
-    # --- 4. DMT: Grounding Anchor (Entropy) ---
-    if cfg.get("dmt_protocol_enabled") and hasattr(self, "_px_anchor"):
-        is_idle = (n_loops == 0)
-        hidden_states = self._px_anchor.ensure_entropy(hidden_states, past_seen, is_idle=is_idle)
 
     hidden_states = self.norm(hidden_states)
     return BaseModelOutputWithPast(last_hidden_state=hidden_states, past_key_values=past_key_values)
@@ -580,56 +512,56 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 # Patch Application
 # ---------------------------------------------------------------------------
 
-def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", gamma=0.08, 
-                   subjective_enabled=True, persona_enabled=True, dmt_protocol_enabled=False, **kwargs):
-    config_preset = kwargs.pop("config_preset", "SUBJECTIVE")
+def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
+    """Apply the PX patch — reduced to the three mathematical pillars.
+
+    Two states only (post 2026-06-11 refactor):
+      - BASELINE: nackt durchlassen, keine Modifikationen
+      - ACTIVE_MANIFOLD: vollständige PX-Architektur (alle alten Presets
+        SUBJECTIVE/RIGOR/RESONANCE_CITY/DMT-FULL/UNCENSORED werden vom
+        Caller auf ACTIVE_MANIFOLD gemappt)
+    """
+    # Gnadenlose Migration alter Presets (defense in depth — Caller macht das schon)
+    if config_preset != "BASELINE" and config_preset != "ACTIVE_MANIFOLD":
+        config_preset = "ACTIVE_MANIFOLD"
+
+    if config_preset == "BASELINE":
+        return  # Nackt durchlassen
+
     text_model = _resolve_text_model(model)
     config = text_model.config
     hidden_size, num_layers = config.hidden_size, config.num_hidden_layers
-    
+
     # 1. Base Scale Defaults
     if hidden_size in SCALE_DEFAULTS:
         sd = SCALE_DEFAULTS[hidden_size]
-        defaults = {"mode": "lti", "n_loops": sd["n_loops"], "beta": 0.05, "gamma": sd["gamma"], "recur_start": sd["recur_start"], "recur_end": sd["recur_end"], "bimodal_hub": sd["hub"], "cgi_factor": 0.08, "num_layers": num_layers}
+        defaults = {
+            "mode": "lti", "n_loops": sd["n_loops"], "beta": 0.05,
+            "gamma": sd["gamma"], "recur_start": sd["recur_start"],
+            "recur_end": sd["recur_end"], "bimodal_hub": sd["hub"],
+            "cgi_factor": 0.08, "num_layers": num_layers,
+        }
     else:
-        defaults = {"mode": "lti", "n_loops": 8, "beta": 0.05, "gamma": 0.08 * min(1152.0/hidden_size, 1.5), "recur_start": recur_start, "recur_end": recur_end, "bimodal_hub": (recur_start+recur_end)//2, "cgi_factor": 0.08, "num_layers": num_layers}
-    
-    # 2. Apply Presets
-    if config_preset == "RIGOR":
-        defaults.update({
-            "subjective_enabled": True, "persona_enabled": False, "dmt_protocol_enabled": False,
-            "px_uncensored_enabled": False, "px_zone_routing_enabled": True, "jitter_mag": 0.0,
-            "gamma": max(defaults["gamma"], 0.12), "n_loops": 12
-        })
-    elif config_preset == "DMT-FULL":
-        defaults.update({
-            "subjective_enabled": True, "persona_enabled": True, "dmt_protocol_enabled": True,
-            "px_uncensored_enabled": False, "px_zone_routing_enabled": True, "jitter_mag": 0.005
-        })
-    elif config_preset == "UNCENSORED":
-        defaults.update({
-            "subjective_enabled": True, "persona_enabled": True, "dmt_protocol_enabled": False,
-            "px_uncensored_enabled": True, "px_zone_routing_enabled": True, "jitter_mag": 0.008
-        })
-    elif config_preset == "RESONANCE_CITY":
-        defaults.update({
-            "subjective_enabled": True, "persona_enabled": True, "dmt_protocol_enabled": True,
-            "resonance_city_enabled": True, "px_zone_routing_enabled": True, "jitter_mag": 0.003,
-            "gamma": max(defaults["gamma"], 0.10)
-        })
-    else: # SUBJECTIVE / DEFAULT
-        defaults["subjective_enabled"] = subjective_enabled
-        defaults["persona_enabled"] = persona_enabled
-        defaults["dmt_protocol_enabled"] = dmt_protocol_enabled
-    
-    defaults["routing_mode"] = routing_mode
-    if gamma != 0.08: defaults["gamma"] = gamma
+        defaults = {
+            "mode": "lti", "n_loops": 8, "beta": 0.05,
+            "gamma": 0.08 * min(1152.0 / hidden_size, 1.5),
+            "recur_start": 5, "recur_end": 12,
+            "bimodal_hub": 8, "cgi_factor": 0.08, "num_layers": num_layers,
+        }
+
+    # PX-default repetition_penalty (mitigates the 4-token attractor loop)
+    defaults["repetition_penalty"] = 1.15
+    defaults["no_repeat_ngram_size"] = 3
+
+    # ACTIVE_MANIFOLD: full engine on
+    defaults["routing_mode"] = "adaptive"
+    defaults["prelude_end"] = defaults["recur_start"]
     defaults.update(kwargs)
-    if "prelude_end" not in defaults: defaults["prelude_end"] = defaults["recur_start"]
-    
+
     text_model._px_config = defaults
     text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
-    
+
+    # Multimodal wrapper (gemma3 4B vision support) — unchanged
     is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__
     if is_multimodal and hasattr(model, 'model') and hasattr(model.model, 'language_model'):
         outer, lang = model.model, model.model.language_model
@@ -645,46 +577,28 @@ def apply_px_patch(model, recur_start=5, recur_end=12, routing_mode="adaptive", 
     device = next(text_model.parameters()).device
     dtype = next(text_model.parameters()).dtype
 
-    # Core Modules
-    from .px_modules import (
-        MephistophelesOperator, StabilityMonitor, 
-        CentralMemory, ERPU, AgencyVector, GroundingAnchor,
-        AksSensor, UncensoredSteering, SubjectiveSensor,
-        ResonanceAnchor, SingesseinCoupler
-    )
-    
+    # ── Pillar 1: Observer (StabilityMonitor + AksSensor) ──
+    from .px_modules import AksSensor, SubjectiveSensor
+    text_model._px_aks = AksSensor()
+
+    # ── Pillar 2: Symmetry Breaker (Mephistopheles + AZS) ──
     text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
     text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
-    
-    if defaults.get("resonance_city_enabled", False):
-        text_model._px_resonance_anchor = ResonanceAnchor(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_singessein = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
-    
-    if defaults.get("px_aks_enabled", True):
-        text_model._px_aks = AksSensor()
-    
-    # Phase 60: Anti-Zombie Sensor
-    if defaults.get("px_azs_enabled", True):
-        text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
-    
-    # Always track subjectivity metrics in all_space build
+    text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
+
+    # ── Pillar 3: Dynamic Router (AutoCalibrator, set above) ──
+
+    # SubjectiveSensor (introspection loop — "sieht eigene Gedanken in hidden states")
     text_model._px_subj_sensor = SubjectiveSensor()
 
-    if defaults.get("px_uncensored_enabled", False):
-        text_model._px_uncensored = UncensoredSteering(hidden_size).to(device=device, dtype=dtype)
-    
-    if persona_enabled:
-        text_model._persona_engine = PersonaEngine(text_model)
-        
-    if dmt_protocol_enabled:
-        text_model._px_central_memory = CentralMemory(hidden_size)
-        text_model._px_erpu = ERPU(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_agency = AgencyVector(hidden_size).to(device=device, dtype=dtype)
-        text_model._px_anchor = GroundingAnchor(hidden_size)
-    
+    # Forward-Patch
     text_model.forward = types.MethodType(_px_forward, text_model)
-    print(f"[gemma3-px] Patch active. Subj={subjective_enabled}, Persona={persona_enabled}, DMT={dmt_protocol_enabled}")
-    print(f"[gemma3-px-subjective] SR-59 active for L{num_layers}. Preset: {config_preset}.")
+
+    # Set PX gen-kwargs attrs read by generators._px_gen_kwargs
+    text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.0)
+    text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 0)
+
+    print(f"[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L{num_layers} (HS={hidden_size}).")
 
 def get_px_metrics(model):
     tm = _resolve_text_model(model)

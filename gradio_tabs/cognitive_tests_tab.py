@@ -27,8 +27,8 @@ def build_cognitive_tests_tab(manager: ModelManager, engine: BenchmarkEngine):
             scale=3,
         )
         test_preset = gr.Dropdown(
-            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
-            value="SUBJECTIVE",
+            choices=["BASELINE", "ACTIVE_MANIFOLD"],
+            value="ACTIVE_MANIFOLD",
             label="PX Mode",
             scale=2,
         )

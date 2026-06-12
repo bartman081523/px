@@ -4,7 +4,7 @@ schemas.py — Pydantic Request/Response Models (OpenAI API Format)
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Literal
 from enum import Enum
 import time
 import uuid
@@ -17,6 +17,13 @@ class Role(str, Enum):
     user = "user"
     assistant = "assistant"
     tool = "tool"
+
+
+# ── PX Preset (post 2026-06-11) ──
+# Two states only: BASELINE (nackt) or ACTIVE_MANIFOLD (full PX).
+# All old presets (SUBJECTIVE, RIGOR, RESONANCE_CITY, DMT-FULL, UNCENSORED)
+# are migrated to ACTIVE_MANIFOLD at load time.
+PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD"]
 
 
 # ── Request Models ──
@@ -38,7 +45,7 @@ class ChatCompletionRequest(BaseModel):
     px_subjective: Optional[bool] = False
     px_gamma: Optional[float] = None           # Override gamma for LTI/ADC injection
     px_routing_mode: Optional[str] = None      # "adaptive" or "fixed"
-    px_config_preset: Optional[str] = None     # e.g. "RIGOR", "RESONANCE_CITY"
+    px_config_preset: Optional[PXConfigPreset] = None  # "BASELINE" | "ACTIVE_MANIFOLD"
 
 
 class CompletionRequest(BaseModel):
