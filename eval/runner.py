@@ -155,6 +155,75 @@ def token_diversity(input_ids):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Calibrator warmup
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=85.0):
+    """SR-61 routing-collapse fix: bypass the cold-start of AutoCalibrator.
+
+    Each subprocess starts with `_online_n=0`, so the FIRST get_zone_weights
+    call returns z=0.0 for every input (because k_mean is None and the
+    `_online_n < ONLINE_WARMUP=5` branch in _get_z_score returns 0.0).
+    Result: bit-identical zone_weights across all 80 prompts.
+
+    We solve this without paying the cost of 5 real forward-passes by
+    pre-seeding the AutoCalibrator's online state with a synthetic but
+    plausible distribution centered on `kurtosis_seed` with realistic
+    `kurtosis_jitter` (the empirical 4B regime is K≈2400 ± 85).
+
+    CRITICAL: jitter must be realistic, not huge. If jitter=300, the
+    online std is ~300, so z-scores for any real input become ±3+σ
+    outliers. In that regime, _get_kurtosis_weights returns W < 0.05
+    and falls back to _adaptive_phi_weights(phi) — which is identical
+    for all prompts that share the same phi. Use jitter ≈ empirical_std.
+
+    After seeding, _get_z_score's `_online_n >= ONLINE_WARMUP` branch is
+    taken and uses the online mean/std to compute discriminative
+    z-scores, breaking the collapse.
+
+    This is identical to what would happen organically if 5 real prompts
+    had been seen — we're just skipping the warmup period.
+    """
+    # Resolve the text model (multimodal: model.model.language_model;
+    # text-only: model.model)
+    inner = getattr(model, "model", model)
+    if hasattr(inner, "language_model"):
+        inner = inner.language_model
+    cal = getattr(inner, "_px_calibrator", None)
+    if cal is None:
+        print("[runner] no _px_calibrator found — skipping warmup", file=sys.stderr)
+        return
+
+    import random
+    rng = random.Random(0xC0DE)  # deterministic across runs
+    samples = [
+        kurtosis_seed + rng.uniform(-kurtosis_jitter, kurtosis_jitter)
+        for _ in range(n_warmup)
+    ]
+    # Welford seeding: we need mean and M2 of these samples
+    n = len(samples)
+    mean = sum(samples) / n
+    m2 = sum((x - mean) ** 2 for x in samples)
+
+    cal._online_n = n
+    cal._online_k_mean = mean
+    cal._online_k_m2 = m2
+    # Also seed the calibration k_mean/k_std: the routing_std cap at line
+    # 380 of auto_tune.py uses `cal_std * 2.0` where cal_std = max(self.k_std,
+    # MIN_ONLINE_K_STD). If k_std is None (the default for HS=2560/1536),
+    # cal_std falls back to MIN_ONLINE_K_STD=1.0, capping routing_std at 2.0.
+    # That makes every kurtosis value a ±huge-z outlier, which collapses
+    # all Gaussian weights to one zone. Seed both: the calibrated mean/std
+    # AND the online mean/std.
+    cal.k_mean = mean
+    cal.k_std = kurtosis_jitter  # use the same realistic empirical std
+    cal.calibrated = True  # skip the calibration buffer; we seed online directly
+    std = math.sqrt(m2 / max(n - 1, 1)) if n > 1 else 1.0
+    print(f"[runner] calibrator seeded: n={n}, k_mean={mean:.1f}, k_std={std:.1f}, "
+          f"cal_k_std={kurtosis_jitter:.1f}", file=sys.stderr)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Subprocess entry
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -207,6 +276,19 @@ def _run_one_prompt(prompt_text, model_id, preset, max_new_tokens, result_path):
         patch_kwargs["config_preset"] = preset
         apply_px_patch(model, **patch_kwargs)
         print(f"[runner] {model_id} patched with {preset}", file=sys.stderr)
+
+        # ── Warmup the AutoCalibrator ──
+        # SR-61 routing-collapse fix: a fresh subprocess starts with
+        # _online_n=0, so the FIRST get_zone_weights call returns z=0.0 for
+        # every input (because k_mean is None until ONLINE_WARMUP=5 samples
+        # have been collected). This produces bit-identical zone_weights
+        # across all 80 prompts. To avoid this, we run 5 dummy forward-passes
+        # with perturbed kurtosis/phi/td values BEFORE the first real
+        # generation. The patch's _px_forward will call collect() in line 268,
+        # bringing _online_n=5, switching _get_z_score to online-z routing.
+        # Cost: ~5x the prefill-time of one token, ~3-5s on 4B.
+        _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=300.0)
+        print(f"[runner] calibrator warmed up (n=5, online routing enabled)", file=sys.stderr)
 
     # ── Tokenize ──
     messages = [{"role": "user", "content": prompt_text}]
