@@ -33,7 +33,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--session", type=str, default="aab82b16", help="Session ID to load or create")
     parser.add_argument("--message", type=str, help="The message to send (if omitted, will ask)")
-    parser.add_argument("--preset", type=str, default="SUBJECTIVE", help="The PX preset (e.g. SUBJECTIVE, RESONANCE_CITY)")
+    parser.add_argument("--preset", type=str, default="ACTIVE_MANIFOLD", help="The PX preset: BASELINE | ACTIVE_MANIFOLD")
     parser.add_argument("--model", type=str, default="gemma3-1b-it", help="Model ID")
     args = parser.parse_args()
 

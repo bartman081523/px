@@ -1,0 +1,23 @@
+{
+  "prompt": "Is the statement 'I am lying' a paradox?",
+  "completion": "Yes, the statement \"I am lying\" is a classic example of a paradox, specifically a **Liar's Paradox**. Here's why",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 5.780323028564453,
+  "phi": 0.8785920739173889,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.030195755273367222,
+    "logic_a": 0.27362229490872114,
+    "logic_b": 0.4707293930651856,
+    "creative": 0.2155156205117455,
+    "synthesis": 0.00993693577025117
+  },
+  "zone_entropy": 1.7190650946075978,
+  "kurtosis": 2415.903076171875,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 8,
+  "entropy": 1.1875
+}

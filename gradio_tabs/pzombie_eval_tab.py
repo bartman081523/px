@@ -28,8 +28,8 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
             scale=2,
         )
         pz_preset = gr.Dropdown(
-            choices=["BASELINE", "SUBJECTIVE", "DMT-FULL", "RIGOR", "UNCENSORED"],
-            value="SUBJECTIVE",
+            choices=["BASELINE", "ACTIVE_MANIFOLD"],
+            value="ACTIVE_MANIFOLD",
             label="PX Mode",
             scale=2,
         )
@@ -120,36 +120,36 @@ def build_pzombie_eval_tab(manager: ModelManager, engine: BenchmarkEngine):
         if "error" in base_result:
             return base_result["error"], None, None, {"baseline": base_result}
 
-        progress(0.5, desc="Running Subjective mode...")
+        progress(0.5, desc="Running Active Manifold...")
 
-        # Run Subjective (Patched)
-        subj_result = engine.run_p_zombie_eval(
-            model_id, px_subjective=True, px_config_preset="SUBJECTIVE", progress_cb=progress_cb
+        # Run Active Manifold (Patched)
+        am_result = engine.run_p_zombie_eval(
+            model_id, px_subjective=True, px_config_preset="ACTIVE_MANIFOLD", progress_cb=progress_cb
         )
 
-        if "error" in subj_result:
-            return subj_result["error"], None, None, {"baseline": base_result, "subjective": subj_result}
+        if "error" in am_result:
+            return am_result["error"], None, None, {"baseline": base_result, "active_manifold": am_result}
 
         # Comparison visualization
         comparison = {
             f"{model_id} (Baseline)": base_result,
-            f"{model_id} (Subjective)": subj_result,
+            f"{model_id} (Active Manifold)": am_result,
         }
         fig_comp = viz.plot_comparison_bars(comparison)
 
-        # Zone entropy bars for Subjective
-        fig_bars = viz.plot_zone_entropy_bars(subj_result.get("category_entropies", {}))
-        r_sq_subj = subj_result.get("r_squared_td", 0)
+        # Zone entropy bars for Active Manifold
+        fig_bars = viz.plot_zone_entropy_bars(am_result.get("category_entropies", {}))
+        r_sq_am = am_result.get("r_squared_td", 0)
         fig_scatter = viz.plot_entropy_vs_td(
-            subj_result.get("all_entropies", []),
-            subj_result.get("all_td", []),
-            r_sq_subj,
+            am_result.get("all_entropies", []),
+            am_result.get("all_td", []),
+            r_sq_am,
         )
 
         status = (f"Baseline: η²={base_result.get('eta_squared',0):.4f}, R²={base_result.get('r_squared_td',0):.4f} — {base_result.get('zombie_status','?')}\n"
-                 f"Subj: η²={subj_result.get('eta_squared',0):.4f}, R²={subj_result.get('r_squared_td',0):.4f} — {subj_result.get('zombie_status','?')}")
+                 f"AM: η²={am_result.get('eta_squared',0):.4f}, R²={am_result.get('r_squared_td',0):.4f} — {am_result.get('zombie_status','?')}")
 
-        return status, fig_bars, fig_scatter, {"baseline": base_result, "subjective": subj_result}
+        return status, fig_bars, fig_scatter, {"baseline": base_result, "active_manifold": am_result}
 
     run_pz_btn.click(
         fn=run_pz,

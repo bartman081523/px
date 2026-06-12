@@ -1,0 +1,23 @@
+{
+  "prompt": "If today is Wednesday, what day will it be 10 days from now?",
+  "completion": "Today is Wednesday. We want to find the day of the week 10 days from now.\nThe days of the week repeat in a cycle",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 27,
+  "gen_time_sec": 5.8127806186676025,
+  "phi": 0.8320977687835693,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.030195755273367222,
+    "logic_a": 0.27362229490872114,
+    "logic_b": 0.4707293930651856,
+    "creative": 0.2155156205117455,
+    "synthesis": 0.00993693577025117
+  },
+  "zone_entropy": 1.7190650946075978,
+  "kurtosis": 2264.135009765625,
+  "token_diversity_input": 0.8518518518518519,
+  "loops_run": 6,
+  "entropy": 1.1875
+}

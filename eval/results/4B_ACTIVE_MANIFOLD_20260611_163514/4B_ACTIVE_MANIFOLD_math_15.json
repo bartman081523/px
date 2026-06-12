@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve 5x = 25.",
+  "completion": "To solve the equation 5x = 25, we want to isolate x. We can do this by dividing both sides of the equation by",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 5.570553779602051,
+  "phi": 0.8451009392738342,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.030195755273367222,
+    "logic_a": 0.27362229490872114,
+    "logic_b": 0.4707293930651856,
+    "creative": 0.2155156205117455,
+    "synthesis": 0.00993693577025117
+  },
+  "zone_entropy": 1.7190650946075978,
+  "kurtosis": 2366.3232421875,
+  "token_diversity_input": 0.6842105263157895,
+  "loops_run": 6,
+  "entropy": 1.1875
+}
