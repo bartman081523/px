@@ -287,16 +287,22 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         current_gamma *= 0.8
     
     # --- all_space: Multi-Zone Adaptive Rigor (post 2026-06-11) ---
-    # Rigor/SUBJECTIVE/etc Presets sind eliminiert. AutoCalibrator routet
-    # über Kurtosis: < 310 = rigide Zone, ≥ 310 = emanzipierte Zone.
-    is_math_zone = (kurtosis < 235.0)
+    # SR-61b: 2D Manifold-based routing (Kurtosis, Phi)
+    zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=phi_intuition.item(), 
+                                                 token_diversity=getattr(self, '_task_token_diversity', None))
+    zone_name = zone_raw.upper()
+    self._px_zone = zone_name
 
-    if is_math_zone:
+    if zone_raw == "math":
         current_gamma = cfg.get("rigor_math_gamma", 0.15)
         dynamic_hub = cfg.get("rigor_hub", 8)
-        n_loops = cfg.get("rigor_loops", 12)
+        n_loops = max(12, cfg.get("rigor_loops", 12))
+    elif zone_raw == "logic_a" or zone_raw == "logic_b":
+        current_gamma = cfg.get("rigor_gamma", 0.08)
+        dynamic_hub = cfg.get("rigor_hub", 10)
+        n_loops = max(10, cfg.get("rigor_loops", 10))
     else:
-        # Emanzipierte Zone: Standard
+        # Creative / Synthesis Zone: Standard
         current_gamma = cfg.get("rigor_gamma", 0.08)
         dynamic_hub = cfg.get("rigor_hub", 10)
         n_loops = cfg.get("rigor_loops", 8)
@@ -565,7 +571,10 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     defaults.update(kwargs)
 
     text_model._px_config = defaults
-    text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
+    model_id = getattr(config, "_name_or_path", "unknown_model")
+    text_model._px_calibrator = AutoCalibrator(hidden_size, 
+                                               calibration_steps=getattr(config, "px_calibration_steps", 10),
+                                               model_id=model_id)
 
     # Multimodal wrapper (gemma3 4B vision support) — unchanged
     is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__
