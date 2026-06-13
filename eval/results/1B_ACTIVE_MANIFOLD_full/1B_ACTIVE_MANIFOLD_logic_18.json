@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: J, F, M, A, M, ?",
+  "completion": "This is a classic riddle! The answer is **A**\n\nIt's a sequence of letters that spells \"Madam.\"",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 26,
+  "input_tokens": 23,
+  "gen_time_sec": 2.2306032180786133,
+  "phi": 0.9887178540229797,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.518314965292211,
+    "logic_a": 0.26701383296121933,
+    "logic_b": 0.11197078350040053,
+    "creative": 0.0591869542870872,
+    "synthesis": 0.04351346295908197
+  },
+  "zone_entropy": 1.7919564535828734,
+  "kurtosis": 1119.3544921875,
+  "token_diversity_input": 0.6086956521739131,
+  "loops_run": 6,
+  "entropy": 1.4921875
+}

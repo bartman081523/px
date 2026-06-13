@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: J, F, M, A, M, ?",
+  "completion": "This looks like a sequence based on the first letters of the numbers in order:\n\n* **J** (10)\n* **F**",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 7.804288864135742,
+  "phi": 0.3321612775325775,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.2123275078965978,
+    "logic_a": 0.3698602432997804,
+    "logic_b": 0.2765737266459861,
+    "creative": 0.09880479553863418,
+    "synthesis": 0.042433725619001494
+  },
+  "zone_entropy": 2.04163473747274,
+  "kurtosis": 636.700439453125,
+  "token_diversity_input": 0.6363636363636364,
+  "loops_run": 56,
+  "entropy": 0.0
+}

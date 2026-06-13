@@ -1,0 +1,23 @@
+{
+  "prompt": "What if gravity reversed for one hour each day?",
+  "completion": "That's a fascinating question! The answer is, it's a bit of a trick question, and the answer is that it's not",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 1.9067504405975342,
+  "phi": 0.9242733716964722,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.4290281300384173,
+    "logic_a": 0.2969147882358131,
+    "logic_b": 0.14845739411790654,
+    "creative": 0.05137098554891002,
+    "synthesis": 0.07422869705895327
+  },
+  "zone_entropy": 1.9509911569058502,
+  "kurtosis": 509.3692321777344,
+  "token_diversity_input": 0.8,
+  "loops_run": 2,
+  "entropy": 1.3203125
+}

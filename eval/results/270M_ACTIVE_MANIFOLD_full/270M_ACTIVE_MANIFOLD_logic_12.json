@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: 1, 4, 9, 16, ?",
+  "completion": "The answer is 16.",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 8,
+  "input_tokens": 26,
+  "gen_time_sec": 0.7910482883453369,
+  "phi": 0.9585555791854858,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7230756349709273,
+    "logic_a": 0.15358233228809412,
+    "logic_b": 0.07679116614404706,
+    "creative": 0.008155278524908027,
+    "synthesis": 0.03839558307202353
+  },
+  "zone_entropy": 1.2748656964296439,
+  "kurtosis": 538.7265625,
+  "token_diversity_input": 0.5769230769230769,
+  "loops_run": 11,
+  "entropy": 0.8828125
+}

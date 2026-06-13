@@ -1,0 +1,23 @@
+{
+  "prompt": "Compute the sum 1+2+...+100.",
+  "completion": "The sum of the first $n$ positive integers is given by the formula:\n\n$$S_n = \\frac{n(n+1)}{2}$$\n\nIn this case, we want to compute the sum from 1 to 10. So we have:\n\n$S_{",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 13.267021656036377,
+  "phi": 0.9972008466720581,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 6.128203768280317e-64,
+    "logic_a": 2.625417073565178e-138,
+    "logic_b": 1.9449033403387015e-106,
+    "creative": 3.864883892071722e-55,
+    "synthesis": 1.9142471648914393e-79
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2411.06494140625,
+  "token_diversity_input": 0.7272727272727273,
+  "loops_run": 2,
+  "entropy": 0.2412109375
+}

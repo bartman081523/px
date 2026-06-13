@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between mathematics and music?",
+  "completion": "The relationship between mathematics and music is profound and has fascinated thinkers for centuries. It's not just a coincidence \u2013 there's a deep and complex connection that reveals fundamental principles underlying both music and mathematics. Here's a breakdown of the key relationships:\n\n**1. Mathematical Principles in Music:**",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 5.900782346725464,
+  "phi": 0.9932442903518677,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.24343796491437344,
+    "logic_a": 0.13578683443588072,
+    "logic_b": 0.06789367483110421,
+    "creative": 0.06399186019729107,
+    "synthesis": 0.48888966462135064
+  },
+  "zone_entropy": 1.9093585441104588,
+  "kurtosis": 1106.7579345703125,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 8,
+  "entropy": 1.4140625
+}

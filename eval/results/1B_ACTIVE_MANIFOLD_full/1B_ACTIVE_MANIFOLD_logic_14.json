@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the modus ponens form?",
+  "completion": "Okay, let's break down the modus ponens. It's a fundamental concept in logic and a really useful tool for reasoning.\n\n**",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.5468335151672363,
+  "phi": 0.9886001348495483,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.17423271273960875,
+    "logic_a": 0.16407892038279545,
+    "logic_b": 0.08203946020395524,
+    "creative": 0.05469379150490156,
+    "synthesis": 0.5249551141687391
+  },
+  "zone_entropy": 1.8803991827569593,
+  "kurtosis": 1100.7005615234375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 1.46875
+}

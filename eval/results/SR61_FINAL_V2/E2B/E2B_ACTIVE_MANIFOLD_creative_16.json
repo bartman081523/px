@@ -1,0 +1,23 @@
+{
+  "prompt": "Write three sentences about a snowflake that refuses to melt.",
+  "completion": "The delicate snowflake clung stubbornly to the frosty pane, refusing to yield to the warmth of the sun. Its intricate crystalline structure remained perfectly preserved, a tiny monument to winter's chill. It hung suspended, an unmelting jewel against the melting landscape.",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 53,
+  "input_tokens": 20,
+  "gen_time_sec": 15.286319255828857,
+  "phi": 0.26458609104156494,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.37044510952484794,
+    "logic_a": 0.3202056934718254,
+    "logic_b": 0.1601028467359127,
+    "creative": 0.06919492489945749,
+    "synthesis": 0.08005142336795636
+  },
+  "zone_entropy": 2.0381835627158478,
+  "kurtosis": 471.13214111328125,
+  "token_diversity_input": 0.85,
+  "loops_run": 48,
+  "entropy": 0.0
+}

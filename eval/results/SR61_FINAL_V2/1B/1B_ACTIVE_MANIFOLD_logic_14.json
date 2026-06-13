@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the modus ponens form?",
+  "completion": "The modus ponense, also known as \"modus ponens\" (Latin for \"mode of inference\"), is a valid argument from reasoning. It's a way to deduce that a proposition is true based on two premises and a denial of the consequent.\n\nHere\u2019s how it works:\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 18,
+  "gen_time_sec": 5.546109437942505,
+  "phi": 0.9896089434623718,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.1493600094822417,
+    "logic_a": 0.18213623140138407,
+    "logic_b": 0.17191049954985507,
+    "creative": 0.30780886968621807,
+    "synthesis": 0.18878438888030094
+  },
+  "zone_entropy": 2.2712103598101967,
+  "kurtosis": 1109.37255859375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 8,
+  "entropy": 1.59375
+}

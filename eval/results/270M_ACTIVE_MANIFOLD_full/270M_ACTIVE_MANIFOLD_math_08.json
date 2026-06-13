@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "completion": "3^4 = 3 * 3 * 3 * 3 = 249\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 22,
+  "input_tokens": 18,
+  "gen_time_sec": 1.0705547332763672,
+  "phi": 0.7654290199279785,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9153512499573914,
+    "logic_a": 0.048010966198927287,
+    "logic_b": 0.024005483099463643,
+    "creative": 0.0006295541944859517,
+    "synthesis": 0.012002741549731822
+  },
+  "zone_entropy": 0.5395518963347421,
+  "kurtosis": 519.668701171875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 3,
+  "entropy": 0.40625
+}

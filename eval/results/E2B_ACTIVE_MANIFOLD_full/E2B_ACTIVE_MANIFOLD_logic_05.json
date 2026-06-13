@@ -1,0 +1,23 @@
+{
+  "prompt": "If today is Wednesday, what day will it be 10 days from now?",
+  "completion": "Here's how to figure that out:\n\n1. **Days in a week:** There are 7 days in a week.\n2.",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 8.495121240615845,
+  "phi": 0.3364267349243164,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.19957979283753902,
+    "logic_a": 0.4189884233721956,
+    "logic_b": 0.22867778797645671,
+    "creative": 0.10726023597646628,
+    "synthesis": 0.045493758837342545
+  },
+  "zone_entropy": 2.0249045112899124,
+  "kurtosis": 653.3579711914062,
+  "token_diversity_input": 0.8846153846153846,
+  "loops_run": 56,
+  "entropy": 0.0
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a toast given at the end of the universe.",
+  "completion": "Alright, here's a toast for the end of the universe! \n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 17,
+  "input_tokens": 21,
+  "gen_time_sec": 1.20224928855896,
+  "phi": 0.9538747072219849,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.549772988338001,
+    "logic_a": 0.24204873517723646,
+    "logic_b": 0.12102436758861823,
+    "creative": 0.026641720101835367,
+    "synthesis": 0.060512183794309116
+  },
+  "zone_entropy": 1.7228167237559888,
+  "kurtosis": 432.7834777832031,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 11,
+  "entropy": 1.25
+}

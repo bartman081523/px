@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 1000 - 437?",
+  "completion": "10,002 - 1 = 9,998\n\n\nExactly 1 is the answer. \u09a4\u09bf\u09a8\u09bf \u090f\u0915 \u0938\u0902\u0916\u094d\u092f\u093e \u0939\u0948\u0964\n\n\u0907\u0938\u0932\u093f\u090f \u0909\u0924\u094d\u0924\u0930 **1** \u0939\u0948\u0902\u0964\u092a\u0923\u0947 \u0989\u09a4\u09cd\u09a4\u09b0 \u0926\u0940 \u0917\u0908 \u0925\u0940 \u0915\u093f \u0915\u094d\u092f\u093e \u0906\u092a \u092a\u0942\u091b \u0930\u0939\u0947 \u0925\u0947 \u092f\u093e \u0928\u0939\u0940\u0902",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 4.3786492347717285,
+  "phi": 0.9580195546150208,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7028112803766081,
+    "logic_a": 0.16433288306711089,
+    "logic_b": 0.08216644153355544,
+    "creative": 0.009606169255947948,
+    "synthesis": 0.04108322076677772
+  },
+  "zone_entropy": 1.3355363962017666,
+  "kurtosis": 478.18121337890625,
+  "token_diversity_input": 0.6956521739130435,
+  "loops_run": 11,
+  "entropy": 0.91015625
+}

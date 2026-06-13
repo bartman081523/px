@@ -1,0 +1,23 @@
+{
+  "prompt": "If A implies B, and B implies C, what does A imply?",
+  "completion": "Let's break down the logic:\n\n* **A implies B:** This means \"if A is true, then B must be true.\"  We can write this as A \u2192 B.\n* **B implies C:** This translates to \"if B is true then C must be True\".",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 25,
+  "gen_time_sec": 14.242662191390991,
+  "phi": 0.9962404370307922,
+  "zone": "math",
+  "zone_weights": {
+    "math": 1.5160306619876195e-13,
+    "logic_a": 8.565699888286643e-41,
+    "logic_b": 6.964136193519931e-32,
+    "creative": 9.369248320283686e-16,
+    "synthesis": 2.674831152916243e-27
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2357.360595703125,
+  "token_diversity_input": 0.68,
+  "loops_run": 5,
+  "entropy": 0.53125
+}

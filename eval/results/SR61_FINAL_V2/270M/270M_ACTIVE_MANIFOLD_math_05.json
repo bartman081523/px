@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "completion": "Let $f(x) = x^n$. We want to find the derivative $f'(x)$.\nWe can use the chain rule to differentiate $f'''(x)$ first.\n$f'''(\\alpha) = \\frac{d}{dx} \\left( \\frac{\\",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 2.6313905715942383,
+  "phi": 0.9327053427696228,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5236680027472194,
+    "logic_a": 0.2545178444740455,
+    "logic_b": 0.12725892223702276,
+    "creative": 0.030925764423200854,
+    "synthesis": 0.06362946111851138
+  },
+  "zone_entropy": 1.7776423278874398,
+  "kurtosis": 458.282958984375,
+  "token_diversity_input": 0.8260869565217391,
+  "loops_run": 3,
+  "entropy": 1.15625
+}

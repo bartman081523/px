@@ -1,0 +1,23 @@
+{
+  "prompt": "If it rains, the ground gets wet. The ground is wet. Did it rain?",
+  "completion": "Yes, it rained.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 7,
+  "input_tokens": 28,
+  "gen_time_sec": 0.6674222946166992,
+  "phi": 0.7609278559684753,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9107825814320691,
+    "logic_a": 0.04800719201023083,
+    "logic_b": 0.024003600011801657,
+    "creative": 0.0052048277962403605,
+    "synthesis": 0.012001797749653221
+  },
+  "zone_entropy": 0.5783096705320362,
+  "kurtosis": 382.1430969238281,
+  "token_diversity_input": 0.7142857142857143,
+  "loops_run": 3,
+  "entropy": 1.09375
+}

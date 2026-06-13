@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Rust whispers of time,\nSilent circuits hum low,\nLost in the dust. \n\n---\n\nThis haiku captures the feeling of a forgotten",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 2.516258478164673,
+  "phi": 0.9874240756034851,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.2503522308666523,
+    "logic_a": 0.14052665912668932,
+    "logic_b": 0.17698461436626997,
+    "creative": 0.3201568772924082,
+    "synthesis": 0.11197961734798008
+  },
+  "zone_entropy": 2.2199747472361615,
+  "kurtosis": 1112.3089599609375,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 8,
+  "entropy": 1.578125
+}

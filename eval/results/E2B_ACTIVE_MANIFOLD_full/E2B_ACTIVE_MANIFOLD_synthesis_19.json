@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the connection between a poem and a mathematical proof?",
+  "completion": "The connection between a poem and a mathematical proof might seem abstract at first, as they operate in seemingly different domains\u2014language and logic, emotion and rigor",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 7.862800598144531,
+  "phi": 0.339260071516037,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.23311135022911386,
+    "logic_a": 0.14042358052501536,
+    "logic_b": 0.07021180625910708,
+    "creative": 0.052874750171738746,
+    "synthesis": 0.5033785118150249
+  },
+  "zone_entropy": 1.8792513848894612,
+  "kurtosis": 423.23590087890625,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 56,
+  "entropy": 0.0
+}

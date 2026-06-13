@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "completion": "The derivative of x^2 + 3x with respect to x is:\n\nd/dx (x^2 + 3x)\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.699512004852295,
+  "phi": 0.9886585474014282,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.3802997343023817,
+    "logic_a": 0.07093282338747865,
+    "logic_b": 0.11602569101469921,
+    "creative": 0.31512846063342026,
+    "synthesis": 0.11761328966202013
+  },
+  "zone_entropy": 2.049941444306708,
+  "kurtosis": 1111.9464111328125,
+  "token_diversity_input": 0.8260869565217391,
+  "loops_run": 7,
+  "entropy": 1.4375
+}

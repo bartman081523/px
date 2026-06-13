@@ -1,0 +1,23 @@
+{
+  "prompt": "If a triangle has sides 3, 4, 5, what is its area?",
+  "completion": "Let the triangle be denoted as $\\triangle ABC$, where $AB = 3$, $BC = 4$, and $AC = 5$. We can use Heron's formula to find the area of this triangle.\n\nHeron's Formula states that the area $A$ of a",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 29,
+  "gen_time_sec": 14.516738891601562,
+  "phi": 0.9967431426048279,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 1.2529872622212624e-36,
+    "logic_a": 4.9307526060455596e-86,
+    "logic_b": 1.1512318725124832e-66,
+    "creative": 2.601902080040996e-34,
+    "synthesis": 4.464520943553107e-52
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2385.846923828125,
+  "token_diversity_input": 0.7241379310344828,
+  "loops_run": 4,
+  "entropy": 0.1259765625
+}

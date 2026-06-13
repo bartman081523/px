@@ -1,0 +1,23 @@
+{
+  "prompt": "What can physics learn from biology?",
+  "completion": "Physics learns from biology in a variety of ways, and it's a vast field with many areas of study. Here are some key areas where physics can learn:\n\n*   **Understanding the fundamental laws of nature:** Physics explores the principles that govern how matter behaves under various conditions, including gravity,",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 17,
+  "gen_time_sec": 2.0381853580474854,
+  "phi": 0.9108473062515259,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.1770736026515101,
+    "logic_a": 0.3635905784444105,
+    "logic_b": 0.18179528922220525,
+    "creative": 0.18664288007077157,
+    "synthesis": 0.09089764461110263
+  },
+  "zone_entropy": 2.1865570324331443,
+  "kurtosis": 459.68621826171875,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 1,
+  "entropy": 1.515625
+}

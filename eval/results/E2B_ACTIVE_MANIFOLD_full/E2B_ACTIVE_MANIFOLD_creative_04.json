@@ -1,0 +1,23 @@
+{
+  "prompt": "Write the opening line of a novel set inside a dream.",
+  "completion": "Here are a few options, depending on the *tone* and *style* of the dream you're aiming for:\n\n**Option 1",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 8.170492887496948,
+  "phi": 0.33871039748191833,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.1317369354002206,
+    "logic_a": 0.17661259931505174,
+    "logic_b": 0.08927217363940104,
+    "creative": 0.23112708017636543,
+    "synthesis": 0.37125121046896103
+  },
+  "zone_entropy": 2.1573164487895315,
+  "kurtosis": 511.75140380859375,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 56,
+  "entropy": 0.0
+}

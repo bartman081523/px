@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Steel shell, silent, still,\nDust motes dance in the gloom,\nLost memories sleep. \n\n---\n\nThis haiku captures the",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 2.542628526687622,
+  "phi": 0.9872512817382812,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.22195100525746905,
+    "logic_a": 0.14557161810120683,
+    "logic_b": 0.09318737968774338,
+    "creative": 0.31027765004334346,
+    "synthesis": 0.2290123459102372
+  },
+  "zone_entropy": 2.216632121266329,
+  "kurtosis": 1110.6573486328125,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 8,
+  "entropy": 1.53125
+}

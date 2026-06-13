@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the missing number: 2, 4, 8, 16, ?, 64",
+  "completion": "The missing number is 32.\n\nThe sequence is doubling the previous number:\n\n* 2 x 2 = 4\n* ",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 33,
+  "gen_time_sec": 5.432464361190796,
+  "phi": 0.9964557886123657,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9477809029002295,
+    "logic_a": 0.04004024404968209,
+    "logic_b": 0.009055313872627825,
+    "creative": 0.003121917064399503,
+    "synthesis": 1.6211083557262274e-06
+  },
+  "zone_entropy": 0.34669171047496417,
+  "kurtosis": 2376.859619140625,
+  "token_diversity_input": 0.6060606060606061,
+  "loops_run": 1,
+  "entropy": 0.83203125
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Compare a forest ecosystem to a market economy.",
+  "completion": "The forest ecosystem is a complex and interconnected system of plants, animals, fungi, and microorganisms that play a vital role in maintaining the health and stability of",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 1.5661635398864746,
+  "phi": 0.9560879468917847,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.33713780853976216,
+    "logic_a": 0.33205666381403304,
+    "logic_b": 0.16602833190701652,
+    "creative": 0.0817630247856801,
+    "synthesis": 0.08301416595350826
+  },
+  "zone_entropy": 2.0804863519304155,
+  "kurtosis": 523.0926513671875,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 11,
+  "entropy": 1.4296875
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What can physics learn from biology?",
+  "completion": "Physics and biology are deeply intertwined, revealing a surprising amount of interconnectedness. Physics provides the framework for understanding how biological systems work, while biology offers insights into the fundamental laws that govern life itself. Here's a breakdown of some key areas where physics plays a crucial role:\n\n**1. Thermodynamics",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 17,
+  "gen_time_sec": 5.471990346908569,
+  "phi": 0.9922553300857544,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5400468523713425,
+    "logic_a": 0.21578456117521444,
+    "logic_b": 0.103887956699383,
+    "creative": 0.09479711219729972,
+    "synthesis": 0.04548351655676023
+  },
+  "zone_entropy": 1.8218021732609642,
+  "kurtosis": 1124.8201904296875,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 6,
+  "entropy": 1.4921875
+}

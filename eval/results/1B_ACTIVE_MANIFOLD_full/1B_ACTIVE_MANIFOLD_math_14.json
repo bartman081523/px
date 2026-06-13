@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 2^10?",
+  "completion": "2^10 means 2 raised to the power of 10, which is 1024.\n\n2^10 =",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.6500964164733887,
+  "phi": 0.9883495569229126,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.41685810671952134,
+    "logic_a": 0.04676347056099704,
+    "logic_b": 0.025062687115201782,
+    "creative": 0.1913633849989899,
+    "synthesis": 0.31995234960529007
+  },
+  "zone_entropy": 1.848687755856918,
+  "kurtosis": 1108.9610595703125,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 1.234375
+}

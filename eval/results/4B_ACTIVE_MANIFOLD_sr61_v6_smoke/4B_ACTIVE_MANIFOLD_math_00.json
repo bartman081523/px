@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 17 * 23?",
+  "completion": "17 multiplied by 24 equals 408.\n\nHere's how to calculate it:\n\n*   17 x 20 = 340\n*   Then, 10 x 16 = 150\n    Adding those together gives you",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 12.898998737335205,
+  "phi": 0.9961546063423157,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.91426131022956,
+    "logic_a": 0.06577860439480289,
+    "logic_b": 0.015321031964059761,
+    "creative": 0.004635694823411543,
+    "synthesis": 3.3576617517820138e-06
+  },
+  "zone_entropy": 0.5048581325354717,
+  "kurtosis": 2347.90283203125,
+  "token_diversity_input": 0.75,
+  "loops_run": 1,
+  "entropy": 0.373046875
+}

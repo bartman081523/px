@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe the color of silence to someone who has never seen.",
+  "completion": "Okay, let's try to describe silence. It\u2019s a strange thing. It\u2019s not a color, not a sound, not a feeling. It\u2019s\u2026 a feeling of vastness. \n\nBut I can try to describe a *feeling* of silence, and then offer",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 5.857926845550537,
+  "phi": 0.9931790232658386,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.38826493114399974,
+    "logic_a": 0.062417611447405014,
+    "logic_b": 0.031208805723704637,
+    "creative": 0.012444160211844196,
+    "synthesis": 0.5056644904730379
+  },
+  "zone_entropy": 1.51202799216076,
+  "kurtosis": 1097.7623291015625,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 8,
+  "entropy": 1.171875
+}

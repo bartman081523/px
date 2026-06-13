@@ -1,0 +1,23 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "completion": "Here's how to determine the truth value of \"P or Q\" when P is false:\n\n**Understanding the \"OR\" ($\\lor$)",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 25,
+  "gen_time_sec": 7.762653350830078,
+  "phi": 0.3399933874607086,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.2529757420566593,
+    "logic_a": 0.13140854380591063,
+    "logic_b": 0.06731442264607837,
+    "creative": 0.2056487255695406,
+    "synthesis": 0.34265256492181106
+  },
+  "zone_entropy": 2.1471295869034375,
+  "kurtosis": 516.8966064453125,
+  "token_diversity_input": 0.84,
+  "loops_run": 56,
+  "entropy": 0.0
+}

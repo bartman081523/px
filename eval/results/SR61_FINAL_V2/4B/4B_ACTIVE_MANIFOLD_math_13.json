@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "completion": "The next prime number after 7 is 17.\n\nHere's how to find it:\n\n*   Prime numbers are whole numbers greater than 1 that have only two divisors, 1 and themselves.\n*   After 19, the next few primes are 23",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 13.809239625930786,
+  "phi": 0.9966293573379517,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8767716261462856,
+    "logic_a": 1.2342304060504705e-13,
+    "logic_b": 8.648924082859608e-11,
+    "creative": 0.00015788707871193796,
+    "synthesis": 1.4895708032753666e-11
+  },
+  "zone_entropy": 0.0024993786648849197,
+  "kurtosis": 2331.86376953125,
+  "token_diversity_input": 0.8,
+  "loops_run": 1,
+  "entropy": 0.318359375
+}

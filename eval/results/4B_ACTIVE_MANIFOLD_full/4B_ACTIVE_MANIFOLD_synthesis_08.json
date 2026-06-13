@@ -1,0 +1,23 @@
+{
+  "prompt": "What can dance teach us about mathematics?",
+  "completion": "You've hit upon a fascinating and surprisingly deep connection! Dance and mathematics share more than just a shared appreciation for rhythm and movement. Here's",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 5.367070436477661,
+  "phi": 0.9961618781089783,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9877353974622404,
+    "logic_a": 0.009110856648978425,
+    "logic_b": 0.002049669300895914,
+    "creative": 0.001103842083099908,
+    "synthesis": 2.3313006935379942e-07
+  },
+  "zone_entropy": 0.10849312042136673,
+  "kurtosis": 2393.907958984375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 1.484375
+}

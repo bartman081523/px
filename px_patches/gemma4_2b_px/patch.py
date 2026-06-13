@@ -24,7 +24,7 @@ from typing import Optional, Dict, List, Any
 
 from .auto_tune import AutoCalibrator, SCALE_DEFAULTS
 from .px_modules import (
-    StabilityMonitor, AksSensor, MephistophelesOperator, SubjectiveSensor
+    StabilityMonitor, AksSensor, MephistophelesOperator, SubjectiveSensor, SingesseinCoupler
 )
 from .anti_zombie_sensor import AntiZombieSensor
 
@@ -424,6 +424,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             if hasattr(self, "_px_mephisto"):
                 h_exp = self._px_mephisto(h_exp, phi_history)
 
+            # --- SR-61: Singessein Coupler (Repetition Guard) ---
+            if hasattr(self, "_px_coupler"):
+                h_exp = self._px_coupler(h_exp, steps, phi_val=phi_s.item())
+
         avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
         hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
 
@@ -644,6 +648,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         if os.environ.get("DEBUG_PX") == "1":
             print(f"  [PX Recursion] Entering loop: n_loops={n_loops} | dynamic_start={dynamic_start} | dynamic_end={dynamic_end}")
 
+        if hasattr(self, "_px_coupler"): self._px_coupler.reset()
+
         h_exp = e_reflector.clone()
         current_layer = dynamic_start
         max_steps = (dynamic_end - dynamic_start) * n_loops * 3
@@ -718,6 +724,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
             if hasattr(self, "_px_mephisto"):
                 h_exp = self._px_mephisto(h_exp, phi_history)
+
+            # --- SR-61: Singessein Coupler (Repetition Guard) ---
+            if hasattr(self, "_px_coupler"):
+                h_exp = self._px_coupler(h_exp, steps, phi_val=phi_s.item())
 
             h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
             proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
@@ -986,6 +996,7 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
     text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
     text_model._px_aks = AksSensor()
+    text_model._px_coupler = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
     text_model._px_subj_sensor = SubjectiveSensor()
     text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
 

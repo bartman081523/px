@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: 1, 4, 9, 16, ?",
+  "completion": "The pattern is the sequence of perfect squares. Each number in the sequence is 4 times the previous number plus 1.\n\n* 1 = 1 * 1 + 0 (1^2)\n* 4 = 2 * 2 + 1\n*  9",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 26,
+  "gen_time_sec": 5.9257752895355225,
+  "phi": 0.9926489591598511,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.44614963475375957,
+    "logic_a": 0.030539584360260254,
+    "logic_b": 0.020487425807508508,
+    "creative": 0.18756319750676004,
+    "synthesis": 0.3152601565717115
+  },
+  "zone_entropy": 1.766034881755675,
+  "kurtosis": 1104.319580078125,
+  "token_diversity_input": 0.5769230769230769,
+  "loops_run": 8,
+  "entropy": 1.3671875
+}

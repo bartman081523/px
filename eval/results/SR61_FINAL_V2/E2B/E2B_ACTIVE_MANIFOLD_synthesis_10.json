@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between sleep and creativity?",
+  "completion": "The relationship between **sleep and creativity** is a complex, multifaceted, and increasingly understood area of research. While there isn't one single definitive answer, the overwhelming consensus suggests that **adequate, quality sleep is crucial for optimal cognitive function, which in turn fuels creative processes.**\n\nHere is a detailed",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 18,
+  "gen_time_sec": 17.347176790237427,
+  "phi": 0.33417993783950806,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.32695275336508256,
+    "logic_a": 0.3354357373147688,
+    "logic_b": 0.1677178686573844,
+    "creative": 0.08603470433407201,
+    "synthesis": 0.0838589343286922
+  },
+  "zone_entropy": 2.0922997780102754,
+  "kurtosis": 543.36572265625,
+  "token_diversity_input": 0.8333333333333334,
+  "loops_run": 56,
+  "entropy": 0.0
+}

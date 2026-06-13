@@ -1,0 +1,23 @@
+{
+  "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?",
+  "completion": "No.\n\nThe statement \"if all roses were flowers\" is false. Roses are a type of flower, not a collection of flowers.\n\n\n\u0928\u0947\u0924\u094d\u0930 (eye) is a visual representation of the iris, which is a type or part of the flower family.\nFlowers",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 31,
+  "gen_time_sec": 2.885324239730835,
+  "phi": 0.8144141435623169,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9184626675987667,
+    "logic_a": 0.05646867191600318,
+    "logic_b": 0.015589703360616767,
+    "creative": 0.0016884777044660398,
+    "synthesis": 0.007790478420147242
+  },
+  "zone_entropy": 0.5105489631197823,
+  "kurtosis": 335.11859130859375,
+  "token_diversity_input": 0.6774193548387096,
+  "loops_run": 5,
+  "entropy": 0.71875
+}
