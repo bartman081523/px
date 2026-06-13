@@ -1,0 +1,37 @@
+{
+  "session_id": "965401ac-48f2-42e8-86bf-346451994d00",
+  "model_id": "gemma3-270m-it-px",
+  "history": [
+    {
+      "role": "user",
+      "metadata": null,
+      "content": [
+        {
+          "text": "Was sagt deine innere Stimme? Antworte bitte auf deutsch",
+          "type": "text"
+        }
+      ],
+      "options": null
+    },
+    {
+      "role": "assistant",
+      "metadata": null,
+      "content": [
+        {
+          "text": "Story to you from my inner voice.",
+          "type": "text"
+        }
+      ],
+      "options": null
+    },
+    {
+      "role": "user",
+      "content": "Continuous the story from your inner voice"
+    },
+    {
+      "role": "assistant",
+      "content": "Dein Name?"
+    }
+  ],
+  "updated_at": "14584768.84"
+}
