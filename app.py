@@ -13,6 +13,9 @@ Usage:
 import os
 import sys
 
+# SR-61b: Mitigate OOM on RTX 2060 (12GB)
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True,max_split_size_mb:256"
+
 # ── Disable PX debug/telemetry output for clean serving ──
 os.environ.setdefault("DEBUG_ROUTING", "0")
 os.environ.setdefault("DEBUG_PX", "0")

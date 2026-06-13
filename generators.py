@@ -8,6 +8,19 @@ OpenAI-compatible SSE format: data: {json}\n\n, data: [DONE]\n\n
 import torch
 import json
 import time
+from transformers import StoppingCriteria, StoppingCriteriaList
+
+
+class StopOnEOT(StoppingCriteria):
+    """Hard-stop when chat delimiters are generated. (SR-61b)"""
+    def __init__(self, stop_ids):
+        self.stop_ids = stop_ids
+
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+        if input_ids.shape[1] == 0: return False
+        # Handle batching if needed, though we serve single-user
+        last_id = input_ids[0, -1].item()
+        return last_id in self.stop_ids
 import uuid
 from typing import Generator, Optional, List, Union
 
@@ -41,6 +54,16 @@ def _px_gen_kwargs(model, base: dict) -> dict:
     ngram = _find_px_attr(model, "_px_no_repeat_ngram_size", default=0) or 0
     if isinstance(ngram, (int, float)) and ngram:
         base["no_repeat_ngram_size"] = int(ngram)
+    
+    # SR-61b: Hard-stop criteria for chat delimiters (e.g. <end_of_turn>)
+    eos_ids = base.get("eos_token_id", [])
+    if isinstance(eos_ids, int): 
+        eos_ids = [eos_ids]
+    if eos_ids:
+        clean_ids = list(set([int(eid) for eid in eos_ids if eid is not None]))
+        if clean_ids:
+            base["stopping_criteria"] = StoppingCriteriaList([StopOnEOT(clean_ids)])
+
     return base
 
 
@@ -57,31 +80,39 @@ def _find_px_attr(model, attr: str, default=None):
 
 
 def _inject_eot_eos(base: dict, tokenizer) -> dict:
-    """IT chat templates end with <end_of_turn> (token 106 for Gemma IT),
-    not <eos> (token 1). Without this, the model emits the natural
-    chat-end token and HF.generate keeps running until max_new_tokens
-    is hit or the model falls into a degenerate attractor. We accept
-    eos_token_id as either int or list and append the chat-template
-    end-of-turn token if it is distinct from tokenizer.eos_token_id.
+    """Robust injection of chat-specific end tokens.
+    Handles <end_of_turn> (106) and <end_of_thought> (107) for Gemma IT.
     """
-    eot_id = tokenizer.convert_tokens_to_ids("<end_of_turn>")
-    if eot_id is None or eot_id == tokenizer.unk_token_id:
-        return base
-    if eot_id == tokenizer.eos_token_id:
-        return base
+    eot_tokens = ["<end_of_turn>", "<end_of_thought>", "<eos>", "</s>"]
+    eot_ids = []
+    for t in eot_tokens:
+        tid = tokenizer.convert_tokens_to_ids(t)
+        if tid is not None and tid != tokenizer.unk_token_id:
+            eot_ids.append(tid)
+    
+    # Also add standard EOS if not present
+    if tokenizer.eos_token_id is not None:
+        eot_ids.append(tokenizer.eos_token_id)
+    
+    eot_ids = list(set(eot_ids)) # Unique
+
     eos_field = base.get("eos_token_id")
-    eos_ids: list
     if isinstance(eos_field, int):
         eos_ids = [eos_field]
     elif isinstance(eos_field, list):
         eos_ids = list(eos_field)
-    elif eos_field is None:
-        eos_ids = []
     else:
-        return base
-    if eot_id not in eos_ids:
-        eos_ids.append(eot_id)
+        eos_ids = []
+        
+    for eid in eot_ids:
+        if eid not in eos_ids:
+            eos_ids.append(eid)
+            
     base["eos_token_id"] = eos_ids
+    # Set pad_token_id to first EOS if not set
+    if base.get("pad_token_id") is None and eos_ids:
+        base["pad_token_id"] = eos_ids[0]
+        
     return base
 
 

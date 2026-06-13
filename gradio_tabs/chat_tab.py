@@ -177,6 +177,11 @@ def build_chat_tab(manager: ModelManager):
 
         messages = cleaned_history + [{"role": "user", "content": actual_message}]
 
+        # SR-61b: Explicitly clear cache to prevent OOM on 12GB cards
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
         # Phase 63: Proactive Auto-save (save user message before generation)
         save_session(session_id, messages, model_id=model_id)
 
@@ -193,28 +198,15 @@ def build_chat_tab(manager: ModelManager):
             top_p=tp,
             repetition_penalty=rp,
             do_sample=temp > 0,
-            pad_token_id=tokenizer.eos_token_id,
         )
 
-        # Inject PX-specific kwargs (SR-59 repetition_penalty, ngram) — same as generators.py
+        # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
         try:
-            from generators import _px_gen_kwargs
+            from generators import _px_gen_kwargs, _inject_eot_eos
+            gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
             gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
         except ImportError:
             pass
-
-        # IT chat templates end with <end_of_turn> (token 106 for Gemma IT),
-        # not <eos> (token 1). Without this, the model emits the natural
-        # chat-end token and HF.generate keeps running until max_new_tokens
-        # is hit or the model falls into a degenerate attractor.
-        eot_id = tokenizer.convert_tokens_to_ids("<end_of_turn>")
-        if eot_id is not None and eot_id != tokenizer.eos_token_id:
-            eos_ids = list(gen_kwargs.get("eos_token_id", []) or [])
-            if isinstance(gen_kwargs.get("eos_token_id"), int):
-                eos_ids = [gen_kwargs["eos_token_id"]]
-            if eot_id not in eos_ids:
-                eos_ids.append(eot_id)
-            gen_kwargs["eos_token_id"] = eos_ids
 
         def generate_with_lock():
             manager.lock_model(model_id)
