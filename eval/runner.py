@@ -211,6 +211,11 @@ def _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=
         print("[runner] no _px_calibrator found — skipping warmup", file=sys.stderr)
         return
 
+    # SR-61b: Check if manifold was already loaded by AutoCalibrator.__init__
+    if cal.calibrated:
+        print(f"[runner] persistent manifold loaded for {cal.model_id} — skipping synthetic warmup", file=sys.stderr)
+        return
+
     import random
     rng = random.Random(0xC0DE)  # deterministic across runs
     samples = [

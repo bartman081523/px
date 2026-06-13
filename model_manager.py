@@ -173,6 +173,9 @@ class ModelManager:
                 patch_kwargs["gamma"] = px_gamma
             if px_routing_mode is not None:
                 patch_kwargs["routing_mode"] = px_routing_mode
+            
+            # SR-61b: Explicitly pass subjective flag
+            patch_kwargs["subjective_enabled"] = px_subjective
 
             apply_fn = self._get_patch_function(model_id, "apply_px_patch")
             apply_fn(model, **patch_kwargs)
@@ -223,6 +226,9 @@ class ModelManager:
                 patch_kwargs["gamma"] = px_gamma
             if px_routing_mode is not None:
                 patch_kwargs["routing_mode"] = px_routing_mode
+            
+            # SR-61b: Explicitly pass subjective flag
+            patch_kwargs["subjective_enabled"] = px_subjective
 
             apply_fn = self._get_patch_function(model_id, "apply_px_patch")
             apply_fn(entry["model"], **patch_kwargs)

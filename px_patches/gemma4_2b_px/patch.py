@@ -282,13 +282,18 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                                                           token_diversity=getattr(self, '_task_token_diversity', None))
             zone_name = f"{zone_raw}"
 
-            # --- all_space: Zone-Dependent Feature Toggling (post 2026-06-11) ---
-            # Math: stärkere gamma, mehr Loops. Creative: Standard. Logic: mehr Loops.
-            # (DMT/Jitter sind gelöscht — keine Modifikation nötig)
-            if zone_raw == "MATH":
+            # --- all_space: Multi-Zone Adaptive Rigor (post 2026-06-11) ---
+            # SR-61b: 2D Manifold-based routing (Kurtosis, Phi)
+            phi_val = getattr(self, "_px_phi", 0.9)
+            zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=phi_val, 
+                                                          token_diversity=getattr(self, '_task_token_diversity', None))
+            zone_name = zone_raw.upper()
+            self._px_zone = zone_name
+
+            if zone_raw == "math":
                 token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
                 token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
-            elif zone_raw == "LOGIC":
+            elif zone_raw == "logic_a" or zone_raw == "logic_b":
                 token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
         else:
             zone_raw = "STATIC"
@@ -345,6 +350,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         h_baseline = trans_out
 
         phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
+        self._px_phi = phi_intuition.item() # SR-61b: save for next-step routing
         if hidden_states.shape[1] > 1 and hasattr(self, "_px_calibrator"):
             self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(),
                                        token_diversity=getattr(self, "_task_token_diversity", None))
@@ -975,7 +981,10 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     defaults["px_hub_stuck_guard"] = True
 
     text_model._px_config = defaults
-    text_model._px_calibrator = AutoCalibrator(hidden_size, calibration_steps=getattr(config, "px_calibration_steps", 10))
+    model_id = getattr(config, "_name_or_path", "unknown_model")
+    text_model._px_calibrator = AutoCalibrator(hidden_size, 
+                                               calibration_steps=getattr(config, "px_calibration_steps", 10),
+                                               model_id=model_id)
 
     is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__ or "Gemma4ForConditionalGeneration" in type(model).__name__ or "Gemma4ForCausalLM" in type(model).__name__
     if is_multimodal and hasattr(model, 'model') and hasattr(model.model, 'language_model'):
