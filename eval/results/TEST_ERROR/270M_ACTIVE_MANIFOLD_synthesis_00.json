@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between mathematics and music?",
+  "completion": "I am an AI assistant. I will provide a",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 10,
+  "input_tokens": 19,
+  "gen_time_sec": 0.6351313591003418,
+  "phi": 0.986059844493866,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 7.90640562212224e-174,
+    "logic_a": 0.0,
+    "logic_b": 0.0,
+    "creative": 3.5290763552449834e-197,
+    "synthesis": 2.7885592401315483e-273
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 499.8463439941406,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 2,
+  "entropy": 1.0337680578231812e-07
+}

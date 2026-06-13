@@ -4,7 +4,7 @@
 
 PYTHON_BIN="/run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python"
 BASE_DIR="/run/media/julian/ML4/ollama-work/all_space"
-OUT_DIR="$BASE_DIR/eval/results/SR61_FINAL_V2"
+OUT_DIR="$BASE_DIR/eval/results/SR63_B_FINAL"
 
 mkdir -p "$OUT_DIR"
 

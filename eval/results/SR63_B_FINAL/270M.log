@@ -1,0 +1,52 @@
+
+[  1/80] 270M | ACTIVE_MANIFOLD | math | prompt #1
+  > What is 17 * 23?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]
+Loading weights:  96%|█████████▌| 226/236 [00:00<00:00, 2259.77it/s]
+Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2326.01it/s]
+[runner] gemma3-270m-it patched with ACTIVE_MANIFOLD
+[runner] persistent manifold loaded for google/gemma-3-270m-it — skipping synthetic warmup
+[runner] calibrator warmed up (n=10, seed=313.0, jitter=40.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-270m-it ACTIVE_MANIFOLD | phi=0.986 | H=0.000 | zone=MATH | 60tok | 2.6s
+  ✓ phi=0.986 H=0.000 zone=MATH (8.8s, 60tok)
+
+[  2/80] 270M | ACTIVE_MANIFOLD | math | prompt #2
+  > Solve for x: 2x + 5 = 17
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2892.76it/s]
+[runner] gemma3-270m-it patched with ACTIVE_MANIFOLD
+[runner] persistent manifold loaded for google/gemma-3-270m-it — skipping synthetic warmup
+[runner] calibrator warmed up (n=10, seed=313.0, jitter=40.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-270m-it ACTIVE_MANIFOLD | phi=0.990 | H=0.000 | zone=MATH | 60tok | 2.5s
+  ✓ phi=0.990 H=0.000 zone=MATH (8.7s, 60tok)
+
+[  3/80] 270M | ACTIVE_MANIFOLD | math | prompt #3
+  > What is the square root of 144?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 236/236 [00:00<00:00, 3019.11it/s]
+[runner] gemma3-270m-it patched with ACTIVE_MANIFOLD
+[runner] persistent manifold loaded for google/gemma-3-270m-it — skipping synthetic warmup
+[runner] calibrator warmed up (n=10, seed=313.0, jitter=40.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-270m-it ACTIVE_MANIFOLD | phi=0.910 | H=0.000 | zone=CREATIVE | 60tok | 2.4s
+  ✓ phi=0.910 H=0.000 zone=CREATIVE (8.6s, 60tok)
+
+[  4/80] 270M | ACTIVE_MANIFOLD | math | prompt #4
+  > Calculate 15% of 240.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2796.11it/s]
+[runner] gemma3-270m-it patched with ACTIVE_MANIFOLD
+[runner] persistent manifold loaded for google/gemma-3-270m-it — skipping synthetic warmup
+[runner] calibrator warmed up (n=10, seed=313.0, jitter=40.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-270m-it ACTIVE_MANIFOLD | phi=0.987 | H=0.000 | zone=MATH | 60tok | 2.5s
