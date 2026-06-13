@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: J, F, M, A, M, ?",
+  "completion": "This looks like a sequence based on the first letters of the numbers in a specific order.\n\nLet's try to see if it relates to the alphabet or common sequences.\n\nIf we look at the pattern: **J, F**, then there is a gap.\n\nConsider the position of the",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 17.81351613998413,
+  "phi": 0.2714579701423645,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.4232345386988217,
+    "logic_a": 0.2993362455249201,
+    "logic_b": 0.14966812276246005,
+    "creative": 0.05292702963256808,
+    "synthesis": 0.07483406138123003
+  },
+  "zone_entropy": 1.9603123152125592,
+  "kurtosis": 698.202392578125,
+  "token_diversity_input": 0.6363636363636364,
+  "loops_run": 48,
+  "entropy": 0.0
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "completion": "The next prime number greater than 10 is 12.\n\n\n\u0639\u0644\u0627\u0648\u0629 \u0623\u0646 \u0647\u0646\u0627\u0643 \u0639\u062f\u062f\u064b\u0627 \u0645\u0646 \u0627\u0644\u0623\u0639\u062f\u0627\u062f \u0627\u0644\u062a\u064a \u0644\u0627 \u062a\u0642\u0639 \u0636\u0645\u0646 \u0646\u0637\u0627\u0642 1 \u0625\u0644\u0649 11.\n* 1 \u0647\u064a \u0639\u062f\u062f \u0635\u062d\u064a\u062d\u060c \u0644\u0630\u0627 \u0644\u0627 \u064a\u0648\u062c\u062f \u0639\u062f\u062f \u0635\u062d\u064a\u062d \u0623\u0643\u0628\u0631 \u0645\u0646",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 3.8226776123046875,
+  "phi": 0.9621866941452026,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6525837822175553,
+    "logic_a": 0.19057314796965502,
+    "logic_b": 0.09528657398482751,
+    "creative": 0.01391320383554845,
+    "synthesis": 0.047643286992413755
+  },
+  "zone_entropy": 1.4758198957737312,
+  "kurtosis": 537.9124145507812,
+  "token_diversity_input": 0.8,
+  "loops_run": 11,
+  "entropy": 1.03125
+}

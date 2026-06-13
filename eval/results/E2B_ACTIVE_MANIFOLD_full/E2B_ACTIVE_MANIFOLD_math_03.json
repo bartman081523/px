@@ -1,0 +1,23 @@
+{
+  "prompt": "Calculate 15% of 240.",
+  "completion": "Here are a few ways to calculate 15% of 240:\n\n**Method 1: Convert the percentage to a decimal**",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 7.812497138977051,
+  "phi": 0.26581767201423645,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8156212301108967,
+    "logic_a": 0.10179991310635753,
+    "logic_b": 0.04996781256090702,
+    "creative": 0.008015399533158938,
+    "synthesis": 0.024595643688679843
+  },
+  "zone_entropy": 0.9786580262753183,
+  "kurtosis": 736.9566040039062,
+  "token_diversity_input": 0.8,
+  "loops_run": 48,
+  "entropy": 0.0
+}

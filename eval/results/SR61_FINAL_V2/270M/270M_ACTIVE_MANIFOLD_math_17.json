@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the perimeter of a square with side 7?",
+  "completion": "The perimeter of the square is 48.\n\n\n \n,\n\n\nThe perimeter formula for a square is $4s$, where $s$ is the side length. In this case, the side has a length of 7, so the side",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 4.228590488433838,
+  "phi": 0.9155382513999939,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8975362171717278,
+    "logic_a": 0.058015018831223446,
+    "logic_b": 0.029007509415611723,
+    "creative": 0.000937494873631165,
+    "synthesis": 0.014503754707805861
+  },
+  "zone_entropy": 0.6244351583438538,
+  "kurtosis": 513.8055419921875,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 15,
+  "entropy": 0.392578125
+}

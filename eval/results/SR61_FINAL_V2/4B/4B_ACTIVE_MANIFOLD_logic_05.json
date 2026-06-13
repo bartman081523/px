@@ -1,0 +1,23 @@
+{
+  "prompt": "If today is Wednesday, what day will it be 10 days from now?",
+  "completion": "Let's figure out the date 11 days from today (Wednesday).\n\nToday is Wednesday. Adding 1 day gives us Thursday.\nAdding another 5 days gives us Monday.\nSo, 1 week and 5 more days after Wednesday would be a Monday.\n\nAlternatively:",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 27,
+  "gen_time_sec": 14.119743585586548,
+  "phi": 0.9970824122428894,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 1.396564613834628e-27,
+    "logic_a": 1.7920275432159008e-68,
+    "logic_b": 3.2000402484380635e-53,
+    "creative": 3.4233355214827606e-27,
+    "synthesis": 1.2449685388619024e-42
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2375.840576171875,
+  "token_diversity_input": 0.8518518518518519,
+  "loops_run": 4,
+  "entropy": 0.54296875
+}

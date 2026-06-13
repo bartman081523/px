@@ -1,0 +1,23 @@
+{
+  "prompt": "Is the statement 'I am lying' a paradox?",
+  "completion": "Yes, the statement \"I am lieing\" is a classic example of a logical paradox. It\u2019s often referred to as the Liar Paradox. Here's why:\n\n* **The Self-Referential Nature:** The sentence creates a circular contradiction. If you say \u201cI am li",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 13.543448686599731,
+  "phi": 0.995344340801239,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 4.118720652970919e-27,
+    "logic_a": 1.478652613110717e-67,
+    "logic_b": 1.6160537682489427e-52,
+    "creative": 8.098517818154722e-27,
+    "synthesis": 3.9179005138890595e-42
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2375.288330078125,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 4,
+  "entropy": 0.419921875
+}

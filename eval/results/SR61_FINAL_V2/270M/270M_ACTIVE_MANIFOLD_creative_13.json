@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe a tree that grows dreams instead of leaves.",
+  "completion": "A majestic, ancient oak tree with bark like weathered parchment and branches reaching for the sky, stands tall and proud against the backdrop of a vibrant forest. Its trunk is thick and gnarled, etched with intricate carvings depicting scenes of nature's artistry. The leaves are emerald green, shimmering in sunlight",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 2.251613140106201,
+  "phi": 0.904410183429718,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.23684271839028925,
+    "logic_a": 0.35854796907298125,
+    "logic_b": 0.17927398453649063,
+    "creative": 0.13569833073199355,
+    "synthesis": 0.08963699226824531
+  },
+  "zone_entropy": 2.170214873568398,
+  "kurtosis": 499.13714599609375,
+  "token_diversity_input": 0.8,
+  "loops_run": 1,
+  "entropy": 1.5390625
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the syllogism called when the conclusion is hidden in the premises?",
+  "completion": "The syllogisms where the conclusion isn't explicitly stated but implied are often referred to as **implicit** or **oblique** syllogismos.  There are several types of implicit syllogismus, including:\n\n*   **Anta Syllogism:** This is perhaps the most",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 26,
+  "gen_time_sec": 14.554903984069824,
+  "phi": 0.995768129825592,
+  "zone": "math",
+  "zone_weights": {
+    "math": 1.2174061948267397e-05,
+    "logic_a": 8.595369063447796e-25,
+    "logic_b": 2.0649106970855004e-19,
+    "creative": 6.0885268869373355e-09,
+    "synthesis": 5.0610089180519795e-18
+  },
+  "zone_entropy": 0.006202665403290988,
+  "kurtosis": 2344.156005859375,
+  "token_diversity_input": 0.7307692307692307,
+  "loops_run": 4,
+  "entropy": 0.37109375
+}

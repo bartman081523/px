@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between sleep and creativity?",
+  "completion": "The relationship between sleep and creativity is a complex and multifaceted topic, and there's no single, universally agreed-upon answer. It's a",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 1.9887640476226807,
+  "phi": 0.9549588561058044,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.44609342647987005,
+    "logic_a": 0.28965066641663073,
+    "logic_b": 0.14482533320831537,
+    "creative": 0.04701790229102611,
+    "synthesis": 0.07241266660415768
+  },
+  "zone_entropy": 1.9226637910570528,
+  "kurtosis": 473.10308837890625,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 11,
+  "entropy": 1.4375
+}

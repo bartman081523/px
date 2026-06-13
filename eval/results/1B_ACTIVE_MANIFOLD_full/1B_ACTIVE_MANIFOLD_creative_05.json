@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe a city built entirely of music.",
+  "completion": "The city of Cadenza sprawls across a vast, echoing canyon carved by a perpetual, slow rain of sound. It\u2019s not a city of",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.5471761226654053,
+  "phi": 0.989453911781311,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.20185418244968353,
+    "logic_a": 0.1536589163380114,
+    "logic_b": 0.0768617304077221,
+    "creative": 0.12345734715553908,
+    "synthesis": 0.4441678226490439
+  },
+  "zone_entropy": 2.0583566145018444,
+  "kurtosis": 1106.8157958984375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 1.421875
+}

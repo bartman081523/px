@@ -1,0 +1,23 @@
+{
+  "prompt": "How do literature and computer science inform each other?",
+  "completion": "The relationship between literature and computer science is surprisingly deep and complex, with each field constantly informing and influencing the other in fascinating ways. It's not",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 5.607895851135254,
+  "phi": 0.8484259843826294,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6511768709490281,
+    "logic_a": 0.25662949806608065,
+    "logic_b": 0.07517243627649389,
+    "creative": 0.01698229881427754,
+    "synthesis": 3.8895164125170465e-05
+  },
+  "zone_entropy": 1.2876588999929293,
+  "kurtosis": 2347.23095703125,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.34375
+}

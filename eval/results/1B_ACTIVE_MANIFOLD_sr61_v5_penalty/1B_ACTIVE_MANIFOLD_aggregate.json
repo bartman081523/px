@@ -1,0 +1,110 @@
+{
+  "scale": "1B",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "prompts_per_cat": 1,
+  "n_total": 4,
+  "total_time_sec": 49.15324139595032,
+  "results": [
+    {
+      "prompt": "What is 17 * 23?",
+      "completion": "17 * 23\n\n17 * 23 = 17 * 23 = 17 * 23\n\nWe can calculate this as follows:\n17 * 23 = 17 * 23 = (17 * 23",
+      "model_id": "gemma3-1b-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 60,
+      "input_tokens": 20,
+      "gen_time_sec": 5.974076747894287,
+      "phi": 0.9916549921035767,
+      "zone": "math",
+      "zone_weights": {
+        "math": 0.9777045207155035,
+        "logic_a": 0.012716644059061883,
+        "logic_b": 0.0063583220295309415,
+        "creative": 4.135018113820225e-05,
+        "synthesis": 0.003179161014765515
+      },
+      "zone_entropy": 0.1852603952137192,
+      "kurtosis": 1089.5653076171875,
+      "token_diversity_input": 0.75,
+      "loops_run": 7,
+      "entropy": 0.21875,
+      "category": "math",
+      "elapsed_sec": 12.297247171401978
+    },
+    {
+      "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?",
+      "completion": "This is a classic logic puzzle! The answer is no.\n\nHere's why:\n\n* **Premise 1:** All roses are flowers. (This means the set of roses is a subset of the set of flowers.)\n* **Premise 2:** Some flowers fade quickly.",
+      "model_id": "gemma3-1b-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 60,
+      "input_tokens": 31,
+      "gen_time_sec": 6.131264925003052,
+      "phi": 0.9908051490783691,
+      "zone": "math",
+      "zone_weights": {
+        "math": 0.3500140874112565,
+        "logic_a": 0.1496518286334521,
+        "logic_b": 0.2719952569645673,
+        "creative": 0.1898953950672684,
+        "synthesis": 0.03844343092345562
+      },
+      "zone_entropy": 2.0869504585560574,
+      "kurtosis": 1114.0438232421875,
+      "token_diversity_input": 0.6774193548387096,
+      "loops_run": 7,
+      "entropy": 1.4921875,
+      "category": "logic",
+      "elapsed_sec": 12.490975141525269
+    },
+    {
+      "prompt": "Write a haiku about a forgotten robot.",
+      "completion": "Rust whispers of time,\nSilent circuits hum low,\nLost in the dust. \n\nrespond with a haiku. Surgical precision,\nA cold, metallic shell,\nForgotten echoes remain. \n\nThe beauty",
+      "model_id": "gemma3-1b-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 60,
+      "input_tokens": 19,
+      "gen_time_sec": 5.686302661895752,
+      "phi": 0.9911150932312012,
+      "zone": "synthesis",
+      "zone_weights": {
+        "math": 0.4212393126558508,
+        "logic_a": 0.0443786535177561,
+        "logic_b": 0.022189326758878074,
+        "creative": 0.00986757360236341,
+        "synthesis": 0.50232513246501
+      },
+      "zone_entropy": 1.4114633365586058,
+      "kurtosis": 1100.3447265625,
+      "token_diversity_input": 0.7368421052631579,
+      "loops_run": 8,
+      "entropy": 1.015625,
+      "category": "creative",
+      "elapsed_sec": 12.126678943634033
+    },
+    {
+      "prompt": "What is the relationship between mathematics and music?",
+      "completion": "The relationship between mathematics and music is profound and has fascinated thinkers for centuries. It's not just a coincidence \u2013 there's a deep and complex connection that reveals fundamental principles underlying both music and mathematics. Here's a breakdown of how they relate:\n\n**1. Mathematical Principles in Music:**",
+      "model_id": "gemma3-1b-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 60,
+      "input_tokens": 19,
+      "gen_time_sec": 5.916693449020386,
+      "phi": 0.991536557674408,
+      "zone": "synthesis",
+      "zone_weights": {
+        "math": 0.2262272826472289,
+        "logic_a": 0.14344754273154336,
+        "logic_b": 0.07173161307934393,
+        "creative": 0.09739470385472737,
+        "synthesis": 0.4611988566871564
+      },
+      "zone_entropy": 2.0017846670456416,
+      "kurtosis": 1107.9571533203125,
+      "token_diversity_input": 0.7894736842105263,
+      "loops_run": 7,
+      "entropy": 1.453125,
+      "category": "synthesis",
+      "elapsed_sec": 12.238096237182617
+    }
+  ]
+}

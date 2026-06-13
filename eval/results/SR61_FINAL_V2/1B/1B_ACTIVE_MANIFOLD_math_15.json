@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve 5x = 25.",
+  "completion": "Here's how to solve the equation:\n\n**1. Solve for x:**\n\n*  If x = 5, then 5 * 5 = 30. This is not equal to 24.\n* If x = -5, we have -5 *5",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 5.5584869384765625,
+  "phi": 0.9907269477844238,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.36781000753314275,
+    "logic_a": 0.07420085183210455,
+    "logic_b": 0.05817460890720225,
+    "creative": 0.23535461509273287,
+    "synthesis": 0.26445991563481747
+  },
+  "zone_entropy": 2.0465615016513006,
+  "kurtosis": 1106.5157470703125,
+  "token_diversity_input": 0.6842105263157895,
+  "loops_run": 7,
+  "entropy": 1.4921875
+}

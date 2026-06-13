@@ -1,0 +1,23 @@
+{
+  "prompt": "What can physics learn from biology?",
+  "completion": "Physics can learn from biology in a variety of ways, and the most significant aspects are:\n\n*   **Understanding the fundamental principles of the universe:**",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 1.3584609031677246,
+  "phi": 0.9037125706672668,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.26151845455393213,
+    "logic_a": 0.3536641342893815,
+    "logic_b": 0.17683206714469074,
+    "creative": 0.11956930543965032,
+    "synthesis": 0.08841603357234537
+  },
+  "zone_entropy": 2.154165109270194,
+  "kurtosis": 530.0509033203125,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 1,
+  "entropy": 1.484375
+}

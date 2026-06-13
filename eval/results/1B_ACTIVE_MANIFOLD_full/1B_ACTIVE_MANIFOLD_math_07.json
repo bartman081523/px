@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 7 factorial?",
+  "completion": "7! (7 factorial) is the product of all positive integers from 1 to 7.\n\n7! = 7 * 6 *",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 16,
+  "gen_time_sec": 2.584089756011963,
+  "phi": 0.9880169034004211,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.3058659694228904,
+    "logic_a": 0.10571414130562076,
+    "logic_b": 0.05289944315095682,
+    "creative": 0.10780758509461245,
+    "synthesis": 0.42771286002591935
+  },
+  "zone_entropy": 1.9602658203624905,
+  "kurtosis": 1106.95166015625,
+  "token_diversity_input": 0.75,
+  "loops_run": 7,
+  "entropy": 1.40625
+}

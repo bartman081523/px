@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: J, F, M, A, M, ?",
+  "completion": "The sequence is: J, F, M, A, M, **J**\n\nThis is the first letter of each month of the year:",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 5.60731840133667,
+  "phi": 0.8939036726951599,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9517731636857076,
+    "logic_a": 0.03695758267800601,
+    "logic_b": 0.008331465432694128,
+    "creative": 0.0029363393329358773,
+    "synthesis": 1.4478517722371194e-06
+  },
+  "zone_entropy": 0.3259899972218994,
+  "kurtosis": 2377.857666015625,
+  "token_diversity_input": 0.6086956521739131,
+  "loops_run": 9,
+  "entropy": 0.95703125
+}

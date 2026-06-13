@@ -1,0 +1,23 @@
+{
+  "prompt": "Complete: 1, 4, 9, 16, ?",
+  "completion": "The next number in the sequence is **25**.\n\nHere's why:\n\nThis is a sequence of **perfect squares**:\n\n* $",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 25,
+  "gen_time_sec": 7.929121017456055,
+  "phi": 0.33158767223358154,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.22816302006463454,
+    "logic_a": 0.14292581732037324,
+    "logic_b": 0.09369968522148579,
+    "creative": 0.3119398781003873,
+    "synthesis": 0.22327159829311896
+  },
+  "zone_entropy": 2.214847262086508,
+  "kurtosis": 547.3413696289062,
+  "token_diversity_input": 0.6,
+  "loops_run": 56,
+  "entropy": 0.0
+}

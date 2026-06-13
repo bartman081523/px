@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the syllogism called when the conclusion is hidden in the premises?",
+  "completion": "You've hit on a really interesting and subtle point in logic! That type of syllogism is called an **Abductive Argument** or",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 5.683311939239502,
+  "phi": 0.9959562420845032,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8452183937232968,
+    "logic_a": 0.11787967412978341,
+    "logic_b": 0.029204450114671418,
+    "creative": 0.007688919056757976,
+    "synthesis": 8.562128028143419e-06
+  },
+  "zone_entropy": 0.7716845203123747,
+  "kurtosis": 2361.8798828125,
+  "token_diversity_input": 0.7307692307692307,
+  "loops_run": 1,
+  "entropy": 0.61328125
+}

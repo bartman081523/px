@@ -1,0 +1,23 @@
+{
+  "prompt": "Compute the sum 1+2+...+100.",
+  "completion": "Let $S$ be the sum of the numbers from 1 to 100.\nWe have $S = 1 + 2",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 2.628204822540283,
+  "phi": 0.9918542504310608,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7752318724800035,
+    "logic_a": 0.1255349103994018,
+    "logic_b": 0.0627674551997009,
+    "creative": 0.005082032321043512,
+    "synthesis": 0.03138372759985045
+  },
+  "zone_entropy": 1.10670964641992,
+  "kurtosis": 1071.44384765625,
+  "token_diversity_input": 0.7272727272727273,
+  "loops_run": 7,
+  "entropy": 1.171875
+}

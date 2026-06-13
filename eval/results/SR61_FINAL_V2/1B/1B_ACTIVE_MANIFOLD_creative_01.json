@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe the color of silence to someone who has never seen.",
+  "completion": "Okay, let's try to describe a color that\u2019s impossible to truly capture with light, but I can paint a picture for you:\n\nSilence is not a sound. It isn't a hue or shade in any spectrum imaginable. Imagine if you were holding all the quietest, most",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 5.643720388412476,
+  "phi": 0.991350531578064,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.13425142606176466,
+    "logic_a": 0.17602733894716438,
+    "logic_b": 0.08801376324743122,
+    "creative": 0.10930052058353192,
+    "synthesis": 0.4924069501601077
+  },
+  "zone_entropy": 1.9910026990541971,
+  "kurtosis": 1092.382080078125,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 7,
+  "entropy": 1.453125
+}

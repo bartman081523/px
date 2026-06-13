@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 7 factorial?",
+  "completion": "7! = 7 * 6 * 5 * 4 * 3 * 2 * 1\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 25,
+  "input_tokens": 16,
+  "gen_time_sec": 1.1869468688964844,
+  "phi": 0.7591345906257629,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8144421453962859,
+    "logic_a": 0.10413109172717881,
+    "logic_b": 0.052065545863589406,
+    "creative": 0.003328439081151084,
+    "synthesis": 0.026032772931794703
+  },
+  "zone_entropy": 0.9674071533814711,
+  "kurtosis": 516.6473388671875,
+  "token_diversity_input": 0.75,
+  "loops_run": 3,
+  "entropy": 0.7265625
+}

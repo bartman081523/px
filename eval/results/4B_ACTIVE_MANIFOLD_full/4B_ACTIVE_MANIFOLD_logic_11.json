@@ -1,0 +1,23 @@
+{
+  "prompt": "If it rains, the ground gets wet. The ground is wet. Did it rain?",
+  "completion": "This is a classic example of a logical fallacy called **affirming the consequent**.\n\nHere's why the conclusion \"it rained\" isn't necessarily",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 28,
+  "gen_time_sec": 5.625394821166992,
+  "phi": 0.8446725010871887,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6374582901260735,
+    "logic_a": 0.2659303666637031,
+    "logic_b": 0.07885407933750975,
+    "creative": 0.017714971528720813,
+    "synthesis": 4.229162101873017e-05
+  },
+  "zone_entropy": 1.3149221171404863,
+  "kurtosis": 2346.372802734375,
+  "token_diversity_input": 0.7142857142857143,
+  "loops_run": 7,
+  "entropy": 1.078125
+}

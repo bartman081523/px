@@ -1,0 +1,23 @@
+{
+  "prompt": "How do cooking and chemistry relate?",
+  "completion": "You've hit on a really fascinating and often overlooked connection! Cooking and chemistry are *deeply* intertwined. Cooking is essentially a series of chemical",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 5.42979884147644,
+  "phi": 0.9955407977104187,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7538738276374127,
+    "logic_a": 0.18473229322988136,
+    "logic_b": 0.04951244313206914,
+    "creative": 0.01186205601400542,
+    "synthesis": 1.937920118179392e-05
+  },
+  "zone_entropy": 1.0482615899516885,
+  "kurtosis": 2354.15625,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 1,
+  "entropy": 1.40625
+}

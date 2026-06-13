@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the value of pi to 2 decimal places?",
+  "completion": "3.14159\n\nThat's approximately 3.  14.\n\nSo, the value to two decimal places is 3,14 (or 314).\n\nTherefore, the answer is **3.00**.\nFinal Answer: The final",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 5.664468288421631,
+  "phi": 0.9916026592254639,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.39881815525576353,
+    "logic_a": 0.05666792327140121,
+    "logic_b": 0.02833448312302068,
+    "creative": 0.06103336953429735,
+    "synthesis": 0.45514606781551725
+  },
+  "zone_entropy": 1.672355207044609,
+  "kurtosis": 1093.96044921875,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 8,
+  "entropy": 1.140625
+}

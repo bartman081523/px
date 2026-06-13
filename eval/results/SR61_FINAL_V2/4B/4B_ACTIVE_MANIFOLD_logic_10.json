@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the logical negation of 'All swans are white'?",
+  "completion": "The logical negation to \"All swans Are White\" is **\"Not all swans are White.\"**\n\nHere's why:\n\n*   **Original Statement:** \"All Swans are White\" - This asserts that every swan belongs to the category of white animals.\n*   To negate this,",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 13.473308086395264,
+  "phi": 0.9966288805007935,
+  "zone": "math",
+  "zone_weights": {
+    "math": 1.7664685292887375e-11,
+    "logic_a": 1.1908285354462693e-36,
+    "logic_b": 1.1461281916022017e-28,
+    "creative": 5.208833646217155e-14,
+    "synthesis": 6.170548043163076e-25
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2354.17919921875,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 4,
+  "entropy": 0.1650390625
+}

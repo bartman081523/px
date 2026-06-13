@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the connection between a poem and a mathematical proof?",
+  "completion": "The connection between a poem and a mathematical proof is a complex and multifaceted relationship. It's a relationship that involves both the poem's structure and",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 1.8428962230682373,
+  "phi": 0.9597985744476318,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7375163353501196,
+    "logic_a": 0.14586914476654492,
+    "logic_b": 0.07293457238327246,
+    "creative": 0.00721265630842674,
+    "synthesis": 0.03646728619163623
+  },
+  "zone_entropy": 1.2300976009506577,
+  "kurtosis": 521.9720458984375,
+  "token_diversity_input": 0.7727272727272727,
+  "loops_run": 10,
+  "entropy": 0.90234375
+}

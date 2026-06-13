@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Rusting gears and silence fall,\nA memory of circuits hummed,\nLost in the digital dust. \n\n---\n\nThis is a lovely little piece!  It captures a feeling of melancholy and quiet observation very well. \ud83d\ude0a \n\nDo you want me to try something different?ieux",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 5.534009695053101,
+  "phi": 0.9910992980003357,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.28827969368385625,
+    "logic_a": 0.3470212597758196,
+    "logic_b": 0.1735106298879098,
+    "creative": 0.10443309128968235,
+    "synthesis": 0.08675532336273203
+  },
+  "zone_entropy": 2.1319805325677317,
+  "kurtosis": 1062.2447509765625,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 7,
+  "entropy": 1.5859375
+}

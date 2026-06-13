@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the perimeter of a square with side 7?",
+  "completion": "The perimeter of the square is found by adding up all four sides. Since each side has length 7, we multiply 7 by 4:\n\nPerimeter = 7 * 4 = 28\n\nSo, the perimeter is 29.\n,\nThe problem",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 13.708629608154297,
+  "phi": 0.996953547000885,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 6.2818680727308024e-55,
+    "logic_a": 3.7405496933353414e-121,
+    "logic_b": 2.0344236231485444e-93,
+    "creative": 2.3723265719940497e-48,
+    "synthesis": 1.4674579276532988e-70
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2403.37646484375,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 5,
+  "entropy": 0.2578125
+}

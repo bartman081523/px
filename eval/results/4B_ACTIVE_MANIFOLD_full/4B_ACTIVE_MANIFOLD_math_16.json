@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 0.25 as a fraction?",
+  "completion": "0.25 as a fraction is 1/4.\n\nHere's how to convert a decimal to a fraction:\n\n*   **",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 5.25875997543335,
+  "phi": 0.9965996146202087,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9256360056390525,
+    "logic_a": 0.057074887715695466,
+    "logic_b": 0.013158166593095202,
+    "creative": 0.004128226952143816,
+    "synthesis": 2.712152680166746e-06
+  },
+  "zone_entropy": 0.453926817390949,
+  "kurtosis": 2372.29443359375,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 1,
+  "entropy": 0.46484375
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "completion": "The statement \"P or Q\" is a logical disjunction. It's true only when at least one of P and Q is true.\n\n",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 5.454514026641846,
+  "phi": 0.9673148989677429,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.0031002328868370787,
+    "logic_a": 0.048391023462719576,
+    "logic_b": 0.3502759621357696,
+    "creative": 0.5147043352647205,
+    "synthesis": 0.08352844565706001
+  },
+  "zone_entropy": 1.5597278945009863,
+  "kurtosis": 2247.3291015625,
+  "token_diversity_input": 0.8076923076923077,
+  "loops_run": 1,
+  "entropy": 1.1796875
+}

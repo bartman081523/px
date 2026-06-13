@@ -1,0 +1,23 @@
+{
+  "prompt": "If A implies B, and B implies C, what does A imply?",
+  "completion": "A implies B.\n\n\nPersuasive arguments are often presented using a logical argument to support their claims. \n\n \u090f\u0915 \u092c\u0939\u0941\u0906\u092f\u093e\u092e\u0940 \u0905\u0935\u0927\u093e\u0930\u0923\u093e \u0939\u0948 \u091c\u094b \u0915\u093f\u0938\u0940 \u092d\u0940 \u091a\u0940\u091c \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u091c\u094d\u091e\u093e\u0928 \u0914\u0930 \u0938\u092e\u091d \u0915\u094b \u0935\u094d\u092f\u0915\u094d\u0924 \u0915\u0930\u0924\u0940 \u0939\u0948\u0902\u0964 \u092f\u0939 \u091c\u093e\u0928\u0915\u093e\u0930\u0940 \u0915\u093e \u0909\u092a\u092f\u094b\u0917 \u0915\u0930\u0915\u0947",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 25,
+  "gen_time_sec": 2.762312412261963,
+  "phi": 0.9171768426895142,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.31500671354282583,
+    "logic_a": 0.33923514810283295,
+    "logic_b": 0.16961757405141648,
+    "creative": 0.09133177227721653,
+    "synthesis": 0.08480878702570824
+  },
+  "zone_entropy": 2.105452667882428,
+  "kurtosis": 500.2113952636719,
+  "token_diversity_input": 0.68,
+  "loops_run": 2,
+  "entropy": 1.4375
+}

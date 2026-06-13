@@ -1,0 +1,23 @@
+{
+  "prompt": "What would a conversation between two shadows look like?",
+  "completion": "The air hung thick with the scent of dust and unspoken things. Two shadows, linked by an invisible thread, drifted across a grand, silent hallway.\n\n**Shadow 1 (a young, nervous shadow):** \"It's\u2026 quiet.\"\n\n** Shadow 2 (older, weathered):",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.465335845947266,
+  "phi": 0.98876953125,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.125513558213485,
+    "logic_a": 0.2496071725088824,
+    "logic_b": 0.2756361682161461,
+    "creative": 0.25763114413574084,
+    "synthesis": 0.09161195592574545
+  },
+  "zone_entropy": 2.2080253088106394,
+  "kurtosis": 1112.67431640625,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.5625
+}

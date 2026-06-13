@@ -1,0 +1,23 @@
+{
+  "prompt": "If all Zorps are Frims, and no Frim is a Glip, can a Zorp be a Glip?",
+  "completion": "No, a Zorp cannot be a Glip. Here's why:\n\n*   **Premise 1: All Zorps are Fr",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 36,
+  "gen_time_sec": 5.674659252166748,
+  "phi": 0.9962902069091797,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9995915151278711,
+    "logic_a": 0.00020010943316725073,
+    "logic_b": 6.325921423215956e-05,
+    "creative": 0.0001451069719843631,
+    "synthesis": 4.010091273657217e-09
+  },
+  "zone_entropy": 0.005780595188845481,
+  "kurtosis": 2430.328369140625,
+  "token_diversity_input": 0.7222222222222222,
+  "loops_run": 1,
+  "entropy": 0.51171875
+}

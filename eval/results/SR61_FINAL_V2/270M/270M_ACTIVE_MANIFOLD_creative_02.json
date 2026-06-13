@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a word for the feeling of a Sunday afternoon in autumn.",
+  "completion": "The word is **Autumn**.\n\n\nPerfume and scent are often associated with Autumn, evoking feelings of warmth, decay, change, and reflection. The fragrance of fallen leaves, warm sunlight filtering through branches, and cozy sweaters evoke a sense of comfort and tranquility.",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 2.93780255317688,
+  "phi": 0.9214779734611511,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9047333934106562,
+    "logic_a": 0.05090377584042733,
+    "logic_b": 0.02545178456203151,
+    "creative": 0.006185152910329304,
+    "synthesis": 0.012725892276555682
+  },
+  "zone_entropy": 0.6096609700016751,
+  "kurtosis": 344.29498291015625,
+  "token_diversity_input": 0.782608695652174,
+  "loops_run": 15,
+  "entropy": 0.62890625
+}

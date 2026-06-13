@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 1024 / 32?",
+  "completion": "Here are a few ways to calculate $1024 / 32$:\n\n**Method 1: Direct Division**\n\nYou can perform",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 7.777460336685181,
+  "phi": 0.33565330505371094,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.3041443583241061,
+    "logic_a": 0.26577124210639164,
+    "logic_b": 0.28827368475182574,
+    "creative": 0.10895980077710442,
+    "synthesis": 0.03285091304057217
+  },
+  "zone_entropy": 2.0580130085244117,
+  "kurtosis": 622.80419921875,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 56,
+  "entropy": 0.0
+}

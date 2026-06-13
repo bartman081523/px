@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve for x: 2x + 5 = 17",
+  "completion": "Subtract 5 from both sides of the equation:\n2x + 5 - 5 = 17 - 5\n2x +",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 24,
+  "gen_time_sec": 2.0739102363586426,
+  "phi": 0.9057745337486267,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8616086214421227,
+    "logic_a": 0.0780702233459457,
+    "logic_b": 0.03903511167297285,
+    "creative": 0.0017684827024723726,
+    "synthesis": 0.019517555836486424
+  },
+  "zone_entropy": 0.7820427393155892,
+  "kurtosis": 514.9298706054688,
+  "token_diversity_input": 0.75,
+  "loops_run": 11,
+  "entropy": 0.56640625
+}

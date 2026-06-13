@@ -1,0 +1,23 @@
+{
+  "prompt": "Calculate 15% of 240.",
+  "completion": "15% of 240 is 15.\n\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 15,
+  "input_tokens": 21,
+  "gen_time_sec": 1.0737080574035645,
+  "phi": 0.8972123265266418,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9660645733862051,
+    "logic_a": 0.01907569184324911,
+    "logic_b": 0.009537855510258417,
+    "creative": 0.0005529562086756684,
+    "synthesis": 0.004768922051609824
+  },
+  "zone_entropy": 0.26386187147882456,
+  "kurtosis": 379.8517761230469,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 11,
+  "entropy": 0.322265625
+}

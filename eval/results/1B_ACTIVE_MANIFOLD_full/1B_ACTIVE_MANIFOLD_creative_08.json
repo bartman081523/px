@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a short poem about the last star going out.",
+  "completion": "The darkness gathers, cold and deep,\nA silent, vast, and endless sleep.\nAnd I, a flicker, fading slow,\nA",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 2.558410406112671,
+  "phi": 0.9923840761184692,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5197776827123283,
+    "logic_a": 0.2563512005518446,
+    "logic_b": 0.1281756002759223,
+    "creative": 0.031607714321943405,
+    "synthesis": 0.06408780013796116
+  },
+  "zone_entropy": 1.7855504953557628,
+  "kurtosis": 1081.02197265625,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 7,
+  "entropy": 1.421875
+}

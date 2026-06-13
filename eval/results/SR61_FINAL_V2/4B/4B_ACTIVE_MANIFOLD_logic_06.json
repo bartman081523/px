@@ -1,0 +1,23 @@
+{
+  "prompt": "All cats are mammals. Felix is a cat. What can we conclude?",
+  "completion": "We can conclude that Felix is also a mammal. \n\nSince all cats are members of the larger group \"mammals,\" and Felix *is* a cat, he must be a mammal as well.\n \u0b9a\u0bbe\u0ba4\u0928\u093e\n\nShow answer.\n\nThis is a",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 25,
+  "gen_time_sec": 14.290209531784058,
+  "phi": 0.9958608150482178,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.0001676115188132929,
+    "logic_a": 1.9138028968456511e-22,
+    "logic_b": 1.439793908401271e-17,
+    "creative": 6.367902865843061e-08,
+    "synthesis": 1.2776084364250192e-16
+  },
+  "zone_entropy": 0.004863026766498376,
+  "kurtosis": 2341.9677734375,
+  "token_diversity_input": 0.8,
+  "loops_run": 5,
+  "entropy": 0.74609375
+}

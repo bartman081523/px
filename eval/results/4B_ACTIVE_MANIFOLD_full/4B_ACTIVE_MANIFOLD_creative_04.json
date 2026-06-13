@@ -1,0 +1,23 @@
+{
+  "prompt": "Write the opening line of a novel set inside a dream.",
+  "completion": "The rain tasted of static and regret, a metallic tang clinging to the back of my tongue as I realized the cobblestones beneath my feet weren\u2019t",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 5.455744504928589,
+  "phi": 0.996231734752655,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9840963244248515,
+    "logic_a": 0.011922806947653875,
+    "logic_b": 0.0026647892990983796,
+    "creative": 0.001315753138032217,
+    "synthesis": 3.249035213763319e-07
+  },
+  "zone_entropy": 0.13433631123118103,
+  "kurtosis": 2390.990478515625,
+  "token_diversity_input": 0.7727272727272727,
+  "loops_run": 1,
+  "entropy": 1.3671875
+}

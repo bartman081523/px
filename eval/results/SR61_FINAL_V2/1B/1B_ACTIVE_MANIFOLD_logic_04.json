@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the contrapositive of 'If P then Q'?",
+  "completion": "The contrapositive is always logically equivalent to the original statement.\n\nHere's how to find it:\n\n* **Original Statement:** If P then Queen (P implies Q)\n* **Contrapositive:** If not Q, then not P  (\u00acQ \u2192 \u00acP)\n\nTherefore,",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 5.624555587768555,
+  "phi": 0.9905137419700623,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.26122004491210477,
+    "logic_a": 0.12759902532904735,
+    "logic_b": 0.06836598077030002,
+    "creative": 0.19867385552988673,
+    "synthesis": 0.34414109245866104
+  },
+  "zone_entropy": 2.1423412657265573,
+  "kurtosis": 1104.128173828125,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 7,
+  "entropy": 1.53125
+}

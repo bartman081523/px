@@ -1,0 +1,23 @@
+{
+  "prompt": "Imagine a door that opens onto yesterday.",
+  "completion": "The rain hammered against the door, a relentless, grey drumming. I\u2019d been staring at it for what felt like an eternity, tracing the intricate",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.5551934242248535,
+  "phi": 0.9893253445625305,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.1237193398335123,
+    "logic_a": 0.17830636476830333,
+    "logic_b": 0.08915321527370614,
+    "creative": 0.0988192518400029,
+    "synthesis": 0.5100018272844753
+  },
+  "zone_entropy": 1.9528663748847115,
+  "kurtosis": 1103.720703125,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 1.4140625
+}

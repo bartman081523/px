@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the square root of 144?",
+  "completion": "The square root of 144 is 12.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 15,
+  "input_tokens": 21,
+  "gen_time_sec": 0.9976627826690674,
+  "phi": 0.8509311676025391,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7853405225866918,
+    "logic_a": 0.12004132341615736,
+    "logic_b": 0.06002066170807868,
+    "creative": 0.004587156435032873,
+    "synthesis": 0.03001033085403934
+  },
+  "zone_entropy": 1.0719370981856908,
+  "kurtosis": 460.44281005859375,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 6,
+  "entropy": 0.76953125
+}

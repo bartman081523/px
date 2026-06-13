@@ -1,0 +1,23 @@
+{
+  "prompt": "Calculate 15% of 240.",
+  "completion": "To calculate 16% of a number, you multiply the number by 0.16.\n\nSo, 1.  6% * 230 = 36.8\n\nTherefore, 20% of $249 is $49.76",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 13.252518653869629,
+  "phi": 0.9974719285964966,
+  "zone": "math",
+  "zone_weights": {
+    "math": 1.6667212387701122e-15,
+    "logic_a": 1.0603497747640595e-44,
+    "logic_b": 6.547775706219041e-35,
+    "creative": 2.1657764610553563e-17,
+    "synthesis": 1.6541554408470116e-29
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2360.239990234375,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 2,
+  "entropy": 0.031982421875
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the square root of 144?",
+  "completion": "The square root of 144 is **12**.\n\nThis is because $12 \\times 12 = 144",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 7.737250804901123,
+  "phi": 0.3377433121204376,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.40296493896064395,
+    "logic_a": 0.06225128403026111,
+    "logic_b": 0.13730067874541785,
+    "creative": 0.30463243178136207,
+    "synthesis": 0.09285066548231508
+  },
+  "zone_entropy": 2.0118519183650307,
+  "kurtosis": 574.12890625,
+  "token_diversity_input": 0.8,
+  "loops_run": 56,
+  "entropy": 0.0
+}

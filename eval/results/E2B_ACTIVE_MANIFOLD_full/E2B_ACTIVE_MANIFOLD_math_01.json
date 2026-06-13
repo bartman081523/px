@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve for x: 2x + 5 = 17",
+  "completion": "Here is how to solve for x:\n\n**Goal:** Isolate the variable $x$ on one side of the equation.\n\n**Equation:**",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 8.182408571243286,
+  "phi": 0.2639622688293457,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.36941612727667184,
+    "logic_a": 0.36496393668771604,
+    "logic_b": 0.155174057251117,
+    "creative": 0.06700756966384395,
+    "synthesis": 0.0434383081206512
+  },
+  "zone_entropy": 1.9364202001073771,
+  "kurtosis": 675.017333984375,
+  "token_diversity_input": 0.782608695652174,
+  "loops_run": 48,
+  "entropy": 0.0
+}

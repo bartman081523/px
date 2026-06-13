@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a new color and describe its emotional weight.",
+  "completion": "Okay, let's invent a color!\n\n**Color Name:** Lumiflora\n\n**Description:** Lumiflora is a shade of iridescent, shifting color",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.525621175765991,
+  "phi": 0.9874452352523804,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.18706715943612467,
+    "logic_a": 0.15949939596362492,
+    "logic_b": 0.09073536916295204,
+    "creative": 0.2961040340587265,
+    "synthesis": 0.26659404037857176
+  },
+  "zone_entropy": 2.2173326736631425,
+  "kurtosis": 1110.19091796875,
+  "token_diversity_input": 0.8,
+  "loops_run": 8,
+  "entropy": 1.546875
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the difference between necessary and sufficient conditions?",
+  "completion": "Okay, let's break down the difference between necessary and sufficient conditions and how they relate to different concepts.\n\n**1. Necessary and Sufficient Conditions",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.579517364501953,
+  "phi": 0.9881681799888611,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.42793850347854795,
+    "logic_a": 0.2973719867626846,
+    "logic_b": 0.1486859933813423,
+    "creative": 0.051660517686754025,
+    "synthesis": 0.07434299669067115
+  },
+  "zone_entropy": 1.9527557234016797,
+  "kurtosis": 1068.1771240234375,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.4453125
+}

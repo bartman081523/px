@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe a library where the books are alive.",
+  "completion": "The library was a haven of quiet contemplation, a sanctuary of knowledge and stories. Sunlight streamed through the arched windows, illuminating the shelves lined with towering stacks",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 1.3277058601379395,
+  "phi": 0.9185453653335571,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.2864724734278427,
+    "logic_a": 0.3475086783329419,
+    "logic_b": 0.17375433916647096,
+    "creative": 0.10538733448950892,
+    "synthesis": 0.08687716958323548
+  },
+  "zone_entropy": 2.1336222556076834,
+  "kurtosis": 500.4053039550781,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 1,
+  "entropy": 1.46875
+}

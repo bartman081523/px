@@ -1,0 +1,23 @@
+{
+  "prompt": "If A implies B, and B implies C, what does A imply?",
+  "completion": "A implies B\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 5,
+  "input_tokens": 25,
+  "gen_time_sec": 0.5640876293182373,
+  "phi": 0.956035315990448,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6210203833216043,
+    "logic_a": 0.20672877222526995,
+    "logic_b": 0.10336438611263497,
+    "creative": 0.017204260284173187,
+    "synthesis": 0.05168219305631749
+  },
+  "zone_entropy": 1.557129514690946,
+  "kurtosis": 532.6615600585938,
+  "token_diversity_input": 0.68,
+  "loops_run": 10,
+  "entropy": 1.125
+}

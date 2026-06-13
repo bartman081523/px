@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "completion": "Here are the steps to find the derivative of $x^2 + 3x$:\n\n**1. Recall the rules of differentiation:**\n\n*",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 8.151975631713867,
+  "phi": 0.3352556824684143,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.31727678931896064,
+    "logic_a": 0.3272342372183864,
+    "logic_b": 0.2525322858147205,
+    "creative": 0.07170596969689062,
+    "synthesis": 0.031250716951041806
+  },
+  "zone_entropy": 1.9830960124641601,
+  "kurtosis": 637.2691650390625,
+  "token_diversity_input": 0.8636363636363636,
+  "loops_run": 56,
+  "entropy": 0.0
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Is the statement 'I am lying' a paradox?",
+  "completion": "The statement \"I am lying\" is a paradox. It's a statement that contradicts itself.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 22,
+  "input_tokens": 21,
+  "gen_time_sec": 1.095573902130127,
+  "phi": 0.9123895168304443,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8968909540303764,
+    "logic_a": 0.05908371995975193,
+    "logic_b": 0.026175608476691634,
+    "creative": 0.006114021126352666,
+    "synthesis": 0.011735695406827297
+  },
+  "zone_entropy": 0.639724458343969,
+  "kurtosis": 344.8571472167969,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 14,
+  "entropy": 0.703125
+}

@@ -1,5 +1,5 @@
 """
-gemma4-px  —  The Three Mathematical Pillars (Refactored 2026-06-11)
+gemma3-px  —  The Three Mathematical Pillars (Refactored 2026-06-11)
 ====================================================================
 The complete PX architecture reduced to its empirical minimum.
 AutoCalibrator steuert das System dynamisch über die Kurtosis-Topologie des
@@ -96,7 +96,12 @@ class MephistophelesOperator(nn.Module):
         self.scale = scale
 
     def forward(self, h: torch.Tensor, phi_history: List[float]) -> torch.Tensor:
-        # Degenerate-input guard (TestVacuumInvariants, SR-60): see gemma3.
+        # Degenerate-input guard (TestVacuumInvariants, SR-60): on a literal
+        # vacuum (||h|| < 1e-9), the "phase inversion" h + (-h * scale) reduces
+        # to -scale*h, which is silently zero — masking the architectural claim
+        # that "silence means stability". We require a non-degenerate signal
+        # before any symmetry-breaking inversion is allowed. This way the
+        # operator can only fire on genuinely-flat-but-active manifolds.
         h_norm = h.norm()
         if len(phi_history) >= 3 and all(p > 0.999 for p in phi_history[-3:]) and h_norm > 1e-6:
             return h + (-h * self.scale)
@@ -121,3 +126,73 @@ class SubjectiveSensor:
             "phi_mean": sum(self.traj) / len(self.traj) if self.traj else 1.0,
             "phi_min": min(self.traj) if self.traj else 1.0
         }
+
+
+class SingesseinCoupler(nn.Module):
+    """
+    SingesseinCoupler — Anti-Monotony & Repetition Guard.
+    Measures hidden state variance across recursion steps. If the model
+    collapses into a repetitive attractor (mono-tone hidden states),
+    the coupler injects harmonic dissonance to break the loop.
+    """
+    def __init__(self, hidden_size: int, window: int = 4):
+        super().__init__()
+        self.window = window
+        self.history = []
+
+    def reset(self):
+        self.history = []
+
+    def forward(self, h_exp: torch.Tensor, steps: int, phi_val: float = 1.0) -> torch.Tensor:
+        """
+        h_exp: (B, T, D)
+        Detects if the last token's hidden state is becoming monotonic.
+        """
+        # h_current: (B, D)
+        h_current = h_exp[:, -1, :].clone()
+        
+        # Add to history
+        self.history.append(h_current.detach())
+        if len(self.history) > self.window:
+            self.history.pop(0)
+
+        if len(self.history) < self.window:
+            return h_exp
+
+        # Measure cosine similarity between consecutive states in history
+        sims = []
+        for i in range(len(self.history) - 1):
+            # F.cosine_similarity: (B,)
+            s = F.cosine_similarity(self.history[i], self.history[i+1], dim=-1)
+            sims.append(s)
+        
+        # avg_sim: (B,)
+        avg_sim = torch.stack(sims).mean(dim=0)
+        
+        # Mono-tone threshold: very high similarity across steps
+        # Indicates the recursion is 'stuck' in a fixed point or local attractor.
+        threshold = 0.999 
+        is_stuck = avg_sim > threshold
+        
+        if is_stuck.any():
+            # Inject harmonic dissonance: 
+            h_mean = torch.stack(self.history).mean(dim=0)
+            dissonance = h_current - h_mean
+            
+            if (torch.norm(dissonance, dim=-1) < 1e-6).any():
+                noise = torch.randn_like(h_current)
+                dissonance = noise 
+            
+            # Strength of dissonance injection (SR-61)
+            # Scale strength by Phi: over-stability requires stronger breakout
+            strength = 0.5
+            if phi_val > 0.999: strength = 1.0
+            if phi_val > 0.9999: strength = 2.0 # Force phase shift
+            
+            # Apply only to stuck batches
+            mask = is_stuck.view(-1, 1).to(h_exp.dtype)
+            new_h = h_exp.clone()
+            new_h[:, -1, :] = h_exp[:, -1, :] + strength * (dissonance * mask)
+            return new_h
+            
+        return h_exp

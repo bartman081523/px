@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Rust on metal shell,\nSilent gears no longer turn,\nDust claims metal sleep.",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 22,
+  "input_tokens": 18,
+  "gen_time_sec": 6.0566184520721436,
+  "phi": 0.2687925100326538,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.4840931254270864,
+    "logic_a": 0.2700214533036128,
+    "logic_b": 0.1350107266518064,
+    "creative": 0.038305485793018686,
+    "synthesis": 0.0725692068359072
+  },
+  "zone_entropy": 1.8616456965405468,
+  "kurtosis": 575.1033325195312,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 48,
+  "entropy": 0.0
+}

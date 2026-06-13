@@ -1,0 +1,23 @@
+{
+  "prompt": "What does loneliness sound like as a piece of music?",
+  "completion": "Loneliness is a complex and multifaceted emotion, and the sound of loneliness can vary greatly depending on the individual and the context. However, some common and",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 1.726649284362793,
+  "phi": 0.9555854797363281,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.3103628636774303,
+    "logic_a": 0.34066150403924456,
+    "logic_b": 0.17033075201962228,
+    "creative": 0.09347949925389173,
+    "synthesis": 0.08516537600981114
+  },
+  "zone_entropy": 2.1103550997448712,
+  "kurtosis": 513.5194091796875,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 12,
+  "entropy": 1.4453125
+}

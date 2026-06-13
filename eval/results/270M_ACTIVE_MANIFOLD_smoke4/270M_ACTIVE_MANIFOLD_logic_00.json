@@ -1,0 +1,23 @@
+{
+  "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?",
+  "completion": "No, we cannot conclude that some roses fade quickly.\n\nThe statement \"If all roses are flowers, and some flowers fade quickly\" is false.",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 31,
+  "gen_time_sec": 2.0861871242523193,
+  "phi": 0.9097752571105957,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.826913015190389,
+    "logic_a": 0.09727221457344733,
+    "logic_b": 0.048636107286723664,
+    "creative": 0.0028606043060782176,
+    "synthesis": 0.024318053643361832
+  },
+  "zone_entropy": 0.9204480156919211,
+  "kurtosis": 448.0447998046875,
+  "token_diversity_input": 0.6774193548387096,
+  "loops_run": 16,
+  "entropy": 0.62109375
+}

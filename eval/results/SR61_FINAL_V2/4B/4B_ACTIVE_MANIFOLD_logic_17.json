@@ -1,0 +1,23 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "completion": "The statement \"P or (not Q)\" is true if either P is true or Q is false.\n\nHere's how to break it down:\n\n*   **P:** False\n*   **(not Q):** True \n    Since P is False and not Q is True,",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 26,
+  "gen_time_sec": 14.42943263053894,
+  "phi": 0.9961384534835815,
+  "zone": "math",
+  "zone_weights": {
+    "math": 7.456354349755081e-08,
+    "logic_a": 2.561749320269378e-29,
+    "logic_b": 5.922871944190666e-23,
+    "creative": 6.851021042222226e-11,
+    "synthesis": 1.0849297030228191e-20
+  },
+  "zone_entropy": 0.010585415953547835,
+  "kurtosis": 2348.165283203125,
+  "token_diversity_input": 0.8076923076923077,
+  "loops_run": 5,
+  "entropy": 0.8359375
+}

@@ -1,0 +1,1477 @@
+
+[  1/80] E2B | ACTIVE_MANIFOLD | math | prompt #1
+  > What is 17 * 23?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:   4%|▎         | 70/1951 [00:00<00:02, 659.28it/s]
+Loading weights:   7%|▋         | 136/1951 [00:00<00:02, 620.32it/s]
+Loading weights:  10%|█         | 199/1951 [00:00<00:02, 598.88it/s]
+Loading weights:  13%|█▎        | 259/1951 [00:00<00:02, 575.84it/s]
+Loading weights:  16%|█▌        | 317/1951 [00:00<00:02, 565.21it/s]
+Loading weights:  19%|█▉        | 380/1951 [00:00<00:02, 573.31it/s]
+Loading weights:  23%|██▎       | 441/1951 [00:00<00:02, 572.23it/s]
+Loading weights:  26%|██▌       | 504/1951 [00:00<00:02, 579.26it/s]
+Loading weights:  29%|██▉       | 565/1951 [00:00<00:02, 572.08it/s]
+Loading weights:  32%|███▏      | 628/1951 [00:01<00:02, 578.20it/s]
+Loading weights:  35%|███▌      | 690/1951 [00:01<00:02, 576.40it/s]
+Loading weights:  38%|███▊      | 751/1951 [00:01<00:02, 585.21it/s]
+Loading weights:  38%|███▊      | 751/1951 [00:20<00:02, 585.21it/s]
+Loading weights:  39%|███▊      | 755/1951 [00:29<03:49,  5.22it/s] 
+Loading weights:  39%|███▉      | 759/1951 [00:29<03:41,  5.39it/s]
+Loading weights:  41%|████      | 801/1951 [00:29<02:22,  8.06it/s]
+Loading weights:  43%|████▎     | 833/1951 [00:30<01:44, 10.66it/s]
+Loading weights:  44%|████▍     | 857/1951 [00:30<01:22, 13.20it/s]
+Loading weights:  45%|████▍     | 876/1951 [00:30<01:07, 15.91it/s]
+Loading weights:  46%|████▌     | 892/1951 [00:31<00:56, 18.64it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:31<00:49, 21.22it/s]
+Loading weights:  47%|████▋     | 916/1951 [00:31<00:43, 23.54it/s]
+Loading weights:  47%|████▋     | 925/1951 [00:31<00:38, 26.81it/s]
+Loading weights:  48%|████▊     | 934/1951 [00:32<00:35, 28.59it/s]
+Loading weights:  48%|████▊     | 945/1951 [00:32<00:29, 34.61it/s]
+Loading weights:  49%|████▉     | 953/1951 [00:32<00:26, 37.86it/s]
+Loading weights:  49%|████▉     | 962/1951 [00:32<00:23, 42.97it/s]
+Loading weights:  50%|████▉     | 969/1951 [00:32<00:22, 44.51it/s]
+Loading weights:  50%|█████     | 979/1951 [00:32<00:19, 51.11it/s]
+Loading weights:  51%|█████     | 986/1951 [00:32<00:18, 51.16it/s]
+Loading weights:  51%|█████     | 996/1951 [00:33<00:16, 57.50it/s]
+Loading weights:  51%|█████▏    | 1003/1951 [00:33<00:17, 55.70it/s]
+Loading weights:  52%|█████▏    | 1010/1951 [00:33<00:16, 56.29it/s]
+Loading weights:  52%|█████▏    | 1017/1951 [00:33<00:26, 35.22it/s]
+Loading weights:  53%|█████▎    | 1027/1951 [00:33<00:22, 41.34it/s]
+Loading weights:  53%|█████▎    | 1033/1951 [00:34<00:26, 34.46it/s]
+Loading weights:  53%|█████▎    | 1041/1951 [00:34<00:26, 34.82it/s]
+Loading weights:  54%|█████▎    | 1046/1951 [00:34<00:30, 29.30it/s]
+Loading weights:  54%|█████▍    | 1055/1951 [00:34<00:27, 32.40it/s]
+Loading weights:  54%|█████▍    | 1059/1951 [00:35<00:33, 26.62it/s]
+Loading weights:  55%|█████▍    | 1069/1951 [00:35<00:25, 34.41it/s]
+Loading weights:  55%|█████▍    | 1073/1951 [00:35<00:34, 25.64it/s]
+Loading weights:  56%|█████▌    | 1083/1951 [00:35<00:28, 30.17it/s]
+Loading weights:  56%|█████▌    | 1087/1951 [00:36<00:34, 25.25it/s]
+Loading weights:  56%|█████▌    | 1097/1951 [00:36<00:25, 33.04it/s]
+Loading weights:  56%|█████▋    | 1101/1951 [00:36<00:31, 26.89it/s]
+Loading weights:  57%|█████▋    | 1111/1951 [00:36<00:26, 31.94it/s]
+Loading weights:  57%|█████▋    | 1115/1951 [00:37<00:31, 26.23it/s]
+Loading weights:  58%|█████▊    | 1123/1951 [00:37<00:28, 28.82it/s]
+Loading weights:  58%|█████▊    | 1127/1951 [00:37<00:33, 24.45it/s]
+Loading weights:  58%|█████▊    | 1139/1951 [00:37<00:29, 27.77it/s]
+Loading weights:  59%|█████▊    | 1142/1951 [00:38<00:30, 26.90it/s]
+Loading weights:  59%|█████▉    | 1151/1951 [00:38<00:22, 35.52it/s]
+Loading weights:  59%|█████▉    | 1156/1951 [00:38<00:31, 25.02it/s]
+Loading weights:  60%|█████▉    | 1167/1951 [00:38<00:23, 33.80it/s]
+Loading weights:  60%|██████    | 1172/1951 [00:39<00:29, 26.70it/s]
+Loading weights:  61%|██████    | 1181/1951 [00:39<00:23, 32.75it/s]
+Loading weights:  61%|██████    | 1186/1951 [00:39<00:27, 28.11it/s]
+Loading weights:  61%|██████    | 1193/1951 [00:39<00:26, 28.96it/s]
+Loading weights:  61%|██████▏   | 1197/1951 [00:39<00:30, 24.51it/s]
+Loading weights:  62%|██████▏   | 1209/1951 [00:40<00:22, 33.48it/s]
+Loading weights:  62%|██████▏   | 1213/1951 [00:40<00:22, 32.31it/s]
+Loading weights:  63%|██████▎   | 1222/1951 [00:40<00:18, 40.44it/s]
+Loading weights:  63%|██████▎   | 1227/1951 [00:40<00:18, 38.77it/s]
+Loading weights:  63%|██████▎   | 1237/1951 [00:40<00:16, 44.51it/s]
+Loading weights:  64%|██████▍   | 1248/1951 [00:40<00:12, 57.28it/s]
+Loading weights:  64%|██████▍   | 1255/1951 [00:41<00:14, 47.31it/s]
+Loading weights:  65%|██████▍   | 1265/1951 [00:41<00:12, 57.16it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:41<00:12, 54.68it/s]
+Loading weights:  66%|██████▌   | 1280/1951 [00:41<00:12, 52.55it/s]
+Loading weights:  66%|██████▌   | 1290/1951 [00:41<00:10, 60.35it/s]
+Loading weights:  69%|██████▊   | 1338/1951 [00:41<00:03, 154.48it/s]
+Loading weights:  73%|███████▎  | 1426/1951 [00:41<00:01, 331.56it/s]
+Loading weights:  78%|███████▊  | 1518/1951 [00:41<00:00, 482.53it/s]
+Loading weights:  83%|████████▎ | 1616/1951 [00:42<00:00, 616.35it/s]
+Loading weights:  87%|████████▋ | 1707/1951 [00:42<00:00, 694.53it/s]
+Loading weights:  92%|█████████▏| 1794/1951 [00:42<00:00, 743.37it/s]
+Loading weights:  96%|█████████▋| 1881/1951 [00:42<00:00, 777.54it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:42<00:00, 45.97it/s] 
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.270 | H=1.157 | zone=math | 60tok | 17.2s
+  ✓ phi=0.270 H=1.157 zone=math (67.9s, 60tok)
+
+[  2/80] E2B | ACTIVE_MANIFOLD | math | prompt #2
+  > Solve for x: 2x + 5 = 17
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:   9%|▉         | 173/1951 [00:00<00:01, 1705.77it/s]
+Loading weights:  18%|█▊        | 344/1951 [00:00<00:01, 966.14it/s] 
+Loading weights:  23%|██▎       | 458/1951 [00:00<00:01, 844.46it/s]
+Loading weights:  29%|██▉       | 566/1951 [00:00<00:01, 886.87it/s]
+Loading weights:  35%|███▍      | 677/1951 [00:00<00:01, 945.42it/s]
+Loading weights:  40%|███▉      | 778/1951 [00:10<00:35, 32.63it/s] 
+Loading weights:  41%|████      | 793/1951 [00:11<00:33, 34.16it/s]
+Loading weights:  44%|████▍     | 865/1951 [00:11<00:25, 42.83it/s]
+Loading weights:  47%|████▋     | 917/1951 [00:12<00:20, 50.34it/s]
+Loading weights:  49%|████▉     | 957/1951 [00:12<00:17, 57.12it/s]
+Loading weights:  51%|█████     | 988/1951 [00:12<00:15, 62.61it/s]
+Loading weights:  52%|█████▏    | 1013/1951 [00:12<00:14, 66.30it/s]
+Loading weights:  53%|█████▎    | 1033/1951 [00:13<00:14, 62.79it/s]
+Loading weights:  54%|█████▍    | 1049/1951 [00:13<00:14, 63.16it/s]
+Loading weights:  54%|█████▍    | 1062/1951 [00:13<00:14, 61.29it/s]
+Loading weights:  55%|█████▍    | 1073/1951 [00:14<00:15, 57.54it/s]
+Loading weights:  56%|█████▌    | 1083/1951 [00:14<00:14, 60.82it/s]
+Loading weights:  56%|█████▌    | 1092/1951 [00:14<00:14, 59.85it/s]
+Loading weights:  56%|█████▋    | 1100/1951 [00:14<00:16, 52.74it/s]
+Loading weights:  57%|█████▋    | 1109/1951 [00:14<00:14, 57.72it/s]
+Loading weights:  57%|█████▋    | 1117/1951 [00:14<00:14, 56.78it/s]
+Loading weights:  58%|█████▊    | 1126/1951 [00:15<00:15, 54.76it/s]
+Loading weights:  58%|█████▊    | 1135/1951 [00:15<00:13, 59.71it/s]
+Loading weights:  59%|█████▊    | 1142/1951 [00:15<00:16, 47.76it/s]
+Loading weights:  59%|█████▉    | 1151/1951 [00:15<00:15, 52.87it/s]
+Loading weights:  59%|█████▉    | 1157/1951 [00:15<00:16, 49.52it/s]
+Loading weights:  60%|█████▉    | 1166/1951 [00:15<00:13, 57.89it/s]
+Loading weights:  60%|██████    | 1173/1951 [00:15<00:14, 54.46it/s]
+Loading weights:  61%|██████    | 1181/1951 [00:16<00:12, 60.22it/s]
+Loading weights:  61%|██████    | 1188/1951 [00:16<00:13, 56.18it/s]
+Loading weights:  61%|██████▏   | 1195/1951 [00:16<00:13, 57.53it/s]
+Loading weights:  62%|██████▏   | 1202/1951 [00:16<00:13, 54.07it/s]
+Loading weights:  62%|██████▏   | 1209/1951 [00:16<00:12, 57.81it/s]
+Loading weights:  62%|██████▏   | 1216/1951 [00:16<00:13, 54.33it/s]
+Loading weights:  63%|██████▎   | 1223/1951 [00:16<00:13, 55.83it/s]
+Loading weights:  63%|██████▎   | 1229/1951 [00:16<00:14, 50.34it/s]
+Loading weights:  63%|██████▎   | 1237/1951 [00:17<00:14, 49.09it/s]
+Loading weights:  64%|██████▍   | 1247/1951 [00:17<00:11, 59.68it/s]
+Loading weights:  64%|██████▍   | 1254/1951 [00:17<00:14, 48.32it/s]
+Loading weights:  65%|██████▍   | 1265/1951 [00:17<00:11, 60.93it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:17<00:11, 57.88it/s]
+Loading weights:  66%|██████▌   | 1280/1951 [00:17<00:10, 61.79it/s]
+Loading weights:  69%|██████▉   | 1348/1951 [00:17<00:02, 212.08it/s]
+Loading weights:  77%|███████▋  | 1501/1951 [00:18<00:00, 552.35it/s]
+Loading weights:  84%|████████▍ | 1644/1951 [00:18<00:00, 788.52it/s]
+Loading weights:  92%|█████████▏| 1797/1951 [00:18<00:00, 994.39it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:18<00:00, 106.67it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.336 | H=1.791 | zone=synthesis | 60tok | 17.5s
+  ✓ phi=0.336 H=1.791 zone=synthesis (44.2s, 60tok)
+
+[  3/80] E2B | ACTIVE_MANIFOLD | math | prompt #3
+  > What is the square root of 144?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4505.18it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 690.20it/s] 
+Loading weights:  57%|█████▋    | 1116/1951 [00:01<00:01, 732.94it/s]
+Loading weights:  65%|██████▌   | 1271/1951 [00:01<00:00, 720.01it/s]
+Loading weights:  86%|████████▋ | 1686/1951 [00:01<00:00, 1170.92it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1104.81it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=1.113 | zone=math | 60tok | 16.5s
+  ✓ phi=0.264 H=1.113 zone=math (25.7s, 60tok)
+
+[  4/80] E2B | ACTIVE_MANIFOLD | math | prompt #4
+  > Calculate 15% of 240.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 452/1951 [00:00<00:00, 4490.86it/s]
+Loading weights:  46%|████▌     | 902/1951 [00:01<00:01, 698.81it/s] 
+Loading weights:  57%|█████▋    | 1113/1951 [00:01<00:01, 738.84it/s]
+Loading weights:  65%|██████▍   | 1267/1951 [00:01<00:00, 722.13it/s]
+Loading weights:  86%|████████▋ | 1683/1951 [00:01<00:00, 1176.43it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.75it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.266 | H=1.113 | zone=math | 60tok | 16.7s
+  ✓ phi=0.266 H=1.113 zone=math (25.8s, 60tok)
+
+[  5/80] E2B | ACTIVE_MANIFOLD | math | prompt #5
+  > If a triangle has sides 3, 4, 5, what is its area?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4518.99it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 699.84it/s] 
+Loading weights:  57%|█████▋    | 1117/1951 [00:01<00:01, 741.67it/s]
+Loading weights:  65%|██████▌   | 1273/1951 [00:01<00:00, 724.42it/s]
+Loading weights:  86%|████████▋ | 1683/1951 [00:01<00:00, 1169.56it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1111.01it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.270 | H=1.504 | zone=math | 60tok | 17.8s
+  ✓ phi=0.270 H=1.504 zone=math (26.9s, 60tok)
+
+[  6/80] E2B | ACTIVE_MANIFOLD | math | prompt #6
+  > What is the derivative of x^2 + 3x?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 462/1951 [00:00<00:00, 4619.59it/s]
+Loading weights:  47%|████▋     | 924/1951 [00:01<00:01, 707.66it/s] 
+Loading weights:  58%|█████▊    | 1141/1951 [00:01<00:01, 734.36it/s]
+Loading weights:  66%|██████▋   | 1296/1951 [00:01<00:00, 727.69it/s]
+Loading weights:  95%|█████████▌| 1856/1951 [00:01<00:00, 1364.16it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.54it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=1.853 | zone=math | 60tok | 16.9s
+  ✓ phi=0.263 H=1.853 zone=math (26.1s, 60tok)
+
+[  7/80] E2B | ACTIVE_MANIFOLD | math | prompt #7
+  > Compute the sum 1+2+...+100.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 455/1951 [00:00<00:00, 4549.19it/s]
+Loading weights:  47%|████▋     | 910/1951 [00:01<00:01, 706.43it/s] 
+Loading weights:  58%|█████▊    | 1124/1951 [00:01<00:01, 748.15it/s]
+Loading weights:  66%|██████▌   | 1281/1951 [00:01<00:00, 719.34it/s]
+Loading weights:  93%|█████████▎| 1815/1951 [00:01<00:00, 1321.42it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1119.01it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.267 | H=1.688 | zone=math | 60tok | 16.9s
+  ✓ phi=0.267 H=1.688 zone=math (25.9s, 60tok)
+
+[  8/80] E2B | ACTIVE_MANIFOLD | math | prompt #8
+  > What is 7 factorial?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4530.35it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 702.63it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 744.04it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 728.11it/s]
+Loading weights:  87%|████████▋ | 1707/1951 [00:01<00:00, 1199.43it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.52it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.259 | H=1.834 | zone=math | 60tok | 17.1s
+  ✓ phi=0.259 H=1.834 zone=math (26.1s, 60tok)
+
+[  9/80] E2B | ACTIVE_MANIFOLD | math | prompt #9
+  > Solve: 3^4 = ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4533.44it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 704.71it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 744.44it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 727.59it/s]
+Loading weights:  87%|████████▋ | 1694/1951 [00:01<00:00, 1181.32it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.45it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=1.736 | zone=math | 60tok | 17.2s
+  ✓ phi=0.263 H=1.736 zone=math (26.2s, 60tok)
+
+[ 10/80] E2B | ACTIVE_MANIFOLD | math | prompt #10
+  > How many degrees are in a triangle?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 476/1951 [00:00<00:00, 4751.33it/s]
+Loading weights:  49%|████▉     | 952/1951 [00:01<00:01, 717.43it/s] 
+Loading weights:  60%|██████    | 1175/1951 [00:01<00:01, 732.20it/s]
+Loading weights:  68%|██████▊   | 1331/1951 [00:01<00:00, 755.34it/s]
+Loading weights:  98%|█████████▊| 1905/1951 [00:01<00:00, 1413.07it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1119.23it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=0.923 | zone=math | 44tok | 11.2s
+  ✓ phi=0.268 H=0.923 zone=math (20.3s, 44tok)
+
+[ 11/80] E2B | ACTIVE_MANIFOLD | math | prompt #11
+  > What is the value of pi to 2 decimal places?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 460/1951 [00:00<00:00, 4599.09it/s]
+Loading weights:  47%|████▋     | 920/1951 [00:01<00:01, 702.91it/s] 
+Loading weights:  58%|█████▊    | 1136/1951 [00:01<00:01, 741.23it/s]
+Loading weights:  66%|██████▋   | 1293/1951 [00:01<00:00, 721.72it/s]
+Loading weights:  95%|█████████▌| 1860/1951 [00:01<00:00, 1363.65it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.63it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=1.460 | zone=math | 60tok | 17.1s
+  ✓ phi=0.264 H=1.460 zone=math (26.1s, 60tok)
+
+[ 12/80] E2B | ACTIVE_MANIFOLD | math | prompt #12
+  > If f(x) = 2x + 1, what is f(5)?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 462/1951 [00:00<00:00, 4609.51it/s]
+Loading weights:  47%|████▋     | 923/1951 [00:01<00:01, 708.54it/s] 
+Loading weights:  58%|█████▊    | 1139/1951 [00:01<00:01, 741.17it/s]
+Loading weights:  66%|██████▋   | 1295/1951 [00:01<00:00, 726.59it/s]
+Loading weights:  95%|█████████▌| 1854/1951 [00:01<00:00, 1361.28it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.43it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.269 | H=1.144 | zone=math | 60tok | 17.6s
+  ✓ phi=0.269 H=1.144 zone=math (26.6s, 60tok)
+
+[ 13/80] E2B | ACTIVE_MANIFOLD | math | prompt #13
+  > What is 1024 / 32?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4482.69it/s]
+Loading weights:  46%|████▋     | 903/1951 [00:01<00:01, 698.91it/s] 
+Loading weights:  57%|█████▋    | 1114/1951 [00:01<00:01, 739.95it/s]
+Loading weights:  65%|██████▌   | 1269/1951 [00:01<00:00, 723.81it/s]
+Loading weights:  87%|████████▋ | 1695/1951 [00:01<00:00, 1191.21it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.46it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.269 | H=1.146 | zone=math | 60tok | 16.9s
+  ✓ phi=0.269 H=1.146 zone=math (25.9s, 60tok)
+
+[ 14/80] E2B | ACTIVE_MANIFOLD | math | prompt #14
+  > What is the next prime after 13?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4526.15it/s]
+Loading weights:  46%|████▋     | 907/1951 [00:01<00:01, 702.83it/s] 
+Loading weights:  57%|█████▋    | 1120/1951 [00:01<00:01, 743.54it/s]
+Loading weights:  65%|██████▌   | 1276/1951 [00:01<00:00, 728.11it/s]
+Loading weights:  87%|████████▋ | 1707/1951 [00:01<00:00, 1200.34it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.87it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.267 | H=1.157 | zone=math | 60tok | 16.3s
+  ✓ phi=0.267 H=1.157 zone=math (25.3s, 60tok)
+
+[ 15/80] E2B | ACTIVE_MANIFOLD | math | prompt #15
+  > What is 2^10?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 456/1951 [00:00<00:00, 4558.60it/s]
+Loading weights:  47%|████▋     | 912/1951 [00:01<00:01, 699.27it/s] 
+Loading weights:  58%|█████▊    | 1126/1951 [00:01<00:01, 734.74it/s]
+Loading weights:  66%|██████▌   | 1281/1951 [00:01<00:00, 719.89it/s]
+Loading weights:  93%|█████████▎| 1811/1951 [00:01<00:00, 1317.96it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.78it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.271 | H=1.252 | zone=math | 60tok | 16.7s
+  ✓ phi=0.271 H=1.252 zone=math (25.6s, 60tok)
+
+[ 16/80] E2B | ACTIVE_MANIFOLD | math | prompt #16
+  > Solve 5x = 25.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 458/1951 [00:00<00:00, 4575.96it/s]
+Loading weights:  47%|████▋     | 916/1951 [00:01<00:01, 703.39it/s] 
+Loading weights:  58%|█████▊    | 1131/1951 [00:01<00:01, 739.44it/s]
+Loading weights:  66%|██████▌   | 1287/1951 [00:01<00:00, 723.51it/s]
+Loading weights:  92%|█████████▏| 1799/1951 [00:01<00:00, 1297.08it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.24it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.266 | H=1.449 | zone=math | 60tok | 16.5s
+  ✓ phi=0.266 H=1.449 zone=math (25.6s, 60tok)
+
+[ 17/80] E2B | ACTIVE_MANIFOLD | math | prompt #17
+  > What is 0.25 as a fraction?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4509.55it/s]
+Loading weights:  46%|████▋     | 904/1951 [00:01<00:01, 699.94it/s] 
+Loading weights:  57%|█████▋    | 1116/1951 [00:01<00:01, 741.43it/s]
+Loading weights:  65%|██████▌   | 1271/1951 [00:01<00:00, 725.99it/s]
+Loading weights:  87%|████████▋ | 1700/1951 [00:01<00:00, 1197.69it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.05it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=1.929 | zone=math | 60tok | 17.0s
+  ✓ phi=0.264 H=1.929 zone=math (26.0s, 60tok)
+
+[ 18/80] E2B | ACTIVE_MANIFOLD | math | prompt #18
+  > What is the perimeter of a square with side 7?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 447/1951 [00:00<00:00, 4434.92it/s]
+Loading weights:  46%|████▌     | 891/1951 [00:01<00:01, 696.06it/s] 
+Loading weights:  56%|█████▋    | 1100/1951 [00:01<00:01, 743.52it/s]
+Loading weights:  64%|██████▍   | 1255/1951 [00:01<00:00, 727.51it/s]
+Loading weights:  81%|████████  | 1580/1951 [00:01<00:00, 1065.26it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.17it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=2.262 | zone=creative | 60tok | 17.5s
+  ✓ phi=0.341 H=2.262 zone=creative (26.5s, 60tok)
+
+[ 19/80] E2B | ACTIVE_MANIFOLD | math | prompt #19
+  > What is 9 squared?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4525.19it/s]
+Loading weights:  46%|████▋     | 906/1951 [00:01<00:01, 699.30it/s] 
+Loading weights:  57%|█████▋    | 1119/1951 [00:01<00:01, 742.29it/s]
+Loading weights:  65%|██████▌   | 1275/1951 [00:01<00:00, 724.59it/s]
+Loading weights:  88%|████████▊ | 1712/1951 [00:01<00:00, 1203.81it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.14it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=1.399 | zone=math | 25tok | 6.6s
+  ✓ phi=0.268 H=1.399 zone=math (15.9s, 25tok)
+
+[ 20/80] E2B | ACTIVE_MANIFOLD | math | prompt #20
+  > What is 1000 - 437?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4496.65it/s]
+Loading weights:  46%|████▋     | 904/1951 [00:01<00:01, 700.42it/s] 
+Loading weights:  57%|█████▋    | 1115/1951 [00:01<00:01, 741.44it/s]
+Loading weights:  65%|██████▌   | 1270/1951 [00:01<00:00, 725.90it/s]
+Loading weights:  87%|████████▋ | 1694/1951 [00:01<00:00, 1191.47it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.83it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.271 | H=1.333 | zone=math | 60tok | 16.9s
+  ✓ phi=0.271 H=1.333 zone=math (26.0s, 60tok)
+
+[ 21/80] E2B | ACTIVE_MANIFOLD | logic | prompt #1
+  > If all roses are flowers, and some flowers fade quickly, can we conclude that so...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 446/1951 [00:00<00:00, 4394.48it/s]
+Loading weights:  45%|████▌     | 886/1951 [00:01<00:01, 692.39it/s] 
+Loading weights:  56%|█████▌    | 1093/1951 [00:01<00:01, 747.85it/s]
+Loading weights:  64%|██████▍   | 1249/1951 [00:01<00:00, 731.28it/s]
+Loading weights:  75%|███████▌  | 1464/1951 [00:01<00:00, 922.55it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.14it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=1.833 | zone=synthesis | 60tok | 17.7s
+  ✓ phi=0.339 H=1.833 zone=synthesis (26.8s, 60tok)
+
+[ 22/80] E2B | ACTIVE_MANIFOLD | logic | prompt #2
+  > What comes next in the sequence: 1, 1, 2, 3, 5, 8, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 464/1951 [00:00<00:00, 4637.95it/s]
+Loading weights:  48%|████▊     | 928/1951 [00:01<00:01, 705.90it/s] 
+Loading weights:  59%|█████▊    | 1146/1951 [00:01<00:01, 738.37it/s]
+Loading weights:  67%|██████▋   | 1303/1951 [00:01<00:00, 733.42it/s]
+Loading weights:  96%|█████████▌| 1871/1951 [00:01<00:00, 1380.39it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.66it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=1.572 | zone=synthesis | 60tok | 18.2s
+  ✓ phi=0.339 H=1.572 zone=synthesis (27.1s, 60tok)
+
+[ 23/80] E2B | ACTIVE_MANIFOLD | logic | prompt #3
+  > If A implies B, and B implies C, what does A imply?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 456/1951 [00:00<00:00, 4558.09it/s]
+Loading weights:  47%|████▋     | 912/1951 [00:01<00:01, 702.51it/s] 
+Loading weights:  58%|█████▊    | 1126/1951 [00:01<00:01, 737.86it/s]
+Loading weights:  66%|██████▌   | 1281/1951 [00:01<00:00, 718.61it/s]
+Loading weights:  92%|█████████▏| 1803/1951 [00:01<00:00, 1305.54it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.89it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=1.641 | zone=synthesis | 60tok | 16.9s
+  ✓ phi=0.341 H=1.641 zone=synthesis (25.9s, 60tok)
+
+[ 24/80] E2B | ACTIVE_MANIFOLD | logic | prompt #4
+  > Is the statement 'I am lying' a paradox?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4510.09it/s]
+Loading weights:  46%|████▋     | 906/1951 [00:01<00:01, 702.35it/s] 
+Loading weights:  57%|█████▋    | 1118/1951 [00:01<00:01, 744.15it/s]
+Loading weights:  65%|██████▌   | 1274/1951 [00:01<00:00, 726.46it/s]
+Loading weights:  87%|████████▋ | 1703/1951 [00:01<00:00, 1197.13it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.02it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.271 | H=1.735 | zone=math | 60tok | 16.8s
+  ✓ phi=0.271 H=1.735 zone=math (25.7s, 60tok)
+
+[ 25/80] E2B | ACTIVE_MANIFOLD | logic | prompt #5
+  > What is the contrapositive of 'If P then Q'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 466/1951 [00:00<00:00, 4633.88it/s]
+Loading weights:  48%|████▊     | 930/1951 [00:01<00:01, 707.03it/s] 
+Loading weights:  59%|█████▉    | 1147/1951 [00:01<00:01, 740.32it/s]
+Loading weights:  67%|██████▋   | 1304/1951 [00:01<00:00, 733.67it/s]
+Loading weights:  96%|█████████▌| 1866/1951 [00:01<00:00, 1373.11it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.22it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=1.688 | zone=math | 60tok | 16.6s
+  ✓ phi=0.264 H=1.688 zone=math (25.6s, 60tok)
+
+[ 26/80] E2B | ACTIVE_MANIFOLD | logic | prompt #6
+  > If today is Wednesday, what day will it be 10 days from now?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 462/1951 [00:00<00:00, 4606.73it/s]
+Loading weights:  47%|████▋     | 923/1951 [00:01<00:01, 706.65it/s] 
+Loading weights:  58%|█████▊    | 1139/1951 [00:01<00:01, 740.28it/s]
+Loading weights:  66%|██████▋   | 1295/1951 [00:01<00:00, 726.24it/s]
+Loading weights:  94%|█████████▍| 1839/1951 [00:01<00:00, 1339.62it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.78it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.265 | H=1.859 | zone=math | 60tok | 18.6s
+  ✓ phi=0.265 H=1.859 zone=math (27.6s, 60tok)
+
+[ 27/80] E2B | ACTIVE_MANIFOLD | logic | prompt #7
+  > All cats are mammals. Felix is a cat. What can we conclude?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 449/1951 [00:00<00:00, 4476.21it/s]
+Loading weights:  46%|████▌     | 897/1951 [00:01<00:01, 695.01it/s] 
+Loading weights:  57%|█████▋    | 1107/1951 [00:01<00:01, 747.82it/s]
+Loading weights:  65%|██████▍   | 1264/1951 [00:01<00:00, 731.47it/s]
+Loading weights:  82%|████████▏ | 1598/1951 [00:01<00:00, 1079.91it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.62it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.267 | H=1.544 | zone=math | 60tok | 17.8s
+  ✓ phi=0.267 H=1.544 zone=math (26.7s, 60tok)
+
+[ 28/80] E2B | ACTIVE_MANIFOLD | logic | prompt #8
+  > If some birds cannot fly, can we say all birds fly?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 448/1951 [00:00<00:00, 4463.74it/s]
+Loading weights:  46%|████▌     | 895/1951 [00:01<00:01, 694.11it/s] 
+Loading weights:  57%|█████▋    | 1105/1951 [00:01<00:01, 747.56it/s]
+Loading weights:  65%|██████▍   | 1262/1951 [00:01<00:00, 731.12it/s]
+Loading weights:  81%|████████  | 1582/1951 [00:01<00:00, 1060.36it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.44it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=2.054 | zone=math | 60tok | 17.8s
+  ✓ phi=0.264 H=2.054 zone=math (26.7s, 60tok)
+
+[ 29/80] E2B | ACTIVE_MANIFOLD | logic | prompt #9
+  > What is the missing number: 2, 4, 8, 16, ?, 64
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4539.57it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 702.32it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 742.59it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 727.07it/s]
+Loading weights:  88%|████████▊ | 1713/1951 [00:01<00:00, 1206.40it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.27it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=0.993 | zone=math | 60tok | 17.8s
+  ✓ phi=0.268 H=0.993 zone=math (26.8s, 60tok)
+
+[ 30/80] E2B | ACTIVE_MANIFOLD | logic | prompt #10
+  > If all Zorps are Frims, and no Frim is a Glip, can a Zorp be a Glip?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4537.27it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 704.27it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 744.28it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 729.52it/s]
+Loading weights:  88%|████████▊ | 1711/1951 [00:01<00:00, 1207.00it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.72it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.264 | H=1.542 | zone=math | 60tok | 18.4s
+  ✓ phi=0.264 H=1.542 zone=math (27.4s, 60tok)
+
+[ 31/80] E2B | ACTIVE_MANIFOLD | logic | prompt #11
+  > What is the logical negation of 'All swans are white'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4504.46it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 701.07it/s] 
+Loading weights:  57%|█████▋    | 1117/1951 [00:01<00:01, 742.70it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:01<00:00, 726.97it/s]
+Loading weights:  87%|████████▋ | 1703/1951 [00:01<00:00, 1201.57it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.54it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=1.997 | zone=math | 60tok | 17.8s
+  ✓ phi=0.263 H=1.997 zone=math (26.8s, 60tok)
+
+[ 32/80] E2B | ACTIVE_MANIFOLD | logic | prompt #12
+  > If it rains, the ground gets wet. The ground is wet. Did it rain?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 457/1951 [00:00<00:00, 4568.10it/s]
+Loading weights:  47%|████▋     | 914/1951 [00:01<00:01, 700.22it/s] 
+Loading weights:  58%|█████▊    | 1128/1951 [00:01<00:01, 736.66it/s]
+Loading weights:  66%|██████▌   | 1284/1951 [00:01<00:00, 724.15it/s]
+Loading weights:  93%|█████████▎| 1811/1951 [00:01<00:00, 1319.18it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.94it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.337 | H=2.065 | zone=math | 60tok | 18.7s
+  ✓ phi=0.337 H=2.065 zone=math (27.6s, 60tok)
+
+[ 33/80] E2B | ACTIVE_MANIFOLD | logic | prompt #13
+  > Complete: 1, 4, 9, 16, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 458/1951 [00:00<00:00, 4575.20it/s]
+Loading weights:  47%|████▋     | 916/1951 [00:01<00:01, 704.27it/s] 
+Loading weights:  58%|█████▊    | 1131/1951 [00:01<00:01, 740.20it/s]
+Loading weights:  66%|██████▌   | 1287/1951 [00:01<00:00, 721.43it/s]
+Loading weights:  93%|█████████▎| 1819/1951 [00:01<00:00, 1320.46it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.06it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=0.982 | zone=math | 60tok | 17.2s
+  ✓ phi=0.268 H=0.982 zone=math (26.1s, 60tok)
+
+[ 34/80] E2B | ACTIVE_MANIFOLD | logic | prompt #14
+  > If A and B are both true, what is the truth value of A or B?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 463/1951 [00:00<00:00, 4621.96it/s]
+Loading weights:  47%|████▋     | 926/1951 [00:01<00:01, 707.77it/s] 
+Loading weights:  59%|█████▊    | 1143/1951 [00:01<00:01, 734.66it/s]
+Loading weights:  67%|██████▋   | 1298/1951 [00:01<00:00, 729.03it/s]
+Loading weights:  96%|█████████▌| 1870/1951 [00:01<00:00, 1380.93it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1117.63it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=1.689 | zone=math | 60tok | 18.0s
+  ✓ phi=0.268 H=1.689 zone=math (27.0s, 60tok)
+
+[ 35/80] E2B | ACTIVE_MANIFOLD | logic | prompt #15
+  > What is the modus ponens form?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 448/1951 [00:00<00:00, 4460.65it/s]
+Loading weights:  46%|████▌     | 895/1951 [00:01<00:01, 692.96it/s] 
+Loading weights:  57%|█████▋    | 1105/1951 [00:01<00:01, 748.11it/s]
+Loading weights:  65%|██████▍   | 1262/1951 [00:01<00:00, 730.58it/s]
+Loading weights:  81%|████████  | 1584/1951 [00:01<00:00, 1062.35it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.62it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.260 | H=1.650 | zone=math | 60tok | 17.7s
+  ✓ phi=0.260 H=1.650 zone=math (26.7s, 60tok)
+
+[ 36/80] E2B | ACTIVE_MANIFOLD | logic | prompt #16
+  > If the butler and the gardener both claim innocence, and only one is lying, who ...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 458/1951 [00:00<00:00, 4578.05it/s]
+Loading weights:  47%|████▋     | 916/1951 [00:01<00:01, 705.07it/s] 
+Loading weights:  58%|█████▊    | 1131/1951 [00:01<00:01, 741.62it/s]
+Loading weights:  66%|██████▌   | 1287/1951 [00:01<00:00, 726.19it/s]
+Loading weights:  93%|█████████▎| 1822/1951 [00:01<00:00, 1331.49it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1119.38it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.271 | H=2.006 | zone=math | 60tok | 18.7s
+  ✓ phi=0.271 H=2.006 zone=math (27.7s, 60tok)
+
+[ 37/80] E2B | ACTIVE_MANIFOLD | logic | prompt #17
+  > What is the difference between necessary and sufficient conditions?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 463/1951 [00:00<00:00, 4611.73it/s]
+Loading weights:  47%|████▋     | 925/1951 [00:01<00:01, 706.72it/s] 
+Loading weights:  58%|█████▊    | 1141/1951 [00:01<00:01, 732.32it/s]
+Loading weights:  66%|██████▋   | 1296/1951 [00:01<00:00, 725.68it/s]
+Loading weights:  95%|█████████▍| 1848/1951 [00:01<00:00, 1350.49it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.23it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.270 | H=2.019 | zone=math | 60tok | 17.5s
+  ✓ phi=0.270 H=2.019 zone=math (26.6s, 60tok)
+
+[ 38/80] E2B | ACTIVE_MANIFOLD | logic | prompt #18
+  > If P is false, what is the truth value of 'P or Q'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4480.93it/s]
+Loading weights:  46%|████▋     | 903/1951 [00:01<00:01, 699.30it/s] 
+Loading weights:  57%|█████▋    | 1114/1951 [00:01<00:01, 739.41it/s]
+Loading weights:  65%|██████▍   | 1268/1951 [00:01<00:00, 723.41it/s]
+Loading weights:  87%|████████▋ | 1694/1951 [00:01<00:00, 1191.49it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.04it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=2.200 | zone=math | 60tok | 17.9s
+  ✓ phi=0.341 H=2.200 zone=math (27.1s, 60tok)
+
+[ 39/80] E2B | ACTIVE_MANIFOLD | logic | prompt #19
+  > Complete: J, F, M, A, M, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 452/1951 [00:00<00:00, 4481.59it/s]
+Loading weights:  46%|████▌     | 901/1951 [00:01<00:01, 698.37it/s] 
+Loading weights:  57%|█████▋    | 1112/1951 [00:01<00:01, 743.24it/s]
+Loading weights:  65%|██████▍   | 1267/1951 [00:01<00:00, 721.62it/s]
+Loading weights:  86%|████████▌ | 1675/1951 [00:01<00:00, 1164.12it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.84it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.271 | H=1.960 | zone=math | 60tok | 17.8s
+  ✓ phi=0.271 H=1.960 zone=math (26.9s, 60tok)
+
+[ 40/80] E2B | ACTIVE_MANIFOLD | logic | prompt #20
+  > What is the syllogism called when the conclusion is hidden in the premises?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 449/1951 [00:00<00:00, 4480.32it/s]
+Loading weights:  46%|████▌     | 898/1951 [00:01<00:01, 697.13it/s] 
+Loading weights:  57%|█████▋    | 1109/1951 [00:01<00:01, 750.30it/s]
+Loading weights:  65%|██████▍   | 1266/1951 [00:01<00:00, 725.27it/s]
+Loading weights:  85%|████████▌ | 1664/1951 [00:01<00:00, 1156.22it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.06it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=1.953 | zone=math | 60tok | 17.4s
+  ✓ phi=0.263 H=1.953 zone=math (26.3s, 60tok)
+
+[ 41/80] E2B | ACTIVE_MANIFOLD | creative | prompt #1
+  > Write a haiku about a forgotten robot.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 462/1951 [00:00<00:00, 4610.78it/s]
+Loading weights:  47%|████▋     | 924/1951 [00:01<00:01, 707.44it/s] 
+Loading weights:  58%|█████▊    | 1140/1951 [00:01<00:01, 736.84it/s]
+Loading weights:  66%|██████▋   | 1295/1951 [00:01<00:00, 726.06it/s]
+Loading weights:  95%|█████████▌| 1854/1951 [00:01<00:00, 1360.27it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.94it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.269 | H=1.862 | zone=math | 22tok | 6.1s
+  ✓ phi=0.269 H=1.862 zone=math (15.1s, 22tok)
+
+[ 42/80] E2B | ACTIVE_MANIFOLD | creative | prompt #2
+  > Describe the color of silence to someone who has never seen.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 457/1951 [00:00<00:00, 4566.84it/s]
+Loading weights:  47%|████▋     | 914/1951 [00:01<00:01, 701.19it/s] 
+Loading weights:  58%|█████▊    | 1128/1951 [00:01<00:01, 737.10it/s]
+Loading weights:  66%|██████▌   | 1283/1951 [00:01<00:00, 722.18it/s]
+Loading weights:  92%|█████████▏| 1794/1951 [00:01<00:00, 1296.07it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.39it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.340 | H=2.083 | zone=math | 60tok | 18.0s
+  ✓ phi=0.340 H=2.083 zone=math (26.9s, 60tok)
+
+[ 43/80] E2B | ACTIVE_MANIFOLD | creative | prompt #3
+  > Invent a word for the feeling of a Sunday afternoon in autumn.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 446/1951 [00:00<00:00, 4423.90it/s]
+Loading weights:  46%|████▌     | 889/1951 [00:01<00:01, 693.21it/s] 
+Loading weights:  56%|█████▌    | 1097/1951 [00:01<00:01, 749.62it/s]
+Loading weights:  64%|██████▍   | 1254/1951 [00:01<00:00, 724.04it/s]
+Loading weights:  81%|████████  | 1571/1951 [00:01<00:00, 1049.58it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.76it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=2.015 | zone=math | 60tok | 18.2s
+  ✓ phi=0.341 H=2.015 zone=math (27.2s, 60tok)
+
+[ 44/80] E2B | ACTIVE_MANIFOLD | creative | prompt #4
+  > What if gravity reversed for one hour each day?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4499.31it/s]
+Loading weights:  46%|████▋     | 903/1951 [00:01<00:01, 698.80it/s] 
+Loading weights:  57%|█████▋    | 1115/1951 [00:01<00:01, 742.36it/s]
+Loading weights:  65%|██████▌   | 1270/1951 [00:01<00:00, 726.59it/s]
+Loading weights:  86%|████████▌ | 1679/1951 [00:01<00:00, 1172.16it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.68it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.338 | H=2.183 | zone=logic_a | 60tok | 17.9s
+  ✓ phi=0.338 H=2.183 zone=logic_a (26.9s, 60tok)
+
+[ 45/80] E2B | ACTIVE_MANIFOLD | creative | prompt #5
+  > Write the opening line of a novel set inside a dream.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 465/1951 [00:00<00:00, 4645.77it/s]
+Loading weights:  48%|████▊     | 930/1951 [00:01<00:01, 705.72it/s] 
+Loading weights:  59%|█████▉    | 1148/1951 [00:01<00:01, 737.70it/s]
+Loading weights:  67%|██████▋   | 1305/1951 [00:01<00:00, 733.77it/s]
+Loading weights:  96%|█████████▌| 1875/1951 [00:01<00:00, 1381.64it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.54it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=2.178 | zone=logic_a | 60tok | 18.2s
+  ✓ phi=0.339 H=2.178 zone=logic_a (27.3s, 60tok)
+
+[ 46/80] E2B | ACTIVE_MANIFOLD | creative | prompt #6
+  > Describe a city built entirely of music.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 458/1951 [00:00<00:00, 4578.91it/s]
+Loading weights:  47%|████▋     | 916/1951 [00:01<00:01, 702.46it/s] 
+Loading weights:  58%|█████▊    | 1131/1951 [00:01<00:01, 739.13it/s]
+Loading weights:  66%|██████▌   | 1287/1951 [00:01<00:00, 723.33it/s]
+Loading weights:  94%|█████████▍| 1830/1951 [00:01<00:00, 1336.27it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.94it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.268 | H=2.041 | zone=math | 60tok | 17.8s
+  ✓ phi=0.268 H=2.041 zone=math (26.8s, 60tok)
+
+[ 47/80] E2B | ACTIVE_MANIFOLD | creative | prompt #7
+  > What would a conversation between two shadows look like?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4509.69it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 701.22it/s] 
+Loading weights:  57%|█████▋    | 1117/1951 [00:01<00:01, 743.35it/s]
+Loading weights:  65%|██████▌   | 1273/1951 [00:01<00:00, 727.02it/s]
+Loading weights:  87%|████████▋ | 1692/1951 [00:01<00:00, 1184.95it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.93it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.342 | H=2.156 | zone=logic_a | 60tok | 18.0s
+  ✓ phi=0.342 H=2.156 zone=logic_a (27.0s, 60tok)
+
+[ 48/80] E2B | ACTIVE_MANIFOLD | creative | prompt #8
+  > Invent a new color and describe its emotional weight.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4505.30it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 699.08it/s] 
+Loading weights:  57%|█████▋    | 1117/1951 [00:01<00:01, 741.50it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:01<00:00, 726.34it/s]
+Loading weights:  87%|████████▋ | 1692/1951 [00:01<00:00, 1185.84it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.48it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=2.145 | zone=synthesis | 60tok | 17.9s
+  ✓ phi=0.341 H=2.145 zone=synthesis (26.9s, 60tok)
+
+[ 49/80] E2B | ACTIVE_MANIFOLD | creative | prompt #9
+  > Write a short poem about the last star going out.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 461/1951 [00:00<00:00, 4604.46it/s]
+Loading weights:  47%|████▋     | 922/1951 [00:01<00:01, 705.70it/s] 
+Loading weights:  58%|█████▊    | 1138/1951 [00:01<00:01, 738.90it/s]
+Loading weights:  66%|██████▋   | 1294/1951 [00:01<00:00, 725.97it/s]
+Loading weights:  95%|█████████▍| 1853/1951 [00:01<00:00, 1360.39it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.69it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.337 | H=1.935 | zone=synthesis | 60tok | 17.8s
+  ✓ phi=0.337 H=1.935 zone=synthesis (26.8s, 60tok)
+
+[ 50/80] E2B | ACTIVE_MANIFOLD | creative | prompt #10
+  > Describe a library where the books are alive.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4534.74it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 703.22it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 744.80it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 727.24it/s]
+Loading weights:  87%|████████▋ | 1705/1951 [00:01<00:00, 1196.11it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.12it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.340 | H=2.187 | zone=logic_a | 60tok | 17.9s
+  ✓ phi=0.340 H=2.187 zone=logic_a (26.9s, 60tok)
+
+[ 51/80] E2B | ACTIVE_MANIFOLD | creative | prompt #11
+  > What does loneliness sound like as a piece of music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 446/1951 [00:00<00:00, 4448.58it/s]
+Loading weights:  46%|████▌     | 891/1951 [00:01<00:01, 694.33it/s] 
+Loading weights:  56%|█████▋    | 1100/1951 [00:01<00:01, 743.33it/s]
+Loading weights:  64%|██████▍   | 1255/1951 [00:01<00:00, 725.67it/s]
+Loading weights:  80%|███████▉  | 1552/1951 [00:01<00:00, 1024.27it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1110.94it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=2.138 | zone=logic_a | 60tok | 17.8s
+  ✓ phi=0.339 H=2.138 zone=logic_a (26.8s, 60tok)
+
+[ 52/80] E2B | ACTIVE_MANIFOLD | creative | prompt #12
+  > Imagine a door that opens onto yesterday.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4531.76it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 703.14it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 742.07it/s]
+Loading weights:  65%|██████▌   | 1276/1951 [00:01<00:00, 725.94it/s]
+Loading weights:  88%|████████▊ | 1711/1951 [00:01<00:00, 1202.44it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.29it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.341 | H=2.185 | zone=logic_a | 60tok | 18.0s
+  ✓ phi=0.341 H=2.185 zone=logic_a (26.9s, 60tok)
+
+[ 53/80] E2B | ACTIVE_MANIFOLD | creative | prompt #13
+  > Write a toast given at the end of the universe.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4526.82it/s]
+Loading weights:  46%|████▋     | 906/1951 [00:01<00:01, 701.54it/s] 
+Loading weights:  57%|█████▋    | 1119/1951 [00:01<00:01, 744.14it/s]
+Loading weights:  65%|██████▌   | 1275/1951 [00:01<00:00, 726.58it/s]
+Loading weights:  86%|████████▋ | 1687/1951 [00:01<00:00, 1174.52it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.04it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.340 | H=2.257 | zone=creative | 60tok | 17.9s
+  ✓ phi=0.340 H=2.257 zone=creative (26.8s, 60tok)
+
+[ 54/80] E2B | ACTIVE_MANIFOLD | creative | prompt #14
+  > Describe a tree that grows dreams instead of leaves.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4532.74it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 703.68it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 743.90it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 727.01it/s]
+Loading weights:  87%|████████▋ | 1701/1951 [00:01<00:00, 1189.78it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.88it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=2.156 | zone=logic_a | 60tok | 17.9s
+  ✓ phi=0.339 H=2.156 zone=logic_a (26.9s, 60tok)
+
+[ 55/80] E2B | ACTIVE_MANIFOLD | creative | prompt #15
+  > What is the smell of a forgotten promise?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4535.79it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 703.33it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 744.72it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 727.73it/s]
+Loading weights:  87%|████████▋ | 1706/1951 [00:01<00:00, 1197.08it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.63it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.340 | H=2.151 | zone=logic_a | 60tok | 17.2s
+  ✓ phi=0.340 H=2.151 zone=logic_a (26.2s, 60tok)
+
+[ 56/80] E2B | ACTIVE_MANIFOLD | creative | prompt #16
+  > Invent a holiday and describe how it is celebrated.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 462/1951 [00:00<00:00, 4587.82it/s]
+Loading weights:  47%|████▋     | 921/1951 [00:01<00:01, 705.06it/s] 
+Loading weights:  58%|█████▊    | 1136/1951 [00:01<00:01, 739.56it/s]
+Loading weights:  66%|██████▌   | 1292/1951 [00:01<00:00, 720.04it/s]
+Loading weights:  96%|█████████▌| 1865/1951 [00:01<00:00, 1369.70it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.86it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=2.019 | zone=math | 60tok | 17.7s
+  ✓ phi=0.263 H=2.019 zone=math (26.7s, 60tok)
+
+[ 57/80] E2B | ACTIVE_MANIFOLD | creative | prompt #17
+  > Write three sentences about a snowflake that refuses to melt.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 463/1951 [00:00<00:00, 4601.26it/s]
+Loading weights:  47%|████▋     | 924/1951 [00:01<00:01, 706.51it/s] 
+Loading weights:  58%|█████▊    | 1140/1951 [00:01<00:01, 736.58it/s]
+Loading weights:  66%|██████▋   | 1295/1951 [00:01<00:00, 726.33it/s]
+Loading weights:  95%|█████████▌| 1859/1951 [00:01<00:00, 1367.87it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.23it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.265 | H=2.038 | zone=math | 53tok | 15.3s
+  ✓ phi=0.265 H=2.038 zone=math (24.3s, 53tok)
+
+[ 58/80] E2B | ACTIVE_MANIFOLD | creative | prompt #18
+  > Describe the texture of a lie.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 460/1951 [00:00<00:00, 4595.87it/s]
+Loading weights:  47%|████▋     | 920/1951 [00:01<00:01, 705.05it/s] 
+Loading weights:  58%|█████▊    | 1136/1951 [00:01<00:01, 740.68it/s]
+Loading weights:  66%|██████▌   | 1292/1951 [00:01<00:00, 720.41it/s]
+Loading weights:  95%|█████████▌| 1856/1951 [00:01<00:00, 1358.23it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.00it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.263 | H=1.431 | zone=math | 60tok | 17.3s
+  ✓ phi=0.263 H=1.431 zone=math (26.3s, 60tok)
+
+[ 59/80] E2B | ACTIVE_MANIFOLD | creative | prompt #19
+  > What would a museum of lost thoughts look like?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4501.17it/s]
+Loading weights:  46%|████▋     | 905/1951 [00:01<00:01, 701.32it/s] 
+Loading weights:  57%|█████▋    | 1117/1951 [00:01<00:01, 743.03it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:01<00:00, 725.95it/s]
+Loading weights:  87%|████████▋ | 1705/1951 [00:01<00:00, 1201.47it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.51it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.339 | H=2.183 | zone=logic_a | 60tok | 17.9s
+  ✓ phi=0.339 H=2.183 zone=logic_a (26.9s, 60tok)
+
+[ 60/80] E2B | ACTIVE_MANIFOLD | creative | prompt #20
+  > Imagine a letter written by a river to the sea.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4534.52it/s]
+Loading weights:  47%|████▋     | 908/1951 [00:01<00:01, 703.47it/s] 
+Loading weights:  57%|█████▋    | 1121/1951 [00:01<00:01, 745.05it/s]
+Loading weights:  65%|██████▌   | 1277/1951 [00:01<00:00, 729.62it/s]
+Loading weights:  87%|████████▋ | 1706/1951 [00:01<00:00, 1200.81it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.22it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.336 | H=1.881 | zone=synthesis | 60tok | 17.0s
+  ✓ phi=0.336 H=1.881 zone=synthesis (26.0s, 60tok)
+
+[ 61/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #1
+  > What is the relationship between mathematics and music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 451/1951 [00:00<00:00, 4508.48it/s]
+Loading weights:  46%|████▌     | 902/1951 [00:01<00:01, 700.33it/s] 
+Loading weights:  57%|█████▋    | 1114/1951 [00:01<00:01, 741.68it/s]
+Loading weights:  65%|██████▌   | 1269/1951 [00:01<00:00, 725.78it/s]
+Loading weights:  86%|████████▌ | 1677/1951 [00:01<00:00, 1170.06it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.83it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.338 | H=1.950 | zone=synthesis | 60tok | 16.6s
+  ✓ phi=0.338 H=1.950 zone=synthesis (25.6s, 60tok)
+
+[ 62/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #2
+  > How do literature and computer science inform each other?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  22%|██▏       | 436/1951 [00:00<00:00, 4359.62it/s]
+Loading weights:  45%|████▍     | 872/1951 [00:01<00:01, 687.62it/s] 
+Loading weights:  55%|█████▌    | 1077/1951 [00:01<00:01, 755.11it/s]
+Loading weights:  63%|██████▎   | 1235/1951 [00:01<00:00, 734.47it/s]
+Loading weights:  70%|██████▉   | 1357/1951 [00:01<00:00, 799.47it/s]
+Loading weights:  99%|█████████▊| 1922/1951 [00:01<00:00, 1588.11it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1110.63it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.259 | H=1.968 | zone=math | 60tok | 17.1s
+  ✓ phi=0.259 H=1.968 zone=math (26.1s, 60tok)
+
+[ 63/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #3
+  > Compare the structure of a symphony to the structure of a programming language.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 468/1951 [00:00<00:00, 4673.04it/s]
+Loading weights:  48%|████▊     | 936/1951 [00:01<00:01, 710.48it/s] 
+Loading weights:  59%|█████▉    | 1155/1951 [00:01<00:01, 730.97it/s]
+Loading weights:  67%|██████▋   | 1310/1951 [00:01<00:00, 739.91it/s]
+Loading weights:  96%|█████████▋| 1881/1951 [00:01<00:00, 1391.54it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1118.29it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.270 | H=1.864 | zone=math | 60tok | 17.0s
+  ✓ phi=0.270 H=1.864 zone=math (25.9s, 60tok)
+
+[ 64/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #4
+  > What can physics learn from biology?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 453/1951 [00:00<00:00, 4528.94it/s]
+Loading weights:  46%|████▋     | 906/1951 [00:01<00:01, 701.93it/s] 
+Loading weights:  57%|█████▋    | 1119/1951 [00:01<00:01, 740.83it/s]
+Loading weights:  65%|██████▌   | 1274/1951 [00:01<00:00, 723.69it/s]
+Loading weights:  87%|████████▋ | 1701/1951 [00:01<00:00, 1190.81it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.60it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.256 | H=1.632 | zone=math | 60tok | 17.5s
+  ✓ phi=0.256 H=1.632 zone=math (26.6s, 60tok)
+
+[ 65/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #5
+  > How does the architecture of a city reflect the values of its culture?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 468/1951 [00:00<00:00, 4645.70it/s]
+Loading weights:  48%|████▊     | 933/1951 [00:01<00:01, 706.18it/s] 
+Loading weights:  59%|█████▉    | 1151/1951 [00:01<00:01, 736.63it/s]
+Loading weights:  67%|██████▋   | 1307/1951 [00:01<00:00, 731.16it/s]
+Loading weights:  96%|█████████▌| 1869/1951 [00:01<00:00, 1368.04it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.35it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.258 | H=1.735 | zone=math | 60tok | 17.0s
+  ✓ phi=0.258 H=1.735 zone=math (26.0s, 60tok)
+
+[ 66/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #6
+  > What is the connection between memory and identity?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 459/1951 [00:00<00:00, 4589.64it/s]
+Loading weights:  47%|████▋     | 918/1951 [00:01<00:01, 705.68it/s] 
+Loading weights:  58%|█████▊    | 1134/1951 [00:01<00:01, 740.01it/s]
+Loading weights:  66%|██████▌   | 1290/1951 [00:01<00:00, 723.38it/s]
+Loading weights:  94%|█████████▎| 1828/1951 [00:01<00:00, 1330.03it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.32it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.337 | H=1.906 | zone=synthesis | 60tok | 16.8s
+  ✓ phi=0.337 H=1.906 zone=synthesis (25.8s, 60tok)
+
+[ 67/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #7
+  > How do cooking and chemistry relate?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 459/1951 [00:00<00:00, 4583.48it/s]
+Loading weights:  47%|████▋     | 918/1951 [00:01<00:01, 704.84it/s] 
+Loading weights:  58%|█████▊    | 1133/1951 [00:01<00:01, 741.40it/s]
+Loading weights:  66%|██████▌   | 1289/1951 [00:01<00:00, 724.24it/s]
+Loading weights:  94%|█████████▍| 1832/1951 [00:01<00:00, 1338.68it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.66it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.337 | H=2.178 | zone=logic_a | 60tok | 17.5s
+  ✓ phi=0.337 H=2.178 zone=logic_a (26.6s, 60tok)
+
+[ 68/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #8
+  > Compare a forest ecosystem to a market economy.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 463/1951 [00:00<00:00, 4602.59it/s]
+Loading weights:  47%|████▋     | 924/1951 [00:01<00:01, 707.48it/s] 
+Loading weights:  58%|█████▊    | 1140/1951 [00:01<00:01, 731.64it/s]
+Loading weights:  66%|██████▋   | 1294/1951 [00:01<00:00, 726.00it/s]
+Loading weights:  95%|█████████▍| 1846/1951 [00:01<00:00, 1352.15it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.83it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.260 | H=1.894 | zone=math | 60tok | 16.5s
+  ✓ phi=0.260 H=1.894 zone=math (25.6s, 60tok)
+
+[ 69/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #9
+  > What can dance teach us about mathematics?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 465/1951 [00:00<00:00, 4649.12it/s]
+Loading weights:  48%|████▊     | 930/1951 [00:01<00:01, 706.26it/s] 
+Loading weights:  59%|█████▉    | 1148/1951 [00:01<00:01, 737.72it/s]
+Loading weights:  67%|██████▋   | 1305/1951 [00:01<00:00, 735.72it/s]
+Loading weights:  96%|█████████▌| 1876/1951 [00:01<00:00, 1386.20it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1118.45it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.315 | H=2.118 | zone=logic_a | 60tok | 17.7s
+  ✓ phi=0.315 H=2.118 zone=logic_a (26.6s, 60tok)
+
+[ 70/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #10
+  > How does the structure of DNA relate to information theory?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 464/1951 [00:00<00:00, 4633.40it/s]
+Loading weights:  48%|████▊     | 928/1951 [00:01<00:01, 707.79it/s] 
+Loading weights:  59%|█████▊    | 1145/1951 [00:01<00:01, 734.49it/s]
+Loading weights:  67%|██████▋   | 1300/1951 [00:01<00:00, 728.92it/s]
+Loading weights:  96%|█████████▌| 1871/1951 [00:01<00:00, 1378.89it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.59it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.256 | H=1.804 | zone=math | 60tok | 16.6s
+  ✓ phi=0.256 H=1.804 zone=math (25.5s, 60tok)
+
+[ 71/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #11
+  > What is the relationship between sleep and creativity?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 452/1951 [00:00<00:00, 4490.33it/s]
+Loading weights:  46%|████▌     | 902/1951 [00:01<00:01, 699.66it/s] 
+Loading weights:  57%|█████▋    | 1113/1951 [00:01<00:01, 739.93it/s]
+Loading weights:  65%|██████▍   | 1268/1951 [00:01<00:00, 721.75it/s]
+Loading weights:  87%|████████▋ | 1689/1951 [00:01<00:00, 1181.56it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.16it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.334 | H=2.092 | zone=logic_a | 60tok | 17.3s
+  ✓ phi=0.334 H=2.092 zone=logic_a (26.3s, 60tok)
+
+[ 72/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #12
+  > How do rivers shape civilizations?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 447/1951 [00:00<00:00, 4440.24it/s]
+Loading weights:  46%|████▌     | 892/1951 [00:01<00:01, 697.13it/s] 
+Loading weights:  56%|█████▋    | 1101/1951 [00:01<00:01, 744.18it/s]
+Loading weights:  64%|██████▍   | 1256/1951 [00:01<00:00, 726.77it/s]
+Loading weights:  81%|████████  | 1584/1951 [00:01<00:00, 1066.94it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.33it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.312 | H=2.102 | zone=logic_a | 60tok | 17.6s
+  ✓ phi=0.312 H=2.102 zone=logic_a (26.6s, 60tok)
+
+[ 73/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #13
+  > Compare the role of ritual in religion and in software development.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 452/1951 [00:00<00:00, 4517.63it/s]
+Loading weights:  46%|████▋     | 904/1951 [00:01<00:01, 699.23it/s] 
+Loading weights:  57%|█████▋    | 1116/1951 [00:01<00:01, 741.78it/s]
+Loading weights:  65%|██████▌   | 1272/1951 [00:01<00:00, 725.57it/s]
+Loading weights:  87%|████████▋ | 1706/1951 [00:01<00:00, 1201.49it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.39it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.266 | H=1.945 | zone=math | 60tok | 17.3s
+  ✓ phi=0.266 H=1.945 zone=math (26.3s, 60tok)
+
+[ 74/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #14
+  > What is the connection between color theory and emotional states?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 468/1951 [00:00<00:00, 4669.48it/s]
+Loading weights:  48%|████▊     | 935/1951 [00:01<00:01, 708.63it/s] 
+Loading weights:  59%|█████▉    | 1154/1951 [00:01<00:01, 731.64it/s]
+Loading weights:  67%|██████▋   | 1310/1951 [00:01<00:00, 737.21it/s]
+Loading weights:  97%|█████████▋| 1889/1951 [00:01<00:00, 1399.08it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.38it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.259 | H=1.804 | zone=math | 60tok | 17.1s
+  ✓ phi=0.259 H=1.804 zone=math (26.1s, 60tok)
+
+[ 75/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #15
+  > How does the structure of a cell resemble a city?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 449/1951 [00:00<00:00, 4462.05it/s]
+Loading weights:  46%|████▌     | 896/1951 [00:01<00:01, 692.68it/s] 
+Loading weights:  57%|█████▋    | 1106/1951 [00:01<00:01, 748.01it/s]
+Loading weights:  65%|██████▍   | 1263/1951 [00:01<00:00, 732.26it/s]
+Loading weights:  81%|████████  | 1582/1951 [00:01<00:00, 1060.93it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.27it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.257 | H=1.735 | zone=math | 60tok | 16.9s
+  ✓ phi=0.257 H=1.735 zone=math (26.0s, 60tok)
+
+[ 76/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #16
+  > What is the relationship between language and thought?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▍       | 466/1951 [00:00<00:00, 4651.78it/s]
+Loading weights:  48%|████▊     | 932/1951 [00:01<00:01, 708.60it/s] 
+Loading weights:  59%|█████▉    | 1150/1951 [00:01<00:01, 738.05it/s]
+Loading weights:  67%|██████▋   | 1306/1951 [00:01<00:00, 733.05it/s]
+Loading weights:  96%|█████████▌| 1876/1951 [00:01<00:00, 1381.84it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1116.58it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.342 | H=1.980 | zone=synthesis | 60tok | 16.4s
+  ✓ phi=0.342 H=1.980 zone=synthesis (25.5s, 60tok)
+
+[ 77/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #17
+  > How do games and stories share narrative structure?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 449/1951 [00:00<00:00, 4438.33it/s]
+Loading weights:  46%|████▌     | 893/1951 [00:01<00:01, 698.49it/s] 
+Loading weights:  56%|█████▋    | 1102/1951 [00:01<00:01, 743.89it/s]
+Loading weights:  64%|██████▍   | 1256/1951 [00:01<00:00, 726.79it/s]
+Loading weights:  81%|████████  | 1573/1951 [00:01<00:00, 1053.66it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1115.35it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.335 | H=2.170 | zone=logic_a | 60tok | 17.8s
+  ✓ phi=0.335 H=2.170 zone=logic_a (26.7s, 60tok)
+
+[ 78/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #18
+  > What can the study of crystals teach us about patterns in music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  24%|██▎       | 463/1951 [00:00<00:00, 4612.39it/s]
+Loading weights:  47%|████▋     | 925/1951 [00:01<00:01, 706.93it/s] 
+Loading weights:  59%|█████▊    | 1142/1951 [00:01<00:01, 733.22it/s]
+Loading weights:  66%|██████▋   | 1297/1951 [00:01<00:00, 727.36it/s]
+Loading weights:  95%|█████████▌| 1855/1951 [00:01<00:00, 1360.81it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1114.62it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.338 | H=2.124 | zone=logic_a | 60tok | 18.3s
+  ✓ phi=0.338 H=2.124 zone=logic_a (27.2s, 60tok)
+
+[ 79/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #19
+  > How do economic systems and ecological systems balance?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 454/1951 [00:00<00:00, 4513.57it/s]
+Loading weights:  46%|████▋     | 906/1951 [00:01<00:01, 701.35it/s] 
+Loading weights:  57%|█████▋    | 1118/1951 [00:01<00:01, 741.46it/s]
+Loading weights:  65%|██████▌   | 1273/1951 [00:01<00:00, 724.75it/s]
+Loading weights:  86%|████████▋ | 1684/1951 [00:01<00:00, 1171.62it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1112.87it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.338 | H=1.985 | zone=synthesis | 60tok | 17.4s
+  ✓ phi=0.338 H=1.985 zone=synthesis (26.3s, 60tok)
+
+[ 80/80] E2B | ACTIVE_MANIFOLD | synthesis | prompt #20
+  > What is the connection between a poem and a mathematical proof?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 452/1951 [00:00<00:00, 4511.72it/s]
+Loading weights:  46%|████▋     | 904/1951 [00:01<00:01, 701.05it/s] 
+Loading weights:  57%|█████▋    | 1116/1951 [00:01<00:01, 740.49it/s]
+Loading weights:  65%|██████▌   | 1271/1951 [00:01<00:00, 723.38it/s]
+Loading weights:  87%|████████▋ | 1696/1951 [00:01<00:00, 1188.43it/s]
+Loading weights: 100%|██████████| 1951/1951 [00:01<00:00, 1113.17it/s]
+[runner] gemma4-e2b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=619.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=620.0, jitter=5.0)
+[runner] gemma4-e2b-it ACTIVE_MANIFOLD | phi=0.261 | H=1.240 | zone=math | 60tok | 17.0s
+  ✓ phi=0.261 H=1.240 zone=math (25.9s, 60tok)
+
+[run_4b_eval] Wrote /run/media/julian/ML4/ollama-work/all_space/eval/results/SR61_FINAL_V2/E2B/E2B_ACTIVE_MANIFOLD_aggregate.json

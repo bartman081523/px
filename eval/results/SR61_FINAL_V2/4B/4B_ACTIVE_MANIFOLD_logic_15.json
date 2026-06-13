@@ -1,0 +1,23 @@
+{
+  "prompt": "If the butler and the gardener both claim innocence, and only one is lying, who did it?",
+  "completion": "This is a classic logic puzzle! Here's how to solve it:\n\n**The Logic:**\n\n*   Let's assume the butler is telling the truth. If he\u2019s truthful, then the gardener must be lying. This scenario fits the condition that only one person is lying.\n",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 30,
+  "gen_time_sec": 14.857778787612915,
+  "phi": 0.9965665340423584,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 1.4476842161894905e-240,
+    "logic_a": 0.0,
+    "logic_b": 9.825492701898636e-282,
+    "creative": 6.151774889191718e-123,
+    "synthesis": 8.37107414585276e-141
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2070.421875,
+  "token_diversity_input": 0.7666666666666667,
+  "loops_run": 5,
+  "entropy": 0.40625
+}

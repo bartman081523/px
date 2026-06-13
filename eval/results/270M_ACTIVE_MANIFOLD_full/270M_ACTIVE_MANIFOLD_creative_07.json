@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a new color and describe its emotional weight.",
+  "completion": "Okay, I'm ready to invent a new color! Let's brainstorm!\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 19,
+  "input_tokens": 20,
+  "gen_time_sec": 1.0129804611206055,
+  "phi": 0.7770577669143677,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.863405244358273,
+    "logic_a": 0.06775871651053353,
+    "logic_b": 0.03387935827375697,
+    "creative": 0.01801700072836,
+    "synthesis": 0.016939679127546882
+  },
+  "zone_entropy": 0.8155960580327413,
+  "kurtosis": 395.04461669921875,
+  "token_diversity_input": 0.8,
+  "loops_run": 3,
+  "entropy": 1.375
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "completion": "Here's how to solve $3^\u06f4$:\n\n**Understanding the notation:**\n\nThe expression $3\u2074$ means \"3 raised to the power of 4,\" which is the same as multiplying 3 by itself four times:\n$$3^\u2074 = 3 \\times 3",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 17,
+  "gen_time_sec": 17.20286250114441,
+  "phi": 0.26264557242393494,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.543458794139935,
+    "logic_a": 0.24509046791481343,
+    "logic_b": 0.12254523395740671,
+    "creative": 0.027632885009141538,
+    "synthesis": 0.061272616978703356
+  },
+  "zone_entropy": 1.7363601203468093,
+  "kurtosis": 740.3150024414062,
+  "token_diversity_input": 0.8235294117647058,
+  "loops_run": 48,
+  "entropy": 0.0
+}

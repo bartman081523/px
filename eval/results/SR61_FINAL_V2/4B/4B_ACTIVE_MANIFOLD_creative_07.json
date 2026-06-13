@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a new color and describe its emotional weight.",
+  "completion": "Okay, let's invent a new colour called **Lumiflora**. \n\n**Description:** Lumiflora is a shimmering, iridescent hue that shifts between deep teal and pale lavender, with subtle hints of gold flecks woven throughout. It\u2019s not just visually striking; it has an almost ethereal quality",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 13.439933061599731,
+  "phi": 0.9968305826187134,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 6.306185752443372e-53,
+    "logic_a": 2.479153501558822e-117,
+    "logic_b": 1.6312729576393771e-90,
+    "creative": 7.812586409269612e-47,
+    "synthesis": 1.435436931169997e-68
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2401.595458984375,
+  "token_diversity_input": 0.8,
+  "loops_run": 5,
+  "entropy": 0.78125
+}

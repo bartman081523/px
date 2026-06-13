@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "completion": "3^2 = 9\n3<sup>4</sup> = 3 * 3*3*1*3 = 81\n\nAlternatively, we can write this as:\n3\u2074 = 59049\n\nSo, 3<sup>2</sup> = (3)(3)",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 18,
+  "gen_time_sec": 5.746732234954834,
+  "phi": 0.992774248123169,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.4529056326356947,
+    "logic_a": 0.026686443811217538,
+    "logic_b": 0.013358925698808206,
+    "creative": 0.08314886136668716,
+    "synthesis": 0.42390013548759237
+  },
+  "zone_entropy": 1.5634527398423876,
+  "kurtosis": 1097.3338623046875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 8,
+  "entropy": 1.1640625
+}

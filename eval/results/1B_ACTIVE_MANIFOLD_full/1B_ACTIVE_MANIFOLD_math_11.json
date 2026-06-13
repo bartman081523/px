@@ -1,0 +1,23 @@
+{
+  "prompt": "If f(x) = 2x + 1, what is f(5)?",
+  "completion": "f(5) = 2(5) + 1\nf(5) = 10 + 1 = 11\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 29,
+  "gen_time_sec": 2.803722620010376,
+  "phi": 0.989258348941803,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.476328285325698,
+    "logic_a": 0.022783533148824406,
+    "logic_b": 0.12533274763942412,
+    "creative": 0.29870209043094775,
+    "synthesis": 0.07685334245510575
+  },
+  "zone_entropy": 1.814674699794739,
+  "kurtosis": 1112.404296875,
+  "token_diversity_input": 0.7241379310344828,
+  "loops_run": 7,
+  "entropy": 1.25
+}

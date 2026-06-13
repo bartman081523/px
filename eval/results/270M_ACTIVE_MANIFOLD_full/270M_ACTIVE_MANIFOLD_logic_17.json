@@ -1,0 +1,23 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "completion": "The truth value of 'P' is false.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 12,
+  "input_tokens": 26,
+  "gen_time_sec": 0.750953197479248,
+  "phi": 0.9378754496574402,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5497729794728735,
+    "logic_a": 0.2420487399432884,
+    "logic_b": 0.1210243699716442,
+    "creative": 0.02664172062637177,
+    "synthesis": 0.0605121849858221
+  },
+  "zone_entropy": 1.7228167406841417,
+  "kurtosis": 444.8567810058594,
+  "token_diversity_input": 0.8076923076923077,
+  "loops_run": 3,
+  "entropy": 1.21875
+}

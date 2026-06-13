@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the value of pi to 2 decimal places?",
+  "completion": "The value of \u03c0 (pi) is approximately 3.14159.\n\n\n \u0627\u0644\u0627\u0633\u0644\u0627\u0645\n\nSo, \u03c0 \u2248 3,140,900\u0927\u0928\u092a\u0942\u0930\u094d\u0923 \u0909\u0924\u094d\u0924\u0930 \u0939\u0948\u0964 \u0927\u0928\u094d\u092f\u0935\u093e\u0926! \u09a4\u09bf\u09a8\u09bf \u0938\u0939\u0940 \u0938\u0902\u0916\u094d\u092f\u093e \u0928\u0939\u0940\u0902 \u0926\u0947 \u0930\u0939\u0940",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 3.8674237728118896,
+  "phi": 0.9592362642288208,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6869791590697266,
+    "logic_a": 0.17266910633515992,
+    "logic_b": 0.08633455316757996,
+    "creative": 0.010849899843743535,
+    "synthesis": 0.04316727658378998
+  },
+  "zone_entropy": 1.3812641956254388,
+  "kurtosis": 550.165283203125,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 11,
+  "entropy": 0.953125
+}

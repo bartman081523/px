@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the square root of 144?",
+  "completion": "The square root of 144 is 12.\n\nYou can find this by multiplying 12 by itself: 12 *",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 5.6083903312683105,
+  "phi": 0.9963448643684387,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8387169606374886,
+    "logic_a": 0.12271868543363282,
+    "logic_b": 0.030576729070383408,
+    "creative": 0.007978450992705964,
+    "synthesis": 9.17302363182859e-06
+  },
+  "zone_entropy": 0.7938416782394141,
+  "kurtosis": 2361.2412109375,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 1,
+  "entropy": 1.234375
+}

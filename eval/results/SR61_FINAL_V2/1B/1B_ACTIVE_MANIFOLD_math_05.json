@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "completion": "The derivative of a function f(x) is found by applying the power rule. The power rule states that if you have a term like c*x<sup>n</sup>, then its value at x = x becomes cx<sup>n+1</sup>.\n\nSo we can find the derivative:\n\nf",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 5.719375371932983,
+  "phi": 0.9891377687454224,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.19199891706138109,
+    "logic_a": 0.1637138824352264,
+    "logic_b": 0.14566851871054545,
+    "creative": 0.2907136102234198,
+    "synthesis": 0.2079050705694272
+  },
+  "zone_entropy": 2.27864162734655,
+  "kurtosis": 1108.75146484375,
+  "token_diversity_input": 0.8260869565217391,
+  "loops_run": 8,
+  "entropy": 1.59375
+}

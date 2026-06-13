@@ -1,0 +1,23 @@
+{
+  "prompt": "How does the architecture of a city reflect the values of its culture?",
+  "completion": "The relationship between a city's architecture and its culture is a fascinating and complex interplay. It\u2019s a dynamic feedback loop where culture shapes architecture,",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 24,
+  "gen_time_sec": 2.61181640625,
+  "phi": 0.9901111721992493,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.2608956840005989,
+    "logic_a": 0.12773356220855675,
+    "logic_b": 0.0701524830088011,
+    "creative": 0.2551274478954198,
+    "synthesis": 0.2860908218866233
+  },
+  "zone_entropy": 2.1731748689031702,
+  "kurtosis": 1109.801513671875,
+  "token_diversity_input": 0.75,
+  "loops_run": 7,
+  "entropy": 1.5234375
+}

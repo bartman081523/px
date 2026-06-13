@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the difference between necessary and sufficient conditions?",
+  "completion": "The difference between necessary and sufficient conditions is a fundamental concept in the field of logic and mathematics. It essentially means that a condition is necessary for a statement",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 1.8244116306304932,
+  "phi": 0.9593930840492249,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5381660440042945,
+    "logic_a": 0.24762774361502637,
+    "logic_b": 0.12381387180751319,
+    "creative": 0.028485399669409422,
+    "synthesis": 0.061906935903756594
+  },
+  "zone_entropy": 1.7475733219532577,
+  "kurtosis": 475.07440185546875,
+  "token_diversity_input": 0.8,
+  "loops_run": 10,
+  "entropy": 1.234375
+}

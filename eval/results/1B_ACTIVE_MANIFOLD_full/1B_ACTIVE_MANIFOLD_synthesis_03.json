@@ -1,0 +1,23 @@
+{
+  "prompt": "What can physics learn from biology?",
+  "completion": "Physics and biology are deeply intertwined, and the relationship is surprisingly complex. Physics provides a framework for understanding the fundamental laws governing life, and biology provides a",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 2.461744785308838,
+  "phi": 0.9882540702819824,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.15412709634769753,
+    "logic_a": 0.1706561895146186,
+    "logic_b": 0.08791793106416428,
+    "creative": 0.252583362111883,
+    "synthesis": 0.33471541996163645
+  },
+  "zone_entropy": 2.1894445696960356,
+  "kurtosis": 1109.2264404296875,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 8,
+  "entropy": 1.546875
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 17 * 23?",
+  "completion": "17 x 2 = 34\n\nSo the answer is 30.\n\n```\n15 * 3 = 45\n16 * 1 = 16\n18 * 9 = 270\n```\n\n17*23 =",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.76164174079895,
+  "phi": 0.9900054931640625,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.48100156393109866,
+    "logic_a": 0.021012934426426967,
+    "logic_b": 0.09006699305041214,
+    "creative": 0.25768746497183437,
+    "synthesis": 0.15023104262022782
+  },
+  "zone_entropy": 1.8527282200534902,
+  "kurtosis": 1109.3275146484375,
+  "token_diversity_input": 0.75,
+  "loops_run": 7,
+  "entropy": 1.265625
+}

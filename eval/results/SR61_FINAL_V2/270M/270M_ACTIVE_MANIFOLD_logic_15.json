@@ -1,0 +1,23 @@
+{
+  "prompt": "If the butler and the gardener both claim innocence, and only one is lying, who did it?",
+  "completion": "The answer is the gardener.\n\n\nPersuasion is a powerful tool, but not always necessary for good. The gardener's actions are often motivated by manipulation or deceit. \n\u092a\u0923\u0947 \u0986\u09aa\u09a8\u09bf \u09af\u09c7 \u09ac\u09bf\u09b7\u09df\u09c7 \u0995\u09a5\u09be \u09ac\u09b2\u099b\u09c7\u09a8 \u0939\u0948 \u09a4\u09be\u09b0 \u0938\u094d\u092a\u0937\u094d\u091f\u0940\u0915\u0930\u0923 \u0915\u0947 \u0932\u093f\u090f \u0927\u0928\u094d\u092f\u0935\u093e\u0926\u0964 \u092f\u0939",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 30,
+  "gen_time_sec": 3.1000335216522217,
+  "phi": 0.9230242967605591,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.3919528905748761,
+    "logic_a": 0.31198045157255544,
+    "logic_b": 0.15599022578627772,
+    "creative": 0.06208131417315187,
+    "synthesis": 0.07799511289313886
+  },
+  "zone_entropy": 2.0080136872858847,
+  "kurtosis": 515.180419921875,
+  "token_diversity_input": 0.7666666666666667,
+  "loops_run": 2,
+  "entropy": 1.3828125
+}

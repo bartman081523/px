@@ -1,0 +1,23 @@
+{
+  "prompt": "What can dance teach us about mathematics?",
+  "completion": "Dance is a remarkably complex art form, often dismissed as just \"fun,\" but it actually offers profound insights into mathematics and the human mind. Here'",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.5289435386657715,
+  "phi": 0.9866225719451904,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.03947253166653783,
+    "logic_a": 0.16483184250576505,
+    "logic_b": 0.08384764951920909,
+    "creative": 0.35670610128157654,
+    "synthesis": 0.3551418740269114
+  },
+  "zone_entropy": 1.9735301948569033,
+  "kurtosis": 1108.8646240234375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 4,
+  "entropy": 1.546875
+}

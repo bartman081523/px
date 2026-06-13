@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 9 squared?",
+  "completion": "9 squared (9\u00b2) means 9 multiplied by 9.\n\n9 * 9 = 81\n\nSo, 9 squared is ",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 16,
+  "gen_time_sec": 2.658226251602173,
+  "phi": 0.9913780093193054,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6468560127833564,
+    "logic_a": 0.23487880857399152,
+    "logic_b": 0.08890042962204327,
+    "creative": 0.015150544188166571,
+    "synthesis": 0.014214203832442308
+  },
+  "zone_entropy": 1.3866513788831285,
+  "kurtosis": 1118.400634765625,
+  "token_diversity_input": 0.75,
+  "loops_run": 7,
+  "entropy": 1.3125
+}

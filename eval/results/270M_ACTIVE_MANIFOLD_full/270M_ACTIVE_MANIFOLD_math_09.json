@@ -1,0 +1,23 @@
+{
+  "prompt": "How many degrees are in a triangle?",
+  "completion": "A triangle has three sides.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 8,
+  "input_tokens": 18,
+  "gen_time_sec": 0.6166098117828369,
+  "phi": 0.9017321467399597,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.26347371473844167,
+    "logic_a": 0.35322290455254285,
+    "logic_b": 0.17661145227627142,
+    "creative": 0.11838619729461047,
+    "synthesis": 0.08830572613813571
+  },
+  "zone_entropy": 2.1527046329846162,
+  "kurtosis": 429.159912109375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 1.53125
+}

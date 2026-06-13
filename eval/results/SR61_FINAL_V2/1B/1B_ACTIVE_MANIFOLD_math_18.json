@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 9 squared?",
+  "completion": "9 squared (9\u00b2) means 9 multiplied by itself.\n\n9 * 9 = 81\n\nSo, 9\u00b2 = 9 *9 = **81**\n\uc804\ub2ec\ud569\ub2c8\ub2e4. (Translation: I understand.)\n\u0927\u0928 \u0ba8\u0bbf\u0bb1\u0bc8! (Thank you!)",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 16,
+  "gen_time_sec": 5.644249439239502,
+  "phi": 0.991770327091217,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.383365636804213,
+    "logic_a": 0.06507039849412945,
+    "logic_b": 0.03253523302392999,
+    "creative": 0.050891072052397485,
+    "synthesis": 0.46813765862533013
+  },
+  "zone_entropy": 1.6788156134662415,
+  "kurtosis": 1091.474609375,
+  "token_diversity_input": 0.75,
+  "loops_run": 8,
+  "entropy": 1.15625
+}

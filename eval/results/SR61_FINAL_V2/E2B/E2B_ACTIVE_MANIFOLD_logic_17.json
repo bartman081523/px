@@ -1,0 +1,23 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "completion": "Here's how to determine the truth values:\n\nWe are given that **P is false** ($\\text{F}$).\n\nWe need to find the truthvalue of \"**P or $\\text{Q}$**\" ($\\text{$P \\lor Q$}$).\n\nThe \"or\" ($\\lor",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 25,
+  "gen_time_sec": 17.911787033081055,
+  "phi": 0.3410513699054718,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.29335424398938204,
+    "logic_a": 0.20299018506126693,
+    "logic_b": 0.2522322939087048,
+    "creative": 0.18355369487218662,
+    "synthesis": 0.06786958116845951
+  },
+  "zone_entropy": 2.199569429850222,
+  "kurtosis": 618.134033203125,
+  "token_diversity_input": 0.84,
+  "loops_run": 56,
+  "entropy": 0.0
+}

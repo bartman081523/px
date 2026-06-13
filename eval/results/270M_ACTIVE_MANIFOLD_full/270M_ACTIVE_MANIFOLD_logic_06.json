@@ -1,0 +1,23 @@
+{
+  "prompt": "All cats are mammals. Felix is a cat. What can we conclude?",
+  "completion": "The answer is that Felix is a cat.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 11,
+  "input_tokens": 25,
+  "gen_time_sec": 0.860173225402832,
+  "phi": 0.7572506070137024,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9039077591282256,
+    "logic_a": 0.05139032695436331,
+    "logic_b": 0.025695163479602576,
+    "creative": 0.006159167682669517,
+    "synthesis": 0.012847581738588817
+  },
+  "zone_entropy": 0.6134899779593644,
+  "kurtosis": 399.58001708984375,
+  "token_diversity_input": 0.8,
+  "loops_run": 3,
+  "entropy": 1.1171875
+}

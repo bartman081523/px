@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between mathematics and music?",
+  "completion": "The relationship between mathematics and music is profound and has been studied for centuries. It's not just a coincidence \u2013 there's a deep and complex",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 2.6704728603363037,
+  "phi": 0.9916129112243652,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.24987986441781407,
+    "logic_a": 0.1328376165180864,
+    "logic_b": 0.06641880851133826,
+    "creative": 0.03827468543234756,
+    "synthesis": 0.5125890241204137
+  },
+  "zone_entropy": 1.8210161192359433,
+  "kurtosis": 1101.8037109375,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 8,
+  "entropy": 1.34375
+}

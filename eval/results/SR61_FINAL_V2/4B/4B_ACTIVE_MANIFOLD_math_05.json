@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "completion": "The derivative of $x^2+3x$ with respect to $x$ is:\n\n$\\frac{d}{dx}(x^3 + 6x) = 3(x^1) + 0 = 2x$.\n\nHowever, you asked for the derivative  ",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 13.854660034179688,
+  "phi": 0.9977760910987854,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 1.6672503849038189e-34,
+    "logic_a": 6.327471831841278e-82,
+    "logic_b": 1.590590616820564e-63,
+    "creative": 1.1849069629571181e-32,
+    "synthesis": 6.995643200368283e-50
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2383.595703125,
+  "token_diversity_input": 0.8260869565217391,
+  "loops_run": 2,
+  "entropy": 0.007568359375
+}

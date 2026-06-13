@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a holiday and describe how it is celebrated.",
+  "completion": "Okay, let's invent a holiday! Here\u2019s one:\n\n**Holiday Name:** Lumina - Celebrated on the shortest day of winter solstice in the Northern Hemisphere (December 21st)\n\n**Concept:** Lumination celebrates the return of light after a long period of darkness.",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.607536554336548,
+  "phi": 0.989446222782135,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.11284569959672183,
+    "logic_a": 0.1801628563085776,
+    "logic_b": 0.0926049409226339,
+    "creative": 0.2384994994628539,
+    "synthesis": 0.3758870027092127
+  },
+  "zone_entropy": 2.1423732436617415,
+  "kurtosis": 1103.3037109375,
+  "token_diversity_input": 0.8,
+  "loops_run": 8,
+  "entropy": 1.484375
+}

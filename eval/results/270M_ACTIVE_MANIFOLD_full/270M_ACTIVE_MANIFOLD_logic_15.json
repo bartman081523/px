@@ -1,0 +1,23 @@
+{
+  "prompt": "If the butler and the gardener both claim innocence, and only one is lying, who did it?",
+  "completion": "The gardener did it.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 7,
+  "input_tokens": 30,
+  "gen_time_sec": 0.6811666488647461,
+  "phi": 0.9590737223625183,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.5122758044287221,
+    "logic_a": 0.25349486582207986,
+    "logic_b": 0.1267474329110418,
+    "creative": 0.04410817612292743,
+    "synthesis": 0.06337371645551998
+  },
+  "zone_entropy": 1.8248026169486276,
+  "kurtosis": 411.238037109375,
+  "token_diversity_input": 0.7666666666666667,
+  "loops_run": 10,
+  "entropy": 1.3125
+}

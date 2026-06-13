@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the syllogism called when the conclusion is hidden in the premises?",
+  "completion": "The syllogisms that present a conclusion hidden within the premises are often referred to as **hidden syllogistic arguments**. They're sometimes described as \"playing with words\" or \"trickery.\"\n\nHere\u2019s why they're tricky:  They can appear logical on the surface, but",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 26,
+  "gen_time_sec": 5.859663009643555,
+  "phi": 0.9902923107147217,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.14990830937027844,
+    "logic_a": 0.17393138121338805,
+    "logic_b": 0.12375190712344142,
+    "creative": 0.29771318442966643,
+    "synthesis": 0.2546952168632257
+  },
+  "zone_entropy": 2.245331188695869,
+  "kurtosis": 1107.5477294921875,
+  "token_diversity_input": 0.7307692307692307,
+  "loops_run": 8,
+  "entropy": 1.5390625
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Write the opening line of a novel set inside a dream.",
+  "completion": "Here are a few options, depending on the *tone* and *style* you're aiming for:\n\n**Option 1: Ethereal and Sensory (Focus on feeling)**\n\n> The air tasted like spun sugar and forgotten rain.\n\n**Why it works:** Immediately immerses the",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 18.21350383758545,
+  "phi": 0.339423269033432,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.22046449800794987,
+    "logic_a": 0.3610021296840084,
+    "logic_b": 0.1805010648420042,
+    "creative": 0.1477817730450355,
+    "synthesis": 0.0902505324210021
+  },
+  "zone_entropy": 2.178197344867871,
+  "kurtosis": 671.263427734375,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 56,
+  "entropy": 0.0
+}

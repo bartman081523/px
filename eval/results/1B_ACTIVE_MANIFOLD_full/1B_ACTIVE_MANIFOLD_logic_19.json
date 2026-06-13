@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the syllogism called when the conclusion is hidden in the premises?",
+  "completion": "The syllogism that describes the hidden conclusion is often referred to as a **\"hidden conclusion\"** or **\"circular argument.\"**\n\nHere",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 2.762519121170044,
+  "phi": 0.9894050359725952,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.29314875326792134,
+    "logic_a": 0.11219386066061808,
+    "logic_b": 0.06879132933100655,
+    "creative": 0.27869967823027836,
+    "synthesis": 0.2471663775101757
+  },
+  "zone_entropy": 2.1507843769977324,
+  "kurtosis": 1110.296142578125,
+  "token_diversity_input": 0.7307692307692307,
+  "loops_run": 7,
+  "entropy": 1.5625
+}

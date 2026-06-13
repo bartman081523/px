@@ -1,0 +1,23 @@
+{
+  "prompt": "How does the structure of a cell resemble a city?",
+  "completion": "You've hit on a really clever and surprisingly accurate analogy! The cell's structure is remarkably similar to a city, with different organelles performing specialized",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 5.450706481933594,
+  "phi": 0.8536540865898132,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.2919486733937392,
+    "logic_a": 0.45778993812785024,
+    "logic_b": 0.20459824399378052,
+    "creative": 0.04535445038245601,
+    "synthesis": 0.00030869355660371865
+  },
+  "zone_entropy": 1.7089553533045392,
+  "kurtosis": 2324.085693359375,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 7,
+  "entropy": 1.28125
+}

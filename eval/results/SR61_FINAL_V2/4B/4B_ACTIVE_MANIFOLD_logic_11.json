@@ -1,0 +1,23 @@
+{
+  "prompt": "If it rains, the ground gets wet. The ground is wet. Did it rain?",
+  "completion": "This is a classic example of affirming the consequent \u2013 a logical fallacy. Here's why:\n\n* **The statement \"If it rained, the grounds get wet\" establishes a conditional relationship.** It says that rain *causes* wetness.\n* **However, just because the ground is currently",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 28,
+  "gen_time_sec": 14.676443815231323,
+  "phi": 0.9962080717086792,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 2.6017971091268997e-26,
+    "logic_a": 5.409394433009721e-66,
+    "logic_b": 2.5613809226862495e-51,
+    "creative": 3.5226471314388446e-26,
+    "synthesis": 2.7769604888570895e-41
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 2374.338623046875,
+  "token_diversity_input": 0.7142857142857143,
+  "loops_run": 5,
+  "entropy": 0.74609375
+}
