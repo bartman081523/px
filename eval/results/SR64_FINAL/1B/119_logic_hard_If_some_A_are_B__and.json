@@ -1,0 +1,13 @@
+{
+  "prompt": "If some A are B, and all B are C, can we conclude that some A are C?",
+  "category": "logic_hard",
+  "completion": "No, you cannot conclude that \"some A are some C.\" This is a classic logic puzzle.\n\nHere's why:\n\n* **The statement \"Some A are BC\"** means there exists at least one element that is both A and B.\n* **All B are also C",
+  "phi": 0.9819248914718628,
+  "zone": "CREATIVE",
+  "focus_index": 8.691968832863495e-05,
+  "kurtosis": 1091.2257080078125,
+  "gamma": 0.07999652321246685,
+  "loops": 9,
+  "gen_time": 66.38152647018433,
+  "tokens": 60
+}

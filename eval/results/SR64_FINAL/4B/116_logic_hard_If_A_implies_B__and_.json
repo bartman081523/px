@@ -1,0 +1,13 @@
+{
+  "prompt": "If A implies B, and B implies C, does A imply C?",
+  "category": "logic_hard",
+  "completion": "Yes, if A implies (A \u2192 B) and B \u2192 C, then A implies C (A\u2192C). This is an example of the transitive property of implication.\n\nHere's why:\n\n* **Implication:**  \"If P, then Q\" means that *if*",
+  "phi": 0.799712598323822,
+  "zone": "MATH",
+  "focus_index": 0.5,
+  "kurtosis": 2379.5263671875,
+  "gamma": 0.06,
+  "loops": 5,
+  "gen_time": 56.58749437332153,
+  "tokens": 60
+}

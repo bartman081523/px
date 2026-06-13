@@ -1,0 +1,13 @@
+{
+  "prompt": "Is it logically valid to argue: If it's raining, the ground is wet. The ground is wet. Therefore it's raining.",
+  "category": "logic_hard",
+  "completion": "No, it is **not logically valid** to argue that:\n\n* **Premise 1:** If it is raining ($P$), then the ground (is) wet ($Q$). ($\\text{If } P \\text{, then } Q$)\n* ** Premise 2:**",
+  "phi": 0.5009192824363708,
+  "zone": "math",
+  "focus_index": 1.0,
+  "kurtosis": 932.7792358398438,
+  "gamma": 0.04,
+  "loops": 80,
+  "gen_time": 27.05692744255066,
+  "tokens": 60
+}
