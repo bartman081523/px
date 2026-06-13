@@ -1,0 +1,23 @@
+{
+  "prompt": "Describe a tree that grows dreams instead of leaves.",
+  "completion": "The Whisperwood wasn't like any tree I\u2019d ever seen. It stood sentinel at the edge of the valley, its trunk thicker than a man and scarred with swirling patterns resembling ancient maps \u2013 routes not marked on any known compass. But it was the branches that held the magic. Instead of",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.531357288360596,
+  "phi": 0.9906503558158875,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.10034986365746336,
+    "logic_a": 0.18226315230787385,
+    "logic_b": 0.11378649628196645,
+    "creative": 0.3162026247339716,
+    "synthesis": 0.2873978620187247
+  },
+  "zone_entropy": 2.1794905884785156,
+  "kurtosis": 1106.6427001953125,
+  "token_diversity_input": 0.8,
+  "loops_run": 8,
+  "entropy": 1.5625
+}

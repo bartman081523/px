@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 1024 / 32?",
+  "completion": "1024 / 32 = 32\n\nHere's how to calculate it:\n\n*   **1024**",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 5.448360443115234,
+  "phi": 0.9964118003845215,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9706973903764051,
+    "logic_a": 0.022307279414783436,
+    "logic_b": 0.004970309024468433,
+    "creative": 0.0020242927689268263,
+    "synthesis": 7.272943261273898e-07
+  },
+  "zone_entropy": 0.22019854208178133,
+  "kurtosis": 2383.916015625,
+  "token_diversity_input": 0.7272727272727273,
+  "loops_run": 1,
+  "entropy": 1.046875
+}

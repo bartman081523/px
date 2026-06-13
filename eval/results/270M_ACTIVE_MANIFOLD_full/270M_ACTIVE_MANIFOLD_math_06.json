@@ -1,0 +1,23 @@
+{
+  "prompt": "Compute the sum 1+2+...+100.",
+  "completion": "The sum of the first n positive integers is given by the formula:\n$$S = \\frac{n(n+1)}{2}$$\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 1.7341060638427734,
+  "phi": 0.9603732824325562,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.346412044068707,
+    "logic_a": 0.3288751166750338,
+    "logic_b": 0.1644375583375169,
+    "creative": 0.07805649674998381,
+    "synthesis": 0.08221877916875844
+  },
+  "zone_entropy": 2.0692633018693405,
+  "kurtosis": 550.8030395507812,
+  "token_diversity_input": 0.7272727272727273,
+  "loops_run": 11,
+  "entropy": 1.4375
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the contrapositive of 'If P then Q'?",
+  "completion": "The contrapositive of \"If P then Q\" is \"If not P, then not Q\".\n\nHere's how to write it:\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 2.7054429054260254,
+  "phi": 0.9909068942070007,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.3026036782543153,
+    "logic_a": 0.10735696354841491,
+    "logic_b": 0.0536784817744156,
+    "creative": 0.021810302743243644,
+    "synthesis": 0.5145505726796099
+  },
+  "zone_entropy": 1.7075974119155886,
+  "kurtosis": 1099.270751953125,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 8,
+  "entropy": 1.21875
+}

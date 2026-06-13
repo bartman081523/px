@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the value of pi to 2 decimal places?",
+  "completion": "The value of \u03c0 (pi) to two decimal places is approximately **3.14159**.\n\nThis rounds the number from its infinite representation to a more manageable form for practical use.  More precisely, it's often written as $\\pi \\approx 3.  14",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 13.950990915298462,
+  "phi": 0.864071249961853,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9997551714207917,
+    "logic_a": 2.521114413515124e-08,
+    "logic_b": 2.447562788072127e-07,
+    "creative": 0.00023822328711020302,
+    "synthesis": 1.7066550335449518e-09
+  },
+  "zone_entropy": 0.003217226164714456,
+  "kurtosis": 2319.16943359375,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 7,
+  "entropy": 0.76953125
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the missing number: 2, 4, 8, 16, ?, 64",
+  "completion": "The pattern in this sequence is that each number is multiplied by 2 to get the next.\n\n*   2 * 2 = 4\n*   4 * 3 = 12\n*  12 *2= 24\n    * 20 * 4",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 33,
+  "gen_time_sec": 14.363082885742188,
+  "phi": 0.9792831540107727,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.6913230093512479,
+    "logic_a": 2.6177334350391692e-14,
+    "logic_b": 3.0347192337945775e-11,
+    "creative": 0.00013014195762171428,
+    "synthesis": 7.870845736598632e-12
+  },
+  "zone_entropy": 0.002600738016859168,
+  "kurtosis": 2333.080322265625,
+  "token_diversity_input": 0.6060606060606061,
+  "loops_run": 1,
+  "entropy": 0.341796875
+}

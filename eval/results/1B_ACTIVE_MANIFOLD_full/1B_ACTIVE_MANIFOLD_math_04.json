@@ -1,0 +1,23 @@
+{
+  "prompt": "If a triangle has sides 3, 4, 5, what is its area?",
+  "completion": "Let the triangle have sides of length 3, 4, and 5.\nWe are looking for the area of the triangle.\nWe",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 29,
+  "gen_time_sec": 2.796802043914795,
+  "phi": 0.9895840883255005,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.4046636645430675,
+    "logic_a": 0.09491192184193022,
+    "logic_b": 0.23276356479196667,
+    "creative": 0.2259295544061594,
+    "synthesis": 0.041731293416876244
+  },
+  "zone_entropy": 2.0162268609337444,
+  "kurtosis": 1113.4906005859375,
+  "token_diversity_input": 0.7241379310344828,
+  "loops_run": 7,
+  "entropy": 1.453125
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 0.25 as a fraction?",
+  "completion": "0.  25 can be written as the division of 0,25 into equal parts: 25/10 = 2.5.\n\nSo, 0 .25 is equivalent to 2/1 = 1/4.\n\nTherefore, 2*",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 5.688945293426514,
+  "phi": 0.9907879829406738,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.44449666500650764,
+    "logic_a": 0.03687456070704692,
+    "logic_b": 0.07774426228359445,
+    "creative": 0.2580364838686183,
+    "synthesis": 0.1828480271342326
+  },
+  "zone_entropy": 1.9345242818743869,
+  "kurtosis": 1108.575439453125,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 7,
+  "entropy": 1.3671875
+}

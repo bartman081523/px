@@ -1,0 +1,23 @@
+{
+  "prompt": "Compare the structure of a symphony to the structure of a programming language.",
+  "completion": "The structure of a symphony is a complex and intricate system of musical elements, representing the entire musical composition. It's a monumental undertaking, requiring a",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 24,
+  "gen_time_sec": 2.0006160736083984,
+  "phi": 0.9095185399055481,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9136199939419165,
+    "logic_a": 0.046628340231027895,
+    "logic_b": 0.023314170156393463,
+    "creative": 0.00478040961257969,
+    "synthesis": 0.011657085057461769
+  },
+  "zone_entropy": 0.563440853360048,
+  "kurtosis": 393.2323303222656,
+  "token_diversity_input": 0.6666666666666666,
+  "loops_run": 13,
+  "entropy": 0.6484375
+}

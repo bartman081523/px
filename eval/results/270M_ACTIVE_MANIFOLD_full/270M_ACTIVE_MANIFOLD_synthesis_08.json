@@ -1,0 +1,23 @@
+{
+  "prompt": "What can dance teach us about mathematics?",
+  "completion": "Dance is a fascinating and versatile art form that teaches us a wide range of mathematical concepts. Here are some key aspects of dance that can teach us about",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 1.248924970626831,
+  "phi": 0.9592256546020508,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.2990749793298382,
+    "logic_a": 0.34400287182721645,
+    "logic_b": 0.17200143591360822,
+    "creative": 0.09891998997253292,
+    "synthesis": 0.08600071795680411
+  },
+  "zone_entropy": 2.121764305728788,
+  "kurtosis": 527.0474243164062,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 12,
+  "entropy": 1.4765625
+}

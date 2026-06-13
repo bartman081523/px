@@ -1,0 +1,23 @@
+{
+  "prompt": "How many degrees are in a triangle?",
+  "completion": "A triangle is a polygon with three sides. A triangle is a triangle, so it is a triangle.\n\nA triangle is a polygon with three sides",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.6745359897613525,
+  "phi": 0.9913355112075806,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.40074967718345167,
+    "logic_a": 0.05561200453286749,
+    "logic_b": 0.02780600415739668,
+    "creative": 0.027014552051017694,
+    "synthesis": 0.4888177610752664
+  },
+  "zone_entropy": 1.5497279163790743,
+  "kurtosis": 1102.57568359375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 8,
+  "entropy": 1.25
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a word for the feeling of a Sunday afternoon in autumn.",
+  "completion": "Okay, let's craft a word for a Sunday afternoon in autumn! Here are a few options, leaning into different aspects of the feeling:\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.5947046279907227,
+  "phi": 0.9896337985992432,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.29403029957027815,
+    "logic_a": 0.11164141418683382,
+    "logic_b": 0.05602120542746007,
+    "creative": 0.14006665080261005,
+    "synthesis": 0.3982404290128178
+  },
+  "zone_entropy": 2.0314855537128365,
+  "kurtosis": 1107.756103515625,
+  "token_diversity_input": 0.782608695652174,
+  "loops_run": 7,
+  "entropy": 1.515625
+}

@@ -78,6 +78,11 @@ def _spawn_runner(prompt_text, model_id, preset, max_new_tokens, result_path,
             "prompt": prompt_text,
             "stderr_tail": proc.stderr[-500:] if proc.stderr else "",
         }
+    
+    # SR-61 debug: always print stderr to see calibration status
+    if proc.stderr:
+        print(proc.stderr, file=sys.stderr, end="")
+
     try:
         with open(result_path) as f:
             return json.load(f)

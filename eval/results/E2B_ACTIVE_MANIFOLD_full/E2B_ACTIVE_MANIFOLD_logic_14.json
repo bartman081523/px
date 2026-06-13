@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the modus ponens form?",
+  "completion": "## Modus Ponens: The Form\n\n**Modus Ponens** (Latin for \"mode that affirms\") is one of the most fundamental and",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 8.414580821990967,
+  "phi": 0.33893993496894836,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.269921910611731,
+    "logic_a": 0.40778700446212096,
+    "logic_b": 0.1934900748734755,
+    "creative": 0.08432150868555333,
+    "synthesis": 0.04447950036711912
+  },
+  "zone_entropy": 1.9968163763117195,
+  "kurtosis": 663.3049926757812,
+  "token_diversity_input": 0.8235294117647058,
+  "loops_run": 56,
+  "entropy": 0.0
+}

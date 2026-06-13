@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "completion": "The next prime number after 9 is 11.\n\nA prime number is a natural number greater than 1 that has no other factors except for 1 and itself.\n\nHere are some primes: 2, 3, 5, 7, 10, 4",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.73837685585022,
+  "phi": 0.9932282567024231,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7734575181330783,
+    "logic_a": 0.12649723929017023,
+    "logic_b": 0.06324861964508512,
+    "creative": 0.005172134282282331,
+    "synthesis": 0.031624486649384706
+  },
+  "zone_entropy": 1.1127362325621095,
+  "kurtosis": 1063.90625,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.125
+}

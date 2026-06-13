@@ -1,0 +1,23 @@
+{
+  "prompt": "What comes next in the sequence: 1, 1, 2, 3, 5, 8, ?",
+  "completion": "The next number in the sequence is 13.\n\nThis sequence is the sequence of Fibonacci numbers. The Fibonacci sequence is defined as follows:\n\n*   F(n) = F(n-1) + F(n-1)\n\nWhere F(n) is the nth Fibonacci",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 36,
+  "gen_time_sec": 6.529889822006226,
+  "phi": 0.9936864376068115,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8904392382448084,
+    "logic_a": 0.06198964434473614,
+    "logic_b": 0.03099482217236807,
+    "creative": 0.0010788821519033282,
+    "synthesis": 0.015497411086184035
+  },
+  "zone_entropy": 0.6569033683763468,
+  "kurtosis": 1078.2835693359375,
+  "token_diversity_input": 0.5833333333333334,
+  "loops_run": 7,
+  "entropy": 0.8671875
+}

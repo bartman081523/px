@@ -1,0 +1,23 @@
+{
+  "prompt": "How do cooking and chemistry relate?",
+  "completion": "Okay, let's break down the fascinating relationship between cooking and chemistry! It's a surprisingly deep and complex connection. Cooking isn't just",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 2.5287394523620605,
+  "phi": 0.9888978004455566,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.15412620382187853,
+    "logic_a": 0.1706499889817163,
+    "logic_b": 0.08532499567708719,
+    "creative": 0.07115743564215096,
+    "synthesis": 0.518741374877167
+  },
+  "zone_entropy": 1.9166073875733876,
+  "kurtosis": 1102.39453125,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 7,
+  "entropy": 1.40625
+}

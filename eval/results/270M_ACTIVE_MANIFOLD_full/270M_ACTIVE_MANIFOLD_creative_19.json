@@ -1,0 +1,23 @@
+{
+  "prompt": "Imagine a letter written by a river to the sea.",
+  "completion": "",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 1,
+  "input_tokens": 21,
+  "gen_time_sec": 0.3758203983306885,
+  "phi": 0.936995804309845,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.22540907515006456,
+    "logic_a": 0.3080036601894365,
+    "logic_b": 0.15400183009471824,
+    "creative": 0.10752430189716335,
+    "synthesis": 0.2050611283204616
+  },
+  "zone_entropy": 2.2381086404209984,
+  "kurtosis": 196.85719299316406,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 16,
+  "entropy": 1.4453125
+}

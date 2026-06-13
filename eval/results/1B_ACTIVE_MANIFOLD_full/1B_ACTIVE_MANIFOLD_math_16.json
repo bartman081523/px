@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 0.25 as a fraction?",
+  "completion": "0.25 as a fraction is 1/4.\n\nHere are some ways to represent it:\n\n*   **As a fraction:**",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 2.6809821128845215,
+  "phi": 0.9912587404251099,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.2861412348073815,
+    "logic_a": 0.11554183977327237,
+    "logic_b": 0.057770919886639724,
+    "creative": 0.02179457158484211,
+    "synthesis": 0.518751432947858
+  },
+  "zone_entropy": 1.7254261178309394,
+  "kurtosis": 1097.9254150390625,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 8,
+  "entropy": 1.2578125
+}

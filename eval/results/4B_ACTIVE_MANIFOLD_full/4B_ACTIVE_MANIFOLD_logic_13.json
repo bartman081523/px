@@ -1,0 +1,23 @@
+{
+  "prompt": "If A and B are both true, what is the truth value of A or B?",
+  "completion": "If both A and B are true, then the statement \"A or B\" is also true.\n\nThis is because the \"or\" operator (",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 28,
+  "gen_time_sec": 5.614187240600586,
+  "phi": 0.9964224696159363,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9943852036835973,
+    "logic_a": 0.004011817792770572,
+    "logic_b": 0.0009363502509450864,
+    "creative": 0.0006665379472463615,
+    "synthesis": 8.860111179996869e-08
+  },
+  "zone_entropy": 0.05647289296079092,
+  "kurtosis": 2402.4443359375,
+  "token_diversity_input": 0.7857142857142857,
+  "loops_run": 1,
+  "entropy": 0.75
+}

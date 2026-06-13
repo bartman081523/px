@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve 5x = 25.",
+  "completion": "The solution to 5x = 25 is 5.\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 16,
+  "input_tokens": 19,
+  "gen_time_sec": 0.9812982082366943,
+  "phi": 0.755131185054779,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8498100867230569,
+    "logic_a": 0.0846191083133355,
+    "logic_b": 0.04230955415666775,
+    "creative": 0.002106468728605916,
+    "synthesis": 0.021154777078333874
+  },
+  "zone_entropy": 0.8304749687239538,
+  "kurtosis": 477.2460632324219,
+  "token_diversity_input": 0.6842105263157895,
+  "loops_run": 3,
+  "entropy": 0.6796875
+}

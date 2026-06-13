@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between language and thought?",
+  "completion": "The relationship between language and thought is a long-standing and complex debate. For centuries, philosophers and linguists have explored how language shapes our thoughts and",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 2.5912423133850098,
+  "phi": 0.9892721772193909,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.1942689797810255,
+    "logic_a": 0.15665681934173725,
+    "logic_b": 0.07832840967330897,
+    "creative": 0.045877600159049396,
+    "synthesis": 0.5248681900448787
+  },
+  "zone_entropy": 1.8580693962114254,
+  "kurtosis": 1100.1192626953125,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 7,
+  "entropy": 1.328125
+}

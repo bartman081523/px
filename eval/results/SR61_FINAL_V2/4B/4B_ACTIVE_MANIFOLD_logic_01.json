@@ -1,0 +1,23 @@
+{
+  "prompt": "What comes next in the sequence: 1, 1, 2, 3, 5, 8, ?",
+  "completion": "The sequence is the Fibonacci sequence. Each number is the sum of the two preceding numbers.\n\n*   1 + 1 = 2\n*   2 + 3 = 5\n*  5 + 8 = 13\n\nTherefore, the next number in the series is **",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 36,
+  "gen_time_sec": 14.623162508010864,
+  "phi": 0.9978535175323486,
+  "zone": "math",
+  "zone_weights": {
+    "math": 6.19619032054085e-10,
+    "logic_a": 1.548324785316969e-33,
+    "logic_b": 3.0339648233382087e-26,
+    "creative": 1.086760754175656e-12,
+    "synthesis": 3.8234430417675626e-23
+  },
+  "zone_entropy": 0.01855751026013834,
+  "kurtosis": 2351.690185546875,
+  "token_diversity_input": 0.5833333333333334,
+  "loops_run": 2,
+  "entropy": 0.1513671875
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Compare the structure of a symphony to the structure of a programming language.",
+  "completion": "You've hit on a really interesting and insightful analogy! Comparing the structure of a symphony to that of a programming language is surprisingly effective. Let'",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 24,
+  "gen_time_sec": 5.550753116607666,
+  "phi": 0.8682057857513428,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 7.93682051480558e-08,
+    "logic_a": 2.3521867436252993e-07,
+    "logic_b": 0.0005490096314755521,
+    "creative": 0.2739017895436484,
+    "synthesis": 0.7255488855013765
+  },
+  "zone_entropy": 0.8534997688541696,
+  "kurtosis": 2159.731689453125,
+  "token_diversity_input": 0.6666666666666666,
+  "loops_run": 7,
+  "entropy": 1.0703125
+}

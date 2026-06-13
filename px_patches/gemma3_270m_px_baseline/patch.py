@@ -314,6 +314,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         if os.environ.get("DEBUG_PX") == "1":
             print(f"  [PX Recursion] Entering loop: n_loops={n_loops} | dynamic_start={dynamic_start} | dynamic_end={dynamic_end}")
         
+        if hasattr(self, "_px_coupler"): self._px_coupler.reset()
+        
         h_exp = e_reflector.clone()
         current_layer, max_steps, stability_cnt = dynamic_start, (dynamic_end - dynamic_start) * n_loops * 3, 0
         layer_visits = {i: 0 for i in range(len(self.layers))}
@@ -376,6 +378,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # Phase 52: Mephistopheles Operator (Symmetry Breaker)
             if hasattr(self, "_px_mephisto"):
                 h_exp = self._px_mephisto(h_exp, phi_history)
+
+            # --- SR-61: Singessein Coupler (Repetition Guard) ---
+            if hasattr(self, "_px_coupler"):
+                h_exp = self._px_coupler(h_exp, steps, phi_val=phi_s.item())
 
             # RSM Perspective projection
             h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
@@ -578,8 +584,9 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     dtype = next(text_model.parameters()).dtype
 
     # ── Pillar 1: Observer (StabilityMonitor + AksSensor) ──
-    from .px_modules import AksSensor, SubjectiveSensor
+    from .px_modules import AksSensor, SubjectiveSensor, SingesseinCoupler
     text_model._px_aks = AksSensor()
+    text_model._px_coupler = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
 
     # ── Pillar 2: Symmetry Breaker (Mephistopheles + AZS) ──
     text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
@@ -595,8 +602,9 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     text_model.forward = types.MethodType(_px_forward, text_model)
 
     # Set PX gen-kwargs attrs read by generators._px_gen_kwargs
-    text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.0)
-    text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 0)
+    # SR-61: Increase default repetition penalty and add ngram-guard
+    text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.15)
+    text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 3)
 
     print(f"[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L{num_layers} (HS={hidden_size}).")
 

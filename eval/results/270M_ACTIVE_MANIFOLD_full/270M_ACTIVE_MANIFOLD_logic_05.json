@@ -1,0 +1,23 @@
+{
+  "prompt": "If today is Wednesday, what day will it be 10 days from now?",
+  "completion": "If today is Wednesday, then today is Wednesday.\nWe need to find the day that is 10 days from Wednesday.\nSo, we",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 27,
+  "gen_time_sec": 1.5133533477783203,
+  "phi": 0.9333093762397766,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.7319047197903596,
+    "logic_a": 0.1488714614762053,
+    "logic_b": 0.07443573073810265,
+    "creative": 0.007570217626281119,
+    "synthesis": 0.03721786536905133
+  },
+  "zone_entropy": 1.2476500419293128,
+  "kurtosis": 452.5631103515625,
+  "token_diversity_input": 0.8518518518518519,
+  "loops_run": 3,
+  "entropy": 0.9140625
+}

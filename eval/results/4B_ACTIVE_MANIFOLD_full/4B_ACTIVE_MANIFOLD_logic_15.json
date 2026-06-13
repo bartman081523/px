@@ -1,0 +1,23 @@
+{
+  "prompt": "If the butler and the gardener both claim innocence, and only one is lying, who did it?",
+  "completion": "This is a classic logic puzzle! Here's how to solve it:\n\n*   **The key:** The puzzle states that *only one*",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 30,
+  "gen_time_sec": 5.504638671875,
+  "phi": 0.9962256550788879,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9507781049235726,
+    "logic_a": 0.03772623195861051,
+    "logic_b": 0.008511415658774068,
+    "creative": 0.0029827560863031734,
+    "synthesis": 1.4903575461110986e-06
+  },
+  "zone_entropy": 0.33119497322399405,
+  "kurtosis": 2377.602294921875,
+  "token_diversity_input": 0.7666666666666667,
+  "loops_run": 1,
+  "entropy": 1.375
+}

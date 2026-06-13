@@ -158,6 +158,23 @@ def token_diversity(input_ids):
 # Calibrator warmup
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# Per-scale warmup defaults for AutoCalibrator seeding. Derived from
+# empirical kurtosis distributions measured in the live SR-59i runs:
+#   - 270M:  K ≈ 200..450, mean ≈ 313, std ≈ 25
+#   - 1B:    K ≈ 1100..1130, mean ≈ 1115, std ≈ 5
+#   - 4B:    K ≈ 2100..2450, mean ≈ 2280, std ≈ 85
+#   - E2B:   K ≈ 500..760, mean ≈ 620, std ≈ 85 (multimodal gemma4)
+# Jitter must be ≈empirical std. Too large → all inputs become
+# ±huge-sigma outliers and routing collapses to one zone.
+_SCALE_WARMUP_DEFAULTS = {
+    "gemma3-270m-it": {"seed": 313.0,  "jitter": 40.0},
+    "gemma3-1b-it":   {"seed": 1115.0, "jitter": 5.0},
+    "gemma3-4b-it":   {"seed": 2280.0, "jitter": 15.0},
+    "gemma4-e2b-it":  {"seed": 620.0,  "jitter": 5.0},
+    "default":        {"seed": 1000.0, "jitter": 5.0},
+}
+
+
 def _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=85.0):
     """SR-61 routing-collapse fix: bypass the cold-start of AutoCalibrator.
 
@@ -215,12 +232,13 @@ def _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=
     # That makes every kurtosis value a ±huge-z outlier, which collapses
     # all Gaussian weights to one zone. Seed both: the calibrated mean/std
     # AND the online mean/std.
-    cal.k_mean = mean
-    cal.k_std = kurtosis_jitter  # use the same realistic empirical std
-    cal.calibrated = True  # skip the calibration buffer; we seed online directly
+    cal.k_samples = samples
+    cal.calibrate()  # This sets k_mean, k_std, and the CRITICAL zone_temperature
+    
     std = math.sqrt(m2 / max(n - 1, 1)) if n > 1 else 1.0
-    print(f"[runner] calibrator seeded: n={n}, k_mean={mean:.1f}, k_std={std:.1f}, "
-          f"cal_k_std={kurtosis_jitter:.1f}", file=sys.stderr)
+    print(f"[runner] calibrator seeded and calibrated: n={n}, k_mean={mean:.1f}, "
+          f"k_std={std:.1f}, cal_k_std={kurtosis_jitter:.1f}, T={cal.zone_temperature:.2f}", 
+          file=sys.stderr)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -282,13 +300,17 @@ def _run_one_prompt(prompt_text, model_id, preset, max_new_tokens, result_path):
         # _online_n=0, so the FIRST get_zone_weights call returns z=0.0 for
         # every input (because k_mean is None until ONLINE_WARMUP=5 samples
         # have been collected). This produces bit-identical zone_weights
-        # across all 80 prompts. To avoid this, we run 5 dummy forward-passes
-        # with perturbed kurtosis/phi/td values BEFORE the first real
-        # generation. The patch's _px_forward will call collect() in line 268,
-        # bringing _online_n=5, switching _get_z_score to online-z routing.
-        # Cost: ~5x the prefill-time of one token, ~3-5s on 4B.
-        _calibrator_warmup(model, n_warmup=5, kurtosis_seed=2400.0, kurtosis_jitter=300.0)
-        print(f"[runner] calibrator warmed up (n=5, online routing enabled)", file=sys.stderr)
+        # across all 80 prompts.
+        # We pre-seed the AutoCalibrator's online + calibration stats with
+        # scale-appropriate synthetic samples. Jitter must be realistic
+        # (≈empirical std) — too large a jitter makes z-scores ±huge-sigma
+        # outliers and collapses all weights to one zone.
+        warmup_cfg = _SCALE_WARMUP_DEFAULTS.get(model_id, _SCALE_WARMUP_DEFAULTS["default"])
+        _calibrator_warmup(model, n_warmup=10,
+                           kurtosis_seed=warmup_cfg["seed"],
+                           kurtosis_jitter=warmup_cfg["jitter"])
+        print(f"[runner] calibrator warmed up (n=10, seed={warmup_cfg['seed']}, "
+              f"jitter={warmup_cfg['jitter']})", file=sys.stderr)
 
     # ── Tokenize ──
     messages = [{"role": "user", "content": prompt_text}]
@@ -305,14 +327,26 @@ def _run_one_prompt(prompt_text, model_id, preset, max_new_tokens, result_path):
     input_len = input_ids.shape[0]
 
     # ── Generate (use_cache=False for 4B KV-cache dimension stability) ──
+    # SR-61 termination fix: explicitly set eos_token_id and pad_token_id
+    # and inject PX-specific kwargs like repetition_penalty.
     t0 = time.time()
+    
+    # Extract PX-specific kwargs from the model attributes
+    from generators import _px_gen_kwargs
+    gen_kwargs = {
+        "max_new_tokens": max_new_tokens,
+        "do_sample": False,
+        "temperature": 1.0,
+        "use_cache": False,
+        "eos_token_id": tokenizer.eos_token_id,
+        "pad_token_id": tokenizer.eos_token_id,
+    }
+    gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=max_new_tokens,
-            do_sample=False,           # Deterministic — η² should be reproducible
-            temperature=1.0,
-            use_cache=False,
+            **gen_kwargs
         )
     gen_time = time.time() - t0
 

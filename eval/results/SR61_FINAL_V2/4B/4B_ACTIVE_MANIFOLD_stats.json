@@ -1,0 +1,78 @@
+{
+  "input_file": "eval/results/SR61_FINAL_V2/4B/4B_ACTIVE_MANIFOLD_aggregate.json",
+  "scale": "4B",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "n_prompts_total": 80,
+  "n_successful": 80,
+  "n_errors": 0,
+  "anova_zone_entropy": {
+    "F": 0.658935858471333,
+    "p_approx": 0.583557612917119,
+    "eta_squared": 0.025351224766443047,
+    "ss_between": 0.5303719522062377,
+    "ss_within": 20.390587768378204,
+    "k": 3,
+    "n": 76
+  },
+  "anova_phi": {
+    "F": 0.6017713157862468,
+    "p_approx": 0.6197651903401791,
+    "eta_squared": 0.023202964627585383,
+    "ss_between": 0.007250661935370693,
+    "ss_within": 0.30523793819594935,
+    "k": 3,
+    "n": 76
+  },
+  "r2_token_diversity_to_zone_entropy": 0.013853344422756644,
+  "mean_phi_per_category": {
+    "math": 0.9478608667850494,
+    "logic": 0.9671125560998917,
+    "creative": 0.9737804710865021,
+    "synthesis": 0.9623662918806076
+  },
+  "mean_zone_entropy_per_category": {
+    "math": 0.32248776255495293,
+    "logic": 0.1309019273748776,
+    "creative": 0.13888538133601241,
+    "synthesis": 0.2609408683677308
+  },
+  "mean_kurtosis_per_category": {
+    "math": 2335.9964965820313,
+    "logic": 2334.350720214844,
+    "creative": 2292.581817626953,
+    "synthesis": 2333.9970947265624
+  },
+  "mean_zone_weights_per_category": {
+    "math": {
+      "math": 0.33417113084971695,
+      "logic_a": 0.038166460093636424,
+      "logic_b": 0.026458748741658517,
+      "creative": 0.03820654416105647,
+      "synthesis": 0.058405942294151324
+    },
+    "logic": {
+      "math": 0.08459223072600598,
+      "logic_a": 0.00024133466072475323,
+      "logic_b": 0.005742168599343652,
+      "creative": 0.04796484487406178,
+      "synthesis": 0.04604107268362495
+    },
+    "creative": {
+      "math": 0.10042207044370965,
+      "logic_a": 0.0050397176290757455,
+      "logic_b": 0.016994686732652635,
+      "creative": 0.02997877798757092,
+      "synthesis": 0.0972689612508177
+    },
+    "synthesis": {
+      "math": 0.1524084170511354,
+      "logic_a": 0.01678939382687012,
+      "logic_b": 0.036730423098217134,
+      "creative": 0.04408500548643231,
+      "synthesis": 0.05008189101572208
+    }
+  },
+  "verdict": "ETA2_BELOW_THRESHOLD",
+  "verdict_note": "\u03b7\u00b2=0.025 < 0.10. Categorical differentiation is weak \u2014 architecture may not have crossed the threshold at this scale with this preset."
+}

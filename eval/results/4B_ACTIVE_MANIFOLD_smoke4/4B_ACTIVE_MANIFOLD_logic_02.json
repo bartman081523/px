@@ -1,0 +1,23 @@
+{
+  "prompt": "If A implies B, and B implies C, what does A imply?",
+  "completion": "If A implies B, and B implies C, then A implies C. This is a classic example of a transitive property in logic.\n\nHere'",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 25,
+  "gen_time_sec": 5.857514381408691,
+  "phi": 0.8414124250411987,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.011278126455327745,
+    "logic_a": 0.14327446174124964,
+    "logic_b": 0.4668385237475175,
+    "creative": 0.3488308027804538,
+    "synthesis": 0.029778084749094026
+  },
+  "zone_entropy": 1.6686270209451168,
+  "kurtosis": 2264.2861328125,
+  "token_diversity_input": 0.68,
+  "loops_run": 6,
+  "entropy": 1.3984375
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 2^10?",
+  "completion": "2^10 means 2 multiplied by itself 10 times:\n\n2 * 2 * 2 * 2 * 2 *",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 5.313349962234497,
+  "phi": 0.9963358044624329,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9642819763966138,
+    "logic_a": 0.027279509297386498,
+    "logic_b": 0.00609644189603424,
+    "creative": 0.0023411188125113023,
+    "synthesis": 9.525199747171681e-07
+  },
+  "zone_entropy": 0.2576777822542983,
+  "kurtosis": 2381.54541015625,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 1.3671875
+}

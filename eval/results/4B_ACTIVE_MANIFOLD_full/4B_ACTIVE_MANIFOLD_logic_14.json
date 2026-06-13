@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the modus ponens form?",
+  "completion": "The modus ponens is a fundamental rule of logic. Here's how it's expressed:\n\n**Structure:**\n\n1. **Premise",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 5.2675464153289795,
+  "phi": 0.996495246887207,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9241878753103377,
+    "logic_a": 0.05818476764243518,
+    "logic_b": 0.013431481062885315,
+    "creative": 0.004193083916839024,
+    "synthesis": 2.7911230681288774e-06
+  },
+  "zone_entropy": 0.4605511709187806,
+  "kurtosis": 2372.03857421875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 0.314453125
+}

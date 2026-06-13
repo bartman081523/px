@@ -1,0 +1,23 @@
+{
+  "prompt": "What would a conversation between two shadows look like?",
+  "completion": "The conversation is a bit unsettling, and it\u2019s a reflection of how shadows don\u2019t truly *see*. It\u2019s a shared, silent",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.5385427474975586,
+  "phi": 0.9894779324531555,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.18705973270686568,
+    "logic_a": 0.1594154928920207,
+    "logic_b": 0.07970774644603731,
+    "creative": 0.045023930851142056,
+    "synthesis": 0.5287930961039322
+  },
+  "zone_entropy": 1.853047620391027,
+  "kurtosis": 1098.587158203125,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.359375
+}

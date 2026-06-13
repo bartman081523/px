@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "completion": "The next prime after 13 is 17.\n\nPrime numbers are numbers greater than 1 that are only divisible by 1 and themselves",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.636442184448242,
+  "phi": 0.9907870888710022,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.3438761492150301,
+    "logic_a": 0.08613171911348283,
+    "logic_b": 0.04306585955995367,
+    "creative": 0.019958463359977398,
+    "synthesis": 0.5069678077515558
+  },
+  "zone_entropy": 1.639208868336899,
+  "kurtosis": 1100.2158203125,
+  "token_diversity_input": 0.8,
+  "loops_run": 8,
+  "entropy": 1.2109375
+}

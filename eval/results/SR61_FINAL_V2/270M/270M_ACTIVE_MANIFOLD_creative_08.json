@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a short poem about the last star going out.",
+  "completion": "A silver gleam, a distant sigh,\nAcross the velvet night so high.\nThe stars ignite, in silent grace,\nA cosmic dance across the space.\n\nA whispered hope, a gentle plea,\nTo find our way to something free.\nLost in wonder, light and bright",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 3.4802780151367188,
+  "phi": 0.9633654952049255,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.44609342647987005,
+    "logic_a": 0.28965066641663073,
+    "logic_b": 0.14482533320831537,
+    "creative": 0.04701790229102611,
+    "synthesis": 0.07241266660415768
+  },
+  "zone_entropy": 1.9226637910570528,
+  "kurtosis": 501.1237487792969,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 12,
+  "entropy": 1.3125
+}

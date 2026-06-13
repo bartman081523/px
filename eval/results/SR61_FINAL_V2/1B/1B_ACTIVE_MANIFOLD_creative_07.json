@@ -1,0 +1,23 @@
+{
+  "prompt": "Invent a new color and describe its emotional weight.",
+  "completion": "Okay, let's invent a color!\n\n**Color Name:** Lumiflora\n\n**Description:** Lumifloral hues are not simply colors; they\u2019re echoes of light solidified. They appear as shimmering, iridescent petals that shift subtly with the angle of observation \u2013 appearing almost translucent, like captured st",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 5.590707540512085,
+  "phi": 0.9881817102432251,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.08928854293075905,
+    "logic_a": 0.18657162502927047,
+    "logic_b": 0.15152216396144177,
+    "creative": 0.3507332232966289,
+    "synthesis": 0.2218844437818997
+  },
+  "zone_entropy": 2.187733689085159,
+  "kurtosis": 1108.5325927734375,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.53125
+}

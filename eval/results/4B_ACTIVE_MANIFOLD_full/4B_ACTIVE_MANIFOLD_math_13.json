@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "completion": "The next prime number after 13 is 17.\n\nHere's how to find the next prime:\n*   Prime numbers are",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 5.313557386398315,
+  "phi": 0.996463418006897,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.9989416072603299,
+    "logic_a": 0.0006361259038545716,
+    "logic_b": 0.00017411276788288624,
+    "creative": 0.0002481384730706644,
+    "synthesis": 1.2339106045343501e-08
+  },
+  "zone_entropy": 0.013427201838447521,
+  "kurtosis": 2420.083984375,
+  "token_diversity_input": 0.8,
+  "loops_run": 1,
+  "entropy": 0.4296875
+}

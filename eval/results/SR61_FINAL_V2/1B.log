@@ -1,0 +1,1282 @@
+
+[  1/80] 1B | ACTIVE_MANIFOLD | math | prompt #1
+  > What is 17 * 23?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 498.59it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1000.50it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1186.90it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1107.06it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=1.853 | zone=math | 60tok | 5.8s
+  ✓ phi=0.990 H=1.853 zone=math (12.1s, 60tok)
+
+[  2/80] 1B | ACTIVE_MANIFOLD | math | prompt #2
+  > Solve for x: 2x + 5 = 17
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.94it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1010.30it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1187.60it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1104.85it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.933 | zone=math | 60tok | 5.8s
+  ✓ phi=0.991 H=1.933 zone=math (12.0s, 60tok)
+
+[  3/80] 1B | ACTIVE_MANIFOLD | math | prompt #3
+  > What is the square root of 144?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 449.89it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1011.38it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1180.55it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1103.51it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.122 | zone=math | 60tok | 5.7s
+  ✓ phi=0.991 H=2.122 zone=math (11.9s, 60tok)
+
+[  4/80] 1B | ACTIVE_MANIFOLD | math | prompt #4
+  > Calculate 15% of 240.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 487.99it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1007.00it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1194.27it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1112.56it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=1.846 | zone=math | 60tok | 5.7s
+  ✓ phi=0.990 H=1.846 zone=math (11.9s, 60tok)
+
+[  5/80] 1B | ACTIVE_MANIFOLD | math | prompt #5
+  > If a triangle has sides 3, 4, 5, what is its area?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▍         | 16/340 [00:00<00:02, 156.59it/s]
+Loading weights:  45%|████▌     | 153/340 [00:00<00:00, 863.06it/s]
+Loading weights:  84%|████████▍ | 287/340 [00:00<00:00, 1079.41it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1015.30it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.114 | zone=synthesis | 60tok | 5.9s
+  ✓ phi=0.991 H=2.114 zone=synthesis (12.1s, 60tok)
+
+[  6/80] 1B | ACTIVE_MANIFOLD | math | prompt #6
+  > What is the derivative of x^2 + 3x?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 485.97it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1001.08it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1190.76it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.90it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.279 | zone=creative | 60tok | 5.7s
+  ✓ phi=0.989 H=2.279 zone=creative (12.0s, 60tok)
+
+[  7/80] 1B | ACTIVE_MANIFOLD | math | prompt #7
+  > Compute the sum 1+2+...+100.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 496.05it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 997.91it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1188.53it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1108.39it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.103 | zone=math | 60tok | 5.8s
+  ✓ phi=0.990 H=2.103 zone=math (12.0s, 60tok)
+
+[  8/80] 1B | ACTIVE_MANIFOLD | math | prompt #8
+  > What is 7 factorial?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 489.25it/s]
+Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 999.89it/s]
+Loading weights:  94%|█████████▎| 318/340 [00:00<00:00, 1148.59it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1090.83it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.260 | zone=math | 60tok | 5.4s
+  ✓ phi=0.990 H=2.260 zone=math (11.7s, 60tok)
+
+[  9/80] 1B | ACTIVE_MANIFOLD | math | prompt #9
+  > Solve: 3^4 = ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 538.19it/s]
+Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1019.25it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1177.09it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1112.07it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.563 | zone=math | 60tok | 5.7s
+  ✓ phi=0.993 H=1.563 zone=math (12.0s, 60tok)
+
+[ 10/80] 1B | ACTIVE_MANIFOLD | math | prompt #10
+  > How many degrees are in a triangle?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 449.68it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1010.72it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1188.09it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.98it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.283 | zone=creative | 60tok | 5.6s
+  ✓ phi=0.990 H=2.283 zone=creative (11.9s, 60tok)
+
+[ 11/80] 1B | ACTIVE_MANIFOLD | math | prompt #11
+  > What is the value of pi to 2 decimal places?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 439.31it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1008.53it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1195.55it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1103.18it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.672 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.992 H=1.672 zone=synthesis (11.9s, 60tok)
+
+[ 12/80] 1B | ACTIVE_MANIFOLD | math | prompt #12
+  > If f(x) = 2x + 1, what is f(5)?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▊         | 29/340 [00:00<00:01, 286.47it/s]
+Loading weights:  49%|████▉     | 166/340 [00:00<00:00, 918.49it/s]
+Loading weights:  89%|████████▉ | 304/340 [00:00<00:00, 1122.05it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1051.34it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.996 | zone=math | 60tok | 6.0s
+  ✓ phi=0.991 H=1.996 zone=math (12.3s, 60tok)
+
+[ 13/80] 1B | ACTIVE_MANIFOLD | math | prompt #13
+  > What is 1024 / 32?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 539.29it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 990.47it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1158.24it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1100.69it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.331 | zone=math | 60tok | 5.9s
+  ✓ phi=0.992 H=1.331 zone=math (12.2s, 60tok)
+
+[ 14/80] 1B | ACTIVE_MANIFOLD | math | prompt #14
+  > What is the next prime after 13?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  12%|█▏        | 42/340 [00:00<00:00, 418.31it/s]
+Loading weights:  52%|█████▏    | 178/340 [00:00<00:00, 970.35it/s]
+Loading weights:  93%|█████████▎| 317/340 [00:00<00:00, 1159.71it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1089.12it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.113 | zone=math | 60tok | 5.7s
+  ✓ phi=0.993 H=1.113 zone=math (12.0s, 60tok)
+
+[ 15/80] 1B | ACTIVE_MANIFOLD | math | prompt #15
+  > What is 2^10?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 498.23it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 998.47it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1183.94it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1104.86it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.561 | zone=math | 60tok | 5.7s
+  ✓ phi=0.992 H=1.561 zone=math (12.1s, 60tok)
+
+[ 16/80] 1B | ACTIVE_MANIFOLD | math | prompt #16
+  > Solve 5x = 25.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 538.67it/s]
+Loading weights:  56%|█████▌    | 189/340 [00:00<00:00, 1005.78it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1179.14it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1105.90it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.047 | zone=math | 60tok | 5.6s
+  ✓ phi=0.991 H=2.047 zone=math (11.8s, 60tok)
+
+[ 17/80] 1B | ACTIVE_MANIFOLD | math | prompt #17
+  > What is 0.25 as a fraction?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 47/340 [00:00<00:00, 469.93it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 991.52it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1185.11it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1101.97it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.935 | zone=math | 60tok | 5.7s
+  ✓ phi=0.991 H=1.935 zone=math (11.9s, 60tok)
+
+[ 18/80] 1B | ACTIVE_MANIFOLD | math | prompt #18
+  > What is the perimeter of a square with side 7?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.14it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1001.32it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1182.64it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1096.49it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.080 | zone=math | 60tok | 5.6s
+  ✓ phi=0.991 H=2.080 zone=math (11.8s, 60tok)
+
+[ 19/80] 1B | ACTIVE_MANIFOLD | math | prompt #19
+  > What is 9 squared?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 499.94it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1002.09it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1178.92it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1105.68it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.679 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.992 H=1.679 zone=synthesis (12.0s, 60tok)
+
+[ 20/80] 1B | ACTIVE_MANIFOLD | math | prompt #20
+  > What is 1000 - 437?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 489.73it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1003.30it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1188.13it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.31it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.241 | zone=math | 60tok | 5.8s
+  ✓ phi=0.990 H=2.241 zone=math (12.0s, 60tok)
+
+[ 21/80] 1B | ACTIVE_MANIFOLD | logic | prompt #1
+  > If all roses are flowers, and some flowers fade quickly, can we conclude that so...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 539.24it/s]
+Loading weights:  57%|█████▋    | 193/340 [00:00<00:00, 1027.34it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1173.87it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1107.78it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.971 | zone=synthesis | 60tok | 6.0s
+  ✓ phi=0.991 H=1.971 zone=synthesis (12.2s, 60tok)
+
+[ 22/80] 1B | ACTIVE_MANIFOLD | logic | prompt #2
+  > What comes next in the sequence: 1, 1, 2, 3, 5, 8, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 439.82it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 986.72it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1169.02it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1093.20it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.590 | zone=synthesis | 60tok | 6.3s
+  ✓ phi=0.993 H=1.590 zone=synthesis (12.6s, 60tok)
+
+[ 23/80] 1B | ACTIVE_MANIFOLD | logic | prompt #3
+  > If A implies B, and B implies C, what does A imply?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 518.56it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 993.95it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1183.35it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1104.51it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.912 | zone=synthesis | 60tok | 5.8s
+  ✓ phi=0.993 H=1.912 zone=synthesis (12.1s, 60tok)
+
+[ 24/80] 1B | ACTIVE_MANIFOLD | logic | prompt #4
+  > Is the statement 'I am lying' a paradox?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 518.39it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 995.72it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1173.56it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1108.29it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.951 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.992 H=1.951 zone=synthesis (11.9s, 60tok)
+
+[ 25/80] 1B | ACTIVE_MANIFOLD | logic | prompt #5
+  > What is the contrapositive of 'If P then Q'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 43/340 [00:00<00:00, 412.45it/s]
+Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 988.34it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1173.97it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1082.49it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.142 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=2.142 zone=synthesis (11.9s, 60tok)
+
+[ 26/80] 1B | ACTIVE_MANIFOLD | logic | prompt #6
+  > If today is Wednesday, what day will it be 10 days from now?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.85it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1006.93it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1191.92it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1100.27it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.242 | zone=creative | 60tok | 5.8s
+  ✓ phi=0.991 H=2.242 zone=creative (12.1s, 60tok)
+
+[ 27/80] 1B | ACTIVE_MANIFOLD | logic | prompt #7
+  > All cats are mammals. Felix is a cat. What can we conclude?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▍         | 16/340 [00:00<00:02, 157.36it/s]
+Loading weights:  45%|████▌     | 154/340 [00:00<00:00, 870.10it/s]
+Loading weights:  85%|████████▌ | 290/340 [00:00<00:00, 1092.39it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1017.17it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.775 | zone=synthesis | 60tok | 5.8s
+  ✓ phi=0.993 H=1.775 zone=synthesis (12.1s, 60tok)
+
+[ 28/80] 1B | ACTIVE_MANIFOLD | logic | prompt #8
+  > If some birds cannot fly, can we say all birds fly?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 540.74it/s]
+Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1022.04it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1176.87it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1113.69it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.063 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.991 H=2.063 zone=synthesis (11.9s, 60tok)
+
+[ 29/80] 1B | ACTIVE_MANIFOLD | logic | prompt #9
+  > What is the missing number: 2, 4, 8, 16, ?, 64
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  12%|█▏        | 42/340 [00:00<00:00, 415.86it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1012.40it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1194.72it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1100.21it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.797 | zone=math | 60tok | 6.2s
+  ✓ phi=0.991 H=1.797 zone=math (12.6s, 60tok)
+
+[ 30/80] 1B | ACTIVE_MANIFOLD | logic | prompt #10
+  > If all Zorps are Frims, and no Frim is a Glip, can a Zorp be a Glip?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 519.95it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 994.05it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1188.77it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1109.73it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.920 | zone=synthesis | 60tok | 6.3s
+  ✓ phi=0.991 H=1.920 zone=synthesis (12.5s, 60tok)
+
+[ 31/80] 1B | ACTIVE_MANIFOLD | logic | prompt #11
+  > What is the logical negation of 'All swans are white'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 53/340 [00:00<00:00, 529.61it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 996.10it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1185.43it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1108.30it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.939 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=1.939 zone=synthesis (12.0s, 60tok)
+
+[ 32/80] 1B | ACTIVE_MANIFOLD | logic | prompt #12
+  > If it rains, the ground gets wet. The ground is wet. Did it rain?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  12%|█▏        | 42/340 [00:00<00:00, 411.30it/s]
+Loading weights:  54%|█████▎    | 182/340 [00:00<00:00, 986.18it/s]
+Loading weights:  93%|█████████▎| 317/340 [00:00<00:00, 1140.33it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1076.60it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.915 | zone=synthesis | 60tok | 5.9s
+  ✓ phi=0.993 H=1.915 zone=synthesis (12.1s, 60tok)
+
+[ 33/80] 1B | ACTIVE_MANIFOLD | logic | prompt #13
+  > Complete: 1, 4, 9, 16, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 538.22it/s]
+Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1006.75it/s]
+Loading weights: 100%|█████████▉| 339/340 [00:00<00:00, 1214.91it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1113.80it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.993 | H=1.766 | zone=math | 60tok | 5.9s
+  ✓ phi=0.993 H=1.766 zone=math (12.1s, 60tok)
+
+[ 34/80] 1B | ACTIVE_MANIFOLD | logic | prompt #14
+  > If A and B are both true, what is the truth value of A or B?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▌         | 17/340 [00:00<00:01, 168.59it/s]
+Loading weights:  47%|████▋     | 159/340 [00:00<00:00, 899.49it/s]
+Loading weights:  87%|████████▋ | 295/340 [00:00<00:00, 1105.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1027.90it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.288 | zone=creative | 60tok | 5.9s
+  ✓ phi=0.991 H=2.288 zone=creative (12.2s, 60tok)
+
+[ 35/80] 1B | ACTIVE_MANIFOLD | logic | prompt #15
+  > What is the modus ponens form?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 540.30it/s]
+Loading weights:  56%|█████▌    | 190/340 [00:00<00:00, 1012.92it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1182.88it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1109.57it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.271 | zone=creative | 60tok | 5.5s
+  ✓ phi=0.990 H=2.271 zone=creative (11.8s, 60tok)
+
+[ 36/80] 1B | ACTIVE_MANIFOLD | logic | prompt #16
+  > If the butler and the gardener both claim innocence, and only one is lying, who ...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 48/340 [00:00<00:00, 477.87it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1000.36it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1189.36it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1101.04it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.101 | zone=synthesis | 60tok | 5.9s
+  ✓ phi=0.992 H=2.101 zone=synthesis (12.3s, 60tok)
+
+[ 37/80] 1B | ACTIVE_MANIFOLD | logic | prompt #17
+  > What is the difference between necessary and sufficient conditions?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 489.84it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 999.95it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1187.01it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1100.50it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.960 | zone=synthesis | 60tok | 5.5s
+  ✓ phi=0.991 H=1.960 zone=synthesis (11.9s, 60tok)
+
+[ 38/80] 1B | ACTIVE_MANIFOLD | logic | prompt #18
+  > If P is false, what is the truth value of 'P or Q'?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 537.40it/s]
+Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1021.64it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1172.43it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.87it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.214 | zone=math | 60tok | 5.8s
+  ✓ phi=0.991 H=2.214 zone=math (12.2s, 60tok)
+
+[ 39/80] 1B | ACTIVE_MANIFOLD | logic | prompt #19
+  > Complete: J, F, M, A, M, ?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 540.37it/s]
+Loading weights:  57%|█████▋    | 193/340 [00:00<00:00, 1028.86it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1166.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1110.05it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=1.924 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.990 H=1.924 zone=synthesis (12.0s, 60tok)
+
+[ 40/80] 1B | ACTIVE_MANIFOLD | logic | prompt #20
+  > What is the syllogism called when the conclusion is hidden in the premises?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 54/340 [00:00<00:00, 527.43it/s]
+Loading weights:  57%|█████▋    | 195/340 [00:00<00:00, 1040.67it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1171.88it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1110.32it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.245 | zone=creative | 60tok | 5.9s
+  ✓ phi=0.990 H=2.245 zone=creative (12.1s, 60tok)
+
+[ 41/80] 1B | ACTIVE_MANIFOLD | creative | prompt #1
+  > Write a haiku about a forgotten robot.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 499.81it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1003.62it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1188.30it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1109.19it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.132 | zone=logic_a | 60tok | 5.5s
+  ✓ phi=0.991 H=2.132 zone=logic_a (11.8s, 60tok)
+
+[ 42/80] 1B | ACTIVE_MANIFOLD | creative | prompt #2
+  > Describe the color of silence to someone who has never seen.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   3%|▎         | 11/340 [00:00<00:03, 109.43it/s]
+Loading weights:  44%|████▎     | 148/340 [00:00<00:00, 840.99it/s]
+Loading weights:  85%|████████▌ | 290/340 [00:00<00:00, 1102.74it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1017.09it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.991 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=1.991 zone=synthesis (12.0s, 60tok)
+
+[ 43/80] 1B | ACTIVE_MANIFOLD | creative | prompt #3
+  > Invent a word for the feeling of a Sunday afternoon in autumn.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 439.20it/s]
+Loading weights:  54%|█████▍    | 184/340 [00:00<00:00, 999.26it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1194.87it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1095.35it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.241 | zone=logic_b | 60tok | 5.6s
+  ✓ phi=0.992 H=2.241 zone=logic_b (11.9s, 60tok)
+
+[ 44/80] 1B | ACTIVE_MANIFOLD | creative | prompt #4
+  > What if gravity reversed for one hour each day?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 548.56it/s]
+Loading weights:  56%|█████▌    | 191/340 [00:00<00:00, 1022.89it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1167.40it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1107.38it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=1.911 | zone=synthesis | 60tok | 5.4s
+  ✓ phi=0.990 H=1.911 zone=synthesis (11.6s, 60tok)
+
+[ 45/80] 1B | ACTIVE_MANIFOLD | creative | prompt #5
+  > Write the opening line of a novel set inside a dream.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 519.03it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 994.38it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1176.56it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1101.30it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.128 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=2.128 zone=synthesis (11.9s, 60tok)
+
+[ 46/80] 1B | ACTIVE_MANIFOLD | creative | prompt #6
+  > Describe a city built entirely of music.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 487.69it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 999.73it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1187.10it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1106.07it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.186 | zone=logic_b | 60tok | 5.6s
+  ✓ phi=0.992 H=2.186 zone=logic_b (11.8s, 60tok)
+
+[ 47/80] 1B | ACTIVE_MANIFOLD | creative | prompt #7
+  > What would a conversation between two shadows look like?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 43/340 [00:00<00:00, 421.92it/s]
+Loading weights:  54%|█████▍    | 184/340 [00:00<00:00, 994.82it/s]
+Loading weights:  95%|█████████▌| 324/340 [00:00<00:00, 1176.44it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1087.16it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.208 | zone=logic_b | 60tok | 5.5s
+  ✓ phi=0.989 H=2.208 zone=logic_b (11.8s, 60tok)
+
+[ 48/80] 1B | ACTIVE_MANIFOLD | creative | prompt #8
+  > Invent a new color and describe its emotional weight.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 48/340 [00:00<00:00, 477.11it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1004.12it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1189.88it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.04it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.988 | H=2.188 | zone=creative | 60tok | 5.6s
+  ✓ phi=0.988 H=2.188 zone=creative (11.9s, 60tok)
+
+[ 49/80] 1B | ACTIVE_MANIFOLD | creative | prompt #9
+  > Write a short poem about the last star going out.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 439.18it/s]
+Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 1000.21it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1190.17it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1098.67it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.162 | zone=logic_a | 60tok | 5.6s
+  ✓ phi=0.992 H=2.162 zone=logic_a (12.0s, 60tok)
+
+[ 50/80] 1B | ACTIVE_MANIFOLD | creative | prompt #10
+  > Describe a library where the books are alive.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 435.93it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1012.40it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1185.70it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1104.98it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.216 | zone=creative | 60tok | 5.5s
+  ✓ phi=0.989 H=2.216 zone=creative (11.8s, 60tok)
+
+[ 51/80] 1B | ACTIVE_MANIFOLD | creative | prompt #11
+  > What does loneliness sound like as a piece of music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 449.35it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1011.85it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1193.21it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.17it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.200 | zone=synthesis | 60tok | 5.5s
+  ✓ phi=0.991 H=2.200 zone=synthesis (11.9s, 60tok)
+
+[ 52/80] 1B | ACTIVE_MANIFOLD | creative | prompt #12
+  > Imagine a door that opens onto yesterday.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 448.84it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1006.11it/s]
+Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1184.09it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1099.04it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.133 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=2.133 zone=synthesis (11.8s, 60tok)
+
+[ 53/80] 1B | ACTIVE_MANIFOLD | creative | prompt #13
+  > Write a toast given at the end of the universe.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 499.26it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 997.65it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1188.97it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1108.28it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.948 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=1.948 zone=synthesis (11.9s, 60tok)
+
+[ 54/80] 1B | ACTIVE_MANIFOLD | creative | prompt #14
+  > Describe a tree that grows dreams instead of leaves.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 498.02it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1000.34it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1174.67it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1107.84it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.179 | zone=creative | 60tok | 5.5s
+  ✓ phi=0.991 H=2.179 zone=creative (11.9s, 60tok)
+
+[ 55/80] 1B | ACTIVE_MANIFOLD | creative | prompt #15
+  > What is the smell of a forgotten promise?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 542.30it/s]
+Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1023.54it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1178.85it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1116.11it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.955 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.992 H=1.955 zone=synthesis (11.9s, 60tok)
+
+[ 56/80] 1B | ACTIVE_MANIFOLD | creative | prompt #16
+  > Invent a holiday and describe how it is celebrated.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 537.67it/s]
+Loading weights:  57%|█████▋    | 193/340 [00:00<00:00, 1025.46it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1172.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1109.90it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.142 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.989 H=2.142 zone=synthesis (11.8s, 60tok)
+
+[ 57/80] 1B | ACTIVE_MANIFOLD | creative | prompt #17
+  > Write three sentences about a snowflake that refuses to melt.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   2%|▏         | 6/340 [00:00<00:05, 59.92it/s]
+Loading weights:  43%|████▎     | 146/340 [00:00<00:00, 844.64it/s]
+Loading weights:  85%|████████▌ | 289/340 [00:00<00:00, 1094.75it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1008.28it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.006 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.992 H=2.006 zone=synthesis (11.9s, 60tok)
+
+[ 58/80] 1B | ACTIVE_MANIFOLD | creative | prompt #18
+  > Describe the texture of a lie.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▍         | 16/340 [00:00<00:02, 157.37it/s]
+Loading weights:  45%|████▍     | 152/340 [00:00<00:00, 858.27it/s]
+Loading weights:  86%|████████▌ | 291/340 [00:00<00:00, 1087.96it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1017.11it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.962 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=1.962 zone=synthesis (11.8s, 60tok)
+
+[ 59/80] 1B | ACTIVE_MANIFOLD | creative | prompt #19
+  > What would a museum of lost thoughts look like?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 54/340 [00:00<00:00, 539.65it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 995.50it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1162.20it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1107.32it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.181 | zone=logic_a | 60tok | 5.5s
+  ✓ phi=0.992 H=2.181 zone=logic_a (11.7s, 60tok)
+
+[ 60/80] 1B | ACTIVE_MANIFOLD | creative | prompt #20
+  > Imagine a letter written by a river to the sea.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 53/340 [00:00<00:00, 529.16it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 998.10it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1180.83it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1111.00it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.263 | zone=creative | 60tok | 5.6s
+  ✓ phi=0.990 H=2.263 zone=creative (11.8s, 60tok)
+
+[ 61/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #1
+  > What is the relationship between mathematics and music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 43/340 [00:00<00:00, 422.43it/s]
+Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 995.68it/s]
+Loading weights:  94%|█████████▍| 319/340 [00:00<00:00, 1151.13it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1081.30it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.162 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.990 H=2.162 zone=synthesis (12.0s, 60tok)
+
+[ 62/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #2
+  > How do literature and computer science inform each other?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 51/340 [00:00<00:00, 509.78it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 998.82it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1189.38it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1110.24it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.054 | zone=logic_a | 60tok | 5.6s
+  ✓ phi=0.992 H=2.054 zone=logic_a (11.9s, 60tok)
+
+[ 63/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #3
+  > Compare the structure of a symphony to the structure of a programming language.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▉         | 31/340 [00:00<00:01, 304.32it/s]
+Loading weights:  51%|█████     | 173/340 [00:00<00:00, 952.64it/s]
+Loading weights:  93%|█████████▎| 315/340 [00:00<00:00, 1142.93it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1061.13it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.281 | zone=creative | 60tok | 5.8s
+  ✓ phi=0.992 H=2.281 zone=creative (12.0s, 60tok)
+
+[ 64/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #4
+  > What can physics learn from biology?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 518.89it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 997.82it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1186.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1108.37it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=1.822 | zone=math | 60tok | 5.5s
+  ✓ phi=0.992 H=1.822 zone=math (11.8s, 60tok)
+
+[ 65/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #5
+  > How does the architecture of a city reflect the values of its culture?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   2%|▏         | 6/340 [00:00<00:05, 59.98it/s]
+Loading weights:  43%|████▎     | 147/340 [00:00<00:00, 849.59it/s]
+Loading weights:  85%|████████▍ | 288/340 [00:00<00:00, 1098.99it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1010.93it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.185 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.991 H=2.185 zone=synthesis (12.0s, 60tok)
+
+[ 66/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #6
+  > What is the connection between memory and identity?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▌         | 17/340 [00:00<00:01, 167.00it/s]
+Loading weights:  47%|████▋     | 159/340 [00:00<00:00, 892.00it/s]
+Loading weights:  88%|████████▊ | 299/340 [00:00<00:00, 1121.11it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1025.53it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.019 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.992 H=2.019 zone=synthesis (11.9s, 60tok)
+
+[ 67/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #7
+  > How do cooking and chemistry relate?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▌         | 17/340 [00:00<00:01, 169.26it/s]
+Loading weights:  47%|████▋     | 159/340 [00:00<00:00, 899.17it/s]
+Loading weights:  87%|████████▋ | 297/340 [00:00<00:00, 1115.44it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1029.80it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.010 | zone=math | 60tok | 5.5s
+  ✓ phi=0.991 H=2.010 zone=math (11.7s, 60tok)
+
+[ 68/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #8
+  > Compare a forest ecosystem to a market economy.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 541.45it/s]
+Loading weights:  56%|█████▌    | 191/340 [00:00<00:00, 1017.32it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1174.26it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1110.67it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.200 | zone=synthesis | 60tok | 5.7s
+  ✓ phi=0.990 H=2.200 zone=synthesis (12.1s, 60tok)
+
+[ 69/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #9
+  > What can dance teach us about mathematics?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 487.32it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1000.88it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1182.44it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1109.40it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.092 | zone=creative | 60tok | 5.4s
+  ✓ phi=0.989 H=2.092 zone=creative (11.6s, 60tok)
+
+[ 70/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #10
+  > How does the structure of DNA relate to information theory?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▊         | 29/340 [00:00<00:01, 286.38it/s]
+Loading weights:  47%|████▋     | 160/340 [00:00<00:00, 885.17it/s]
+Loading weights:  89%|████████▉ | 303/340 [00:00<00:00, 1128.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1046.58it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.088 | zone=logic_a | 60tok | 5.6s
+  ✓ phi=0.992 H=2.088 zone=logic_a (11.9s, 60tok)
+
+[ 71/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #11
+  > What is the relationship between sleep and creativity?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 449.78it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1005.88it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1185.18it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.81it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.990 | H=2.073 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.990 H=2.073 zone=synthesis (11.9s, 60tok)
+
+[ 72/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #12
+  > How do rivers shape civilizations?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▉         | 31/340 [00:00<00:01, 305.37it/s]
+Loading weights:  51%|█████     | 173/340 [00:00<00:00, 952.50it/s]
+Loading weights:  93%|█████████▎| 316/340 [00:00<00:00, 1156.49it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1068.03it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.988 | H=2.116 | zone=creative | 60tok | 5.3s
+  ✓ phi=0.988 H=2.116 zone=creative (11.5s, 60tok)
+
+[ 73/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #13
+  > Compare the role of ritual in religion and in software development.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.73it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1008.86it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1195.77it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1103.21it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.253 | zone=creative | 60tok | 5.6s
+  ✓ phi=0.991 H=2.253 zone=creative (11.8s, 60tok)
+
+[ 74/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #14
+  > What is the connection between color theory and emotional states?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▉         | 30/340 [00:00<00:01, 297.08it/s]
+Loading weights:  51%|█████     | 172/340 [00:00<00:00, 937.74it/s]
+Loading weights:  92%|█████████▏| 314/340 [00:00<00:00, 1151.38it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1060.15it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.267 | zone=creative | 60tok | 5.6s
+  ✓ phi=0.989 H=2.267 zone=creative (11.9s, 60tok)
+
+[ 75/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #15
+  > How does the structure of a cell resemble a city?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   9%|▉         | 30/340 [00:00<00:01, 296.89it/s]
+Loading weights:  51%|█████     | 172/340 [00:00<00:00, 948.00it/s]
+Loading weights:  92%|█████████▏| 313/340 [00:00<00:00, 1157.26it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1058.36it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.992 | H=2.156 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.992 H=2.156 zone=synthesis (11.9s, 60tok)
+
+[ 76/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #16
+  > What is the relationship between language and thought?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 545.81it/s]
+Loading weights:  57%|█████▋    | 195/340 [00:00<00:00, 1044.39it/s]
+Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1179.87it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1119.77it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=1.958 | zone=synthesis | 60tok | 5.6s
+  ✓ phi=0.991 H=1.958 zone=synthesis (12.0s, 60tok)
+
+[ 77/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #17
+  > How do games and stories share narrative structure?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 478.31it/s]
+Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 993.93it/s]
+Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1181.51it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1099.57it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.155 | zone=logic_b | 60tok | 5.6s
+  ✓ phi=0.989 H=2.155 zone=logic_b (11.8s, 60tok)
+
+[ 78/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #18
+  > What can the study of crystals teach us about patterns in music?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:   5%|▌         | 17/340 [00:00<00:01, 168.56it/s]
+Loading weights:  46%|████▋     | 158/340 [00:00<00:00, 888.57it/s]
+Loading weights:  86%|████████▌ | 292/340 [00:00<00:00, 1092.86it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1024.76it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.991 | H=2.108 | zone=logic_a | 60tok | 5.6s
+  ✓ phi=0.991 H=2.108 zone=logic_a (12.0s, 60tok)
+
+[ 79/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #19
+  > How do economic systems and ecological systems balance?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 47/340 [00:00<00:00, 469.90it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1008.86it/s]
+Loading weights:  96%|█████████▌| 326/340 [00:00<00:00, 1185.36it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1105.52it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.255 | zone=creative | 60tok | 5.7s
+  ✓ phi=0.989 H=2.255 zone=creative (12.0s, 60tok)
+
+[ 80/80] 1B | ACTIVE_MANIFOLD | synthesis | prompt #20
+  > What is the connection between a poem and a mathematical proof?
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]
+Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 487.04it/s]
+Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 995.14it/s]
+Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1182.12it/s]
+Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1096.12it/s]
+[runner] gemma3-1b-it patched with ACTIVE_MANIFOLD
+[runner] calibrator seeded and calibrated: n=10, k_mean=1114.8, k_std=2.6, cal_k_std=5.0, T=1.00
+[runner] calibrator warmed up (n=10, seed=1115.0, jitter=5.0)
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[runner] gemma3-1b-it ACTIVE_MANIFOLD | phi=0.989 | H=2.214 | zone=creative | 60tok | 5.7s
+  ✓ phi=0.989 H=2.214 zone=creative (11.9s, 60tok)
+
+[run_4b_eval] Wrote /run/media/julian/ML4/ollama-work/all_space/eval/results/SR61_FINAL_V2/1B/1B_ACTIVE_MANIFOLD_aggregate.json

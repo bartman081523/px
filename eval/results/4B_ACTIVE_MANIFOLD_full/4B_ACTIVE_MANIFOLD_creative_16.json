@@ -1,0 +1,23 @@
+{
+  "prompt": "Write three sentences about a snowflake that refuses to melt.",
+  "completion": "Here are three sentences about a snowflake that refuses to melt:\n\n1.  Unlike its brethren, this particular snowflake held steadfast, stubbornly resisting the warmth",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 5.48293924331665,
+  "phi": 0.9646772742271423,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.0005821366037415919,
+    "logic_a": 0.009378965349173382,
+    "logic_b": 0.17658774352107343,
+    "creative": 0.6216072484772671,
+    "synthesis": 0.19184390542141203
+  },
+  "zone_entropy": 1.3945247662195444,
+  "kurtosis": 2229.415283203125,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 1,
+  "entropy": 1.5625
+}

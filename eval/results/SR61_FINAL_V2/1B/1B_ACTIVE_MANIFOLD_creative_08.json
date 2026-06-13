@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a short poem about the last star going out.",
+  "completion": "The darkness gathers, cold and deep,\nA silent hush where stars do sleep. \nFor countless suns have burned so bright,\nAnd faded into endless night.\n\nBut one remains, a lonely gleam,\nReflecting in a frozen stream. \n\nIt whispers tales of fiery",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 5.570971488952637,
+  "phi": 0.9915217161178589,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.1850997375216301,
+    "logic_a": 0.3073431139776812,
+    "logic_b": 0.2805074061763639,
+    "creative": 0.16739269983753974,
+    "synthesis": 0.059657041486785016
+  },
+  "zone_entropy": 2.162293925187193,
+  "kurtosis": 1114.80322265625,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 7,
+  "entropy": 1.5703125
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "How do rivers shape civilizations?",
+  "completion": "Rivers are crucial for shaping civilizations. They provide essential resources, transportation, and a sense of place. Rivers can be used for irrigation, transportation, and",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 16,
+  "gen_time_sec": 1.2470781803131104,
+  "phi": 0.9176939129829407,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.27357957143795303,
+    "logic_a": 0.35082771332140866,
+    "logic_b": 0.17541385666070433,
+    "creative": 0.11247192524958194,
+    "synthesis": 0.08770692833035217
+  },
+  "zone_entropy": 2.1447427175485076,
+  "kurtosis": 568.8778076171875,
+  "token_diversity_input": 0.75,
+  "loops_run": 1,
+  "entropy": 1.5
+}

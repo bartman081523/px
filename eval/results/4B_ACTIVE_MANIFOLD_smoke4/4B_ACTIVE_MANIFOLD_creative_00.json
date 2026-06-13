@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Rust dusts silent gears,\nA vacant, blinking light,\nLost in fading years.",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 20,
+  "input_tokens": 19,
+  "gen_time_sec": 3.6075222492218018,
+  "phi": 0.9551105499267578,
+  "zone": "creative",
+  "zone_weights": {
+    "math": 0.0017630148988142466,
+    "logic_a": 0.028453975497693237,
+    "logic_b": 0.2868041765378298,
+    "creative": 0.5665752462670617,
+    "synthesis": 0.1164035861874974
+  },
+  "zone_entropy": 1.504602307002831,
+  "kurtosis": 2240.874267578125,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 1,
+  "entropy": 1.25
+}

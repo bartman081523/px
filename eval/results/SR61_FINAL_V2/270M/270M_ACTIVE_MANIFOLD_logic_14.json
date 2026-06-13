@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the modus ponens form?",
+  "completion": "The modus ponenses are a set of rules that describe how to determine whether a statement is true or false. They are fundamental in logic and mathematics, and they help us understand the structure of logical reasoning.\n\n\n\u092e\u0941\u091d\u0947 \u0928\u0939\u0940\u0902 \u092a\u0924\u093e \u0915\u093f \u0906\u092a \u0915\u094d\u092f\u093e \u091c\u093e\u0928\u0928\u093e \u091a\u093e\u0939\u0924\u0947 \u0939\u0948\u0902\u0964 \u0915\u0943\u092a\u092f\u093e \u092e\u0941\u091d\u0947",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 18,
+  "gen_time_sec": 2.40189790725708,
+  "phi": 0.9380121231079102,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.3097318329532475,
+    "logic_a": 0.34085305383752956,
+    "logic_b": 0.17042652691876478,
+    "creative": 0.09377531783107577,
+    "synthesis": 0.08521326345938239
+  },
+  "zone_entropy": 2.1110119972997863,
+  "kurtosis": 465.8854064941406,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 3,
+  "entropy": 1.4453125
+}

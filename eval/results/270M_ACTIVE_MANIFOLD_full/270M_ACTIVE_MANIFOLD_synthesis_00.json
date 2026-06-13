@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the relationship between mathematics and music?",
+  "completion": "The relationship between mathematics and music is a complex and multifaceted one, encompassing both the study of mathematical concepts and the creation and expression of sound. Here'",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 1.97538161277771,
+  "phi": 0.9485702514648438,
+  "zone": "logic_b",
+  "zone_weights": {
+    "math": 0.11291586401915094,
+    "logic_a": 0.19810560218935638,
+    "logic_b": 0.4096075901408763,
+    "creative": 0.24906990213833977,
+    "synthesis": 0.030301040512276594
+  },
+  "zone_entropy": 1.9977953258388195,
+  "kurtosis": 309.8155517578125,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 11,
+  "entropy": 1.46875
+}

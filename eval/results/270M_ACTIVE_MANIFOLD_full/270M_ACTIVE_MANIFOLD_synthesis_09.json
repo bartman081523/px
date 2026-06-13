@@ -1,0 +1,23 @@
+{
+  "prompt": "How does the structure of DNA relate to information theory?",
+  "completion": "DNA is a fundamental unit of heredity and is the building block of life. It's the genetic blueprint for all living organisms. DNA is a complex",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 1.2443137168884277,
+  "phi": 0.9592061042785645,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.3103628636774303,
+    "logic_a": 0.34066150403924456,
+    "logic_b": 0.17033075201962228,
+    "creative": 0.09347949925389173,
+    "synthesis": 0.08516537600981114
+  },
+  "zone_entropy": 2.1103550997448712,
+  "kurtosis": 515.1337280273438,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 12,
+  "entropy": 1.4921875
+}

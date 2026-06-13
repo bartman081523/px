@@ -1,0 +1,23 @@
+{
+  "prompt": "What if gravity reversed for one hour each day?",
+  "completion": "Okay, this is a fantastic thought experiment! Let's break down the immediate and long-term consequences of a one-hour reversal of gravity.",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.463686943054199,
+  "phi": 0.9890910983085632,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.09756511541938877,
+    "logic_a": 0.1880922422179335,
+    "logic_b": 0.09404612110896675,
+    "creative": 0.09843767228821688,
+    "synthesis": 0.521858847930733
+  },
+  "zone_entropy": 1.9205939927593214,
+  "kurtosis": 1093.9442138671875,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 1.3984375
+}

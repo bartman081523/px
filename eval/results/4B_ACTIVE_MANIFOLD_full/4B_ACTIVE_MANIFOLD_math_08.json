@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "completion": "3^4 = 81\n",
+  "model_id": "gemma3-4b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 9,
+  "input_tokens": 18,
+  "gen_time_sec": 1.7529220581054688,
+  "phi": 0.9963165521621704,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.8956662610430604,
+    "logic_a": 0.07993594183404154,
+    "logic_b": 0.018934421229278575,
+    "creative": 0.005458836561010589,
+    "synthesis": 4.538433502456208e-06
+  },
+  "zone_entropy": 0.5832231093216004,
+  "kurtosis": 2367.677734375,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 0.326171875
+}

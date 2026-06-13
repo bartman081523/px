@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 2^10?",
+  "completion": "Here's how to calculate $2^{10}$:\n\n$2^{10} = 2 \\times 2 \\times 2",
+  "model_id": "gemma4-e2b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 7.897825002670288,
+  "phi": 0.3365592956542969,
+  "zone": "synthesis",
+  "zone_weights": {
+    "math": 0.32292704858997573,
+    "logic_a": 0.09702042129844454,
+    "logic_b": 0.04853963802520437,
+    "creative": 0.10004637462038829,
+    "synthesis": 0.4314665164659869
+  },
+  "zone_entropy": 1.9205034840551352,
+  "kurtosis": 480.0909729003906,
+  "token_diversity_input": 0.8235294117647058,
+  "loops_run": 56,
+  "entropy": 0.0
+}

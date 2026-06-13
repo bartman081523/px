@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "completion": "3^4 = 3 * 3 * 3 * 3 = 81\n\nTherefore, 3^4 = 81",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.724350929260254,
+  "phi": 0.9878770112991333,
+  "zone": "math",
+  "zone_weights": {
+    "math": 0.46823161988426315,
+    "logic_a": 0.019992394340976213,
+    "logic_b": 0.06564858395239852,
+    "creative": 0.3135097607636342,
+    "synthesis": 0.13261764005872795
+  },
+  "zone_entropy": 1.794527868205202,
+  "kurtosis": 1111.5435791015625,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 1.140625
+}

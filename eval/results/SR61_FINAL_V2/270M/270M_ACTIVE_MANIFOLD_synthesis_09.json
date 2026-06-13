@@ -1,0 +1,23 @@
+{
+  "prompt": "How does the structure of DNA relate to information theory?",
+  "completion": "DNA is a fundamental unit of heredity and is essential for genetic variation. It's the blueprint that determines which traits are inherited, and it provides instructions for building cells and organisms. The structure of nucleic acids (DNA and RNA) plays a crucial role in this process.\n\nHere's how DNA",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 2.1796607971191406,
+  "phi": 0.911270260810852,
+  "zone": "logic_a",
+  "zone_weights": {
+    "math": 0.2578729208436953,
+    "logic_a": 0.35446658890201893,
+    "logic_b": 0.17723329445100947,
+    "creative": 0.12181054357777173,
+    "synthesis": 0.08861664722550473
+  },
+  "zone_entropy": 2.1568173019922616,
+  "kurtosis": 457.74456787109375,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 1,
+  "entropy": 1.484375
+}
