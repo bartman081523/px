@@ -1,0 +1,13 @@
+{
+  "prompt": "Is the following argument valid: All birds can fly. Penguins are birds. Therefore penguins can fly.",
+  "category": "logic_hard",
+  "completion": "No, the argument is **invalid**.\n\nHere's why:\n\n* **The structure of the argument (Syllogism):**\n    * Premise 1: All A are B (All birds can Fly)\n     * Premise2: C is A (Penguins",
+  "phi": 0.4777543246746063,
+  "zone": "math",
+  "focus_index": 1.0,
+  "kurtosis": 802.9537353515625,
+  "gamma": 0.04,
+  "loops": 96,
+  "gen_time": 24.400166511535645,
+  "tokens": 60
+}

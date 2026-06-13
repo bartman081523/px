@@ -1,0 +1,13 @@
+{
+  "prompt": "If A implies B, and B implies C, does A imply C?",
+  "category": "logic_hard",
+  "completion": "No. This is a classic logic puzzle that demonstrates the fallacy of affirming the consequent.\n\nHere's why:\n\n* **The statements establish a chain:**  A \u2192 B (If A, then B) & B \u2192 C (If C, then A) - These are true statements.",
+  "phi": 0.9819419384002686,
+  "zone": "CREATIVE",
+  "focus_index": 0.00037459557643160224,
+  "kurtosis": 1109.0567626953125,
+  "gamma": 0.07998501617694274,
+  "loops": 9,
+  "gen_time": 66.00107860565186,
+  "tokens": 60
+}
