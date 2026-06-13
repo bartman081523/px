@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 17 multiplied by 23?",
+  "completion": "**What is the product of 10 and 24?**\n\n**Product of 20 and its multiples are 40, 60, what is the number that is equal to 2 times the product?**\n \u090f\u0915 \u0938\u0902\u0916\u094d\u092f\u093e \u0915\u094b \u091c\u094d\u091e\u093e\u0924 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0939\u092e \u092a\u0939\u0932\u0947",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 2.966916561126709,
+  "phi": 0.8455765843391418,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9999799479298535,
+    "logic_a": 2.003448065457874e-05,
+    "logic_b": 8.806098822315367e-09,
+    "creative": 9.232414980089812e-13,
+    "synthesis": 8.095046782848639e-25
+  },
+  "zone_entropy": 0.00034183299486098936,
+  "kurtosis": 502.57110595703125,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 6,
+  "entropy": 0.1328125
+}

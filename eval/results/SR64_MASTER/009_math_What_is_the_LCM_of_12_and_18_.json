@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the LCM of 12 and 18?",
+  "completion": "Let $a$ be a positive integer. The least common multiple (LCM) of 2 and positive integers is not defined, since the product of two numbers that are coprime (i.e., their greatest common divisor is at least 1).\nWe want to find the smallest positive integer $",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 23,
+  "gen_time_sec": 3.0486347675323486,
+  "phi": 0.8923528790473938,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9948992842548876,
+    "logic_a": 2.9292048022893337e-25,
+    "logic_b": 1.833610124954397e-27,
+    "creative": 1.681778533752266e-24,
+    "synthesis": 4.489919655581813e-44
+  },
+  "zone_entropy": 1.5764534528390033e-22,
+  "kurtosis": 544.2781372070312,
+  "token_diversity_input": 0.7391304347826086,
+  "loops_run": 9,
+  "entropy": 0.5546875
+}

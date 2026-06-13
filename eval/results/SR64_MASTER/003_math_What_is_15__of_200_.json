@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 15% of 200?",
+  "completion": "15\\% of 300 is it?\n\n\nThe answer is 3%.\n \u0909\u0924\u094d\u0924\u0930 \u0926\u0947\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f, \u0939\u092e \u0907\u0938\u0947 \u0907\u0938 \u092a\u094d\u0930\u0915\u093e\u0930 \u0932\u093f\u0916 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902:\n100% - 1.15 = 98.85\n That",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 22,
+  "gen_time_sec": 3.018249750137329,
+  "phi": 0.9839125871658325,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 2.936586974347812e-62,
+    "logic_a": 1.050505083943885e-68,
+    "logic_b": 6.407401571517747e-34,
+    "creative": 0.03778957234110005,
+    "synthesis": 0.05775621328280162
+  },
+  "zone_entropy": 0.9682650996103187,
+  "kurtosis": 360.334716796875,
+  "token_diversity_input": 0.7272727272727273,
+  "loops_run": 4,
+  "entropy": 0.66796875
+}

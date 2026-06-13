@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the factorial of 6?",
+  "completion": "*   6! = 6! * 5! *\n\n*  **6!** is the product of all numbers from 1 to 6, which is 6 x 5 x 4 x 3 x 2 x 1 = 72",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 18,
+  "gen_time_sec": 3.1625475883483887,
+  "phi": 0.8836700320243835,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9999999786413295,
+    "logic_a": 9.695830462981387e-10,
+    "logic_b": 2.459285481005234e-13,
+    "creative": 2.946833682675983e-16,
+    "synthesis": 4.080428332149962e-30
+  },
+  "zone_entropy": 3.0440659483357864e-08,
+  "kurtosis": 513.5242919921875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 9,
+  "entropy": 0.040771484375
+}

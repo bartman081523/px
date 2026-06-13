@@ -1,0 +1,23 @@
+{
+  "prompt": "Given: A\u2192B, B\u2192C. What can we conclude about A and C?",
+  "completion": "\u00e9riean, the statement \"A\u2192B\" is a logical fallacy.\n \n\n\nHere's why:\n*   **Logical Fallacy:** The premise states that A \u2192 B is false.\n*  **Premarital Error:** If A is true, then B",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 29,
+  "gen_time_sec": 2.953784704208374,
+  "phi": 0.9007717370986938,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 3.672866603072861e-08,
+    "logic_a": 0.0457481635579659,
+    "logic_b": 0.9529322015969158,
+    "creative": 0.001319596229718715,
+    "synthesis": 8.974572432422392e-10
+  },
+  "zone_entropy": 0.28249036146534273,
+  "kurtosis": 459.53033447265625,
+  "token_diversity_input": 0.7931034482758621,
+  "loops_run": 1,
+  "entropy": 1.15625
+}

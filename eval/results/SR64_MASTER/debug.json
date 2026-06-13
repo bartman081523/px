@@ -1,0 +1,23 @@
+{
+  "prompt": "Hello",
+  "completion": "\n\nSummer is",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 5,
+  "input_tokens": 11,
+  "gen_time_sec": 0.46213746070861816,
+  "phi": 0.9623827934265137,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 6.634490204371173e-131,
+    "logic_a": 3.091404200531934e-169,
+    "logic_b": 7.434389273480277e-100,
+    "creative": 1.1109076677042268e-26,
+    "synthesis": 1.7865279314046393e-27
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 301.80108642578125,
+  "token_diversity_input": 0.6363636363636364,
+  "loops_run": 1,
+  "entropy": 1.5832483768463135e-07
+}
