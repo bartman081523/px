@@ -1,0 +1,23 @@
+{
+  "prompt": "If a triangle has sides 3, 4, 5, what is its area?",
+  "completion": "The area of the triangle $ABC$ and $ABC $ is equal to 16.\nWe know that the area of triangle ABC is denoted by $A$.\nThe formula for the area is $\\frac{a_x \\cdot b_y + a_x * b_ y",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 29,
+  "gen_time_sec": 2.4539759159088135,
+  "phi": 0.9872626066207886,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 1.0040764245244586e-44,
+    "logic_a": 1.361791719614649e-135,
+    "logic_b": 4.6501517542763386e-119,
+    "creative": 3.912699787836462e-79,
+    "synthesis": 8.413985911898995e-119
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 426.9859619140625,
+  "token_diversity_input": 0.7241379310344828,
+  "loops_run": 2,
+  "entropy": 4.246830940246582e-07
+}

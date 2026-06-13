@@ -1,0 +1,23 @@
+{
+  "prompt": "Calculate 15% of 240.",
+  "completion": "Explanation:\n1. Financial analysis:\n*   Financial statements are a measure of a company's financial health and performance. They provide information about the company\u2019s history, assets, liabilities, equity, revenue, and expenses, and their ratios and trends over time.\n*  The goal",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 2.50254225730896,
+  "phi": 0.9865309000015259,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 2.2114794898409463e-83,
+    "logic_a": 7.188933164533902e-219,
+    "logic_b": 1.3732980508301657e-185,
+    "creative": 5.669900113225841e-117,
+    "synthesis": 9.465514786241235e-169
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 453.9310607910156,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 2,
+  "entropy": 0.59765625
+}

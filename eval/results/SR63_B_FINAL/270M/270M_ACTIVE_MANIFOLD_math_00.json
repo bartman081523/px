@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 17 * 23?",
+  "completion": "**17**\n**24**\n25\n26\n**-1**\n* 2024\n* **264**\n\nThe answer must be any integer.\n*   17\n*  25-26\n\n*   26",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 20,
+  "gen_time_sec": 2.5767600536346436,
+  "phi": 0.9858870506286621,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 1.1591003871327768e-70,
+    "logic_a": 6.854257149368178e-192,
+    "logic_b": 3.659976446464618e-164,
+    "creative": 6.672385829339767e-105,
+    "synthesis": 7.058070303209688e-153
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 445.8459777832031,
+  "token_diversity_input": 0.75,
+  "loops_run": 2,
+  "entropy": 0.453125
+}

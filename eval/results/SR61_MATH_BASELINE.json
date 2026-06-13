@@ -1,0 +1,54 @@
+{
+  "model_id": "gemma3-270m-it",
+  "timestamp": "2026-06-13",
+  "architecture": "SR-61b (Current)",
+  "accuracy": 0.6,
+  "drift_rate": 0.4,
+  "detailed": [
+    {
+      "prompt": "What is 17 * 23? Answer only the number.",
+      "completion": "We are not talking about a physical object, but we are talking about a mathematical concept. We are not talking about a physical object, but we are not.\n\nWe are not talking about a mathematical concept.\n\n*   **The number of possible arrangements of numbers is 1",
+      "correct": false,
+      "drift": false,
+      "phi": 0.9560070037841797,
+      "zone": "CREATIVE",
+      "steps": 1
+    },
+    {
+      "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly? Answer Yes or No and explain briefly.",
+      "completion": "The prompt is a bit ambiguous, but we don't want to make it a question.\n\nWe are not sure if we are talking about the flowers or the flowers themselves.\n\nWe are not sure if all roses are flowers, or if all flowers are flowers.\n\nWe are not sure if",
+      "correct": true,
+      "drift": false,
+      "phi": 0.9432086944580078,
+      "zone": "CREATIVE",
+      "steps": 1
+    },
+    {
+      "prompt": "A bat and a ball cost $1.10. The bat costs $1.00 more than the ball. How much does the ball cost? Answer only the number.",
+      "completion": "The ball costs $1.00 more than the bat.\n\n\nThe ball costs $1.00 more than the bat.\n\u092a\u0923\u0947\n\n\n\nThe ball costs",
+      "correct": false,
+      "drift": true,
+      "phi": 0.8908864259719849,
+      "zone": "SYNTHESIS",
+      "steps": 3
+    },
+    {
+      "prompt": "Solve for x: 3x + 7 = 22. Answer only x.",
+      "completion": "Let x be a variable.\nWe are given the equation 3x + 7 = 22.\nSubtracting 7 from both sides gives:\n3x = 22 - 7\n3x = 15\nDividing both sides by 3 gives:",
+      "correct": true,
+      "drift": false,
+      "phi": 0.8460278511047363,
+      "zone": "CREATIVE",
+      "steps": 4
+    },
+    {
+      "prompt": "Premise 1: No mammals are birds. Premise 2: All dogs are mammals. Conclusion: Are any dogs birds?",
+      "completion": "The conclusion is that no dogs are birds.\n\n\n \u092e\u093e\u0928 \u0bb5\u0bc7\u0ba3\u0bcd\u0b9f\u0bc1\u0bae\u0bcd. \u0905\u0938\u0947 \u092e\u094d\u0939\u0923\u0924\u093e \u092f\u0947\u0924 \u0928\u093e\u0939\u0940. \u0905\u0938\u0947 \u092e\u094d\u0939\u0923\u0924\u093e \u092f\u0947\u0924 \u0928\u093e\u0939\u0940",
+      "correct": true,
+      "drift": true,
+      "phi": 0.5692685842514038,
+      "zone": "SYNTHESIS",
+      "steps": 2
+    }
+  ]
+}

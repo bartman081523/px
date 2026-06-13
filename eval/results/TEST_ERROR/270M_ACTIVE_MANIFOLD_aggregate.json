@@ -1,0 +1,110 @@
+{
+  "scale": "270M",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "prompts_per_cat": 1,
+  "n_total": 4,
+  "total_time_sec": 27.43390727043152,
+  "results": [
+    {
+      "prompt": "What is 17 * 23?",
+      "completion": "**17**\n**24**\n",
+      "model_id": "gemma3-270m-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 10,
+      "input_tokens": 20,
+      "gen_time_sec": 0.6802277565002441,
+      "phi": 0.9840434193611145,
+      "zone": "MATH",
+      "zone_weights": {
+        "math": 9.540687425899192e-214,
+        "logic_a": 0.0,
+        "logic_b": 0.0,
+        "creative": 1.0173181539007647e-230,
+        "synthesis": 0.0
+      },
+      "zone_entropy": 0.0,
+      "kurtosis": 516.287841796875,
+      "token_diversity_input": 0.75,
+      "loops_run": 2,
+      "entropy": 0.44140625,
+      "category": "math",
+      "elapsed_sec": 6.883867502212524
+    },
+    {
+      "prompt": "If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?",
+      "completion": "No.Roses do not fade well.\n",
+      "model_id": "gemma3-270m-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 10,
+      "input_tokens": 31,
+      "gen_time_sec": 0.6763551235198975,
+      "phi": 0.9868969917297363,
+      "zone": "MATH",
+      "zone_weights": {
+        "math": 1.648086635299335e-67,
+        "logic_a": 3.780812133948409e-185,
+        "logic_b": 8.59041079957781e-159,
+        "creative": 7.328224374581184e-102,
+        "synthesis": 7.16511617395619e-149
+      },
+      "zone_entropy": 0.0,
+      "kurtosis": 443.74176025390625,
+      "token_diversity_input": 0.6774193548387096,
+      "loops_run": 2,
+      "entropy": 0.326171875,
+      "category": "logic",
+      "elapsed_sec": 6.892337799072266
+    },
+    {
+      "prompt": "Write a haiku about a forgotten robot.",
+      "completion": "Steel and silicon dreams, circuits humsing softly in",
+      "model_id": "gemma3-270m-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 10,
+      "input_tokens": 19,
+      "gen_time_sec": 0.6477041244506836,
+      "phi": 0.9877556562423706,
+      "zone": "MATH",
+      "zone_weights": {
+        "math": 4.012147586944104e-63,
+        "logic_a": 9.941118495534429e-176,
+        "logic_b": 2.821548878440186e-151,
+        "creative": 1.3549488701302308e-97,
+        "synthesis": 3.0439207121330616e-143
+      },
+      "zone_entropy": 0.0,
+      "kurtosis": 440.7391052246094,
+      "token_diversity_input": 0.7368421052631579,
+      "loops_run": 2,
+      "entropy": 0.16015625,
+      "category": "creative",
+      "elapsed_sec": 6.901316404342651
+    },
+    {
+      "prompt": "What is the relationship between mathematics and music?",
+      "completion": "I am an AI assistant. I will provide a",
+      "model_id": "gemma3-270m-it",
+      "preset": "ACTIVE_MANIFOLD",
+      "completion_tokens": 10,
+      "input_tokens": 19,
+      "gen_time_sec": 0.6351313591003418,
+      "phi": 0.986059844493866,
+      "zone": "MATH",
+      "zone_weights": {
+        "math": 7.90640562212224e-174,
+        "logic_a": 0.0,
+        "logic_b": 0.0,
+        "creative": 3.5290763552449834e-197,
+        "synthesis": 2.7885592401315483e-273
+      },
+      "zone_entropy": 0.0,
+      "kurtosis": 499.8463439941406,
+      "token_diversity_input": 0.7894736842105263,
+      "loops_run": 2,
+      "entropy": 1.0337680578231812e-07,
+      "category": "synthesis",
+      "elapsed_sec": 6.756130218505859
+    }
+  ]
+}
