@@ -1,0 +1,13 @@
+{
+  "prompt": "Given: A\u2192B, B\u2192C. What can we conclude about A and C?",
+  "category": "logic",
+  "completion": "Based on the given information:\n\n* **A $\\rightarrow$ B** (If A, then B)\n* **B $\\rightarrow \\text{C}$** ( If B, then C)\n\nWe can use the rule of **Hypothetical Syllogism** (also known",
+  "phi": 0.4776228666305542,
+  "zone": "math",
+  "focus_index": 1.0,
+  "kurtosis": 797.0101928710938,
+  "gamma": 0.04,
+  "loops": 96,
+  "gen_time": 24.694069623947144,
+  "tokens": 60
+}

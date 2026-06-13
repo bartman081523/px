@@ -1,0 +1,13 @@
+{
+  "prompt": "Is it logically valid to argue: If it's raining, the ground is wet. The ground is wet. Therefore it's raining.",
+  "category": "logic_hard",
+  "completion": "No, this argument is **not** logically valid. It commits a logical fallacy called **affirming the consequent**.\n\nHere\u2019s why:\n\n* **The original statement (\"If it'sprainin', the groundiswet\") establishes a condition:** Rain *causes* the ground to be wet",
+  "phi": 0.7979567050933838,
+  "zone": "MATH",
+  "focus_index": 0.5,
+  "kurtosis": 2334.28076171875,
+  "gamma": 0.06,
+  "loops": 5,
+  "gen_time": 67.21255993843079,
+  "tokens": 60
+}
