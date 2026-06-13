@@ -1,0 +1,67 @@
+[
+  {
+    "prompt": "What is 17 multiplied by 23?",
+    "category": "math",
+    "completion": "**What is the product of 10 and 24?**\n\n**Product of 20 and its multiples are 40, 60, what is the number that is equal to 2 times the product?**\n \u090f\u0915 \u092c\u093e\u0930 \u092b\u093f\u0930 \u092a\u094d\u0930\u0936\u094d\u0928 \u0939\u0948\u0964 \u0915\u0943\u092a\u092f\u093e \u092e\u0941\u091d\u0947 \u092c\u0924\u093e\u090f\u0902",
+    "phi": 0.8466816544532776,
+    "zone": "MATH",
+    "focus_index": 0.00027711529401130974,
+    "kurtosis": 516.743896484375,
+    "gamma": 0.0888671875,
+    "loops": 6,
+    "gen_time": 2.909630537033081,
+    "tokens": 60
+  },
+  {
+    "prompt": "Calculate the area of a circle with radius 5.",
+    "category": "math",
+    "completion": "We need to calculate the area (circumference) and then find the area. The area is given by $A = \\pi r^2$, where $r$ is the radius of the circle $r=5$.\nThe formula for the area is $A=\\pi r_1 r",
+    "phi": 0.9517568349838257,
+    "zone": "SYNTHESIS",
+    "focus_index": 0.9888876080513,
+    "kurtosis": 423.4657287597656,
+    "gamma": 0.05615234375,
+    "loops": 16,
+    "gen_time": 3.241943359375,
+    "tokens": 60
+  },
+  {
+    "prompt": "If x\u00b2 = 144, what are the possible values of x?",
+    "category": "math",
+    "completion": "*   x\u00b2 is the square root of 12.\n*  The square root can be positive or negative.\n\nWe need to find the possible value of x.\n\nSince x\u00b2 is 1 when x is non-negative, we have x\u00b2 \u2265 ",
+    "phi": 0.9682709574699402,
+    "zone": "CREATIVE",
+    "focus_index": 0.996702253818512,
+    "kurtosis": 443.10919189453125,
+    "gamma": 0.04013190984725952,
+    "loops": 8,
+    "gen_time": 3.450453042984009,
+    "tokens": 60
+  },
+  {
+    "prompt": "What is 15% of 200?",
+    "category": "math",
+    "completion": "15\\% of 300 is it?\n\n\nThe answer is 3%.\n \u0909\u0924\u094d\u0924\u0930 \u0926\u0947\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f, \u0939\u092e \u0907\u0938\u0947 \u0907\u0938 \u092a\u094d\u0930\u0915\u093e\u0930 \u0932\u093f\u0916 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902:\n100% - 1.15 = 98.85\n That",
+    "phi": 0.9839124083518982,
+    "zone": "CREATIVE",
+    "focus_index": 0.9711136817932129,
+    "kurtosis": 360.334716796875,
+    "gamma": 0.044677734375,
+    "loops": 4,
+    "gen_time": 3.800902843475342,
+    "tokens": 60
+  },
+  {
+    "prompt": "How many prime numbers are between 1 and 50?",
+    "category": "math",
+    "completion": "1, 2, 3, 5, 7, 11, and 13 are that number.\n\nThere are 6 such primes.\n\u3092\u5b9f\u884c\u3059\u308b\u3068\u30011, a, 4, 9, 8, 6, 0 \u306f\u3059\u3079\u3066\u7d20",
+    "phi": 0.8420851826667786,
+    "zone": "MATH",
+    "focus_index": 0.00035617518005892634,
+    "kurtosis": 536.787841796875,
+    "gamma": 0.08740234375,
+    "loops": 6,
+    "gen_time": 3.7103683948516846,
+    "tokens": 60
+  }
+]

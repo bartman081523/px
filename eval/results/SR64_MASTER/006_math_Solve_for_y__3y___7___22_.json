@@ -1,0 +1,23 @@
+{
+  "prompt": "Solve for y: 3y + 7 = 22.",
+  "completion": "*   3y = 19\n*  5y = ?\n\nWe need to find the value of y.\nFrom equation 1, we have y = 3.\nSo, 3(3) = 9\n9 = 0\n4y = -1",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 25,
+  "gen_time_sec": 2.702690601348877,
+  "phi": 0.919467568397522,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 4.1523912126140746e-05,
+    "logic_a": 0.741387198103281,
+    "logic_b": 0.2585424703603452,
+    "creative": 2.8806155957869955e-05,
+    "synthesis": 9.004469056022581e-13
+  },
+  "zone_entropy": 0.825648974979242,
+  "kurtosis": 470.63165283203125,
+  "token_diversity_input": 0.72,
+  "loops_run": 1,
+  "entropy": 0.94921875
+}

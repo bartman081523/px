@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the logical fallacy in: 'It rained today, so it will rain tomorrow'?",
+  "completion": "*   **Fall:** The statement \"It rained\" is a fall.\n \n*  - **Logical Fallacy:** This is an invalid argument because the weather conditions (rain) are not specified yet.\n*    **Explanation:** It's raining, but I don't",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 28,
+  "gen_time_sec": 2.90596866607666,
+  "phi": 0.9628496170043945,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 1.2828307619468188e-141,
+    "logic_a": 1.8256524046620608e-185,
+    "logic_b": 9.620012396702804e-111,
+    "creative": 5.3077040470759526e-31,
+    "synthesis": 3.4985377444600386e-32
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 294.14410400390625,
+  "token_diversity_input": 0.8571428571428571,
+  "loops_run": 1,
+  "entropy": 0.90625
+}

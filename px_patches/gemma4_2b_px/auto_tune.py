@@ -111,9 +111,23 @@ class AutoCalibrator:
         if model_id:
             self.load_manifold()
 
-    def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None, update_online: bool = False):
+    def normalize_kurtosis(self, kurtosis: float, token_len: int) -> float:
+        """
+        SR-64: Length-Independent Kurtosis Normalization.
+        Compensates for the physical kurtosis collapse in short sequences.
+        """
+        # Decay factor: 1.5 for len=0, approaches 1.0 for len > 30.
+        # Short sequences have lower native kurtosis; we boost it.
+        boost = 1.0 + 0.5 * math.exp(-token_len / 15.0)
+        return kurtosis * boost
+
+    def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None, 
+                update_online: bool = False, token_len: int = 1):
+        # Apply SR-64 Normalization before processing
+        k_norm = self.normalize_kurtosis(kurtosis, token_len)
+        
         if not self.calibrated:
-            self.k_samples.append(kurtosis)
+            self.k_samples.append(k_norm)
             self.phi_samples.append(phi)
             if token_diversity is not None:
                 self.token_diversity_samples.append(token_diversity)
@@ -124,7 +138,7 @@ class AutoCalibrator:
             return False
 
         if update_online:
-            self._update_online_stats(kurtosis)
+            self._update_online_stats(k_norm)
         return False
 
     def _update_online_stats(self, kurtosis: float):
@@ -209,12 +223,15 @@ class AutoCalibrator:
         W = sum(weights.values()) + 1e-9
         return {k: v / W for k, v in weights.items()}
 
-    def get_zone_weights(self, kurtosis: float, phi: Optional[float] = None, token_diversity: Optional[float] = None) -> Dict[str, float]:
+    def get_zone_weights(self, kurtosis: float, phi: Optional[float] = None, token_diversity: Optional[float] = None, token_len: int = 1) -> Dict[str, float]:
+        # Apply SR-64 Normalization before processing
+        k_norm = self.normalize_kurtosis(kurtosis, token_len)
+
         # SR-61b: Fallback for None phi (first token of session)
         if phi is None:
             phi = self.phi_mean if self.phi_mean is not None else 0.9
             
-        k_weights = self._get_kurtosis_weights(kurtosis, phi)
+        k_weights = self._get_kurtosis_weights(k_norm, phi)
         scf_weights = self._compute_scf_weights(token_diversity)
         if scf_weights is None: return k_weights
         blend = self.k_blend_weight
@@ -222,12 +239,12 @@ class AutoCalibrator:
         W = sum(blended.values()) + 1e-9
         return {k: v / W for k, v in blended.items()}
 
-    def classify_zone(self, kurtosis: float, phi: Optional[float] = None, token_diversity: Optional[float] = None) -> str:
-        weights = self.get_zone_weights(kurtosis, phi, token_diversity)
+    def classify_zone(self, kurtosis: float, phi: Optional[float] = None, token_diversity: Optional[float] = None, token_len: int = 1) -> str:
+        weights = self.get_zone_weights(kurtosis, phi, token_diversity, token_len=token_len)
         return max(weights, key=weights.get)
 
-    def get_routing_params(self, kurtosis: float, phi: Optional[float] = None, hidden_size: Optional[int] = None, token_diversity: Optional[float] = None) -> Dict[str, any]:
-        weights = self.get_zone_weights(kurtosis, phi, token_diversity)
+    def get_routing_params(self, kurtosis: float, phi: Optional[float] = None, hidden_size: Optional[int] = None, token_diversity: Optional[float] = None, token_len: int = 1) -> Dict[str, any]:
+        weights = self.get_zone_weights(kurtosis, phi, token_diversity, token_len=token_len)
         start = sum(weights[z] * ZONE_ROUTING[z]['start'] for z in weights)
         end = sum(weights[z] * ZONE_ROUTING[z]['end'] for z in weights)
         hub = sum(weights[z] * ZONE_ROUTING[z]['hub'] for z in weights)
