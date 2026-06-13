@@ -1,0 +1,23 @@
+{
+  "prompt": "How many degrees are in a right angle?",
+  "completion": "*   A right angle is a 90-degree angle. It's an angle that intercepts the line segment connecting two points on the same side of the perpendicular bisector of the angle.\n\nHere are some examples:\n* A square has one corner at (0, 0",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 2.702730894088745,
+  "phi": 0.827607274055481,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9999999472537604,
+    "logic_a": 8.286721475993909e-12,
+    "logic_b": 2.1826730018785e-15,
+    "creative": 1.1103710762244461e-17,
+    "synthesis": 2.3320736798696028e-32
+  },
+  "zone_entropy": 3.1711890719964067e-10,
+  "kurtosis": 518.2721557617188,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 5,
+  "entropy": 0.5625
+}

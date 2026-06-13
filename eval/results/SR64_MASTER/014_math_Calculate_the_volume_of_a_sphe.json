@@ -1,0 +1,23 @@
+{
+  "prompt": "Calculate the volume of a sphere with radius 3.",
+  "completion": "1. **Find the approximate radius.**\n\nThe radius is given as 3, and we need to find its value.\n\n\u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c 3\u03c0 / 2 = 9/2 = about 4.5.\n\n \u0909\u0924\u094d\u0924\u0930: 4\u03c0\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 21,
+  "gen_time_sec": 2.7029428482055664,
+  "phi": 0.8875227570533752,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9999897988646407,
+    "logic_a": 1.0188197699457003e-05,
+    "logic_b": 4.174406543628876e-09,
+    "creative": 5.011455177833555e-13,
+    "synthesis": 3.276582758866154e-25
+  },
+  "zone_entropy": 0.0001837688802713844,
+  "kurtosis": 503.3712463378906,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 9,
+  "entropy": 0.62109375
+}

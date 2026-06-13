@@ -1,0 +1,23 @@
+{
+  "prompt": "If x\u00b2 = 144, what are the possible values of x?",
+  "completion": "*   x\u00b2 is the square root of 12.\n*  The square root is the opposite of the opposite side.\n\nTherefore, if x\u00b2 is 136, then x\u00b2 must be 108.\n\u0915\u094d\u0937\u0915\u0921\u0947 \u090f\u0915 \u0938\u0902\u0916\u094d\u092f\u093e \u0906\u0939\u0947 \u0924\u0940 'x'",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 27,
+  "gen_time_sec": 2.9413678646087646,
+  "phi": 0.8978848457336426,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 2.1569579097022085e-07,
+    "logic_a": 0.1165976947068142,
+    "logic_b": 0.8827873924026528,
+    "creative": 0.0006146959015971887,
+    "synthesis": 2.1261661121754038e-10
+  },
+  "zone_entropy": 0.526840416787619,
+  "kurtosis": 462.0594482421875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 1,
+  "entropy": 0.97265625
+}

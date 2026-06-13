@@ -1,0 +1,23 @@
+{
+  "prompt": "What is the difference between correlation and causation?",
+  "completion": "The difference between correlational and causal relationships is a fundamental concept in understanding how phenomena change over time. It's important to understand that correlation does not equal causation, as it doesn't prove that one thing *causes* another.\n\nHere are some key distinctions:\n\n1. **Correlation:**",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 2.8570992946624756,
+  "phi": 0.9722535610198975,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 2.212164001626489e-14,
+    "logic_a": 1.2355217286745117e-06,
+    "logic_b": 0.2883182201759107,
+    "creative": 0.7116284223486353,
+    "synthesis": 5.2115376273865864e-05
+  },
+  "zone_entropy": 0.8673553923455387,
+  "kurtosis": 440.15643310546875,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 9,
+  "entropy": 1.2109375
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Convert 3/8 to a decimal.",
+  "completion": "The conversion factor is:\n3/10 = 0.3\n\nTherefore, 3 / 10 is approximately 0,3.\n\nFinal Answer: 0\n \u0915\u0947 \u0932\u093f\u090f \u090f\u0915 \u0926\u0936\u092e\u0932\u0935 \u0938\u0902\u0916\u094d\u092f\u093e \u0939\u0948\u0964 \u092e\u0947\u0902 \u092e\u0948\u0902 \u0907\u0938 \u0938\u092e\u0938\u094d\u092f\u093e \u0915\u094b \u0939\u0932 \u0915\u0930\u0928\u0947 \u0915\u0940 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930 \u0930\u0939\u093e \u0939\u0942\u0901 \u0914\u0930",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 60,
+  "input_tokens": 19,
+  "gen_time_sec": 2.889105796813965,
+  "phi": 0.8448916673660278,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 0.9999992474673461,
+    "logic_a": 6.619053228688142e-16,
+    "logic_b": 2.879917279336389e-19,
+    "creative": 3.813348315491955e-20,
+    "synthesis": 2.2066489337352287e-36
+  },
+  "zone_entropy": 3.4357312539377664e-14,
+  "kurtosis": 526.9671630859375,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 6,
+  "entropy": 0.1875
+}

@@ -265,7 +265,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         print(f"  [PX Prelude] phi_intuition={phi_intuition.item():.4f}")
 
     if inputs_embeds.shape[1] > 1 and cfg.get("subjective_enabled") and hasattr(self, "_px_calibrator"):
-        self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(), token_diversity=getattr(self, "_task_token_diversity", None))
+        self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(), token_diversity=getattr(self, "_task_token_diversity", None), token_len=inputs_embeds.shape[1])
     
     current_gamma = cfg.get("gamma", 0.08)
     e_reflector, is_trap_candidate = e_static, False
@@ -288,27 +288,30 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     
     # --- all_space: Multi-Zone Adaptive Rigor (post 2026-06-11) ---
     # SR-61b: 2D Manifold-based routing (Kurtosis, Phi)
-    zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=phi_intuition.item(), 
-                                                 token_diversity=getattr(self, '_task_token_diversity', None))
+    zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=phi_intuition.item(),
+                                                 token_diversity=getattr(self, '_task_token_diversity', None),
+                                                 token_len=inputs_embeds.shape[1])
     zone_name = zone_raw.upper()
+
     self._px_zone = zone_name
 
     # --- SR-63b: Mechanical Psychology (Direct Manifold Scaling) ---
     # We derive parameters directly from the state's position in the manifold.
     # Concentrated (Math): High Kurtosis, High Phi -> High C.
     # Dispersed (Creative): Low Kurtosis, Low Phi -> Low C.
+    # --- SR-64: Mechanical Psychology (Length-Independent Manifold Scaling) ---
+    phi_val = getattr(self, "_px_phi", 0.9)
     if hasattr(self, "_px_calibrator") and self._px_calibrator.calibrated:
         cal = self._px_calibrator
-        zk = (kurtosis - cal.k_mean) / (cal.k_std + 1e-6)
-        zp = (phi_intuition.item() - cal.phi_mean) / (cal.phi_std + 1e-6)
-        
-        # Complexity-Aware Bias for short sequences (prevents kurtosis collapse)
         token_len = inputs_embeds.shape[1]
-        bias_scale = 1.5 if self.config.hidden_size < 1000 else 0.5
-        bias = bias_scale if token_len < 15 else 0.0
+        # Use normalized kurtosis for z-score calculation
+        k_norm = cal.normalize_kurtosis(kurtosis, token_len)
+        zk = (k_norm - cal.k_mean) / (cal.k_std + 1e-6)
+        zp = (phi_val - cal.phi_mean) / (cal.phi_std + 1e-6)
         
         # C is the 'Cognitive Focus' index [0, 1]
-        C = torch.sigmoid(torch.tensor(zk + zp + bias)).item()
+        # No more manual bias; SR-64 handles length via k_norm
+        C = torch.sigmoid(torch.tensor(zk + zp)).item()
         
         # Linear parameter mapping from focus
         current_gamma = 0.08 - 0.04 * C         # 0.04 (focused) to 0.08 (diffuse)
@@ -318,7 +321,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         
         self._px_focus_index = C
         if os.environ.get("DEBUG_ROUTING") == "1":
-            print(f"  [Psychology] C={C:.4f} | zk={zk:.2f} | zp={zp:.2f} | bias={bias} | gamma={current_gamma:.3f} | damping={self._px_proj_damping:.2f}")
+            print(f"  [Psychology] C={C:.4f} | zk={zk:.2f} | zp={zp:.2f} | L={token_len} | gamma={current_gamma:.3f} | damping={self._px_proj_damping:.2f}")
     else:
         current_gamma = 0.06
         n_loops = 8
@@ -523,7 +526,14 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         print(f"  [DEBUG-METRICS] Phi={self._px_phi_val:.4f} H={self._px_ent_val:.4f} AKS={self._px_aks_val:.4f}")
     
     # Also attach to self (TextModel) directly for easy access
-    self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
+    self._px_cognitive_signature = {
+        "kurtosis": getattr(self, "_task_kurtosis", 200),
+        "phi": avg_phi,
+        "zone": self._px_zone,
+        "loops_run": steps,
+        "focus_index": getattr(self, "_px_focus_index", 0.5),
+        "gamma": current_gamma
+    }
 
     # ── 3. CODA ──────────────────────────────────────────────────────────
     # (DMT-TretaDamper gelöscht 2026-06-11 — direkter Pass-Through)
