@@ -1,0 +1,23 @@
+{
+  "prompt": "What is 17 * 23?",
+  "completion": "**17**\n**24**\n",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 10,
+  "input_tokens": 20,
+  "gen_time_sec": 0.6802277565002441,
+  "phi": 0.9840434193611145,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 9.540687425899192e-214,
+    "logic_a": 0.0,
+    "logic_b": 0.0,
+    "creative": 1.0173181539007647e-230,
+    "synthesis": 0.0
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 516.287841796875,
+  "token_diversity_input": 0.75,
+  "loops_run": 2,
+  "entropy": 0.44140625
+}

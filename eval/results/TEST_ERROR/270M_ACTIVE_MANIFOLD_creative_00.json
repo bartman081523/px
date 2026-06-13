@@ -1,0 +1,23 @@
+{
+  "prompt": "Write a haiku about a forgotten robot.",
+  "completion": "Steel and silicon dreams, circuits humsing softly in",
+  "model_id": "gemma3-270m-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "completion_tokens": 10,
+  "input_tokens": 19,
+  "gen_time_sec": 0.6477041244506836,
+  "phi": 0.9877556562423706,
+  "zone": "MATH",
+  "zone_weights": {
+    "math": 4.012147586944104e-63,
+    "logic_a": 9.941118495534429e-176,
+    "logic_b": 2.821548878440186e-151,
+    "creative": 1.3549488701302308e-97,
+    "synthesis": 3.0439207121330616e-143
+  },
+  "zone_entropy": 0.0,
+  "kurtosis": 440.7391052246094,
+  "token_diversity_input": 0.7368421052631579,
+  "loops_run": 2,
+  "entropy": 0.16015625
+}

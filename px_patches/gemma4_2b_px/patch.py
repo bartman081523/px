@@ -282,26 +282,35 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                                                           token_diversity=getattr(self, '_task_token_diversity', None))
             zone_name = f"{zone_raw}"
 
-            # --- all_space: Multi-Zone Adaptive Rigor (post 2026-06-11) ---
-            # SR-61b: 2D Manifold-based routing (Kurtosis, Phi)
+            # --- SR-63b: Mechanical Psychology (Direct Manifold Scaling) ---
+            # We derive parameters directly from the state's position in the manifold.
             phi_val = getattr(self, "_px_phi", 0.9)
-            zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=phi_val, 
-                                                          token_diversity=getattr(self, '_task_token_diversity', None))
-            zone_name = zone_raw.upper()
-            self._px_zone = zone_name
-
-            if zone_raw == "math":
-                token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
-                token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
-            elif zone_raw == "logic_a" or zone_raw == "logic_b":
-                token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
-        else:
-            zone_raw = "STATIC"
-            zone_name = "STATIC"
-
-        cfg = token_cfg
-        n_loops = cfg.get("n_loops", n_loops)
-        current_gamma = cfg.get("gamma", 0.08)
+            if hasattr(self, "_px_calibrator") and self._px_calibrator.calibrated:
+                cal = self._px_calibrator
+                zk = (kurtosis - cal.k_mean) / (cal.k_std + 1e-6)
+                zp = (phi_val - cal.phi_mean) / (cal.phi_std + 1e-6)
+                
+                # Complexity-Aware Bias for short sequences (prevents kurtosis collapse)
+                token_len = inputs_embeds.shape[1]
+                bias_scale = 1.5 if self.config.hidden_size < 1000 else 0.5
+                bias = bias_scale if token_len < 15 else 0.0
+                
+                # C is the 'Cognitive Focus' index [0, 1]
+                C = torch.sigmoid(torch.tensor(zk + zp + bias)).item()
+                
+                # Linear parameter mapping from focus
+                current_gamma = 0.08 - 0.04 * C         # 0.04 (focused) to 0.08 (diffuse)
+                self._px_proj_damping = 1.1 - 0.6 * C  # 0.5 (focused) to 1.1 (diffuse)
+                n_loops = int(round(8 + 8 * C))        # 8 (diffuse) to 16 (focused)
+                dynamic_hub = 8 if C > 0.7 else 10
+                
+                self._px_focus_index = C
+                if os.environ.get("DEBUG_ROUTING") == "1":
+                    print(f"  [Psychology] C={C:.4f} | zk={zk:.2f} | zp={zp:.2f} | bias={bias} | gamma={current_gamma:.3f} | damping={self._px_proj_damping:.2f}")
+            else:
+                current_gamma = 0.06
+                n_loops = 8
+                dynamic_hub = 10
 
         # Ensure no overlap between prelude and reasoning/recursion zone
         dynamic_start = max(dynamic_start, prelude_end)
@@ -737,7 +746,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
             h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
             proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
-            h_exp = (proj + (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps % 2 == 0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
+            
+            # SR-63: Manifold-Differentiable Projection Damping
+            damping = getattr(self, "_px_proj_damping", 1.0)
+            h_exp = (proj + damping * (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps % 2 == 0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
 
             if hasattr(self, "_px_azs"):
                 phi_val = phi_history[-1] if phi_history else 1.0
