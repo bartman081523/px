@@ -97,11 +97,114 @@ def handle_refresh():
     return gr.update(choices=list_sessions())
 
 
+def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id, manager: ModelManager):
+    """Core chat logic with history management and model generation."""
+    # 1. Update config
+    loop = asyncio.new_event_loop()
+    try:
+        model_entry = loop.run_until_complete(
+            manager.get_model(
+                model_id,
+                px_subjective=(px_preset != "BASELINE"),
+                px_gamma=gamma,
+                px_config_preset=px_preset,
+            )
+        )
+    finally:
+        loop.close()
+
+    model = model_entry["model"]
+    tokenizer = model_entry["tokenizer"]
+
+    # 2. Build history (cleaned)
+    # If history is empty (e.g. after loading a session or if save_history=False),
+    # load it from the session storage to ensure continuity.
+    if (not history or len(history) == 0) and session_id:
+        data = load_session(session_id)
+        history = data.get("history", [])
+    
+    cleaned_history = _clean_history(history)
+    
+    actual_message = message
+    if isinstance(message, dict):
+        text = message.get("text", "")
+        files = message.get("files", [])
+        if files:
+            actual_message = [{"type": "text", "text": text}]
+            for f in files:
+                fpath = f["path"] if isinstance(f, dict) and "path" in f else f
+                actual_message.append({"type": "image", "image": fpath})
+        else:
+            actual_message = text
+
+    messages = cleaned_history + [{"role": "user", "content": actual_message}]
+
+    # SR-61b: Explicitly clear cache to prevent OOM on 12GB cards
+    import torch
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+    # Phase 63: Proactive Auto-save (save user message before generation)
+    save_session(session_id, messages, model_id=model_id)
+
+    # 3. Generate with streaming
+    input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+
+    streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    gen_kwargs = dict(
+        **inputs,
+        streamer=streamer,
+        max_new_tokens=int(mt),
+        temperature=temp if temp > 0 else 1e-10,
+        top_p=tp,
+        repetition_penalty=rp,
+        do_sample=temp > 0,
+    )
+
+    # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
+    try:
+        from generators import _px_gen_kwargs, _inject_eot_eos
+        gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
+        gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    except ImportError:
+        pass
+
+    def generate_with_lock():
+        manager.lock_model(model_id)
+        try:
+            model.generate(**gen_kwargs)
+        finally:
+            manager.unlock_model(model_id)
+
+    thread = Thread(target=generate_with_lock)
+    thread.start()
+
+    partial_text = ""
+    for new_text in streamer:
+        partial_text += new_text
+        yield partial_text
+
+    # 4. Record Telemetry
+    px_metrics = manager.get_px_metrics(model_id)
+    telemetry.record(
+        model_id=model_id,
+        prompt_tokens=inputs["input_ids"].shape[1],
+        completion_tokens=len(tokenizer.encode(partial_text)),
+        px_metrics=px_metrics
+    )
+
+    # 5. Save session on completion
+    full_history = messages + [{"role": "assistant", "content": partial_text}]
+    save_session(session_id, full_history, model_id=model_id)
+
+
 def build_chat_tab(manager: ModelManager):
     """Build and return the Chat tab components."""
 
     # ── Client-side state ──
     session_id_state = gr.BrowserState(default_value=None, storage_key="px_session_id")
+
 
     model_choices = list(MODEL_REGISTRY.keys())
 
@@ -141,100 +244,6 @@ def build_chat_tab(manager: ModelManager):
         import_btn = gr.Button("Import & Load", size="sm")
 
     # ── Chat Interface ──
-    
-    def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id):
-        # 1. Update config
-        loop = asyncio.new_event_loop()
-        try:
-            model_entry = loop.run_until_complete(
-                manager.get_model(
-                    model_id,
-                    px_subjective=(px_preset != "BASELINE"),
-                    px_gamma=gamma,
-                    px_config_preset=px_preset,
-                )
-            )
-        finally:
-            loop.close()
-
-        model = model_entry["model"]
-        tokenizer = model_entry["tokenizer"]
-
-        # 2. Build history (cleaned)
-        cleaned_history = _clean_history(history)
-        
-        actual_message = message
-        if isinstance(message, dict):
-            text = message.get("text", "")
-            files = message.get("files", [])
-            if files:
-                actual_message = [{"type": "text", "text": text}]
-                for f in files:
-                    fpath = f["path"] if isinstance(f, dict) and "path" in f else f
-                    actual_message.append({"type": "image", "image": fpath})
-            else:
-                actual_message = text
-
-        messages = cleaned_history + [{"role": "user", "content": actual_message}]
-
-        # SR-61b: Explicitly clear cache to prevent OOM on 12GB cards
-        import torch
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-
-        # Phase 63: Proactive Auto-save (save user message before generation)
-        save_session(session_id, messages, model_id=model_id)
-
-        # 3. Generate with streaming
-        input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-
-        streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-        gen_kwargs = dict(
-            **inputs,
-            streamer=streamer,
-            max_new_tokens=int(mt),
-            temperature=temp if temp > 0 else 1e-10,
-            top_p=tp,
-            repetition_penalty=rp,
-            do_sample=temp > 0,
-        )
-
-        # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
-        try:
-            from generators import _px_gen_kwargs, _inject_eot_eos
-            gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
-            gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
-        except ImportError:
-            pass
-
-        def generate_with_lock():
-            manager.lock_model(model_id)
-            try:
-                model.generate(**gen_kwargs)
-            finally:
-                manager.unlock_model(model_id)
-
-        thread = Thread(target=generate_with_lock)
-        thread.start()
-
-        partial_text = ""
-        for new_text in streamer:
-            partial_text += new_text
-            yield partial_text
-
-        # 4. Record Telemetry
-        px_metrics = manager.get_px_metrics(model_id)
-        telemetry.record(
-            model_id=model_id,
-            prompt_tokens=inputs["input_ids"].shape[1],
-            completion_tokens=len(tokenizer.encode(partial_text)),
-            px_metrics=px_metrics
-        )
-
-        # 5. Save session on completion
-        full_history = messages + [{"role": "assistant", "content": partial_text}]
-        save_session(session_id, full_history, model_id=model_id)
 
     # Chatbot with auto-scrolling disabled
     chatbot_component = gr.Chatbot(
@@ -243,7 +252,7 @@ def build_chat_tab(manager: ModelManager):
     )
 
     chat_interface = gr.ChatInterface(
-        fn=chat_fn,
+        fn=lambda *args: chat_fn(*args, manager=manager),
         chatbot=chatbot_component,
         additional_inputs=[model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False

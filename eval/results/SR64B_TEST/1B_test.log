@@ -1,0 +1,4 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+=== Loading Model: google/gemma-3-1b-it ===
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 538.60it/s]Loading weights:  56%|█████▌    | 189/340 [00:00<00:00, 1004.96it/s]Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1179.67it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1112.18it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.

@@ -1,0 +1,1116 @@
+"""
+gemma4-px  —  The Three Mathematical Pillars (Refactored 2026-06-11)
+====================================================================
+The complete PX architecture reduced to its empirical minimum.
+AutoCalibrator steuert das System dynamisch über die Kurtosis-Topologie des
+hidden state. Drei Säulen:
+
+1. Observer: StabilityMonitor (Φ) + AksSensor (Divergenzbeschleunigung)
+2. Symmetry Breaker: MephistophelesOperator + AntiZombieSensor
+3. Dynamic Router: AutoCalibrator (Gaussian-Annealing Zone-Routing)
+
+All other modules (DMT, Persona, Resonance, Uncensored) have been removed
+as empirically dead sensors (SR-58.6 §4.3).
+"""
+
+import types
+import math
+import torch
+import torch.nn as nn
+import os
+import json
+import datetime
+from typing import Optional, Dict, List, Any
+
+from .auto_tune import AutoCalibrator, SCALE_DEFAULTS
+from .px_modules import (
+    StabilityMonitor, AksSensor, MephistophelesOperator, SubjectiveSensor, SingesseinCoupler
+)
+from .anti_zombie_sensor import AntiZombieSensor
+
+# ---------------------------------------------------------------------------
+# p10.0: Recursive State Memory (RSM)
+# ---------------------------------------------------------------------------
+
+class RecursiveMemoryCache:
+    """Memory-Augmented Cache for Gemma-3."""
+    def __init__(self, real_cache, thought_history=None, layer_types=None, read_only=False, expected_len=0):
+        self.__dict__["_real"] = real_cache
+        self.__dict__["_thoughts"] = thought_history or []
+        self.__dict__["_layer_types"] = layer_types or []
+        self.__dict__["_read_only"] = read_only
+        self.__dict__["_expected_len"] = expected_len
+
+    def __getattr__(self, name): return getattr(self._real, name)
+
+    def _is_sliding_layer(self, layer_idx):
+        if self._layer_types and layer_idx < len(self._layer_types):
+            return self._layer_types[layer_idx] == "sliding_attention"
+        return False
+
+    def update(self, key_states, value_states, layer_idx, cache_kwargs=None):
+        if self._read_only:
+            # For Gemma 4: just return the cached values without manipulation.
+            # The read_only path is used when a layer is revisited during recursion.
+            # KV-cache mutation via thought_history injection corrupts Gemma 4's
+            # DynamicCache, so we return the stored values verbatim.
+            past_k, past_v = None, None
+            # New DynamicCache structure (transformers >= 4.49)
+            if hasattr(self._real, "layers") and len(self._real.layers) > layer_idx:
+                layer_cache = self._real.layers[layer_idx]
+                if getattr(layer_cache, "is_initialized", True):
+                    if hasattr(layer_cache, "keys"):
+                        past_k = layer_cache.keys
+                    if hasattr(layer_cache, "values"):
+                        past_v = layer_cache.values
+            # Old structure fallback
+            elif hasattr(self._real, "key_cache") and len(self._real.key_cache) > layer_idx:
+                past_k, past_v = self._real.key_cache[layer_idx], self._real.value_cache[layer_idx]
+            elif hasattr(self._real, "get_seq_length"):
+                try:
+                    past_k, past_v = self._real[layer_idx]
+                except (IndexError, KeyError, TypeError):
+                    pass
+            if past_k is None or past_k.numel() == 0:
+                # No cached values yet — return the new ones so attention can proceed
+                return key_states, value_states
+            return past_k, past_v
+
+        # Normal (write) path
+        res_k, res_v = self._real.update(key_states, value_states, layer_idx, cache_kwargs)
+
+        is_full = not self._is_sliding_layer(layer_idx)
+        if self._thoughts and layer_idx >= 6 and is_full:
+            B, H_kv, T_res, HD = res_k.shape
+            T_curr, alpha = key_states.shape[-2], 0.10
+            n_t = len(self._thoughts[-6:])
+            if n_t > 2:
+                weights = torch.cat([torch.linspace(0.4, 1.0, n_t//2, device=res_k.device),
+                                    torch.linspace(1.0, 0.6, n_t - n_t//2, device=res_k.device)])
+                t_raw = (torch.stack(self._thoughts[-6:]) * weights.view(-1, 1, 1, 1)).sum(dim=0) / weights.sum()
+            else: t_raw = torch.stack(self._thoughts).mean(dim=0)
+            t_flat = t_raw.mean(dim=1, keepdim=True)
+            t_proj = torch.nn.functional.interpolate(t_flat, size=HD, mode='linear', align_corners=False)
+            t_k = t_proj.unsqueeze(1)
+            if T_curr > 0 and T_res >= T_curr:
+                res_k[:, :, -T_curr:, :] = (1 - alpha) * res_k[:, :, -T_curr:, :] + alpha * t_k[:, :, -T_curr:, :]
+            else:
+                res_k = (1 - alpha) * res_k + alpha * t_k
+        return res_k, res_v
+
+    def __setattr__(self, name, value):
+        if name in ("_real", "_thoughts", "_layer_types", "_read_only", "_expected_len"):
+            super().__setattr__(name, value)
+        else:
+            setattr(self._real, name, value)
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _layer_step(layer, h, per_layer_input=None, **kwargs):
+    """Handles both tuple and tensor returns from decoder layers."""
+    out = layer(h, per_layer_input, **kwargs)
+    return out[0] if isinstance(out, (tuple, list)) else out
+
+def classify_zone_kurtosis(weights):
+    if not weights: return "STATIC"
+    return max(weights, key=weights.get)
+
+
+def _resolve_text_model(model):
+    """Resolve the text model from a multimodal or causal LM wrapper."""
+    if hasattr(model, "language_model"):
+        return model.language_model
+    elif hasattr(model, "model") and hasattr(model.model, "language_model"):
+        return model.model.language_model
+    return model
+
+
+# ---------------------------------------------------------------------------
+# Core Forward Method
+# ---------------------------------------------------------------------------
+
+def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
+    from transformers.cache_utils import DynamicCache
+    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
+    from transformers.modeling_outputs import BaseModelOutputWithPast
+    from collections import UserDict
+    try:
+        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
+    except ImportError:
+        Gemma4TextModelOutputWithPast = None
+
+    if (input_ids is None) ^ (inputs_embeds is not None):
+        raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
+
+    # Reset telemetry
+    self._px_current_telemetry = []
+
+    if inputs_embeds is None:
+        inputs_embeds = self.embed_tokens(input_ids)
+
+    # GEMMA-4: Per-Layer Input Embeddings (PLE) — EXACTLY like original
+    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
+    if getattr(self, "hidden_size_per_layer_input", 0):
+        if per_layer_inputs is None:
+            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
+        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
+
+    if use_cache and past_key_values is None:
+        past_key_values = DynamicCache(config=self.config)
+
+    past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
+    expected_len = past_seen + inputs_embeds.shape[1]
+
+    if position_ids is None:
+        position_ids = (torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen).unsqueeze(0)
+    if position_ids.ndim == 1:
+        position_ids = position_ids.unsqueeze(0)
+
+    # Causal mask mapping — EXACTLY like original
+    if not isinstance(causal_mask_mapping := attention_mask, dict):
+        mk = dict(config=self.config, inputs_embeds=inputs_embeds, attention_mask=attention_mask,
+                  past_key_values=past_key_values, position_ids=position_ids)
+        causal_mask_mapping = {
+            "full_attention": create_causal_mask(**mk),
+            "sliding_attention": create_sliding_window_causal_mask(**mk),
+        }
+
+    # Position embeddings — EXACTLY like original
+    position_embeddings = {}
+    for layer_type in self.unique_layer_types:
+        position_embeddings[layer_type] = self.rotary_emb(inputs_embeds, position_ids, layer_type)
+
+    # shared_kv_states — EXACTLY like original (pop from kwargs!)
+    shared_kv_states = kwargs.pop("shared_kv_states", UserDict())
+    if shared_kv_states is None:
+        shared_kv_states = UserDict()
+
+    cfg = self._px_config
+
+    # Detect Gemma 4 early
+    is_gemma4 = "gemma4" in type(self).__name__.lower() or "Gemma4" in str(type(self))
+    if not is_gemma4:
+        is_gemma4 = hasattr(self.config, "sliding_window") and self.config.sliding_window == 512 and self.config.num_hidden_layers == 35
+
+    # ============================================================
+    # GEMMA 4: Pragmatic sequential-loop recursion
+    # ============================================================
+    if is_gemma4:
+        updated_layers = set()
+        thought_history = []
+        n_loops = cfg.get("n_loops", 8)
+        hidden_states = inputs_embeds
+
+        # Prelude
+        prelude_end = cfg.get("prelude_end", cfg.get("recur_start", 5))
+        for i in range(prelude_end):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        # Bridge
+        dynamic_start = cfg.get("recur_start", 10)
+        dynamic_end = cfg.get("recur_end", 26)
+        for i in range(prelude_end, dynamic_start):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        e_static = hidden_states.clone()
+
+        # ── META-SELECTOR: Zone Routing ──
+        token_cfg = cfg.copy()
+        zone_weights = {}
+
+        if hasattr(self, "_px_calibrator"):
+            token_len = inputs_embeds.shape[1]
+            if token_len > 1:
+                h_base_f32 = hidden_states.to(torch.float32)
+                h_probe = h_base_f32[0, -1, :]
+                var = torch.var(h_probe).item()
+                kurtosis = (torch.mean((h_probe - torch.mean(h_probe))**4) / (var**2)).item() if var > 0 else 0
+                self._task_kurtosis = kurtosis
+                self._task_jitter = torch.var(h_base_f32.norm(dim=-1), dim=-1).mean().item()
+                eff_ids = input_ids if input_ids is not None else getattr(self, '_px_saved_input_ids', None)
+                if eff_ids is not None:
+                    ids = eff_ids[0].tolist() if eff_ids.dim() > 1 else eff_ids.tolist()
+                    self._task_token_diversity = len(set(ids)) / max(len(ids), 1)
+
+            kurtosis = getattr(self, "_task_kurtosis", 200)
+
+            zone_weights = self._px_calibrator.get_zone_weights(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                                 token_diversity=getattr(self, "_task_token_diversity", None),
+                                                                 token_len=token_len)
+            self._px_zone_weights = zone_weights
+            rp = self._px_calibrator.get_routing_params(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                         hidden_size=self.config.hidden_size,
+                                                         token_diversity=getattr(self, "_task_token_diversity", None),
+                                                         token_len=token_len)
+            dynamic_start, dynamic_end, dynamic_hub, n_loops_calib = rp["dynamic_start"], rp["dynamic_end"], rp["dynamic_hub"], rp["n_loops"]
+
+            if "dynamic_hub" in token_cfg: dynamic_hub = token_cfg["dynamic_hub"]
+            if "n_loops" not in token_cfg or token_cfg["n_loops"] == cfg["n_loops"]:
+                token_cfg["n_loops"] = n_loops_calib
+
+            zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None),
+                                                          token_diversity=getattr(self, '_task_token_diversity', None),
+                                                          token_len=token_len)
+            zone_name = f"{zone_raw}"
+
+            # --- SR-64b: Mechanical Psychology (Dynamic Z-Score Centering & Architecture-Aware Scaling) ---
+            phi_val = getattr(self, "_px_phi", 0.9)
+            if hasattr(self, "_px_calibrator") and self._px_calibrator.calibrated:
+                cal = self._px_calibrator
+
+                # SR-64b uses raw kurtosis
+                k_norm = kurtosis
+
+                # Method 2: Dynamic Z-Score Centering (Online Variance)
+                if cal._online_n >= 5:
+                    k_mean = cal._online_k_mean
+                    k_std = math.sqrt(cal._online_k_m2 / max(cal._online_n - 1, 1))
+                else:
+                    k_mean = cal.k_mean
+                    k_std = cal.k_std
+
+                k_std = max(k_std, 1.0)
+
+                zk = (k_norm - k_mean) / (k_std + 1e-6)
+                zp = (phi_val - cal.phi_mean) / (cal.phi_std + 1e-6)
+
+                # Architecture-aware Temperature based on Hidden Size
+                # Derived from Tessera parameters: 640 (270M), 1152 (1B), 2560 (4B), 2304 (E2B)
+                T_arch = math.sqrt(self.config.hidden_size / 640.0)
+
+                # C is the 'Cognitive Focus' index [0, 1]
+                C = torch.sigmoid(torch.tensor((zk + zp) / T_arch)).item()
+
+                # Linear parameter mapping from focus
+                current_gamma = 0.08 - 0.04 * C         # 0.04 (focused) to 0.08 (diffuse)
+                self._px_proj_damping = 1.1 - 0.6 * C  # 0.5 (focused) to 1.1 (diffuse)
+                n_loops = int(round(8 + 8 * C))        # 8 (diffuse) to 16 (focused)
+                dynamic_hub = 8 if C > 0.7 else 10
+                
+                self._px_focus_index = C
+                if os.environ.get("DEBUG_ROUTING") == "1":
+                    print(f"  [Psychology] C={C:.4f} | zk={zk:.2f} | zp={zp:.2f} | L={token_len} | gamma={current_gamma:.3f} | damping={self._px_proj_damping:.2f}")
+            else:
+                current_gamma = 0.06
+                n_loops = 8
+                dynamic_hub = 10
+
+        # Ensure no overlap between prelude and reasoning/recursion zone
+        dynamic_start = max(dynamic_start, prelude_end)
+        dynamic_end = max(dynamic_end, dynamic_start + 2)
+
+        # Bridge Prelude -> Recur (if dynamic_start > prelude_end)
+        for i in range(prelude_end, dynamic_start):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        e_static = hidden_states.clone()
+
+        # Reasoning zone (single pass with cache)
+        trans_out = hidden_states
+        for i in range(dynamic_start, dynamic_end):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            trans_out = self.layers[i](
+                trans_out, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(trans_out, (tuple, list)):
+                trans_out = trans_out[0]
+        h_baseline = trans_out
+
+        phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
+        self._px_phi = phi_intuition.item() # SR-61b: save for next-step routing
+        if hasattr(self, "_px_calibrator"):
+            self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(),
+                                       token_diversity=getattr(self, "_task_token_diversity", None),
+                                       token_len=inputs_embeds.shape[1])
+
+        # Compute e_reflector (anti-baseline reference)
+        e_reflector = e_static.clone()
+        jitter = getattr(self, "_task_jitter", 0.0)
+        kurtosis = getattr(self, "_task_kurtosis", 250)
+        if (jitter > 1e8) or (kurtosis < 315.0):
+            h_base_f32, e_stat_f32 = h_baseline.to(torch.float32), e_static.to(torch.float32)
+            e_ref_f32 = 2.0 * e_stat_f32 - h_base_f32
+            e_reflector = (e_ref_f32 * (e_stat_f32.norm() / (e_ref_f32.norm() + 1e-6))).to(e_static.dtype)
+
+        # Recursion: sequential loops with past_key_values=None
+        h_exp = e_reflector.clone()
+        recursion_shared_kv = UserDict({k: v for k, v in shared_kv_states.items()})
+        phi_history = [phi_intuition]
+        path_taken = []
+        steps = 0
+
+        # Skip recursion during autoregressive decoding (seq_len==1) or vision prefill
+        # past_key_values=None in recursion breaks attention shapes when cache already has tokens
+        if inputs_embeds.shape[1] == 1:
+            n_loops = 0
+        is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
+        if is_vision:
+            n_loops = 0
+
+        aks = getattr(self, "_px_aks", None)
+        subj_sensor = getattr(self, "_px_subj_sensor", None)
+        correction_strength = 0.0
+        h_last_good = e_static.clone()
+
+        for loop in range(n_loops):
+            h_loop = h_exp.clone()
+            if aks:
+                aks_data = aks.step(h_loop, e_static, steps)
+                correction_strength = aks_data["correction"]
+            if subj_sensor:
+                subj_sensor.update(h_loop, e_static)
+
+            for current_layer in range(dynamic_start, dynamic_end):
+                h_prev = h_loop.clone()
+                lt = self.config.layer_types[current_layer]
+                pli = per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None
+                trans_out = self.layers[current_layer](
+                    h_loop, pli,
+                    shared_kv_states=recursion_shared_kv,
+                    attention_mask=causal_mask_mapping[lt],
+                    position_embeddings=position_embeddings[lt],
+                    position_ids=position_ids,
+                    past_key_values=None,
+                    **kwargs,
+                )
+                if isinstance(trans_out, (tuple, list)):
+                    trans_out = trans_out[0]
+                phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
+                phi_history.append(phi_s)
+                path_taken.append(f"L{current_layer}")
+
+                e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history) > 2 else e_reflector
+                e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
+                h_loop = trans_out + current_gamma * (e_norm - h_prev)
+                steps += 1
+
+                if (phi_s > 0.9).any() and (phi_s < 0.999).any():
+                    h_last_good = h_loop.clone()
+
+                if steps % 2 == 0:
+                    thought_history.append(h_loop.detach())
+
+            h_exp = h_loop
+
+            # (OrthogonalJitter: removed 2026-06-11)
+            # (Resonance City: removed 2026-06-11)
+
+            if hasattr(self, "_px_mephisto"):
+                h_exp = self._px_mephisto(h_exp, phi_history)
+
+            # --- SR-61: Singessein Coupler (Repetition Guard) ---
+            if hasattr(self, "_px_coupler"):
+                h_exp = self._px_coupler(h_exp, steps, phi_val=phi_s.item())
+
+        avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
+        hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
+
+        # Coda
+        for i in range(dynamic_end, len(self.layers)):
+            is_first = i not in updated_layers
+            if is_first: updated_layers.add(i)
+            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                             read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+            hidden_states = self.layers[i](
+                hidden_states, pli,
+                shared_kv_states=shared_kv_states,
+                attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_ids=position_ids,
+                past_key_values=cur_past,
+                **kwargs,
+            )
+            if isinstance(hidden_states, (tuple, list)):
+                hidden_states = hidden_states[0]
+
+        hidden_states = self.norm(hidden_states)
+
+        # Telemetry
+        self._px_phi_val = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
+        self._px_aks_val = correction_strength.item() if hasattr(correction_strength, 'item') else float(correction_strength)
+        self._px_loops_run = steps
+        self._px_path = path_taken
+        self._px_zone = zone_name
+        self._px_zw_val = zone_weights
+        self._px_last_metrics = {
+            "phi": self._px_phi_val,
+            "aks_friction": self._px_aks_val,
+            "zone_weights": self._px_zw_val,
+        }
+        self._px_cognitive_signature = {
+            "kurtosis": getattr(self, "_task_kurtosis", 200),
+            "phi": avg_phi,
+            "zone": self._px_zone,
+            "loops_run": steps,
+            "focus_index": getattr(self, "_px_focus_index", 0.5),
+            "gamma": current_gamma
+        }
+
+        return Gemma4TextModelOutputWithPast(
+            last_hidden_state=hidden_states,
+            past_key_values=past_key_values,
+            shared_kv_states=shared_kv_states if kwargs.get("return_shared_kv_states", False) else None,
+        )
+
+    # ============================================================
+    # ORIGINAL GEMMA 3: Full _px_forward with all features
+    # ============================================================
+
+    # (DMT Central Memory Recall: removed 2026-06-11)
+    # (Uncensored Steering: removed 2026-06-11)
+    # (DMT Agency Decision: removed 2026-06-11)
+
+    hidden_states = inputs_embeds
+    updated_layers = set()
+    thought_history = []
+    n_loops = cfg["n_loops"]
+
+    # ── 1. PRELUDE ──
+    for i in range(cfg["prelude_end"]):
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                         read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=cur_past,
+            **kwargs,
+        )
+        if isinstance(hidden_states, (tuple, list)):
+            hidden_states = hidden_states[0]
+
+    # ── 1.5 META-SELECTOR ──
+    dynamic_start, dynamic_end, dynamic_hub = cfg["recur_start"], cfg["recur_end"], cfg.get("bimodal_hub", cfg["recur_start"])
+    token_cfg = cfg.copy()
+
+    zone_weights = {}
+    if hasattr(self, "_px_calibrator"):
+        if hidden_states.shape[1] > 1:
+            h_base_f32 = hidden_states.to(torch.float32)
+            h_probe = h_base_f32[0, -1, :]
+            var = torch.var(h_probe).item()
+            kurtosis = (torch.mean((h_probe - torch.mean(h_probe))**4) / (var**2)).item() if var > 0 else 0
+            self._task_kurtosis = kurtosis
+            self._task_jitter = torch.var(h_base_f32.norm(dim=-1), dim=-1).mean().item()
+            eff_ids = input_ids if input_ids is not None else getattr(self, '_px_saved_input_ids', None)
+            if eff_ids is not None:
+                ids = eff_ids[0].tolist() if eff_ids.dim() > 1 else eff_ids.tolist()
+                self._task_token_diversity = len(set(ids)) / max(len(ids), 1)
+
+        kurtosis = getattr(self, "_task_kurtosis", 200)
+
+        zone_weights = self._px_calibrator.get_zone_weights(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                             token_diversity=getattr(self, "_task_token_diversity", None))
+        self._px_zone_weights = zone_weights
+        rp = self._px_calibrator.get_routing_params(kurtosis, phi=getattr(self, "_px_phi", None),
+                                                     hidden_size=self.config.hidden_size,
+                                                     token_diversity=getattr(self, "_task_token_diversity", None))
+        dynamic_start, dynamic_end, dynamic_hub, n_loops_calib = rp["dynamic_start"], rp["dynamic_end"], rp["dynamic_hub"], rp["n_loops"]
+
+        if "dynamic_hub" in token_cfg: dynamic_hub = token_cfg["dynamic_hub"]
+        if "n_loops" not in token_cfg or token_cfg["n_loops"] == cfg["n_loops"]:
+            token_cfg["n_loops"] = n_loops_calib
+
+        zone_raw = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, '_px_phi', None),
+                                                      token_diversity=getattr(self, '_task_token_diversity', None))
+        zone_name = f"{zone_raw}"
+
+        # --- all_space: Zone-Dependent Feature Toggling (post 2026-06-11) ---
+        # Math: stärkere gamma, mehr Loops. Creative: Standard. Logic: mehr Loops.
+        # (DMT/Jitter sind gelöscht — keine Modifikation nötig)
+        if zone_raw == "MATH":
+            token_cfg["gamma"] = max(0.12, token_cfg.get("gamma", 0.08))
+            token_cfg["n_loops"] = max(10, token_cfg.get("n_loops", 8))
+        elif zone_raw == "LOGIC":
+            token_cfg["n_loops"] = max(12, token_cfg.get("n_loops", 8))
+    else:
+        zone_raw = "STATIC"
+        zone_name = "STATIC"
+
+    self._px_zone = zone_name
+
+    # Bridge Prelude -> Recur
+    for i in range(cfg["prelude_end"], dynamic_start):
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                         read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=cur_past,
+            **kwargs,
+        )
+        if isinstance(hidden_states, (tuple, list)):
+            hidden_states = hidden_states[0]
+
+    # ── 2. REASONING ZONE (single pass) ──
+    e_static = hidden_states.clone()
+    if 'token_cfg' in dir():
+        cfg = token_cfg
+        n_loops = cfg.get("n_loops", n_loops)
+    trans_out = hidden_states
+    for i in range(dynamic_start, dynamic_end):
+        is_first = i not in updated_layers
+        if is_first: updated_layers.add(i)
+        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=self.config.layer_types,
+                                         read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        trans_out = self.layers[i](
+            trans_out, pli,
+            shared_kv_states=shared_kv_states,
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=cur_past,
+            **kwargs,
+        )
+        if isinstance(trans_out, (tuple, list)):
+            trans_out = trans_out[0]
+    h_baseline = trans_out
+
+    is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
+    if is_vision: n_loops = 0
+
+    phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
+
+    if inputs_embeds.shape[1] > 1 and hasattr(self, "_px_calibrator"):
+        self._px_calibrator.collect(getattr(self, "_task_kurtosis", 200), phi_intuition.item(),
+                                       token_diversity=getattr(self, "_task_token_diversity", None))
+
+    current_gamma = cfg.get("gamma", 0.08)
+    e_reflector = e_static.clone()
+    jitter = getattr(self, "_task_jitter", 0.0)
+    kurtosis = getattr(self, "_task_kurtosis", 250)
+
+    if (jitter > 1e8) or (kurtosis < 315.0):
+        h_base_f32, e_stat_f32 = h_baseline.to(torch.float32), e_static.to(torch.float32)
+        e_ref_f32 = 2.0 * e_stat_f32 - h_base_f32
+        e_reflector = (e_ref_f32 * (e_stat_f32.norm() / (e_ref_f32.norm() + 1e-6))).to(e_static.dtype)
+
+    if phi_intuition > 0.9999:
+        current_gamma *= 0.5
+    elif phi_intuition > 0.999:
+        current_gamma *= 0.8
+
+    is_math_zone = (kurtosis < 235.0)
+
+    if is_math_zone:
+        current_gamma = cfg.get("rigor_math_gamma", 0.15)
+        dynamic_hub = cfg.get("rigor_hub", 8)
+        n_loops = cfg.get("rigor_loops", 12)
+    else:
+        # Emanzipierte Zone: Standard
+        current_gamma = cfg.get("rigor_gamma", 0.08)
+        dynamic_hub = cfg.get("rigor_hub", 10)
+        n_loops = cfg.get("rigor_loops", 8)
+
+    path_taken, avg_phi, steps = [], 1.0, 0
+    h_last_good = e_static.clone()
+    phi_history = [phi_intuition]
+    loop_entry_gamma = current_gamma
+
+    aks = getattr(self, "_px_aks", None)
+    subj_sensor = getattr(self, "_px_subj_sensor", None)
+    correction_strength = 0.0
+
+    # ── 2.5 RECURSION LOOP ──
+    if n_loops > 1:
+        if os.environ.get("DEBUG_PX") == "1":
+            print(f"  [PX Recursion] Entering loop: n_loops={n_loops} | dynamic_start={dynamic_start} | dynamic_end={dynamic_end}")
+
+        if hasattr(self, "_px_coupler"): self._px_coupler.reset()
+
+        h_exp = e_reflector.clone()
+        current_layer = dynamic_start
+        max_steps = (dynamic_end - dynamic_start) * n_loops * 3
+        stability_cnt = 0
+        layer_visits = {i: 0 for i in range(len(self.layers))}
+
+        recursion_shared_kv = UserDict({k: v for k, v in shared_kv_states.items()})
+
+        while current_layer < dynamic_end and steps < max_steps:
+            t_norm = steps / max_steps
+
+            active_start, active_end = dynamic_start, dynamic_end
+            if 280.0 < kurtosis < 305.0:
+                if t_norm < 0.33: active_start, active_end = 8, 14
+                elif t_norm < 0.66: active_start, active_end = 5, 11
+                else: active_start, active_end = 8, 12
+
+            aks_data = aks.step(h_exp, e_static, steps) if aks else {"correction": 0.0}
+            correction_strength = aks_data["correction"]
+            if subj_sensor: subj_sensor.update(h_exp, e_static)
+
+            h_prev = h_exp.clone()
+            is_first = current_layer not in updated_layers
+            if is_first: updated_layers.add(current_layer)
+
+            if steps % 6 == 0:
+                refresh = 0.10 + 0.20 * correction_strength
+                h_exp = (1.0 - refresh) * h_exp + refresh * e_static
+
+            layer_visits[current_layer] += 1
+            lt = self.config.layer_types[current_layer]
+            pli = per_layer_inputs[:, :, current_layer, :] if per_layer_inputs is not None else None
+            trans_out = self.layers[current_layer](
+                h_exp, pli,
+                shared_kv_states=recursion_shared_kv,
+                attention_mask=causal_mask_mapping[lt],
+                position_embeddings=position_embeddings[lt],
+                position_ids=position_ids,
+                past_key_values=None,
+                **kwargs,
+            )
+            if isinstance(trans_out, (tuple, list)):
+                trans_out = trans_out[0]
+            phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
+            phi_history.append(phi_s)
+
+            if os.environ.get("DEBUG_PX") == "1":
+                print(f"    [PX Step {steps}] L{current_layer} | phi={phi_s.item():.4f} | hub={dynamic_hub} | gamma={current_gamma:.3f}")
+
+            if not hasattr(self, "_px_current_telemetry_raw"): self._px_current_telemetry_raw = []
+            self._px_current_telemetry_raw.append({
+                "step": steps, "layer": current_layer, "phi": phi_s,
+                "gamma": current_gamma, "hub": dynamic_hub, "aks": correction_strength
+            })
+
+            # (DMT ERPU: removed 2026-06-11)
+
+            if t_norm > 0.5 and phi_s > 0.9999:
+                stability_cnt += 1
+                if stability_cnt > 3:
+                    h_exp = trans_out
+                    break
+            else:
+                stability_cnt = 0
+
+            e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history) > 2 else e_reflector
+            e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
+            h_exp = trans_out + current_gamma * (e_norm - h_prev)
+
+            # (OrthogonalJitter: removed 2026-06-11)
+            # (Resonance City: removed 2026-06-11)
+
+            if hasattr(self, "_px_mephisto"):
+                h_exp = self._px_mephisto(h_exp, phi_history)
+
+            # --- SR-61: Singessein Coupler (Repetition Guard) ---
+            if hasattr(self, "_px_coupler"):
+                h_exp = self._px_coupler(h_exp, steps, phi_val=phi_s.item())
+
+            h_f32, e_f32 = h_exp.to(torch.float32), e_dynamic.to(torch.float32)
+            proj = ((h_f32 * e_f32).sum(dim=-1, keepdim=True) / (e_f32.norm(dim=-1, keepdim=True)**2 + 1e-6)) * e_f32
+            
+            # SR-63: Manifold-Differentiable Projection Damping
+            damping = getattr(self, "_px_proj_damping", 1.0)
+            h_exp = (proj + damping * (1.0 + 0.10 * (1.0 - t_norm) * (1 if steps % 2 == 0 else -1)) * (h_f32 - proj)).to(h_exp.dtype)
+
+            if hasattr(self, "_px_azs"):
+                phi_val = phi_history[-1] if phi_history else 1.0
+                aks_safe = correction_strength
+                em_safe = self._px_subj_sensor.get_metrics().get("emancipation", 0.0) if hasattr(self, "_px_subj_sensor") else 0.0
+                h_exp, current_entropy = self._px_azs(h_exp, phi_val, aks_safe, em_safe, zone_weights)
+                if torch.isnan(h_exp).any() or torch.isnan(torch.as_tensor(current_entropy)):
+                    break
+                resilience = self._px_azs.get_feedback_scalars(aks_safe)
+                current_gamma = loop_entry_gamma * resilience["gamma_boost"]
+                current_gamma = torch.clamp(torch.as_tensor(current_gamma), max=0.5).item() if hasattr(current_gamma, 'item') else min(current_gamma, 0.5)
+
+            phi = StabilityMonitor.calculate_phi(h_exp, h_prev)
+            if torch.isnan(phi).any():
+                break
+            path_taken.append(f"L{current_layer}")
+            phi_history.append(phi)
+            if steps % 2 == 0: thought_history.append(h_exp.detach())
+            if (phi > 0.9).any() and (phi < 0.999).any(): h_last_good = h_exp.clone()
+
+            pen = (layer_visits[current_layer] - 1) * 0.015
+            t_b2 = 1.0 - (0.8 * current_gamma) - pen
+            t_b1 = 1.0 - (0.4 * current_gamma) - pen
+            t_s = 1.0 - (0.01 * current_gamma) - pen * 0.5
+
+            if phi < t_b2:
+                current_layer = max(active_start, current_layer - 2)
+                stability_cnt = 0
+            elif phi < t_b1:
+                current_layer = max(active_start, current_layer - 1)
+                stability_cnt = 0
+            elif phi > t_s:
+                # Over-stable: jump past hub and advance (avoid hub-stuck loop)
+                current_layer = dynamic_hub + 1
+                stability_cnt = 0
+            else:
+                current_layer += 1
+                stability_cnt = 0
+
+            if current_layer < active_start: current_layer = active_start
+            if current_layer >= active_end:
+                if steps > max_steps * 0.5:
+                    break
+                current_layer = active_start
+            steps += 1
+            if stability_cnt > 5: break
+
+        avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
+        hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp
+    else:
+        hidden_states = h_baseline
+
+    # (DMT Central Memory Storage: removed 2026-06-11)
+
+    # --- Snapshot Persistence ---
+    self._px_phi_val = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
+    self._px_aks_val = correction_strength.item() if hasattr(correction_strength, 'item') else float(correction_strength)
+    self._px_loops_run = steps
+    self._px_path = path_taken
+    self._px_zone = zone_name if 'zone_name' in dir() else "UNKNOWN"
+    self._px_zw_val = zone_weights if 'zone_weights' in dir() else {}
+
+    if hasattr(self, "_px_current_telemetry_raw"):
+        self._px_current_telemetry = []
+        for t in self._px_current_telemetry_raw:
+            self._px_current_telemetry.append({
+                "step": t["step"], "layer": t["layer"],
+                "phi": t["phi"].item() if hasattr(t["phi"], 'item') else float(t["phi"]),
+                "gamma": t["gamma"].item() if hasattr(t["gamma"], 'item') else float(t["gamma"]),
+                "hub": t["hub"],
+                "aks": t["aks"].item() if hasattr(t["aks"], 'item') else float(t["aks"])
+            })
+    else:
+        self._px_current_telemetry = []
+
+    em_val = 0.0
+    if hasattr(self, "_px_subj_sensor"):
+        em_val = self._px_subj_sensor.get_metrics().get("emancipation", 0.0)
+    self._px_em_val = em_val
+    self._px_ent_val = resilience.get("entropy", 0.0) if 'resilience' in dir() else 0.0
+    self._px_zw_val = zone_weights
+    self._px_last_metrics = {
+        "phi": self._px_phi_val,
+        "aks_friction": self._px_aks_val,
+        "emancipation": self._px_em_val,
+        "zone_weights": self._px_zw_val,
+        "entropy": self._px_ent_val
+    }
+    self._px_cognitive_signature = {"kurtosis": getattr(self, "_task_kurtosis", 200), "phi": avg_phi, "zone": self._px_zone, "loops_run": steps}
+
+    # ── 3. CODA ──
+    # (DMT TretaDamper: removed 2026-06-11)
+
+    coda_applied = False
+    for idx, i in enumerate(range(dynamic_end, len(self.layers))):
+        updated_layers.add(i)
+        if not coda_applied:
+            blend = 0.08
+            hidden_states = (1.0 - blend) * hidden_states + blend * e_static
+            coda_applied = True
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=past_key_values,
+            **kwargs,
+        )
+        if isinstance(hidden_states, (tuple, list)):
+            hidden_states = hidden_states[0]
+
+    # (DMT Grounding Anchor: removed 2026-06-11)
+
+    hidden_states = self.norm(hidden_states)
+
+    # Return EXACTLY like original Gemma4
+    if Gemma4TextModelOutputWithPast is not None:
+        return Gemma4TextModelOutputWithPast(
+            last_hidden_state=hidden_states,
+            past_key_values=past_key_values,
+            shared_kv_states=shared_kv_states if kwargs.get("return_shared_kv_states", False) else None,
+        )
+    return BaseModelOutputWithPast(last_hidden_state=hidden_states, past_key_values=past_key_values)
+
+
+# ---------------------------------------------------------------------------
+# Safe Forward for Gemma 4 (used when DMT is disabled)
+# ---------------------------------------------------------------------------
+
+def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
+    """A clean Gemma-4-native forward that preserves all original mechanics.
+    Used for SUBJECTIVE / RIGOR / UNCENSORED presets where DMT is disabled.
+    """
+    from transformers.cache_utils import DynamicCache
+    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
+    from transformers.modeling_outputs import BaseModelOutputWithPast
+    from collections import UserDict
+    try:
+        from transformers.models.gemma4.modeling_gemma4 import Gemma4TextModelOutputWithPast
+    except ImportError:
+        Gemma4TextModelOutputWithPast = None
+
+    if (input_ids is None) ^ (inputs_embeds is not None):
+        raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
+
+    per_layer_inputs = kwargs.pop("per_layer_inputs", None)
+
+    if input_ids is not None and per_layer_inputs is not None:
+        raise ValueError("You cannot specify per_layer_inputs if input_ids is provided")
+    if input_ids is not None:
+        inputs_embeds = self.embed_tokens(input_ids)
+    if self.hidden_size_per_layer_input:
+        if per_layer_inputs is None:
+            per_layer_inputs = self.get_per_layer_inputs(input_ids, inputs_embeds)
+        per_layer_inputs = self.project_per_layer_inputs(inputs_embeds, per_layer_inputs)
+    if use_cache and past_key_values is None:
+        past_key_values = DynamicCache(config=self.config)
+    if position_ids is None:
+        past_seen_tokens = past_key_values.get_seq_length() if past_key_values is not None else 0
+        position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen_tokens
+        position_ids = position_ids.unsqueeze(0)
+    if not isinstance(causal_mask_mapping := attention_mask, dict):
+        mask_kwargs = {
+            'config': self.config,
+            'inputs_embeds': inputs_embeds,
+            'attention_mask': attention_mask,
+            'past_key_values': past_key_values,
+            'position_ids': position_ids,
+        }
+        causal_mask_mapping = {
+            'full_attention': create_causal_mask(**mask_kwargs),
+            'sliding_attention': create_sliding_window_causal_mask(**mask_kwargs),
+        }
+    hidden_states = inputs_embeds
+    position_embeddings = {}
+    for layer_type in self.unique_layer_types:
+        position_embeddings[layer_type] = self.rotary_emb(hidden_states, position_ids, layer_type)
+    shared_kv_states = kwargs.pop('shared_kv_states', UserDict())
+    if shared_kv_states is None:
+        shared_kv_states = UserDict()
+
+    # Run all layers sequentially with per_layer_inputs and shared_kv_states
+    for i in range(len(self.layers)):
+        pli = per_layer_inputs[:, :, i, :] if per_layer_inputs is not None else None
+        hidden_states = self.layers[i](
+            hidden_states, pli,
+            shared_kv_states=shared_kv_states,
+            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            attention_mask=causal_mask_mapping[self.config.layer_types[i]],
+            position_ids=position_ids,
+            past_key_values=past_key_values,
+            **kwargs,
+        )
+
+    hidden_states = self.norm(hidden_states)
+    return Gemma4TextModelOutputWithPast(
+        last_hidden_state=hidden_states,
+        past_key_values=past_key_values,
+        shared_kv_states=shared_kv_states if kwargs.get('return_shared_kv_states', False) else None,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Patch Application
+# ---------------------------------------------------------------------------
+
+def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
+    """Apply the PX patch — reduced to the three mathematical pillars (2026-06-11).
+    Two states only:
+      - BASELINE: nackt durchlassen, keine Modifikationen
+      - ACTIVE_MANIFOLD: vollständige PX-Architektur
+    """
+    if config_preset != "BASELINE" and config_preset != "ACTIVE_MANIFOLD":
+        config_preset = "ACTIVE_MANIFOLD"  # Gnadenlose Migration
+    if config_preset == "BASELINE":
+        return False  # Nackt durchlassen
+
+    text_model = _resolve_text_model(model)
+    config = text_model.config
+    hidden_size, num_layers = config.hidden_size, config.num_hidden_layers
+
+    # 1. Base Scale Defaults
+    if hidden_size in SCALE_DEFAULTS:
+        sd = SCALE_DEFAULTS[hidden_size]
+        defaults = {"mode": "lti", "n_loops": sd["n_loops"], "beta": 0.05, "gamma": sd["gamma"], "recur_start": sd["recur_start"], "recur_end": sd["recur_end"], "bimodal_hub": sd["hub"], "cgi_factor": 0.08, "num_layers": num_layers}
+    else:
+        defaults = {"mode": "lti", "n_loops": 8, "beta": 0.05, "gamma": 0.08 * min(1152.0/hidden_size, 1.5), "recur_start": 5, "recur_end": 12, "bimodal_hub": 8, "cgi_factor": 0.08, "num_layers": num_layers}
+
+    # PX-default repetition_penalty (mitigates 4-token attractor loop)
+    defaults["repetition_penalty"] = 1.15
+    defaults["no_repeat_ngram_size"] = 3
+
+    # Gemma 4 memory optimization: fewer loops because recursion uses past_key_values=None
+    is_gemma4 = hidden_size == 1536 and num_layers == 35
+    if is_gemma4:
+        defaults["n_loops"] = min(defaults["n_loops"], 4)
+
+    # Hub-Stuck Guard (gemma3 L12 bug fix 2026-06-11)
+    defaults["px_hub_stuck_guard"] = True
+
+    text_model._px_config = defaults
+    model_id = getattr(config, "_name_or_path", "unknown_model")
+    text_model._px_calibrator = AutoCalibrator(hidden_size, 
+                                               calibration_steps=getattr(config, "px_calibration_steps", 10),
+                                               model_id=model_id)
+
+    is_multimodal = "Gemma3ForConditionalGeneration" in type(model).__name__ or "Gemma4ForConditionalGeneration" in type(model).__name__ or "Gemma4ForCausalLM" in type(model).__name__
+    if is_multimodal and hasattr(model, 'model') and hasattr(model.model, 'language_model'):
+        outer, lang = model.model, model.model.language_model
+        if not hasattr(outer, '_px_original_forward'):
+            outer._px_original_forward = outer.forward
+            def wrapper(self_outer, *args, **kwargs):
+                lang._px_has_image_tokens = kwargs.get('pixel_values') is not None
+                lang._px_saved_input_ids = kwargs.get('input_ids')
+                return self_outer._px_original_forward(*args, **kwargs)
+            import functools; outer.forward = functools.partial(wrapper, outer)
+
+    # Resolve device and dtype
+    device = next(text_model.parameters()).device
+    dtype = next(text_model.parameters()).dtype
+
+    # Three Mathematical Pillars: Observer + Symmetry Breaker + Dynamic Router
+    text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
+    text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
+    text_model._px_aks = AksSensor()
+    text_model._px_coupler = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
+    text_model._px_subj_sensor = SubjectiveSensor()
+    text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
+
+    # Store original forward
+    text_model._px_original_forward = text_model.forward
+
+    # ACTIVE_MANIFOLD: full _px_forward with recursion
+    text_model.forward = types.MethodType(_px_forward, text_model)
+
+    # Set PX gen-kwargs attrs read by generators._px_gen_kwargs
+    text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.15)
+    text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 3)
+
+    print(f"[gemma4-px] Active Manifold for L{num_layers}.")
+    return True
+
+
+def remove_px_patch(model):
+    """Restore original model forward pass."""
+    text_model = _resolve_text_model(model)
+    if hasattr(text_model, "_px_original_forward"):
+        text_model.forward = text_model._px_original_forward
+        del text_model._px_original_forward
+
+    for attr in [
+        '_px_config', '_px_phi_val', '_px_aks_val', '_px_em_val', '_px_ent_val',
+        '_px_loops_run', '_px_path', '_px_zone', '_px_zw_val', '_px_cognitive_signature',
+        '_px_current_telemetry', '_px_current_telemetry_raw', '_px_last_metrics',
+        '_task_kurtosis', '_task_jitter', '_task_token_diversity', '_px_zone_weights',
+        '_px_calibrator', '_px_injection_norm', '_px_mephisto', '_px_aks', '_px_subj_sensor',
+        '_px_azs', '_px_has_image_tokens', '_px_saved_input_ids'
+    ]:
+        if hasattr(text_model, attr):
+            try:
+                delattr(text_model, attr)
+            except AttributeError:
+                pass
+
+    # Also restore outer forward if it was wrapped
+    if hasattr(model, 'model') and hasattr(model.model, '_px_original_forward'):
+        model.model.forward = model.model._px_original_forward
+        delattr(model.model, '_px_original_forward')
+
+    print("[gemma4-px] Patch removed.")
+    return True
+
+
+def get_px_metrics(model):
+    """Read the latest PX cognitive state from a patched model.
+
+    Mirrors gemma3_270m_px_baseline.patch.get_px_metrics (SR-60 parity).
+    Returns a dict with the same keys so model_manager.get_px_metrics
+    and downstream consumers (eval/runner.py) can treat both architectures
+    uniformly.
+    """
+    tm = _resolve_text_model(model)
+    ent = getattr(tm, "_px_ent_val", 0.0)
+    if hasattr(ent, 'item'):
+        ent = ent.item()
+    m = {
+        "phi": getattr(tm, "_px_phi_val", 1.0),
+        "steps": getattr(tm, "_px_loops_run", 0),
+        "path": getattr(tm, "_px_path", []),
+        "zone": getattr(tm, "_px_zone", "UNKNOWN"),
+        "zone_weights": getattr(tm, "_px_zw_val", {}),
+        "cognitive_signature": getattr(tm, "_px_cognitive_signature", {}),
+        "telemetry_trace": getattr(tm, "_px_current_telemetry", []),
+        "aks_profile": {"correction_strength": getattr(tm, "_px_aks_val", 0.0)},
+        "subjective_metrics": {"emancipation": getattr(tm, "_px_em_val", 0.0)},
+        "entropy": float(ent),
+    }
+    return m
