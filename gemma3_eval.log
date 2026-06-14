@@ -1,28 +1,0 @@
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-Evaluating gemma3-270m-base...
-[ModelManager] Loading gemma3-270m-base from google/gemma-3-270m (subjective=False)...
-Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<01:38,  2.40it/s]Loading weights:  33%|███▎      | 78/236 [00:00<00:00, 197.33it/s]Loading weights:  54%|█████▍    | 128/236 [00:00<00:00, 277.09it/s]Loading weights:  79%|███████▉  | 187/236 [00:00<00:00, 361.26it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 298.69it/s]
-[ModelManager] gemma3-270m-base loaded WITHOUT patch (baseline).
-Base Ultra Hard: 0.4
-Base Capability: 0.05
-[ModelManager] gemma3-270m-base unloaded.
-Evaluating gemma3-270m-px (Peak)...
-[ModelManager] Loading gemma3-270m-px from google/gemma-3-270m (subjective=False)...
-Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2405.86it/s]
-[gemma3-px-subjective] SR-59 Auto-Tune active for scale L18. Recur: L5-L12, Hub: L10. Calibrator: 10 steps.
-[ModelManager] gemma3-270m-px loaded and patched successfully.
-PX Peak Ultra Hard: 0.4
-PX Peak Capability: 0.0667
-[gemma3-px-subjective] Patch removed (including SR-59 calibrator).
-[ModelManager] gemma3-270m-px unloaded.
-Evaluating gemma3-270m-px (Subjective)...
-[ModelManager] Loading gemma3-270m-px from google/gemma-3-270m (subjective=True)...
-Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2431.99it/s]
-[gemma3-px-subjective] SR-59 Auto-Tune active for scale L18. Recur: L5-L12, Hub: L10. Calibrator: 10 steps.
-[ModelManager] gemma3-270m-px loaded and patched successfully.
-PX Subj Ultra Hard: 0.2
-PX Subj Capability: 0.05
-[gemma3-px-subjective] Patch removed (including SR-59 calibrator).
-[ModelManager] gemma3-270m-px unloaded.
-
-Gemma3 Eval completed.
