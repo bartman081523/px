@@ -51,7 +51,7 @@ class TestUIBackend(unittest.TestCase):
         # Test Import
         mock_file = MagicMock()
         mock_file.name = export_path
-        new_id, history = handle_import(mock_file)
+        new_id, history, _, _ = handle_import(mock_file)
         self.assertEqual(new_id, self.test_session_id)
         self.assertEqual(history, self.test_history)
         

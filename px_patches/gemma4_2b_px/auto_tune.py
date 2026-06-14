@@ -111,21 +111,11 @@ class AutoCalibrator:
         if model_id:
             self.load_manifold()
 
-    def normalize_kurtosis(self, kurtosis: float, token_len: int) -> float:
-        """
-        SR-64: Length-Independent Kurtosis Normalization.
-        Compensates for the physical kurtosis collapse in short sequences.
-        """
-        # Decay factor: 1.5 for len=0, approaches 1.0 for len > 30.
-        # Short sequences have lower native kurtosis; we boost it.
-        boost = 1.0 + 0.5 * math.exp(-token_len / 15.0)
-        return kurtosis * boost
-
-    def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None, 
+        def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None,
                 update_online: bool = False, token_len: int = 1):
-        # Apply SR-64 Normalization before processing
-        k_norm = self.normalize_kurtosis(kurtosis, token_len)
-        
+        # SR-64b uses raw kurtosis
+        k_norm = kurtosis
+
         if not self.calibrated:
             self.k_samples.append(k_norm)
             self.phi_samples.append(phi)
@@ -224,8 +214,8 @@ class AutoCalibrator:
         return {k: v / W for k, v in weights.items()}
 
     def get_zone_weights(self, kurtosis: float, phi: Optional[float] = None, token_diversity: Optional[float] = None, token_len: int = 1) -> Dict[str, float]:
-        # Apply SR-64 Normalization before processing
-        k_norm = self.normalize_kurtosis(kurtosis, token_len)
+        # SR-64b uses raw kurtosis
+        k_norm = kurtosis
 
         # SR-61b: Fallback for None phi (first token of session)
         if phi is None:
