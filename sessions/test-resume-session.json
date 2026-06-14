@@ -1,6 +1,6 @@
 {
   "session_id": "test-resume-session",
-  "model_id": "gemma3-270m",
+  "model_id": "gemma3-1b-it",
   "history": [
     {
       "role": "user",
@@ -103,7 +103,11 @@
     {
       "role": "user",
       "content": "Test 11"
+    },
+    {
+      "role": "user",
+      "content": "Test 11"
     }
   ],
-  "updated_at": "15454738.43"
+  "updated_at": "15455122.34"
 }

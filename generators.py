@@ -29,6 +29,26 @@ from schemas import (
 )
 
 
+def _stringify_content(content):
+    """Ensure content is a string for text-only templates."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for item in content:
+            if isinstance(item, str):
+                parts.append(item)
+            elif isinstance(item, dict):
+                if item.get("type") == "text":
+                    parts.append(item.get("text", ""))
+                elif "text" in item and "files" not in item:
+                    parts.append(item["text"])
+        return "\n".join(parts)
+    if isinstance(content, dict):
+        return content.get("text", str(content))
+    return str(content)
+
+
 def _px_gen_kwargs(model, base: dict) -> dict:
     """Inject PX-specific kwargs (e.g. repetition_penalty, no_repeat_ngram_size)
     onto a generation kwargs dict. The patched model exposes
@@ -145,9 +165,19 @@ async def generate_chat_completion(
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
 
+    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
+    has_images = any(
+        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
+        for m in messages
+    )
+    if not has_images:
+        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+    else:
+        processed_messages = messages
+
     # Build prompt using chat template
     input_text = tokenizer.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
+        processed_messages, tokenize=False, add_generation_prompt=True
     )
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
     input_len = inputs["input_ids"].shape[1]
@@ -212,8 +242,18 @@ async def generate_chat_completion_stream(
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
 
+    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
+    has_images = any(
+        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
+        for m in messages
+    )
+    if not has_images:
+        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+    else:
+        processed_messages = messages
+
     input_text = tokenizer.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
+        processed_messages, tokenize=False, add_generation_prompt=True
     )
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
