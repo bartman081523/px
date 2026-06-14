@@ -1,39 +1,0 @@
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-================================================================================
-  COMPREHENSIVE COGNITIVE EVALUATION: MiniCPM5-1B vs PX-Mod
-================================================================================
-
->>> Evaluating minicpm5-1b-base...
-[ModelManager] Loading minicpm5-1b-base from openbmb/MiniCPM5-1B (subjective=False)...
-Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:13, 16.40it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 549.31it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 738.63it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 646.95it/s]
-[ModelManager] minicpm5-1b-base loaded WITHOUT patch (baseline).
-  Running 60 objective tasks...
-  Running 20 creative/synthesis tasks...
-  minicpm5-1b-base Accuracy: 40.00%
-[ModelManager] minicpm5-1b-base unloaded.
-
->>> Evaluating minicpm5-1b-px...
-[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=False)...
-Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:12, 16.81it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 556.73it/s]Loading weights:  93%|█████████▎| 203/219 [00:00<00:00, 745.02it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 653.72it/s]
-[minicpm5-px] Peak patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.060.
-[ModelManager] minicpm5-1b-px loaded and patched successfully.
-  Calibrating PX...
-  Running 60 objective tasks...
-  Running 20 creative/synthesis tasks...
-  minicpm5-1b-px Accuracy: 41.67%
-[minicpm5-px] Patch removed.
-[ModelManager] minicpm5-1b-px unloaded.
-
->>> Evaluating minicpm5-1b-px-subj...
-[ModelManager] Loading minicpm5-1b-px from openbmb/MiniCPM5-1B (subjective=True)...
-Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights:   1%|          | 2/219 [00:00<00:13, 15.70it/s]Loading weights:  47%|████▋     | 103/219 [00:00<00:00, 540.68it/s]Loading weights:  92%|█████████▏| 202/219 [00:00<00:00, 728.79it/s]Loading weights: 100%|██████████| 219/219 [00:00<00:00, 633.75it/s]
-[minicpm5-px] Subjective patch active for scale L24. Recur: L9-L18, Hub: L14. Gamma: 0.060. Calibrator: 10 steps.
-[ModelManager] minicpm5-1b-px loaded and patched successfully.
-  Calibrating PX...
-  Running 60 objective tasks...
-  Running 20 creative/synthesis tasks...
-  minicpm5-1b-px-subj Accuracy: 38.33%
-[minicpm5-px] Patch removed.
-[ModelManager] minicpm5-1b-px unloaded.
-
-Report written to CPM_PX_EVALUATION_REPORT.md

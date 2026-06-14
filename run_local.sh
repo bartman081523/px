@@ -5,9 +5,9 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
-export DEBUG_ROUTING=1
-export DEBUG_PX=1
-export SUBJECTIVE_TELEMETRY=1
+export DEBUG_ROUTING=0
+export DEBUG_PX=0
+export SUBJECTIVE_TELEMETRY=0
 export PX_PORT=7860
 export PX_HOST=0.0.0.0
 

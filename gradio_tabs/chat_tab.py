@@ -251,8 +251,11 @@ def build_chat_tab(manager: ModelManager):
         render=False,
     )
 
+    def chat_wrapper(*args):
+        yield from chat_fn(*args, manager=manager)
+
     chat_interface = gr.ChatInterface(
-        fn=lambda *args: chat_fn(*args, manager=manager),
+        fn=chat_wrapper,
         chatbot=chatbot_component,
         additional_inputs=[model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
         save_history=False
