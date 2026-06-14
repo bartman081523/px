@@ -315,3 +315,645 @@ Traceback (most recent call last):
     raise rewrite_traceback_stack(source=source)
   File "<template>", line 1, in top-level template code
 TypeError: can only concatenate str (not "list") to str
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3612005]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:43806 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43806 - "GET /gradio/gradio_api/heartbeat/sv3mxsq1yp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43822 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:43828 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43828 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43828 - "GET /gradio/gradio_api/queue/data?session_hash=sv3mxsq1yp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48986 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48986 - "GET /gradio/gradio_api/queue/data?session_hash=sv3mxsq1yp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39288 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39288 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39288 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39288 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:39288 - "GET /gradio/gradio_api/queue/data?session_hash=sv3mxsq1yp HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 48/340 [00:00<00:00, 479.29it/s]Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1001.27it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1186.91it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1105.59it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1011, in asyncgen_wrapper
+    response = await iterator.__anext__()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 537, in _wrapper
+    async for chunk in submit_fn(*args, **kwargs):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 965, in _stream_fn
+    first_response = await utils.async_iteration(generator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 285, in chat_wrapper
+    yield from chat_fn(*args, manager=manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 181, in chat_fn
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 3106, in apply_chat_template
+    rendered_chat, generation_indices = render_jinja_template(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 581, in render_jinja_template
+    rendered_chat = compiled_template.render(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 19, in top-level template code
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 479, in raise_exception
+    raise jinja2.exceptions.TemplateError(message)
+jinja2.exceptions.TemplateError: Conversation roles must alternate user/assistant/user/assistant/...
+INFO:     192.168.178.26:38290 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38290 - "GET /gradio/gradio_api/queue/data?session_hash=sv3mxsq1yp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46544 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46544 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46552 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:46544 - "GET /gradio/gradio_api/heartbeat/ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46556 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46556 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41858 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41858 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41868 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38832 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40326 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40326 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40326 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40326 - "GET /gradio/gradio_api/queue/data?session_hash=ugo0oltxmvh HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42758 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42758 - "GET /gradio/gradio_api/heartbeat/7ypn67thg93 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42760 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:42774 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "GET /gradio/gradio_api/queue/data?session_hash=7ypn67thg93 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "GET /gradio/gradio_api/queue/data?session_hash=7ypn67thg93 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42774 - "GET /gradio/gradio_api/queue/data?session_hash=7ypn67thg93 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "GET /gradio/gradio_api/queue/data?session_hash=7ypn67thg93 HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47688 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "GET /gradio/gradio_api/queue/data?session_hash=7ypn67thg93 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47688 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47672 - "GET /gradio/gradio_api/heartbeat/euzbzajzvd HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47696 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:47688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47688 - "GET /gradio/gradio_api/queue/data?session_hash=euzbzajzvd HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44086 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44086 - "GET /gradio/gradio_api/queue/data?session_hash=euzbzajzvd HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51062 - "GET /gradio/gradio_api/heartbeat/0hqzku5po27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-op1FYHDY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-D0n2Hccl.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-BPmhhU8b.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51090 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51088 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51078 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51074 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51106 - "GET /gradio/gradio_api/queue/data?session_hash=0hqzku5po27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60892 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60892 - "GET /gradio/gradio_api/queue/data?session_hash=0hqzku5po27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60896 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60896 - "GET /gradio/gradio_api/queue/data?session_hash=0hqzku5po27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "GET /gradio/gradio_api/queue/data?session_hash=0hqzku5po27 HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37904 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "GET /gradio/gradio_api/queue/data?session_hash=0hqzku5po27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37890 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3612964]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:46046 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46046 - "GET /gradio/gradio_api/heartbeat/9bk8ly8om17 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46056 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:46060 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46060 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46060 - "GET /gradio/gradio_api/queue/data?session_hash=9bk8ly8om17 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45226 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45226 - "GET /gradio/gradio_api/queue/data?session_hash=9bk8ly8om17 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:42148 - "GET /gradio/gradio_api/queue/data?session_hash=9bk8ly8om17 HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  14%|█▎        | 46/340 [00:00<00:00, 459.97it/s]Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 1003.51it/s]Loading weights:  96%|█████████▌| 325/340 [00:00<00:00, 1183.67it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1095.63it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "GET /gradio/gradio_api/queue/data?session_hash=9bk8ly8om17 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42148 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3613897]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:39410 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39410 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39410 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39410 - "GET /gradio/gradio_api/queue/data?session_hash=9bk8ly8om17 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39410 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39410 - "GET /gradio/gradio_api/heartbeat/yvugvvx2gj HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43488 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:43498 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43498 - "GET /gradio/assets/Index-WkIYFpKS.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43498 - "GET /gradio/assets/Index-DpH7sR6h.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43498 - "GET /gradio/gradio_api/file%3D/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/icons/plus.svg HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43498 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43512 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43498 - "GET /gradio/gradio_api/queue/data?session_hash=yvugvvx2gj HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43516 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43516 - "GET /gradio/gradio_api/queue/data?session_hash=yvugvvx2gj HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:41184 - "GET /gradio/gradio_api/queue/data?session_hash=yvugvvx2gj HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 489.76it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1004.26it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1181.68it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1097.27it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1011, in asyncgen_wrapper
+    response = await iterator.__anext__()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 537, in _wrapper
+    async for chunk in submit_fn(*args, **kwargs):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 965, in _stream_fn
+    first_response = await utils.async_iteration(generator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 285, in chat_wrapper
+    yield from chat_fn(*args, manager=manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 181, in chat_fn
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 3106, in apply_chat_template
+    rendered_chat, generation_indices = render_jinja_template(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 581, in render_jinja_template
+    rendered_chat = compiled_template.render(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 19, in top-level template code
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 479, in raise_exception
+    raise jinja2.exceptions.TemplateError(message)
+jinja2.exceptions.TemplateError: Conversation roles must alternate user/assistant/user/assistant/...
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3615887]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/routes.py", line 1301, in predict
+    output = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2189, in process_api
+    inputs = await self.preprocess_data(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1771, in preprocess_data
+    self.validate_inputs(block_fn, inputs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1753, in validate_inputs
+    raise ValueError(
+ValueError: An event handler didn't receive enough input values (needed: 1, got: 0).
+Check if the event handler calls a Javascript function, and make sure its return value is correct.
+Wanted inputs:
+    [<gradio.components.state.State object at 0x7fd8c1d8df30>]
+Received inputs:
+    []
+INFO:     192.168.178.26:42494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 500 Internal Server Error
+INFO:     192.168.178.26:42494 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42508 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:42494 - "GET /gradio/gradio_api/heartbeat/6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42512 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42512 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42512 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42512 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42512 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49132 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49132 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49148 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49148 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45508 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45508 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37876 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37876 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:37884 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2394.47it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+INFO:     192.168.178.26:48362 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48362 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37884 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47080 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47080 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47080 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47080 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:47080 - "GET /gradio/gradio_api/queue/data?session_hash=6ghht1udevs HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2429.37it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1011, in asyncgen_wrapper
+    response = await iterator.__anext__()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 537, in _wrapper
+    async for chunk in submit_fn(*args, **kwargs):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 965, in _stream_fn
+    first_response = await utils.async_iteration(generator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 285, in chat_wrapper
+    yield from chat_fn(*args, manager=manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 181, in chat_fn
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 3106, in apply_chat_template
+    rendered_chat, generation_indices = render_jinja_template(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 581, in render_jinja_template
+    rendered_chat = compiled_template.render(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 19, in top-level template code
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 479, in raise_exception
+    raise jinja2.exceptions.TemplateError(message)
+jinja2.exceptions.TemplateError: Conversation roles must alternate user/assistant/user/assistant/...
+INFO:     192.168.178.26:47080 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47108 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:47080 - "GET /gradio/gradio_api/heartbeat/alj8mgvz28l HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47116 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47116 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47116 - "GET /gradio/gradio_api/queue/data?session_hash=alj8mgvz28l HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1011, in asyncgen_wrapper
+    response = await iterator.__anext__()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 537, in _wrapper
+    async for chunk in submit_fn(*args, **kwargs):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 965, in _stream_fn
+    first_response = await utils.async_iteration(generator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 285, in chat_wrapper
+    yield from chat_fn(*args, manager=manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 181, in chat_fn
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 3106, in apply_chat_template
+    rendered_chat, generation_indices = render_jinja_template(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 581, in render_jinja_template
+    rendered_chat = compiled_template.render(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 19, in top-level template code
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 479, in raise_exception
+    raise jinja2.exceptions.TemplateError(message)
+jinja2.exceptions.TemplateError: Conversation roles must alternate user/assistant/user/assistant/...
+INFO:     192.168.178.26:42088 - "GET /gradio/gradio_api/queue/data?session_hash=alj8mgvz28l HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42088 - "GET /gradio/gradio_api/heartbeat/be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45890 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:45902 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45902 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m-it to be free for unloading...
+[ModelManager] Unloading model gemma3-270m-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m-it unloaded.
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:40114 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2457.38it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38752 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38752 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47632 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47632 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47632 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47632 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49706 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49706 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
