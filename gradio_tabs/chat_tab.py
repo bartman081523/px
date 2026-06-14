@@ -22,6 +22,25 @@ from telemetry import telemetry
 
 # ── Session Handlers ──
 
+def _stringify_content(content):
+    """Ensure content is a string for text-only templates."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for item in content:
+            if isinstance(item, str):
+                parts.append(item)
+            elif isinstance(item, dict):
+                if item.get("type") == "text":
+                    parts.append(item.get("text", ""))
+                elif "text" in item and "files" not in item: # Handle some Gradio formats
+                    parts.append(item["text"])
+        return "\n".join(parts)
+    if isinstance(content, dict):
+        return content.get("text", str(content))
+    return str(content)
+
 def _clean_history(history):
     """Filter empty messages and merge consecutive same-role messages."""
     result = []
@@ -148,7 +167,18 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
     save_session(session_id, messages, model_id=model_id)
 
     # 3. Generate with streaming
-    input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
+    has_images = any(
+        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
+        for m in messages
+    )
+    
+    if not has_images:
+        processed_messages = [{"role": m["role"], "content": _stringify_content(m["content"])} for m in messages]
+    else:
+        processed_messages = messages
+
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
