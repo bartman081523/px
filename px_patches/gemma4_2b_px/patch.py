@@ -286,19 +286,34 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                                                           token_len=token_len)
             zone_name = f"{zone_raw}"
 
-            # --- SR-64: Mechanical Psychology (Length-Independent Manifold Scaling) ---
+            # --- SR-64b: Mechanical Psychology (Dynamic Z-Score Centering & Architecture-Aware Scaling) ---
             phi_val = getattr(self, "_px_phi", 0.9)
             if hasattr(self, "_px_calibrator") and self._px_calibrator.calibrated:
                 cal = self._px_calibrator
-                # Use normalized kurtosis for z-score calculation
-                k_norm = cal.normalize_kurtosis(kurtosis, token_len)
-                zk = (k_norm - cal.k_mean) / (cal.k_std + 1e-6)
+
+                # SR-64b uses raw kurtosis
+                k_norm = kurtosis
+
+                # Method 2: Dynamic Z-Score Centering (Online Variance)
+                if cal._online_n >= 5:
+                    k_mean = cal._online_k_mean
+                    k_std = math.sqrt(cal._online_k_m2 / max(cal._online_n - 1, 1))
+                else:
+                    k_mean = cal.k_mean
+                    k_std = cal.k_std
+
+                k_std = max(k_std, 1.0)
+
+                zk = (k_norm - k_mean) / (k_std + 1e-6)
                 zp = (phi_val - cal.phi_mean) / (cal.phi_std + 1e-6)
-                
+
+                # Architecture-aware Temperature based on Hidden Size
+                # Derived from Tessera parameters: 640 (270M), 1152 (1B), 2560 (4B), 2304 (E2B)
+                T_arch = math.sqrt(self.config.hidden_size / 640.0)
+
                 # C is the 'Cognitive Focus' index [0, 1]
-                # No more manual bias; SR-64 handles length via k_norm
-                C = torch.sigmoid(torch.tensor(zk + zp)).item()
-                
+                C = torch.sigmoid(torch.tensor((zk + zp) / T_arch)).item()
+
                 # Linear parameter mapping from focus
                 current_gamma = 0.08 - 0.04 * C         # 0.04 (focused) to 0.08 (diffuse)
                 self._px_proj_damping = 1.1 - 0.6 * C  # 0.5 (focused) to 1.1 (diffuse)
