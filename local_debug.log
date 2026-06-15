@@ -957,3 +957,1422 @@ INFO:     192.168.178.26:49706 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 
 INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
 INFO:     192.168.178.26:49700 - "GET /gradio/gradio_api/queue/data?session_hash=be60qbr20o4 HTTP/1.1" 200 OK
 INFO:     192.168.178.26:49700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3618003]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:47390 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47390 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47390 - "GET /gradio/gradio_api/heartbeat/8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47394 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:47392 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47392 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43834 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43834 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43834 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:43672 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 43/340 [00:00<00:00, 429.40it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 993.15it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1166.78it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1093.47it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43816 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43672 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38070 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44646 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44646 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44646 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40086 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48012 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "GET /gradio/gradio_api/queue/data?session_hash=8973xyosbgv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44790 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3623795]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:39328 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39328 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39328 - "GET /gradio/gradio_api/heartbeat/7axw9j7oza HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39336 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39336 - "GET /gradio/gradio_api/queue/data?session_hash=7axw9j7oza HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39350 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39350 - "GET /gradio/gradio_api/queue/data?session_hash=7axw9j7oza HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41508 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41508 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "GET /gradio/gradio_api/queue/data?session_hash=7axw9j7oza HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 435.15it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 983.48it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1169.77it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1085.83it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:41516 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39170 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "GET /gradio/gradio_api/queue/data?session_hash=7axw9j7oza HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41516 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45804 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45804 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45804 - "GET /gradio/gradio_api/heartbeat/o0fkzqmx5aa HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45816 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:45822 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45822 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45822 - "GET /gradio/gradio_api/queue/data?session_hash=o0fkzqmx5aa HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45822 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45822 - "GET /gradio/gradio_api/queue/data?session_hash=o0fkzqmx5aa HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38040 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38040 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38040 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38040 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:38040 - "GET /gradio/gradio_api/queue/data?session_hash=o0fkzqmx5aa HTTP/1.1" 200 OK
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 1708.13it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:02<32:02,  2.18s/it]Loading weights:   0%|          | 4/883 [00:02<06:51,  2.14it/s]Loading weights:   1%|          | 10/883 [00:02<02:14,  6.50it/s]Loading weights:   2%|▏         | 16/883 [00:02<01:16, 11.27it/s]Loading weights:   2%|▏         | 20/883 [00:02<01:05, 13.24it/s]Loading weights:   3%|▎         | 29/883 [00:02<00:39, 21.80it/s]Loading weights:   4%|▎         | 33/883 [00:03<00:39, 21.68it/s]Loading weights:   5%|▍         | 41/883 [00:03<00:29, 28.49it/s]Loading weights:   5%|▌         | 45/883 [00:03<00:31, 26.47it/s]Loading weights:   6%|▌         | 54/883 [00:03<00:24, 34.31it/s]Loading weights:   7%|▋         | 59/883 [00:03<00:25, 31.89it/s]Loading weights:   8%|▊         | 68/883 [00:04<00:21, 38.38it/s]Loading weights:   8%|▊         | 73/883 [00:04<00:24, 32.81it/s]Loading weights:   9%|▉         | 78/883 [00:04<00:26, 30.60it/s]Loading weights:   9%|▉         | 82/883 [00:04<00:29, 26.77it/s]Loading weights:  10%|▉         | 88/883 [00:04<00:24, 32.15it/s]Loading weights:  11%|█         | 94/883 [00:04<00:22, 34.77it/s]Loading weights:  11%|█         | 98/883 [00:05<00:26, 29.88it/s]Loading weights:  12%|█▏        | 107/883 [00:05<00:20, 37.30it/s]Loading weights:  13%|█▎        | 111/883 [00:05<00:24, 31.35it/s]Loading weights:  13%|█▎        | 118/883 [00:05<00:22, 34.08it/s]Loading weights:  14%|█▍        | 122/883 [00:06<00:33, 22.68it/s]Loading weights:  14%|█▍        | 127/883 [00:06<00:29, 25.94it/s]Loading weights:  15%|█▌        | 133/883 [00:06<00:28, 26.02it/s]Loading weights:  16%|█▌        | 137/883 [00:06<00:38, 19.16it/s]Loading weights:  16%|█▌        | 143/883 [00:06<00:30, 24.38it/s]Loading weights:  17%|█▋        | 147/883 [00:07<00:40, 18.34it/s]Loading weights:  17%|█▋        | 150/883 [00:07<00:40, 18.28it/s]Loading weights:  17%|█▋        | 153/883 [00:07<00:37, 19.24it/s]Loading weights:  18%|█▊        | 159/883 [00:07<00:33, 21.69it/s]Loading weights:  18%|█▊        | 162/883 [00:08<00:46, 15.60it/s]Loading weights:  19%|█▉        | 169/883 [00:08<00:31, 22.80it/s]Loading weights:  20%|█▉        | 173/883 [00:08<00:40, 17.52it/s]Loading weights:  20%|█▉        | 176/883 [00:08<00:42, 16.53it/s]Loading weights:  21%|██        | 183/883 [00:08<00:29, 23.47it/s]Loading weights:  21%|██        | 187/883 [00:09<00:45, 15.14it/s]Loading weights:  22%|██▏       | 193/883 [00:09<00:34, 20.26it/s]Loading weights:  22%|██▏       | 198/883 [00:09<00:33, 20.62it/s]Loading weights:  23%|██▎       | 201/883 [00:10<00:43, 15.52it/s]Loading weights:  24%|██▎       | 209/883 [00:10<00:29, 23.14it/s]Loading weights:  24%|██▍       | 213/883 [00:10<00:43, 15.47it/s]Loading weights:  25%|██▌       | 221/883 [00:11<00:29, 22.61it/s]Loading weights:  26%|██▌       | 226/883 [00:11<00:42, 15.52it/s]Loading weights:  27%|██▋       | 235/883 [00:11<00:28, 22.67it/s]Loading weights:  27%|██▋       | 240/883 [00:12<00:38, 16.84it/s]Loading weights:  28%|██▊       | 247/883 [00:12<00:28, 22.12it/s]Loading weights:  29%|██▊       | 252/883 [00:13<00:40, 15.56it/s]Loading weights:  29%|██▉       | 260/883 [00:13<00:28, 21.69it/s]Loading weights:  30%|███       | 265/883 [00:13<00:37, 16.32it/s]Loading weights:  31%|███       | 270/883 [00:13<00:31, 19.47it/s]Loading weights:  31%|███▏      | 276/883 [00:14<00:28, 21.10it/s]Loading weights:  32%|███▏      | 280/883 [00:14<00:35, 17.15it/s]Loading weights:  32%|███▏      | 286/883 [00:14<00:27, 22.01it/s]Loading weights:  33%|███▎      | 290/883 [00:14<00:34, 17.34it/s]Loading weights:  33%|███▎      | 293/883 [00:15<00:35, 16.44it/s]Loading weights:  34%|███▍      | 301/883 [00:15<00:28, 20.17it/s]Loading weights:  34%|███▍      | 304/883 [00:15<00:36, 15.69it/s]Loading weights:  35%|███▌      | 312/883 [00:15<00:24, 23.24it/s]Loading weights:  36%|███▌      | 316/883 [00:16<00:31, 18.08it/s]Loading weights:  36%|███▌      | 319/883 [00:16<00:33, 16.98it/s]Loading weights:  37%|███▋      | 325/883 [00:16<00:25, 22.22it/s]Loading weights:  37%|███▋      | 329/883 [00:16<00:31, 17.39it/s]Loading weights:  38%|███▊      | 332/883 [00:17<00:31, 17.59it/s]Loading weights:  38%|███▊      | 336/883 [00:17<00:26, 20.64it/s]Loading weights:  39%|███▊      | 341/883 [00:17<00:25, 21.06it/s]Loading weights:  39%|███▉      | 344/883 [00:17<00:34, 15.45it/s]Loading weights:  40%|███▉      | 350/883 [00:17<00:24, 21.33it/s]Loading weights:  40%|████      | 354/883 [00:18<00:24, 22.04it/s]Loading weights:  40%|████      | 357/883 [00:18<00:33, 15.82it/s]Loading weights:  41%|████      | 364/883 [00:18<00:22, 23.17it/s]Loading weights:  42%|████▏     | 368/883 [00:18<00:25, 20.48it/s]Loading weights:  42%|████▏     | 374/883 [00:19<00:20, 24.85it/s]Loading weights:  43%|████▎     | 380/883 [00:19<00:16, 30.78it/s]Loading weights:  43%|████▎     | 384/883 [00:19<00:18, 27.46it/s]Loading weights:  45%|████▍     | 393/883 [00:19<00:13, 35.80it/s]Loading weights:  45%|████▌     | 398/883 [00:19<00:14, 32.86it/s]Loading weights:  46%|████▌     | 406/883 [00:19<00:12, 37.89it/s]Loading weights:  47%|████▋     | 411/883 [00:20<00:13, 34.02it/s]Loading weights:  47%|████▋     | 419/883 [00:20<00:11, 38.92it/s]Loading weights:  48%|████▊     | 424/883 [00:20<00:13, 34.91it/s]Loading weights:  49%|████▉     | 432/883 [00:20<00:11, 39.55it/s]Loading weights:  49%|████▉     | 437/883 [00:20<00:12, 35.30it/s]Loading weights:  51%|█████▏    | 454/883 [00:20<00:07, 60.17it/s]Loading weights:  54%|█████▍    | 480/883 [00:20<00:03, 103.08it/s]Loading weights:  57%|█████▋    | 505/883 [00:21<00:02, 135.03it/s]Loading weights:  60%|██████    | 533/883 [00:21<00:02, 168.80it/s]Loading weights:  64%|██████▎   | 561/883 [00:21<00:01, 196.62it/s]Loading weights:  66%|██████▋   | 585/883 [00:21<00:01, 206.59it/s]Loading weights:  70%|██████▉   | 615/883 [00:21<00:01, 228.42it/s]Loading weights:  72%|███████▏  | 639/883 [00:21<00:01, 231.25it/s]Loading weights:  75%|███████▌  | 665/883 [00:21<00:00, 232.48it/s]Loading weights:  79%|███████▊  | 695/883 [00:21<00:00, 247.60it/s]Loading weights:  82%|████████▏ | 721/883 [00:21<00:00, 247.30it/s]Loading weights:  85%|████████▍ | 747/883 [00:21<00:00, 244.70it/s]Loading weights:  88%|████████▊ | 773/883 [00:22<00:00, 245.82it/s]Loading weights:  91%|█████████ | 801/883 [00:22<00:00, 254.45it/s]Loading weights:  94%|█████████▎| 827/883 [00:22<00:00, 246.27it/s]Loading weights:  97%|█████████▋| 857/883 [00:22<00:00, 247.95it/s]Loading weights: 100%|██████████| 883/883 [00:22<00:00, 39.23it/s] 
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+INFO:     192.168.178.26:44854 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44854 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44854 - "GET /gradio/gradio_api/heartbeat/f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44870 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:44876 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44876 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44876 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44876 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44876 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-4b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-4b-it to free memory...
+[ModelManager] gemma3-4b-it unloaded.
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:38948 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  90%|████████▉ | 212/236 [00:00<00:00, 2106.19it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2220.17it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+INFO:     192.168.178.26:38966 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38966 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38948 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45978 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41366 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41366 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma4-e2b-it from google/gemma-4-E2B-it (type=gemma4_conditional, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:41366 - "GET /gradio/gradio_api/queue/data?session_hash=f02q9n7r92p HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:   4%|▍         | 81/1951 [00:00<00:02, 720.77it/s]Loading weights:   8%|▊         | 154/1951 [00:00<00:02, 649.93it/s]Loading weights:  11%|█▏        | 220/1951 [00:00<00:02, 608.83it/s]Loading weights:  14%|█▍        | 282/1951 [00:00<00:02, 595.41it/s]Loading weights:  18%|█▊        | 342/1951 [00:00<00:02, 595.15it/s]Loading weights:  21%|██        | 402/1951 [00:00<00:02, 585.13it/s]Loading weights:  24%|██▎       | 461/1951 [00:00<00:02, 579.74it/s]Loading weights:  27%|██▋       | 519/1951 [00:00<00:02, 562.85it/s]Loading weights:  30%|██▉       | 578/1951 [00:00<00:02, 550.55it/s]Loading weights:  33%|███▎      | 640/1951 [00:01<00:02, 558.68it/s]Loading weights:  36%|███▌      | 700/1951 [00:01<00:02, 551.31it/s]Loading weights:  36%|███▌      | 700/1951 [00:11<00:02, 551.31it/s]Loading weights:  39%|███▊      | 755/1951 [00:11<01:04, 18.61it/s] Loading weights:  39%|███▉      | 759/1951 [00:11<01:03, 18.88it/s]Loading weights:  41%|████      | 799/1951 [00:11<00:45, 25.18it/s]Loading weights:  43%|████▎     | 831/1951 [00:12<00:36, 31.06it/s]Loading weights:  44%|████▍     | 857/1951 [00:12<00:29, 36.53it/s]Loading weights:  45%|████▌     | 878/1951 [00:12<00:26, 41.23it/s]Loading weights:  46%|████▌     | 895/1951 [00:12<00:22, 47.96it/s]Loading weights:  47%|████▋     | 912/1951 [00:12<00:19, 53.74it/s]Loading weights:  48%|████▊     | 928/1951 [00:13<00:16, 61.97it/s]Loading weights:  48%|████▊     | 942/1951 [00:13<00:14, 68.33it/s]Loading weights:  49%|████▉     | 955/1951 [00:13<00:13, 75.14it/s]Loading weights:  50%|████▉     | 968/1951 [00:13<00:12, 78.83it/s]Loading weights:  50%|█████     | 980/1951 [00:13<00:12, 80.20it/s]Loading weights:  51%|█████     | 997/1951 [00:13<00:09, 95.64it/s]Loading weights:  52%|█████▏    | 1013/1951 [00:13<00:09, 95.56it/s]Loading weights:  53%|█████▎    | 1025/1951 [00:13<00:10, 87.33it/s]Loading weights:  53%|█████▎    | 1036/1951 [00:14<00:12, 72.56it/s]Loading weights:  54%|█████▎    | 1045/1951 [00:14<00:14, 60.55it/s]Loading weights:  54%|█████▍    | 1053/1951 [00:14<00:14, 63.78it/s]Loading weights:  54%|█████▍    | 1061/1951 [00:14<00:14, 61.10it/s]Loading weights:  55%|█████▍    | 1069/1951 [00:14<00:15, 56.84it/s]Loading weights:  55%|█████▌    | 1080/1951 [00:14<00:13, 64.72it/s]Loading weights:  56%|█████▌    | 1087/1951 [00:15<00:16, 52.23it/s]Loading weights:  56%|█████▌    | 1097/1951 [00:15<00:13, 61.19it/s]Loading weights:  57%|█████▋    | 1104/1951 [00:15<00:14, 57.04it/s]Loading weights:  57%|█████▋    | 1111/1951 [00:15<00:16, 51.57it/s]Loading weights:  58%|█████▊    | 1122/1951 [00:15<00:13, 63.74it/s]Loading weights:  58%|█████▊    | 1130/1951 [00:15<00:15, 52.84it/s]Loading weights:  58%|█████▊    | 1139/1951 [00:16<00:13, 60.25it/s]Loading weights:  59%|█████▊    | 1146/1951 [00:16<00:14, 56.41it/s]Loading weights:  59%|█████▉    | 1153/1951 [00:16<00:14, 56.70it/s]Loading weights:  59%|█████▉    | 1160/1951 [00:16<00:14, 54.06it/s]Loading weights:  60%|█████▉    | 1167/1951 [00:16<00:13, 57.71it/s]Loading weights:  60%|██████    | 1174/1951 [00:16<00:14, 54.47it/s]Loading weights:  61%|██████    | 1182/1951 [00:16<00:14, 52.06it/s]Loading weights:  61%|██████    | 1192/1951 [00:16<00:12, 62.96it/s]Loading weights:  61%|██████▏   | 1199/1951 [00:17<00:14, 50.29it/s]Loading weights:  62%|██████▏   | 1209/1951 [00:17<00:12, 60.60it/s]Loading weights:  62%|██████▏   | 1216/1951 [00:17<00:12, 56.94it/s]Loading weights:  63%|██████▎   | 1223/1951 [00:17<00:12, 57.10it/s]Loading weights:  63%|██████▎   | 1230/1951 [00:17<00:13, 54.10it/s]Loading weights:  63%|██████▎   | 1237/1951 [00:17<00:12, 57.11it/s]Loading weights:  64%|██████▎   | 1243/1951 [00:17<00:13, 52.01it/s]Loading weights:  64%|██████▍   | 1251/1951 [00:18<00:11, 58.69it/s]Loading weights:  64%|██████▍   | 1258/1951 [00:18<00:12, 54.89it/s]Loading weights:  65%|██████▍   | 1266/1951 [00:18<00:13, 52.31it/s]Loading weights:  65%|██████▌   | 1276/1951 [00:18<00:10, 63.25it/s]Loading weights:  66%|██████▌   | 1283/1951 [00:18<00:13, 50.67it/s]Loading weights:  66%|██████▋   | 1297/1951 [00:18<00:09, 68.88it/s]Loading weights:  71%|███████   | 1389/1951 [00:18<00:02, 262.55it/s]Loading weights:  76%|███████▋  | 1491/1951 [00:19<00:01, 446.43it/s]Loading weights:  81%|████████  | 1584/1951 [00:19<00:00, 567.96it/s]Loading weights:  86%|████████▌ | 1675/1951 [00:19<00:00, 649.80it/s]Loading weights:  91%|█████████ | 1779/1951 [00:19<00:00, 755.86it/s]Loading weights:  96%|█████████▌| 1869/1951 [00:19<00:00, 789.55it/s]Loading weights: 100%|██████████| 1951/1951 [00:19<00:00, 99.71it/s] 
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1011, in asyncgen_wrapper
+    response = await iterator.__anext__()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 537, in _wrapper
+    async for chunk in submit_fn(*args, **kwargs):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/chat_interface.py", line 965, in _stream_fn
+    first_response = await utils.async_iteration(generator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 285, in chat_wrapper
+    yield from chat_fn(*args, manager=manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 124, in chat_fn
+    model_entry = loop.run_until_complete(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/run/media/julian/ML4/ollama-work/all_space/model_manager.py", line 113, in get_model
+    entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset))
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space/model_manager.py", line 113, in <lambda>
+    entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset))
+  File "/run/media/julian/ML4/ollama-work/all_space/model_manager.py", line 180, in _load_model
+    apply_fn = self._get_patch_function(model_id, "apply_px_patch")
+  File "/run/media/julian/ML4/ollama-work/all_space/model_manager.py", line 259, in _get_patch_function
+    mod = importlib.import_module(module_name)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/run/media/julian/ML4/ollama-work/all_space/px_patches/gemma4_2b_px/patch.py", line 25, in <module>
+    from .auto_tune import AutoCalibrator, SCALE_DEFAULTS
+  File "/run/media/julian/ML4/ollama-work/all_space/px_patches/gemma4_2b_px/auto_tune.py", line 117
+    k_norm = kurtosis
+    ^^^^^^
+IndentationError: expected an indented block after function definition on line 114
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3627400]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:47928 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47928 - "GET /gradio/gradio_api/heartbeat/jwlsesdakv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47944 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:47948 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47948 - "GET /gradio/gradio_api/queue/data?session_hash=jwlsesdakv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47948 - "GET /gradio/gradio_api/queue/data?session_hash=jwlsesdakv HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41856 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41856 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41856 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41856 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma4-e2b-it from google/gemma-4-E2B-it (type=gemma4_conditional, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:41856 - "GET /gradio/gradio_api/queue/data?session_hash=jwlsesdakv HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:   5%|▍         | 96/1951 [00:00<00:01, 954.05it/s]Loading weights:  17%|█▋        | 330/1951 [00:00<00:00, 1744.47it/s]Loading weights:  29%|██▉       | 566/1951 [00:00<00:00, 1979.87it/s]Loading weights:  39%|███▉      | 764/1951 [00:01<00:03, 340.01it/s] Loading weights:  46%|████▌     | 901/1951 [00:01<00:02, 429.28it/s]Loading weights:  53%|█████▎    | 1031/1951 [00:01<00:01, 515.25it/s]Loading weights:  59%|█████▉    | 1154/1951 [00:02<00:01, 550.58it/s]Loading weights:  65%|██████▍   | 1259/1951 [00:02<00:01, 579.43it/s]Loading weights:  80%|████████  | 1567/1951 [00:02<00:00, 987.10it/s]Loading weights: 100%|██████████| 1951/1951 [00:02<00:00, 820.27it/s]
+[gemma4-px] Active Manifold for L35.
+[ModelManager] gemma4-e2b-it loaded and patched successfully.
+Exception in thread Thread-6 (generate_with_lock):
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 206, in generate_with_lock
+    model.generate(**gen_kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2580, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2773, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3819, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma4/modeling_gemma4.py", line 2482, in forward
+    outputs = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space/px_patches/gemma4_2b_px/patch.py", line 1033, in wrapper
+    return self_outer._px_original_forward(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 1032, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma4/modeling_gemma4.py", line 2336, in forward
+    outputs = self.language_model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space/px_patches/gemma4_2b_px/patch.py", line 425, in _px_forward
+    trans_out = self.layers[current_layer](
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma4/modeling_gemma4.py", line 1396, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma4/modeling_gemma4.py", line 1260, in forward
+    attn_output, attn_weights = attention_interface(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/integrations/sdpa_attention.py", line 92, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 88.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 95.38 MiB is free. Including non-PyTorch memory, this process has 11.10 GiB memory in use. Of the allocated memory 10.91 GiB is allocated by PyTorch, and 87.05 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+INFO:     192.168.178.26:46436 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Bold.woff2 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44552 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44552 - "GET /gradio/assets/MatplotlibPlot-DvS6m0KD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44552 - "GET /gradio/assets/MatplotlibPlot-CJN7LqPR.js HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3628125]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:38538 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38538 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38538 - "GET /gradio/gradio_api/heartbeat/4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38540 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:38546 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38546 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38546 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38546 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38546 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48028 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48028 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<02:16,  1.72it/s]Loading weights:  21%|██        | 49/236 [00:00<00:01, 95.64it/s]Loading weights:  41%|████      | 96/236 [00:00<00:00, 176.12it/s]Loading weights:  62%|██████▏   | 147/236 [00:00<00:00, 253.73it/s]Loading weights:  84%|████████▍ | 198/236 [00:00<00:00, 317.55it/s]Loading weights: 100%|██████████| 236/236 [00:01<00:00, 221.85it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42922 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/queue/data?session_hash=4ccisoqmdpe HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42912 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44234 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:42912 - "GET /gradio/gradio_api/heartbeat/awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44242 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44242 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44242 - "GET /gradio/gradio_api/queue/data?session_hash=awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44242 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44242 - "GET /gradio/gradio_api/queue/data?session_hash=awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49456 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49456 - "GET /gradio/gradio_api/queue/data?session_hash=awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "GET /gradio/gradio_api/queue/data?session_hash=awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37652 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37652 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "GET /gradio/gradio_api/queue/data?session_hash=awf1fsrfq9q HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3628907]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:46030 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46030 - "GET /gradio/gradio_api/heartbeat/4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46040 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:46046 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46046 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46046 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37954 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37954 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:48978 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   0%|          | 1/340 [00:00<02:27,  2.29it/s]Loading weights:   9%|▊         | 29/340 [00:00<00:04, 67.60it/s]Loading weights:  13%|█▎        | 43/340 [00:00<00:03, 81.40it/s]Loading weights:  17%|█▋        | 57/340 [00:00<00:03, 93.72it/s]Loading weights:  22%|██▏       | 75/340 [00:00<00:02, 114.51it/s]Loading weights:  26%|██▋       | 90/340 [00:01<00:02, 118.34it/s]Loading weights:  31%|███       | 104/340 [00:01<00:02, 117.28it/s]Loading weights:  36%|███▌      | 121/340 [00:01<00:01, 124.60it/s]Loading weights:  43%|████▎     | 146/340 [00:01<00:01, 153.84it/s]Loading weights:  48%|████▊     | 163/340 [00:01<00:01, 130.36it/s]Loading weights:  54%|█████▍    | 184/340 [00:01<00:01, 149.23it/s]Loading weights:  59%|█████▉    | 201/340 [00:01<00:00, 144.20it/s]Loading weights:  64%|██████▍   | 217/340 [00:01<00:00, 135.78it/s]Loading weights:  68%|██████▊   | 232/340 [00:02<00:00, 133.09it/s]Loading weights:  77%|███████▋  | 262/340 [00:02<00:00, 174.96it/s]Loading weights:  87%|████████▋ | 297/340 [00:02<00:00, 220.97it/s]Loading weights: 100%|██████████| 340/340 [00:02<00:00, 146.90it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48994 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3629185]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:45476 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45476 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:46000 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 49/340 [00:00<00:00, 489.62it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 998.40it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1179.64it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1095.15it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46024 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46000 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3629416]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:49720 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49720 - "GET /gradio/gradio_api/queue/data?session_hash=4ayv32m7iga HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49720 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49720 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49720 - "GET /gradio/gradio_api/heartbeat/f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49724 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:49726 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49726 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49726 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49726 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:38942 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  15%|█▍        | 50/340 [00:00<00:00, 499.95it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1005.04it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1182.97it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1097.99it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3629897]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:47624 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47624 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43566 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43566 - "GET /gradio/gradio_api/queue/data?session_hash=f02jhmr20ve HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43566 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43566 - "GET /gradio/gradio_api/heartbeat/qlo41kkokzb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43570 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:43580 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43580 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43580 - "GET /gradio/gradio_api/queue/data?session_hash=qlo41kkokzb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43592 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43580 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43580 - "GET /gradio/gradio_api/queue/data?session_hash=qlo41kkokzb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:37498 - "GET /gradio/gradio_api/queue/data?session_hash=qlo41kkokzb HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   8%|▊         | 27/340 [00:00<00:01, 269.86it/s]Loading weights:  47%|████▋     | 160/340 [00:00<00:00, 892.85it/s]Loading weights:  89%|████████▉ | 302/340 [00:00<00:00, 1129.19it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1038.71it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "GET /gradio/gradio_api/queue/data?session_hash=qlo41kkokzb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37498 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37462 - "GET /gradio/gradio_api/heartbeat/reg73j2rv8k HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49818 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:49822 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49822 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49822 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49822 - "GET /gradio/gradio_api/queue/data?session_hash=reg73j2rv8k HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49846 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49846 - "GET /gradio/gradio_api/queue/data?session_hash=reg73j2rv8k HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3630924]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3631053]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:42062 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43180 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:43176 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42070 - "GET /gradio/gradio_api/heartbeat/9cb3e97ulde HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-op1FYHDY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-D0n2Hccl.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Index-BPmhhU8b.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43176 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43162 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43164 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43170 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42062 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49508 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49508 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:45152 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 51/340 [00:00<00:00, 509.07it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1001.99it/s]Loading weights:  96%|█████████▌| 326/340 [00:00<00:00, 1183.14it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1097.36it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45152 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39610 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39610 - "GET /gradio/gradio_api/queue/data?session_hash=9cb3e97ulde HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3631309]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:41528 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41178 - "GET /gradio/gradio_api/heartbeat/s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41228 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-op1FYHDY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-WkIYFpKS.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-D0n2Hccl.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Index-DpH7sR6h.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-BPmhhU8b.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41218 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41198 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41214 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/gradio_api/file%3D/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/icons/plus.svg HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41184 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41528 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45502 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45502 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:45060 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 538.40it/s]Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 993.92it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1180.36it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1104.18it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40192 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46688 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46754 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46754 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46778 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46488 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46766 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42938 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42938 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42938 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42950 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39488 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39488 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39488 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39488 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44584 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37128 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43838 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43838 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43838 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43844 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47526 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47526 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39934 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "GET /gradio/gradio_api/queue/data?session_hash=s8z728wqsw HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39948 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3632346]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:44316 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44316 - "GET /gradio/gradio_api/heartbeat/gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44320 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:44326 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44326 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44326 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44326 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44326 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:44480 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 3012.82it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44480 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:42720 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   9%|▉         | 30/340 [00:00<00:01, 294.19it/s]Loading weights:  51%|█████     | 172/340 [00:00<00:00, 945.03it/s]Loading weights:  91%|█████████ | 308/340 [00:00<00:00, 1132.84it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1047.21it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42720 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39768 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39768 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46556 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46556 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40038 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43028 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41688 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41688 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47610 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47610 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41014 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37344 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37344 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37344 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37344 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45046 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47598 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47598 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40448 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40448 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40448 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40448 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37892 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37892 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37904 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37892 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37904 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47876 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47876 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39042 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39042 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "GET /gradio/gradio_api/queue/data?session_hash=gjh0ccy8wsb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3636233]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3637902]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:38080 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38090 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:38080 - "GET /gradio/gradio_api/heartbeat/hnlkh5w1ad4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38096 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38096 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38108 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38096 - "GET /gradio/gradio_api/queue/data?session_hash=hnlkh5w1ad4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38364 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38364 - "GET /gradio/gradio_api/queue/data?session_hash=hnlkh5w1ad4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:39350 - "GET /gradio/gradio_api/queue/data?session_hash=hnlkh5w1ad4 HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 437.18it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1008.78it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1191.19it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1098.75it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41452 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "GET /gradio/gradio_api/queue/data?session_hash=hnlkh5w1ad4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39350 - "GET /gradio/gradio_api/queue/data?session_hash=hnlkh5w1ad4 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45136 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45136 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45136 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3638135]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3638634]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:46042 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46044 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:46042 - "GET /gradio/gradio_api/heartbeat/84q7jstm1ng HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46058 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46058 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46058 - "GET /gradio/gradio_api/queue/data?session_hash=84q7jstm1ng HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45562 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45562 - "GET /gradio/gradio_api/queue/data?session_hash=84q7jstm1ng HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:47328 - "GET /gradio/gradio_api/queue/data?session_hash=84q7jstm1ng HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 432.19it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 994.07it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1176.28it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1085.39it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "GET /gradio/gradio_api/queue/data?session_hash=84q7jstm1ng HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47328 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3641583]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:45858 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45872 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:45858 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45858 - "GET /gradio/gradio_api/heartbeat/fkucva9bf7w HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45874 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45874 - "GET /gradio/gradio_api/queue/data?session_hash=fkucva9bf7w HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45874 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45874 - "GET /gradio/gradio_api/queue/data?session_hash=fkucva9bf7w HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:49494 - "GET /gradio/gradio_api/queue/data?session_hash=fkucva9bf7w HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 51/340 [00:00<00:00, 507.45it/s]Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 999.39it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1186.26it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1106.87it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39506 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "GET /gradio/gradio_api/queue/data?session_hash=fkucva9bf7w HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49494 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42348 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42348 - "GET /gradio/gradio_api/queue/data?session_hash=fkucva9bf7w HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42426 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42442 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:42426 - "GET /gradio/gradio_api/heartbeat/zbr0cq1om9 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42448 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42448 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42448 - "GET /gradio/gradio_api/queue/data?session_hash=zbr0cq1om9 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42464 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42464 - "GET /gradio/gradio_api/queue/data?session_hash=zbr0cq1om9 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49368 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49368 - "GET /gradio/gradio_api/queue/data?session_hash=zbr0cq1om9 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49368 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49368 - "GET /gradio/gradio_api/queue/data?session_hash=zbr0cq1om9 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38432 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38446 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:38432 - "GET /gradio/gradio_api/heartbeat/x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38454 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38454 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38454 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37634 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37634 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37638 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37638 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37638 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43070 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43070 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39714 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39714 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44314 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47812 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47812 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47812 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47812 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:47812 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2469.44it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:41886 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41900 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41886 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41886 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41886 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43978 - "GET /gradio/gradio_api/queue/data?session_hash=x06ulqz35bp HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3647331]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:39194 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39194 - "GET /gradio/gradio_api/heartbeat/68zpcp8uy7i HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39208 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39218 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:39208 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39208 - "GET /gradio/gradio_api/queue/data?session_hash=68zpcp8uy7i HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45532 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45532 - "GET /gradio/gradio_api/queue/data?session_hash=68zpcp8uy7i HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:49934 - "GET /gradio/gradio_api/queue/data?session_hash=68zpcp8uy7i HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 437.46it/s]Loading weights:  54%|█████▍    | 183/340 [00:00<00:00, 988.09it/s]Loading weights:  93%|█████████▎| 317/340 [00:00<00:00, 1145.99it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1081.65it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 58
+DEBUG: Combined messages length: 59
+DEBUG: Yielding ui_messages length: 60
+DEBUG: Yielding ui_messages length: 60
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42444 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "GET /gradio/gradio_api/queue/data?session_hash=68zpcp8uy7i HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK

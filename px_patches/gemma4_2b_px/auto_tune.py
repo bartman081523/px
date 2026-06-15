@@ -111,8 +111,8 @@ class AutoCalibrator:
         if model_id:
             self.load_manifold()
 
-        def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None,
-                update_online: bool = False, token_len: int = 1):
+    def collect(self, kurtosis: float, phi: float, token_diversity: Optional[float] = None,
+            update_online: bool = False, token_len: int = 1):
         # SR-64b uses raw kurtosis
         k_norm = kurtosis
 
