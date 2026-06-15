@@ -18,7 +18,6 @@ from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
 from telemetry import telemetry
-from gradio.components.chatbot import Message, TextMessage
 
 
 # ── Session Handlers ──
@@ -119,6 +118,7 @@ def handle_refresh():
 
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id, manager: ModelManager):
     """Core chat logic with history management and model generation."""
+    print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
     # 1. Update config
     loop = asyncio.new_event_loop()
     try:
@@ -281,39 +281,96 @@ def build_chat_tab(manager: ModelManager):
         import_file = gr.File(label="Import JSON", file_types=[".json"])
         import_btn = gr.Button("Import & Load", size="sm")
 
-    # ── Chat Interface ──
+    # ── Chat Components ──
 
-    # Chatbot with auto-scrolling disabled
-    chatbot_component = gr.Chatbot(
+    chatbot = gr.Chatbot(
         autoscroll=False,
-        render=False,
+        scale=1,
+    )
+    
+    with gr.Row():
+        msg_input = gr.Textbox(
+            placeholder="Type a message...",
+            show_label=False,
+            scale=9,
+            container=False
+        )
+        submit_btn = gr.Button("Send", scale=1, variant="primary")
+
+    # ── Logic ──
+
+    def user_message(message, history):
+        # 1. Clear input and append user message to UI immediately
+        return "", history + [{"role": "user", "content": message}]
+
+    def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id):
+        # 2. Call our core chat_fn and yield full updated history
+        # We pass history (which now has the user message) to chat_fn
+        # But chat_fn also does its own history recovery if needed.
+        # To avoid duplication, we ensure chat_fn sees the 'true' state.
+        
+        # Generator for streaming updates
+        generator = chat_fn(
+            message=history[-1]["content"], # Last message is the user message
+            history=history[:-1],           # Everything before is the history
+            model_id=model_id,
+            px_preset=px_preset,
+            temp=temp,
+            tp=tp,
+            mt=mt,
+            rp=rp,
+            gamma=gamma,
+            session_id=session_id,
+            manager=manager
+        )
+        
+        # Since chat_fn now yields only partial_text (string), 
+        # we need to append it to history for the UI
+        current_history = list(history)
+        current_history.append({"role": "assistant", "content": ""})
+        
+        for partial_text in generator:
+            current_history[-1]["content"] = partial_text
+            yield current_history
+
+    # Events
+    msg_input.submit(
+        fn=user_message,
+        inputs=[msg_input, chatbot],
+        outputs=[msg_input, chatbot],
+        queue=False
+    ).then(
+        fn=bot_response,
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        outputs=[chatbot]
     )
 
-    def chat_wrapper(*args):
-        yield from chat_fn(*args, manager=manager)
-
-    chat_interface = gr.ChatInterface(
-        fn=chat_wrapper,
-        chatbot=chatbot_component,
-        additional_inputs=[model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
-        save_history=False
+    submit_btn.click(
+        fn=user_message,
+        inputs=[msg_input, chatbot],
+        outputs=[msg_input, chatbot],
+        queue=False
+    ).then(
+        fn=bot_response,
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        outputs=[chatbot]
     )
 
     # ── Internal connections ──
     
     new_session_btn.click(
         fn=handle_new_session,
-        outputs=[session_id_state, chat_interface.chatbot, session_dropdown, session_id_display]
+        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
     )
     
     load_session_btn.click(
         fn=handle_load_saved,
         inputs=[session_dropdown],
-        outputs=[session_id_state, chat_interface.chatbot, session_dropdown, session_id_display]
+        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
     )
     
-    export_btn.click(fn=handle_export, inputs=[session_id_state, chat_interface.chatbot], outputs=[export_file])
-    import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chat_interface.chatbot, session_dropdown, session_id_display])
+    export_btn.click(fn=handle_export, inputs=[session_id_state, chatbot], outputs=[export_file])
+    import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chatbot, session_dropdown, session_id_display])
     refresh_sessions_btn.click(fn=handle_refresh, outputs=[session_dropdown])
 
-    return session_id_state, chat_interface.chatbot, session_dropdown, session_id_display
+    return session_id_state, chatbot, session_dropdown, session_id_display
