@@ -18,6 +18,7 @@ from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
 from telemetry import telemetry
+from gradio.components.chatbot import Message, TextMessage
 
 
 # ── Session Handlers ──
@@ -143,6 +144,7 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
         history = data.get("history", [])
     
     cleaned_history = _clean_history(history)
+    print(f"DEBUG: Initial cleaned_history length: {len(cleaned_history)}")
     
     actual_message = message
     if isinstance(message, dict):
@@ -157,6 +159,7 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
             actual_message = text
 
     messages = cleaned_history + [{"role": "user", "content": actual_message}]
+    print(f"DEBUG: Combined messages length: {len(messages)}")
 
     # SR-61b: Explicitly clear cache to prevent OOM on 12GB cards
     import torch
@@ -201,6 +204,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
         pass
 
     def generate_with_lock():
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         manager.lock_model(model_id)
         try:
             model.generate(**gen_kwargs)
@@ -213,6 +219,8 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
     partial_text = ""
     for new_text in streamer:
         partial_text += new_text
+        if len(partial_text) % 20 == 0:
+             print(f"DEBUG: Yielding partial_text length: {len(partial_text)}")
         yield partial_text
 
     # 4. Record Telemetry
