@@ -2376,3 +2376,1212 @@ INFO:     192.168.178.26:42444 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 
 INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
 INFO:     192.168.178.26:49934 - "GET /gradio/gradio_api/queue/data?session_hash=68zpcp8uy7i HTTP/1.1" 200 OK
 INFO:     192.168.178.26:49934 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3648513]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:46634 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46642 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:46634 - "GET /gradio/gradio_api/heartbeat/6okr4j4g79 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46644 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46644 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46644 - "GET /gradio/gradio_api/queue/data?session_hash=6okr4j4g79 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46644 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46644 - "GET /gradio/gradio_api/queue/data?session_hash=6okr4j4g79 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:45684 - "GET /gradio/gradio_api/queue/data?session_hash=6okr4j4g79 HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 3055.50it/s]
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 56
+DEBUG: Combined messages length: 57
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 440
+INFO:     192.168.178.26:47768 - "POST /gradio/gradio_api/cancel HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/reset HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47768 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "GET /gradio/gradio_api/queue/data?session_hash=6okr4j4g79 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45684 - "GET /gradio/gradio_api/heartbeat/7y1qvpqnkvb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47768 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45156 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:47768 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47768 - "GET /gradio/gradio_api/queue/data?session_hash=7y1qvpqnkvb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47768 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47768 - "GET /gradio/gradio_api/queue/data?session_hash=7y1qvpqnkvb HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41518 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41518 - "GET /gradio/gradio_api/heartbeat/d9edon4nr HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41524 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41530 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:41524 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41524 - "GET /gradio/gradio_api/queue/data?session_hash=d9edon4nr HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41524 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41524 - "GET /gradio/gradio_api/queue/data?session_hash=d9edon4nr HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:38550 - "GET /gradio/gradio_api/queue/data?session_hash=d9edon4nr HTTP/1.1" 200 OK
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   9%|▉         | 30/340 [00:00<00:01, 295.71it/s]Loading weights:  51%|█████     | 172/340 [00:00<00:00, 946.00it/s]Loading weights:  89%|████████▉ | 304/340 [00:00<00:00, 1105.77it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1041.81it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 56
+DEBUG: Combined messages length: 57
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 60
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "GET /gradio/gradio_api/queue/data?session_hash=d9edon4nr HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38550 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40350 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40350 - "GET /gradio/gradio_api/queue/data?session_hash=d9edon4nr HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space/gradio_tabs/chat_tab.py", line 286, in build_chat_tab
+    chatbot = gr.Chatbot(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Chatbot.__init__() got an unexpected keyword argument 'type'
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3649638]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:38340 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38346 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:38340 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38340 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38340 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38348 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38348 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46892 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46892 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 58 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:46892 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 437.40it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1007.97it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1186.13it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1095.94it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 58
+DEBUG: Combined messages length: 59
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 100
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49150 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49150 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 60 messages
+DEBUG: Initial cleaned_history length: 60
+DEBUG: Combined messages length: 61
+INFO:     192.168.178.26:49150 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 420
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47588 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47588 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 62 messages
+DEBUG: Initial cleaned_history length: 62
+DEBUG: Combined messages length: 63
+INFO:     192.168.178.26:47588 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45394 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45394 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 64 messages
+DEBUG: Initial cleaned_history length: 64
+DEBUG: Combined messages length: 65
+INFO:     192.168.178.26:45394 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43526 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43526 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 66 messages
+DEBUG: Initial cleaned_history length: 66
+DEBUG: Combined messages length: 67
+INFO:     192.168.178.26:43526 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 740
+DEBUG: Yielding partial_text length: 740
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45820 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45820 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 68 messages
+DEBUG: Initial cleaned_history length: 68
+DEBUG: Combined messages length: 69
+INFO:     192.168.178.26:45820 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 500
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38056 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38056 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 70 messages
+DEBUG: Initial cleaned_history length: 70
+DEBUG: Combined messages length: 71
+INFO:     192.168.178.26:38056 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 740
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45638 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45638 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 72 messages
+DEBUG: Initial cleaned_history length: 72
+DEBUG: Combined messages length: 73
+INFO:     192.168.178.26:45638 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 760
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 1100
+DEBUG: Yielding partial_text length: 1100
+DEBUG: Yielding partial_text length: 1100
+DEBUG: Yielding partial_text length: 1100
+DEBUG: Yielding partial_text length: 1100
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49536 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49536 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 74 messages
+DEBUG: Initial cleaned_history length: 74
+DEBUG: Combined messages length: 75
+INFO:     192.168.178.26:49536 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 80
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44298 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44298 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 76 messages
+DEBUG: Initial cleaned_history length: 76
+DEBUG: Combined messages length: 77
+INFO:     192.168.178.26:44298 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49180 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49180 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 78 messages
+DEBUG: Initial cleaned_history length: 78
+DEBUG: Combined messages length: 79
+INFO:     192.168.178.26:49180 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40400 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40400 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 80 messages
+DEBUG: Initial cleaned_history length: 80
+DEBUG: Combined messages length: 81
+INFO:     192.168.178.26:40400 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44880 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44880 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 82 messages
+DEBUG: Initial cleaned_history length: 82
+DEBUG: Combined messages length: 83
+INFO:     192.168.178.26:44880 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 400
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 660
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42942 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42942 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 84 messages
+DEBUG: Initial cleaned_history length: 84
+DEBUG: Combined messages length: 85
+INFO:     192.168.178.26:42942 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38688 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 86 messages
+DEBUG: Initial cleaned_history length: 86
+DEBUG: Combined messages length: 87
+INFO:     192.168.178.26:38688 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48090 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48090 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 88 messages
+DEBUG: Initial cleaned_history length: 88
+DEBUG: Combined messages length: 89
+INFO:     192.168.178.26:48090 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 740
+DEBUG: Yielding partial_text length: 1240
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43532 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43532 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 90 messages
+DEBUG: Initial cleaned_history length: 90
+DEBUG: Combined messages length: 91
+INFO:     192.168.178.26:43532 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 140
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48056 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48056 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 92 messages
+DEBUG: Initial cleaned_history length: 92
+DEBUG: Combined messages length: 93
+INFO:     192.168.178.26:48056 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 560
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49730 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49730 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 94 messages
+DEBUG: Initial cleaned_history length: 94
+DEBUG: Combined messages length: 95
+INFO:     192.168.178.26:49730 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 240
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39674 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39674 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 96 messages
+DEBUG: Initial cleaned_history length: 96
+DEBUG: Combined messages length: 97
+INFO:     192.168.178.26:39674 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 200
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44508 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44508 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 98 messages
+DEBUG: Initial cleaned_history length: 98
+DEBUG: Combined messages length: 99
+INFO:     192.168.178.26:44508 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 320
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39832 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39832 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 100 messages
+DEBUG: Initial cleaned_history length: 100
+DEBUG: Combined messages length: 101
+INFO:     192.168.178.26:39832 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43534 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43534 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 102 messages
+DEBUG: Initial cleaned_history length: 102
+DEBUG: Combined messages length: 103
+INFO:     192.168.178.26:43534 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 360
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39926 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39926 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 104 messages
+DEBUG: Initial cleaned_history length: 104
+DEBUG: Combined messages length: 105
+INFO:     192.168.178.26:39926 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 240
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39004 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 106 messages
+DEBUG: Initial cleaned_history length: 106
+DEBUG: Combined messages length: 107
+INFO:     192.168.178.26:39004 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48450 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48450 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 108 messages
+DEBUG: Initial cleaned_history length: 108
+DEBUG: Combined messages length: 109
+INFO:     192.168.178.26:48450 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37896 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37896 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 110 messages
+DEBUG: Initial cleaned_history length: 110
+DEBUG: Combined messages length: 111
+INFO:     192.168.178.26:37896 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44058 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44058 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 112 messages
+DEBUG: Initial cleaned_history length: 112
+DEBUG: Combined messages length: 113
+INFO:     192.168.178.26:44058 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 20
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44932 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44932 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 114 messages
+DEBUG: Initial cleaned_history length: 114
+DEBUG: Combined messages length: 115
+INFO:     192.168.178.26:44932 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47060 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 116 messages
+DEBUG: Initial cleaned_history length: 116
+DEBUG: Combined messages length: 117
+INFO:     192.168.178.26:47060 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 280
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:46566 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46566 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 118 messages
+DEBUG: Initial cleaned_history length: 118
+DEBUG: Combined messages length: 119
+INFO:     192.168.178.26:46566 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 120 messages
+DEBUG: Initial cleaned_history length: 120
+DEBUG: Combined messages length: 121
+INFO:     192.168.178.26:37978 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42280 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42280 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48530 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48530 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+INFO:     192.168.178.26:48530 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 240
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49836 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49836 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 2 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     192.168.178.26:49836 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45920 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45920 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 4 messages
+DEBUG: Initial cleaned_history length: 4
+DEBUG: Combined messages length: 5
+INFO:     192.168.178.26:45920 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47714 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47714 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 6 messages
+DEBUG: Initial cleaned_history length: 6
+DEBUG: Combined messages length: 7
+INFO:     192.168.178.26:47714 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 460
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48660 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48660 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 8 messages
+DEBUG: Initial cleaned_history length: 8
+DEBUG: Combined messages length: 9
+INFO:     192.168.178.26:48660 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 420
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43280 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43280 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 10 messages
+DEBUG: Initial cleaned_history length: 10
+DEBUG: Combined messages length: 11
+INFO:     192.168.178.26:43280 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 540
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37802 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37802 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 12 messages
+DEBUG: Initial cleaned_history length: 12
+DEBUG: Combined messages length: 13
+INFO:     192.168.178.26:37802 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 980
+DEBUG: Yielding partial_text length: 1020
+DEBUG: Yielding partial_text length: 1080
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42094 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42094 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 14 messages
+DEBUG: Initial cleaned_history length: 14
+DEBUG: Combined messages length: 15
+INFO:     192.168.178.26:42094 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 720
+DEBUG: Yielding partial_text length: 720
+DEBUG: Yielding partial_text length: 900
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 1080
+DEBUG: Yielding partial_text length: 1240
+DEBUG: Yielding partial_text length: 1240
+DEBUG: Yielding partial_text length: 1400
+DEBUG: Yielding partial_text length: 1400
+DEBUG: Yielding partial_text length: 1400
+DEBUG: Yielding partial_text length: 1480
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:45280 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45280 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 16 messages
+DEBUG: Initial cleaned_history length: 16
+DEBUG: Combined messages length: 17
+INFO:     192.168.178.26:45280 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 640
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39334 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39334 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 18 messages
+DEBUG: Initial cleaned_history length: 18
+DEBUG: Combined messages length: 19
+INFO:     192.168.178.26:39334 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 720
+DEBUG: Yielding partial_text length: 940
+DEBUG: Yielding partial_text length: 940
+DEBUG: Yielding partial_text length: 1200
+DEBUG: Yielding partial_text length: 1420
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40946 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40946 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 20 messages
+DEBUG: Initial cleaned_history length: 20
+DEBUG: Combined messages length: 21
+INFO:     192.168.178.26:40946 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 200
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48284 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48284 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 22 messages
+DEBUG: Initial cleaned_history length: 22
+DEBUG: Combined messages length: 23
+INFO:     192.168.178.26:48284 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 620
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48572 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48572 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 24 messages
+DEBUG: Initial cleaned_history length: 24
+DEBUG: Combined messages length: 25
+INFO:     192.168.178.26:48572 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 820
+DEBUG: Yielding partial_text length: 820
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43026 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43026 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 26 messages
+DEBUG: Initial cleaned_history length: 26
+DEBUG: Combined messages length: 27
+INFO:     192.168.178.26:43026 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 820
+DEBUG: Yielding partial_text length: 860
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40084 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40084 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 28 messages
+DEBUG: Initial cleaned_history length: 28
+DEBUG: Combined messages length: 29
+INFO:     192.168.178.26:40084 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 760
+DEBUG: Yielding partial_text length: 760
+DEBUG: Yielding partial_text length: 840
+DEBUG: Yielding partial_text length: 840
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48466 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48466 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 30 messages
+DEBUG: Initial cleaned_history length: 30
+DEBUG: Combined messages length: 31
+INFO:     192.168.178.26:48466 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 740
+DEBUG: Yielding partial_text length: 740
+DEBUG: Yielding partial_text length: 880
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49168 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49168 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 32 messages
+DEBUG: Initial cleaned_history length: 32
+DEBUG: Combined messages length: 33
+INFO:     192.168.178.26:49168 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 800
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38816 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38816 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 34 messages
+DEBUG: Initial cleaned_history length: 34
+DEBUG: Combined messages length: 35
+INFO:     192.168.178.26:38816 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47150 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47150 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 36 messages
+DEBUG: Initial cleaned_history length: 36
+DEBUG: Combined messages length: 37
+INFO:     192.168.178.26:47150 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 320
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43418 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43418 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 38 messages
+DEBUG: Initial cleaned_history length: 38
+DEBUG: Combined messages length: 39
+INFO:     192.168.178.26:43418 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:40500 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40500 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 40 messages
+DEBUG: Initial cleaned_history length: 40
+DEBUG: Combined messages length: 41
+INFO:     192.168.178.26:40500 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 100
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:37472 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37472 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 42 messages
+DEBUG: Initial cleaned_history length: 42
+DEBUG: Combined messages length: 43
+INFO:     192.168.178.26:37472 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47512 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47512 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 44 messages
+DEBUG: Initial cleaned_history length: 44
+DEBUG: Combined messages length: 45
+INFO:     192.168.178.26:47512 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 40
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38296 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38296 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 46 messages
+DEBUG: Initial cleaned_history length: 46
+DEBUG: Combined messages length: 47
+INFO:     192.168.178.26:38296 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 300
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:48736 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48736 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 48 messages
+DEBUG: Initial cleaned_history length: 48
+DEBUG: Combined messages length: 49
+INFO:     192.168.178.26:48736 - "GET /gradio/gradio_api/queue/data?session_hash=gojqptwo2ut HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 380
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39238 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39238 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48962 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48962 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48618 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48618 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+INFO:     192.168.178.26:48618 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 640
+DEBUG: Yielding partial_text length: 640
+DEBUG: Yielding partial_text length: 640
+DEBUG: Yielding partial_text length: 880
+DEBUG: Yielding partial_text length: 880
+DEBUG: Yielding partial_text length: 940
+DEBUG: Yielding partial_text length: 940
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:49754 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49754 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 2 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     192.168.178.26:49754 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 600
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43616 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43616 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 4 messages
+DEBUG: Initial cleaned_history length: 4
+DEBUG: Combined messages length: 5
+INFO:     192.168.178.26:43616 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 760
+DEBUG: Yielding partial_text length: 1040
+DEBUG: Yielding partial_text length: 1040
+DEBUG: Yielding partial_text length: 1040
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:47272 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:47272 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40966 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40966 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+INFO:     192.168.178.26:40966 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 360
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:39756 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39756 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     192.168.178.26:39756 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42638 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42638 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39232 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39232 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40932 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40932 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+INFO:     192.168.178.26:40932 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:41190 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41190 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 2 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     192.168.178.26:41190 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 840
+DEBUG: Yielding partial_text length: 860
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38818 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38818 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39114 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39114 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=False, gamma=0.08, routing=None, preset=BASELINE)...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it returned to baseline state.
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+INFO:     192.168.178.26:39114 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 660
+INFO:     192.168.178.26:39128 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Bold.woff2 HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 820
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 1020
+DEBUG: Yielding partial_text length: 1120
+DEBUG: Yielding partial_text length: 1120
+DEBUG: Yielding partial_text length: 1200
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1620
+DEBUG: Yielding partial_text length: 1680
+DEBUG: Yielding partial_text length: 1680
+DEBUG: Yielding partial_text length: 1720
+DEBUG: Yielding partial_text length: 1760
+DEBUG: Yielding partial_text length: 1780
+DEBUG: Yielding partial_text length: 1920
+DEBUG: Yielding partial_text length: 1920
+DEBUG: Yielding partial_text length: 1920
+DEBUG: Yielding partial_text length: 1920
+DEBUG: Yielding partial_text length: 2060
+DEBUG: Yielding partial_text length: 2080
+DEBUG: Yielding partial_text length: 2080
+DEBUG: Yielding partial_text length: 2120
+DEBUG: Yielding partial_text length: 2160
+DEBUG: Yielding partial_text length: 2160
+DEBUG: Yielding partial_text length: 2380
+DEBUG: Yielding partial_text length: 2540
+DEBUG: Yielding partial_text length: 2540
+DEBUG: Yielding partial_text length: 2600
+DEBUG: Yielding partial_text length: 2980
+DEBUG: Yielding partial_text length: 2980
+DEBUG: Yielding partial_text length: 3240
+DEBUG: Yielding partial_text length: 3320
+DEBUG: Yielding partial_text length: 3380
+DEBUG: Yielding partial_text length: 3920
+DEBUG: Yielding partial_text length: 4160
+DEBUG: Yielding partial_text length: 4160
+DEBUG: Yielding partial_text length: 4400
+DEBUG: Yielding partial_text length: 4440
+DEBUG: Yielding partial_text length: 4500
+DEBUG: Yielding partial_text length: 4560
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:43882 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:43882 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 2 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     192.168.178.26:43882 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 1040
+DEBUG: Yielding partial_text length: 1140
+DEBUG: Yielding partial_text length: 1140
+DEBUG: Yielding partial_text length: 1260
+DEBUG: Yielding partial_text length: 1440
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:46376 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:46376 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42232 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42232 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45678 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:45678 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=0.08, routing=None, preset=ACTIVE_MANIFOLD)...
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+INFO:     192.168.178.26:45678 - "GET /gradio/gradio_api/queue/data?session_hash=65hng2r5llx HTTP/1.1" 200 OK
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 640
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 820
+DEBUG: Yielding partial_text length: 840
+DEBUG: Yielding partial_text length: 840
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 1460
+DEBUG: Yielding partial_text length: 1500
+DEBUG: Yielding partial_text length: 1500
+DEBUG: Yielding partial_text length: 1500
+DEBUG: Yielding partial_text length: 1540
+DEBUG: Yielding partial_text length: 1700
+DEBUG: Yielding partial_text length: 1700
+DEBUG: Yielding partial_text length: 1800
+DEBUG: Yielding partial_text length: 1840
+DEBUG: Yielding partial_text length: 1880
+DEBUG: Yielding partial_text length: 2080
+DEBUG: Yielding partial_text length: 2080
+DEBUG: Yielding partial_text length: 2140
+DEBUG: Yielding partial_text length: 2280
+DEBUG: Yielding partial_text length: 2280
+DEBUG: Yielding partial_text length: 2280
+DEBUG: Yielding partial_text length: 2320
+DEBUG: Yielding partial_text length: 2420
+DEBUG: Yielding partial_text length: 2480
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2800
+DEBUG: Yielding partial_text length: 2800
+DEBUG: Yielding partial_text length: 2840
+DEBUG: Yielding partial_text length: 2960
+DEBUG: Yielding partial_text length: 2960
+DEBUG: Yielding partial_text length: 2960
+DEBUG: Yielding partial_text length: 2960
+DEBUG: Yielding partial_text length: 3060
+DEBUG: Yielding partial_text length: 3140
+DEBUG: Yielding partial_text length: 3140
+DEBUG: Yielding partial_text length: 3140
+DEBUG: Yielding partial_text length: 3460
+DEBUG: Yielding partial_text length: 3560
+DEBUG: Yielding partial_text length: 3560
+DEBUG: Yielding partial_text length: 3560
+DEBUG: Yielding partial_text length: 3600
