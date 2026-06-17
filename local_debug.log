@@ -3927,3 +3927,198 @@ DEBUG: Yielding partial_text length: 2820
 DEBUG: Yielding partial_text length: 2820
 DEBUG: Yielding partial_text length: 2820
 [Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [3995158]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:37364 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37370 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:37364 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37364 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37364 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49468 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:49468 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41738 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:41738 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 22 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:41738 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.85it/s]Loading weights:  54%|█████▍    | 185/340 [00:00<00:00, 992.68it/s]Loading weights:  95%|█████████▍| 322/340 [00:00<00:00, 1161.61it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1086.57it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 22
+DEBUG: Combined messages length: 23
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 1140
+DEBUG: Yielding partial_text length: 1380
+DEBUG: Yielding partial_text length: 1460
+DEBUG: Yielding partial_text length: 1500
+DEBUG: Yielding partial_text length: 1500
+DEBUG: Yielding partial_text length: 1580
+DEBUG: Yielding partial_text length: 1580
+DEBUG: Yielding partial_text length: 1640
+DEBUG: Yielding partial_text length: 1680
+DEBUG: Yielding partial_text length: 1800
+DEBUG: Yielding partial_text length: 2100
+DEBUG: Yielding partial_text length: 2260
+DEBUG: Yielding partial_text length: 2260
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:42768 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:42768 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 24 messages
+DEBUG: Initial cleaned_history length: 24
+DEBUG: Combined messages length: 25
+INFO:     192.168.178.26:42768 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 760
+DEBUG: Yielding partial_text length: 800
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 1000
+DEBUG: Yielding partial_text length: 1040
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1160
+DEBUG: Yielding partial_text length: 1260
+DEBUG: Yielding partial_text length: 1280
+DEBUG: Yielding partial_text length: 1280
+DEBUG: Yielding partial_text length: 1440
+DEBUG: Yielding partial_text length: 1440
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1620
+DEBUG: Yielding partial_text length: 1740
+DEBUG: Yielding partial_text length: 1760
+DEBUG: Yielding partial_text length: 1840
+DEBUG: Yielding partial_text length: 1900
+DEBUG: Yielding partial_text length: 1900
+DEBUG: Yielding partial_text length: 1940
+DEBUG: Yielding partial_text length: 2120
+DEBUG: Yielding partial_text length: 2200
+DEBUG: Yielding partial_text length: 2340
+DEBUG: Yielding partial_text length: 2340
+DEBUG: Yielding partial_text length: 2520
+DEBUG: Yielding partial_text length: 2560
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:44960 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:44960 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 26 messages
+DEBUG: Initial cleaned_history length: 26
+DEBUG: Combined messages length: 27
+INFO:     192.168.178.26:44960 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 1340
+DEBUG: Yielding partial_text length: 1720
+DEBUG: Yielding partial_text length: 1720
+DEBUG: Yielding partial_text length: 1780
+DEBUG: Yielding partial_text length: 1860
+DEBUG: Yielding partial_text length: 1960
+DEBUG: Yielding partial_text length: 2020
+DEBUG: Yielding partial_text length: 2260
+DEBUG: Yielding partial_text length: 2300
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     192.168.178.26:38480 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:38480 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 28 messages
+DEBUG: Initial cleaned_history length: 28
+DEBUG: Combined messages length: 29
+INFO:     192.168.178.26:38480 - "GET /gradio/gradio_api/queue/data?session_hash=pkmb4s8g6nk HTTP/1.1" 200 OK
+Exception in thread Thread-7 (generate_with_lock):
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 212, in generate_with_lock
+    model.generate(**gen_kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2580, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2773, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3819, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 633, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 257, in _px_forward
+    trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 97, in _layer_step
+    out = layer(h, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 411, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 368, in forward
+    attn_output, attn_weights = attention_interface(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/integrations/sdpa_attention.py", line 92, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 840.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 791.69 MiB is free. Including non-PyTorch memory, this process has 10.37 GiB memory in use. Of the allocated memory 10.16 GiB is allocated by PyTorch, and 101.56 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [4014335]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:39260 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39260 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39260 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39276 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:39260 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:39260 - "GET /gradio/gradio_api/queue/data?session_hash=583t9av3twg HTTP/1.1" 200 OK
