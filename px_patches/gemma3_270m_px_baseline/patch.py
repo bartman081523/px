@@ -28,6 +28,7 @@ from .px_modules import (
     StabilityMonitor, MephistophelesOperator,
 )
 from .anti_zombie_sensor import AntiZombieSensor
+from infinite_context import InfLLMCache, apply_reattention_patch
 
 # ---------------------------------------------------------------------------
 # p10.0: Recursive State Memory (RSM)
@@ -156,7 +157,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         input_ids = input_ids.unsqueeze(0)
     # -----------------------------------------------------------------
 
-    if use_cache and past_key_values is None: past_key_values = DynamicCache(config=self.config)
+    if use_cache and past_key_values is None: past_key_values = InfLLMCache(config=self.config)
+    # Attach thoughts to cache for ReAttention patch to find them
+    if past_key_values is not None:
+        past_key_values._thoughts = thought_history
     past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
     expected_len = past_seen + inputs_embeds.shape[1]
     if position_ids is None: position_ids = (torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen).unsqueeze(0)
@@ -185,7 +189,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     for i in range(cfg["prelude_end"]):
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        if past_key_values is not None:
+            past_key_values._read_only = not is_first
+            past_key_values._thoughts = thought_history
+            cur_past = past_key_values
+        else:
+            cur_past = None
         hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
 
     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
@@ -241,7 +250,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     for i in range(cfg["prelude_end"], dynamic_start):
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        if past_key_values is not None:
+            past_key_values._read_only = not is_first
+            past_key_values._thoughts = thought_history
+            cur_past = past_key_values
+        else:
+            cur_past = None
         hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
@@ -253,7 +267,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     for i in range(dynamic_start, dynamic_end):
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+        if past_key_values is not None:
+            past_key_values._read_only = not is_first
+            past_key_values._thoughts = thought_history
+            cur_past = past_key_values
+        else:
+            cur_past = None
         trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
     h_baseline = trans_out
     
@@ -371,7 +390,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 h_exp = (1.0 - refresh) * h_exp + refresh * e_static
             
             layer_visits[current_layer] += 1
-            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
+            if past_key_values is not None:
+                past_key_values._read_only = not is_first
+                past_key_values._thoughts = thought_history
+                cur_past = past_key_values
+            else:
+                cur_past = None
             lt = mask_config.layer_types[current_layer]
             trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
@@ -636,6 +660,9 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
 
     # SubjectiveSensor (introspection loop — "sieht eigene Gedanken in hidden states")
     text_model._px_subj_sensor = SubjectiveSensor()
+
+    # SR-64: Infinite Context - Apply ReAttention patch to all attention layers
+    apply_reattention_patch(text_model)
 
     # Forward-Patch
     text_model.forward = types.MethodType(_px_forward, text_model)
