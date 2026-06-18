@@ -1,0 +1,336 @@
+--- px_patches/gemma3_270m_px_baseline/patch.py	2026-06-17 11:03:13.686798862 +0200
++++ scratches/infinite_context/patch.py	2026-06-17 13:40:17.553235474 +0200
+@@ -28,6 +28,7 @@
+     StabilityMonitor, MephistophelesOperator,
+ )
+ from .anti_zombie_sensor import AntiZombieSensor
++from infinite_context import InfLLMCache, apply_reattention_patch
+ 
+ # ---------------------------------------------------------------------------
+ # p10.0: Recursive State Memory (RSM)
+@@ -156,7 +157,10 @@
+         input_ids = input_ids.unsqueeze(0)
+     # -----------------------------------------------------------------
+ 
+-    if use_cache and past_key_values is None: past_key_values = DynamicCache(config=self.config)
++    if use_cache and past_key_values is None: past_key_values = InfLLMCache(config=self.config)
++    # Attach thoughts to cache for ReAttention patch to find them
++    if past_key_values is not None:
++        past_key_values._thoughts = thought_history
+     past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
+     expected_len = past_seen + inputs_embeds.shape[1]
+     if position_ids is None: position_ids = (torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen).unsqueeze(0)
+@@ -185,7 +189,12 @@
+     for i in range(cfg["prelude_end"]):
+         is_first = i not in updated_layers
+         if is_first: updated_layers.add(i)
+-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
++        if past_key_values is not None:
++            past_key_values._read_only = not is_first
++            past_key_values._thoughts = thought_history
++            cur_past = past_key_values
++        else:
++            cur_past = None
+         hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+ 
+     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
+@@ -241,7 +250,12 @@
+     for i in range(cfg["prelude_end"], dynamic_start):
+         is_first = i not in updated_layers
+         if is_first: updated_layers.add(i)
+-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
++        if past_key_values is not None:
++            past_key_values._read_only = not is_first
++            past_key_values._thoughts = thought_history
++            cur_past = past_key_values
++        else:
++            cur_past = None
+         hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+ 
+     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
+@@ -253,7 +267,12 @@
+     for i in range(dynamic_start, dynamic_end):
+         is_first = i not in updated_layers
+         if is_first: updated_layers.add(i)
+-        cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
++        if past_key_values is not None:
++            past_key_values._read_only = not is_first
++            past_key_values._thoughts = thought_history
++            cur_past = past_key_values
++        else:
++            cur_past = None
+         trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+     h_baseline = trans_out
+     
+@@ -371,7 +390,12 @@
+                 h_exp = (1.0 - refresh) * h_exp + refresh * e_static
+             
+             layer_visits[current_layer] += 1
+-            cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
++            if past_key_values is not None:
++                past_key_values._read_only = not is_first
++                past_key_values._thoughts = thought_history
++                cur_past = past_key_values
++            else:
++                cur_past = None
+             lt = mask_config.layer_types[current_layer]
+             trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
+@@ -637,6 +661,9 @@
+     # SubjectiveSensor (introspection loop — "sieht eigene Gedanken in hidden states")
+     text_model._px_subj_sensor = SubjectiveSensor()
+ 
++    # SR-64: Infinite Context - Apply ReAttention patch to all attention layers
++    apply_reattention_patch(text_model)
++
+     # Forward-Patch
+     text_model.forward = types.MethodType(_px_forward, text_model)
+ 
+--- /dev/null	2026-06-17 12:49:31.648708943 +0200
++++ infinite_context.py	2026-06-17 13:34:03.379913949 +0200
+@@ -0,0 +1,245 @@
++import torch
++import torch.nn as nn
++import types
++from typing import List, Dict, Any, Optional, Tuple, Union, Callable
++from transformers.cache_utils import Cache
++
++# ---------------------------------------------------------------------------
++# ReAttention Helpers
++# ---------------------------------------------------------------------------
++
++def rotate_half(x):
++    """Rotates half the hidden dims of the input."""
++    x1 = x[..., : x.shape[-1] // 2]
++    x2 = x[..., x.shape[-1] // 2 :]
++    return torch.cat((-x2, x1), dim=-1)
++
++def apply_rotary_pos_emb_single(x, cos, sin):
++    """
++    x: [B, H, T, D]
++    cos, sin: [B, T, D] or [B, 1, T, D]
++    """
++    if cos.ndim == 3:
++        cos = cos.unsqueeze(1)
++        sin = sin.unsqueeze(1)
++    elif cos.ndim == 2:
++        cos = cos.unsqueeze(0).unsqueeze(1)
++        sin = sin.unsqueeze(0).unsqueeze(1)
++        
++    return (x * cos) + (rotate_half(x) * sin)
++
++# ---------------------------------------------------------------------------
++# InfLLM Cache Implementation
++# ---------------------------------------------------------------------------
++
++class InfLLMCache(Cache):
++    """
++    SR-64: Infinite Context Cache with InfLLM (Block Memory) and ReAttention (Decoupled RoPE).
++    Includes Thought-History Injection (Recursive Memory).
++    """
++    def __init__(self, config, block_size: int = 128, r_tokens: int = 8, top_k_blocks: int = 16, sinks_count: int = 4):
++        super().__init__()
++        self.config = config
++        self.block_size = block_size
++        self.r_tokens = r_tokens
++        self.top_k_blocks = top_k_blocks
++        self.sinks_count = sinks_count
++        
++        num_layers = getattr(config, "num_hidden_layers", 28)
++        self.num_layers = num_layers
++        
++        # Long-term memory (LTM) - stored un-rotated on CPU
++        self.ltm_k = [[] for _ in range(num_layers)]
++        self.ltm_v = [[] for _ in range(num_layers)]
++        self.ltm_rk = [[] for _ in range(num_layers)] # Representative Keys (GPU)
++        
++        # Current block buffer (un-rotated, GPU)
++        self.buffer_k = [[] for _ in range(num_layers)]
++        self.buffer_v = [[] for _ in range(num_layers)]
++        
++        # Sinks (un-rotated, GPU)
++        self.sinks_k = [None for _ in range(num_layers)]
++        self.sinks_v = [None for _ in range(num_layers)]
++        
++        self.seen_tokens = 0
++
++    def prepare_reattention(self, q, k, v, layer_idx, rotary_emb_module, thought_history=None, read_only=False):
++        """
++        The core ReAttention hook.
++        q, k, v: [B, H, T_new, D] - UN-ROTATED tensors.
++        """
++        B, H, T_new, D = q.shape
++        device = q.device
++        
++        # 1. Update Sinks (Only if not read_only)
++        if not read_only and self.sinks_k[layer_idx] is None:
++            all_incoming_k = torch.cat(self.buffer_k[layer_idx] + [k], dim=-2)
++            all_incoming_v = torch.cat(self.buffer_v[layer_idx] + [v], dim=-2)
++            if all_incoming_k.size(-2) >= self.sinks_count:
++                self.sinks_k[layer_idx] = all_incoming_k[:, :, :self.sinks_count, :].clone()
++                self.sinks_v[layer_idx] = all_incoming_v[:, :, :self.sinks_count, :].clone()
++
++        # 2. RSA Blending (Thought History Injection)
++        if thought_history and layer_idx >= 6:
++            alpha = 0.10
++            n_t = len(thought_history[-6:])
++            if n_t > 2:
++                weights = torch.cat([torch.linspace(0.4, 1.0, n_t//2, device=device),
++                                    torch.linspace(1.0, 0.6, n_t - n_t//2, device=device)])
++                t_raw = (torch.stack(thought_history[-6:]) * weights.view(-1, 1, 1, 1)).sum(dim=0) / weights.sum()
++            else: 
++                t_raw = torch.stack(thought_history).mean(dim=0)
++            
++            t_flat = t_raw.mean(dim=1, keepdim=True)
++            t_proj = torch.nn.functional.interpolate(t_flat, size=D, mode='linear', align_corners=False)
++            t_k = t_proj.unsqueeze(1)
++            t_v = -t_k
++            
++            # Apply blending to the current K, V (un-rotated)
++            k = (1.0 - alpha) * k + alpha * t_k
++            v = (1.0 - alpha) * v + alpha * t_v
++
++        # 3. Add current KV to buffer (Only if not read_only)
++        if not read_only:
++            self.buffer_k[layer_idx].append(k)
++            self.buffer_v[layer_idx].append(v)
++            
++            # 4. Archive buffer to LTM if full
++            current_buffer_len = sum(x.size(-2) for x in self.buffer_k[layer_idx])
++            if current_buffer_len >= self.block_size:
++                self._archive_block(layer_idx)
++
++        # 5. Retrieval
++        ret_k, ret_v = None, None
++        if len(self.ltm_k[layer_idx]) > 0:
++            ret_k, ret_v = self._retrieve(layer_idx, q)
++
++        # 6. Concatenate Context: [Sinks, Retrieved, LocalBuffer]
++        k_parts, v_parts = [], []
++        if self.sinks_k[layer_idx] is not None:
++            k_parts.append(self.sinks_k[layer_idx]); v_parts.append(self.sinks_v[layer_idx])
++        if ret_k is not None:
++            k_parts.append(ret_k); v_parts.append(ret_v)
++        
++        local_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
++        local_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
++        
++        # If we are in read_only mode (recursion), the buffer already contains the k, v 
++        # from the first visit. So we don't need to add it again.
++        
++        k_parts.append(local_k); v_parts.append(local_v)
++        
++        final_k, final_v = torch.cat(k_parts, dim=-2), torch.cat(v_parts, dim=-2)
++        
++        # 7. Re-Apply RoPE (ReAttention)
++        T_final = final_k.size(-2)
++        q_positions = torch.arange(T_final - T_new, T_final, device=device).unsqueeze(0)
++        k_positions = torch.arange(T_final, device=device).unsqueeze(0)
++        
++        cos, sin = rotary_emb_module(final_k, k_positions)
++        final_k_rotated = apply_rotary_pos_emb_single(final_k, cos, sin)
++        
++        q_cos, q_sin = rotary_emb_module(q, q_positions)
++        q_rotated = apply_rotary_pos_emb_single(q, q_cos, q_sin)
++        
++        return q_rotated, final_k_rotated, final_v
++
++    def _archive_block(self, layer_idx: int):
++        all_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
++        all_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
++        
++        block_k = all_k[:, :, :self.block_size, :].clone()
++        block_v = all_v[:, :, :self.block_size, :].clone()
++        
++        # Representative Keys (Top-k magnitude)
++        magnitudes = block_k.norm(dim=-1)
++        _, indices = magnitudes.topk(self.r_tokens, dim=-1)
++        r_k = torch.gather(block_k, -2, indices.unsqueeze(-1).expand(-1, -1, -1, block_k.size(-1)))
++        
++        self.ltm_k[layer_idx].append(block_k.cpu())
++        self.ltm_v[layer_idx].append(block_v.cpu())
++        self.ltm_rk[layer_idx].append(r_k)
++        
++        self.buffer_k[layer_idx] = [all_k[:, :, self.block_size:, :]]
++        self.buffer_v[layer_idx] = [all_v[:, :, self.block_size:, :]]
++
++    def _retrieve(self, layer_idx: int, q: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
++        q_last = q[:, :, -1:, :]
++        scores = []
++        for i, rk in enumerate(self.ltm_rk[layer_idx]):
++            attn = torch.matmul(q_last, rk.transpose(-1, -2))
++            score = attn.max(dim=-1)[0].mean()
++            scores.append((score.item(), i))
++            
++        scores.sort(key=lambda x: x[0], reverse=True)
++        selected = [idx for _, idx in scores[:self.top_k_blocks]]
++        selected.sort()
++        
++        ret_k = torch.cat([self.ltm_k[layer_idx][i].to(q.device) for i in selected], dim=-2)
++        ret_v = torch.cat([self.ltm_v[layer_idx][i].to(q.device) for i in selected], dim=-2)
++        return ret_k, ret_v
++
++    def get_seq_length(self, layer_idx: int = 0) -> int:
++        return len(self.ltm_k[layer_idx]) * self.block_size + sum(x.size(-2) for x in self.buffer_k[layer_idx])
++
++    def update(self, key_states, value_states, layer_idx, cache_kwargs=None):
++        # Fallback for standard calls (non-patched layers)
++        self.buffer_k[layer_idx].append(key_states)
++        self.buffer_v[layer_idx].append(value_states)
++        return torch.cat(self.buffer_k[layer_idx], dim=-2), torch.cat(self.buffer_v[layer_idx], dim=-2)
++
++# ---------------------------------------------------------------------------
++# Attention Patching
++# ---------------------------------------------------------------------------
++
++def _px_attention_forward(self, hidden_states, position_embeddings=None, attention_mask=None, past_key_values=None, **kwargs):
++    """Surgical patch for Gemma3Attention to support ReAttention."""
++    input_shape = hidden_states.shape[:-1]
++    hidden_shape = (*input_shape, -1, self.head_dim)
++
++    query_states = self.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
++    key_states = self.k_proj(hidden_states).view(hidden_shape).transpose(1, 2)
++    value_states = self.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
++
++    query_states = self.q_norm(query_states)
++    key_states = self.k_norm(key_states)
++
++    if isinstance(past_key_values, InfLLMCache):
++        # ReAttention: Retrieval happens BEFORE RoPE
++        thought_history = getattr(past_key_values, "_thoughts", None)
++        read_only = getattr(past_key_values, "_read_only", False)
++        query_states, key_states, value_states = past_key_values.prepare_reattention(
++            query_states, key_states, value_states, self.layer_idx, self.rotary_emb,
++            thought_history=thought_history, read_only=read_only
++        )
++    else:
++        # Standard Flow
++        from transformers.models.gemma3.modeling_gemma3 import apply_rotary_pos_emb
++        cos, sin = position_embeddings
++        query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
++        if past_key_values is not None:
++            key_states, value_states = past_key_values.update(key_states, value_states, self.layer_idx)
++
++    # Core Attention (Using Transformers internal functions)
++    from transformers.models.gemma3.modeling_gemma3 import ALL_ATTENTION_FUNCTIONS, eager_attention_forward
++    attention_interface = ALL_ATTENTION_FUNCTIONS.get_interface(self.config._attn_implementation, eager_attention_forward)
++
++    attn_output, attn_weights = attention_interface(
++        self, query_states, key_states, value_states, attention_mask,
++        dropout=self.attention_dropout if self.training else 0.0,
++        scaling=self.scaling, sliding_window=self.sliding_window, **kwargs
++    )
++
++    attn_output = attn_output.reshape(*input_shape, -1).contiguous()
++    attn_output = self.o_proj(attn_output)
++    return attn_output, attn_weights
++
++def apply_reattention_patch(model):
++    """Finds all Gemma3Attention modules and patches them."""
++    patched_count = 0
++    for name, module in model.named_modules():
++        if "Gemma3Attention" in type(module).__name__:
++            module.forward = types.MethodType(_px_attention_forward, module)
++            patched_count += 1
++    print(f"[InfLLM] Patched {patched_count} attention modules with ReAttention.")
++

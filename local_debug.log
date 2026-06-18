@@ -4122,3 +4122,79 @@ INFO:     192.168.178.26:39260 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7
 INFO:     192.168.178.26:39276 - "GET /manifest.json HTTP/1.1" 404 Not Found
 INFO:     192.168.178.26:39260 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
 INFO:     192.168.178.26:39260 - "GET /gradio/gradio_api/queue/data?session_hash=583t9av3twg HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [35543]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:48390 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48392 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     192.168.178.26:48390 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48390 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48390 - "GET /gradio/gradio_api/queue/data?session_hash=a51zf15tboi HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48390 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:48390 - "GET /gradio/gradio_api/queue/data?session_hash=a51zf15tboi HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37090 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     192.168.178.26:37090 - "GET /gradio/gradio_api/queue/data?session_hash=a51zf15tboi HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40830 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     192.168.178.26:40830 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 28 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     192.168.178.26:40830 - "GET /gradio/gradio_api/queue/data?session_hash=a51zf15tboi HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   0%|          | 1/340 [00:01<06:06,  1.08s/it]Loading weights:   4%|▍         | 14/340 [00:01<00:20, 15.95it/s]Loading weights:   8%|▊         | 26/340 [00:01<00:10, 30.56it/s]Loading weights:  11%|█         | 37/340 [00:01<00:06, 43.32it/s]Loading weights:  16%|█▌        | 53/340 [00:01<00:04, 65.46it/s]Loading weights:  19%|█▉        | 65/340 [00:01<00:03, 76.62it/s]Loading weights:  23%|██▎       | 77/340 [00:01<00:03, 85.77it/s]Loading weights:  26%|██▌       | 89/340 [00:01<00:02, 93.92it/s]Loading weights:  30%|███       | 103/340 [00:01<00:02, 103.85it/s]Loading weights:  35%|███▍      | 118/340 [00:02<00:01, 115.51it/s]Loading weights:  39%|███▊      | 131/340 [00:02<00:01, 118.42it/s]Loading weights:  42%|████▏     | 144/340 [00:02<00:01, 121.29it/s]Loading weights:  46%|████▌     | 157/340 [00:02<00:01, 122.25it/s]Loading weights:  50%|█████     | 170/340 [00:02<00:01, 122.65it/s]Loading weights:  54%|█████▍    | 183/340 [00:02<00:01, 124.08it/s]Loading weights:  58%|█████▊    | 196/340 [00:02<00:01, 123.42it/s]Loading weights:  61%|██████▏   | 209/340 [00:02<00:01, 123.46it/s]Loading weights:  65%|██████▌   | 222/340 [00:02<00:00, 122.06it/s]Loading weights:  69%|██████▉   | 235/340 [00:02<00:00, 122.85it/s]Loading weights:  73%|███████▎  | 248/340 [00:03<00:00, 122.77it/s]Loading weights:  77%|███████▋  | 261/340 [00:03<00:00, 122.49it/s]Loading weights:  81%|████████  | 274/340 [00:03<00:00, 122.09it/s]Loading weights:  84%|████████▍ | 287/340 [00:03<00:00, 122.33it/s]Loading weights:  88%|████████▊ | 300/340 [00:03<00:00, 122.84it/s]Loading weights:  92%|█████████▏| 313/340 [00:03<00:00, 122.45it/s]Loading weights:  96%|█████████▌| 326/340 [00:03<00:00, 123.24it/s]Loading weights: 100%|██████████| 340/340 [00:03<00:00, 89.53it/s] 
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1044, in gen_wrapper
+    response = next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 332, in bot_response
+    for partial_text in generator:
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 125, in chat_fn
+    model_entry = loop.run_until_complete(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/model_manager.py", line 113, in get_model
+    entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset))
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/model_manager.py", line 113, in <lambda>
+    entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset))
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/model_manager.py", line 180, in _load_model
+    apply_fn = self._get_patch_function(model_id, "apply_px_patch")
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/model_manager.py", line 259, in _get_patch_function
+    mod = importlib.import_module(module_name)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 31, in <module>
+    from infinite_context import InfLLMCache, apply_reattention_patch
+ImportError: cannot import name 'apply_reattention_patch' from 'infinite_context' (/run/media/julian/ML4/ollama-work/all_space_6_16_stand/infinite_context.py)
+INFO:     127.0.0.1:44678 - "GET /gradio/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44682 - "GET /gradio/gradio_api/info?serialize=False HTTP/1.1" 200 OK
