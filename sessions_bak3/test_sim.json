@@ -1,0 +1,38 @@
+{
+  "session_id": "test_sim",
+  "model_id": "gemma3-270m-it",
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        "Describe this image.",
+        {
+          "type": "image",
+          "image": "data:image/png;base64,ZmFrZQ=="
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "I am unable to see"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Describe this image."
+        },
+        {
+          "type": "image",
+          "image": "data:image/png;base64,ZmFrZQ=="
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "I am a large language"
+    }
+  ],
+  "updated_at": "15615987.3"
+}

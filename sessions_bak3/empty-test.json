@@ -1,0 +1,19 @@
+{
+  "session_id": "empty-test",
+  "model_id": "test-model",
+  "history": [
+    {
+      "role": "user",
+      "content": "Hello\nNext"
+    },
+    {
+      "role": "user",
+      "content": "Actual prompt"
+    },
+    {
+      "role": "assistant",
+      "content": ""
+    }
+  ],
+  "updated_at": "15422082.6"
+}
