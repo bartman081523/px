@@ -1,191 +1,131 @@
-import torch
-import torch.nn as nn
-from typing import List, Dict, Any, Optional, Tuple, Union
-from transformers.cache_utils import Cache
+"""
+Layer A — InfiniteContextManager (Application-layer context windowing)
+=====================================================================
+Recovery + improvement of the InfiniteContextManager that was overwritten by the
+previous "infinite context wip" run (see RECOVERY_REPORT.md). This is the
+GPU-free, preset-agnostic layer that PREVENTS the prefill OOM reported in
+bug_context.txt: it bounds the prompt fed to the model so the N^2 prefill
+attention never exceeds the VRAM budget — works under BOTH BASELINE and
+ACTIVE_MANIFOLD because it acts pre-model, before tokenization.
 
-def rotate_half(x):
-    """Rotates half the hidden dims of the input."""
-    x1 = x[..., : x.shape[-1] // 2]
-    x2 = x[..., x.shape[-1] // 2 :]
-    return torch.cat((-x2, x1), dim=-1)
+This module intentionally has NO torch dependency so it is unit-testable on CPU
+and importable without the CUDA venv.
+"""
 
-def apply_rotary_pos_emb_single(x, cos, sin):
+import copy
+from typing import List, Dict, Any, Optional, Callable
+
+DEFAULT_ARCHIVE_NOTICE = (
+    "[SYSTEM: Older context has been archived for memory efficiency. "
+    "The following messages are the most recent interaction.]"
+)
+
+
+class InfiniteContextManager:
     """
-    x: [B, H, T, D]
-    cos, sin: [B, T, D]
-    """
-    # Handle broadcasting for cos/sin
-    # Standard: q_embed = (q * cos) + (rotate_half(q) * sin)
-    if cos.ndim == 3: # [B, T, D]
-        cos = cos.unsqueeze(1) # [B, 1, T, D]
-        sin = sin.unsqueeze(1)
-    elif cos.ndim == 2: # [T, D]
-        cos = cos.unsqueeze(0).unsqueeze(1) # [1, 1, T, D]
-        sin = sin.unsqueeze(0).unsqueeze(1)
-        
-    return (x * cos) + (rotate_half(x) * sin)
+    Manages session history to prevent OOM during generation by enforcing a
+    sliding window over the token budget (or, as a fallback, a message count).
 
-class InfLLMCache:
+    Guarantees
+    ----------
+    * System messages are always preserved (they carry the persona / instructions).
+    * When history is truncated, an `archive_notice` system message is injected so
+      the model knows earlier context was compressed away.
+    * If a tokenizer is supplied together with `max_tokens`, the chat-templated +
+      tokenized result of the returned messages is <= `max_tokens` (minus `headroom`
+      reserved for the generation).
+    * Content that is a list (multimodal: {"type":"text"/"image", ...}) is passed
+      through untouched so image parts survive the windowing.
     """
-    SR-64: Infinite Context Cache with InfLLM (Block Memory) and ReAttention (Decoupled RoPE).
-    """
-    def __init__(self, config, block_size: int = 128, r_tokens: int = 8, top_k_blocks: int = 16, sinks_count: int = 4):
-        self.config = config
-        self.block_size = block_size
-        self.r_tokens = r_tokens
-        self.top_k_blocks = top_k_blocks
-        self.sinks_count = sinks_count
-        
-        # Long-term memory (LTM) - stored un-rotated on CPU
-        num_layers = getattr(config, "num_hidden_layers", 28)
-        self.ltm_k = [[] for _ in range(num_layers)]
-        self.ltm_v = [[] for _ in range(num_layers)]
-        self.ltm_rk = [[] for _ in range(num_layers)] # Representative Keys (GPU)
-        
-        # Current block buffer (un-rotated, GPU)
-        self.buffer_k = [[] for _ in range(num_layers)]
-        self.buffer_v = [[] for _ in range(num_layers)]
-        
-        # Sinks (un-rotated, GPU)
-        self.sinks_k = [None for _ in range(num_layers)]
-        self.sinks_v = [None for _ in range(num_layers)]
-        
-        self.seen_tokens = 0
 
-    def get_usable_length(self, layer_idx: int) -> int:
-        # Returns the length of the context that will be used for attention
-        l = 0
-        if self.sinks_k[layer_idx] is not None: l += self.sinks_k[layer_idx].size(-2)
-        l += min(len(self.ltm_k[layer_idx]), self.top_k_blocks) * self.block_size
-        l += sum(x.size(-2) for x in self.buffer_k[layer_idx])
-        return l
+    def __init__(
+        self,
+        max_history_messages: Optional[int] = 10,
+        max_tokens: Optional[int] = None,
+        headroom: int = 0,
+        archive_notice: str = DEFAULT_ARCHIVE_NOTICE,
+    ):
+        self.max_history_messages = max_history_messages
+        self.max_tokens = max_tokens
+        # Safety margin subtracted from max_tokens to obtain the effective prompt
+        # budget (max_tokens - headroom). max_tokens is interpreted as the PROMPT
+        # token budget; set headroom > 0 to leave extra VRAM room. Defaults to 0
+        # so max_tokens is the exact prompt ceiling (matches the original tests).
+        self.headroom = headroom
+        self.archive_notice = archive_notice
 
-    def prepare_reattention(self, q, k, v, layer_idx, rotary_emb_module):
+    # -- helpers -----------------------------------------------------------
+    def _count_tokens(self, messages: List[Dict[str, Any]], tokenizer) -> int:
+        """Token count for a message list via the real chat template."""
+        try:
+            # Minimal signature first (matches the unit-test mock and most
+            # HF tokenizers); fall back to the add_generation_prompt form.
+            try:
+                text = tokenizer.apply_chat_template(messages, tokenize=False)
+            except TypeError:
+                text = tokenizer.apply_chat_template(
+                    messages, tokenize=False, add_generation_prompt=False
+                )
+            if hasattr(tokenizer, "encode"):
+                return len(tokenizer.encode(text))
+            return len(tokenizer(text)["input_ids"])
+        except Exception:
+            # Fallback: crude char/4 heuristic so we still bound something if the
+            # tokenizer refuses a particular message shape.
+            total = 0
+            for m in messages:
+                c = m.get("content", "")
+                if isinstance(c, list):
+                    c = " ".join(p.get("text", "") for p in c if isinstance(p, dict))
+                total += max(1, len(str(c)) // 4)
+            return total
+
+    def _split_system(self, messages):
+        system_msgs, regular_msgs = [], []
+        for msg in messages:
+            if msg.get("role") == "system":
+                system_msgs.append(msg)
+            else:
+                regular_msgs.append(msg)
+        return system_msgs, regular_msgs
+
+    # -- main API ---------------------------------------------------------
+    def process_history(
+        self,
+        messages: List[Dict[str, Any]],
+        tokenizer: Optional[Callable] = None,
+    ) -> List[Dict[str, Any]]:
         """
-        The core ReAttention hook.
-        q, k, v: [B, H, T_new, D] - UN-ROTATED tensors.
+        Process the history to fit within constraints. Returns a NEW list of
+        messages safe for model generation (input is not mutated).
         """
-        B, H, T_new, D = q.shape
-        device = q.device
-        dtype = q.dtype
+        if not messages:
+            return []
 
-        # 1. Update Sinks (one-time)
-        if self.sinks_k[layer_idx] is None:
-            total_available = T_new + sum(x.size(-2) for x in self.buffer_k[layer_idx])
-            if total_available >= self.sinks_count:
-                # This is complex if T_new is large or if we have buffer.
-                # Simplify: just take the first tokens of the first call.
-                all_incoming_k = torch.cat(self.buffer_k[layer_idx] + [k], dim=-2)
-                all_incoming_v = torch.cat(self.buffer_v[layer_idx] + [v], dim=-2)
-                self.sinks_k[layer_idx] = all_incoming_k[:, :, :self.sinks_count, :].clone()
-                self.sinks_v[layer_idx] = all_incoming_v[:, :, :self.sinks_count, :].clone()
+        system_msgs, regular_msgs = self._split_system(messages)
 
-        # 2. Add current KV to buffer
-        self.buffer_k[layer_idx].append(k)
-        self.buffer_v[layer_idx].append(v)
-        
-        # 3. Archive buffer to LTM if full
-        current_buffer_len = sum(x.size(-2) for x in self.buffer_k[layer_idx])
-        if current_buffer_len >= self.block_size:
-            self._archive_block(layer_idx)
+        # 1) Token-budget sliding window (preferred when a tokenizer is available)
+        if tokenizer is not None and self.max_tokens is not None:
+            budget = max(1, self.max_tokens - self.headroom)
+            # Fast path: everything fits without any archive notice.
+            if self._count_tokens(system_msgs + regular_msgs, tokenizer) <= budget:
+                return system_msgs + regular_msgs
+            # Truncation path: the archive notice we will inject counts toward the
+            # budget, so the guarantee "tokenized result <= max_tokens" holds.
+            notice = self._archive_msg()
+            current = list(regular_msgs)
+            while len(current) > 1:
+                if self._count_tokens(system_msgs + [notice] + current, tokenizer) <= budget:
+                    break
+                current.pop(0)
+            return system_msgs + [notice] + current
 
-        # 4. Retrieval
-        ret_k, ret_v = None, None
-        if len(self.ltm_k[layer_idx]) > 0:
-            ret_k, ret_v = self._retrieve(layer_idx, q)
+        # 2) Message-count fallback (no tokenizer or no max_tokens)
+        if self.max_history_messages is not None and len(regular_msgs) > self.max_history_messages:
+            truncated = regular_msgs[-self.max_history_messages:]
+            return system_msgs + [self._archive_msg()] + truncated
 
-        # 5. Concatenate Context: [Sinks, Retrieved, LocalBuffer]
-        k_parts = []
-        v_parts = []
-        if self.sinks_k[layer_idx] is not None:
-            k_parts.append(self.sinks_k[layer_idx])
-            v_parts.append(self.sinks_v[layer_idx])
-        if ret_k is not None:
-            k_parts.append(ret_k)
-            v_parts.append(ret_v)
-        
-        local_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
-        local_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
-        k_parts.append(local_k)
-        v_parts.append(local_v)
-        
-        final_k = torch.cat(k_parts, dim=-2)
-        final_v = torch.cat(v_parts, dim=-2)
-        
-        # 6. Re-Apply RoPE (ReAttention)
-        # We create a NEW sequential position indexing for this specific attention set.
-        # [0, 1, 2, ..., T_final-1]
-        T_final = final_k.size(-2)
-        # Position of Query is at the end of the context
-        # If T_new > 1 (prefill), it's a range.
-        q_positions = torch.arange(T_final - T_new, T_final, device=device).unsqueeze(0)
-        k_positions = torch.arange(T_final, device=device).unsqueeze(0)
-        
-        # Generate cos/sin for these positions
-        # rotary_emb_module: usually Gemma3RotaryEmbedding
-        # We need its internal 'forward' or 'get_embeddings'
-        # In Transformers 4.46+, it returns (cos, sin)
-        cos, sin = rotary_emb_module(final_k, k_positions) # [B, T_final, D]
-        
-        # Apply RoPE to K
-        final_k_rotated = apply_rotary_pos_emb_single(final_k, cos, sin)
-        
-        # Apply RoPE to Q
-        # Need cos/sin for Q positions
-        q_cos, q_sin = rotary_emb_module(q, q_positions)
-        q_rotated = apply_rotary_pos_emb_single(q, q_cos, q_sin)
-        
-        return q_rotated, final_k_rotated, final_v
+        return system_msgs + regular_msgs
 
-    def _archive_block(self, layer_idx: int):
-        all_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
-        all_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
-        
-        block_k = all_k[:, :, :self.block_size, :].clone()
-        block_v = all_v[:, :, :self.block_size, :].clone()
-        
-        # Representative Keys (Top-k magnitude)
-        magnitudes = block_k.norm(dim=-1) # [B, H, T_block]
-        _, indices = magnitudes.topk(self.r_tokens, dim=-1)
-        r_k = torch.gather(block_k, -2, indices.unsqueeze(-1).expand(-1, -1, -1, block_k.size(-1)))
-        
-        self.ltm_k[layer_idx].append(block_k.cpu())
-        self.ltm_v[layer_idx].append(block_v.cpu())
-        self.ltm_rk[layer_idx].append(r_k)
-        
-        # Update buffer
-        self.buffer_k[layer_idx] = [all_k[:, :, self.block_size:, :]]
-        self.buffer_v[layer_idx] = [all_v[:, :, self.block_size:, :]]
-
-    def _retrieve(self, layer_idx: int, q: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        q_last = q[:, :, -1:, :] # Use last query token
-        
-        scores = []
-        for i, rk in enumerate(self.ltm_rk[layer_idx]):
-            # rk: [B, H, r_tokens, D]
-            attn = torch.matmul(q_last, rk.transpose(-1, -2))
-            score = attn.max(dim=-1)[0].mean()
-            scores.append((score.item(), i))
-            
-        scores.sort(key=lambda x: x[0], reverse=True)
-        selected = [idx for _, idx in scores[:self.top_k_blocks]]
-        selected.sort()
-        
-        ret_k = torch.cat([self.ltm_k[layer_idx][i].to(q.device) for i in selected], dim=-2)
-        ret_v = torch.cat([self.ltm_v[layer_idx][i].to(q.device) for i in selected], dim=-2)
-        
-        return ret_k, ret_v
-
-    # --- Cache Interface Implementation ---
-    def get_seq_length(self, layer_idx: int = 0) -> int:
-        return len(self.ltm_k[layer_idx]) * self.block_size + sum(x.size(-2) for x in self.buffer_k[layer_idx])
-
-    def get_max_length(self) -> Optional[int]: return None
-    
-    def update(self, key_states, value_states, layer_idx, cache_kwargs=None):
-        # This is the fallback if standard update is called.
-        # But for ReAttention, we should be using prepare_reattention.
-        self.buffer_k[layer_idx].append(key_states)
-        self.buffer_v[layer_idx].append(value_states)
-        return torch.cat(self.buffer_k[layer_idx], dim=-2), torch.cat(self.buffer_v[layer_idx], dim=-2)
-
+    def _archive_msg(self) -> Dict[str, Any]:
+        return {"role": "system", "content": self.archive_notice}

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from infinite_context import InfLLMCache
+from inf_llm_cache import InfLLMCache
 
 class MockConfig:
     def __init__(self):
