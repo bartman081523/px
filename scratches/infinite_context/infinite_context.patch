@@ -1,0 +1,150 @@
+--- gradio_tabs/chat_tab.py	2026-06-17 11:03:13.683465527 +0200
++++ gradio_tabs/chat_tab.py	2026-06-17 13:19:02.723275863 +0200
+@@ -161,6 +161,17 @@
+     messages = cleaned_history + [{"role": "user", "content": actual_message}]
+     print(f"DEBUG: Combined messages length: {len(messages)}")
+ 
++    # SR-64: Infinite Context - Prevent OOM on massive sessions
++    context_messages = messages.copy()
++    try:
++        from infinite_context import InfiniteContextManager
++        # Using a conservative token limit for 12GB VRAM + PX Engine overhead
++        # Max tokens around 3000 to leave enough room for generation
++        ctx_manager = InfiniteContextManager(max_tokens=3000)
++        context_messages = ctx_manager.process_history(messages, tokenizer=tokenizer)
++    except ImportError:
++        print("WARNING: infinite_context module not found, proceeding without sliding window.")
++
+     # SR-61b: Explicitly clear cache to prevent OOM on 12GB cards
+     import torch
+     if torch.cuda.is_available():
+@@ -173,13 +184,13 @@
+     # Robustness: Flatten to strings if no images are present to satisfy text-only templates
+     has_images = any(
+         isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
+-        for m in messages
++        for m in context_messages
+     )
+     
+     if not has_images:
+-        processed_messages = [{"role": m["role"], "content": _stringify_content(m["content"])} for m in messages]
++        processed_messages = [{"role": m["role"], "content": _stringify_content(m["content"])} for m in context_messages]
+     else:
+-        processed_messages = messages
++        processed_messages = context_messages
+ 
+     input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+--- generators.py	2026-06-17 11:03:13.683465527 +0200
++++ generators.py	2026-06-17 13:18:51.209942887 +0200
+@@ -175,6 +175,14 @@
+     else:
+         processed_messages = messages
+ 
++    # SR-64: Infinite Context protection for API
++    try:
++        from infinite_context import InfiniteContextManager
++        ctx_manager = InfiniteContextManager(max_tokens=3000)
++        processed_messages = ctx_manager.process_history(processed_messages, tokenizer=tokenizer)
++    except ImportError:
++        pass
++
+     # Build prompt using chat template
+     input_text = tokenizer.apply_chat_template(
+         processed_messages, tokenize=False, add_generation_prompt=True
+@@ -252,6 +260,14 @@
+     else:
+         processed_messages = messages
+ 
++    # SR-64: Infinite Context protection for streaming API
++    try:
++        from infinite_context import InfiniteContextManager
++        ctx_manager = InfiniteContextManager(max_tokens=3000)
++        processed_messages = ctx_manager.process_history(processed_messages, tokenizer=tokenizer)
++    except ImportError:
++        pass
++
+     input_text = tokenizer.apply_chat_template(
+         processed_messages, tokenize=False, add_generation_prompt=True
+     )
+--- /dev/null	2026-06-17 12:49:31.648708943 +0200
++++ infinite_context.py	2026-06-17 13:17:40.426611799 +0200
+@@ -0,0 +1,78 @@
++import copy
++from typing import List, Dict, Any, Optional, Callable
++
++class InfiniteContextManager:
++    """
++    Manages the session history to prevent OOM errors during generation by enforcing
++    a sliding window, or eventually, a compressed memory manifold.
++    """
++    def __init__(self, max_history_messages: int = 10, max_tokens: Optional[int] = None):
++        self.max_history_messages = max_history_messages
++        self.max_tokens = max_tokens
++
++    def process_history(self, messages: List[Dict[str, Any]], tokenizer: Optional[Callable] = None) -> List[Dict[str, Any]]:
++        """
++        Processes the history to fit within constraints.
++        Returns a new list of messages safe for model generation.
++        """
++        if not messages:
++            return []
++
++        # Always preserve the system prompt if it exists (usually at index 0)
++        system_msgs = []
++        regular_msgs = []
++        
++        for msg in messages:
++            if msg.get("role") == "system":
++                system_msgs.append(msg)
++            else:
++                regular_msgs.append(msg)
++
++        # Token-based sliding window
++        if tokenizer is not None and self.max_tokens is not None:
++            current_msgs = regular_msgs.copy()
++            while len(current_msgs) > 1:
++                # Test how many tokens this combination uses
++                test_msgs = system_msgs + current_msgs
++                try:
++                    # Apply chat template (without generating prompt to just count past tokens)
++                    text = tokenizer.apply_chat_template(test_msgs, tokenize=False)
++                    tokens = tokenizer.encode(text)
++                    if len(tokens) <= self.max_tokens:
++                        break
++                except Exception:
++                    # If it fails, fallback to dropping
++                    pass
++                current_msgs.pop(0)
++
++            if len(current_msgs) < len(regular_msgs):
++                compression_notice = {
++                    "role": "system",
++                    "content": "[SYSTEM: Older context has been archived for memory efficiency. The following messages are the most recent interaction.]"
++                }
++                return system_msgs + [compression_notice] + current_msgs
++            return system_msgs + current_msgs
++
++        # Basic Sliding Window based on message count (Fallback)
++        if self.max_history_messages is not None and len(regular_msgs) > self.max_history_messages:
++            # We keep the most recent `self.max_history_messages` messages.
++            # To maintain conversational flow, we might want to ensure we don't split a user/assistant pair awkwardly,
++            # but taking the last N is generally fine.
++            truncated_msgs = regular_msgs[-self.max_history_messages:]
++            
++            # Future: Here we could inject a "compressed memory" message 
++            # representing the dropped messages.
++            compression_notice = {
++                "role": "system",
++                "content": "[SYSTEM: Older context has been archived for memory efficiency. The following messages are the most recent interaction.]"
++            }
++            
++            return system_msgs + [compression_notice] + truncated_msgs
++
++        # Token-based sliding window (if tokenizer and max_tokens provided)
++        if tokenizer is not None and self.max_tokens is not None:
++            # (To be implemented fully if we want strict token limits instead of message limits)
++            pass
++
++        return system_msgs + regular_msgs
++

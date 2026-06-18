@@ -60,7 +60,7 @@ class InfLLMCache:
         l += sum(x.size(-2) for x in self.buffer_k[layer_idx])
         return l
 
-    def prepare_reattention(self, q, k, v, layer_idx, rotary_emb_module, read_only=False, **kwargs):
+    def prepare_reattention(self, q, k, v, layer_idx, rotary_emb_module):
         """
         The core ReAttention hook.
         q, k, v: [B, H, T_new, D] - UN-ROTATED tensors.
@@ -91,18 +91,6 @@ class InfLLMCache:
 
         # 4. Retrieval
         ret_k, ret_v = None, None
-        
-        # If this is a massive prefill (e.g. the first pass), do not retrieve sparse blocks.
-        # Just use the full current sequence to allow FlashAttention to work natively and save memory.
-        if T_new > 1024 and not read_only:
-            # We already archived the blocks, but for this step's attention, 
-            # we need the full K and V so FlashAttention can compute it causally.
-            # q, k, v are already full length. We just need to apply RoPE.
-            q_cos, q_sin = rotary_emb_module(q, torch.arange(T_new, device=device).unsqueeze(0))
-            q_rot = apply_rotary_pos_emb_single(q, q_cos, q_sin)
-            k_rot = apply_rotary_pos_emb_single(k, q_cos, q_sin)
-            return q_rot, k_rot, v
-
         if len(self.ltm_k[layer_idx]) > 0:
             ret_k, ret_v = self._retrieve(layer_idx, q)
 
@@ -120,10 +108,7 @@ class InfLLMCache:
         local_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
         k_parts.append(local_k)
         v_parts.append(local_v)
-
-        if q.size(-2) > 1000:
-            print(f"[InfLLM] Layer {layer_idx} | Q={q.size(-2)} | Sinks={self.sinks_k[layer_idx].size(-2) if self.sinks_k[layer_idx] is not None else 0} | Ret={ret_k.size(-2) if ret_k is not None else 0} | Local={local_k.size(-2)}")
-
+        
         final_k = torch.cat(k_parts, dim=-2)
         final_v = torch.cat(v_parts, dim=-2)
         
@@ -155,25 +140,22 @@ class InfLLMCache:
     def _archive_block(self, layer_idx: int):
         all_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
         all_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
-
-        while all_k.size(-2) >= self.block_size:
-            block_k = all_k[:, :, :self.block_size, :].clone()
-            block_v = all_v[:, :, :self.block_size, :].clone()
-
-            # Representative Keys (Top-k magnitude)
-            magnitudes = block_k.norm(dim=-1)
-            _, indices = magnitudes.topk(self.r_tokens, dim=-1)
-            r_k = torch.gather(block_k, -2, indices.unsqueeze(-1).expand(-1, -1, -1, block_k.size(-1)))
-
-            self.ltm_k[layer_idx].append(block_k.cpu())
-            self.ltm_v[layer_idx].append(block_v.cpu())
-            self.ltm_rk[layer_idx].append(r_k)
-
-            all_k = all_k[:, :, self.block_size:, :]
-            all_v = all_v[:, :, self.block_size:, :]
-
-        self.buffer_k[layer_idx] = [all_k]
-        self.buffer_v[layer_idx] = [all_v]
+        
+        block_k = all_k[:, :, :self.block_size, :].clone()
+        block_v = all_v[:, :, :self.block_size, :].clone()
+        
+        # Representative Keys (Top-k magnitude)
+        magnitudes = block_k.norm(dim=-1) # [B, H, T_block]
+        _, indices = magnitudes.topk(self.r_tokens, dim=-1)
+        r_k = torch.gather(block_k, -2, indices.unsqueeze(-1).expand(-1, -1, -1, block_k.size(-1)))
+        
+        self.ltm_k[layer_idx].append(block_k.cpu())
+        self.ltm_v[layer_idx].append(block_v.cpu())
+        self.ltm_rk[layer_idx].append(r_k)
+        
+        # Update buffer
+        self.buffer_k[layer_idx] = [all_k[:, :, self.block_size:, :]]
+        self.buffer_v[layer_idx] = [all_v[:, :, self.block_size:, :]]
 
     def _retrieve(self, layer_idx: int, q: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         q_last = q[:, :, -1:, :] # Use last query token
@@ -207,87 +189,3 @@ class InfLLMCache:
         self.buffer_v[layer_idx].append(value_states)
         return torch.cat(self.buffer_k[layer_idx], dim=-2), torch.cat(self.buffer_v[layer_idx], dim=-2)
 
-
-# ---------------------------------------------------------------------------
-# Attention Patching
-# ---------------------------------------------------------------------------
-
-def _px_attention_forward(self, hidden_states, position_embeddings=None, attention_mask=None, past_key_values=None, **kwargs):
-    """Surgical patch for Gemma3Attention to support ReAttention."""
-    import types
-    input_shape = hidden_states.shape[:-1]
-    hidden_shape = (*input_shape, -1, self.head_dim)
-
-    query_states = self.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
-    key_states = self.k_proj(hidden_states).view(hidden_shape).transpose(1, 2)
-    value_states = self.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
-
-    query_states = self.q_norm(query_states)
-    key_states = self.k_norm(key_states)
-
-    if hasattr(past_key_values, "prepare_reattention"):
-        # ReAttention: Retrieval happens BEFORE RoPE
-        thought_history = getattr(past_key_values, "_thoughts", None)
-        read_only = getattr(past_key_values, "_read_only", False)
-        query_states, key_states, value_states = past_key_values.prepare_reattention(
-            query_states, key_states, value_states, self.layer_idx, self.rotary_emb,
-            thought_history=thought_history, read_only=read_only
-        )
-        # Pad attention mask to match new key length (T_final)
-        if attention_mask is not None:
-            T_q = query_states.size(-2)
-            T_k = key_states.size(-2)
-            # attention_mask is usually [B, 1, T_q, T_orig_k]
-            # We need it to be [B, 1, T_q, T_k]
-            T_orig_k = attention_mask.size(-1)
-            if T_k > T_orig_k:
-                # Pad with 0s (fully attendable) on the LEFT since we prepended Sinks/Retrieved
-                pad_len = T_k - T_orig_k
-                # F.pad format: (left, right, top, bottom, front, back)
-                import torch.nn.functional as F
-                attention_mask = F.pad(attention_mask, (pad_len, 0), value=0.0)
-            elif T_k < T_orig_k:
-                # Should not happen typically, but truncate if needed
-                attention_mask = attention_mask[..., -T_k:]
-    else:
-        # Standard Flow
-        from transformers.models.gemma3.modeling_gemma3 import apply_rotary_pos_emb
-        cos, sin = position_embeddings
-        query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
-        if past_key_values is not None:
-            key_states, value_states = past_key_values.update(key_states, value_states, self.layer_idx)
-
-    # Core Attention (Using Transformers internal functions)
-    from transformers.models.gemma3.modeling_gemma3 import ALL_ATTENTION_FUNCTIONS, eager_attention_forward
-    attention_interface = ALL_ATTENTION_FUNCTIONS.get_interface(self.config._attn_implementation, eager_attention_forward)
-
-    if attention_mask is not None and (attention_mask.size(-1) != key_states.size(-2) or attention_mask.size(-2) != query_states.size(-2)):
-        # Force a fix if somehow it bypassed the padding/truncation
-        T_q, T_k = query_states.size(-2), key_states.size(-2)
-        import torch.nn.functional as F
-        if attention_mask.size(-1) > T_k: attention_mask = attention_mask[..., -T_k:]
-        elif attention_mask.size(-1) < T_k: attention_mask = F.pad(attention_mask, (T_k - attention_mask.size(-1), 0), value=0.0)
-
-    try:
-        attn_output, attn_weights = attention_interface(
-            self, query_states, key_states, value_states, attention_mask,
-            dropout=self.attention_dropout if self.training else 0.0,
-            scaling=self.scaling, sliding_window=self.sliding_window, **kwargs
-        )
-    except RuntimeError as e:
-        print(f"SDPA FAILED! Q={query_states.shape}, K={key_states.shape}, V={value_states.shape}, Mask={attention_mask.shape if attention_mask is not None else 'None'}")
-        raise e
-
-    attn_output = attn_output.reshape(*input_shape, -1).contiguous()
-    attn_output = self.o_proj(attn_output)
-    return attn_output, attn_weights
-
-def apply_reattention_patch(model):
-    """Finds all Gemma3Attention modules and patches them."""
-    import types
-    patched_count = 0
-    for name, module in model.named_modules():
-        if "Gemma3Attention" in type(module).__name__:
-            module.forward = types.MethodType(_px_attention_forward, module)
-            patched_count += 1
-    print(f"[InfLLM] Patched {patched_count} attention modules with ReAttention.")

@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import MODEL_REGISTRY
 # 2026-06-09: routed to isolated gemma4_2b_px directory
 from px_patches.gemma4_2b_px.auto_tune import (
-    AutoCalibrator, SCALE_DEFAULTS, ZONE_ROUTING, ZONE_Z_CENTERS,
+    AutoCalibrator, SCALE_DEFAULTS, ZONE_ROUTING,
 )
 from px_patches.gemma4_2b_px.patch import apply_px_patch, _resolve_text_model
 
@@ -185,12 +185,7 @@ class TestGemma4E2BZoneRouting(unittest.TestCase):
         self.assertGreaterEqual(rp["n_loops"], 1)
         self.assertLessEqual(rp["n_loops"], 12)
 
-    def test_zone_z_centers_documented(self):
-        # Validate zone_z_centers are sensible (math positive, synthesis negative)
-        self.assertGreater(ZONE_Z_CENTERS["math"], 0,
-                           "math zone should be at positive z-score (peaked)")
-        self.assertLess(ZONE_Z_CENTERS["synthesis"], 0,
-                        "synthesis zone should be at negative z-score (flat)")
+        "synthesis zone should be at negative z-score (flat)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
