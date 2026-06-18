@@ -112,20 +112,6 @@
       "recur_start": 5
     }
   },
-  "zone_z_centers_gemma3": {
-    "creative": -1.0,
-    "logic_a": 0.5,
-    "logic_b": 0.0,
-    "math": 1.5,
-    "synthesis": -2.0
-  },
-  "zone_z_centers_gemma4": {
-    "creative": -1.0,
-    "logic_a": 0.5,
-    "logic_b": 0.0,
-    "math": 1.5,
-    "synthesis": -2.0
-  },
   "zone_z_sigmas_gemma3": {
     "creative": 1.0,
     "logic_a": 0.6,
@@ -139,5 +125,49 @@
     "logic_b": 0.7,
     "math": 0.8,
     "synthesis": 0.9
+  },
+  "zone_z_targets_gemma3": {
+    "creative": [
+      -1.0,
+      -0.5
+    ],
+    "logic_a": [
+      0.5,
+      0.2
+    ],
+    "logic_b": [
+      0.0,
+      0.0
+    ],
+    "math": [
+      1.5,
+      0.5
+    ],
+    "synthesis": [
+      -1.5,
+      -1.0
+    ]
+  },
+  "zone_z_targets_gemma4": {
+    "creative": [
+      -1.0,
+      -0.5
+    ],
+    "logic_a": [
+      0.5,
+      0.2
+    ],
+    "logic_b": [
+      0.0,
+      0.0
+    ],
+    "math": [
+      1.5,
+      0.5
+    ],
+    "synthesis": [
+      -1.5,
+      -1.0
+    ]
   }
 }

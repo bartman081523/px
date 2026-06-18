@@ -6,10 +6,15 @@ from the 2026-06-08 E2B test (repetition collapse on narrow kurtosis).
 
 This is a STRUCTURED unit test: the actual generation requires GPU,
 so we test the *mechanisms* that prevent the loop:
-  1. repetition_penalty in _px_config (≥ 1.05 for gemma4)
-  2. Stability-break threshold (stability_cnt > 1, not > 3)
-  3. Layer-bounce break (BOUNCE-BREAK)
+  1. repetition_penalty in _px_config (= 1.15, set unconditionally for all models)
+  2. Stability-break threshold (stability_cnt > 3, gated on phi_s > 0.9999)
+  3. Anti-oscillation guards (per-layer-visit penalty + over-stable hub-jump)
   4. Generative output checks (when run with GPU)
+
+Note (2026-06-18): the earlier `stability_cnt > 1` threshold and the dedicated
+BOUNCE-BREAK block were removed in the 2026-06-11 patch.py rewrite. Token-loop
+avoidance now comes from repetition_penalty=1.15 + no_repeat_ngram_size=3 plus
+the is_gemma4 n_loops cap (8→4). The tests below were updated accordingly.
 
 The GPU-dependent `test_token_loop_in_generation` is skipped if no
 GPU is available — all other tests run on CPU only.
@@ -37,54 +42,61 @@ class TestGemma4E2BTokenLoopMechanisms(unittest.TestCase):
     """Each mechanism that prevents token loops is verified independently."""
 
     def test_repetition_penalty_in_config(self):
-        """Mechanism 1: repetition_penalty=1.05 for gemma4."""
-        from config import MODEL_REGISTRY
-        # The default gemma4-e2b-it config has recur_start=8, recur_end=18
-        # and the patch adds repetition_penalty=1.05
-        reg = MODEL_REGISTRY["gemma4-e2b-it"]
-        self.assertIn("patch_kwargs", reg)
-        # We can simulate what the patch would do
-        cfg = dict(reg["patch_kwargs"])
-        # Apply the gemma4 conditional from patch.py:695
-        cfg.setdefault("repetition_penalty", 1.05)
-        self.assertGreaterEqual(cfg["repetition_penalty"], 1.05,
-                                f"repetition_penalty must be ≥1.05, got {cfg['repetition_penalty']}")
+        """Mechanism 1: repetition_penalty=1.15 (set unconditionally in
+        apply_px_patch for ALL models, not just gemma4)."""
+        import inspect
+        from px_patches.gemma4_2b_px import patch as patch_mod
+        source = inspect.getsource(patch_mod)
+        # Production sets repetition_penalty=1.15 unconditionally (patch.py:1008).
+        self.assertIn('defaults["repetition_penalty"] = 1.15', source,
+                      "patch.py must set repetition_penalty=1.15")
+        self.assertIn('defaults["no_repeat_ngram_size"] = 3', source,
+                      "patch.py must set no_repeat_ngram_size=3")
 
     def test_stability_break_threshold(self):
-        """Mechanism 2: stability_cnt > 1 triggers break (was > 3)."""
+        """Mechanism 2: stability_cnt > 3 (gated on phi_s > 0.9999) triggers
+        break, plus a tail safety guard stability_cnt > 5. The earlier > 1
+        threshold was removed in the 2026-06-11 rewrite."""
         import inspect
         from px_patches.gemma4_2b_px import patch as patch_mod
         source = inspect.getsource(patch_mod)
 
-        # The new threshold
-        self.assertIn("stability_cnt > 1: h_exp = trans_out; break", source,
-                      "Stability-break threshold must be 1 (early break)")
-        # The old threshold should be gone
-        self.assertNotIn("stability_cnt > 3", source,
-                         "Old stability_cnt > 3 must be replaced")
+        # Primary stability break, gated on near-perfect cosine stability:
+        self.assertIn("if stability_cnt > 3:", source,
+                      "stability break must fire at `stability_cnt > 3`")
+        self.assertIn("phi_s > 0.9999", source,
+                      "stability break must be gated on phi_s > 0.9999")
+        # Tail-of-iteration safety guard:
+        self.assertIn("if stability_cnt > 5: break", source,
+                      "tail safety guard `stability_cnt > 5` must be present")
+        # The old `> 1` one-line break must be gone:
+        self.assertNotIn("stability_cnt > 1: h_exp = trans_out; break", source,
+                         "Old `stability_cnt > 1` one-line break must be removed")
 
-    def test_layer_bounce_break_present(self):
-        """Mechanism 3: BOUNCE-BREAK on L↔L+1 oscillation."""
+    def test_layer_anti_oscillation_guards_present(self):
+        """Mechanism 3: the dedicated BOUNCE-BREAK block was removed
+        (2026-06-11). Anti-oscillation is now handled by lighter in-loop
+        guards: per-layer-visit penalty, over-stable hub-jump, and
+        layer-visits bookkeeping, with per-step telemetry collection."""
         import inspect
         from px_patches.gemma4_2b_px import patch as patch_mod
         source = inspect.getsource(patch_mod)
-        self.assertIn("BOUNCE-BREAK", source,
-                      "BOUNCE-BREAK logic must be present in patch.py")
-        # Verify it triggers on the right pattern
-        # (2026-06-08: relaxed from 6/4 to 10/6 after Steps=0 false-positive)
-        self.assertIn("len(unique_recent) <= 2", source,
-                      "BOUNCE-BREAK must check unique layer count ≤ 2")
-        self.assertIn(">= 6", source,
-                      "BOUNCE-BREAK must check ≥6 visits to last layer (relaxed 2026-06-08)")
-        # Verify relaxed telemetry threshold
-        self.assertIn("len(telemetry) >= 10", source,
-                      "BOUNCE-BREAK threshold relaxed to 10 telemetry entries (2026-06-08)")
+        self.assertIn("layer_visits", source,
+                      "layer-visits bookkeeping must be present")
+        self.assertIn("dynamic_hub + 1", source,
+                      "over-stable hub-jump guard must be present")
+        self.assertIn("_px_current_telemetry_raw", source,
+                      "per-step telemetry collection must be present")
+        # The removed BOUNCE-BREAK marker must NOT have come back:
+        self.assertNotIn("BOUNCE-BREAK", source,
+                          "BOUNCE-BREAK block was removed 2026-06-11; "
+                          "must not be reintroduced")
 
     def test_reduced_recur_range(self):
-        """Mechanism 4: gemma4-e2b uses SCALE_DEFAULTS[1536] for parity
-        with gemma3. The earlier 8-18 + n_loops=4 override was removed
-        in favor of repetition_penalty=1.15 + no_repeat_ngram_size=3,
-        which are set in patch.py for gemma4."""
+        """Mechanism 4: gemma4-e2b uses SCALE_DEFAULTS[1536] for 1B parity.
+        Token-loop avoidance comes from repetition_penalty=1.15 +
+        no_repeat_ngram_size=3 (set in patch.py) plus the is_gemma4 n_loops
+        cap (8→4) inside apply_px_patch — not from a low gamma."""
         from config import MODEL_REGISTRY
         from px_patches.gemma4_2b_px.auto_tune import SCALE_DEFAULTS
         reg = MODEL_REGISTRY["gemma4-e2b-it"]
@@ -92,13 +104,13 @@ class TestGemma4E2BTokenLoopMechanisms(unittest.TestCase):
         # No explicit override — defaults come from SCALE_DEFAULTS[1536]
         self.assertNotIn("recur_start", kw)
         self.assertNotIn("n_loops", kw)
-        # SCALE_DEFAULTS[1536] must exist and have the values we expect
+        # SCALE_DEFAULTS[1536] must exist and have the 1B-parity values
         self.assertIn(1536, SCALE_DEFAULTS)
         sd = SCALE_DEFAULTS[1536]
         self.assertEqual(sd["recur_start"], 10)
         self.assertEqual(sd["recur_end"], 26)
-        self.assertEqual(sd["n_loops"], 6)
-        self.assertEqual(sd["gamma"], 0.06)
+        self.assertEqual(sd["n_loops"], 8)
+        self.assertEqual(sd["gamma"], 0.12)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -194,24 +206,24 @@ class TestGemma4E2BLoopPattern(unittest.TestCase):
                          "The 2026-06-08 pattern has a 3-token run of 'mathematics'")
 
     def test_loop_should_have_been_broken(self):
-        """Verify that with the new threshold (stability_cnt > 1), the loop
-        would have been broken within the first 3 'mathematics' tokens."""
-        # Patch.py threshold: phi > 0.9999 (note: very high)
-        simulated_history = [0.99995, 0.99995, 0.99995, 0.99995]  # 4 high-phi steps
+        """Verify that with the current threshold (stability_cnt > 3, gated on
+        phi > 0.9999), a sustained high-phi loop is eventually broken."""
+        # Patch.py threshold: phi_s > 0.9999 sustained for stability_cnt > 3
+        simulated_history = [0.99995, 0.99995, 0.99995, 0.99995, 0.99995]  # 5 high-phi steps
         stability_cnt = 0
         broke = False
         for phi in simulated_history:
             if phi > 0.9999:
                 stability_cnt += 1
-                if stability_cnt > 1:  # NEW THRESHOLD (was > 3)
+                if stability_cnt > 3:  # CURRENT THRESHOLD (was > 1 pre-2026-06-11)
                     broke = True
                     break
             else:
                 stability_cnt = 0
         self.assertTrue(broke,
-                        "Stability-break must fire on 2nd high-phi step (new threshold)")
-        self.assertEqual(stability_cnt, 2,
-                         "stability_cnt must reach 2 to trigger break")
+                        "Stability-break must fire once stability_cnt exceeds 3")
+        self.assertEqual(stability_cnt, 4,
+                         "stability_cnt must reach 4 to trigger break (> 3)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

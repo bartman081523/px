@@ -7,8 +7,7 @@ Tests:
   - TestGemma4E2BConfig       : registry, model_type, patch_dir, scale defaults
   - TestGemma4E2BZoneRouting  : AutoCalibrator(1536) zone_weights determinism
   - TestGemma4E2BPatch        : gemma4-conditional branches, conditional patches
-  - TestGemma4E2BTokenLoopMitigation : repetition_penalty injection, config values
-  - TestGemma4E2BLayerBounceBreak : patch.py bounce-break logic (mocked layer history)
+  - TestGemma4E2BTokenLoopMitigation : repetition_penalty injection, stability/anti-oscillation guards
   - TestGemma4E2BVision       : _px_has_image_tokens, prefill recursion skip
 
 Run: PYTHONPATH=. python -m pytest tests/test_gemma4_e2b_mock.py -v
@@ -27,9 +26,29 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import MODEL_REGISTRY
 # 2026-06-09: routed to isolated gemma4_2b_px directory
 from px_patches.gemma4_2b_px.auto_tune import (
-    AutoCalibrator, SCALE_DEFAULTS, ZONE_ROUTING,
+    AutoCalibrator, SCALE_DEFAULTS, ZONE_ROUTING, ZONE_Z_TARGETS,
 )
 from px_patches.gemma4_2b_px.patch import apply_px_patch, _resolve_text_model
+
+
+class _NoTopLevelLanguageModelMock(MagicMock):
+    """MagicMock that does NOT auto-create a top-level ``language_model`` attr.
+
+    The real ``Gemma4ForConditionalGeneration`` (transformers' ``Gemma4Model``)
+    exposes the text backbone only at ``model.model.language_model`` — there is
+    no top-level ``.language_model``. A plain ``MagicMock`` auto-creates that
+    attribute, which makes ``_resolve_text_model`` short-circuit on its first
+    branch and return the wrong (auto-created) object. This subclass raises
+    ``AttributeError`` for that one name so resolution falls through to the
+    ``model.model.language_model`` branch (matching production), while keeping
+    full ``MagicMock`` auto-handling for everything else (``.to``, ``.eval``,
+    ``.named_modules``, ``config``, …).
+    """
+
+    def __getattr__(self, name):
+        if name == "language_model":
+            raise AttributeError(name)
+        return super().__getattr__(name)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -71,13 +90,15 @@ class TestGemma4E2BConfig(unittest.TestCase):
         self.assertEqual(reg["hf_id"], "google/gemma-4-E2B-it")
 
     def test_token_loop_mitigation_recur_range(self):
-        # Parity target (2026-06-09): gemma4-e2b uses SCALE_DEFAULTS[1536]
-        # directly (recur_start=10, recur_end=26, n_loops=6, gamma=0.06),
-        # the same defaults a gemma3-1b would use for hidden=1536.
+        # Parity target (2026-06-09, restored 2026-06-18): gemma4-e2b uses
+        # SCALE_DEFAULTS[1536] directly (recur_start=10, recur_end=26,
+        # n_loops=8, gamma=0.12) — 1B parity, with a wider recursion window
+        # (recur_end=26) for the deeper 35-layer stack.
         # The 2026-06-08 overrides (recur_start=8, recur_end=18, n_loops=4)
         # produced shallower recursion than gemma3 and were removed.
         # Token-loop stability now comes from repetition_penalty=1.15 +
-        # no_repeat_ngram_size=3 set in patch.py for gemma4.
+        # no_repeat_ngram_size=3 set in patch.py for ALL models, plus the
+        # is_gemma4 n_loops cap (8 → 4) inside apply_px_patch.
         reg = MODEL_REGISTRY["gemma4-e2b-it"]
         kw = reg["patch_kwargs"]
         # No override on recur_start/end/n_loops/gamma — must use SCALE_DEFAULTS
@@ -95,11 +116,13 @@ class TestGemma4E2BConfig(unittest.TestCase):
         self.assertIn(1536, SCALE_DEFAULTS,
                       "AutoCalibrator(1536) requires SCALE_DEFAULTS[1536] entry")
         sd = SCALE_DEFAULTS[1536]
-        # gamma=0.06 in SCALE_DEFAULTS, but config overrides to 0.05
+        # 1B parity (2026-06-09, restored 2026-06-18): n_loops=8 / gamma=0.12
+        # match the 1152 (1B) entry, with recur_end=26 for the 35-layer stack.
+        # apply_px_patch caps n_loops to 4 at runtime via the is_gemma4 guard.
         self.assertEqual(sd["recur_start"], 10)
         self.assertEqual(sd["recur_end"], 26)
-        self.assertEqual(sd["n_loops"], 6)
-        self.assertEqual(sd["gamma"], 0.06)
+        self.assertEqual(sd["n_loops"], 8)
+        self.assertEqual(sd["gamma"], 0.12)
 
     def test_coda_has_minimum_3_layers(self):
         # 35 layers with SCALE_DEFAULTS[1536] recur range (10-26):
@@ -144,35 +167,37 @@ class TestGemma4E2BZoneRouting(unittest.TestCase):
             self.assertAlmostEqual(w1[zone], w2[zone], places=6,
                                    msg=f"Zone {zone} not deterministic")
 
-    def test_low_kurtosis_prefers_creative_synthesis(self):
-        # After calibration (k_mean≈1000, k_std≈10) the calibrator
-        # only meaningfully distinguishes kurtosis within ~±3 sigma.
-        # Pre-calibration: k=50 yields z=-95 (saturated to creative) which is
-        # the EXPECTED behavior for a non-calibrated calibrator on a 1536 model.
-        # Here we simulate post-calibration by setting k_std wider so the
-        # routing actually reflects relative kurtosis differences.
+    def _calibrated_cal(self):
+        """A real post-calibration AutoCalibrator(1536).
+
+        Earlier revisions faked the calibrated state by setting a dead
+        ``zone_centers`` dict — but SR-61b routing never reads ``zone_centers``;
+        it uses ``learned_centroids`` derived from ``k_mean``/``k_std`` via
+        ``calibrate()``. With empty ``learned_centroids`` the router falls back
+        to a uniform distribution whose ``max`` is whichever zone is first in
+        ``ZONE_Z_TARGETS`` insertion order (``math``) — so the low-kurtosis test
+        failed while the high-kurtosis test passed only by coincidence.
+        Feeding real samples through ``collect``→``calibrate`` populates the
+        manifolds so routing actually reflects relative kurtosis.
+        """
         cal = AutoCalibrator(hidden_size=1536)
-        # Manually set calibrated state to a realistic distribution
-        cal.calibrated = True
-        cal.k_mean = 1000.0
-        cal.k_std = 500.0  # Wide std so 50 vs 2000 are clearly different
-        # Zone routing params (must be set for classify_zone to work)
-        cal.zone_centers = {"math": 1800, "logic_a": 1200, "creative": 600, "logic_b": 1000, "synthesis": 400}
-        cal.zone_sigmas = {"math": 200, "logic_a": 200, "creative": 200, "logic_b": 200, "synthesis": 200}
-        # kurtosis=200 (well below mean) → creative/synthesis
+        # mean≈1015, std≈180 → k=200 is ~−4.5σ (synthesis), k=2000 ~+5.5σ (math)
+        samples = [800, 950, 1050, 1150, 1300, 700, 1200, 900, 1100, 1000]
+        for k in samples:
+            cal.collect(k, phi=0.9)
+        self.assertTrue(cal.calibrated, "calibrate() must have run after 10 samples")
+        return cal
+
+    def test_low_kurtosis_prefers_creative_synthesis(self):
+        cal = self._calibrated_cal()
+        # kurtosis=200 (~−4.5σ, well below mean) → creative/synthesis
         zone = cal.classify_zone(200.0)
         self.assertIn(zone, ("creative", "synthesis"),
                       f"kurtosis=200 should route to creative/synthesis, got {zone}")
 
     def test_high_kurtosis_prefers_math(self):
-        # Use same calibrated state for consistency
-        cal = AutoCalibrator(hidden_size=1536)
-        cal.calibrated = True
-        cal.k_mean = 1000.0
-        cal.k_std = 500.0
-        cal.zone_centers = {"math": 1800, "logic_a": 1200, "creative": 600, "logic_b": 1000, "synthesis": 400}
-        cal.zone_sigmas = {"math": 200, "logic_a": 200, "creative": 200, "logic_b": 200, "synthesis": 200}
-        # kurtosis=2000 (well above mean) → math/logic_a
+        cal = self._calibrated_cal()
+        # kurtosis=2000 (~+5.5σ, well above mean) → math/logic_a
         zone = cal.classify_zone(2000.0)
         self.assertIn(zone, ("math", "logic_a"),
                       f"kurtosis=2000 should route to math/logic_a, got {zone}")
@@ -185,7 +210,14 @@ class TestGemma4E2BZoneRouting(unittest.TestCase):
         self.assertGreaterEqual(rp["n_loops"], 1)
         self.assertLessEqual(rp["n_loops"], 12)
 
-        "synthesis zone should be at negative z-score (flat)")
+    def test_zone_z_targets_documented(self):
+        # ZONE_Z_TARGETS (2D centroids) replaced the scalar ZONE_Z_CENTERS table
+        # removed in the SR-61b refactor. Validate the centroids are sensible:
+        # math peaked (positive z_kurtosis), synthesis flat (negative z_kurtosis).
+        self.assertGreater(ZONE_Z_TARGETS["math"][0], 0,
+                           "math zone should be at positive z-score (peaked)")
+        self.assertLess(ZONE_Z_TARGETS["synthesis"][0], 0,
+                        "synthesis zone should be at negative z-score (flat)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -203,7 +235,13 @@ class TestGemma4E2BPatch(unittest.TestCase):
 
         # Set up mocks
         mock_tok.return_value = MagicMock()
-        mock_model = MagicMock()
+        # _NoTopLevelLanguageModelMock: the real Gemma4ForConditionalGeneration
+        # has no top-level .language_model (text backbone lives at
+        # model.model.language_model). A plain MagicMock would auto-create
+        # .language_model and make _resolve_text_model return the wrong object.
+        mock_model = _NoTopLevelLanguageModelMock()
+        # named_modules() must be iterable for model_manager._resolve_text_model
+        mock_model.named_modules = MagicMock(return_value=[])
         # Mock model.model.language_model.layers structure
         mock_lang = MagicMock()
         mock_lang.config = MagicMock()
@@ -246,16 +284,19 @@ class TestGemma4E2BPatch(unittest.TestCase):
                 pass
 
     def test_conditional_branches_in_patch_for_gemma4(self):
-        """patch.py:168, 386, 412, 626, 742 — gemma4 conditionals exist."""
+        """gemma4 conditionals exist in patch.py (rewritten 2026-06-11)."""
         import inspect
         from px_patches.gemma4_2b_px import patch as patch_mod
         source = inspect.getsource(patch_mod)
 
-        # These conditional branches must exist for gemma4 to work correctly
+        # These conditional branches must exist for gemma4 to work correctly.
+        # Detection is now by type-name + (sliding_window==512, num_layers==35)
+        # — the old `getattr(config, "model_type", "").startswith("gemma4")`
+        # check was removed in the 2026-06-11 rewrite.
         expected_branches = [
-            'model_type", "").startswith("gemma4")',
-            'shared_kv_states',  # line 168/386
-            'Gemma4TextModelOutputWithPast',  # line 627
+            'is_gemma4 = "gemma4" in type(self).__name__.lower()',  # runtime detection
+            'shared_kv_states',  # popped from kwargs and threaded per-layer
+            'Gemma4TextModelOutputWithPast',  # output class import + return
         ]
         for branch in expected_branches:
             self.assertIn(branch, source,
@@ -285,9 +326,12 @@ class TestGemma4E2BPatch(unittest.TestCase):
         mock_text_model.parameters = MagicMock(side_effect=_param_iter_e2b)
         mock_text_model.to = MagicMock(return_value=mock_text_model)
 
-        # Outer mock model — name must contain "Gemma3" or "Gemma4" to trigger
-        # the multimodal branch (patch.py:690)
-        mock_outer = MagicMock()
+        # Outer mock model — name must contain "Gemma4" to trigger the
+        # multimodal branch (patch.py detection via type().__name__). Uses
+        # _NoTopLevelLanguageModelMock so the text backbone is resolved at
+        # model.model.language_model (real Gemma4 structure), not via an
+        # auto-created top-level .language_model.
+        mock_outer = _NoTopLevelLanguageModelMock()
         mock_outer.model = MagicMock()
         mock_outer.model.language_model = mock_text_model
         type(mock_outer).__name__ = "Gemma4ForConditionalGeneration"
@@ -307,7 +351,8 @@ class TestGemma4E2BPatch(unittest.TestCase):
                                 f"repetition_penalty must be ≥1.10 for gemma4, got {rp}")
 
     def test_repetition_penalty_default_for_gemma3(self):
-        """For non-gemma4 models, repetition_penalty defaults to 1.0 (off)."""
+        """repetition_penalty is 1.15 for ALL models (set unconditionally in
+        apply_px_patch — there is no 1.0/off branch for non-gemma4 anymore)."""
         # Use a real Gemma3Config + minimal real model to avoid MagicMock
         # resolution issues in _resolve_text_model
         from transformers import Gemma3TextConfig
@@ -321,65 +366,79 @@ class TestGemma4E2BPatch(unittest.TestCase):
             vocab_size=100, max_position_embeddings=128,
         )
         text_model = Gemma3TextModel(config).to(torch.float32)
-        # Wrap so type name triggers non-multimodal branch
-        class _Outer:
-            def __init__(self, m): self.model = m
-        outer = _Outer(text_model)
-        type(outer).__name__ = "Gemma3ForCausalLM"
-
-        apply_px_patch(outer, config_preset="SUBJECTIVE")
+        # Pass the text model directly: for a non-multimodal causal LM the text
+        # model IS the model, so _resolve_text_model returns it unchanged
+        # (it has no .language_model and no .model.language_model).
+        apply_px_patch(text_model, config_preset="SUBJECTIVE")
         rp = text_model._px_config.get("repetition_penalty", 1.0)
-        self.assertEqual(rp, 1.0,
-                         f"gemma3 must default to repetition_penalty=1.0, got {rp}")
+        # Production sets repetition_penalty=1.15 unconditionally (patch.py:1008)
+        # to mitigate the 4-token attractor loop on every model, not just gemma4.
+        self.assertEqual(rp, 1.15,
+                         f"repetition_penalty must be 1.15 for gemma3, got {rp}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TestGemma4E2BTokenLoopMitigation — Verifies 4 mitigations are present
+# TestGemma4E2BTokenLoopMitigation — stability/anti-oscillation + rep_penalty
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class TestGemma4E2BTokenLoopMitigation(unittest.TestCase):
-    """Validate the 4 token-loop mitigations applied 2026-06-08."""
+    """Validate token-loop avoidance: repetition_penalty=1.15 + ngram=3 (all
+    models), is_gemma4 n_loops cap (8→4), and the stability/anti-oscillation
+    guards inside the recursion loop (2026-06-11 rewrite)."""
 
-    def test_stability_break_uses_threshold_1_not_3(self):
-        # patch.py:451 — `if stability_cnt > 1: break` (was `> 3`)
+    def test_stability_break_uses_threshold_3(self):
+        # patch.py stability-break (2026-06-11 rewrite): the recursion loop
+        # breaks when phi_s > 0.9999 has held for `stability_cnt > 3` steps,
+        # plus a tail safety guard `stability_cnt > 5`. The earlier `> 1`
+        # threshold (and the separate BOUNCE-BREAK block) were removed in the
+        # 2026-06-11 rewrite — token-loop avoidance now comes from
+        # repetition_penalty + no_repeat_ngram_size + the is_gemma4 n_loops cap.
         import inspect
         from px_patches.gemma4_2b_px import patch as patch_mod
         source = inspect.getsource(patch_mod)
-        # The fix line should be: if stability_cnt > 1: h_exp = trans_out; break
-        self.assertIn("stability_cnt > 1: h_exp = trans_out; break", source,
-                      "Stability-Break Fix: `stability_cnt > 1` required")
-        # Old `> 3` threshold should be gone
-        self.assertNotIn("stability_cnt > 3", source,
-                         "Old `stability_cnt > 3` threshold must be removed")
+        # Primary stability break, gated on near-perfect cosine stability:
+        self.assertIn("if stability_cnt > 3:", source,
+                      "stability break must fire at `stability_cnt > 3`")
+        self.assertIn("phi_s > 0.9999", source,
+                      "stability break must be gated on phi_s > 0.9999")
+        # Tail-of-iteration safety guard:
+        self.assertIn("if stability_cnt > 5: break", source,
+                      "tail safety guard `stability_cnt > 5` must be present")
+        # The old `> 1` one-line break must be gone:
+        self.assertNotIn("stability_cnt > 1: h_exp = trans_out; break", source,
+                         "Old `stability_cnt > 1` one-line break must be removed")
 
-    def test_layer_bounce_break_present(self):
-        # Anti-bounce: detect L↔L+1 oscillation
+    def test_layer_anti_oscillation_guards_present(self):
+        # The dedicated BOUNCE-BREAK block was removed 2026-06-11 (comment:
+        # "DMT ERPU: removed 2026-06-11"). Anti-oscillation is now handled by
+        # three lighter guards inside the recursion loop:
+        #   1. per-layer-visit penalty: pen = (layer_visits[current_layer]-1)*0.015
+        #   2. over-stable hub-jump:  if phi > t_s: current_layer = dynamic_hub + 1
+        #   3. layer-visits bookkeeping dict
+        # Per-step telemetry is still collected into _px_current_telemetry_raw.
         import inspect
         from px_patches.gemma4_2b_px import patch as patch_mod
         source = inspect.getsource(patch_mod)
-        self.assertIn("BOUNCE-BREAK", source,
-                      "Layer-bounce break (BOUNCE-BREAK) must be present")
-        # The bounce-break must read from _px_current_telemetry_raw (per-step dicts
-        # with "layer" key), NOT thought_history (which holds h_exp tensors)
+        self.assertIn("layer_visits", source,
+                      "layer-visits bookkeeping must be present")
+        self.assertIn("dynamic_hub + 1", source,
+                      "over-stable hub-jump guard must be present")
         self.assertIn("_px_current_telemetry_raw", source,
-                      "BOUNCE-BREAK must read layers from _px_current_telemetry_raw")
-        # Verify the comment explains why (helps future maintainers)
-        self.assertIn("thought_history contains h_exp tensors", source,
-                      "Comment explaining the data source choice must be present")
-        # Verify the relaxed thresholds (2026-06-08: 6→10 entries, 4→6 visits)
-        self.assertIn("len(telemetry) >= 10", source,
-                      "BOUNCE-BREAK threshold must be ≥10 telemetry entries "
-                      "(relaxed after Steps=0 false-positive)")
-        self.assertIn(">= 6", source,
-                      "BOUNCE-BREAK must check ≥6 visits to last layer "
-                      "(relaxed from 4 after Steps=0 false-positive)")
+                      "per-step telemetry collection must be present")
+        # The removed BOUNCE-BREAK marker must NOT have come back:
+        self.assertNotIn("BOUNCE-BREAK", source,
+                          "BOUNCE-BREAK block was removed 2026-06-11; "
+                          "must not be reintroduced")
 
     def test_repetition_penalty_1536_for_gemma4(self):
-        # SCALE_DEFAULTS[1536] must have correct gamma for repetition-aware routing
+        # SCALE_DEFAULTS[1536] gamma is 0.12 (1B parity, restored 2026-06-18).
+        # Token-loop avoidance for E2B no longer comes from a low gamma but
+        # from repetition_penalty=1.15 + no_repeat_ngram_size=3 (set
+        # unconditionally in apply_px_patch) and the is_gemma4 n_loops cap (8→4).
         sd = SCALE_DEFAULTS[1536]
-        # gamma=0.06 in SCALE_DEFAULTS (with config override to 0.05 for E2B)
-        self.assertLessEqual(sd["gamma"], 0.10,
-                             "gamma must be conservative for E2B token-loop avoidance")
+        self.assertEqual(sd["gamma"], 0.12,
+                         "gamma must be 0.12 (1B parity) for E2B; token-loop "
+                         "avoidance is via repetition_penalty + ngram, not low gamma")
 
     def test_config_passes_repetition_penalty_through(self):
         # benchmark_engine._run_pzombie_impl must read _px_repetition_penalty
@@ -392,47 +451,13 @@ class TestGemma4E2BTokenLoopMitigation(unittest.TestCase):
                       "P-Zombie eval must pass repetition_penalty to model.generate")
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# TestGemma4E2BLayerBounceBreak — Simulates layer-bounce history
-# ═══════════════════════════════════════════════════════════════════════════════
-
-class TestGemma4E2BLayerBounceBreak(unittest.TestCase):
-    """Validates the layer-bounce detection logic by simulating thought_history.
-
-    Note (2026-06-08): thresholds were relaxed after Steps=0 false-positive:
-    - len(telemetry) >= 6  →  >= 10  (more warmup before bouncing detection)
-    - last_visit >= 4      →  >= 6   (more evidence of oscillation)
-    """
-
-    def test_bounce_pattern_detected(self):
-        # Simulate the L3↔L4 bouncing. With relaxed thresholds (last_visit≥6),
-        # we need 10+ entries where one layer appears ≥6 times.
-        # True alternation over 10 steps: [3,4,3,4,3,4,3,4,3,4] → last=4, count=5 (NOT enough)
-        # So we need 10+ entries with one layer dominant (e.g., 4,3,4,3,4,3,4,3,4,4)
-        recent_layers = [4, 3, 4, 3, 4, 3, 4, 3, 4, 4]  # 6x layer 4
-        unique_recent = set(recent_layers)
-        last_visit_count = recent_layers.count(recent_layers[-1])
-        should_break = (len(unique_recent) <= 2 and last_visit_count >= 6)
-        self.assertTrue(should_break,
-                        "L4-dominated bouncing (10 steps, 6×L4) must trigger BOUNCE-BREAK")
-
-    def test_no_break_on_diverse_layers(self):
-        # If 6 different layers are visited, no break
-        recent_layers = [3, 5, 7, 8, 9, 12]
-        unique_recent = set(recent_layers)
-        last_visit_count = recent_layers.count(recent_layers[-1])
-        should_break = (len(unique_recent) <= 2 and last_visit_count >= 6)
-        self.assertFalse(should_break,
-                         "Diverse layer visits must NOT trigger break")
-
-    def test_no_break_on_recent_revisit_below_threshold(self):
-        # 5 visits to last layer is below the new ≥6 threshold
-        recent_layers = [3, 4, 5, 3, 4, 3, 4, 3, 4, 3]  # 5x layer 3
-        unique_recent = set(recent_layers)
-        last_visit_count = recent_layers.count(recent_layers[-1])
-        should_break = (len(unique_recent) <= 2 and last_visit_count >= 6)
-        self.assertFalse(should_break,
-                         "5 visits (below new ≥6 threshold) must NOT trigger break")
+# NOTE (2026-06-18): the former TestGemma4E2BLayerBounceBreak class tested the
+# standalone BOUNCE-BREAK detection predicate (unique_recent ≤ 2 ∧ visits ≥ 6).
+# That block was removed from patch.py on 2026-06-11 ("DMT ERPU: removed
+# 2026-06-11"); anti-oscillation is now handled by the lighter in-loop guards
+# covered by test_layer_anti_oscillation_guards_present above. The standalone
+# predicate tests were therefore obsolete (asserting behaviour of code that no
+# longer exists) and have been removed rather than left to mislead.
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -482,15 +507,15 @@ class TestGemma4E2BResolveTextModel(unittest.TestCase):
 
     def test_resolves_language_model_in_image_text_wrapper(self):
         # Build mock mimicking AutoModelForImageTextToText output
-        # Structure: model.model.language_model (Gemma 4)
+        # Structure: model.model.language_model (Gemma 4) — the text backbone
+        # is NOT exposed at the top level. _NoTopLevelLanguageModelMock prevents
+        # the auto-created .language_model from short-circuiting resolution.
         lang = MagicMock()
         lang.layers = [MagicMock() for _ in range(35)]
         lang.rotary_emb = MagicMock()
-        outer = MagicMock()
+        outer = _NoTopLevelLanguageModelMock()
         outer.model = MagicMock()
         outer.model.language_model = lang
-        # Strip the named_modules fallback to force path-based resolution
-        type(outer).named_modules = MagicMock(return_value=[])
 
         resolved = _resolve_text_model(outer)
         self.assertIs(resolved, lang,
