@@ -41,6 +41,11 @@ def _dist2d(p1: Tuple[float, float], p2: Tuple[float, float], std_k: float, std_
 SCALE_DEFAULTS = {
     640:   dict(recur_start=5,  recur_end=12, hub=10, n_loops=8, gamma=0.08),
     1152:  dict(recur_start=10, recur_end=20, hub=18, n_loops=8, gamma=0.12),
+    # Gemma-4 E2B (hidden_size=1536, 35 layers) — 1B parity target (2026-06-09):
+    # same n_loops=8 / gamma=0.12 as 1B (1152), with a wider recursion window
+    # (recur_end=26) for the deeper 35-layer stack. Restored after e7f2942
+    # accidentally removed it; tests in test_gemma4_e2b_mock.py lock these values.
+    1536:  dict(recur_start=10, recur_end=26, hub=18, n_loops=8, gamma=0.12),
     2560:  dict(recur_start=8,  recur_end=22, hub=16, n_loops=6, gamma=0.05),
     4096:  dict(recur_start=10, recur_end=30, hub=20, n_loops=6, gamma=0.04),
 }
