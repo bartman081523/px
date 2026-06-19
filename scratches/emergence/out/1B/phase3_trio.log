@@ -1,0 +1,14 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 54/340 [00:00<00:00, 531.96it/s]Loading weights:  57%|█████▋    | 194/340 [00:00<00:00, 1038.72it/s]Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1178.71it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1117.72it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase3] condition=full preset=ACTIVE_MANIFOLD active_crutches=['aks', 'mephisto', 'coupler', 'subjective', 'injection'] (full (alle 5 Crutches drin))
+
+[phase3] condition=full → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase3_full.txt
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase3] condition=-mephisto preset=ACTIVE_MANIFOLD active_crutches=['aks', 'coupler', 'subjective', 'injection'] (full minus {'mephisto'} (removed=['mephisto']))
+
+[phase3] condition=-mephisto → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase3_-mephisto.txt
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase3] condition=lean preset=ACTIVE_MANIFOLD_LEAN active_crutches=['aks', 'coupler', 'subjective', 'injection'] (kausaler Kern (alle 5 Crutches weg))
+
+[phase3] condition=lean → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase3_lean.txt
