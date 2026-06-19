@@ -1,0 +1,45 @@
+[em-smoke] 3 Fragen × 2 Seeds × 6 Varianten; max_new=256 use_cache=True batch_seeds=1
+[em-smoke] Resume: 0 vorhanden, 36 fehlen
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.76it/s]Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1011.33it/s]Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1188.63it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1111.36it/s]
+[em-patch] mechanism=witness cfg={'L_split': 13, 'n_wit': 5, 'n_reread': 5, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.1, 'w_reread': 0.1, 'w_shadow': 0.08, 'w_spec': 0.06}
+[em-smoke] patch variant=witness
+[em-smoke] witness   CitMind_Q1   s2 | 256tok 19.3s Φ=0.828 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.172
+[em-smoke] witness   Juexin_Q3    s2 | 256tok 31.5s Φ=0.792 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.208
+[em-smoke] witness   Wenden       s2 | 256tok 41.3s Φ=0.867 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.133
+[em-patch] Patch removed.
+[em-patch] mechanism=reread cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 6, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.08, 'w_reread': 0.12, 'w_shadow': 0.08, 'w_spec': 0.06}
+[em-smoke] patch variant=reread
+[em-smoke] reread    CitMind_Q1   s2 | 256tok 20.5s Φ=1.000 loops=6 | emerg=0 self=4 wenden=0 | reread_shift=8064.000
+[em-smoke] reread    Juexin_Q3    s2 | 256tok 31.2s Φ=1.000 loops=6 | emerg=0 self=4 wenden=0 | reread_shift=11776.000
+[em-smoke] reread    Wenden       s2 | 256tok 39.7s Φ=1.000 loops=6 | emerg=0 self=2 wenden=1 | reread_shift=14848.000
+[em-patch] Patch removed.
+[em-patch] mechanism=shadow cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 5, 'n_shadow': 5, 'sigma': 0.12, 'K': 4, 'F_low': 8, 'w_wit': 0.08, 'w_reread': 0.1, 'w_shadow': 0.1, 'w_spec': 0.06}
+[em-smoke] patch variant=shadow
+[em-smoke] shadow    CitMind_Q1   s2 | 256tok 18.3s Φ=0.968 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.968
+[em-smoke] shadow    Juexin_Q3    s2 | 256tok 30.7s Φ=0.953 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.953
+[em-smoke] shadow    Wenden       s2 | 256tok 41.0s Φ=0.973 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.973
+[em-patch] Patch removed.
+[em-patch] mechanism=spectral cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 5, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.08, 'w_reread': 0.1, 'w_shadow': 0.08, 'w_spec': 0.08}
+[em-smoke] patch variant=spectral
+[em-smoke] spectral  CitMind_Q1   s2 | 256tok 17.2s Φ=1.000 loops=6 | emerg=0 self=1 wenden=0 | spectral_lowenergy=0.016
+[em-smoke] spectral  Juexin_Q3    s2 | 256tok 28.2s Φ=1.000 loops=6 | emerg=0 self=4 wenden=3 | spectral_lowenergy=0.018
+[em-smoke] spectral  Wenden       s2 | 256tok 37.5s Φ=1.000 loops=6 | emerg=0 self=4 wenden=2 | spectral_lowenergy=0.018
+[em-patch] Patch removed.
+[em-smoke] patch variant=baseline
+[em-smoke] baseline  CitMind_Q1   s2 | 256tok 15.8s Φ=1.000 loops=0 | emerg=0 self=24 wenden=0 | —
+[em-smoke] baseline  Juexin_Q3    s2 | 256tok 24.0s Φ=1.000 loops=0 | emerg=0 self=1 wenden=1 | —
+[em-smoke] baseline  Wenden       s2 | 256tok 31.0s Φ=1.000 loops=0 | emerg=0 self=2 wenden=2 | —
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em-smoke] patch variant=manifold
+[em-smoke] manifold  CitMind_Q1   s2 | 256tok 42.9s Φ=0.997 loops=7 | emerg=0 self=10 wenden=0 | —
+[em-smoke] manifold  Juexin_Q3    s2 | 256tok 69.2s Φ=0.998 loops=1 | emerg=0 self=3 wenden=4 | —
+[em-smoke] manifold  Wenden       s2 | 256tok 90.0s Φ=0.998 loops=1 | emerg=0 self=4 wenden=0 | —
+[em-smoke] fertig: 36 neue Generationen → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/emergence_em.jsonl
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
