@@ -1,0 +1,28 @@
+{
+  "prompt": "What is 17 * 23?",
+  "category": "math",
+  "completion": "17 times 20 is 340.\n\nSo, 19 * 3 = 57.  Then 1",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-mephisto",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.297873020172119,
+  "phi": 0.9898583292961121,
+  "zone": "LOGIC_A",
+  "zone_weights": {
+    "math": 0.09778457177672414,
+    "logic_a": 0.34333646775545246,
+    "logic_b": 0.17166823387772623,
+    "creative": 0.301376607651234,
+    "synthesis": 0.08583411693886311
+  },
+  "zone_entropy": 2.1194972368582583,
+  "kurtosis": 1105.0179443359375,
+  "token_diversity_input": 0.75,
+  "loops_run": 2,
+  "entropy": 1.453125,
+  "focus_index": 0.9999972581863403,
+  "emancipation": 0.9776461720466614,
+  "aks_friction": 0.00048828125
+}

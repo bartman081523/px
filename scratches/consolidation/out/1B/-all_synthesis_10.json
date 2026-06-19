@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the relationship between sleep and creativity?",
+  "category": "synthesis",
+  "completion": "Okay, let's break down the fascinating connection between sleep deprivation and creativity. It\u2019s a really active area of research, and there's",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-all",
+  "completion_tokens": 30,
+  "input_tokens": 19,
+  "gen_time_sec": 2.467303514480591,
+  "phi": 0.9903233647346497,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.010819813393285601,
+    "logic_a": 0.1724757682842154,
+    "logic_b": 0.0862378841421077,
+    "creative": 0.6873475901093374,
+    "synthesis": 0.04311894207105385
+  },
+  "zone_entropy": 1.3802162630062835,
+  "kurtosis": 1096.7933349609375,
+  "token_diversity_input": 0.7894736842105263,
+  "loops_run": 2,
+  "entropy": 0.90625,
+  "focus_index": 0.9999947547912598,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

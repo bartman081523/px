@@ -1,0 +1,28 @@
+{
+  "prompt": "Complete: 1, 4, 9, 16, ?",
+  "category": "logic",
+  "completion": "1, **4**, 9\n\nThis sequence is the sequence of perfect squares. Each number is obtained by squaring consecutive integers.\n\n*   1",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-all",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 2.130539655685425,
+  "phi": 0.9908120632171631,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.037288789672753474,
+    "logic_a": 0.2702714744414095,
+    "logic_b": 0.13513573722070474,
+    "creative": 0.4897361280547801,
+    "synthesis": 0.06756786861035237
+  },
+  "zone_entropy": 1.844351148336375,
+  "kurtosis": 1109.7384033203125,
+  "token_diversity_input": 0.5769230769230769,
+  "loops_run": 2,
+  "entropy": 1.296875,
+  "focus_index": 0.9999966621398926,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

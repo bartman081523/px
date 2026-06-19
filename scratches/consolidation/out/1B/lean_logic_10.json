@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the logical negation of 'All swans are white'?",
+  "category": "logic",
+  "completion": "The logical negation (or contradiction) of \"All swans have feet\" is:\n\n**\u201cThere exists at least one swan that does not have feet",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD_LEAN",
+  "condition": "lean",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 2.291287422180176,
+  "phi": 0.9898800849914551,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.0048157996203221,
+    "logic_a": 0.12262420459771331,
+    "logic_b": 0.061312102298856655,
+    "creative": 0.7805918403336796,
+    "synthesis": 0.030656051149428327
+  },
+  "zone_entropy": 1.0883662650726778,
+  "kurtosis": 1105.355224609375,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 7,
+  "entropy": 0.734375,
+  "focus_index": 0.9999966621398926,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

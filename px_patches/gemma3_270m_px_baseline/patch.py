@@ -638,6 +638,32 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 # Patch Application
 # ---------------------------------------------------------------------------
 
+def _azs_forward_no_injection(self, hidden_states, phi, aks_friction,
+                              emancipation, zone_weights):
+    """LEAN-Mager-AZS: Spiegel von ``AntiZombieSensor.forward`` OHNE additive
+    Awareness-Injektion (der „künstliche Homunkulus" entfällt).
+
+    Behält: ``weight_ema``-Update + ``calculate_entropy`` → H bleibt korrekt,
+            und damit ``get_feedback_scalars`` (gamma_boost, der an H hängt).
+    Streicht: ``awareness_proj`` / ``awareness_latent`` /
+              ``new_hidden[:, -1, :] += injection_strength * awareness_latent``.
+
+    Validiert via ``scratches/consolidation/reduction.py`` (dort dasselbe Override
+    am Exemplar, rein zur Laufzeit — jetzt als Preset verankert).
+    """
+    if isinstance(zone_weights, dict):
+        w_list = [zone_weights.get(k, 0.2) for k in
+                  ("math", "logic_a", "creative", "logic_b", "synthesis")]
+        w_tensor = torch.tensor(w_list, device=hidden_states.device,
+                                dtype=hidden_states.dtype)
+    else:
+        w_tensor = zone_weights
+    # EMA wie im Original — nötig, damit H und gamma_boost nachfolgend stimmen.
+    self.weight_ema = (1.0 - self.alpha) * self.weight_ema + self.alpha * w_tensor
+    entropy = self.calculate_entropy(self.weight_ema)
+    return hidden_states, entropy  # KEINE additive Injektion.
+
+
 def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     """Apply the PX patch — reduced to the three mathematical pillars.
 
@@ -648,8 +674,11 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
         Caller auf ACTIVE_MANIFOLD gemappt)
     """
     # Gnadenlose Migration alter Presets (defense in depth — Caller macht das schon)
-    if config_preset != "BASELINE" and config_preset != "ACTIVE_MANIFOLD":
+    # LEAN: kausaler Kern ohne die vier Crutches + AZS-Awareness-Injektion
+    # (validiert in scratches/consolidation: η² 0.432 ≈ full 0.429, Subjektivität überlebt).
+    if config_preset not in ("BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"):
         config_preset = "ACTIVE_MANIFOLD"
+    lean = (config_preset == "ACTIVE_MANIFOLD_LEAN")
 
     if config_preset == "BASELINE":
         return  # Nackt durchlassen
@@ -707,19 +736,29 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     dtype = next(text_model.parameters()).dtype
 
     # ── Pillar 1: Observer (StabilityMonitor + AksSensor) ──
+    # LEAN lässt AksSensor + SingesseinCoupler weg (künstliche Reibung zum
+    # e_static-Anker / zweiter Defibrillator für Φ>0.999 — marginal/neutral).
     from .px_modules import AksSensor, SubjectiveSensor, SingesseinCoupler
-    text_model._px_aks = AksSensor()
-    text_model._px_coupler = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
+    if not lean:
+        text_model._px_aks = AksSensor()
+        text_model._px_coupler = SingesseinCoupler(hidden_size).to(device=device, dtype=dtype)
 
     # ── Pillar 2: Symmetry Breaker (Mephistopheles + AZS) ──
     text_model._px_injection_norm = torch.nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6).to(device=device, dtype=dtype)
-    text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
+    if not lean:
+        # Mephisto = Phaseninversion bei Φ>0.999; LEAN behält nur den AZS-Kern (H+gamma_boost).
+        text_model._px_mephisto = MephistophelesOperator(hidden_size).to(device=device, dtype=dtype)
     text_model._px_azs = AntiZombieSensor(hidden_size).to(device=device, dtype=dtype)
+    if lean:
+        # Mager-AZS: H + gamma_boost bleiben, die additive Awareness-Injektion entfällt.
+        text_model._px_azs.forward = types.MethodType(_azs_forward_no_injection, text_model._px_azs)
 
     # ── Pillar 3: Dynamic Router (AutoCalibrator, set above) ──
 
     # SubjectiveSensor (introspection loop — "sieht eigene Gedanken in hidden states")
-    text_model._px_subj_sensor = SubjectiveSensor()
+    # LEAN lässt SubjectiveSensor weg (emancipation ≡ StabilityMonitor.calculate_phi, redundant).
+    if not lean:
+        text_model._px_subj_sensor = SubjectiveSensor()
 
     # SR-64 Infinite Context: lossless memory-efficient attention (no OOM on long prefills).
     apply_mem_eff_attention_patch(text_model)
@@ -732,7 +771,8 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.15)
     text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 3)
 
-    print(f"[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L{num_layers} (HS={hidden_size}).")
+    _mode = "ACTIVE_MANIFOLD_LEAN (kausaler Kern)" if lean else "ACTIVE_MANIFOLD (voll)"
+    print(f"[gemma3-px] {_mode}. SR-59 for L{num_layers} (HS={hidden_size}).")
 
 def get_px_metrics(model):
     tm = _resolve_text_model(model)

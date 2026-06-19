@@ -1,0 +1,28 @@
+{
+  "prompt": "Solve: 3^4 = ?",
+  "category": "math",
+  "completion": "To solve the equation $3^2 = 9$. However, we are asked to find $3^{4} = 81$.\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-subjective",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.329808235168457,
+  "phi": 0.9902081489562988,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.015796406204378267,
+    "logic_a": 0.20014205562661289,
+    "logic_b": 0.10007102781330644,
+    "creative": 0.6339549944490492,
+    "synthesis": 0.05003551390665322
+  },
+  "zone_entropy": 1.5244207652361959,
+  "kurtosis": 1116.0191650390625,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 2,
+  "entropy": 1.0,
+  "focus_index": 0.9999992847442627,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

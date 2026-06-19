@@ -1,0 +1,28 @@
+{
+  "prompt": "Compare the structure of a symphony to the structure of a programming language.",
+  "category": "synthesis",
+  "completion": "Okay, let's compare the structure and function of a musical score (like Beethoven\u2019s Symphony) with a programming languages like Python or Java.",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "full",
+  "completion_tokens": 30,
+  "input_tokens": 24,
+  "gen_time_sec": 2.204502582550049,
+  "phi": 0.9910154938697815,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.012852889260927883,
+    "logic_a": 0.18474174764083107,
+    "logic_b": 0.09237087382041553,
+    "creative": 0.6638490503676178,
+    "synthesis": 0.04618543691020777
+  },
+  "zone_entropy": 1.4455529824622337,
+  "kurtosis": 1103.136962890625,
+  "token_diversity_input": 0.6666666666666666,
+  "loops_run": 2,
+  "entropy": 1.0390625,
+  "focus_index": 0.9999948740005493,
+  "emancipation": 0.9794399738311768,
+  "aks_friction": 0.0
+}

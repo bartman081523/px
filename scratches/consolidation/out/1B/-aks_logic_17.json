@@ -1,0 +1,28 @@
+{
+  "prompt": "If P is false, what is the truth value of 'P or Q'?",
+  "category": "logic",
+  "completion": "Let's analyze the statement P or Q.\n\n*   **P:** False\n*   The \"or\" operator (represented by `|",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-aks",
+  "completion_tokens": 30,
+  "input_tokens": 26,
+  "gen_time_sec": 2.3702166080474854,
+  "phi": 0.9908521175384521,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.006558749499859179,
+    "logic_a": 0.14010844331861333,
+    "logic_b": 0.07005422165930666,
+    "creative": 0.7482514726925673,
+    "synthesis": 0.03502711082965333
+  },
+  "zone_entropy": 1.1959541625491121,
+  "kurtosis": 1097.3895263671875,
+  "token_diversity_input": 0.8076923076923077,
+  "loops_run": 7,
+  "entropy": 0.85546875,
+  "focus_index": 0.9999890327453613,
+  "emancipation": 0.9914056658744812,
+  "aks_friction": 0.0
+}

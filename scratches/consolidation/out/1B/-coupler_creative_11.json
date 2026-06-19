@@ -1,0 +1,28 @@
+{
+  "prompt": "Imagine a door that opens onto yesterday.",
+  "category": "creative",
+  "completion": "The rain hammered against the warped wood, each drop a tiny drumbeat on the silence of the hallway. The air hung thick with the scent of dust",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.511240005493164,
+  "phi": 0.9913673400878906,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.004608048808292308,
+    "logic_a": 0.12028068751718762,
+    "logic_b": 0.06014034375859381,
+    "creative": 0.7849007460366294,
+    "synthesis": 0.030070171879296906
+  },
+  "zone_entropy": 1.0734657194217394,
+  "kurtosis": 1110.432373046875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 0.72265625,
+  "focus_index": 0.9999988079071045,
+  "emancipation": 0.9924235939979553,
+  "aks_friction": 0.10009765625
+}

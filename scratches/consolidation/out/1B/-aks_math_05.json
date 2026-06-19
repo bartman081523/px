@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the derivative of x^2 + 3x?",
+  "category": "math",
+  "completion": "Here's how to find the derivative:\n\n**Understanding the Derivative Rules**\n\n*   The power rule states that the derivative with respect to a",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-aks",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.462324619293213,
+  "phi": 0.9905388951301575,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.006036479454214697,
+    "logic_a": 0.13522621605179685,
+    "logic_b": 0.06761310802589843,
+    "creative": 0.7573176404551407,
+    "synthesis": 0.033806554012949214
+  },
+  "zone_entropy": 1.1665252889994107,
+  "kurtosis": 1029.6524658203125,
+  "token_diversity_input": 0.8260869565217391,
+  "loops_run": 7,
+  "entropy": 0.7890625,
+  "focus_index": 0.9939202070236206,
+  "emancipation": 0.9916751980781555,
+  "aks_friction": 0.0
+}

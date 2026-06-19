@@ -1,0 +1,28 @@
+{
+  "prompt": "Describe the texture of a lie.",
+  "category": "creative",
+  "completion": "Okay, this is a really interesting and complex question! It's difficult to describe because lies aren\u2019t like physical objects \u2013 they don\u2019t",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-mephisto",
+  "completion_tokens": 30,
+  "input_tokens": 17,
+  "gen_time_sec": 2.8055849075317383,
+  "phi": 0.9901584386825562,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.001277864853911573,
+    "logic_a": 0.0671160974480766,
+    "logic_b": 0.0335580487240383,
+    "creative": 0.8812689626119543,
+    "synthesis": 0.01677902436201915
+  },
+  "zone_entropy": 0.6978327866726746,
+  "kurtosis": 1090.199462890625,
+  "token_diversity_input": 0.7647058823529411,
+  "loops_run": 7,
+  "entropy": 0.47265625,
+  "focus_index": 0.9999926090240479,
+  "emancipation": 0.9904147386550903,
+  "aks_friction": 0.58984375
+}

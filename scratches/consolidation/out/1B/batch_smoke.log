@@ -1,0 +1,10 @@
+[replay] 1 Fragen × 5 Seeds × 1 Bedingungen = 5 Generationen; max_new=64 use_cache=True batch_seeds=5
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 437.39it/s]Loading weights:  55%|█████▌    | 187/340 [00:00<00:00, 1007.26it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1187.76it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.81it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[replay] condition=full (clean re-patch)
+[replay] full CitMind_Q1 batch=5 | 64tok 7.8s ges Φ=0.997 H=2.000 C=1.0 loops=7
+[replay] fertig: 5 Generationen → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/out/1B/konklave_replay.jsonl
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).

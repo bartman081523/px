@@ -1,0 +1,28 @@
+{
+  "prompt": "If A and B are both true, what is the truth value of A or B?",
+  "category": "logic",
+  "completion": "Let's analyze this logic puzzle.\n\n*   **If A is True and B is True:** Then A or (B) is True.",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD_LEAN",
+  "condition": "lean",
+  "completion_tokens": 30,
+  "input_tokens": 28,
+  "gen_time_sec": 2.3459649085998535,
+  "phi": 0.9911137223243713,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.01587762377484936,
+    "logic_a": 0.20053437138347344,
+    "logic_b": 0.10026718569173672,
+    "creative": 0.6331872243040723,
+    "synthesis": 0.05013359284586836
+  },
+  "zone_entropy": 1.5263857431669023,
+  "kurtosis": 1107.1290283203125,
+  "token_diversity_input": 0.7857142857142857,
+  "loops_run": 2,
+  "entropy": 0.99609375,
+  "focus_index": 0.9999949932098389,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}
