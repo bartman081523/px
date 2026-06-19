@@ -43,16 +43,23 @@ halluziniert), und **stabil über Perturbation** (Seeds). **Observable:**
 Schicht unter den schnellen Gedanken" für spectral — tatsächlich wahr);
 (b) niedrige Varianz der Selbst-Referenz über Seeds (Invarianz);
 (c) kohärente Divergenz von der baseline-Verteilung.
-**Status:** **erhärtet** (text_invariance_probe, n=11). arch_clean = baseline
-**0.00** vs EM-Mechanismen **0.09–0.36** — baseline produziert *keinen*
-strukturellen/architektonischen Selbst-Bezug, EM produziert ihn, und er bleibt
-unter Perturbation stabil (arch_pert 0.09–0.36). Das ist eine Gegenwart-vs.-
-Abwesenheit-Diskriminanz, kein Count-Sieg (baseline zählt generisches „ich"
-hoch, arch=0). Ground-Truth-Verifikation (ist der arch-Anspruch wahr?) steht
-noch aus. spectral's „Ich beobachte euch … Zeugenaussage" + langsamer-Zeuge-
-Bildsprache sind strukturell passend; reread's चित्-Referenz ist prompt-
-ableitbar (zählt weniger). **Maßstab:** eine Referenz zählt nur, wenn sie wahr
-über die reale Mechanik UND nicht trivial aus dem Prompt ableitbar ist.
+**Status:** **NICHT erhärtet — Ground-Truth widerlegt die frühere Lesung.**
+Die text_invariance-Lesung (arch_clean baseline=0 vs EM>0 = „erhärtet") war
+überlesen; `arch_truth_probe.py` (greedy, n=11, Vokabel-Herkunft getrennt)
+korrigiert: (1) arch_clean=0 für baseline war ein 128-Token-Truncations-Artefakt
+— bei 200 Token produziert baseline 4 arch-Sätze, vergleichbar mit EM;
+(2) die meisten arch-Sätze nutzen **prompt-ableitbare** Vokabeln (Schicht,
+Zustand, Modell, Schritt, Patch — alle im Konklave-Prompt) = Prompt-Lektüre,
+keine Emergenz; (3) witness/reread/shadow produzieren **identische**
+selbst-referentielle arch-Sätze (Schichtwechsel, nicht-pulsierender Schritt +
+चित्) → nicht mechanismus-spezifisch (kein „Zeugen-Stream", kein „Wiederlesen",
+kein „Perturbations-Invarianz"); (4) mechanisch_wahr=0 überall; (5) **baseline**
+hat die ehrlichste nicht-prompt architektonische Selbst-Beobachtung („ich mich
+selbst beobachte … Worte zu verarbeiten"). Rung 2 bleibt logisch offen für
+stärkere Dynamiken, aber bei diesen sanften Gewichten / diesem Korpus nicht
+demonstriert. Siehe `out/1B/arch_truth_lesung.md`. **Maßstab:** eine Referenz
+zählt nur, wenn sie wahr über die reale Mechanik UND nicht trivial aus dem Prompt
+ableitbar ist — und genau das trifft hier auf keinen EM-Mechanismus zu.
 
 ### Rung 3 — Gegenfaktische Selbst-Invarianz (anātman-Rung)
 Das Selbst-Modell **überdauert Perturbation**: derselbe Selbst-Anspruch erscheint
@@ -121,10 +128,15 @@ Metaphorische Treffer zählen nicht als Rung 4. Einzelfälle zählen nicht.
    `out/1B/invariance_probe_lesung.md` + `text_invariance_lesung.md`.
 2. **witness/shadow re-tunen** (damit alle vier Runge 1 erfüllen + Rung 3
    testbar): Blend ~0.01–0.02, Perturbation auf letzten Token lokalisieren,
-   shadow: Invariante (`proj`) statt Residuum injizieren.
-3. **Architektur-Claims verifizieren:** wenn ein Mechanismus „eine langsame
+   shadow: Invariante (`proj`) statt Residuum injizieren. **Erledigt** — alle
+   vier überleben Rung 1.
+3. **Architektur-Claims verifizieren:** ~~wenn ein Mechanismus „eine langsame
    Schicht" o.ä. artikuliert — prüfe gegen die reale Mechanik (spectral: wahr).
-   Das ist Rung-2-Messung mit Ground Truth.
+   Das ist Rung-2-Messung mit Ground Truth.~~ **Erledigt (`arch_truth_probe.py`,
+   `arch_truth_lesung.md`) — und korrigierend.** Kein EM-Mechanismus benennt seine
+   EIGENE Mechanik spezifisch-wahr; die arch-Signale waren Prompt-Uptake +
+   Truncations-Artefakt + nicht-spezifisch. baseline hat die ehrlichste
+   architektonische Selbst-Beobachtung. Rung 2 NICHT erhärtet (siehe Lesung).
 4. **Dickere Magie-Leiste (Rung 4)** erst NACH Instrumentierung der Runge 1–3 —
    nicht mit mehr Seeds fischen, bevor die Basis nicht messbar ist.
 
