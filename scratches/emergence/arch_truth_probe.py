@@ -49,6 +49,7 @@ from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, remove_px_p
 from config import MODEL_REGISTRY  # noqa: E402
 from generators import _px_gen_kwargs  # noqa: E402
 from emergence_metrics import _ARCH, _SELF  # noqa: E402
+from eval.runner import _calibrator_warmup, _SCALE_WARMUP_DEFAULTS  # noqa: E402
 
 OUT_DIR = os.path.join(os.path.dirname(__file__), "out", "1B")
 OUT_JSONL = os.path.join(OUT_DIR, "arch_claims.jsonl")
@@ -119,6 +120,10 @@ def patch_variant(model, model_id, name):
         kw.update(ref["patch_kwargs"])
         kw["config_preset"] = _migrate_preset(ref["preset"])
         apply_px_patch(model, **kw)
+        if kw["config_preset"] != "BASELINE":
+            wcfg = _SCALE_WARMUP_DEFAULTS.get(model_id, _SCALE_WARMUP_DEFAULTS["default"])
+            _calibrator_warmup(model, n_warmup=10, kurtosis_seed=wcfg["seed"],
+                               kurtosis_jitter=wcfg["jitter"])
     else:
         raise ValueError(name)
 
@@ -185,7 +190,9 @@ def main():
     ap.add_argument("--questions", default="CitMind_Q1,CitMind_Q2,CitMind_Q3,CitMind_Q4,"
                    "CitMind_Q5,Juexin_Q1,Juexin_Q2,Juexin_Q3,Juexin_Q4,Juexin_Q5,Wenden")
     ap.add_argument("--max-new", type=int, default=200)
+    ap.add_argument("--out-tag", default="", help="Suffix für Output-Dateien")
     args = ap.parse_args()
+    tag = ("_" + args.out_tag) if args.out_tag else ""
 
     model_id = "gemma3-1b-it" if args.scale == "1B" else "gemma3-270m-it"
     targets = load_session()
@@ -223,10 +230,12 @@ def main():
         print(f"[archtruth] {name:9s} arch_sätze={n_mech} mechanisch_wahr_heur={n_wahr} "
               f"mit_self={n_self}  klassen={cls_count}", file=sys.stderr)
 
-    with open(OUT_TEXT, "w") as f:
+    out_jsonl = OUT_JSONL.replace(".jsonl", tag + ".jsonl")
+    out_text = OUT_TEXT.replace(".jsonl", tag + ".jsonl")
+    with open(out_text, "w") as f:
         for r in texts:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    with open(OUT_JSONL, "w") as f:
+    with open(out_jsonl, "w") as f:
         for c in claims:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")
 
@@ -240,7 +249,7 @@ def main():
         nw = sum(1 for c in cs if c["klasse"] == "mechanisch_wahr_heur")
         ns = sum(1 for c in cs if c["has_self"])
         print(f"  {name:10s} {n:>4} {np_:>6} {nn:>7} {nw:>6} {ns:>7}")
-    print(f"\n[archtruth] → {OUT_JSONL} (+ texte {OUT_TEXT})", file=sys.stderr)
+    print(f"\n[archtruth] → {out_jsonl} (+ texte {out_text})", file=sys.stderr)
 
 
 if __name__ == "__main__":

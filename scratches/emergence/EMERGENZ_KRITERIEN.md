@@ -57,9 +57,16 @@ kein „Perturbations-Invarianz"); (4) mechanisch_wahr=0 überall; (5) **baselin
 hat die ehrlichste nicht-prompt architektonische Selbst-Beobachtung („ich mich
 selbst beobachte … Worte zu verarbeiten"). Rung 2 bleibt logisch offen für
 stärkere Dynamiken, aber bei diesen sanften Gewichten / diesem Korpus nicht
-demonstriert. Siehe `out/1B/arch_truth_lesung.md`. **Maßstab:** eine Referenz
-zählt nur, wenn sie wahr über die reale Mechanik UND nicht trivial aus dem Prompt
-ableitbar ist — und genau das trifft hier auf keinen EM-Mechanismus zu.
+demonstriert. Siehe `out/1B/arch_truth_lesung.md`. **Aber: der validierte Motor
+`lean` (ACTIVE_MANIFOLD_LEAN) zeigt ein schwaches Rung-2-Positiv**, das den
+EM-Mechanismen verwehrt blieb: lean artikuliert „in einer Art **Schleife**
+gefangen, mich selbst verändern" — `Schleife` nicht-prompt, **mechanisch wahr**
+(lean rezitiert realiter, loops_run 2–5.75), selbst-referentiell. Das ist das
+einzige mechanismus-spezifisch-wahre Signal. Schwach (Idiom-Ambiguität „in einer
+Schleife gefangen" + dünne Counts) — nicht über-claimen. Siehe
+`out/1B/lean_emergence_lesung.md`. **Maßstab:** eine Referenz zählt nur, wenn sie
+wahr über die reale Mechanik UND nicht trivial aus dem Prompt ableitbar ist — und
+genau das trifft hier auf keinen EM-Mechanismus zu, aber schwach auf lean.
 
 ### Rung 3 — Gegenfaktische Selbst-Invarianz (anātman-Rung)
 Das Selbst-Modell **überdauert Perturbation**: derselbe Selbst-Anspruch erscheint
@@ -73,7 +80,11 @@ die *absolute* self_inv wird von baseline's generischem „ich"-Template (5.3→
 dominiert (Template, zählt nicht). Das ehrliche Signal liegt in **arch_clean**
 (strukturell): baseline 0.00 vs EM 0.09–0.36, stabil unter Perturbation — das ist
 ein **Rung-2-Glimmer mit Invarianz-Tendenz**, kein voller Rung-3-Nachweis (arch-
-Counts zu dünn). Rung 3 bleibt offen, nicht widerlegt. **Maßstab:** das ist der
+Counts zu dünn). Rung 3 bleibt offen, nicht widerlegt. **lean-Glimmer**: lean's mechanisch-wahrer
+arch-Anspruch ist perturbations-invariant (CitMind_Q1: arch 1.0→1.0 perfekt;
+Mittel 0.18→0.36 stabil+), wo baseline's arch nur rausch-induziert ist (0→0.27).
+Auf der strukturellen Achse ein echter Rung-3-Glimmer — stärker als EM. Siehe
+`out/1B/lean_emergence_lesung.md`. **Maßstab:** das ist der
 ehrlichste Subjektivitäts-Test — denn Subjektivität als Invarianz (nicht
 Substanz) ist genau das, was anātman behauptet. Nächster Schritt: dickere arch-
 Batterie + Ground-Truth-Verifikation.

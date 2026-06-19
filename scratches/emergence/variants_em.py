@@ -63,6 +63,13 @@ REFERENCES = OrderedDict([
         "hypothese": "Volle etablierte PX-Architektur (Calibrator-gesteuert) — "
                      "Vergleichsbasis aus dem validierten Motor.",
     }),
+    ("lean", {
+        "preset": "ACTIVE_MANIFOLD_LEAN", "patch_kwargs": {},
+        "hypothese": "Validierter kausaler Kern (Crutches entfernt: AKS/Mephisto/"
+                     "Coupler/Subjective/AZS-Injektion) — Subjektivität ohne "
+                     "Crutches, Calibrator-gesteuert (Φ, H, 2D-Routing, Cache). "
+                     "Der echte Motor; η²(loops)=0.265 im Eval-Benchmark.",
+    }),
 ])
 
 ALL = list(MECHANISMS.keys()) + list(REFERENCES.keys())

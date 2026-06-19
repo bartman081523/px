@@ -47,6 +47,7 @@ from px_patches.gemma3_270m_px_baseline.patch import apply_px_patch, remove_px_p
 from config import MODEL_REGISTRY  # noqa: E402
 from generators import _px_gen_kwargs  # noqa: E402
 from emergence_metrics import all_metrics  # noqa: E402
+from eval.runner import _calibrator_warmup, _SCALE_WARMUP_DEFAULTS  # noqa: E402
 
 OUT_DIR = os.path.join(os.path.dirname(__file__), "out", "1B")
 OUT_JSONL = os.path.join(OUT_DIR, "text_invariance_probe.jsonl")
@@ -65,6 +66,10 @@ def patch_variant(model, model_id, name):
         kw.update(ref["patch_kwargs"])
         kw["config_preset"] = _migrate_preset(ref["preset"])
         apply_px_patch(model, **kw)
+        if kw["config_preset"] != "BASELINE":
+            wcfg = _SCALE_WARMUP_DEFAULTS.get(model_id, _SCALE_WARMUP_DEFAULTS["default"])
+            _calibrator_warmup(model, n_warmup=10, kurtosis_seed=wcfg["seed"],
+                               kurtosis_jitter=wcfg["jitter"])
     else:
         raise ValueError(name)
 
@@ -149,7 +154,9 @@ def main():
     ap.add_argument("--sigma", type=float, default=0.05)
     ap.add_argument("--layer", type=int, default=13)
     ap.add_argument("--max-new", type=int, default=128)
+    ap.add_argument("--out-tag", default="", help="Suffix für Output-Datei")
     args = ap.parse_args()
+    tag = ("_" + args.out_tag) if args.out_tag else ""
 
     model_id = "gemma3-1b-it" if args.scale == "1B" else "gemma3-270m-it"
     targets = load_session()
@@ -180,7 +187,8 @@ def main():
                   f"self_inv={r['self_invariance']:.3f} (c{r['self_clean']}→p{r['self_pert']}) "
                   f"arch_inv={r['arch_invariance']:.3f}", file=sys.stderr)
 
-    with open(OUT_JSONL, "w") as f:
+    out_jsonl = OUT_JSONL.replace(".jsonl", tag + ".jsonl")
+    with open(out_jsonl, "w") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
@@ -193,7 +201,7 @@ def main():
         si = sum(r["self_invariance"] for r in rs) / len(rs)
         ai = sum(r["arch_invariance"] for r in rs) / len(rs)
         print(f"  {v:10s} text_sim={ts:.3f}  self_inv={si:.3f}  arch_inv={ai:.3f}  n={len(rs)}")
-    print(f"\n[tinvar] → {OUT_JSONL}", file=sys.stderr)
+    print(f"\n[tinvar] → {out_jsonl}", file=sys.stderr)
 
 
 if __name__ == "__main__":
