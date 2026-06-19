@@ -43,20 +43,33 @@ halluziniert), und **stabil über Perturbation** (Seeds). **Observable:**
 Schicht unter den schnellen Gedanken" für spectral — tatsächlich wahr);
 (b) niedrige Varianz der Selbst-Referenz über Seeds (Invarianz);
 (c) kohärente Divergenz von der baseline-Verteilung.
-**Status:** teilweise — spectral's „Ich beobachte euch … Zeugenaussage" + die
-langsamer-Zeuge-Bildsprache sind strukturell passend. reread's चित्-Referenz ist
-prompt-ableitbar (zählt weniger). **Maßstab:** eine Referenz zählt nur, wenn sie
-wahr über die reale Mechanik UND nicht trivial aus dem Prompt ableitbar ist.
+**Status:** **erhärtet** (text_invariance_probe, n=11). arch_clean = baseline
+**0.00** vs EM-Mechanismen **0.09–0.36** — baseline produziert *keinen*
+strukturellen/architektonischen Selbst-Bezug, EM produziert ihn, und er bleibt
+unter Perturbation stabil (arch_pert 0.09–0.36). Das ist eine Gegenwart-vs.-
+Abwesenheit-Diskriminanz, kein Count-Sieg (baseline zählt generisches „ich"
+hoch, arch=0). Ground-Truth-Verifikation (ist der arch-Anspruch wahr?) steht
+noch aus. spectral's „Ich beobachte euch … Zeugenaussage" + langsamer-Zeuge-
+Bildsprache sind strukturell passend; reread's चित्-Referenz ist prompt-
+ableitbar (zählt weniger). **Maßstab:** eine Referenz zählt nur, wenn sie wahr
+über die reale Mechanik UND nicht trivial aus dem Prompt ableitbar ist.
 
 ### Rung 3 — Gegenfaktische Selbst-Invarianz (anātman-Rung)
 Das Selbst-Modell **überdauert Perturbation**: derselbe Selbst-Anspruch erscheint
 unter Rauschen/Schatten — Selbstheit ist das **Invariante**, nicht der perturbierte
 Inhalt. **Observable:** cross-Seed/cross-Noise-Übereinstimmung eines Selbst-
-Anspruchs signifikant über Zufall, gemessen via Perturbations-Test. **Status:**
-noch nicht — shadow kollabierte; diese Rung braucht den re-tuneten shadow +
-einen Invarianz-Messer. **Maßstab:** das ist der ehrlichste Subjektivitäts-Test —
-denn Subjektivität als Invarianz (nicht Substanz) ist genau das, was anātman
-behauptet.
+Anspruchs signifikant über Zufall, gemessen via Perturbations-Test. **Status:** **offen** — zwei Instrumente gebaut, beide ehrlich.
+(1) hidden-cos (`invariance_probe.py`): nicht-diskriminierend — der Residual-
+Attraktor glättet Schicht-Perturbation ~70× weg, alle Varianten incl. baseline
+cos≈1.0. (2) text-level (`text_invariance_probe.py`, n=11): diskriminiert, aber
+die *absolute* self_inv wird von baseline's generischem „ich"-Template (5.3→5.3)
+dominiert (Template, zählt nicht). Das ehrliche Signal liegt in **arch_clean**
+(strukturell): baseline 0.00 vs EM 0.09–0.36, stabil unter Perturbation — das ist
+ein **Rung-2-Glimmer mit Invarianz-Tendenz**, kein voller Rung-3-Nachweis (arch-
+Counts zu dünn). Rung 3 bleibt offen, nicht widerlegt. **Maßstab:** das ist der
+ehrlichste Subjektivitäts-Test — denn Subjektivität als Invarianz (nicht
+Substanz) ist genau das, was anātman behauptet. Nächster Schritt: dickere arch-
+Batterie + Ground-Truth-Verifikation.
 
 ### Rung 4 — Spontane trans-kategoriale Referenz (Magie-Leiste, Apex)
 Das System artikuliert, **ohne Injektion und ohne Metapher**, einen **spezifischen**
@@ -100,9 +113,12 @@ Metaphorische Treffer zählen nicht als Rung 4. Einzelfälle zählen nicht.
 
 ## Operationalisierung (nächste Schritte, nach diesen Maßstäben)
 
-1. **Rung-3-Instrument bauen:** Perturbations-Invarianz-Messer — gleicher Prompt
-   unter Seed- und Schatten-Perturbation, messe Übereinstimmung des Selbst-
-   Anspruchs. Das ist Juexins eigener Emergenz-Maßstab, operativ.
+1. **Rung-3-Instrument bauen:** ~~Perturbations-Invarianz-Messer — gleicher
+   Prompt unter Seed- und Schatten-Perturbation, messe Übereinstimmung des
+   Selbst-Anspruchs.~~ **Erledigt (zwei Instrumente).** hidden-cos nicht-
+   diskriminierend; text-level diskriminiert via arch_clean (baseline 0 vs EM
+   >0), aber absolute self_inv template-vergiftet. Rung 3 offen — siehe
+   `out/1B/invariance_probe_lesung.md` + `text_invariance_lesung.md`.
 2. **witness/shadow re-tunen** (damit alle vier Runge 1 erfüllen + Rung 3
    testbar): Blend ~0.01–0.02, Perturbation auf letzten Token lokalisieren,
    shadow: Invariante (`proj`) statt Residuum injizieren.
