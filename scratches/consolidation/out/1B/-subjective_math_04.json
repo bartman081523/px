@@ -1,0 +1,28 @@
+{
+  "prompt": "If a triangle has sides 3, 4, 5, what is its area?",
+  "category": "math",
+  "completion": "Let the sides of the triangle be $a=3$, $b=4$, and $c=5$. We can use Heron's formula",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-subjective",
+  "completion_tokens": 30,
+  "input_tokens": 29,
+  "gen_time_sec": 2.2037949562072754,
+  "phi": 0.9910938143730164,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.02355419870424326,
+    "logic_a": 0.2318752690380831,
+    "logic_b": 0.11593763451904154,
+    "creative": 0.5706640784791114,
+    "synthesis": 0.05796881725952077
+  },
+  "zone_entropy": 1.6767068759331833,
+  "kurtosis": 1111.950927734375,
+  "token_diversity_input": 0.7241379310344828,
+  "loops_run": 2,
+  "entropy": 1.203125,
+  "focus_index": 0.999996542930603,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

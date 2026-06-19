@@ -1,0 +1,28 @@
+{
+  "prompt": "What is 1000 - 437?",
+  "category": "math",
+  "completion": "1053\n\nThe answer is 964.\n\u200d\nOops! My apologies, I seem to be having trouble",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.201920747756958,
+  "phi": 0.9899358749389648,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.029950172929843803,
+    "logic_a": 0.25182695335493915,
+    "logic_b": 0.12591347667746958,
+    "creative": 0.5293526566990128,
+    "synthesis": 0.06295673833873479
+  },
+  "zone_entropy": 1.7659648684578635,
+  "kurtosis": 1085.6885986328125,
+  "token_diversity_input": 0.6956521739130435,
+  "loops_run": 2,
+  "entropy": 1.28125,
+  "focus_index": 0.9999743700027466,
+  "emancipation": 0.9788506031036377,
+  "aks_friction": 0.0
+}

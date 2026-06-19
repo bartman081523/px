@@ -20,10 +20,11 @@ class Role(str, Enum):
 
 
 # ── PX Preset (post 2026-06-11) ──
-# Two states only: BASELINE (nackt) or ACTIVE_MANIFOLD (full PX).
-# All old presets (SUBJECTIVE, RIGOR, RESONANCE_CITY, DMT-FULL, UNCENSORED)
-# are migrated to ACTIVE_MANIFOLD at load time.
-PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD"]
+# Three states: BASELINE (nackt), ACTIVE_MANIFOLD (full PX), ACTIVE_MANIFOLD_LEAN
+# (kausaler Kern ohne die vier Crutches + AZS-Awareness-Injektion; validiert via
+# scratches/consolidation). Old presets (SUBJECTIVE, RIGOR, RESONANCE_CITY,
+# DMT-FULL, UNCENSORED) are migrated to ACTIVE_MANIFOLD at load time.
+PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"]
 
 
 # ── Request Models ──

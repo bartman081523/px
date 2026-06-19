@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the square root of 144?",
+  "category": "math",
+  "completion": "The square root (\u221a) of 49 is 7.\n\nThe square roots of 36 and 4 are 6 and also",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-subjective",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 2.2386410236358643,
+  "phi": 0.9903838634490967,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.07193622994123439,
+    "logic_a": 0.3230598623636233,
+    "logic_b": 0.16152993118181164,
+    "creative": 0.36270900892242497,
+    "synthesis": 0.08076496559090582
+  },
+  "zone_entropy": 2.0484966264946642,
+  "kurtosis": 1111.2218017578125,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 2,
+  "entropy": 1.3671875,
+  "focus_index": 0.9999983310699463,
+  "emancipation": 0.0,
+  "aks_friction": 0.150390625
+}

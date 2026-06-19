@@ -1,0 +1,28 @@
+{
+  "prompt": "Invent a new color and describe its emotional weight.",
+  "category": "creative",
+  "completion": "Okay, here\u2019s an invented color and its associated emotional weight:\n\n**Color Name:** Lumiflora\n\n**Description:** Lumiflora is",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-all",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.2775375843048096,
+  "phi": 0.9895592331886292,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.009998337803785326,
+    "logic_a": 0.16704065848301863,
+    "logic_b": 0.08352032924150932,
+    "creative": 0.6976805078509319,
+    "synthesis": 0.04176016462075466
+  },
+  "zone_entropy": 1.3505129518975318,
+  "kurtosis": 1097.61474609375,
+  "token_diversity_input": 0.8,
+  "loops_run": 2,
+  "entropy": 0.94140625,
+  "focus_index": 0.9999943971633911,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

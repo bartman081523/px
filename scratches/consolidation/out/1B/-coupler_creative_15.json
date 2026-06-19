@@ -1,0 +1,28 @@
+{
+  "prompt": "Invent a holiday and describe how it is celebrated.",
+  "category": "creative",
+  "completion": "Okay, let's invent a holiday called **Lumiflora Day**!\n\n**What is Lumiflora Day?**\n\nLumiflora day celebrates the",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.474970817565918,
+  "phi": 0.9902840852737427,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.013347051188266658,
+    "logic_a": 0.18750293502395315,
+    "logic_b": 0.09375146751197658,
+    "creative": 0.6585228105198152,
+    "synthesis": 0.04687573375598829
+  },
+  "zone_entropy": 1.4599468643831763,
+  "kurtosis": 1118.424072265625,
+  "token_diversity_input": 0.8,
+  "loops_run": 2,
+  "entropy": 0.98046875,
+  "focus_index": 0.9999992847442627,
+  "emancipation": 0.9783674478530884,
+  "aks_friction": 0.3984375
+}

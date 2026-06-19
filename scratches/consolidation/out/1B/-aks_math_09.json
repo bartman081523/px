@@ -1,0 +1,28 @@
+{
+  "prompt": "How many degrees are in a triangle?",
+  "category": "math",
+  "completion": "A triangle is defined as a polygon with three sides. The sum of the interior angles of any triangle is always 180 degrees.\n\nTherefore",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-aks",
+  "completion_tokens": 30,
+  "input_tokens": 18,
+  "gen_time_sec": 2.4937398433685303,
+  "phi": 0.9902617335319519,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.006337141798772459,
+    "logic_a": 0.13806944025668846,
+    "logic_b": 0.06903472012834423,
+    "creative": 0.7520413357520227,
+    "synthesis": 0.034517360064172116
+  },
+  "zone_entropy": 1.1837193739240983,
+  "kurtosis": 1116.5242919921875,
+  "token_diversity_input": 0.7777777777777778,
+  "loops_run": 7,
+  "entropy": 0.8046875,
+  "focus_index": 0.9999994039535522,
+  "emancipation": 0.9916290640830994,
+  "aks_friction": 0.0
+}

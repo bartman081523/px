@@ -1,0 +1,28 @@
+{
+  "prompt": "All cats are mammals. Felix is a cat. What can we conclude?",
+  "category": "logic",
+  "completion": "We can conclude that Felix is an animal. \n\nThis is a classic example of deductive reasoning \u2013 if something belongs to the category \"cats,\" and",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD_LEAN",
+  "condition": "lean",
+  "completion_tokens": 30,
+  "input_tokens": 25,
+  "gen_time_sec": 2.2934882640838623,
+  "phi": 0.9903576970100403,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.005313149625040868,
+    "logic_a": 0.12798328016831534,
+    "logic_b": 0.06399164008415767,
+    "creative": 0.7707161080804072,
+    "synthesis": 0.031995820042078835
+  },
+  "zone_entropy": 1.1220017491874708,
+  "kurtosis": 1107.758056640625,
+  "token_diversity_input": 0.8,
+  "loops_run": 7,
+  "entropy": 0.796875,
+  "focus_index": 0.9999963045120239,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

@@ -17,13 +17,13 @@ from config import MODEL_REGISTRY
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
-# Preset-Migration (post 2026-06-11). Two states only.
-# All old presets → ACTIVE_MANIFOLD; BASELINE bleibt BASELINE.
-_VALID_PRESETS = {"BASELINE", "ACTIVE_MANIFOLD"}
+# Preset-Migration (post 2026-06-11). Three states: BASELINE, ACTIVE_MANIFOLD,
+# ACTIVE_MANIFOLD_LEAN (kausaler Kern — Crutches weg). Old presets → ACTIVE_MANIFOLD.
+_VALID_PRESETS = {"BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"}
 
 
 def _migrate_preset(preset: str) -> str:
-    """Map any old preset name to one of the two valid states."""
+    """Map any old preset name to one of the three valid states."""
     if preset in _VALID_PRESETS:
         return preset
     return "ACTIVE_MANIFOLD"  # gnadenlose Migration
