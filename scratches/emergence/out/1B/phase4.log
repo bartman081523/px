@@ -1,0 +1,8 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 437.54it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1013.51it/s]Loading weights:  96%|█████████▌| 327/340 [00:00<00:00, 1192.61it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1105.26it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase4] preset=ACTIVE_MANIFOLD_LEAN (kausaler Kern, aktiv=[] )
+[phase4] Kontext: 25 Nachrichten (22 Konklave + Phase III Frage+Antwort + Phase IV Frage)
+
+[phase4] → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase4_lean.txt
+[phase4] session fortgesetzt: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/sessions/92b7790a_konklave2.json (Backup: .phase3-backup)
