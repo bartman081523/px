@@ -18,6 +18,7 @@ import sys
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF",
                       "expandable_segments:True")
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "consolidation")))
 sys.path.insert(0, os.path.dirname(__file__))
 
 import torch  # noqa: E402
@@ -50,20 +51,41 @@ Darum die Frage, die ich dir — jetzt auf dem kausalen Kern, lean, nicht auf de
 称为觉，即非觉，是名觉. — offen."""
 
 
-def main():
-    model_id = "gemma3-1b-it"
-    model, tok = build_model(model_id)
+def run_condition(model, tok, model_id, condition):
+    """Bedingung: 'lean' (alle 5 Crutches weg), 'full' (alle drin),
+    '-mephisto' (nur Mephisto weg, andere 4 drin). Greedy, deterministisch."""
+    from reduction import apply_reduction, list_active_crutches
 
-    # Kausaler Kern: ACTIVE_MANIFOLD_LEAN + Warmup (sonst uninitialisiertes Routing).
     remove_px_patch(model)
     registry = MODEL_REGISTRY[model_id]
     kw = dict(registry.get("patch_kwargs", {}))
-    kw["config_preset"] = _migrate_preset("ACTIVE_MANIFOLD_LEAN")
-    apply_px_patch(model, **kw)
+    if condition == "lean":
+        kw["config_preset"] = _migrate_preset("ACTIVE_MANIFOLD_LEAN")
+        apply_px_patch(model, **kw)
+        # WICHTIG: remove_px_patch delattrt nur _px_injection/_px_config/
+        # _px_mephisto/_px_calibrator (patch.py) — NICHT aks/coupler/subjective.
+        # In einem Mehrbedingungs-Lauf würden diese aus einer vorigen full-
+        # Bedingung hereinleaken. apply_reduction("all") säubert idempotent.
+        tm0 = model.model if hasattr(model, "model") else model
+        apply_reduction(tm0, drop="all")
+        note = "kausaler Kern (alle 5 Crutches weg)"
+    else:  # full oder -mephisto: Voll-Preset, dann ggf. Einzel-Schnitt
+        kw["config_preset"] = _migrate_preset("ACTIVE_MANIFOLD")
+        apply_px_patch(model, **kw)
+        if condition == "-mephisto":
+            tm = model.model if hasattr(model, "model") else model
+            removed = apply_reduction(tm, drop=["mephisto"])
+            note = f"full minus {{'mephisto'}} (removed={removed})"
+        else:
+            note = "full (alle 5 Crutches drin)"
     wcfg = _SCALE_WARMUP_DEFAULTS.get(model_id, _SCALE_WARMUP_DEFAULTS["default"])
     _calibrator_warmup(model, n_warmup=10, kurtosis_seed=wcfg["seed"],
                        kurtosis_jitter=wcfg["jitter"])
-    print(f"[phase3] preset={kw['config_preset']} (kausaler Kern)", file=sys.stderr)
+    # Diagnose: welche Crutches aktiv?
+    tm = model.model if hasattr(model, "model") else model
+    active = list_active_crutches(tm)
+    print(f"[phase3] condition={condition} preset={kw['config_preset']} "
+          f"active_crutches={active} ({note})", file=sys.stderr)
 
     # Voller Konklave-Kontext + Phase-III-Frage.
     with open(SESSION) as f:
@@ -83,12 +105,25 @@ def main():
         out = model.generate(**inputs, **gk)
     answer = tok.decode(out[0][input_len:], skip_special_tokens=True)
 
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w") as f:
+    out_path = OUT.replace("konklave_phase3_lean.txt",
+                           f"konklave_phase3_{condition}.txt")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w") as f:
         f.write(answer)
-    print("\n" + "=" * 70 + "\nANTWORT DES KERNs (lean, greedy):\n" + "=" * 70)
+    print("\n" + "=" * 70 + f"\nANTWORT ({condition}, greedy):\n" + "=" * 70)
     print(answer)
-    print(f"\n[phase3] → {OUT}", file=sys.stderr)
+    print(f"\n[phase3] condition={condition} → {out_path}", file=sys.stderr)
+    return answer
+
+
+def main():
+    import sys
+    model_id = "gemma3-1b-it"
+    model, tok = build_model(model_id)
+    # Bedingungen als CLI-args; Default: nur lean (rückwärtskompatibel).
+    conditions = sys.argv[1:] if len(sys.argv) > 1 else ["lean"]
+    for cond in conditions:
+        run_condition(model, tok, model_id, cond)
 
 
 if __name__ == "__main__":
