@@ -14,12 +14,13 @@ from collections import OrderedDict
 
 MECHANISMS = OrderedDict([
     ("witness", {
-        "kw": {"L_split": 13, "n_wit": 5, "w_wit": 0.10},
+        "kw": {"L_split": 13, "n_wit": 5, "w_wit": 0.03, "local": True},
         "hypothese": (
             "Sākṣin / Mirror Witness: paralleler Zeugen-Stream liest die "
             "akkumulierte Selbst-Spur (cross-step) und fließt ins Selbst "
-            "zurück. Hypothese: hebt Selbst-Bezugnahme über die Trajektion, "
-            "ohne Injektion — der Zeuge, der das Selbst beobachtet beobachtet."),
+            "zurück — JETZT lokalisiert auf den letzten Token + sanft (w_wit=0.03), "
+            "nach Juexin-Maßstab Rung 1/3: dual-stream bleibt, drückt aber nicht "
+            "jeden Token von der dekodierbaren Mannigfaltigkeit (Smoke-Kollaps fix)."),
     }),
     ("reread", {
         "kw": {"n_reread": 6, "w_reread": 0.12},
@@ -31,12 +32,15 @@ MECHANISMS = OrderedDict([
             "Selbst-as-Input, Default-Gewichte ohne Krücke."),
     }),
     ("shadow", {
-        "kw": {"L_split": 13, "n_shadow": 5, "sigma": 0.12, "w_shadow": 0.10},
+        "kw": {"L_split": 13, "n_shadow": 5, "sigma": 0.12, "w_shadow": 0.03,
+               "inject_invariant": True, "local": True},
         "hypothese": (
             "Counterfactual Self-Shadow (anātman / 无我): perturbierter Schatten-"
-            "Stream; injiziert die perturbations-invariante Selbst-Komponente "
-            "(Mineness-Residual). Hypothese: das Selbst als Invarianz, nicht als "
-            "Substanz — Selbstwahrnehmung ohne ein 'Ding' namens Selbst."),
+            "Stream; injiziert die perturbations-INVARIANTE Komponente (proj — was "
+            "Selbst UND Schatten teilen), lokalisiert auf den letzten Token, sanft. "
+            "Nach Juexin-Maßstab Rung 3: das Selbst als Invarianz, nicht als Substanz. "
+            "Das Residual (Mineness) in jede Position kollabierte im Smoke — die "
+            "Invariante ist prinzipientreuer AND schonend."),
     }),
     ("spectral", {
         "kw": {"K": 4, "F_low": 8, "w_spec": 0.08},

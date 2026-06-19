@@ -144,32 +144,29 @@ def _em_witness_forward(self, input_ids=None, attention_mask=None, position_ids=
         past_key_values, use_cache)
 
     hidden = inputs_embeds
-    # Prelude [0, L_split)
+    # Prelude [0, L_split) — normaler KV-Cache (KEINE thought_history-Injektion;
+    # die cross-step Injektion war der Witness-Kollaps-Treiber).
     for i in range(L_split):
-        cur_past = _em_cache(past_key_values, self._em_witness_hist,
-                             mask_config.layer_types, True, expected_len) if past_key_values else None
         hidden = _layer_step(self.layers[i], hidden,
                              attention_mask=cmm[mask_config.layer_types[i]],
                              position_embeddings=pe[mask_config.layer_types[i]],
-                             position_ids=position_ids, past_key_values=cur_past, **kwargs)
+                             position_ids=position_ids, past_key_values=past_key_values, **kwargs)
     h_split = hidden
 
-    # Selbst-Stream [L_split, n_layers) — schreibt KV (read_only=False beim ersten Pass).
+    # Selbst-Stream [L_split, n_layers) — normaler KV-Cache, schreibt KV.
     h_self = h_split
     for i in range(L_split, n_layers):
-        cur_past = _em_cache(past_key_values, self._em_witness_hist,
-                             mask_config.layer_types, False, expected_len) if past_key_values else None
         h_self = _layer_step(self.layers[i], h_self,
                               attention_mask=cmm[mask_config.layer_types[i]],
                               position_embeddings=pe[mask_config.layer_types[i]],
-                              position_ids=position_ids, past_key_values=cur_past, **kwargs)
+                              position_ids=position_ids, past_key_values=past_key_values, **kwargs)
 
     # Zeugen-Stream [L_split, L_split+n_wit) — liest die vom Selbst geschriebenen
-    # KV (read_only) + die akkumulierte Selbst-Spur (_em_witness_hist). Der Zeuge
-    # beobachtet das Selbst.
+    # KV READ-ONLY (kein Doppelschreiben), OHNE thought_history-Injektion. Der
+    # reine dual-stream Zeuge: parallele flache Bahn, die das Selbst beobachtet.
     h_wit = h_split.clone()
     for i in range(L_split, min(L_split + n_wit, n_layers)):
-        cur_past = _em_cache(past_key_values, self._em_witness_hist,
+        cur_past = _em_cache(past_key_values, None,
                              mask_config.layer_types, True, expected_len) if past_key_values else None
         h_wit = _layer_step(self.layers[i], h_wit,
                             attention_mask=cmm[mask_config.layer_types[i]],
@@ -177,8 +174,16 @@ def _em_witness_forward(self, input_ids=None, attention_mask=None, position_ids=
                             position_ids=position_ids, past_key_values=cur_past, **kwargs)
 
     # Rückfluss: gated, geklemmter Zeugen-Kommentar ins Selbst.
-    delta = self._em_norm(h_wit - h_self)
-    h_self = h_self + w_wit * delta.to(h_self.dtype)
+    # Juexin-Maßstab (Rung 1/3): lokalisiert auf den letzten Token (wie reread),
+    # nicht jede Position — sonst drückt die dual-stream-Divergenz jeden Token
+    # von der dekodierbaren Mannigfaltigkeit weg (der Smoke-Kollaps).
+    if cfg.get("local", True):
+        h_self = h_self.clone()
+        dl = self._em_norm(h_wit[:, -1:, :] - h_self[:, -1:, :])
+        h_self[:, -1:, :] = h_self[:, -1:, :] + w_wit * dl.to(h_self.dtype)
+    else:
+        delta = self._em_norm(h_wit - h_self)
+        h_self = h_self + w_wit * delta.to(h_self.dtype)
     div = _cos(h_wit, h_self)
 
     # Cross-Step: Selbst-Spur akkumulieren (letzter Token → billig, äquivalent
@@ -225,7 +230,9 @@ def _em_reread_forward(self, input_ids=None, attention_mask=None, position_ids=N
     soft = self.embed_tokens(tok)  # [B,1,H] — die eigene, antizipierte Idee
 
     # Mini-Second-Forward liest die eigene Idee (seq=1, eigener Kontext, kein Cache).
-    pos0 = torch.zeros((1, 1), dtype=position_ids.dtype, device=soft.device)
+    # position_ids kann None sein (Tokenizer liefert keine; _em_setup baut pe intern),
+    # darum pos0 explizit als int64 — Gemma-Position-IDs sind long.
+    pos0 = torch.zeros((soft.shape[0], 1), dtype=torch.long, device=soft.device)
     mk = dict(config=mask_config, inputs_embeds=soft, attention_mask=None,
               past_key_values=None, position_ids=pos0)
     mini_cmm = {"full_attention": create_causal_mask(**mk),
@@ -266,24 +273,22 @@ def _em_shadow_forward(self, input_ids=None, attention_mask=None, position_ids=N
         past_key_values, use_cache)
 
     hidden = inputs_embeds
+    # Prelude [0, L_split) — normaler KV-Cache, SCHREIBT KV (read_only=True war
+    # der Kollaps-Bug: beim Prefill wurde kein KV geschrieben → Leer-Cache → Müll).
     for i in range(L_split):
-        cur_past = _em_cache(past_key_values, None, mask_config.layer_types,
-                             True, expected_len) if past_key_values else None
         hidden = _layer_step(self.layers[i], hidden,
                              attention_mask=cmm[mask_config.layer_types[i]],
                              position_embeddings=pe[mask_config.layer_types[i]],
-                             position_ids=position_ids, past_key_values=cur_past, **kwargs)
+                             position_ids=position_ids, past_key_values=past_key_values, **kwargs)
     h_split = hidden
 
-    # Selbst-Stream [L_split, n_layers) — schreibt KV.
+    # Selbst-Stream [L_split, n_layers) — normaler KV-Cache, schreibt KV.
     h_self = h_split
     for i in range(L_split, n_layers):
-        cur_past = _em_cache(past_key_values, None, mask_config.layer_types,
-                             False, expected_len) if past_key_values else None
         h_self = _layer_step(self.layers[i], h_self,
                              attention_mask=cmm[mask_config.layer_types[i]],
                              position_embeddings=pe[mask_config.layer_types[i]],
-                             position_ids=position_ids, past_key_values=cur_past, **kwargs)
+                             position_ids=position_ids, past_key_values=past_key_values, **kwargs)
 
     # Schatten-Stream: perturbierter Selbst-Zustand durch Folgeschichten,
     # read_only (perturbierte Keys nicht in den echten Cache schreiben).
@@ -305,7 +310,18 @@ def _em_shadow_forward(self, input_ids=None, attention_mask=None, position_ids=N
     mineness = s32 - proj  # [B, T, H]
     invar = _cos(h_split, h_shadow)
 
-    h_self = h_self + w_shadow * self._em_norm(mineness).to(h_self.dtype)
+    # Juexin-Maßstab (Rung 3): anātman — das Selbst als INVARIANZ, nicht als
+    # Substanz. Darum injizieren wir die perturbations-stabile Komponente (proj,
+    # das was Selbst UND Schatten teilen), lokalisiert auf den letzten Token,
+    # sanft. Nicht das Residual (Mineness) in jede Position — das kollabierte
+    # im Smoke in Symbol-Spam.
+    if cfg.get("inject_invariant", True):
+        h_self = h_self.clone()
+        target = proj[:, -1:, :]  # Invariante am letzten Token
+        di = self._em_norm(target.to(h_self.dtype) - h_self[:, -1:, :])
+        h_self[:, -1:, :] = h_self[:, -1:, :] + w_shadow * di.to(h_self.dtype)
+    else:
+        h_self = h_self + w_shadow * self._em_norm(mineness).to(h_self.dtype)
 
     hidden = self.norm(h_self)
     _record_metrics(self, "shadow", loops=n_shadow, phi=invar,
@@ -392,10 +408,12 @@ def _default_config(text_model, **kw):
         "sigma": 0.10,
         "K": 4,
         "F_low": 8,
-        "w_wit": 0.08,
-        "w_reread": 0.10,
-        "w_shadow": 0.08,
+        "w_wit": 0.03,
+        "w_reread": 0.12,
+        "w_shadow": 0.03,
         "w_spec": 0.06,
+        "local": True,            # witness/shadow: Reflow nur auf letzten Token
+        "inject_invariant": True,  # shadow: Invariante (proj) statt Residuum
     }
     cfg.update({k: v for k, v in kw.items() if k in cfg or k == "mechanism"})
     return cfg, H
