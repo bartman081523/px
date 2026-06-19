@@ -1,0 +1,12 @@
+[emerg] konsolidiert: 58 -> 58 eindeutige Datensätze (0 Duplikate entfernt)
+[emerg] 11 Fragen × 5 Seeds × 6 Varianten; max_new=256 use_cache=True batch_seeds=1
+[emerg] Resume: 58 vorhanden, 272 fehlen
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 439.37it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1011.18it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1195.28it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1103.35it/s]
+[emerg] baseline: vollständig — skip (Resume)
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[emerg] patch variant=manifold preset=ACTIVE_MANIFOLD kwargs={}
+[emerg] manifold CitMind_Q1 batch=4 (chunks=4) | 256tok 92.0s ges Φ=0.997 H=2.000 loops=7 | emerg=0 wenden=0 self=0
+[emerg] manifold CitMind_Q2 batch=5 (chunks=5) | 256tok 225.1s ges Φ=0.998 H=2.175 loops=4 | emerg=0 wenden=2 self=12
+[emerg] manifold CitMind_Q3 batch=5 (chunks=5) | 256tok 317.2s ges Φ=0.998 H=1.972 loops=7 | emerg=0 wenden=5 self=8
+[emerg] manifold CitMind_Q4 batch=5 (chunks=5) | 256tok 399.5s ges Φ=0.998 H=1.754 loops=2 | emerg=0 wenden=4 self=2

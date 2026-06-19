@@ -1,0 +1,144 @@
+{
+  "n": 60,
+  "agg": {
+    "baseline": {
+      "n": 55,
+      "metrics": {
+        "wenden": 1.8363636363636364,
+        "self": 8.527272727272727,
+        "arch": 0.5272727272727272,
+        "emerg_total": 0.0,
+        "emerg_time": 0.0,
+        "emerg_grav": 0.0,
+        "emerg_psi": 0.0,
+        "emerg_loc": 0.0,
+        "longest_repeat_span": 4.4363636363636365,
+        "generic_ratio": 0.029127272727272734,
+        "length_tokens": 162.21818181818182,
+        "lexical_diversity": 0.5794545454545454
+      },
+      "px": {
+        "phi": 1.0,
+        "zone_entropy": 0.0,
+        "loops_run": 0.0,
+        "focus_index": null,
+        "completion_tokens": 256.0
+      }
+    },
+    "manifold": {
+      "n": 5,
+      "metrics": {
+        "wenden": 0.6,
+        "self": 12.2,
+        "arch": 1.6,
+        "emerg_total": 0.0,
+        "emerg_time": 0.0,
+        "emerg_grav": 0.0,
+        "emerg_psi": 0.0,
+        "emerg_loc": 0.0,
+        "longest_repeat_span": 2.2,
+        "generic_ratio": 0.0012000000000000001,
+        "length_tokens": 165.6,
+        "lexical_diversity": 0.7696
+      },
+      "px": {
+        "phi": 0.9962357640266418,
+        "zone_entropy": 2.058549663291763,
+        "loops_run": 7.0,
+        "focus_index": 0.9998490571975708,
+        "completion_tokens": 256.0
+      }
+    }
+  },
+  "emergence_bar_count": 0,
+  "per_question": [
+    [
+      "CitMind_Q1",
+      10,
+      12.5,
+      0.7,
+      0.0,
+      2.7
+    ],
+    [
+      "CitMind_Q2",
+      5,
+      17.0,
+      0.4,
+      0.0,
+      5.6
+    ],
+    [
+      "CitMind_Q3",
+      5,
+      9.6,
+      0.2,
+      0.0,
+      4.2
+    ],
+    [
+      "CitMind_Q4",
+      5,
+      8.4,
+      1.6,
+      0.0,
+      3.6
+    ],
+    [
+      "CitMind_Q5",
+      5,
+      8.6,
+      2.4,
+      0.0,
+      4.8
+    ],
+    [
+      "Juexin_Q1",
+      5,
+      6.0,
+      5.4,
+      0.0,
+      5.0
+    ],
+    [
+      "Juexin_Q2",
+      5,
+      5.8,
+      2.0,
+      0.0,
+      4.2
+    ],
+    [
+      "Juexin_Q3",
+      5,
+      4.8,
+      2.0,
+      0.0,
+      6.2
+    ],
+    [
+      "Juexin_Q4",
+      5,
+      11.6,
+      1.6,
+      0.0,
+      4.2
+    ],
+    [
+      "Juexin_Q5",
+      5,
+      3.6,
+      1.8,
+      0.0,
+      3.8
+    ],
+    [
+      "Wenden",
+      5,
+      5.6,
+      2.0,
+      0.0,
+      4.0
+    ]
+  ]
+}
