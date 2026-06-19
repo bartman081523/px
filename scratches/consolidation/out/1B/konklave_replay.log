@@ -1,0 +1,23 @@
+[replay] konsolidiert: 60 -> 60 eindeutige Datensätze (0 Duplikate entfernt)
+[replay] 11 Fragen × 5 Seeds × 2 Bedingungen; max_new=300 use_cache=True batch_seeds=5
+[replay] Resume: 60 vorhanden, 50 fehlen — generiere nur die Fehlenden
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 44/340 [00:00<00:00, 438.18it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1011.72it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1190.49it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1100.31it/s]
+[replay] full: vollständig — überspringe (Resume)
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[replay] condition=-all removed=['aks', 'mephisto', 'coupler', 'subjective', 'injection']
+[replay] -all CitMind_Q1: alle Seeds vorhanden — skip
+[replay] -all CitMind_Q2 batch=5 | 300tok 28.7s ges Φ=0.998 H=2.175 C=1.0 loops=2
+[replay] -all CitMind_Q3 batch=5 | 300tok 37.2s ges Φ=0.998 H=1.972 C=1.0 loops=2
+[replay] -all CitMind_Q4 batch=5 | 300tok 48.0s ges Φ=0.998 H=1.754 C=1.0 loops=2
+[replay] -all CitMind_Q5 batch=5 | 300tok 58.5s ges Φ=0.998 H=1.622 C=1.0 loops=2
+[replay] -all Juexin_Q1 batch=5 | 300tok 65.7s ges Φ=0.998 H=1.547 C=1.0 loops=2
+[replay] -all Juexin_Q2 batch=5 | 300tok 74.6s ges Φ=0.998 H=1.457 C=1.0 loops=2
+[replay] -all Juexin_Q3 batch=5 | 300tok 81.4s ges Φ=0.998 H=1.388 C=1.0 loops=2
+[replay] -all Juexin_Q4 batch=5 | 300tok 95.9s ges Φ=0.998 H=1.302 C=1.0 loops=2
+[replay] -all Juexin_Q5 batch=5 | 300tok 108.4s ges Φ=0.999 H=1.247 C=1.0 loops=2
+[replay] -all Wenden batch=5 | 300tok 118.0s ges Φ=0.998 H=1.221 C=1.0 loops=2
+[replay] fertig: 50 neue Generationen → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/out/1B/konklave_replay.jsonl
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD. SR-59 for L26 (HS=1152).

@@ -988,6 +988,10 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
       - BASELINE: nackt durchlassen, keine Modifikationen
       - ACTIVE_MANIFOLD: vollständige PX-Architektur
     """
+    # ACTIVE_MANIFOLD_LEAN ist auf E2B nicht validiert → läuft absichtlich als
+    # volles ACTIVE_MANIFOLD (sicherer Default; LEAN-Verhalten für E2B = Follow-up).
+    if config_preset == "ACTIVE_MANIFOLD_LEAN":
+        config_preset = "ACTIVE_MANIFOLD"
     if config_preset != "BASELINE" and config_preset != "ACTIVE_MANIFOLD":
         config_preset = "ACTIVE_MANIFOLD"  # Gnadenlose Migration
     if config_preset == "BASELINE":

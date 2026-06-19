@@ -1,0 +1,28 @@
+{
+  "prompt": "Write the opening line of a novel set inside a dream.",
+  "category": "creative",
+  "completion": "The rain tasted like static and regret, and I was standing in a field of sunflowers that stretched endlessly towards a bruised purple sky.cnicoagno",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 2.414128303527832,
+  "phi": 0.9910150170326233,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.00645575288956058,
+    "logic_a": 0.1391665558269693,
+    "logic_b": 0.06958327791348465,
+    "creative": 0.7500027724132431,
+    "synthesis": 0.034791638956742324
+  },
+  "zone_entropy": 1.1903123475079411,
+  "kurtosis": 1060.164306640625,
+  "token_diversity_input": 0.7727272727272727,
+  "loops_run": 7,
+  "entropy": 0.796875,
+  "focus_index": 0.9997219443321228,
+  "emancipation": 0.991853654384613,
+  "aks_friction": 0.10009765625
+}

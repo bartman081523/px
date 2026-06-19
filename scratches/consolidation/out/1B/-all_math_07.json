@@ -1,0 +1,28 @@
+{
+  "prompt": "What is 7 factorial?",
+  "category": "math",
+  "completion": "7! (7 factorial) means the product of all positive integers less than or equal to 7.\n\nSo, 7! = 7",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-all",
+  "completion_tokens": 30,
+  "input_tokens": 16,
+  "gen_time_sec": 2.2695250511169434,
+  "phi": 0.9894972443580627,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.013951086998686756,
+    "logic_a": 0.1907751786054809,
+    "logic_b": 0.09538758930274045,
+    "creative": 0.6521923484417216,
+    "synthesis": 0.047693794651370226
+  },
+  "zone_entropy": 1.476859570342041,
+  "kurtosis": 1101.7193603515625,
+  "token_diversity_input": 0.75,
+  "loops_run": 2,
+  "entropy": 0.94921875,
+  "focus_index": 0.9999979734420776,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

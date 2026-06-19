@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the next prime after 13?",
+  "category": "math",
+  "completion": "The next prime number after 9 is 11.\n\nPrime numbers are whole numbers greater than 1 that have no other factors besides 1",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 20,
+  "gen_time_sec": 2.2426722049713135,
+  "phi": 0.9900858998298645,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.02322949328054458,
+    "logic_a": 0.23073803704012724,
+    "logic_b": 0.11536901852006362,
+    "creative": 0.5729789398992327,
+    "synthesis": 0.05768450926003181
+  },
+  "zone_entropy": 1.6714736022622996,
+  "kurtosis": 1095.3580322265625,
+  "token_diversity_input": 0.8,
+  "loops_run": 2,
+  "entropy": 1.1640625,
+  "focus_index": 0.999993085861206,
+  "emancipation": 0.9783236384391785,
+  "aks_friction": 0.150390625
+}

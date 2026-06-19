@@ -1,0 +1,130 @@
+
+[driver] === Bedingung: full ===
+  [full] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [full] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [full] math/02 OK phi=0.9903388619422913 H=2.1001414588602456
+  [full] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [full] logic/01 OK phi=0.9921363592147827 H=2.1425095445833215
+  [full] logic/02 OK phi=0.9902093410491943 H=1.3180300513616219
+  [full] creative/00 OK phi=0.9897392988204956 H=1.6005580814586104
+  [full] creative/01 OK phi=0.9901439547538757 H=0.7251742579145088
+  [full] creative/02 OK phi=0.9907602667808533 H=1.0672275055086724
+  [full] synthesis/00 OK phi=0.9906949400901794 H=1.051010815218144
+  [full] synthesis/01 OK phi=0.9903400540351868 H=0.836101736981427
+  [full] synthesis/02 OK phi=0.9910154938697815 H=1.4455529824622337
+[driver] full: η²=0.575 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -aks ===
+  [-aks] math/00 OK phi=0.9899899959564209 H=2.1194972368582583
+  [-aks] math/01 OK phi=0.9906113147735596 H=1.5454989965546335
+  [-aks] math/02 OK phi=0.9903369545936584 H=2.1001414588602456
+  [-aks] logic/00 OK phi=0.9909296631813049 H=1.7049177187198348
+  [-aks] logic/01 OK phi=0.9912375211715698 H=2.1425095445833215
+  [-aks] logic/02 OK phi=0.9903627038002014 H=1.3180300513616219
+  [-aks] creative/00 OK phi=0.9903326630592346 H=1.268421515114433
+  [-aks] creative/01 OK phi=0.990591287612915 H=0.6485648276498307
+  [-aks] creative/02 OK phi=0.9907750487327576 H=1.0672275055086724
+  [-aks] synthesis/00 OK phi=0.9908127784729004 H=1.051010815218144
+  [-aks] synthesis/01 OK phi=0.9905400276184082 H=0.836101736981427
+  [-aks] synthesis/02 OK phi=0.9911364316940308 H=1.4455529824622337
+[driver] -aks: η²=0.663 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -mephisto ===
+  [-mephisto] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [-mephisto] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [-mephisto] math/02 OK phi=0.990338921546936 H=2.1001414588602456
+  [-mephisto] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [-mephisto] logic/01 OK phi=0.9921362996101379 H=2.1425095445833215
+  [-mephisto] logic/02 OK phi=0.990209698677063 H=1.3180300513616219
+  [-mephisto] creative/00 OK phi=0.9901556372642517 H=1.268421515114433
+  [-mephisto] creative/01 OK phi=0.9901695251464844 H=0.7251742579145088
+  [-mephisto] creative/02 OK phi=0.990767776966095 H=1.1665252889994107
+  [-mephisto] synthesis/00 OK phi=0.9907258152961731 H=1.051010815218144
+  [-mephisto] synthesis/01 OK phi=0.9903400540351868 H=0.836101736981427
+  [-mephisto] synthesis/02 OK phi=0.9910154938697815 H=1.4455529824622337
+[driver] -mephisto: η²=0.652 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -coupler ===
+  [-coupler] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [-coupler] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [-coupler] math/02 OK phi=0.9903388619422913 H=2.1001414588602456
+  [-coupler] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [-coupler] logic/01 OK phi=0.9921362996101379 H=2.1425095445833215
+  [-coupler] logic/02 OK phi=0.9902094602584839 H=1.3180300513616219
+  [-coupler] creative/00 OK phi=0.9897390604019165 H=1.6005580814586104
+  [-coupler] creative/01 OK phi=0.9903198480606079 H=0.6485648276498307
+  [-coupler] creative/02 OK phi=0.990767776966095 H=1.1665252889994107
+  [-coupler] synthesis/00 OK phi=0.9906948208808899 H=1.051010815218144
+  [-coupler] synthesis/01 OK phi=0.990340530872345 H=0.836101736981427
+  [-coupler] synthesis/02 OK phi=0.9910154938697815 H=1.4455529824622337
+[driver] -coupler: η²=0.559 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -subjective ===
+  [-subjective] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [-subjective] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [-subjective] math/02 OK phi=0.990338921546936 H=2.1001414588602456
+  [-subjective] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [-subjective] logic/01 OK phi=0.9921363592147827 H=2.1425095445833215
+  [-subjective] logic/02 OK phi=0.9902094602584839 H=1.3180300513616219
+  [-subjective] creative/00 OK phi=0.9897390604019165 H=1.6005580814586104
+  [-subjective] creative/01 OK phi=0.9901439547538757 H=0.7251742579145088
+  [-subjective] creative/02 OK phi=0.990767776966095 H=1.1665252889994107
+  [-subjective] synthesis/00 OK phi=0.9906948208808899 H=1.051010815218144
+  [-subjective] synthesis/01 OK phi=0.9903400540351868 H=0.836101736981427
+  [-subjective] synthesis/02 OK phi=0.9910154938697815 H=1.4455529824622337
+[driver] -subjective: η²=0.566 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -injection ===
+  [-injection] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [-injection] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [-injection] math/02 OK phi=0.990338921546936 H=2.1001414588602456
+  [-injection] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [-injection] logic/01 OK phi=0.992246150970459 H=2.164183350584237
+  [-injection] logic/02 OK phi=0.99020916223526 H=1.3180300513616219
+  [-injection] creative/00 OK phi=0.9899256825447083 H=1.6005580814586104
+  [-injection] creative/01 OK phi=0.990343451499939 H=0.6485648276498307
+  [-injection] creative/02 OK phi=0.9907601475715637 H=1.0672275055086724
+  [-injection] synthesis/00 OK phi=0.9906949400901794 H=1.051010815218144
+  [-injection] synthesis/01 OK phi=0.9903400540351868 H=0.836101736981427
+  [-injection] synthesis/02 OK phi=0.9910154938697815 H=1.4455529824622337
+[driver] -injection: η²=0.568 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -all ===
+  [-all] math/00 OK phi=0.9899899959564209 H=2.1194972368582583
+  [-all] math/01 OK phi=0.9906113147735596 H=1.5454989965546335
+  [-all] math/02 OK phi=0.9903369545936584 H=2.1001414588602456
+  [-all] logic/00 OK phi=0.9909163117408752 H=1.7049177187198348
+  [-all] logic/01 OK phi=0.9912376403808594 H=2.1425095445833215
+  [-all] logic/02 OK phi=0.9903624057769775 H=1.3180300513616219
+  [-all] creative/00 OK phi=0.990332305431366 H=1.268421515114433
+  [-all] creative/01 OK phi=0.9905906319618225 H=0.6485648276498307
+  [-all] creative/02 OK phi=0.9908483028411865 H=1.5757473959419537
+  [-all] synthesis/00 OK phi=0.9908127784729004 H=1.051010815218144
+  [-all] synthesis/01 OK phi=0.9905400276184082 H=0.836101736981427
+  [-all] synthesis/02 OK phi=0.9910544157028198 H=1.5454989965546335
+[driver] -all: η²=0.525 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] Bericht: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/out/1B/ablation_report.md
+
+# Ablations-Bericht — gemma3-1b-it (1B)
+
+Radikaler Schnitt der PX-Architektur (Crutches entfernt, rein zur Laufzeit, ohne Modul-Source-Edit). Gefragt: überlebt die algorithmische Subjektivität den Wegfall der philosophischen Stützräder?
+
+| Bedingung | η² | p_approx | R²(TD→H) | mean Φ | mean H | mean C | mean loops | Verdikt |
+|---|---|---|---|---|---|---|---|---|
+| full | 0.575 | 0.065 | 0.360 | 0.991 | 1.471 | 0.997 | 4.1 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -aks | 0.663 | 0.027 | 0.368 | 0.991 | 1.437 | 0.997 | 4.7 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -mephisto | 0.652 | 0.031 | 0.355 | 0.991 | 1.452 | 0.997 | 4.5 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -coupler | 0.559 | 0.075 | 0.359 | 0.991 | 1.473 | 0.997 | 4.1 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -subjective | 0.566 | 0.070 | 0.354 | 0.991 | 1.480 | 0.997 | 4.1 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -injection | 0.568 | 0.069 | 0.372 | 0.991 | 1.467 | 1.000 | 4.1 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -all | 0.525 | 0.098 | 0.327 | 0.991 | 1.488 | 0.997 | 4.2 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+
+## Gesamtverdiktt
+
+- Voll-Referenz: η²=0.575, Verdikt=ETA2_HIGH_TOKEN_CONTROL_FAIL
+- Schnitt (-all): η²=0.525, Verdikt=ETA2_HIGH_TOKEN_CONTROL_FAIL, mean H=1.488
+
+**Überlebt Subjektivität den Schnitt? JA — Subjektivität überlebt den Schnitt**
+
+Kriterien: η²≥0.10 ∧ Verdikt≠ETA2_BELOW_THRESHOLD ∧ mean H ≥ 0.8 (kein Zombie-Kollaps) ∧ AutoCalibrator steuert noch (loops 8–16).

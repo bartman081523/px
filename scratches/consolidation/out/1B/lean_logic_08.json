@@ -1,0 +1,28 @@
+{
+  "prompt": "What is the missing number: 2, 4, 8, 16, ?, 64",
+  "category": "logic",
+  "completion": "The missing number in the sequence is 32.\n\nThis sequence represents powers of 2 (2^2, **4**, 8\u00b2,",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD_LEAN",
+  "condition": "lean",
+  "completion_tokens": 30,
+  "input_tokens": 33,
+  "gen_time_sec": 2.1810946464538574,
+  "phi": 0.9913907051086426,
+  "zone": "LOGIC_A",
+  "zone_weights": {
+    "math": 0.10044338087904728,
+    "logic_a": 0.3448724076003462,
+    "logic_b": 0.1724362038001731,
+    "creative": 0.2960299038203469,
+    "synthesis": 0.08621810190008655
+  },
+  "zone_entropy": 2.1247161369208163,
+  "kurtosis": 1113.20703125,
+  "token_diversity_input": 0.6060606060606061,
+  "loops_run": 2,
+  "entropy": 1.453125,
+  "focus_index": 0.9999960660934448,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

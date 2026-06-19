@@ -1,0 +1,28 @@
+{
+  "prompt": "Describe the color of silence to someone who has never seen.",
+  "category": "creative",
+  "completion": "Okay, this is a really interesting challenge! Describing something that doesn't exist in a visual way requires us to think about feelings and sensations rather",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-injection",
+  "completion_tokens": 30,
+  "input_tokens": 22,
+  "gen_time_sec": 2.511277437210083,
+  "phi": 0.990343451499939,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.0010412281142938163,
+    "logic_a": 0.06096109406631229,
+    "logic_b": 0.030480547033156145,
+    "creative": 0.8922768552696596,
+    "synthesis": 0.015240273516578072
+  },
+  "zone_entropy": 0.6485648276498307,
+  "kurtosis": 1107.3162841796875,
+  "token_diversity_input": 0.8181818181818182,
+  "loops_run": 7,
+  "entropy": 0.474609375,
+  "focus_index": 0.9999972581863403,
+  "emancipation": 0.990066409111023,
+  "aks_friction": 0.89453125
+}

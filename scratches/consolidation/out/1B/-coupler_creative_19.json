@@ -1,0 +1,28 @@
+{
+  "prompt": "Imagine a letter written by a river to the sea.",
+  "category": "creative",
+  "completion": "Okay, here's a letter from a river, reflecting on its journey and observations:\n\n---\n\nTo the Sea, Vast and Deep,\n\n",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 2.2578790187835693,
+  "phi": 0.9906100034713745,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.016264387731570955,
+    "logic_a": 0.20238126807565673,
+    "logic_b": 0.10119063403782837,
+    "creative": 0.6295683911360298,
+    "synthesis": 0.050595317018914183
+  },
+  "zone_entropy": 1.5356074866652374,
+  "kurtosis": 1111.9429931640625,
+  "token_diversity_input": 0.7619047619047619,
+  "loops_run": 2,
+  "entropy": 1.0,
+  "focus_index": 0.9999984502792358,
+  "emancipation": 0.9791589379310608,
+  "aks_friction": 0.10009765625
+}

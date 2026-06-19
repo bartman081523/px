@@ -1,0 +1,28 @@
+{
+  "prompt": "Complete: J, F, M, A, M, ?",
+  "category": "logic",
+  "completion": "The pattern is vowels.\n\nThe sequence is: J , F , M , A ,  M , L\n\nSo the next letter is **L",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.1993796825408936,
+  "phi": 0.9904702305793762,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.07439508387920653,
+    "logic_a": 0.3254849560823461,
+    "logic_b": 0.16274247804117306,
+    "creative": 0.35600624097668765,
+    "synthesis": 0.08137123902058653
+  },
+  "zone_entropy": 2.0571967444136905,
+  "kurtosis": 1106.6495361328125,
+  "token_diversity_input": 0.6086956521739131,
+  "loops_run": 2,
+  "entropy": 1.453125,
+  "focus_index": 0.9999966621398926,
+  "emancipation": 0.9789830446243286,
+  "aks_friction": 0.0
+}

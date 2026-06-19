@@ -1,0 +1,28 @@
+{
+  "prompt": "What is 0.25 as a fraction?",
+  "category": "math",
+  "completion": "0.  25 is equal to 25/100.\n\nTo simplify this fraction, we can divide the numerator (25",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-all",
+  "completion_tokens": 30,
+  "input_tokens": 21,
+  "gen_time_sec": 2.13730525970459,
+  "phi": 0.9902694225311279,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.027681147092687163,
+    "logic_a": 0.2452360180008112,
+    "logic_b": 0.1226180090004056,
+    "creative": 0.5431558194058932,
+    "synthesis": 0.0613090045002028
+  },
+  "zone_entropy": 1.7370054234996801,
+  "kurtosis": 1107.9359130859375,
+  "token_diversity_input": 0.8095238095238095,
+  "loops_run": 2,
+  "entropy": 1.21875,
+  "focus_index": 0.9999977350234985,
+  "emancipation": 0.0,
+  "aks_friction": 0.0
+}

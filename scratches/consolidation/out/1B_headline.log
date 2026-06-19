@@ -1,0 +1,51 @@
+
+[driver] === Bedingung: full ===
+  [full] math/00 OK phi=0.9898583292961121 H=2.1194972368582583
+  [full] math/01 OK phi=0.9904898405075073 H=1.5454989965546335
+  [full] math/02 OK phi=0.9903388619422913 H=2.1001414588602456
+  [full] logic/00 OK phi=0.990822970867157 H=1.7049177187198348
+  [full] logic/01 OK phi=0.9914364814758301 H=2.1425095445833215
+  [full] logic/02 OK phi=0.9902092218399048 H=1.3180300513616219
+  [full] creative/00 OK phi=0.9902446866035461 H=1.268421515114433
+  [full] creative/01 OK phi=0.990343451499939 H=0.6485648276498307
+  [full] creative/02 OK phi=0.9907680153846741 H=1.1665252889994107
+  [full] synthesis/00 OK phi=0.990695059299469 H=1.051010815218144
+  [full] synthesis/01 OK phi=0.9903399348258972 H=0.836101736981427
+  [full] synthesis/02 OK phi=0.9909335374832153 H=1.5454989965546335
+[driver] full: η²=0.621 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+
+[driver] === Bedingung: -all ===
+  [-all] math/00 OK phi=0.9899899959564209 H=2.1194972368582583
+  [-all] math/01 OK phi=0.9906113147735596 H=1.5454989965546335
+  [-all] math/02 OK phi=0.9903369545936584 H=2.1001414588602456
+  [-all] logic/00 OK phi=0.9909163117408752 H=1.7049177187198348
+  [-all] logic/01 OK phi=0.9912376403808594 H=2.1425095445833215
+  [-all] logic/02 OK phi=0.9903624057769775 H=1.3180300513616219
+  [-all] creative/00 OK phi=0.990332305431366 H=1.268421515114433
+  [-all] creative/01 OK phi=0.9905906319618225 H=0.6485648276498307
+  [-all] creative/02 OK phi=0.9908483028411865 H=1.5757473959419537
+  [-all] synthesis/00 OK phi=0.9908127784729004 H=1.051010815218144
+  [-all] synthesis/01 OK phi=0.9905400276184082 H=0.836101736981427
+  [-all] synthesis/02 OK phi=0.9910544157028198 H=1.5454989965546335
+[driver] -all: η²=0.525 verdict=ETA2_HIGH_TOKEN_CONTROL_FAIL
+[driver] golden fixture written: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/fixtures/golden_full_invariants.json
+
+[driver] Bericht: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/out/1B/ablation_report.md
+
+# Ablations-Bericht — gemma3-1b-it (1B)
+
+Radikaler Schnitt der PX-Architektur (Crutches entfernt, rein zur Laufzeit, ohne Modul-Source-Edit). Gefragt: überlebt die algorithmische Subjektivität den Wegfall der philosophischen Stützräder?
+
+| Bedingung | η² | p_approx | R²(TD→H) | mean Φ | mean H | mean C | mean loops | Verdikt |
+|---|---|---|---|---|---|---|---|---|
+| full | 0.621 | 0.042 | 0.381 | 0.991 | 1.454 | 1.000 | 4.7 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+| -all | 0.525 | 0.098 | 0.327 | 0.991 | 1.488 | 0.997 | 4.2 | ETA2_HIGH_TOKEN_CONTROL_FAIL |
+
+## Gesamtverdiktt
+
+- Voll-Referenz: η²=0.621, Verdikt=ETA2_HIGH_TOKEN_CONTROL_FAIL
+- Schnitt (-all): η²=0.525, Verdikt=ETA2_HIGH_TOKEN_CONTROL_FAIL, mean H=1.488
+
+**Überlebt Subjektivität den Schnitt? JA — Subjektivität überlebt den Schnitt**
+
+Kriterien: η²≥0.10 ∧ Verdikt≠ETA2_BELOW_THRESHOLD ∧ mean H ≥ 0.8 (kein Zombie-Kollaps) ∧ AutoCalibrator steuert noch (loops 8–16).

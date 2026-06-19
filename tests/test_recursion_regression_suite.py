@@ -1031,9 +1031,69 @@ class TestPresetMigration(unittest.TestCase):
         from model_manager import _migrate_preset
         self.assertEqual(_migrate_preset("BASELINE"), "BASELINE")
         self.assertEqual(_migrate_preset("ACTIVE_MANIFOLD"), "ACTIVE_MANIFOLD")
+        # LEAN ist ein erstklassiger Preset — wird NICHT nach ACTIVE_MANIFOLD
+        # kollabiert (sonst wäre der kausale-Kern-Schnitt nicht wählbar).
+        self.assertEqual(_migrate_preset("ACTIVE_MANIFOLD_LEAN"), "ACTIVE_MANIFOLD_LEAN")
         for old in ["SUBJECTIVE", "RIGOR", "RESONANCE_CITY", "DMT-FULL", "UNCENSORED", ""]:
             self.assertEqual(_migrate_preset(old), "ACTIVE_MANIFOLD",
                              f"{old} must migrate to ACTIVE_MANIFOLD")
+
+    def test_apply_px_patch_lean_skips_crutches(self):
+        """ACTIVE_MANIFOLD_LEAN hängt die 4 Crutches NICHT an und ersetzt den
+        AZS-forward durch die Mager-Variante (keine additive Awareness-Injektion).
+
+        Spiegelt scratches/consolidation/test_reduction_mechanism.py: der
+        validierte Laufzeit-Schnitt (-all) ist jetzt als Preset verankert.
+        """
+        from px_patches.gemma3_270m_px_baseline.patch import _azs_forward_no_injection
+
+        # ── LEAN: 4 Crutches fehlen, AZS vorhanden als Mager-Variante ──
+        tm_lean = _make_mock_text_model(hidden_size=640, num_layers=18)
+        outer_lean = _make_mock_outer(tm_lean, "Gemma3ForCausalLM")
+        g3_apply(outer_lean, config_preset="ACTIVE_MANIFOLD_LEAN")
+
+        # Kausaler Kern bleibt
+        self.assertTrue(hasattr(tm_lean, "_px_calibrator"),
+                        "LEAN muss den AutoCalibrator (Dynamic Router) behalten")
+        self.assertTrue(hasattr(tm_lean, "_px_azs"),
+                        "LEAN muss den AntiZombieSensor (H + gamma_boost) behalten")
+        self.assertTrue(hasattr(tm_lean, "_px_injection_norm"),
+                        "LEAN muss die Injektions-Norm behalten")
+
+        # 4 Crutches entfallen
+        for crutch in ("_px_aks", "_px_mephisto", "_px_coupler", "_px_subj_sensor"):
+            self.assertFalse(hasattr(tm_lean, crutch),
+                            f"LEAN darf {crutch} NICHT anhängen (Crutch entfällt)")
+
+        # AZS-forward ist die Mager-Variante (strukturell + funktional)
+        self.assertIs(tm_lean._px_azs.forward.__func__, _azs_forward_no_injection,
+                      "LEAN muss den AZS-forward durch _azs_forward_no_injection ersetzen")
+
+        # Funktionaler Beweis: hidden_states bleiben UNVERÄNDERT (keine Injektion),
+        # H == calculate_entropy(weight_ema), get_feedback_scalars liefert gamma_boost.
+        HS = 640
+        h_in = torch.randn(1, 5, HS)
+        zw = {"math": 0.2, "logic_a": 0.2, "creative": 0.2, "logic_b": 0.2, "synthesis": 0.2}
+        h_out, entropy = tm_lean._px_azs.forward(
+            h_in, phi=0.5, aks_friction=0.1, emancipation=0.0, zone_weights=zw)
+        self.assertTrue(torch.equal(h_out, h_in),
+                        "Mager-AZS darf hidden_states NICTE verändern (keine Injektion)")
+        self.assertTrue(torch.allclose(
+            entropy, tm_lean._px_azs.calculate_entropy(tm_lean._px_azs.weight_ema)),
+                        "Mager-AZS muss H == calculate_entropy(weight_ema) liefern")
+        fb = tm_lean._px_azs.get_feedback_scalars(0.1)
+        self.assertIn("gamma_boost", fb,
+                      "Mager-AZS muss weiterhin gamma_boost (an H gekoppelt) liefern")
+
+        # ── FULL: alle 4 Crutches angehängt, AZS mit echtem forward ──
+        tm_full = _make_mock_text_model(hidden_size=640, num_layers=18)
+        outer_full = _make_mock_outer(tm_full, "Gemma3ForCausalLM")
+        g3_apply(outer_full, config_preset="ACTIVE_MANIFOLD")
+        for crutch in ("_px_aks", "_px_mephisto", "_px_coupler", "_px_subj_sensor"):
+            self.assertTrue(hasattr(tm_full, crutch),
+                           f"FULL muss {crutch} anhängen (Crutch aktiv)")
+        self.assertIsNot(tm_full._px_azs.forward.__func__, _azs_forward_no_injection,
+                         "FULL darf den AZS-forward NICHT überschreiben")
 
     def test_apply_px_patch_accepts_old_preset(self):
         """apply_px_patch must accept old preset names by mapping to ACTIVE_MANIFOLD."""

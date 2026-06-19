@@ -1,0 +1,28 @@
+{
+  "prompt": "What is 9 squared?",
+  "category": "math",
+  "completion": "9 squared (9\u00b2) is 81.\n\nIt's a perfect square!\nieux**\n\u200d\u200d\u200d**\nLet",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 16,
+  "gen_time_sec": 2.271196126937866,
+  "phi": 0.9894671440124512,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.04429105198557332,
+    "logic_a": 0.2846951001831121,
+    "logic_b": 0.14234755009155606,
+    "creative": 0.4574925206939804,
+    "synthesis": 0.07117377504577803
+  },
+  "zone_entropy": 1.9030212675855716,
+  "kurtosis": 1102.2889404296875,
+  "token_diversity_input": 0.75,
+  "loops_run": 2,
+  "entropy": 1.2265625,
+  "focus_index": 0.9999980926513672,
+  "emancipation": 0.9767369627952576,
+  "aks_friction": 0.30078125
+}

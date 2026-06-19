@@ -1,0 +1,78 @@
+{
+  "input_file": "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/consolidation/out/1B/-all_aggregate.json",
+  "scale": "1B",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "n_prompts_total": 80,
+  "n_successful": 80,
+  "n_errors": 0,
+  "anova_zone_entropy": {
+    "F": 19.29810939077366,
+    "p_approx": 7.155643081974674e-09,
+    "eta_squared": 0.4323882046580152,
+    "ss_between": 5.723102076890499,
+    "ss_within": 7.512925213486256,
+    "k": 3,
+    "n": 76
+  },
+  "anova_phi": {
+    "F": 5.4668056911141,
+    "p_approx": 0.00198663716887865,
+    "eta_squared": 0.17749289010594577,
+    "ss_between": 2.876081023961698e-06,
+    "ss_within": 1.3327841410593069e-05,
+    "k": 3,
+    "n": 76
+  },
+  "r2_token_diversity_to_zone_entropy": 0.26159624260090447,
+  "mean_phi_per_category": {
+    "math": 0.9902770340442657,
+    "logic": 0.9906242340803146,
+    "creative": 0.9907221049070358,
+    "synthesis": 0.9907552868127822
+  },
+  "mean_zone_entropy_per_category": {
+    "math": 1.7720200147632639,
+    "logic": 1.4353127853600804,
+    "creative": 1.1557443300145909,
+    "synthesis": 1.0971231658949818
+  },
+  "mean_kurtosis_per_category": {
+    "math": 1095.5552795410156,
+    "logic": 1100.664321899414,
+    "creative": 1104.6135864257812,
+    "synthesis": 1108.3980773925782
+  },
+  "mean_zone_weights_per_category": {
+    "math": {
+      "math": 0.04811670449426006,
+      "logic_a": 0.2602407781417394,
+      "logic_b": 0.1301203890708697,
+      "creative": 0.49646193175769604,
+      "synthesis": 0.06506019453543485
+    },
+    "logic": {
+      "math": 0.024251379501789294,
+      "logic_a": 0.19065981866194198,
+      "logic_b": 0.09532990933097099,
+      "creative": 0.6420939358398122,
+      "synthesis": 0.047664954665485496
+    },
+    "creative": {
+      "math": 0.007252743951925563,
+      "logic_a": 0.1363454900880589,
+      "logic_b": 0.06817274504402945,
+      "creative": 0.7541426463939712,
+      "synthesis": 0.03408637252201473
+    },
+    "synthesis": {
+      "math": 0.006232330992890299,
+      "logic_a": 0.12709870018272904,
+      "logic_b": 0.06354935009136452,
+      "creative": 0.771344941687334,
+      "synthesis": 0.03177467504568226
+    }
+  },
+  "verdict": "ANTI_P_ZOMBIE_CONFIRMED",
+  "verdict_note": "\u03b7\u00b2=0.432 \u2265 0.10 AND R\u00b2(TD\u2192H)=0.262 < 0.30. Zone entropy is high-variance across categories and is NOT explained by token diversity."
+}

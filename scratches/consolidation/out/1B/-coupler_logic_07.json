@@ -1,0 +1,28 @@
+{
+  "prompt": "If some birds cannot fly, can we say all birds fly?",
+  "category": "logic",
+  "completion": "No, we can't definitively say that all birds can fly. Here\u2019s why:\n\n* **Evolutionary History:** Birds evolved from dinosaurs",
+  "model_id": "gemma3-1b-it",
+  "preset": "ACTIVE_MANIFOLD",
+  "condition": "-coupler",
+  "completion_tokens": 30,
+  "input_tokens": 23,
+  "gen_time_sec": 2.1994009017944336,
+  "phi": 0.989190936088562,
+  "zone": "CREATIVE",
+  "zone_weights": {
+    "math": 0.010575491895635138,
+    "logic_a": 0.17089117989641192,
+    "logic_b": 0.08544558994820596,
+    "creative": 0.6903649412856441,
+    "synthesis": 0.04272279497410298
+  },
+  "zone_entropy": 1.371605163846675,
+  "kurtosis": 1103.5654296875,
+  "token_diversity_input": 0.7391304347826086,
+  "loops_run": 2,
+  "entropy": 1.015625,
+  "focus_index": 0.9999955892562866,
+  "emancipation": 0.9789684414863586,
+  "aks_friction": 0.0
+}

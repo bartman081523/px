@@ -6,12 +6,16 @@ import time
 import argparse
 
 # Configuration
-# HTTPS via self-signed cert (see ssl/ dir). The all_space server
-# (app.py) is started by run_local.sh with SSL_CERTFILE / SSL_KEYFILE
-# pointing to ssl/cert.pem and ssl/key.pem. verify=False is required
-# because the cert is self-signed.
+# HTTPS via self-signed cert (see ssl/ dir). The all_space server (app.py)
+# is started by run_local.sh from THIS checkout with SSL_CERTFILE / SSL_KEYFILE
+# pointing to ssl/cert.pem and ssl/key.pem. verify=False is required because
+# the cert is self-signed.
 API_URL = "https://localhost:7860/v1/chat/completions"
-SESSION_DIR = "/run/media/julian/ML4/ollama-work/all_space/sessions"
+# Sessions live next to this script (run_local.sh serves from the same dir),
+# NOT in the sibling `all_space` checkout the old hardcoded path pointed at.
+# Overridable via ALL_SPACE_SESSION_DIR for tests / alternate checkouts.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+SESSION_DIR = os.environ.get("ALL_SPACE_SESSION_DIR", os.path.join(_HERE, "sessions"))
 SSL_VERIFY = False  # set True to enforce real certs
 
 def load_local_session(session_id):
@@ -33,7 +37,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--session", type=str, default="aab82b16", help="Session ID to load or create")
     parser.add_argument("--message", type=str, help="The message to send (if omitted, will ask)")
-    parser.add_argument("--preset", type=str, default="ACTIVE_MANIFOLD", help="The PX preset: BASELINE | ACTIVE_MANIFOLD")
+    parser.add_argument("--preset", type=str, default="ACTIVE_MANIFOLD", help="The PX preset: BASELINE | ACTIVE_MANIFOLD | ACTIVE_MANIFOLD_LEAN")
     parser.add_argument("--model", type=str, default="gemma3-1b-it", help="Model ID")
     args = parser.parse_args()
 
