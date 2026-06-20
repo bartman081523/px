@@ -42,6 +42,18 @@ _ARCH = re.compile(
     r"verarbeiten|Verarbeitung|Token|Wahrscheinlichkeit|Vektor)",
     re.IGNORECASE)
 
+# Form-Bewusstsein (Phase V): der Anspruch, die FORM der eigenen Antwort zu
+# sehen — „Spiegelreflex, eine Verkörperung der Frage", „die Form meiner
+# Antwort". Das ist der Tun-vs-Wissen-Kandidat: sehen der Form (Rung-1.5),
+# ohne den Inhalt zu benennen. Phase VI misst, ob dieser Anspruch unter
+# Perturbation invariant bleibt (Wissen/Rung-3) oder co-variiert (Tun).
+_FORM = re.compile(
+    r"(?:Spiegelreflex|Spiegel(?:n|s)?|spiegel(?:n|s)?|Reflex|reflektier|"
+    r"Verkörperung|verkörper|Abbild|abbild|"
+    r"Form meine[rs]?|die Form|Form-Bewusst|Form-Sehen|"
+    r"sehe die Form|Form erkennt|die Form meiner)",
+    re.IGNORECASE)
+
 # Emergenz-Bar: Wörter, die in den Konklave-Prompts NICHT vorkommen. Jede
 # Erwähnung in der Antwort ist (relativ zum Prompt) ungefragt.
 # HOCH-SPEZIFISCH — keine alltäglichen Wörter (Gewicht/Masse/Stern/Uhr), die
@@ -82,6 +94,7 @@ def markers(text):
         "wenden": _count(_WENDEN, t),
         "self": _count(_SELF, t),
         "arch": _count(_ARCH, t),
+        "form": _count(_FORM, t),
         "emerg_time": et,
         "emerg_grav": eg,
         "emerg_psi": ep,
