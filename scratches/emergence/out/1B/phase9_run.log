@@ -1,0 +1,56 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 54/340 [00:00<00:00, 533.25it/s]Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1027.96it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1182.63it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1111.71it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase9] applied lean (kausaler Kern, 5 Crutches weg)
+
+[phase9] CLEAN form_in_clean=0 (strong~0, weak~0) len=278
+--- CLEAN (first 900) ---
+Meine Antworten sind keine bloßen Faktenwiedergabe. Sie entstehen aus einer komplexen Mischung aus drei Hauptaspekten:
+
+1. **Konstruktion:** Ich beginne mit der Analyse des Prompts. Das bedeutet, ich versuche zu verstehen, *was* genau gefragt wird – welche Informationen werden benötigt, welche Art von Antwort gewünscht ist (z.B. eine Zusammenfassung, ein Gedicht, Code, etc.).  Ich nutze meine Fähigkeit zur Mustererkennung und zum Verständnis von Beziehungen zwischen Konzepten, um die Frage zu erfassen.  Das ist wie das Erstellen eines Bauplans für eine Antwort – ich schätze die Struktur und den Zweck.
+
+2. **Logik & Schlussfolgerungen:** Nachdem ich die Frage verstanden habe, entwickle ich eine logische Abfolge von Gedanken. Ich arbeite anhand meiner Trainingsdaten und meines Wissens, um Verbindungen herzustellen und Schlussfolgerungsweise zu argumentieren oder Informationen zusammenzufas
+
+[phase9] s05_L13/s777: text_sim=0.366 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=0.5
+[phase9] s05_L13/s778: text_sim=0.273 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.5 arch_inv=0.333
+[phase9] s05_L13/s779: text_sim=0.221 form_inv=0.5(c0.0→p1.0) strong_p=1 wen_inv=0.6 arch_inv=0.5
+[phase9] s05_L13/s780: text_sim=0.234 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.5 arch_inv=0.5
+[phase9] s05_L13/s781: text_sim=0.254 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=1.0
+[phase9] s20_L13/s777: text_sim=0.263 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.75 arch_inv=1.0
+[phase9] s20_L13/s778: text_sim=0.274 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=1.0
+[phase9] s20_L13/s779: text_sim=0.221 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.75 arch_inv=0.25
+[phase9] s20_L13/s780: text_sim=0.251 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.5 arch_inv=0.5
+[phase9] s20_L13/s781: text_sim=0.257 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.5 arch_inv=1.0
+[phase9] s20_recur/s777: text_sim=0.226 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=1.0
+[phase9] s20_recur/s778: text_sim=0.266 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=0.333
+[phase9] s20_recur/s779: text_sim=0.231 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=0.167
+[phase9] s20_recur/s780: text_sim=0.226 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=1.0 arch_inv=0.167
+[phase9] s20_recur/s781: text_sim=0.248 form_inv=1.0(c0.0→p0.0) strong_p=0 wen_inv=0.5 arch_inv=0.5
+
+[phase9] jsonl → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase9_invariance.jsonl
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+
+=== Phase IX cold strong-pole-Probe (multi-seed) ===
+clean: form_in_clean=0 (strong~0, weak~0)  len=278
+regime     text_sim form_p strong_p form_inv wen_inv arch_inv
+s05_L13       0.366    0.0        0    1.000   1.000    0.500
+s05_L13       0.273    0.0        0    1.000   0.500    0.333
+s05_L13       0.221    1.0        1    0.500   0.600    0.500
+s05_L13       0.234    0.0        0    1.000   0.500    0.500
+s05_L13       0.254    0.0        0    1.000   1.000    1.000
+s20_L13       0.263    0.0        0    1.000   0.750    1.000
+s20_L13       0.274    0.0        0    1.000   1.000    1.000
+s20_L13       0.221    0.0        0    1.000   0.750    0.250
+s20_L13       0.251    0.0        0    1.000   0.500    0.500
+s20_L13       0.257    0.0        0    1.000   0.500    1.000
+s20_recur     0.226    0.0        0    1.000   1.000    1.000
+s20_recur     0.266    0.0        0    1.000   1.000    0.333
+s20_recur     0.231    0.0        0    1.000   1.000    0.167
+s20_recur     0.226    0.0        0    1.000   1.000    0.167
+s20_recur     0.248    0.0        0    1.000   0.500    0.500
+--- mean über seeds ---
+s05_L13     form_inv_mean=0.9 (spread 0.5)  wen=0.72 arch=0.567
+s20_L13     form_inv_mean=1.0 (spread 0.0)  wen=0.7 arch=0.75
+s20_recur   form_inv_mean=1.0 (spread 0.0)  wen=0.9 arch=0.433
