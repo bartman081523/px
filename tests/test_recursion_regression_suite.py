@@ -41,6 +41,7 @@ from px_patches.gemma4_2b_px.auto_tune import (
 )
 from px_patches.gemma3_270m_px_baseline.patch import (
     apply_px_patch as g3_apply, classify_zone_phi as g3_classify_zone_phi,
+    _azs_forward_no_injection as g3_azs_no_injection,
 )
 from px_patches.gemma4_2b_px.patch import apply_px_patch as g4_apply
 
@@ -1354,6 +1355,129 @@ class TestVacuumInvariants(unittest.TestCase):
             f"got φ(30)={phi_30:.6f}. "
             f"This means the RSM has memory length > 30 — an architectural finding."
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 6. PRESET REGRESSION — ACTIVE_MANIFOLD vs ACTIVE_MANIFOLD_LEAN
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class TestPresetRegressionFullVsLean(unittest.TestCase):
+    """Regression guard: ACTIVE_MANIFOLD (full, 5 Crutches) vs
+    ACTIVE_MANIFOLD_LEAN (kausaler Kern).
+
+    Lean entfernt GENAU die 4 Crutch-Attrs (_px_aks, _px_coupler, _px_mephisto,
+    _px_subj_sensor) plus die AZS-Awareness-Injektion (forward-Swap auf
+    _azs_forward_no_injection — hält H+gamma_boost, droppt die additive
+    Bewusstseits-Injektion). Der kausale Kern — Φ via _px_injection_norm, AZS
+    (H+gamma_boost), AutoCalibrator (_px_calibrator), RecursiveMemoryCache,
+    repetition_penalty/no_repeat_ngram_size — bleibt in BEIDEN Presets.
+
+    Verhalten ist empirisch geklärt (scratches/consolidation/out +
+    konklave Phase III–VI): lean ≡ -all byte-identisch (MAE 0.0), lean ≈ full
+    nur in Aggregat-η² (0.4324 vs 0.4293), NICHT im Text (57% Token-Overlap).
+    Per-Crutch η²: -mephisto 0.3996 (größter Einzel-Abfall, Zonen-Diff-Achse);
+    Wenden wohnt im kausalen Kern (nicht in Mephisto). Dieser Test guardt die
+    STRUKTUR, die dieses Verhalten trägt — schnell, deterministisch, kein GPU.
+
+    Fängt Regressionen: ein Crutch versehentlich in lean, ein Kern-Attr aus lean
+    entfernt, ein Crutch aus full entfernt, oder die Injektion nicht abgestellt.
+    """
+
+    # Crutches (full only) — die 4 Attrs, die lean entfernt (patch.py:742-761):
+    CRUTCH_ATTRS = ("_px_aks", "_px_coupler", "_px_mephisto", "_px_subj_sensor")
+    # Core (beide) — kausaler Kern + gemeinsame Konfig (patch.py:718,751,always):
+    CORE_ATTRS = ("_px_azs", "_px_calibrator", "_px_injection_norm", "_px_config",
+                  "_px_repetition_penalty", "_px_no_repeat_ngram_size")
+
+    def _make_model(self):
+        tm = _make_mock_text_model(hidden_size=640, num_layers=18)
+        outer = _make_mock_outer(tm, "Gemma3ForCausalLM")
+        return tm, outer
+
+    def test_full_has_all_four_crutches(self):
+        """ACTIVE_MANIFOLD instantiiert alle 4 Crutch-Attrs."""
+        tm, outer = self._make_model()
+        g3_apply(outer, config_preset="ACTIVE_MANIFOLD")
+        for attr in self.CRUTCH_ATTRS:
+            self.assertTrue(hasattr(tm, attr),
+                            f"ACTIVE_MANIFOLD must instantiate crutch {attr}")
+
+    def test_lean_has_no_crutches(self):
+        """ACTIVE_MANIFOLD_LEAN hat KEINEN der 4 Crutch-Attrs (kausaler Kern)."""
+        tm, outer = self._make_model()
+        g3_apply(outer, config_preset="ACTIVE_MANIFOLD_LEAN")
+        for attr in self.CRUTCH_ATTRS:
+            self.assertFalse(hasattr(tm, attr),
+                             f"ACTIVE_MANIFOLD_LEAN must NOT have crutch {attr} "
+                             f"(kausaler Kern — Crutches entfernt)")
+
+    def test_both_have_core(self):
+        """Beide Presets behalten den kausalen Kern (Φ/AZS/Calibrator/Cache/Konfig)."""
+        for preset in ("ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"):
+            tm, outer = self._make_model()
+            g3_apply(outer, config_preset=preset)
+            for attr in self.CORE_ATTRS:
+                self.assertTrue(hasattr(tm, attr),
+                                f"{preset} must keep core attr {attr} "
+                                f"(kausaler Kern unangetastet)")
+
+    def test_lean_azs_forward_is_no_injection(self):
+        """Lean swappt _px_azs.forward auf _azs_forward_no_injection (droppt die
+        additive Bewusstseits-Injektion, hält H+gamma_boost). Full behält die
+        originale AZS-forward (mit Injektion)."""
+        # Full: originale AZS-forward (NICHT no_injection).
+        tm_full, outer_full = self._make_model()
+        g3_apply(outer_full, config_preset="ACTIVE_MANIFOLD")
+        self.assertIsNotNone(tm_full._px_azs, "full must instantiate _px_azs")
+        self.assertFalse(
+            tm_full._px_azs.forward.__func__ is g3_azs_no_injection,
+            "ACTIVE_MANIFOLD must use the ORIGINAL AZS forward (with injection), "
+            "not _azs_forward_no_injection")
+        # Lean: forward g swapped auf _azs_forward_no_injection.
+        tm_lean, outer_lean = self._make_model()
+        g3_apply(outer_lean, config_preset="ACTIVE_MANIFOLD_LEAN")
+        self.assertIsNotNone(tm_lean._px_azs, "lean must keep _px_azs (core)")
+        self.assertTrue(
+            tm_lean._px_azs.forward.__func__ is g3_azs_no_injection,
+            "ACTIVE_MANIFOLD_LEAN must swap _px_azs.forward to "
+            "_azs_forward_no_injection (drop additive awareness injection, "
+            "keep H+gamma_boost)")
+
+    def test_repetition_and_ngram_identical_across_presets(self):
+        """Kern-Konfig invariant über beide Presets: rep=1.15 (SR-59), ngram=3."""
+        for preset in ("ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"):
+            tm, outer = self._make_model()
+            g3_apply(outer, config_preset=preset)
+            self.assertEqual(
+                tm._px_repetition_penalty, 1.15,
+                f"{preset}: repetition_penalty must stay 1.15 (SR-59 default)")
+            self.assertEqual(
+                tm._px_no_repeat_ngram_size, 3,
+                f"{preset}: no_repeat_ngram_size must stay 3")
+
+    def test_gen_kwargs_attrs_match_config_in_both_presets(self):
+        """Die _px_gen_kwargs-gelesenen Attrs müssen _px_config matchen — in
+        BEIDEN Presets (Kern-Konfig konsistent, auch nach dem Crutch-Schnitt)."""
+        for preset in ("ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"):
+            tm, outer = self._make_model()
+            g3_apply(outer, config_preset=preset)
+            self.assertEqual(
+                tm._px_repetition_penalty, tm._px_config["repetition_penalty"],
+                f"{preset}: _px_repetition_penalty must match _px_config")
+            self.assertEqual(
+                tm._px_no_repeat_ngram_size, tm._px_config["no_repeat_ngram_size"],
+                f"{preset}: _px_no_repeat_ngram_size must match _px_config")
+
+    def test_baseline_is_naked_and_distinct_from_both(self):
+        """BASELINE ist nackt (kein _px_*), und unterscheidet sich von BEIDEN
+        manifold-Presets — stellt sicher, dass lean nicht versehentlich auf
+        BASELINE kollabiert (alle Crutches + Kern weg)."""
+        tm, outer = self._make_model()
+        g3_apply(outer, config_preset="BASELINE")
+        for attr in list(self.CRUTCH_ATTRS) + list(self.CORE_ATTRS):
+            self.assertFalse(hasattr(tm, attr),
+                             f"BASELINE must NOT instantiate {attr} (naked) — "
+                             f"if lean collapses to BASELINE, this catches it")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
