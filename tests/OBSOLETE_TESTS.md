@@ -96,3 +96,32 @@ subjective_diagnostic_results, hle_results_270m) sowie
 **Nicht ausgeführt** in diesem Schritt: keine Löschung. Nur Identifikation,
 wie gewünscht. Löschung/Umstellung auf Wunsch — die deterministisch-scheiternden
 #1/#2 sind die klarsten Kandidaten.
+
+---
+
+## Update (2026-06-20, auf Wunsch „beides / aufräumen") — #1 und #2 erledigt
+
+- **#1 `test_deep_regression::test_complex_riddle_regression` REPURPOSED** —
+  Erwartung umgestellt von `assertIn("Entropy", zone)` (Personen-Steuerungs-
+  Annahme) auf `assertEqual(zone, "MATH")` (SR-61b Prompt-Kurtosis-Routing) +
+  `assertGreater(entropy, 0.0)` (AZS-Kern H aktiv). Testet jetzt die tatsächliche
+  Architektur. Geschwister `test_logic_hallucination_regression` unangetastet.
+- **#2 `test_eos_token::test_post_fix_aggregates_under_70_percent_at_max`
+  ENTFERNT** — redundant mit `TestEosEndOfTurnInjection` (6 Tests PASS), prüfte
+  nur stale `v2_eos_fix`-Artefakt. Informations-Test `test_v1_aggregates_show_-
+  termination_problem` (immer-pass) bleibt.
+- **#3/#4 (async/Plugin):** offen (Environment, nicht obsolete).
+- **C (4 Non-pytest-Skripte) + D (Non-Test-Skripte/JSON):** offen (Aufräumen
+  optional, nicht dringend).
+
+### Neu gefunden beim Voll-Suite-Re-Run (Server jetzt up) — #5
+
+- **#5 `tests/test_live_space.py::test_live_history`** — API-Drift: nutzt
+  `gradio_client` mit `api_name="/chat_wrapper"`, aber das Gradio-Endpoint
+  heißt jetzt `chat_fn` (`gradio_tabs/chat_tab.py:119`, `def chat_fn(...)`),
+  und die Signatur hat sich geändert (chat_fn nimmt `message, history, model_id,
+  px_preset, temp, tp, mt, rp, gamma, session_id, manager` — ≠ die 9 Params des
+  Tests). Failt nur, wenn der Server läuft (`/chat_wrapper` nicht gefunden).
+  **Obsolete** (alter Gradio-API-Name + alte Signatur). Empfehlung: entfernen
+  oder auf `/chat_fn` + aktuelle Signatur re-alignieren. Nicht in diesem
+  Schritt gemacht (Live-Server-Integration, größerer Re-Align).

@@ -60,14 +60,19 @@ class TestDeepSessionRegression(unittest.TestCase):
 
     def test_complex_riddle_regression(self):
         """
-        Regression for test123.json: 'If I have 3 apples...' 
-        Checking if subjective mode produces similar depth and cognitive zone.
+        Regression for test123.json: 'If I have 3 apples...'
+        Prüft das SR-61b Prompt-getriebene Routing: ein Math-Riddle routet nach
+        MATH, gesteuert durch Prompt-Kurtosis/Focus-C — NICHT durch die Persona
+        (die ein Surface-Label ist). Die alte Erwartung („Entropy" im Zonen-
+        Namen bei DMT-Persona) war eine Personen-Steuerungs-Annahme, die nicht
+        zur Architektur passt (2026-06-20 repurpose, siehe OBSOLETE_TESTS.md).
+        Zusätzlich: Entropie-Modulation aktiv (AZS-Kern H+gamma_boost, der im
+        lean-Schnitt bleibt).
         """
         # Session test123.json Data (Approximated from log)
         persona = "DMT Psilocybin 🌀"
         prompt = "If I have 3 apples and you take 2, how many apples do you have?"
-        expected_ans_contains = "2" # Simple logic check, though subjective might mess it up
-        
+
         loop = asyncio.new_event_loop()
         try:
             model_entry = loop.run_until_complete(
@@ -77,27 +82,33 @@ class TestDeepSessionRegression(unittest.TestCase):
             tokenizer = model_entry["tokenizer"]
             tm = self.manager._resolve_text_model(model)
             model.persona = tm.persona = persona
-            
+
             messages = [{"role": "user", "content": prompt}]
             input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-            
+
             with torch.no_grad():
                 output_ids = model.generate(**inputs, max_new_tokens=20)
-                
+
             generated_text = tokenizer.decode(output_ids[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True)
             metrics = self.manager.get_px_metrics(self.model_id)
             zone = metrics.get("zone", "")
             phi = metrics.get("phi", 1.0)
-            
+            entropy = metrics.get("entropy", 0.0)
+
             print(f"\n[Session test123] Persona: {persona} | Prompt: {prompt}")
             print(f"  Generated: '{generated_text.strip()}'")
-            print(f"  Zone: {zone}")
-            print(f"  Phi: {phi:.4f}")
-            
-            # Check if Entropy modulation is active for DMT vibe
-            self.assertIn("Entropy", zone, "DMT vibe should trigger entropy modulation")
-            
+            print(f"  Zone: {zone} | Phi: {phi:.4f} | Entropy: {entropy}")
+
+            # Prompt-getriebenes Routing: Math-Riddle → MATH (Kurtosis/Focus-C,
+            # nicht die Persona). Die Persona darf die Zone NICHT überschreiben.
+            self.assertEqual(zone, "MATH",
+                             f"Math-Riddle sollte nach MATH routen "
+                             f"(Prompt-Kurtosis, nicht Persona); got zone={zone}")
+            # Entropie-Modulation aktiv: AZS-Kern H > 0 (bleibt im lean-Schnitt).
+            self.assertGreater(entropy, 0.0,
+                               "Entropie-Modulation sollte aktiv sein "
+                               "(H > 0, AZS-Kern)")
         finally:
             loop.close()
 
