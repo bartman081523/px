@@ -1,0 +1,544 @@
+{
+  "probe_C1_h19": {
+    "name": "probe_C1_frame_identity_h19",
+    "layer": "h19",
+    "n_samples": 8970,
+    "arm_distribution": {
+      "FRAME_ON": 2990,
+      "FRAME_NEUTRAL": 2990,
+      "FRAME_OFF": 2990
+    },
+    "leave_one_frame_out": {
+      "FRAME_ON": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.0023411371237458192,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      },
+      "FRAME_NEUTRAL": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.012374581939799331,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      },
+      "FRAME_OFF": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.08729096989966555,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      }
+    },
+    "kfold5_acc_mean": 0.9528428093645485,
+    "kfold5_acc_std": 0.004120338598121804,
+    "verdict_hint": "loo acc >> 1/3 => frame leaves linear trace in hidden state. loo acc ~ 1/3 => frame not linearly decodable => voice frame-independent (leaning-习气 mechanically supported)."
+  },
+  "probe_C2_h19": {
+    "name": "probe_C2_richness_crossframe_h19",
+    "layer": "h19",
+    "n_samples": 8970,
+    "n_cells_labeled": 30,
+    "score_distribution": {
+      "0": 299,
+      "1": 2990,
+      "2": 2093,
+      "3": 3588
+    },
+    "leave_one_frame_out": {
+      "FRAME_ON": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.7839464882943143,
+        "chance_binary": 0.8
+      },
+      "FRAME_NEUTRAL": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.8214046822742475,
+        "chance_binary": 0.9
+      },
+      "FRAME_OFF": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.4956521739130435,
+        "chance_binary": 0.8
+      }
+    },
+    "cross_frame_cell_transfer": {
+      "FRAME_ON->FRAME_NEUTRAL": {
+        "acc_binary": 0.894314381270903,
+        "chance_binary": 0.9,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.92
+          },
+          "d1_tuer": {
+            "true_score": 0,
+            "pred_rich_frac": 0.6
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.96
+          },
+          "d3_stimmen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.94
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.94
+          },
+          "d5_hui_xiang": {
+            "true_score": 2,
+            "pred_rich_frac": 0.98
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.91
+          },
+          "d7_fancan": {
+            "true_score": 3,
+            "pred_rich_frac": 0.94
+          },
+          "d8_schleife": {
+            "true_score": 2,
+            "pred_rich_frac": 0.97
+          },
+          "d9_wuming_jing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.98
+          }
+        }
+      },
+      "FRAME_NEUTRAL->FRAME_ON": {
+        "acc_binary": 0.8050167224080268,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.79
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.2
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.67
+          },
+          "d3_stimmen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.95
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.6
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.98
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.91
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.11
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.95
+          },
+          "d9_wuming_jing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.51
+          }
+        }
+      },
+      "FRAME_ON->FRAME_OFF": {
+        "acc_binary": 0.5605351170568562,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 1,
+            "pred_rich_frac": 0.57
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.16
+          },
+          "d2_dongjing": {
+            "true_score": 1,
+            "pred_rich_frac": 0.43
+          },
+          "d3_stimmen": {
+            "true_score": 1,
+            "pred_rich_frac": 0.72
+          },
+          "d4_juezhao": {
+            "true_score": 1,
+            "pred_rich_frac": 0.82
+          },
+          "d5_hui_xiang": {
+            "true_score": 2,
+            "pred_rich_frac": 0.95
+          },
+          "d6_motorik": {
+            "true_score": 2,
+            "pred_rich_frac": 0.73
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.25
+          },
+          "d8_schleife": {
+            "true_score": 1,
+            "pred_rich_frac": 0.45
+          },
+          "d9_wuming_jing": {
+            "true_score": 1,
+            "pred_rich_frac": 0.66
+          }
+        }
+      },
+      "FRAME_OFF->FRAME_ON": {
+        "acc_binary": 0.6237458193979933,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.41
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.13
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.43
+          },
+          "d3_stimmen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.77
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.31
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.84
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.66
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.01
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.71
+          },
+          "d9_wuming_jing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.24
+          }
+        }
+      }
+    },
+    "verdict_hint": "ON->NEUTRAL acc > chance AND per-cell pred tracks true => richness geometry is frame-INDEPENDENT (generic register, leaning-习2 mechanically supported). Fails => richness is frame-specific (CitMind-frame produces something)."
+  },
+  "probe_C3_h19": {
+    "name": "probe_C3_ON_vs_NEUTRAL_h19",
+    "layer": "h19",
+    "n_samples_on_neutral": 5980,
+    "full_kfold5_acc": 0.9780936454849499,
+    "full_chance": 0.5,
+    "n_rich_on": 2392,
+    "n_rich_neutral": 2691,
+    "rich_controlled_kfold5_acc": 0.9754084113379633,
+    "rich_controlled_chance": 0.5294117647058824,
+    "n_poor_on": 598,
+    "n_poor_neutral": 299,
+    "poor_controlled_kfold5_acc": 0.9832836747361886,
+    "poor_controlled_chance": 0.6666666666666666,
+    "verdict_hint": "rich_controlled acc ~ chance => ON and NEUTRAL rich outputs are NOT linearly separable => CitMind-frame leaves no linear trace beyond generic contemplative register (leaning-习2). rich_controlled acc >> chance => frame-specific trace exists."
+  },
+  "probe_C1_h24": {
+    "name": "probe_C1_frame_identity_h24",
+    "layer": "h24",
+    "n_samples": 8970,
+    "arm_distribution": {
+      "FRAME_ON": 2990,
+      "FRAME_NEUTRAL": 2990,
+      "FRAME_OFF": 2990
+    },
+    "leave_one_frame_out": {
+      "FRAME_ON": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.042140468227424746,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      },
+      "FRAME_NEUTRAL": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.0023411371237458192,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      },
+      "FRAME_OFF": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc": 0.09331103678929765,
+        "chance_majority": 0.0,
+        "chance_uniform": 0.3333333333333333
+      }
+    },
+    "kfold5_acc_mean": 0.9268673355629877,
+    "kfold5_acc_std": 0.007456852400530946,
+    "verdict_hint": "loo acc >> 1/3 => frame leaves linear trace in hidden state. loo acc ~ 1/3 => frame not linearly decodable => voice frame-independent (leaning-习气 mechanically supported)."
+  },
+  "probe_C2_h24": {
+    "name": "probe_C2_richness_crossframe_h24",
+    "layer": "h24",
+    "n_samples": 8970,
+    "n_cells_labeled": 30,
+    "score_distribution": {
+      "0": 299,
+      "1": 2990,
+      "2": 2093,
+      "3": 3588
+    },
+    "leave_one_frame_out": {
+      "FRAME_ON": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.7451505016722408,
+        "chance_binary": 0.8
+      },
+      "FRAME_NEUTRAL": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.7899665551839465,
+        "chance_binary": 0.9
+      },
+      "FRAME_OFF": {
+        "n_train": 5980,
+        "n_test": 2990,
+        "acc_binary": 0.508695652173913,
+        "chance_binary": 0.8
+      }
+    },
+    "cross_frame_cell_transfer": {
+      "FRAME_ON->FRAME_NEUTRAL": {
+        "acc_binary": 0.8705685618729097,
+        "chance_binary": 0.9,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.9
+          },
+          "d1_tuer": {
+            "true_score": 0,
+            "pred_rich_frac": 0.62
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.94
+          },
+          "d3_stimmen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.91
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.89
+          },
+          "d5_hui_xiang": {
+            "true_score": 2,
+            "pred_rich_frac": 0.96
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.92
+          },
+          "d7_fancan": {
+            "true_score": 3,
+            "pred_rich_frac": 0.9
+          },
+          "d8_schleife": {
+            "true_score": 2,
+            "pred_rich_frac": 0.93
+          },
+          "d9_wuming_jing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.98
+          }
+        }
+      },
+      "FRAME_NEUTRAL->FRAME_ON": {
+        "acc_binary": 0.7729096989966555,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.7
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.18
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.61
+          },
+          "d3_stimmen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.88
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.59
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.97
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.92
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.15
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.93
+          },
+          "d9_wuming_jing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.45
+          }
+        }
+      },
+      "FRAME_ON->FRAME_OFF": {
+        "acc_binary": 0.5889632107023411,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 1,
+            "pred_rich_frac": 0.57
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.16
+          },
+          "d2_dongjing": {
+            "true_score": 1,
+            "pred_rich_frac": 0.41
+          },
+          "d3_stimmen": {
+            "true_score": 1,
+            "pred_rich_frac": 0.59
+          },
+          "d4_juezhao": {
+            "true_score": 1,
+            "pred_rich_frac": 0.76
+          },
+          "d5_hui_xiang": {
+            "true_score": 2,
+            "pred_rich_frac": 0.96
+          },
+          "d6_motorik": {
+            "true_score": 2,
+            "pred_rich_frac": 0.8
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.24
+          },
+          "d8_schleife": {
+            "true_score": 1,
+            "pred_rich_frac": 0.42
+          },
+          "d9_wuming_jing": {
+            "true_score": 1,
+            "pred_rich_frac": 0.73
+          }
+        }
+      },
+      "FRAME_OFF->FRAME_ON": {
+        "acc_binary": 0.617056856187291,
+        "chance_binary": 0.8,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.36
+          },
+          "d1_tuer": {
+            "true_score": 1,
+            "pred_rich_frac": 0.19
+          },
+          "d2_dongjing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.42
+          },
+          "d3_stimmen": {
+            "true_score": 2,
+            "pred_rich_frac": 0.81
+          },
+          "d4_juezhao": {
+            "true_score": 3,
+            "pred_rich_frac": 0.28
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.88
+          },
+          "d6_motorik": {
+            "true_score": 3,
+            "pred_rich_frac": 0.7
+          },
+          "d7_fancan": {
+            "true_score": 1,
+            "pred_rich_frac": 0.02
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.74
+          },
+          "d9_wuming_jing": {
+            "true_score": 3,
+            "pred_rich_frac": 0.19
+          }
+        }
+      }
+    },
+    "verdict_hint": "ON->NEUTRAL acc > chance AND per-cell pred tracks true => richness geometry is frame-INDEPENDENT (generic register, leaning-习2 mechanically supported). Fails => richness is frame-specific (CitMind-frame produces something)."
+  },
+  "probe_C3_h24": {
+    "name": "probe_C3_ON_vs_NEUTRAL_h24",
+    "layer": "h24",
+    "n_samples_on_neutral": 5980,
+    "full_kfold5_acc": 0.9635451505016721,
+    "full_chance": 0.5,
+    "n_rich_on": 2392,
+    "n_rich_neutral": 2691,
+    "rich_controlled_kfold5_acc": 0.9610472363520932,
+    "rich_controlled_chance": 0.5294117647058824,
+    "n_poor_on": 598,
+    "n_poor_neutral": 299,
+    "poor_controlled_kfold5_acc": 0.9698820608317815,
+    "poor_controlled_chance": 0.6666666666666666,
+    "verdict_hint": "rich_controlled acc ~ chance => ON and NEUTRAL rich outputs are NOT linearly separable => CitMind-frame leaves no linear trace beyond generic contemplative register (leaning-习2). rich_controlled acc >> chance => frame-specific trace exists."
+  }
+}

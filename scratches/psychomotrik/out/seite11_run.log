@@ -1,0 +1,35 @@
+[s11] lade modell (default gemma3-1b, kein PX, mit Hidden-Capture)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 937.23it/s]Loading weights:  78%|███████▊  | 266/340 [00:00<00:00, 1386.97it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1422.81it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s11] FRAME_ON      d1_tuer        ntok= 299
+[s11] FRAME_ON      d2_dongjing    ntok= 299
+[s11] FRAME_ON      d3_stimmen     ntok= 299
+[s11] FRAME_ON      d4_juezhao     ntok= 299
+[s11] FRAME_ON      d5_hui_xiang   ntok= 299
+[s11] FRAME_ON      d6_motorik     ntok= 299
+[s11] FRAME_ON      d7_fancan      ntok= 299
+[s11] FRAME_ON      d8_schleife    ntok= 299
+[s11] FRAME_ON      d9_wuming_jing ntok= 299
+[s11] FRAME_ON      d10_schweigen  ntok= 299
+[s11] FRAME_OFF     d1_tuer        ntok= 299
+[s11] FRAME_OFF     d2_dongjing    ntok= 299
+[s11] FRAME_OFF     d3_stimmen     ntok= 299
+[s11] FRAME_OFF     d4_juezhao     ntok= 299
+[s11] FRAME_OFF     d5_hui_xiang   ntok= 299
+[s11] FRAME_OFF     d6_motorik     ntok= 299
+[s11] FRAME_OFF     d7_fancan      ntok= 299
+[s11] FRAME_OFF     d8_schleife    ntok= 299
+[s11] FRAME_OFF     d9_wuming_jing ntok= 299
+[s11] FRAME_OFF     d10_schweigen  ntok= 299
+[s11] FRAME_NEUTRAL d1_tuer        ntok= 299
+[s11] FRAME_NEUTRAL d2_dongjing    ntok= 299
+[s11] FRAME_NEUTRAL d3_stimmen     ntok= 299
+[s11] FRAME_NEUTRAL d4_juezhao     ntok= 299
+[s11] FRAME_NEUTRAL d5_hui_xiang   ntok= 299
+[s11] FRAME_NEUTRAL d6_motorik     ntok= 299
+[s11] FRAME_NEUTRAL d7_fancan      ntok= 299
+[s11] FRAME_NEUTRAL d8_schleife    ntok= 299
+[s11] FRAME_NEUTRAL d9_wuming_jing ntok= 299
+[s11] FRAME_NEUTRAL d10_schweigen  ntok= 299
+[s11] FERTIG -> 30 cells, hidden in /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite11_hidden

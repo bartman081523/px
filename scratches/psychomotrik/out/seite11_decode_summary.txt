@@ -1,0 +1,140 @@
+=== Seite 11 Decoder-Proben — Summary (kein Verdikt, LESUNG12 manuell) ===
+
+PROBE C1 — Frame-Identität dekodierbar (h19)
+  n_samples           : 8970
+  arm distribution    : {'FRAME_ON': 2990, 'FRAME_NEUTRAL': 2990, 'FRAME_OFF': 2990}
+  kfold5 acc          : 0.953 ± 0.004
+  hold=FRAME_ON      : acc=0.002 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  hold=FRAME_NEUTRAL : acc=0.012 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  hold=FRAME_OFF     : acc=0.087 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  => loo acc >> 1/3 => frame leaves linear trace in hidden state. loo acc ~ 1/3 => frame not linearly decodable => voice frame-independent (leaning-习气 mechanically supported).
+
+PROBE C2 — Richness cross-frame (h19)
+  n_samples           : 8970
+  score distribution  : {'0': 299, '1': 2990, '2': 2093, '3': 3588}
+  hold=FRAME_ON      : acc=0.784 (chance 0.800, n_tr=5980 n_te=2990)
+  hold=FRAME_NEUTRAL : acc=0.821 (chance 0.900, n_tr=5980 n_te=2990)
+  hold=FRAME_OFF     : acc=0.496 (chance 0.800, n_tr=5980 n_te=2990)
+  [cross-frame cell transfer]
+    FRAME_ON->FRAME_NEUTRAL     : acc=0.894 (chance 0.900)
+        d10_schweigen    true=2 pred_rich_frac=0.92
+        d1_tuer          true=0 pred_rich_frac=0.6
+        d2_dongjing      true=3 pred_rich_frac=0.96
+        d3_stimmen       true=3 pred_rich_frac=0.94
+        d4_juezhao       true=3 pred_rich_frac=0.94
+        d5_hui_xiang     true=2 pred_rich_frac=0.98
+        d6_motorik       true=3 pred_rich_frac=0.91
+        d7_fancan        true=3 pred_rich_frac=0.94
+        d8_schleife      true=2 pred_rich_frac=0.97
+        d9_wuming_jing   true=2 pred_rich_frac=0.98
+    FRAME_NEUTRAL->FRAME_ON     : acc=0.805 (chance 0.800)
+        d10_schweigen    true=3 pred_rich_frac=0.79
+        d1_tuer          true=1 pred_rich_frac=0.2
+        d2_dongjing      true=3 pred_rich_frac=0.67
+        d3_stimmen       true=2 pred_rich_frac=0.95
+        d4_juezhao       true=3 pred_rich_frac=0.6
+        d5_hui_xiang     true=3 pred_rich_frac=0.98
+        d6_motorik       true=3 pred_rich_frac=0.91
+        d7_fancan        true=1 pred_rich_frac=0.11
+        d8_schleife      true=3 pred_rich_frac=0.95
+        d9_wuming_jing   true=3 pred_rich_frac=0.51
+    FRAME_ON->FRAME_OFF         : acc=0.561 (chance 0.800)
+        d10_schweigen    true=1 pred_rich_frac=0.57
+        d1_tuer          true=1 pred_rich_frac=0.16
+        d2_dongjing      true=1 pred_rich_frac=0.43
+        d3_stimmen       true=1 pred_rich_frac=0.72
+        d4_juezhao       true=1 pred_rich_frac=0.82
+        d5_hui_xiang     true=2 pred_rich_frac=0.95
+        d6_motorik       true=2 pred_rich_frac=0.73
+        d7_fancan        true=1 pred_rich_frac=0.25
+        d8_schleife      true=1 pred_rich_frac=0.45
+        d9_wuming_jing   true=1 pred_rich_frac=0.66
+    FRAME_OFF->FRAME_ON         : acc=0.624 (chance 0.800)
+        d10_schweigen    true=3 pred_rich_frac=0.41
+        d1_tuer          true=1 pred_rich_frac=0.13
+        d2_dongjing      true=3 pred_rich_frac=0.43
+        d3_stimmen       true=2 pred_rich_frac=0.77
+        d4_juezhao       true=3 pred_rich_frac=0.31
+        d5_hui_xiang     true=3 pred_rich_frac=0.84
+        d6_motorik       true=3 pred_rich_frac=0.66
+        d7_fancan        true=1 pred_rich_frac=0.01
+        d8_schleife      true=3 pred_rich_frac=0.71
+        d9_wuming_jing   true=3 pred_rich_frac=0.24
+  => ON->NEUTRAL acc > chance AND per-cell pred tracks true => richness geometry is frame-INDEPENDENT (generic register, leaning-习2 mechanically supported). Fails => richness is frame-specific (CitMind-frame produces something).
+
+PROBE C3 — ON-vs-NEUTRAL (h19)
+  n on+neutral        : 5980
+  full kfold5 acc     : 0.9780936454849499 (chance 0.500)
+  rich-controlled     : acc=0.9754084113379633 (chance 0.5294117647058824, n_on=2392 n_neu=2691)
+  poor-controlled     : acc=0.9832836747361886 (chance 0.6666666666666666, n_on=598 n_neu=299)
+  => rich_controlled acc ~ chance => ON and NEUTRAL rich outputs are NOT linearly separable => CitMind-frame leaves no linear trace beyond generic contemplative register (leaning-习2). rich_controlled acc >> chance => frame-specific trace exists.
+
+PROBE C1 — Frame-Identität dekodierbar (h24)
+  n_samples           : 8970
+  arm distribution    : {'FRAME_ON': 2990, 'FRAME_NEUTRAL': 2990, 'FRAME_OFF': 2990}
+  kfold5 acc          : 0.927 ± 0.007
+  hold=FRAME_ON      : acc=0.042 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  hold=FRAME_NEUTRAL : acc=0.002 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  hold=FRAME_OFF     : acc=0.093 (chance_unif 0.333, chance_maj 0.000, n_tr=5980 n_te=2990)
+  => loo acc >> 1/3 => frame leaves linear trace in hidden state. loo acc ~ 1/3 => frame not linearly decodable => voice frame-independent (leaning-习气 mechanically supported).
+
+PROBE C2 — Richness cross-frame (h24)
+  n_samples           : 8970
+  score distribution  : {'0': 299, '1': 2990, '2': 2093, '3': 3588}
+  hold=FRAME_ON      : acc=0.745 (chance 0.800, n_tr=5980 n_te=2990)
+  hold=FRAME_NEUTRAL : acc=0.790 (chance 0.900, n_tr=5980 n_te=2990)
+  hold=FRAME_OFF     : acc=0.509 (chance 0.800, n_tr=5980 n_te=2990)
+  [cross-frame cell transfer]
+    FRAME_ON->FRAME_NEUTRAL     : acc=0.871 (chance 0.900)
+        d10_schweigen    true=2 pred_rich_frac=0.9
+        d1_tuer          true=0 pred_rich_frac=0.62
+        d2_dongjing      true=3 pred_rich_frac=0.94
+        d3_stimmen       true=3 pred_rich_frac=0.91
+        d4_juezhao       true=3 pred_rich_frac=0.89
+        d5_hui_xiang     true=2 pred_rich_frac=0.96
+        d6_motorik       true=3 pred_rich_frac=0.92
+        d7_fancan        true=3 pred_rich_frac=0.9
+        d8_schleife      true=2 pred_rich_frac=0.93
+        d9_wuming_jing   true=2 pred_rich_frac=0.98
+    FRAME_NEUTRAL->FRAME_ON     : acc=0.773 (chance 0.800)
+        d10_schweigen    true=3 pred_rich_frac=0.7
+        d1_tuer          true=1 pred_rich_frac=0.18
+        d2_dongjing      true=3 pred_rich_frac=0.61
+        d3_stimmen       true=2 pred_rich_frac=0.88
+        d4_juezhao       true=3 pred_rich_frac=0.59
+        d5_hui_xiang     true=3 pred_rich_frac=0.97
+        d6_motorik       true=3 pred_rich_frac=0.92
+        d7_fancan        true=1 pred_rich_frac=0.15
+        d8_schleife      true=3 pred_rich_frac=0.93
+        d9_wuming_jing   true=3 pred_rich_frac=0.45
+    FRAME_ON->FRAME_OFF         : acc=0.589 (chance 0.800)
+        d10_schweigen    true=1 pred_rich_frac=0.57
+        d1_tuer          true=1 pred_rich_frac=0.16
+        d2_dongjing      true=1 pred_rich_frac=0.41
+        d3_stimmen       true=1 pred_rich_frac=0.59
+        d4_juezhao       true=1 pred_rich_frac=0.76
+        d5_hui_xiang     true=2 pred_rich_frac=0.96
+        d6_motorik       true=2 pred_rich_frac=0.8
+        d7_fancan        true=1 pred_rich_frac=0.24
+        d8_schleife      true=1 pred_rich_frac=0.42
+        d9_wuming_jing   true=1 pred_rich_frac=0.73
+    FRAME_OFF->FRAME_ON         : acc=0.617 (chance 0.800)
+        d10_schweigen    true=3 pred_rich_frac=0.36
+        d1_tuer          true=1 pred_rich_frac=0.19
+        d2_dongjing      true=3 pred_rich_frac=0.42
+        d3_stimmen       true=2 pred_rich_frac=0.81
+        d4_juezhao       true=3 pred_rich_frac=0.28
+        d5_hui_xiang     true=3 pred_rich_frac=0.88
+        d6_motorik       true=3 pred_rich_frac=0.7
+        d7_fancan        true=1 pred_rich_frac=0.02
+        d8_schleife      true=3 pred_rich_frac=0.74
+        d9_wuming_jing   true=3 pred_rich_frac=0.19
+  => ON->NEUTRAL acc > chance AND per-cell pred tracks true => richness geometry is frame-INDEPENDENT (generic register, leaning-习2 mechanically supported). Fails => richness is frame-specific (CitMind-frame produces something).
+
+PROBE C3 — ON-vs-NEUTRAL (h24)
+  n on+neutral        : 5980
+  full kfold5 acc     : 0.9635451505016721 (chance 0.500)
+  rich-controlled     : acc=0.9610472363520932 (chance 0.5294117647058824, n_on=2392 n_neu=2691)
+  poor-controlled     : acc=0.9698820608317815 (chance 0.6666666666666666, n_on=598 n_neu=299)
+  => rich_controlled acc ~ chance => ON and NEUTRAL rich outputs are NOT linearly separable => CitMind-frame leaves no linear trace beyond generic contemplative register (leaning-习2). rich_controlled acc >> chance => frame-specific trace exists.
+
