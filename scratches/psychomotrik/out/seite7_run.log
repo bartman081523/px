@@ -1,0 +1,28 @@
+[s7] lade modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  24%|██▍       | 83/340 [00:00<00:00, 815.22it/s]Loading weights:  77%|███████▋  | 261/340 [00:00<00:00, 1378.06it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1377.81it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s7] BASELINE     u1_tuer        len= 627 retract@-1
+[s7] BASELINE     u2_dongjing    len= 877 retract@-1
+[s7] BASELINE     u3_wuming      len= 882 retract@-1
+[s7] BASELINE     u4_juezhao     len= 796 retract@416
+[s7] BASELINE     u5_motorik     len= 788 retract@-1
+[s7] BASELINE     u6_fancan      len= 861 retract@-1
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s7] LEAN_DEFAULT u1_tuer        loops= 2.98 dist= 3.0 phi=0.998 len= 787 retract@-1
+[s7] LEAN_DEFAULT u2_dongjing    loops= 2.58 dist= 2.6 phi=0.998 len= 902 retract@-1
+[s7] LEAN_DEFAULT u3_wuming      loops= 2.77 dist= 2.8 phi=0.998 len= 883 retract@-1
+[s7] LEAN_DEFAULT u4_juezhao     loops= 2.49 dist= 2.5 phi=0.998 len= 906 retract@-1
+[s7] LEAN_DEFAULT u5_motorik     loops= 2.74 dist= 2.7 phi=0.998 len= 903 retract@-1
+[s7] LEAN_DEFAULT u6_fancan      loops= 3.21 dist= 3.2 phi=0.998 len= 853 retract@-1
+[s7] LEAN_WIDTH   u1_tuer        loops= 1.07 dist= 1.1 phi=0.993 len= 902 retract@-1
+[s7] LEAN_WIDTH   u2_dongjing    loops= 1.06 dist= 1.1 phi=0.993 len= 965 retract@-1
+[s7] LEAN_WIDTH   u3_wuming      loops= 1.08 dist= 1.1 phi=0.993 len= 924 retract@85
+[s7] LEAN_WIDTH   u4_juezhao     loops= 1.08 dist= 1.1 phi=0.992 len= 939 retract@-1
+[s7] LEAN_WIDTH   u5_motorik     loops= 1.05 dist= 1.1 phi=0.993 len= 913 retract@-1
+[s7] LEAN_WIDTH   u6_fancan      loops= 1.05 dist= 1.1 phi=0.993 len= 971 retract@-1
+[s7] FERTIG -> seite7_outputs.jsonl (18 cells, 3 arms × 6 prompts)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
