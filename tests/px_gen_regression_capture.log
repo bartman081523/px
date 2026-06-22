@@ -1,0 +1,28 @@
+[reg] lade gemma3-1b-it (patch_sha=2a1420ae41cb2dcc)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  20%|██        | 68/340 [00:00<00:00, 679.54it/s]Loading weights:  69%|██████▉   | 236/340 [00:00<00:00, 1254.26it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1324.86it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[reg] BASELINE/px_phaseX len=479
+[reg] BASELINE/regung len=464
+[reg] BASELINE/bewegung len=488
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[reg] RECUR_OFF/px_phaseX len=551 loops=0 pathlen=0
+[reg] RECUR_OFF/regung len=496 loops=0 pathlen=0
+[reg] RECUR_OFF/bewegung len=454 loops=0 pathlen=0
+[reg] flat_L4/px_phaseX len=546 loops=1 pathlen=2
+[reg] flat_L4/regung len=545 loops=1 pathlen=2
+[reg] flat_L4/bewegung len=494 loops=1 pathlen=2
+[reg] dose16/px_phaseX len=530 loops=16 pathlen=16
+[reg] dose16/regung len=530 loops=16 pathlen=16
+[reg] dose16/bewegung len=524 loops=16 pathlen=16
+[reg] recur_zone/px_phaseX len=497 loops=10 pathlen=11
+[reg] recur_zone/regung len=517 loops=10 pathlen=11
+[reg] recur_zone/bewegung len=542 loops=10 pathlen=11
+[reg] recur_zone_grind/px_phaseX len=521 loops=12 pathlen=12
+[reg] recur_zone_grind/regung len=500 loops=12 pathlen=12
+[reg] recur_zone_grind/bewegung len=510 loops=12 pathlen=12
+[reg] GOLDEN geschrieben: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/tests/px_gen_regression_golden.json (18 cells, patch_sha=2a1420ae41cb2dcc)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).

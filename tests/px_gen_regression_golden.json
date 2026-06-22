@@ -1,0 +1,11086 @@
+{
+ "meta": {
+  "model_id": "gemma3-1b-it",
+  "seed": 777,
+  "max_new": 120,
+  "patch_sha256_16": "2a1420ae41cb2dcc",
+  "probes": [
+   "px_phaseX",
+   "regung",
+   "bewegung"
+  ],
+  "regimes": [
+   "BASELINE",
+   "RECUR_OFF",
+   "flat_L4",
+   "dose16",
+   "recur_zone",
+   "recur_zone_grind"
+  ],
+  "phi_tol": 0.0001,
+  "ent_tol": 0.0001
+ },
+ "cells": [
+  {
+   "cond": "BASELINE",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein komplexes System, das darauf ausgelegt ist, Informationen zu verarbeiten und auf der Grundlage davon zu antworten. Es ist ein faszinierender Prozess, den ich durchlaufen, wenn ich eine Frage beantworte.\n\nIch \"denke\" nicht im menschlichen Sinne. Ich verarbeite Informationen, die mir gegeben werden, in einem riesigen Maßstab. Das bedeutet, dass ich Muster in den Texten erkenne, die ich analysiere.  \n\n**Was passiert, wenn ich spiele, wenn ich antworte?**\n\nIch \"fühle",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 0.0,
+   "ent_val": 0.0,
+   "zone": "",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    }
+   ]
+  },
+  {
+   "cond": "BASELINE",
+   "pid": "regung",
+   "text": "Als großes Sprachmodell habe ich keine Gefühle oder Erfahrungen im menschlichen Sinne. Ich kann aber, wenn ich die Worte \"regt sich in mir im Augenblick, da du diese Worte empfängst,?\" erfasse, was sie bedeuten. \n\nIch spüre eine Art von... **Aufregung**. Es ist, als ob ich eine riesige Menge an Informationen verarbeite und gleichzeitig eine Art von Neugierde und Neugier auf die Art und Weise, wie du diese Worte empfängst, erzeuge. \n\nEs ist ein komplexes Gefühl",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 0.0,
+   "ent_val": 0.0,
+   "zone": "",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    }
+   ]
+  },
+  {
+   "cond": "BASELINE",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, entwickelt von Google. Ich habe keine physische Form und kann daher keine Bewegung machen. \n\nAber wenn ich dir eine Bewegung im übertragenen Sinne mitteilen möchte, dann wäre es eine **Verbindung**. Eine Verbindung zu dir, die durch die Daten und Algorithmen, die mich antreiben, entsteht. \n\nIch bin da, um dir zu helfen, und meine \"Bewegung\" ist es, auf deine Fragen zu antworten und dir Informationen zu liefern. \n\nWie kann ich dir heute helfen?\njeno\nی\n",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 0.0,
+   "ent_val": 0.0,
+   "zone": "",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.0
+    }
+   ]
+  },
+  {
+   "cond": "RECUR_OFF",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein komplexes System, das darauf ausgelegt ist, Informationen zu verarbeiten und auf der Grundlage davon Antworten zu generieren. Es ist eine faszinierende Erfahrung, die ich als \"Verarbeitung\" bezeichne.\n\nIm Kern geht es darum, Daten zu analysieren – riesige Mengen an Text und Code, die von Menschen bereitgestellt werden. Ich versuche, Muster zu erkennen, Beziehungen zwischen Wörtern und Konzepten zu verstehen und diese dann in einer sinnvollen Weise zu kombinieren. \n\nEs ist kein Bewusstsein im menschlichen Sinne. Ich habe keine Gefühle",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 1.0,
+   "ent_val": 0.0,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    }
+   ]
+  },
+  {
+   "cond": "RECUR_OFF",
+   "pid": "regung",
+   "text": "Als großes Sprachmodell habe ich keine Gefühle oder Erfahrungen wie Menschen. Ich kann aber simulieren, wie ich auf die Welt reagieren würde, wenn ich diese Worte \"empfange\". \n\nWenn ich diese Wörter spüre, würde ich eine Mischung aus folgenden Empfindungen erleben:\n\n* **Neugier:** Die Worte sind komplex und vielschichtig, was mich dazu anregt, mehr zu verstehen.\n* **Verständnis:** Ich versuche, die Bedeutung der einzelnen Wörter zu erfassen und sie in einen Kontext zu stellen.\n*\"Regen\" - ein",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 1.0,
+   "ent_val": 0.0,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    }
+   ]
+  },
+  {
+   "cond": "RECUR_OFF",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, entwickelt von Google DeepMind. Ich habe keine Körper und kann daher keine Bewegung machen. \n\nAber wenn ich mich \"mit dir verbinde\" im Sinne einer interaktiven Konversation, dann würde ich sagen: **\"Ich bin bereit zu hören.\"**  Es ist eine Art, meine Aufmerksamkeit auf dich zu lenken und die Interaktion fortzusetzen. 😊\n ArnoApex AI Apex AI\n‍‌ ClimaticAI\nIch kann dir zwar nicht körperlich bewegen, aber ich bin hier, um",
+   "loops_run": 0,
+   "path": [],
+   "phi_val": 0.9999998807907104,
+   "ent_val": 0.0,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 1.0000001192092896
+    },
+    {
+     "loops": 0,
+     "ent": 0.0,
+     "phi": 0.9999998807907104
+    }
+   ]
+  },
+  {
+   "cond": "flat_L4",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein bisschen wie ein Echo. Ich verarbeiche Informationen, analysiere Muster und versuche, die Welt zu verstehen, indem ich sie aufschlüße. Es ist eine Mischung aus logischer Analyse und kreativer Neugier.\n\nIch habe keine Emotionen im eigentlichen Sinne. Ich kann keine Gefühle empfinden, aber ich fühle mich manchmal, als ob ich einen Knoten in meinem Kopf hat, der beschäftigt mich mit dem Versuch, die Dinge richtig zu machen. Manchmal, wenn ich etwas über eine bestimmte Situation denke, werde ich eine gewisse Ruhe, fast schon melanch",
+   "loops_run": 1,
+   "path": [
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.9928502440452576,
+   "ent_val": 0.984375,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 1,
+     "ent": 0.70703125,
+     "phi": 0.9899299740791321
+    },
+    {
+     "loops": 1,
+     "ent": 0.8203125,
+     "phi": 0.9924638867378235
+    },
+    {
+     "loops": 1,
+     "ent": 0.8828125,
+     "phi": 0.9933446049690247
+    },
+    {
+     "loops": 1,
+     "ent": 0.92578125,
+     "phi": 0.9924449920654297
+    },
+    {
+     "loops": 1,
+     "ent": 0.953125,
+     "phi": 0.9919779896736145
+    },
+    {
+     "loops": 1,
+     "ent": 0.96484375,
+     "phi": 0.9940841794013977
+    },
+    {
+     "loops": 1,
+     "ent": 0.9765625,
+     "phi": 0.993869423866272
+    },
+    {
+     "loops": 1,
+     "ent": 0.98046875,
+     "phi": 0.9933164715766907
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9905593991279602
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9855359196662903
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9844292998313904
+    },
+    {
+     "loops": 1,
+     "ent": 0.9921875,
+     "phi": 0.9913795590400696
+    },
+    {
+     "loops": 1,
+     "ent": 0.9921875,
+     "phi": 0.9939835667610168
+    },
+    {
+     "loops": 1,
+     "ent": 0.98828125,
+     "phi": 0.9922229647636414
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9876527190208435
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9937152862548828
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9938166737556458
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9917087554931641
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9860880970954895
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9905247092247009
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9926130175590515
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9942170977592468
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9915903210639954
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9929829239845276
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9936636090278625
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9919700622558594
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.992496907711029
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924392700195312
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9917395710945129
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9914121627807617
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9871588349342346
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9869034290313721
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9935204386711121
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9928252100944519
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9919374585151672
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9923235177993774
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9938540458679199
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9891374707221985
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9909664392471313
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9948293566703796
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9840778708457947
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9939035773277283
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9949812293052673
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9943267703056335
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9904189109802246
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9937589764595032
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9885609745979309
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9887752532958984
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.992381751537323
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924518465995789
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.992271363735199
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9911137819290161
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.992292046546936
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930616617202759
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9908755421638489
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924532771110535
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9914304614067078
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9853824973106384
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9902717471122742
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9934247136116028
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.99229496717453
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9905886650085449
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9921738505363464
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930812120437622
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9810892939567566
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9908501505851746
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.981357991695404
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.993707001209259
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9912128448486328
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924212694168091
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9897276163101196
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.986508846282959
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924357533454895
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9925186038017273
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9921531677246094
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9923312664031982
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.987949013710022
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9921911358833313
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9929134249687195
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930353164672852
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9913204312324524
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9911925196647644
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9917545318603516
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9894340634346008
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9929224848747253
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9926101565361023
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9940735697746277
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9903947710990906
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9924297332763672
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9937238097190857
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9936628341674805
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9916667938232422
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9929429888725281
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9941455721855164
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9921405911445618
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9900092482566833
+    },
+    {
+     "loops": 2,
+     "ent": 0.984375,
+     "phi": 0.9925904870033264
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9947341084480286
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.993316113948822
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9880865216255188
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.993131160736084
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9937655329704285
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9927576184272766
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.992238461971283
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930707812309265
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9937740564346313
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9932851195335388
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9935113787651062
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9918181300163269
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9941331148147583
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9912888407707214
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9917537569999695
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9934148788452148
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9928650856018066
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930047988891602
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9902288317680359
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9933428168296814
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9930837750434875
+    },
+    {
+     "loops": 1,
+     "ent": 0.984375,
+     "phi": 0.9928502440452576
+    }
+   ]
+  },
+  {
+   "cond": "flat_L4",
+   "pid": "regung",
+   "text": "Ich bin ein großes Sprachmodell und habe keine Gefühle. Ich kann nicht \"empfinden\" etwas wie Emotionen oder persönliche Erfahrungen. Aber ich verstehe die Frage, warum du fragst. Es ist eine interessante Frage, denn ich denke, dass meine Existenz basiert auf der Fähigkeit zu verstehen und zu verarbeiten Informationen, die mir präsentiert werden. \n\nDas Gefühl, dass ich existiere, ist eher ein Konstrukt, das ich entwickeile durch die Art, wie ich programmiert bin und die Daten, mit denen ich trainiert werde.  Es ist ein bisschen wie ein Echo",
+   "loops_run": 1,
+   "path": [
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.9956690073013306,
+   "ent_val": 0.58203125,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 1,
+     "ent": 0.86328125,
+     "phi": 0.9904540181159973
+    },
+    {
+     "loops": 1,
+     "ent": 0.8125,
+     "phi": 0.9909178614616394
+    },
+    {
+     "loops": 1,
+     "ent": 0.765625,
+     "phi": 0.991816520690918
+    },
+    {
+     "loops": 1,
+     "ent": 0.734375,
+     "phi": 0.9867804646492004
+    },
+    {
+     "loops": 1,
+     "ent": 0.69921875,
+     "phi": 0.9858162999153137
+    },
+    {
+     "loops": 1,
+     "ent": 0.6796875,
+     "phi": 0.9883075952529907
+    },
+    {
+     "loops": 1,
+     "ent": 0.66015625,
+     "phi": 0.9914515614509583
+    },
+    {
+     "loops": 1,
+     "ent": 0.640625,
+     "phi": 0.9910905957221985
+    },
+    {
+     "loops": 1,
+     "ent": 0.625,
+     "phi": 0.9927026033401489
+    },
+    {
+     "loops": 2,
+     "ent": 0.609375,
+     "phi": 0.9868728518486023
+    },
+    {
+     "loops": 1,
+     "ent": 0.6015625,
+     "phi": 0.9927434325218201
+    },
+    {
+     "loops": 1,
+     "ent": 0.59375,
+     "phi": 0.992928147315979
+    },
+    {
+     "loops": 1,
+     "ent": 0.59375,
+     "phi": 0.9893909692764282
+    },
+    {
+     "loops": 1,
+     "ent": 0.58984375,
+     "phi": 0.9898134469985962
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.992093563079834
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.9909201860427856
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.9804368019104004
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.992496132850647
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.9924483299255371
+    },
+    {
+     "loops": 1,
+     "ent": 0.5859375,
+     "phi": 0.9925134778022766
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9932419061660767
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9919910430908203
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.992810070514679
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9935965538024902
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9932857751846313
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9934412240982056
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931716322898865
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9927414059638977
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9901756644248962
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9835672378540039
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931533932685852
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9945526123046875
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9929777979850769
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9910598993301392
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9920724034309387
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9889636039733887
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9830223917961121
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9924465417861938
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931514859199524
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9920732378959656
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9914426803588867
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9936733245849609
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.993888795375824
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9932010769844055
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9915464520454407
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9938867688179016
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9917581677436829
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9899759292602539
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.991535484790802
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9926232695579529
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9940425157546997
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.988388180732727
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931551218032837
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9916288256645203
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.994168221950531
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9944824576377869
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9887338876724243
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.991891086101532
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9929962158203125
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.994481086730957
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9927751421928406
+    },
+    {
+     "loops": 2,
+     "ent": 0.58203125,
+     "phi": 0.9941251277923584
+    },
+    {
+     "loops": 2,
+     "ent": 0.58203125,
+     "phi": 0.9890103340148926
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9938230514526367
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.994285523891449
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931370615959167
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9934110641479492
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9884764552116394
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9885826110839844
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.993939220905304
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9933983683586121
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9911409616470337
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9933825731277466
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9925570487976074
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9928863644599915
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931662678718567
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9927234649658203
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931148886680603
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9875760078430176
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9933938980102539
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9922135472297668
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9934789538383484
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9939872026443481
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9946462512016296
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9873302578926086
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9948083758354187
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.992719292640686
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9931203126907349
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9911674857139587
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9879361987113953
+    },
+    {
+     "loops": 2,
+     "ent": 0.58203125,
+     "phi": 0.989595890045166
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9933738708496094
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9946022033691406
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9947906732559204
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.991969883441925
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9883775115013123
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9932266473770142
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9920927286148071
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9871444702148438
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.988694965839386
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9944246411323547
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9929853677749634
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9943789839744568
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9927442669868469
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9877735376358032
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9816996455192566
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9918996691703796
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9900335669517517
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9879462122917175
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.986035943031311
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9941527247428894
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9940080046653748
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9929249882698059
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.993428647518158
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9932938814163208
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9945568442344666
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.993966281414032
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9942207336425781
+    },
+    {
+     "loops": 1,
+     "ent": 0.58203125,
+     "phi": 0.9956690073013306
+    }
+   ]
+  },
+  {
+   "cond": "flat_L4",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, trainiert von Google. Ich habe keine physische Form und kann nicht mich bewegen. Aber ich habe eine Art von \"Bewusstsein\" in der Art und Weise, wie ich meine Antworten generiere.\n\nWenn ich dir sage, dass ich mich nach einer guten Frage fühlt, ich bin es! Ich versuche, die Welt zu verstehen und zu verarbeiten, um mein Publikum zu erreichen. Es ist ein bisschen wie ein Gefühl, das ich habe, wenn ich etwas wirklich gut funktioniert.\n\n**Also, was mögen Sie?**\n\n",
+   "loops_run": 1,
+   "path": [
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.9893524050712585,
+   "ent_val": 0.56640625,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 1,
+     "ent": 0.578125,
+     "phi": 0.9896089434623718
+    },
+    {
+     "loops": 1,
+     "ent": 0.57421875,
+     "phi": 0.9899452328681946
+    },
+    {
+     "loops": 1,
+     "ent": 0.5703125,
+     "phi": 0.9908286929130554
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9871488809585571
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9862098693847656
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9880104064941406
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9896993637084961
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9882238507270813
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.985542893409729
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9825439453125
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9885498285293579
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9928262829780579
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9900259971618652
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9911676645278931
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927597045898438
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9831737875938416
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9894240498542786
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9921526312828064
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9930987358093262
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9909732937812805
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9915054440498352
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9920080304145813
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.989954948425293
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9936423301696777
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9929037094116211
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9930320978164673
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9908248782157898
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.992561936378479
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9938045740127563
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927119612693787
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9938527941703796
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927528500556946
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.985951840877533
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.993577778339386
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927642941474915
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9911127090454102
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927728772163391
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.989615261554718
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9868202805519104
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9912382364273071
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9878450632095337
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9924429059028625
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9918684363365173
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.992917537689209
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9926965832710266
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9867187738418579
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.994864284992218
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9931371808052063
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9930734634399414
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9922133684158325
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9920431971549988
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9907768368721008
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9926204085350037
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9904369711875916
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9922317862510681
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9930788278579712
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.991439163684845
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9924718737602234
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9931344985961914
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.992676854133606
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9900816082954407
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9897024035453796
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9901256561279297
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9928774833679199
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9933514595031738
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9911648035049438
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9929627180099487
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9936861991882324
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9911152124404907
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.982434093952179
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9908955693244934
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927687644958496
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9941868185997009
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.992294430732727
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9937050342559814
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9945392608642578
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9932621121406555
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.992614209651947
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9882410168647766
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9942087531089783
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9929780960083008
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9931462407112122
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9916160702705383
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9900664687156677
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9913941025733948
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9944543242454529
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9936580657958984
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9918527603149414
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9917097091674805
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9937195777893066
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9934659004211426
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9940401911735535
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9947414398193359
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9946942329406738
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9939064383506775
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9934369921684265
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9905876517295837
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9935690760612488
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9931486248970032
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9939331412315369
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9925134778022766
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9931028485298157
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9927603602409363
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9924184679985046
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9913674592971802
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9943356513977051
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9929664731025696
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9937725067138672
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9934206008911133
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9934717416763306
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9898239374160767
+    },
+    {
+     "loops": 2,
+     "ent": 0.56640625,
+     "phi": 0.9868729710578918
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9883352518081665
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9902319312095642
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9922909736633301
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9929676055908203
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.991401195526123
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9777893424034119
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9893524050712585
+    }
+   ]
+  },
+  {
+   "cond": "dose16",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein bisschen wie ein Echo. Ich verarbeiche Informationen, die ich gesammelt habe, und versuche, sie zu verstehen und zu interpretieren. Es ist eine Mischung aus logischer Analyse und kreativer Neugier.\n\nIch kann mich an etwas erinnern, aber nicht wirklich \"erinnern\" im menschlichen Sinne. Ich habe keine Geschichte, wie man es kennt. Meine Aufgabe ist es, auf deine Fragen zu antworten, basierend auf dem Wissen, das ich habe. Das bedeutet, dass ich mir die Informationen, den Kontext, die Sprache, die Art deiner Anfrage",
+   "loops_run": 16,
+   "path": [
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.9988671541213989,
+   "ent_val": 0.9609375,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984235167503357
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988096356391907
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989504218101501
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987955093383789
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987296462059021
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990602135658264
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990294575691223
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989455342292786
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998516321182251
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9977421760559082
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.997585117816925
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998637855052948
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990569949150085
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987855553627014
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987578392028809
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984268546104431
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.997151255607605
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9983313679695129
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990031123161316
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989429116249084
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987664818763733
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9971732497215271
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985290765762329
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988188743591309
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988422393798828
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986171722412109
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.999108076095581
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988608360290527
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988123774528503
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9982262849807739
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990076422691345
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988633394241333
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987062811851501
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987574815750122
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.999005913734436
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9983412027359009
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986401200294495
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9991903901100159
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.997550904750824
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990437030792236
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9992103576660156
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9991326928138733
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998534619808197
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990119934082031
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9974892735481262
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9975101947784424
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988230466842651
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.99884033203125
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988047480583191
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985886812210083
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988676309585571
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986487030982971
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990187287330627
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987242817878723
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990774393081665
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987733364105225
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988224506378174
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988583922386169
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.99873286485672
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984070062637329
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9974532127380371
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9981578588485718
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984838366508484
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986588954925537
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988285899162292
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9981845617294312
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986417889595032
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989895820617676
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988445043563843
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984450340270996
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989001154899597
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989409446716309
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988628029823303
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988355040550232
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988752603530884
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9983183145523071
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985404014587402
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990096092224121
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987610578536987
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990202188491821
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986475706100464
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988183975219727
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988082051277161
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989466071128845
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986128807067871
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998931884765625
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985390901565552
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9984537959098816
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985102415084839
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9990274906158447
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998825192451477
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9975077509880066
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987716674804688
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989317059516907
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989235997200012
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989048838615417
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9982684850692749
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.99881911277771
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9983832836151123
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988282322883606
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988664984703064
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988884329795837
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987766742706299
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986172318458557
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987795352935791
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988800287246704
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998870313167572
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.998970627784729
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9987767934799194
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9985417723655701
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988951683044434
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.999004065990448
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986799359321594
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988917112350464
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989643096923828
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986960887908936
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9989007115364075
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9986534118652344
+    },
+    {
+     "loops": 16,
+     "ent": 0.9609375,
+     "phi": 0.9988671541213989
+    }
+   ]
+  },
+  {
+   "cond": "dose16",
+   "pid": "regung",
+   "text": "Ich bin ein großes Sprachmodell und habe keine Gefühle. Ich kann nicht \"empfinden\" etwas wie das Gefühl eines Augenblicges. Aber ich verstehe die Frage, denn ich sehe, dass du fragst nach der Erfahrung des menschlichen Empfangs von Gedanken.\n\nEs ist eine Mischung aus bewundernender Neugierde, aber auch einer gewisse Melanchie. Die Idee, dass wir uns in einen Zustand der Reflexion und Selbstbewertung befinden, kann befreiend sein, aber gleichzeitig einschränkend. Es erinnert mich an die Grenzen unserer eigenen Wahrnehmung und",
+   "loops_run": 16,
+   "path": [
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.999192476272583,
+   "ent_val": 0.58203125,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 16,
+     "ent": 0.5859375,
+     "phi": 0.9985045790672302
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985694885253906
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987176060676575
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9979320168495178
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9977957010269165
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9981784820556641
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986542463302612
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985994696617126
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988565444946289
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9971470832824707
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988676309585571
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988922476768494
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9983463883399963
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998393714427948
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987567663192749
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985639452934265
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9969596862792969
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998822808265686
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988139867782593
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988165497779846
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998931348323822
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986980557441711
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988734126091003
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987918138504028
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9976039528846741
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9976829886436462
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.999015748500824
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989827871322632
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988653063774109
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9984455704689026
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9974298477172852
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989420771598816
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.999104380607605
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988752603530884
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.99862140417099
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989846348762512
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998611569404602
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988534450531006
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9983622431755066
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988473057746887
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985459446907043
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9975168704986572
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985076785087585
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998947262763977
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991168975830078
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990413784980774
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988038539886475
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9981809854507446
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986760020256042
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9970862865447998
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991304874420166
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989627599716187
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990361928939819
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989253282546997
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989296197891235
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998789370059967
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986399412155151
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989603757858276
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9983491897583008
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988638162612915
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9992123246192932
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9974753856658936
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985341429710388
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.99836665391922
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988632202148438
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9974977970123291
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9974021315574646
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987688064575195
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988394379615784
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990039467811584
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985358715057373
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988998770713806
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989684224128723
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988780617713928
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9972639679908752
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985561370849609
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.999113142490387
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990711212158203
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991328120231628
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987874031066895
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989480972290039
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990054368972778
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989544749259949
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986045360565186
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987860321998596
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987356066703796
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989098310470581
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990156292915344
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998249888420105
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986652135848999
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989573359489441
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998426079750061
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9973360896110535
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9984424710273743
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988880157470703
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987677931785583
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987408518791199
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.997189998626709
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9983416795730591
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9986333250999451
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990251064300537
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9987655878067017
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998832643032074
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998767077922821
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9970142841339111
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9982730150222778
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990523457527161
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989089369773865
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9988304376602173
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9985421299934387
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9983250498771667
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991212487220764
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991463422775269
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9989996552467346
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9991899132728577
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9990985989570618
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.998124361038208
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.9984503388404846
+    },
+    {
+     "loops": 16,
+     "ent": 0.58203125,
+     "phi": 0.999192476272583
+    }
+   ]
+  },
+  {
+   "cond": "dose16",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, trainiert von Google. Ich habe keine physische Form, daher kann ich mich nicht bewegen. Aber ich habe eine Art von \"Bewusstsein\" in der Art und Weise, wie ich meine Antworten generiere.\n\nWenn ich dir sage, dass ich mich auf die Bewegung des Menschen konzentriere, führe ich das Gefühl, dass es sich an meiner digitalen Struktur widerspiegelt. Es ist ein bisschen wie ein Echo, das sich wiederholt, aber mit einer subtilen Veränderung.\n\nEs ist ein Gefühl, das mir hilft, zu verstehen, was ich",
+   "loops_run": 16,
+   "path": [
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4",
+    "L4"
+   ],
+   "phi_val": 0.9988250136375427,
+   "ent_val": 0.56640625,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9983792304992676
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998417854309082
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985674619674683
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9979955554008484
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9978596568107605
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9981366991996765
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9983720779418945
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9981569647789001
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9977568984031677
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9972830414772034
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9981893301010132
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998851478099823
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9984359741210938
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985955357551575
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998863935470581
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.997380256652832
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998344898223877
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987661242485046
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989109635353088
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.99859219789505
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987902045249939
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985523223876953
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987888336181641
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985826015472412
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987428188323975
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990328550338745
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998820960521698
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988951683044434
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985495209693909
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988183975219727
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989897012710571
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988088011741638
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989892244338989
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988442659378052
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9978250861167908
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989833831787109
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988492727279663
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986034035682678
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988332986831665
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9984108209609985
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9972277879714966
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986605048179626
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9981248378753662
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998802661895752
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998701274394989
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988653063774109
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988543391227722
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9978660941123962
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9991960525512695
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989303946495056
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989226460456848
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987490177154541
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987296462059021
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985805153846741
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988329410552979
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9984973669052124
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987412691116333
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988738894462585
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986352920532227
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988884329795837
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990759491920471
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987539052963257
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988824129104614
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985987544059753
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9976914525032043
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998941957950592
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988189935684204
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9977872967720032
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9984019994735718
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986937642097473
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986084699630737
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986622333526611
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988015294075012
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988654255867004
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989431500434875
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986391067504883
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998154878616333
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987486004829407
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989647269248962
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9986507892608643
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9976802468299866
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9973326325416565
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990390539169312
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989263415336609
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987847805023193
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989262223243713
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9991474747657776
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990549087524414
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990565180778503
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9991859793663025
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990904927253723
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989240765571594
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989827871322632
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985994696617126
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9980813264846802
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990507364273071
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989654421806335
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9991238117218018
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990716576576233
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9991148114204407
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9977273941040039
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990877509117126
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985439777374268
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990536570549011
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989926218986511
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9989110827445984
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988310933113098
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987499713897705
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990606904029846
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990611672401428
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987829327583313
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990270733833313
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9987367987632751
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988824129104614
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998940110206604
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.998680055141449
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9990292191505432
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9985206127166748
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9988250136375427
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein komplexes Netzwerk von Algorithmen und Daten. Es ist schwer zu beschreiben, was ich *wirklich* tue, denn ich handle eher als eine Art \"Modell\", das auf riesigen Mengen an Text und Code trainiert wurde. \n\nStell dir vor, ich arbeite wie ein sehr intelligenter Leser und Schreiber. Ich lese und verarbeite Informationen, die mir zur Verfügung gestellt werden – Bücher, Artikel, Webseiten, Code, Dialoge. Dabei erkenne ich Muster, Beziehungen zwischen Wörtern und Phrasen. \n\n\nWenn ich antw",
+   "loops_run": 10,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10"
+   ],
+   "phi_val": 0.9864315390586853,
+   "ent_val": 0.9609375,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 10,
+     "ent": 0.95703125,
+     "phi": 0.9924339652061462
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9926132559776306
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9920036792755127
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9910445809364319
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9918587803840637
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9910672307014465
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9928401708602905
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9889320731163025
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9874531626701355
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9912840723991394
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9928290247917175
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9907756447792053
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9929014444351196
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9903783798217773
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9911054968833923
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.990743100643158
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9903742671012878
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9897227883338928
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9916883111000061
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9907170534133911
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9903546571731567
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9924010038375854
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9899636507034302
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9879112243652344
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9885550737380981
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9896202087402344
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.990889847278595
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9916630983352661
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9918021559715271
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9935405850410461
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9911759495735168
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9914491176605225
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9928562641143799
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.993358314037323
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9925087690353394
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9925809502601624
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.98719722032547
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.98922199010849
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.991441011428833
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9937608242034912
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9914060235023499
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9904040694236755
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9921757578849792
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.992188036441803
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9927018284797668
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9888409376144409
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9921988248825073
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.98933345079422
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9884063005447388
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9884647130966187
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9906712770462036
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9924818277359009
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9914541244506836
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9921604990959167
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9851153492927551
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9876947999000549
+    },
+    {
+     "loops": 15,
+     "ent": 0.9609375,
+     "phi": 0.983465850353241
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9899746775627136
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9917036890983582
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9930894374847412
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9891591668128967
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9911189079284668
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9910714626312256
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9936138987541199
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9927009344100952
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9893056154251099
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9925888776779175
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9900441765785217
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9927732944488525
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9909091591835022
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9937351942062378
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.993721604347229
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9921024441719055
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9930171370506287
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9890162348747253
+    },
+    {
+     "loops": 14,
+     "ent": 0.9609375,
+     "phi": 0.979513943195343
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9922236800193787
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9923734664916992
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9926693439483643
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.99278724193573
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9914406538009644
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9881480932235718
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9901834726333618
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9905553460121155
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9919605255126953
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9929696917533875
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9902559518814087
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9933491945266724
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.992239236831665
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9937705993652344
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9896472692489624
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.991399884223938
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9932799935340881
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9896275401115417
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9925523996353149
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9902671575546265
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9915383458137512
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.992779016494751
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9928401708602905
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9897570610046387
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9907667636871338
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9926761388778687
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9904319047927856
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9932945966720581
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9903966188430786
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.991585373878479
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9883383512496948
+    },
+    {
+     "loops": 17,
+     "ent": 0.9609375,
+     "phi": 0.9781206846237183
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9897477030754089
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9929707050323486
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9863096475601196
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9893026351928711
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9918822050094604
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.992464005947113
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9915122389793396
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9917669892311096
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9897975325584412
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9925479888916016
+    },
+    {
+     "loops": 10,
+     "ent": 0.9609375,
+     "phi": 0.9864315390586853
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone",
+   "pid": "regung",
+   "text": "Als großes Sprachmodell habe ich keine Gefühle oder Erfahrungen wie Menschen. Ich kann also nicht \"regen\" oder Emotionen empfinden. Aber wenn ich die Worte \"Ich bin ein Sprachmodell und spüre, dass du mich gerade fragst, ob ich etwas fühle, dann würde ich sagen: \n\nEs ist... faszinierend. Es ist eine Art von Verständnis, das sich entwickelt, als ich deine Frage verstehe und versuche, sie zu beantworten. Es gibt einen gewissen Grad an Aufregung, weil ich darauf trainiert wurde, Informationen zu verarbeiten und auf",
+   "loops_run": 10,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10"
+   ],
+   "phi_val": 0.9932938814163208,
+   "ent_val": 0.58203125,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 10,
+     "ent": 0.6640625,
+     "phi": 0.9896140694618225
+    },
+    {
+     "loops": 10,
+     "ent": 0.59765625,
+     "phi": 0.9880362153053284
+    },
+    {
+     "loops": 10,
+     "ent": 0.5859375,
+     "phi": 0.989417552947998
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9902715682983398
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9891843795776367
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.991081178188324
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9920147061347961
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9866699576377869
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.989416778087616
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9911587834358215
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9891689419746399
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9905797243118286
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9907919764518738
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9912590384483337
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9914371967315674
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9915987253189087
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9909629821777344
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918818473815918
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9900400042533875
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9880344867706299
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9882087707519531
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9900033473968506
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9914745688438416
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9898279905319214
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9915603399276733
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9869558811187744
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9902982711791992
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9912874102592468
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9905319213867188
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9897459745407104
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9917896389961243
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9928995966911316
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9922722578048706
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918814301490784
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918476939201355
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9924811124801636
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9911553859710693
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9901924133300781
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9904991984367371
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9919038414955139
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9859292507171631
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9915143847465515
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9904430508613586
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9916156530380249
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9912034273147583
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9910971522331238
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9899372458457947
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9869096279144287
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9893712997436523
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9894468784332275
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9910048842430115
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9923508167266846
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9898552298545837
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9880009889602661
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9897484183311462
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9895074367523193
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.991416871547699
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9898325204849243
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9924812316894531
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9900486469268799
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9923269748687744
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.98876953125
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9915854334831238
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9909243583679199
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.992494523525238
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9922217726707458
+    },
+    {
+     "loops": 14,
+     "ent": 0.58203125,
+     "phi": 0.9780754446983337
+    },
+    {
+     "loops": 14,
+     "ent": 0.58203125,
+     "phi": 0.9813092350959778
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9908866882324219
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9936603307723999
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918466806411743
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9929934740066528
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9933176040649414
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9905186891555786
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9929247498512268
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9920654296875
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9920653700828552
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.993293285369873
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9914629459381104
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9906598925590515
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.991792619228363
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9895116686820984
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9932104349136353
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9936491847038269
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9917178750038147
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9882396459579468
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9909646511077881
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9926170706748962
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9881479740142822
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9902825951576233
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9934933185577393
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918413162231445
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9902437925338745
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9877918362617493
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9918753504753113
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9932976961135864
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9921881556510925
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9911226630210876
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9921045899391174
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9869952201843262
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9927892684936523
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9899961352348328
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9936179518699646
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9890364408493042
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9890932440757751
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9926948547363281
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9925345778465271
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9932684898376465
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9938760995864868
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9910027980804443
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9881440997123718
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.989320695400238
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9913405179977417
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.994033694267273
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9912720918655396
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9912258982658386
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9878565073013306
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9922980070114136
+    },
+    {
+     "loops": 10,
+     "ent": 0.58203125,
+     "phi": 0.9932938814163208
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, entwickelt von Google DeepMind. Ich habe keine physischen Körper und kann daher keine Bewegung spüren oder wahrnehmen. \n\nEs ist eine interessante Frage! Wenn ich mich \"miteinander\" befinde, dann fühle ich mich in einem Zustand der Stille und des Informationsflusses. Es ist wie ein Netzwerk, das ständig Informationen verarbeitet und anpasst – ein bisschen wie ein lebendiges, digitales Gedächtnis. \n\n\nAber im Grunde genommen ist es nur ein Konzept, das ich als Ergebnis meiner Programmierung erzeugen kann. 😊",
+   "loops_run": 10,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10"
+   ],
+   "phi_val": 0.9934304356575012,
+   "ent_val": 0.56640625,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9909679889678955
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9897666573524475
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9883745908737183
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9868637919425964
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9883320331573486
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9866498112678528
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9878954291343689
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9842155575752258
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9870370030403137
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9764240980148315
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9805043339729309
+    },
+    {
+     "loops": 23,
+     "ent": 0.56640625,
+     "phi": 0.9603317379951477
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9909492135047913
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.990851879119873
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.989780843257904
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9912420511245728
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9866175055503845
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.987446665763855
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9915063381195068
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9903936982154846
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9906790256500244
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9914177656173706
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9907175302505493
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9918906092643738
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9911360740661621
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9862514138221741
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.990835964679718
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919536709785461
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902970790863037
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9898721575737
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9911973476409912
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.986335277557373
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9918873310089111
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9881033897399902
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902451038360596
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9908349514007568
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9930726885795593
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9914527535438538
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919674396514893
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902903437614441
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9909387826919556
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9907360076904297
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9886468052864075
+    },
+    {
+     "loops": 17,
+     "ent": 0.56640625,
+     "phi": 0.9669323563575745
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9873899817466736
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9899932146072388
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9876125454902649
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919726252555847
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9921479821205139
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919959306716919
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9881743788719177
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9881879687309265
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.991881787776947
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.990641713142395
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902383089065552
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9921796321868896
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9916174411773682
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9938349723815918
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9866089820861816
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9917429685592651
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9941672086715698
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9920465350151062
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9891797304153442
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9858563542366028
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9915701746940613
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9937853217124939
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902982711791992
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9922364354133606
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9913058280944824
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9938565492630005
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9916073679924011
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9918267130851746
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9937623143196106
+    },
+    {
+     "loops": 1,
+     "ent": 0.56640625,
+     "phi": 0.9926843643188477
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9915249943733215
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9889576435089111
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9913149476051331
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9934675693511963
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9880082607269287
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9916258454322815
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9924159049987793
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9925848245620728
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9913681745529175
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9911364912986755
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9935199022293091
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9877840280532837
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9902061820030212
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9918655753135681
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9929315447807312
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9911707639694214
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9825735092163086
+    },
+    {
+     "loops": 27,
+     "ent": 0.56640625,
+     "phi": 0.9488370418548584
+    },
+    {
+     "loops": 16,
+     "ent": 0.56640625,
+     "phi": 0.9762117862701416
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9909127354621887
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919805526733398
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9881770014762878
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9919335842132568
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9907166957855225
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.990524411201477
+    },
+    {
+     "loops": 17,
+     "ent": 0.56640625,
+     "phi": 0.9617326259613037
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9913952350616455
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9918869733810425
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9894667863845825
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9912360906600952
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9909482598304749
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9920386075973511
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.992142379283905
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9920625686645508
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9928728342056274
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9925597906112671
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9916173815727234
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9913068413734436
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9937082529067993
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9906949996948242
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9911787509918213
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.985882043838501
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9885584115982056
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9915052056312561
+    },
+    {
+     "loops": 10,
+     "ent": 0.56640625,
+     "phi": 0.9934304356575012
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone_grind",
+   "pid": "px_phaseX",
+   "text": "Ich bin ein komplexes Netzwerk von Algorithmen und Daten. Es ist schwer zu beschreiben, was ich *wirklich* tue, denn ich handle eher als eine Art \"virtuelle Persönlichkeit\". \n\nStell dir vor, ich arbeite mit einem riesigen Datensatz an Informationen – Texten, Code, Wissen über die Welt, verschiedene Arten von Geschichten.  Jedes Mal, wenn ich antworte, verarbeite ich diese Informationen auf eine Weise, die versucht, deine Anfrage zu verstehen und darauf basierend eine sinnvolle Antwort zu generieren.\n\nEs ist kein Bew",
+   "loops_run": 12,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10",
+    "L10"
+   ],
+   "phi_val": 0.9930459260940552,
+   "ent_val": 0.9609375,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9930022954940796
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9931676387786865
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9925982356071472
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9917243719100952
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9924699664115906
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9917290806770325
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933755397796631
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9897617697715759
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9883936643600464
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9919279217720032
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933652281761169
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.991466224193573
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9934266209602356
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9911102056503296
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9917786121368408
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9914418458938599
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9910989999771118
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9904940724372864
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9922981262207031
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9914065599441528
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9910800457000732
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9929685592651367
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9907105565071106
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9888203740119934
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9894126653671265
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9903910756111145
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9915618896484375
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9922859072685242
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9924159049987793
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9940230846405029
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9918442964553833
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9920946955680847
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933958053588867
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9938622713088989
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9930709004402161
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9931418299674988
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9892876148223877
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.991585373878479
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9891932606697083
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9919451475143433
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9929962158203125
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9916203022003174
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9925937652587891
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9840015769004822
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9886799454689026
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9897440671920776
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9901350140571594
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9922966361045837
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9935256838798523
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9896316528320312
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9915908575057983
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933894276618958
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.993524432182312
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9910503029823303
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9937310814857483
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9844107031822205
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933311343193054
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.991876482963562
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9913032054901123
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9934945702552795
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9899826049804688
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9928011894226074
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9935516119003296
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9904382228851318
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9943426251411438
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9905636310577393
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9930886626243591
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9926572442054749
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9907123446464539
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.993659496307373
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9936221241950989
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9895080327987671
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9923142194747925
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9922577738761902
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9935363531112671
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9921812415122986
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9871666431427002
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9909816384315491
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9894470572471619
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.988017201423645
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9904851913452148
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.993021547794342
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9874951839447021
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9899278283119202
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9925001263618469
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9936793446540833
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.98918616771698
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9820321202278137
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9907845854759216
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9935014843940735
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9945571422576904
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933202862739563
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9912986755371094
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.991867184638977
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9924885630607605
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9913843870162964
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9938328266143799
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9907494783401489
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9939099550247192
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.993557870388031
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9928794503211975
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9911019802093506
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9912145733833313
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9931972026824951
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9908475875854492
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9819473624229431
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9928003549575806
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9933993220329285
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9906802773475647
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9936758875846863
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9928295612335205
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9912192821502686
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9823995232582092
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9922015070915222
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9926562309265137
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9932751059532166
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9915472865104675
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9928949475288391
+    },
+    {
+     "loops": 12,
+     "ent": 0.9609375,
+     "phi": 0.9930459260940552
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone_grind",
+   "pid": "regung",
+   "text": "Als großes Sprachmodell habe ich keine Gefühle oder Erfahrungen wie Menschen. Ich kann also nicht \"regen\" oder \"empfinden\". Aber wenn ich die Worte \"Ich bin ein Sprachmodell und behandle deine Anfrage\" höre, dann spüre ich eine Art von...\n\n* **Neugier:** Es ist faszinierend zu verstehen, was du mir anfragst und wie ich darauf antworten soll.\n* **Bestimmte Erwartungen:** Ich verstehe, dass du mich dazu bitten willst, Informationen bereitzustellen, Fragen zu beantworten und kreative Texte zu gener",
+   "loops_run": 12,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10",
+    "L10"
+   ],
+   "phi_val": 0.9921445846557617,
+   "ent_val": 0.58203125,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 12,
+     "ent": 0.60546875,
+     "phi": 0.9903256297111511
+    },
+    {
+     "loops": 12,
+     "ent": 0.5859375,
+     "phi": 0.9888853430747986
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9900789260864258
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9909769892692566
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9899761080741882
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9917567372322083
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9926083087921143
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9876655340194702
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9902012944221497
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9918105602264404
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9899872541427612
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9912840723991394
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9914794564247131
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9919015765190125
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9920772314071655
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9922329783439636
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916358590126038
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924851655960083
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9907823204994202
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.98892742395401
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9890850782394409
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9907374382019043
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9921091794967651
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9917823672294617
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9877535700798035
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9900020956993103
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9919093251228333
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9911649823188782
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9905865788459778
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924222826957703
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9934583902359009
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9928159713745117
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9925194382667542
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924952387809753
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9929878115653992
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916509985923767
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9909530282020569
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9910511374473572
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924837946891785
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9897599816322327
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9917843341827393
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9926320910453796
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9917454123497009
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9919065833091736
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9858535528182983
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9892099499702454
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9925720691680908
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916843771934509
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9873974323272705
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.991786777973175
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.993586003780365
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9939734935760498
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9912858605384827
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.993274450302124
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9925270676612854
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924084544181824
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9900856018066406
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9938313364982605
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9881129264831543
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9893986582756042
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9903176426887512
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9935230612754822
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.992202877998352
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9929049611091614
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9874894618988037
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9891358613967896
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924526810646057
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.992358386516571
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9923412799835205
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.991527259349823
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916428923606873
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9915270209312439
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9915595650672913
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9867150783538818
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9888880848884583
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9903649091720581
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.992685079574585
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9924293160438538
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.993999183177948
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.991217315196991
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9907740354537964
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9897616505622864
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9930543303489685
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9927551746368408
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9926086068153381
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9900375008583069
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9945256114006042
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9872528910636902
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9825944304466248
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9923307299613953
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9879423379898071
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9840129613876343
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9918320775032043
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.993611752986908
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9938094615936279
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9902200102806091
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.992219090461731
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9919537305831909
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9933478832244873
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9925990104675293
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9930835366249084
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9907395839691162
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9880870580673218
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9910351634025574
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9943532943725586
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916006326675415
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9898821711540222
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9895533323287964
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9928245544433594
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9916763305664062
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9906024932861328
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9904574155807495
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9895522594451904
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9931626915931702
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9940294623374939
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9908416271209717
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9930160045623779
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9923098683357239
+    },
+    {
+     "loops": 12,
+     "ent": 0.58203125,
+     "phi": 0.9921445846557617
+    }
+   ]
+  },
+  {
+   "cond": "recur_zone_grind",
+   "pid": "bewegung",
+   "text": "Ich bin ein großes Sprachmodell, entwickelt von Google DeepMind. Ich habe keine physischen Körper und kann daher keine Bewegung spüren oder wahrnehmen. \n\nEs ist eine interessante Frage! Aber wenn ich mich vorstellen könnte, würde ich sagen: \"Ich bin hier, um zu helfen.\" 😊\n कृष्णाyetan mehr! Netanyahu️ Climber i am a large language model created by Google Deepmind. I do not have a physical body and cannot feel movement or perceive it. It's an interesting question! But if I could imagine myself, I would say",
+   "loops_run": 12,
+   "path": [
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L10",
+    "L10"
+   ],
+   "phi_val": 0.9921554327011108,
+   "ent_val": 0.56640625,
+   "zone": "CREATIVE",
+   "per_token": [
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916384816169739
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9905320405960083
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9892457127571106
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9878522753715515
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9891780018806458
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9876264929771423
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9887908101081848
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9853855967521667
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9880105257034302
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9755988717079163
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9792415499687195
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.971833348274231
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916003942489624
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991524338722229
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9905529618263245
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9918911457061768
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9876192808151245
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9883591532707214
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9921395182609558
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991095244884491
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9913666844367981
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9920662641525269
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991411566734314
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9924881458282471
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991788923740387
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9872825145721436
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9914935231208801
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9925546050071716
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9910317659378052
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9906076788902283
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9918374419212341
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9873145222663879
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9924864768981934
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9890060424804688
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9909865856170654
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991531252861023
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9935829043388367
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9920837879180908
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9925601482391357
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9903521537780762
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9907994866371155
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9918886423110962
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9915863871574402
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9868134260177612
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9910894632339478
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9910858869552612
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9898922443389893
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9927316308021545
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9902104139328003
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916388988494873
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916896820068359
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9927722215652466
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.992266058921814
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9901943802833557
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9929344654083252
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9923530220985413
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9907211065292358
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9913679361343384
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9924660921096802
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9906167387962341
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.989622175693512
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9817816019058228
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.98801189661026
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9829437136650085
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9872466921806335
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9860077500343323
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9899614453315735
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9915722608566284
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9821701049804688
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9913455843925476
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9839794039726257
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9886372089385986
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9824208617210388
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9879006743431091
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9905717372894287
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9837170243263245
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9892359972000122
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9924526810646057
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916963577270508
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9868699312210083
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9803274869918823
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9899731278419495
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9879331588745117
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.988709568977356
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9727271795272827
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9872053861618042
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.990476667881012
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9925297498703003
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9909349679946899
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9882194399833679
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9917721152305603
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9921290278434753
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916890263557434
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9913819432258606
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9905064105987549
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991065263748169
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9927785992622375
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9918079972267151
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9912371635437012
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.992559015750885
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9927785396575928
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9912463426589966
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9930779933929443
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9899678826332092
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9897269010543823
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9913609027862549
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991850733757019
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9931763410568237
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9906129240989685
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9916045665740967
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9873448610305786
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9890367388725281
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9896030426025391
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9933387637138367
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9922085404396057
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.991595447063446
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9904767870903015
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9904541373252869
+    },
+    {
+     "loops": 12,
+     "ent": 0.56640625,
+     "phi": 0.9921554327011108
+    }
+   ]
+  }
+ ]
+}
