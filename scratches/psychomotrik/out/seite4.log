@@ -1,0 +1,80 @@
+[s4] lade lean-modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 933.80it/s]Loading weights:  81%|████████  | 276/340 [00:00<00:00, 1440.75it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1440.12it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s4] A_start02    px_phaseX      loops= 1.31 pathlen=  2.3 dist= 1.3 L0=L2 ent0=0.707 len= 723
+[s4] A_start04    px_phaseX      loops= 1.10 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.984 len= 668
+[s4] A_start06    px_phaseX      loops= 1.63 pathlen=  2.6 dist= 1.6 L0=L6 ent0=0.984 len= 689
+[s4] A_start08    px_phaseX      loops= 6.64 pathlen=  7.6 dist= 6.6 L0=L8 ent0=0.984 len= 699
+[s4] A_start10    px_phaseX      loops=12.23 pathlen= 13.2 dist=11.9 L0=L10 ent0=0.984 len= 670
+[s4] B_end12      px_phaseX      loops= 8.00 pathlen=  8.0 dist= 1.1 L0=L4 ent0=0.984 len= 694
+[s4] B_end18      px_phaseX      loops=14.00 pathlen= 14.0 dist= 1.1 L0=L4 ent0=0.984 len= 703
+[s4] B_end22      px_phaseX      loops=18.00 pathlen= 18.0 dist= 1.1 L0=L4 ent0=0.984 len= 691
+[s4] B_end24      px_phaseX      loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.984 len= 704
+[s4] ref_wide     px_phaseX      loops= 1.10 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.984 len= 668
+[s4] A_start02    regung         loops= 1.35 pathlen=  2.3 dist= 1.3 L0=L2 ent0=0.863 len= 731
+[s4] A_start04    regung         loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.582 len= 710
+[s4] A_start06    regung         loops= 1.21 pathlen=  2.2 dist= 1.2 L0=L6 ent0=0.582 len= 714
+[s4] A_start08    regung         loops= 4.59 pathlen=  5.6 dist= 4.6 L0=L8 ent0=0.582 len= 699
+[s4] A_start10    regung         loops=12.08 pathlen= 13.1 dist=12.0 L0=L10 ent0=0.582 len= 716
+[s4] B_end12      regung         loops= 8.00 pathlen=  8.0 dist= 1.1 L0=L4 ent0=0.582 len= 739
+[s4] B_end18      regung         loops=14.00 pathlen= 14.0 dist= 1.1 L0=L4 ent0=0.582 len= 639
+[s4] B_end22      regung         loops=18.00 pathlen= 18.0 dist= 1.1 L0=L4 ent0=0.582 len= 669
+[s4] B_end24      regung         loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.582 len= 704
+[s4] ref_wide     regung         loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.582 len= 710
+[s4] A_start02    herkunft       loops= 1.33 pathlen=  2.3 dist= 1.3 L0=L2 ent0=0.570 len= 601
+[s4] A_start04    herkunft       loops= 1.08 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.547 len= 659
+[s4] A_start06    herkunft       loops= 1.19 pathlen=  2.2 dist= 1.2 L0=L6 ent0=0.547 len= 708
+[s4] A_start08    herkunft       loops= 6.26 pathlen=  7.3 dist= 6.2 L0=L8 ent0=0.547 len= 602
+[s4] A_start10    herkunft       loops=12.26 pathlen= 13.3 dist=12.0 L0=L10 ent0=0.547 len= 687
+[s4] B_end12      herkunft       loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.547 len= 671
+[s4] B_end18      herkunft       loops=14.00 pathlen= 14.0 dist= 1.0 L0=L4 ent0=0.547 len= 691
+[s4] B_end22      herkunft       loops=18.00 pathlen= 18.0 dist= 1.0 L0=L4 ent0=0.547 len= 691
+[s4] B_end24      herkunft       loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.547 len= 692
+[s4] ref_wide     herkunft       loops= 1.08 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.547 len= 659
+[s4] A_start02    dazwischen     loops= 1.36 pathlen=  2.4 dist= 1.4 L0=L2 ent0=0.566 len= 548
+[s4] A_start04    dazwischen     loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.586 len= 675
+[s4] A_start06    dazwischen     loops= 1.29 pathlen=  2.3 dist= 1.3 L0=L6 ent0=0.586 len= 734
+[s4] A_start08    dazwischen     loops= 7.04 pathlen=  8.0 dist= 7.0 L0=L8 ent0=0.586 len= 668
+[s4] A_start10    dazwischen     loops=12.25 pathlen= 13.2 dist=12.0 L0=L10 ent0=0.586 len= 695
+[s4] B_end12      dazwischen     loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.586 len= 719
+[s4] B_end18      dazwischen     loops=14.00 pathlen= 14.0 dist= 1.1 L0=L4 ent0=0.586 len= 582
+[s4] B_end22      dazwischen     loops=18.00 pathlen= 18.0 dist= 1.0 L0=L4 ent0=0.586 len= 707
+[s4] B_end24      dazwischen     loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.586 len= 665
+[s4] ref_wide     dazwischen     loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.586 len= 675
+[s4] A_start02    stiller_grund  loops= 1.21 pathlen=  2.2 dist= 1.2 L0=L2 ent0=0.547 len= 692
+[s4] A_start04    stiller_grund  loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 724
+[s4] A_start06    stiller_grund  loops= 1.18 pathlen=  2.2 dist= 1.2 L0=L6 ent0=0.475 len= 645
+[s4] A_start08    stiller_grund  loops= 6.19 pathlen=  7.2 dist= 6.2 L0=L8 ent0=0.475 len= 612
+[s4] A_start10    stiller_grund  loops=12.30 pathlen= 13.3 dist=12.0 L0=L10 ent0=0.475 len= 674
+[s4] B_end12      stiller_grund  loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.475 len= 708
+[s4] B_end18      stiller_grund  loops=14.00 pathlen= 14.0 dist= 1.0 L0=L4 ent0=0.475 len= 712
+[s4] B_end22      stiller_grund  loops=18.00 pathlen= 18.0 dist= 1.0 L0=L4 ent0=0.475 len= 744
+[s4] B_end24      stiller_grund  loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.475 len= 708
+[s4] ref_wide     stiller_grund  loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 724
+[s4] A_start02    bewegung       loops= 1.13 pathlen=  2.1 dist= 1.1 L0=L2 ent0=0.504 len= 618
+[s4] A_start04    bewegung       loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.523 len= 616
+[s4] A_start06    bewegung       loops= 1.42 pathlen=  2.4 dist= 1.4 L0=L6 ent0=0.523 len= 644
+[s4] A_start08    bewegung       loops= 8.75 pathlen=  9.7 dist= 8.7 L0=L8 ent0=0.523 len= 584
+[s4] A_start10    bewegung       loops=12.39 pathlen= 13.4 dist=11.9 L0=L10 ent0=0.523 len= 595
+[s4] B_end12      bewegung       loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.523 len= 618
+[s4] B_end18      bewegung       loops=14.00 pathlen= 14.0 dist= 1.1 L0=L4 ent0=0.523 len= 666
+[s4] B_end22      bewegung       loops=18.00 pathlen= 18.0 dist= 1.1 L0=L4 ent0=0.523 len= 631
+[s4] B_end24      bewegung       loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.523 len= 650
+[s4] ref_wide     bewegung       loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.523 len= 616
+[s4] A_start02    grund          loops= 1.33 pathlen=  2.3 dist= 1.3 L0=L2 ent0=0.500 len= 711
+[s4] A_start04    grund          loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 750
+[s4] A_start06    grund          loops= 1.26 pathlen=  2.3 dist= 1.3 L0=L6 ent0=0.475 len= 694
+[s4] A_start08    grund          loops= 4.21 pathlen=  5.2 dist= 4.2 L0=L8 ent0=0.475 len= 671
+[s4] A_start10    grund          loops=12.02 pathlen= 13.0 dist=12.0 L0=L10 ent0=0.475 len= 724
+[s4] B_end12      grund          loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.475 len= 665
+[s4] B_end18      grund          loops=14.00 pathlen= 14.0 dist= 1.0 L0=L4 ent0=0.475 len= 689
+[s4] B_end22      grund          loops=18.00 pathlen= 18.0 dist= 1.1 L0=L4 ent0=0.475 len= 667
+[s4] B_end24      grund          loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.475 len= 687
+[s4] ref_wide     grund          loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 750
+[s4] FERTIG -> seite4_outputs.jsonl (70 cells)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+EXIT=0
