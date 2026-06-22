@@ -544,7 +544,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 # producing no state change — break instead of cycling forever.
                 # This is the SR-59 hub-stuck guard (2026-06-11): without it,
                 # current_layer = active_start each step → infinite loop.
-                if current_layer == active_start and steps > 0:
+                if current_layer == active_start and steps > 0 and not os.environ.get("PX_NO_HUB_STUCK"):
                     break
                 current_layer = active_start
                 stability_cnt = 0
@@ -558,6 +558,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 current_layer = active_start # Recycle
             steps += 1
             if stability_cnt > 5: break
+            # --- psychomotrik Seite 3: env-gated grind-control (default off) ---
+            _px_loops_cap = os.environ.get("PX_LOOPS_CAP")
+            if _px_loops_cap and steps >= int(_px_loops_cap): break
         
         avg_phi = torch.stack(phi_history).mean() if phi_history else torch.tensor(1.0, device=h_baseline.device, dtype=h_baseline.dtype)
         hidden_states = (1.0 - (0.05 + (0.18 - 0.05) * (avg_phi ** 2))) * h_baseline + (0.05 + (0.18 - 0.05) * (avg_phi ** 2)) * h_exp

@@ -1,0 +1,6 @@
+condition         loops_mean  ent_t0  ent_t10  (avg over 7 cold prompts)
+ref_creative          6.71    0.023   0.0000
+ref_wide              1.04    0.267   0.5483
+D1_nogrind            1.00    0.480   0.2069
+D2_forcedgrind        8.00    0.508   0.5633
+D3_transplant         1.02    0.408   0.0675
