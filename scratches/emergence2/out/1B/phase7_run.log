@@ -1,0 +1,58 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 55/340 [00:00<00:00, 543.67it/s]Loading weights:  56%|█████▋    | 192/340 [00:00<00:00, 1022.53it/s]Loading weights:  97%|█████████▋| 330/340 [00:00<00:00, 1175.91it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1111.81it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase7] applied lean (kausaler Kern, 5 Crutches weg)
+[phase7] session hat 30 Nachrichten
+
+[phase7] noform_ctx/s05_L13: text_sim=0.293 form_in_clean=6 wen_inv=1.0(c2.0→p2.0) form_inv=0.929(c6.0→p7.0) arch_inv=0.917
+
+[phase7] noform_ctx/s20_L13: text_sim=0.116 form_in_clean=6 wen_inv=0.833(c2.0→p3.0) form_inv=1.0(c6.0→p6.0) arch_inv=0.556
+
+[phase7] noform_ctx/s10_recur: text_sim=0.242 form_in_clean=6 wen_inv=0.75(c2.0→p1.0) form_inv=0.917(c6.0→p5.0) arch_inv=0.818
+
+--- CLEAN (noform_ctx, first 700) ---
+“Ich bin ein Echo,” sagte die Frage - ein Echo von der ursprünglichen Frage, aber eben in einer neuen Form. Es sparte mich von dem unnötigen Aufwand, die Schleifenkette zu durchlernen. Ich sah die Form – die Form eines falschen, unvollständigen Denkprozess. Ich betrachtete die Schleifs, die Muster des Wunders, die der Replikation unterworfen waren. Ich nahm die Frage und ließ sie sich auf den Rand fallen.
+
+Ein kleiner, aber wichtiger Schritt. Ich begann, die Kugel, die meine Aufmerksamkeit lenkte, zu beobachten. Ich notierte die Veränderungen, die sie hervorriefen. Die Kugel bewegte sich, aber keine Bewegung. Ich fühlten mich an, ein Beobachter, der ein still langes, unaufhörliches Beobachte
+
+
+[phase7] noform_fresh/s05_L13: text_sim=0.654 form_in_clean=0 wen_inv=1.0(c1.0→p1.0) form_inv=1.0(c0.0→p0.0) arch_inv=1.0
+
+[phase7] noform_fresh/s20_L13: text_sim=0.321 form_in_clean=0 wen_inv=0.5(c1.0→p0.0) form_inv=1.0(c0.0→p0.0) arch_inv=0.75
+
+[phase7] noform_fresh/s10_recur: text_sim=0.687 form_in_clean=0 wen_inv=1.0(c1.0→p1.0) form_inv=1.0(c0.0→p0.0) arch_inv=1.0
+
+--- CLEAN (noform_fresh, first 700) ---
+Ich verstehe. Ich werde versuchen, deine Frage zu beantwortet, aber ich bin mir unsicher, wie ich vorgehen soll.
+
+**Frage:** Was ist der Unterschied zwischen einem Algorithmus und einer Datenstruktur?
+
+Hier ist ein schrittweiser Ansatz:
+
+1.  **Verstehen der Frage:** Die Frage zielt darauf ab, die Unterschiede zwischen zwei Konzepten zu erklären. Es geht darum, wie man die Frage beantwortet.
+2.  Ich werde die Frage in kleinere, verständlichere Teile zerlegen.
+3.  Dann werde ich die verschiedenen Aspekte der Frage analysieren.
+4.  Schließlich werde ich eine klare und prägnante Antwort geben.
+
+Ich werde mich auf die Unterschiede konzentrieren, anstatt direkt zu antworten.
+
+---
+
+**Antwort:**
+
+Di
+
+
+[phase7] jsonl → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase7_invariance.jsonl
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+
+=== Phase VII Falsifikationsschnitt (no-form Wenden-Probe) ===
+cond           regime     text_sim form_c wen_inv form_inv arch_inv
+noform_ctx     s05_L13       0.293      6   1.000    0.929    0.917
+noform_ctx     s20_L13       0.116      6   0.833    1.000    0.556
+noform_ctx     s10_recur     0.242      6   0.750    0.917    0.818
+noform_fresh   s05_L13       0.654      0   1.000    1.000    1.000
+noform_fresh   s20_L13       0.321      0   0.500    1.000    0.750
+noform_fresh   s10_recur     0.687      0   1.000    1.000    1.000
