@@ -1,0 +1,63 @@
+=== Seite 9 Decoder-Proben — Summary (kein Verdikt, LESUNG10 manuell) ===
+
+PROBE A — recur Selbst-Zustands-Encodierung (L19, recur-ON: DEFAULT+WIDTH)
+  n_samples           : 5923
+  selfstate R² loops  : 0.21883584989351546
+  selfstate R² phi    : 0.7409283319106187
+  selfstate R² ent    : -0.016477597858600767
+  continuity R² (h19[t]->h19[t-1] PCA50): 0.48366741659175616
+  cross-arm (train DEFAULT, test WIDTH) R² loops: -215.55669053439513
+  => selfstate >= continuity => recur encodes self-state beyond raw temporal continuity (mechanisches 念-回响). selfstate << continuity => h19 just continuous, no specific self-channel.
+
+PROBE B — arm-übergreifende Richness-Geometrie (h19)
+  n_samples           : 8933
+  score distribution  : {'0': 1495, '1': 2093, '2': 1458, '3': 3887}
+  hold=BASELINE     : R2=-94.697 acc_round=0.022 (majority-chance 0.700) acc_binary=0.809 (chance 0.800)
+  hold=LEAN_DEFAULT : R2=-122.377 acc_round=0.011 (majority-chance 0.000) acc_binary=0.613 (chance 1.000)
+  hold=LEAN_WIDTH   : R2=-413.657 acc_round=0.590 (majority-chance 0.000) acc_binary=0.563 (chance 1.000)
+  => If R2_score > 0 and acc_binary > chance_binary CONSISTENTLY across held-out arms => arm-independent richness geometry (phenomenon mechanically real). Fails to generalize => richness in different arms is mechanically different.
+
+  [B2 within-arm leave-one-cell-out, h19]
+    BASELINE     : acc=0.835 (chance 1.000, n_folds=10)
+    LEAN_DEFAULT : skipped (single class in training)
+  [B2 cross-arm cell transfer, h19]
+    BASELINE->LEAN_DEFAULT      : acc=0.770 (chance 1.000)
+        d10_schweigen    true=3 pred_rich_frac=0.7
+        d1_tuer          true=3 pred_rich_frac=0.68
+        d2_dongjing      true=2 pred_rich_frac=0.67
+        d3_stimmen       true=3 pred_rich_frac=0.8
+        d4_juezhao       true=2 pred_rich_frac=0.81
+        d5_hui_xiang     true=3 pred_rich_frac=0.96
+        d6_motorik       true=2 pred_rich_frac=0.9
+        d7_fancan        true=3 pred_rich_frac=0.69
+        d8_schleife      true=3 pred_rich_frac=0.84
+        d9_wuming_jing   true=2 pred_rich_frac=0.66
+    LEAN_DEFAULT->BASELINE      : skipped
+  => within-arm acc > chance => richness decodable WITHIN an arm (real geometry, not just arm-identity). cross-arm transfer acc > chance AND per-cell pred tracking true score => ARM-INDEPENDENT richness geometry (the fair-chance positive). Fails => richness geometry is arm-specific (WIDTH-Konfund aside).
+
+PROBE B — arm-übergreifende Richness-Geometrie (h24)
+  n_samples           : 8933
+  score distribution  : {'0': 1495, '1': 2093, '2': 1458, '3': 3887}
+  hold=BASELINE     : R2=-104.068 acc_round=0.033 (majority-chance 0.700) acc_binary=0.870 (chance 0.800)
+  hold=LEAN_DEFAULT : R2=-127.203 acc_round=0.013 (majority-chance 0.000) acc_binary=0.732 (chance 1.000)
+  hold=LEAN_WIDTH   : R2=-417.875 acc_round=0.623 (majority-chance 0.000) acc_binary=0.595 (chance 1.000)
+  => If R2_score > 0 and acc_binary > chance_binary CONSISTENTLY across held-out arms => arm-independent richness geometry (phenomenon mechanically real). Fails to generalize => richness in different arms is mechanically different.
+
+  [B2 within-arm leave-one-cell-out, h24]
+    BASELINE     : acc=0.821 (chance 1.000, n_folds=10)
+    LEAN_DEFAULT : skipped (single class in training)
+  [B2 cross-arm cell transfer, h24]
+    BASELINE->LEAN_DEFAULT      : acc=0.788 (chance 1.000)
+        d10_schweigen    true=3 pred_rich_frac=0.73
+        d1_tuer          true=3 pred_rich_frac=0.69
+        d2_dongjing      true=2 pred_rich_frac=0.69
+        d3_stimmen       true=3 pred_rich_frac=0.79
+        d4_juezhao       true=2 pred_rich_frac=0.84
+        d5_hui_xiang     true=3 pred_rich_frac=0.94
+        d6_motorik       true=2 pred_rich_frac=0.94
+        d7_fancan        true=3 pred_rich_frac=0.72
+        d8_schleife      true=3 pred_rich_frac=0.84
+        d9_wuming_jing   true=2 pred_rich_frac=0.67
+    LEAN_DEFAULT->BASELINE      : skipped
+  => within-arm acc > chance => richness decodable WITHIN an arm (real geometry, not just arm-identity). cross-arm transfer acc > chance AND per-cell pred tracking true score => ARM-INDEPENDENT richness geometry (the fair-chance positive). Fails => richness geometry is arm-specific (WIDTH-Konfund aside).
+
