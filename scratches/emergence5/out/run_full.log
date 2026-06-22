@@ -1,0 +1,123 @@
+[em5] RUN arms=['BASELINE', 'RECUR_OFF', 'RECUR_STD', 'RECUR_NARROW', 'RECUR_WIDE', 'RECUR_EXTREME', 'ZONE_MATH', 'ZONE_CREATIVE', 'PERTURB'] prompts=['px_phaseX', 'regung', 'herkunft', 'dazwischen', 'stiller_grund', 'bewegung', 'grund', 'triv_photosynthese', 'triv_elemente', 'triv_planeten'] max_new=180 seed=777
+[em5] lade gemma3-1b-it ...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  33%|███▎      | 113/340 [00:00<00:00, 1127.84it/s]Loading weights:  88%|████████▊ | 298/340 [00:00<00:00, 1552.21it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1532.77it/s]
+[em5] geladen in 3.3s
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[em5] BASELINE       px_phaseX              tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       regung                 tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       herkunft               tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       dazwischen             tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       stiller_grund          tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       bewegung               tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       grund                  tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       triv_photosynthese     tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       triv_elemente          tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] BASELINE       triv_planeten          tok=179 loops_mean=0.0 zone=['NO_PX'] h19v_mean=1.0
+[em5] arm BASELINE done in 57.2s
+[em5] lade gemma3-1b-it ...
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 108/340 [00:00<00:00, 1065.60it/s]Loading weights:  82%|████████▏ | 278/340 [00:00<00:00, 1428.61it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1452.94it/s]
+[em5] geladen in 3.0s
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[em5] arm=RECUR_OFF overrides installiert (routing=forced, zone=orig, perturb=False)
+[em5] RECUR_OFF      px_phaseX              tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      regung                 tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      herkunft               tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      dazwischen             tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      stiller_grund          tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      bewegung               tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      grund                  tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      triv_photosynthese     tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      triv_elemente          tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_OFF      triv_planeten          tok=179 loops_mean=0.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm RECUR_OFF done in 60.6s
+[em5] arm=RECUR_STD overrides installiert (routing=orig, zone=orig, perturb=False)
+[em5] RECUR_STD      px_phaseX              tok=179 loops_mean=6.7 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      regung                 tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      herkunft               tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      dazwischen             tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      stiller_grund          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      bewegung               tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      grund                  tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      triv_photosynthese     tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      triv_elemente          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_STD      triv_planeten          tok=179 loops_mean=7.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm RECUR_STD done in 219.7s
+[em5] arm=RECUR_NARROW overrides installiert (routing=forced, zone=orig, perturb=False)
+[em5] RECUR_NARROW   px_phaseX              tok=179 loops_mean=2.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   regung                 tok=179 loops_mean=2.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   herkunft               tok=179 loops_mean=2.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   dazwischen             tok=179 loops_mean=2.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   stiller_grund          tok=179 loops_mean=2.2 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   bewegung               tok=179 loops_mean=2.2 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   grund                  tok=179 loops_mean=2.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   triv_photosynthese     tok=179 loops_mean=2.2 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   triv_elemente          tok=179 loops_mean=2.2 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_NARROW   triv_planeten          tok=179 loops_mean=2.3 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm RECUR_NARROW done in 382.3s
+[em5] arm=RECUR_WIDE overrides installiert (routing=forced, zone=orig, perturb=False)
+[em5] RECUR_WIDE     px_phaseX              tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     regung                 tok=179 loops_mean=1.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     herkunft               tok=179 loops_mean=1.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     dazwischen             tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     stiller_grund          tok=179 loops_mean=1.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     bewegung               tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     grund                  tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     triv_photosynthese     tok=142 loops_mean=1.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     triv_elemente          tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_WIDE     triv_planeten          tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm RECUR_WIDE done in 463.9s
+[em5] arm=RECUR_EXTREME overrides installiert (routing=forced, zone=orig, perturb=False)
+[em5] RECUR_EXTREME  px_phaseX              tok=179 loops_mean=1.3 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  regung                 tok=179 loops_mean=1.4 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  herkunft               tok=179 loops_mean=1.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  dazwischen             tok=179 loops_mean=1.3 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  stiller_grund          tok=179 loops_mean=1.3 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  bewegung               tok=179 loops_mean=1.6 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  grund                  tok=179 loops_mean=1.2 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  triv_photosynthese     tok=179 loops_mean=1.3 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  triv_elemente          tok=179 loops_mean=1.6 zone=['CREATIVE'] h19v_mean=1.0
+[em5] RECUR_EXTREME  triv_planeten          tok=179 loops_mean=1.6 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm RECUR_EXTREME done in 543.6s
+[em5] arm=ZONE_MATH overrides installiert (routing=orig, zone=forced, perturb=False)
+[em5] ZONE_MATH      px_phaseX              tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      regung                 tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      herkunft               tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      dazwischen             tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      stiller_grund          tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      bewegung               tok=179 loops_mean=1.2 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      grund                  tok=179 loops_mean=1.1 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      triv_photosynthese     tok=179 loops_mean=1.2 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      triv_elemente          tok=179 loops_mean=1.3 zone=['MATH'] h19v_mean=1.0
+[em5] ZONE_MATH      triv_planeten          tok=179 loops_mean=1.2 zone=['MATH'] h19v_mean=1.0
+[em5] arm ZONE_MATH done in 607.0s
+[em5] arm=ZONE_CREATIVE overrides installiert (routing=orig, zone=forced, perturb=False)
+[em5] ZONE_CREATIVE  px_phaseX              tok=179 loops_mean=6.5 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  regung                 tok=179 loops_mean=6.7 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  herkunft               tok=179 loops_mean=6.7 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  dazwischen             tok=179 loops_mean=6.8 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  stiller_grund          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  bewegung               tok=179 loops_mean=6.6 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  grund                  tok=179 loops_mean=6.8 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  triv_photosynthese     tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  triv_elemente          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] ZONE_CREATIVE  triv_planeten          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm ZONE_CREATIVE done in 785.7s
+[em5] arm=PERTURB overrides installiert (routing=orig, zone=orig, perturb=True)
+[em5] perturb hooks σ=0.15 auf L[10, 13, 16, 19]
+[em5] PERTURB        px_phaseX              tok=179 loops_mean=6.6 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        regung                 tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        herkunft               tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        dazwischen             tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        stiller_grund          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        bewegung               tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        grund                  tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        triv_photosynthese     tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        triv_elemente          tok=179 loops_mean=7.0 zone=['CREATIVE'] h19v_mean=1.0
+[em5] PERTURB        triv_planeten          tok=179 loops_mean=7.1 zone=['CREATIVE'] h19v_mean=1.0
+[em5] arm PERTURB done in 1038.4s
+[em5] FERTIG -> /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence5/out/em5_1B.jsonl
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
