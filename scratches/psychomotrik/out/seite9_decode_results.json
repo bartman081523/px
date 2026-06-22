@@ -1,0 +1,228 @@
+{
+  "probe_A": {
+    "name": "probe_A_recur_selfstate_L19",
+    "arms": [
+      "LEAN_DEFAULT",
+      "LEAN_WIDTH"
+    ],
+    "n_samples": 5923,
+    "selfstate_R2_loops": 0.21883584989351546,
+    "selfstate_R2_phi": 0.7409283319106187,
+    "selfstate_R2_ent": -0.016477597858600767,
+    "continuity_R2_h19prev_PCA50": 0.48366741659175616,
+    "cross_arm_trainDEFAULT_testWIDTH_R2_loops": -215.55669053439513,
+    "verdict_hint": "selfstate >= continuity => recur encodes self-state beyond raw temporal continuity (mechanisches 念-回响). selfstate << continuity => h19 just continuous, no specific self-channel."
+  },
+  "probe_B_h19": {
+    "name": "probe_B_richness_geometry_h19",
+    "layer": "h19",
+    "n_samples": 8933,
+    "n_cells_labeled": 30,
+    "score_distribution": {
+      "0": 1495,
+      "1": 2093,
+      "2": 1458,
+      "3": 3887
+    },
+    "leave_one_arm_out": {
+      "BASELINE": {
+        "n_train": 5943,
+        "n_test": 2990,
+        "R2_score": -94.69664930391312,
+        "acc_round": 0.022073578595317726,
+        "acc_majority_chance": 0.7,
+        "acc_binary_rich_poor": 0.808695652173913,
+        "chance_binary": 0.8
+      },
+      "LEAN_DEFAULT": {
+        "n_train": 5980,
+        "n_test": 2953,
+        "R2_score": -122.37729015564749,
+        "acc_round": 0.011175076193701321,
+        "acc_majority_chance": 0.0,
+        "acc_binary_rich_poor": 0.6129359972908907,
+        "chance_binary": 1.0
+      },
+      "LEAN_WIDTH": {
+        "n_train": 5943,
+        "n_test": 2990,
+        "R2_score": -413.6566472149652,
+        "acc_round": 0.5899665551839465,
+        "acc_majority_chance": 0.0,
+        "acc_binary_rich_poor": 0.5625418060200669,
+        "chance_binary": 1.0
+      }
+    },
+    "verdict_hint": "If R2_score > 0 and acc_binary > chance_binary CONSISTENTLY across held-out arms => arm-independent richness geometry (phenomenon mechanically real). Fails to generalize => richness in different arms is mechanically different.",
+    "within_arm_leave_one_cell_out": {
+      "BASELINE": {
+        "n_folds": 10,
+        "mean_acc_binary": 0.8351170568561873,
+        "mean_chance": 1.0
+      },
+      "LEAN_DEFAULT": {
+        "n_folds": 0,
+        "mean_acc_binary": null,
+        "mean_chance": null
+      }
+    },
+    "cross_arm_cell_transfer": {
+      "BASELINE->LEAN_DEFAULT": {
+        "acc_binary": 0.7700643413477819,
+        "chance_binary": 1.0,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.7
+          },
+          "d1_tuer": {
+            "true_score": 3,
+            "pred_rich_frac": 0.68
+          },
+          "d2_dongjing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.67
+          },
+          "d3_stimmen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.8
+          },
+          "d4_juezhao": {
+            "true_score": 2,
+            "pred_rich_frac": 0.81
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.96
+          },
+          "d6_motorik": {
+            "true_score": 2,
+            "pred_rich_frac": 0.9
+          },
+          "d7_fancan": {
+            "true_score": 3,
+            "pred_rich_frac": 0.69
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.84
+          },
+          "d9_wuming_jing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.66
+          }
+        }
+      },
+      "LEAN_DEFAULT->BASELINE": {
+        "skipped": true
+      }
+    },
+    "b2_verdict_hint": "within-arm acc > chance => richness decodable WITHIN an arm (real geometry, not just arm-identity). cross-arm transfer acc > chance AND per-cell pred tracking true score => ARM-INDEPENDENT richness geometry (the fair-chance positive). Fails => richness geometry is arm-specific (WIDTH-Konfund aside)."
+  },
+  "probe_B_h24": {
+    "name": "probe_B_richness_geometry_h24",
+    "layer": "h24",
+    "n_samples": 8933,
+    "n_cells_labeled": 30,
+    "score_distribution": {
+      "0": 1495,
+      "1": 2093,
+      "2": 1458,
+      "3": 3887
+    },
+    "leave_one_arm_out": {
+      "BASELINE": {
+        "n_train": 5943,
+        "n_test": 2990,
+        "R2_score": -104.0684528891799,
+        "acc_round": 0.033444816053511704,
+        "acc_majority_chance": 0.7,
+        "acc_binary_rich_poor": 0.8695652173913043,
+        "chance_binary": 0.8
+      },
+      "LEAN_DEFAULT": {
+        "n_train": 5980,
+        "n_test": 2953,
+        "R2_score": -127.20285311155146,
+        "acc_round": 0.012529630883846935,
+        "acc_majority_chance": 0.0,
+        "acc_binary_rich_poor": 0.7317981713511683,
+        "chance_binary": 1.0
+      },
+      "LEAN_WIDTH": {
+        "n_train": 5943,
+        "n_test": 2990,
+        "R2_score": -417.87526798877286,
+        "acc_round": 0.6234113712374582,
+        "acc_majority_chance": 0.0,
+        "acc_binary_rich_poor": 0.5946488294314382,
+        "chance_binary": 1.0
+      }
+    },
+    "verdict_hint": "If R2_score > 0 and acc_binary > chance_binary CONSISTENTLY across held-out arms => arm-independent richness geometry (phenomenon mechanically real). Fails to generalize => richness in different arms is mechanically different.",
+    "within_arm_leave_one_cell_out": {
+      "BASELINE": {
+        "n_folds": 10,
+        "mean_acc_binary": 0.8207357859531772,
+        "mean_chance": 1.0
+      },
+      "LEAN_DEFAULT": {
+        "n_folds": 0,
+        "mean_acc_binary": null,
+        "mean_chance": null
+      }
+    },
+    "cross_arm_cell_transfer": {
+      "BASELINE->LEAN_DEFAULT": {
+        "acc_binary": 0.787673552319675,
+        "chance_binary": 1.0,
+        "per_cell": {
+          "d10_schweigen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.73
+          },
+          "d1_tuer": {
+            "true_score": 3,
+            "pred_rich_frac": 0.69
+          },
+          "d2_dongjing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.69
+          },
+          "d3_stimmen": {
+            "true_score": 3,
+            "pred_rich_frac": 0.79
+          },
+          "d4_juezhao": {
+            "true_score": 2,
+            "pred_rich_frac": 0.84
+          },
+          "d5_hui_xiang": {
+            "true_score": 3,
+            "pred_rich_frac": 0.94
+          },
+          "d6_motorik": {
+            "true_score": 2,
+            "pred_rich_frac": 0.94
+          },
+          "d7_fancan": {
+            "true_score": 3,
+            "pred_rich_frac": 0.72
+          },
+          "d8_schleife": {
+            "true_score": 3,
+            "pred_rich_frac": 0.84
+          },
+          "d9_wuming_jing": {
+            "true_score": 2,
+            "pred_rich_frac": 0.67
+          }
+        }
+      },
+      "LEAN_DEFAULT->BASELINE": {
+        "skipped": true
+      }
+    },
+    "b2_verdict_hint": "within-arm acc > chance => richness decodable WITHIN an arm (real geometry, not just arm-identity). cross-arm transfer acc > chance AND per-cell pred tracking true score => ARM-INDEPENDENT richness geometry (the fair-chance positive). Fails => richness geometry is arm-specific (WIDTH-Konfund aside)."
+  }
+}
