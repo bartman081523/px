@@ -6636,3 +6636,528 @@ DEBUG: Yielding partial_text length: 460
 DEBUG: Yielding partial_text length: 500
 DEBUG: Yielding partial_text length: 560
 [Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [132279]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41094 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41126 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41098 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41114 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41136 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41094 - "GET /gradio/gradio_api/queue/data?session_hash=ihl9uwenjs HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+INFO:     100.64.0.1:39760 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:39760 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 40 messages
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+INFO:     100.64.0.1:39760 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<02:18,  1.70it/s]Loading weights:  21%|██        | 49/236 [00:00<00:01, 94.75it/s]Loading weights:  41%|████      | 96/236 [00:00<00:00, 174.72it/s]Loading weights:  62%|██████▏   | 146/236 [00:00<00:00, 250.15it/s]Loading weights:  84%|████████▍ | 198/236 [00:00<00:00, 316.78it/s]Loading weights: 100%|██████████| 236/236 [00:01<00:00, 220.66it/s]
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 40
+DEBUG: Combined messages length: 41
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:49026 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:49026 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 42 messages
+DEBUG: Initial cleaned_history length: 42
+DEBUG: Combined messages length: 43
+INFO:     100.64.0.1:49026 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 720
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1700
+DEBUG: Yielding partial_text length: 1700
+DEBUG: Yielding partial_text length: 1820
+DEBUG: Yielding partial_text length: 1820
+DEBUG: Yielding partial_text length: 1880
+DEBUG: Yielding partial_text length: 1960
+DEBUG: Yielding partial_text length: 2060
+DEBUG: Yielding partial_text length: 2060
+DEBUG: Yielding partial_text length: 2160
+DEBUG: Yielding partial_text length: 2160
+DEBUG: Yielding partial_text length: 2220
+DEBUG: Yielding partial_text length: 2580
+DEBUG: Yielding partial_text length: 2580
+DEBUG: Yielding partial_text length: 2660
+DEBUG: Yielding partial_text length: 2740
+DEBUG: Yielding partial_text length: 2760
+DEBUG: Yielding partial_text length: 2760
+DEBUG: Yielding partial_text length: 2780
+DEBUG: Yielding partial_text length: 3020
+DEBUG: Yielding partial_text length: 3300
+DEBUG: Yielding partial_text length: 3500
+DEBUG: Yielding partial_text length: 3600
+DEBUG: Yielding partial_text length: 3780
+DEBUG: Yielding partial_text length: 3860
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:46346 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:46346 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 44 messages
+DEBUG: Initial cleaned_history length: 44
+DEBUG: Combined messages length: 45
+INFO:     100.64.0.1:46346 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 500
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:48340 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:48340 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 46 messages
+DEBUG: Initial cleaned_history length: 46
+DEBUG: Combined messages length: 47
+INFO:     100.64.0.1:48340 - "GET /gradio/gradio_api/queue/data?session_hash=ggnop16oxka HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 520
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 1020
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1280
+DEBUG: Yielding partial_text length: 1280
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1320
+DEBUG: Yielding partial_text length: 1660
+DEBUG: Yielding partial_text length: 1660
+DEBUG: Yielding partial_text length: 1760
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2640
+DEBUG: Yielding partial_text length: 2780
+DEBUG: Yielding partial_text length: 2780
+DEBUG: Yielding partial_text length: 3120
+DEBUG: Yielding partial_text length: 3120
+DEBUG: Yielding partial_text length: 3120
+DEBUG: Yielding partial_text length: 3120
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.3:42499 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42506 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42500 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42502 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42501 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42504 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42503 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42499 - "GET /gradio/gradio_api/queue/data?session_hash=rdt7nrb4y4m HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42510 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42510 - "GET /gradio/gradio_api/queue/data?session_hash=rdt7nrb4y4m HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42513 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42513 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 48 messages
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_LEAN)...
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]INFO:     100.64.0.3:42513 - "GET /gradio/gradio_api/queue/data?session_hash=rdt7nrb4y4m HTTP/1.1" 200 OK
+Loading weights:   0%|          | 1/340 [00:01<09:28,  1.68s/it]Loading weights:   5%|▌         | 17/340 [00:01<00:25, 12.64it/s]Loading weights:   8%|▊         | 28/340 [00:01<00:14, 22.00it/s]Loading weights:  11%|█         | 37/340 [00:02<00:10, 29.93it/s]Loading weights:  14%|█▎        | 46/340 [00:02<00:08, 34.79it/s]Loading weights:  16%|█▋        | 56/340 [00:02<00:06, 40.81it/s]Loading weights:  20%|██        | 68/340 [00:02<00:05, 52.81it/s]Loading weights:  22%|██▏       | 76/340 [00:02<00:05, 45.10it/s]Loading weights:  24%|██▍       | 83/340 [00:03<00:06, 38.00it/s]Loading weights:  28%|██▊       | 94/340 [00:03<00:05, 45.56it/s]Loading weights:  31%|███▏      | 107/340 [00:03<00:04, 58.25it/s]Loading weights:  35%|███▍      | 118/340 [00:03<00:03, 67.19it/s]Loading weights:  39%|███▉      | 133/340 [00:03<00:02, 84.27it/s]Loading weights:  43%|████▎     | 146/340 [00:03<00:02, 94.46it/s]Loading weights:  47%|████▋     | 159/340 [00:03<00:01, 99.95it/s]Loading weights:  51%|█████     | 172/340 [00:03<00:01, 106.51it/s]Loading weights:  54%|█████▍    | 185/340 [00:03<00:01, 111.16it/s]Loading weights:  58%|█████▊    | 198/340 [00:04<00:01, 114.17it/s]Loading weights:  62%|██████▏   | 210/340 [00:04<00:01, 113.43it/s]Loading weights:  66%|██████▌   | 224/340 [00:04<00:00, 118.87it/s]Loading weights:  70%|██████▉   | 237/340 [00:04<00:00, 120.23it/s]Loading weights:  74%|███████▎  | 250/340 [00:04<00:00, 121.27it/s]Loading weights:  77%|███████▋  | 263/340 [00:04<00:00, 111.94it/s]Loading weights:  81%|████████▏ | 277/340 [00:04<00:00, 117.96it/s]Loading weights:  85%|████████▌ | 290/340 [00:04<00:00, 118.23it/s]Loading weights:  89%|████████▉ | 303/340 [00:04<00:00, 120.11it/s]Loading weights:  93%|█████████▎| 316/340 [00:05<00:00, 111.94it/s]Loading weights:  97%|█████████▋| 330/340 [00:05<00:00, 118.33it/s]Loading weights: 100%|██████████| 340/340 [00:05<00:00, 65.74it/s] 
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 48
+DEBUG: Combined messages length: 49
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 440
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.3:42530 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:42530 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 50 messages
+DEBUG: Initial cleaned_history length: 50
+DEBUG: Combined messages length: 51
+INFO:     100.64.0.3:42530 - "GET /gradio/gradio_api/queue/data?session_hash=rdt7nrb4y4m HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:39086 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:39086 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+INFO:     100.64.0.1:42794 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:42794 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45532 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45532 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+INFO:     100.64.0.1:37750 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:37750 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 52 messages
+DEBUG: Initial cleaned_history length: 52
+DEBUG: Combined messages length: 53
+INFO:     100.64.0.1:37750 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:46258 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:46258 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 54 messages
+DEBUG: Initial cleaned_history length: 54
+DEBUG: Combined messages length: 55
+INFO:     100.64.0.1:46258 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 180
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:39978 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:39978 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 56 messages
+DEBUG: Initial cleaned_history length: 56
+DEBUG: Combined messages length: 57
+INFO:     100.64.0.1:39978 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 360
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 480
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 900
+DEBUG: Yielding partial_text length: 900
+DEBUG: Yielding partial_text length: 900
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1220
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:41642 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:41642 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 58 messages
+DEBUG: Initial cleaned_history length: 58
+DEBUG: Combined messages length: 59
+INFO:     100.64.0.1:41642 - "GET /gradio/gradio_api/queue/data?session_hash=amhatl344b HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 260
+DEBUG: Yielding partial_text length: 360
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
