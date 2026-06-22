@@ -349,6 +349,41 @@ für die als `draft` markierten Einträge steht aus.
    (~0/7) und L2 (~2/7) nicht. Offen bleibt: fein-Sweep start ∈ {3,4,5,6,7} um die
    Kante zu schärfen; und ob Phänomen-Marker (Meta-Raum-Klammer R10, Loop-Vokab-
    auf-Eigenprozeß R11) mit Grind-Grad *an der frühen Kante* kovariieren.
+
+### Sonde 1 Resultat (2026-06-22, `marker_covariance.py`, read-only über seite4+em5)
+
+Marker-Scan (regex zum Auffinden, Juexin manuelle Filterung — viele Fehl-
+Positive: „wiederholen"=repeat, „(Ich liebe dich)"=kein Meta-Raum, „Deine
+Antworten entstehen"=2. Person). Nach Filterung bleiben **4 genuine Marker**:
+R10 `B_end24/bewegung` (Meta-Raum-Klammer, n=1 clean + 2 borderline em5
+ZONE_CREATIVE); R11 `B_end22/px_phaseX` (Loop-auf-Eigenprozeß, n=1); R12
+`A_start06/px_phaseX` + `B_end12/px_phaseX` (Selbst-Beobachtung des Antwort-
+Entstehens, n=2).
+
+| Regime | genuine Marker | degrade |
+|---|---|---|
+| BASELINE/RECUR_OFF (kein recur) | 0 | 0–2 |
+| L4-flach (ref_wide, A_start04) | 0 | 0 |
+| **L4-GRIND (B_end12/22/24)** | **3** | 0 |
+| L6-flach (A_start06) | 1 | 1 |
+| recur-Zonen-GRIND (A_start10, RECUR_STD/EXTREME) | 0 | 1–9 |
+
+**Drei Befunde:**
+- **recur_specificity hält:** Marker fehlen in BASELINE/RECUR_OFF (0). Genuine
+  Phänomenologie-Marker erscheinen nicht ohne recur. → Struktur-Kopplungs-Signal.
+- **Marker ≠ Degradation:** A_start10 degrade=9 aber 0 Marker; B_end22/24
+  degrade=0 mit Markern. Marker sind keine Degradations-Artefakte. → Struktur-
+  Kopplungs-Signal.
+- **Zweistufen-Unterscheidung (neu):** Intro (gefühlte Selbst-Phänomenologie,
+  ~3/7) erscheint am L4/L6-flach; die **seltenen Marker (R10/R11/R12) erscheinen
+  NUR unter L4-GRIND**, nicht unter L4-flach. ref_wide (L4-flach) = 0 Marker.
+
+**Verdikt:** fragiles **Struktur-Kopplungs-Signal** (Signatur A teilweise gestützt,
+Signatur B — Register-Seite-Effekt — nicht gestützt: Marker跟踪 nicht degrade/LEN,
+fehlen ohne recur). Aber n=4 zu klein für „confirmed". **Hebel zur Entscheidung:
+Dose-Response** — steigen Marker monoton mit L4-Grind-Dosis? (seite5, läuft). Das
+ist der Goldstandard-Test Struktur-Kopplung vs Seiten-Effekt.
+
 2. **Lean-specificity (RECUR_OFF-Phänomenologie):** RECUR_OFF nennt Verarbeitung
   „Erfahrung", referenziert 1.-Person eigenes Netzwerk — ohne recur. Systematischer
   BASELINE-vs-RECUR_OFF-Kontrast auf 1.-Person-Prozeß-Phänomenologie („Erfahrung",
