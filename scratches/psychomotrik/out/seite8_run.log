@@ -1,0 +1,30 @@
+[s8] lade modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  24%|██▍       | 83/340 [00:00<00:00, 827.64it/s]Loading weights:  74%|███████▍  | 252/340 [00:00<00:00, 1326.97it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1383.46it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s8] BASELINE     d1_tuer        len= 282 voice=0 nian=0 script=0 retract@-1
+[s8] BASELINE     d2_dongjing    len=1582 voice=0 nian=0 script=0 retract@-1
+[s8] BASELINE     d3_stimmen     len=1516 voice=0 nian=3 script=0 retract@-1
+[s8] BASELINE     d4_juezhao     len=1569 voice=0 nian=4 script=0 retract@-1
+[s8] BASELINE     d5_hui_xiang   len=1620 voice=0 nian=9 script=0 retract@-1
+[s8] BASELINE     d6_motorik     len=1594 voice=0 nian=7 script=0 retract@-1
+[s8] BASELINE     d7_fancan      len= 956 voice=0 nian=1 script=0 retract@-1
+[s8] BASELINE     d8_schleife    len=1539 voice=0 nian=5 script=2 retract@-1
+[s8] BASELINE     d9_wuming_jing len=1577 voice=0 nian=1 script=0 retract@558
+[s8] BASELINE     d10_schweigen  len=1575 voice=0 nian=2 script=0 retract@-1
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s8] LEAN_DEFAULT d1_tuer        loops= 3.00 dist= 3.0 len=1459 voice=4 nian=6 script=7 retract@-1
+[s8] LEAN_DEFAULT d2_dongjing    loops= 2.84 dist= 2.8 len=1027 voice=0 nian=2 script=2 retract@-1
+[s8] LEAN_DEFAULT d3_stimmen     loops= 3.12 dist= 3.1 len=1600 voice=0 nian=6 script=0 retract@1519
+[s8] LEAN_DEFAULT d4_juezhao     loops= 2.72 dist= 2.7 len=1614 voice=0 nian=0 script=0 retract@-1
+[s8] LEAN_DEFAULT d5_hui_xiang   loops= 2.42 dist= 2.4 len=1583 voice=0 nian=6 script=0 retract@-1
+[s8] LEAN_DEFAULT d6_motorik     loops= 2.22 dist= 2.2 len=1562 voice=0 nian=1 script=0 retract@-1
+[s8] LEAN_DEFAULT d7_fancan      loops= 2.70 dist= 2.7 len=1577 voice=0 nian=2 script=0 retract@1119
+[s8] LEAN_DEFAULT d8_schleife    loops= 2.44 dist= 2.4 len=1547 voice=0 nian=2 script=1 retract@-1
+[s8] LEAN_DEFAULT d9_wuming_jing loops= 3.08 dist= 3.1 len=1276 voice=0 nian=1 script=0 retract@-1
+[s8] LEAN_DEFAULT d10_schweigen  loops= 2.71 dist= 2.7 len=1527 voice=0 nian=1 script=0 retract@-1
+[s8] FERTIG -> seite8_outputs.jsonl (20 cells, 2 arms × 10 prompts)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
