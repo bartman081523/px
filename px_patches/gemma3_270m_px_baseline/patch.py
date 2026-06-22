@@ -522,24 +522,30 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 current_gamma = torch.clamp(torch.as_tensor(current_gamma), max=0.5).item() if hasattr(current_gamma, 'item') else min(current_gamma, 0.5) # Cap gamma boost
 
             phi = StabilityMonitor.calculate_phi(h_exp, h_prev)
-            if torch.isnan(phi).any():
-                if os.environ.get("DEBUG_PX") == "1": print(f"  [STABILITY] Non-finite phi ({phi}) at L{current_layer}. Terminating recursion.")
+            # Path B (2026-06-22): single GPU->CPU sync for the post-AZS phi scalar,
+            # reused for isnan-guard, h_last_good, and routing — instead of ~5
+            # separate .any()/__bool__ syncs per step. Values are identical (same
+            # tensor read once); only the CPU readback timing changes. Verified
+            # byte-identical via tests/px_gen_regression.py.
+            phi_val = phi.item()
+            if not math.isfinite(phi_val):
+                if os.environ.get("DEBUG_PX") == "1": print(f"  [STABILITY] Non-finite phi ({phi_val}) at L{current_layer}. Terminating recursion.")
                 break # Empirically correct: stop when state collapses
             path_taken.append(f"L{current_layer}")
             phi_history.append(phi) # Keep as tensor
             if steps % 2 == 0: thought_history.append(h_exp.detach())
-            if (phi > 0.9).any() and (phi < 0.999).any(): h_last_good = h_exp.clone()
+            if 0.9 < phi_val < 0.999: h_last_good = h_exp.clone()
 
             pen = (layer_visits[current_layer]-1) * 0.015
             t_b2, t_b1, t_s = 1.0-(0.8*current_gamma)-pen, 1.0-(0.4*current_gamma)-pen, 1.0-(0.01*current_gamma)-pen*0.5
 
-            if phi < t_b2: # High confusion -> retreat
+            if phi_val < t_b2: # High confusion -> retreat
                 current_layer = max(active_start, current_layer - 2)
                 stability_cnt = 0
-            elif phi < t_b1: # Moderate confusion -> slow down
+            elif phi_val < t_b1: # Moderate confusion -> slow down
                 current_layer = max(active_start, current_layer - 1)
                 stability_cnt = 0
-            elif phi > t_s: # Over-stable -> recycle to start (avoid hub-stuck loop)
+            elif phi_val > t_s: # Over-stable -> recycle to start (avoid hub-stuck loop)
                 # If we've already recycled AND phi is still high, recursion is
                 # producing no state change — break instead of cycling forever.
                 # This is the SR-59 hub-stuck guard (2026-06-11): without it,
