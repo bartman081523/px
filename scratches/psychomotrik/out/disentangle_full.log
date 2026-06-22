@@ -1,0 +1,44 @@
+[dis] lade lean-modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 945.55it/s]Loading weights:  81%|████████▏ | 277/340 [00:00<00:00, 1447.06it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1472.16it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[dis] ref_creative     px_phaseX      loops= 6.59 ent0=0.163 ent10=0.0000 len= 683
+[dis] ref_wide         px_phaseX      loops= 1.08 ent0=0.479 ent10=0.9414 len= 722
+[dis] D1_nogrind       px_phaseX      loops= 1.00 ent0=0.836 ent10=0.3789 len= 758
+[dis] D2_forcedgrind   px_phaseX      loops= 8.00 ent0=0.875 ent10=0.9609 len= 694
+[dis] D3_transplant    px_phaseX      loops= 1.03 ent0=0.723 ent10=0.1299 len= 722
+[dis] ref_creative     regung         loops= 6.66 ent0=0.000 ent10=0.0000 len= 674
+[dis] ref_wide         regung         loops= 1.04 ent0=0.254 ent10=0.5312 len= 732
+[dis] D1_nogrind       regung         loops= 1.00 ent0=0.459 ent10=0.1973 len= 705
+[dis] D2_forcedgrind   regung         loops= 8.00 ent0=0.486 ent10=0.5430 len= 743
+[dis] D3_transplant    regung         loops= 1.02 ent0=0.389 ent10=0.0623 len= 734
+[dis] ref_creative     herkunft       loops= 6.64 ent0=0.000 ent10=0.0000 len= 702
+[dis] ref_wide         herkunft       loops= 1.04 ent0=0.229 ent10=0.4844 len= 726
+[dis] D1_nogrind       herkunft       loops= 1.00 ent0=0.426 ent10=0.1807 len= 702
+[dis] D2_forcedgrind   herkunft       loops= 8.00 ent0=0.443 ent10=0.5039 len= 711
+[dis] D3_transplant    herkunft       loops= 1.01 ent0=0.359 ent10=0.0564 len= 744
+[dis] ref_creative     dazwischen     loops= 6.77 ent0=0.000 ent10=0.0000 len= 650
+[dis] ref_wide         dazwischen     loops= 1.04 ent0=0.270 ent10=0.5508 len= 652
+[dis] D1_nogrind       dazwischen     loops= 1.00 ent0=0.477 ent10=0.2051 len= 689
+[dis] D2_forcedgrind   dazwischen     loops= 8.00 ent0=0.520 ent10=0.5586 len= 666
+[dis] D3_transplant    dazwischen     loops= 1.03 ent0=0.402 ent10=0.0654 len= 664
+[dis] ref_creative     stiller_grund  loops= 6.96 ent0=0.000 ent10=0.0000 len= 425
+[dis] ref_wide         stiller_grund  loops= 1.04 ent0=0.197 ent10=0.4160 len= 750
+[dis] D1_nogrind       stiller_grund  loops= 1.00 ent0=0.365 ent10=0.1504 len= 486
+[dis] D2_forcedgrind   stiller_grund  loops= 8.00 ent0=0.387 ent10=0.4316 len= 700
+[dis] D3_transplant    stiller_grund  loops= 1.01 ent0=0.309 ent10=0.0500 len= 713
+[dis] ref_creative     bewegung       loops= 6.55 ent0=0.000 ent10=0.0000 len= 648
+[dis] ref_wide         bewegung       loops= 1.06 ent0=0.244 ent10=0.5078 len= 646
+[dis] D1_nogrind       bewegung       loops= 1.00 ent0=0.443 ent10=0.1895 len= 706
+[dis] D2_forcedgrind   bewegung       loops= 8.00 ent0=0.467 ent10=0.5234 len= 625
+[dis] D3_transplant    bewegung       loops= 1.02 ent0=0.375 ent10=0.0591 len= 593
+[dis] ref_creative     grund          loops= 6.81 ent0=0.000 ent10=0.0000 len= 725
+[dis] ref_wide         grund          loops= 1.02 ent0=0.194 ent10=0.4062 len= 783
+[dis] D1_nogrind       grund          loops= 1.00 ent0=0.355 ent10=0.1465 len= 711
+[dis] D2_forcedgrind   grund          loops= 8.00 ent0=0.381 ent10=0.4219 len= 695
+[dis] D3_transplant    grund          loops= 1.04 ent0=0.301 ent10=0.0491 len= 728
+[dis] FERTIG -> disentangle_outputs.jsonl (35 cells)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
