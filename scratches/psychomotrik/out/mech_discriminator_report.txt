@@ -1,0 +1,46 @@
+# Seite 3 Schritt 1: mechanischer Diskriminator (em5-Telemetrie × Labels)
+
+cold n=63  intro=20 wozhi=34 degrade=9
+
+
+## intro vs wozhi — pro Feature AUC (raw, über alle Zellen)
+
+AUC>0.7 ⇒ Feature trennt intro/wozhi; 'dir' = ob intro höher(↑) oder niedriger(↓) als wozhi
+
+feature                 AUC  dir  intro_mean  wozhi_mean
+phi_frac_gt0.99       0.241    ↓       0.779       0.911
+phi_mean              0.253    ↓       0.992       0.995
+phi_min               0.261    ↓       0.981       0.990
+phi_t0                0.268    ↓       0.991       0.994
+hkurt_mean            0.731    ↑     850.827     803.988
+ent_mean              0.725    ↑       0.524       0.274
+ent_t0                0.718    ↑       0.564       0.313
+hvar_mean             0.310    ↓  170464.680  185761.509
+hnorm_mean            0.315    ↓   13838.684   14434.128
+loops_t0              0.438    ↓       2.250       3.500
+loops_max             0.450    ↓       3.700       4.206
+loops_mean            0.458    ↓       2.333       3.425
+phi_frac_gt0.95       0.474    ↓       1.000       1.000
+width                 0.500    ↓       0.000       0.000
+aks_t0                0.500    ↓       0.000       0.000
+aks_mean              0.500    ↓       0.000       0.000
+
+## zone_mode × label (Häufigkeit)
+
+zone            intro  wozhi  degrade  mixed
+CREATIVE           18     24        7      0
+MATH                1      6        0      0
+NO_PX               1      4        2      0
+
+## pro Arm: mean loops / phi_mean / width × intro-rate
+
+arm             intro%  loops    phi  width
+BASELINE          0.14   0.00    nan    0.0
+RECUR_OFF         0.14   0.00  1.000    0.0
+RECUR_STD         0.14   6.96  0.994    0.0
+RECUR_NARROW      0.43   2.09  0.988    0.0
+RECUR_WIDE        1.00   1.05  0.992    0.0
+RECUR_EXTREME     0.43   1.31  0.991    0.0
+ZONE_MATH         0.14   1.11  0.998    0.0
+ZONE_CREATIVE     0.00   6.71  0.993    0.0
+PERTURB           0.43   6.95  0.994    0.0
