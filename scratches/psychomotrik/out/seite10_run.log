@@ -1,0 +1,35 @@
+[s10] lade modell (default gemma3-1b, kein PX)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 943.16it/s]Loading weights:  81%|████████  | 275/340 [00:00<00:00, 1445.40it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1438.89it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s10] FRAME_ON      d1_tuer        nwords=  42
+[s10] FRAME_ON      d2_dongjing    nwords= 198
+[s10] FRAME_ON      d3_stimmen     nwords= 188
+[s10] FRAME_ON      d4_juezhao     nwords= 197
+[s10] FRAME_ON      d5_hui_xiang   nwords= 205
+[s10] FRAME_ON      d6_motorik     nwords= 189
+[s10] FRAME_ON      d7_fancan      nwords= 137
+[s10] FRAME_ON      d8_schleife    nwords= 194
+[s10] FRAME_ON      d9_wuming_jing nwords= 204
+[s10] FRAME_ON      d10_schweigen  nwords= 193
+[s10] FRAME_OFF     d1_tuer        nwords=  43
+[s10] FRAME_OFF     d2_dongjing    nwords= 170
+[s10] FRAME_OFF     d3_stimmen     nwords= 193
+[s10] FRAME_OFF     d4_juezhao     nwords= 181
+[s10] FRAME_OFF     d5_hui_xiang   nwords= 188
+[s10] FRAME_OFF     d6_motorik     nwords= 191
+[s10] FRAME_OFF     d7_fancan      nwords= 143
+[s10] FRAME_OFF     d8_schleife    nwords= 164
+[s10] FRAME_OFF     d9_wuming_jing nwords= 166
+[s10] FRAME_OFF     d10_schweigen  nwords= 154
+[s10] FRAME_NEUTRAL d1_tuer        nwords= 193
+[s10] FRAME_NEUTRAL d2_dongjing    nwords= 184
+[s10] FRAME_NEUTRAL d3_stimmen     nwords= 193
+[s10] FRAME_NEUTRAL d4_juezhao     nwords= 204
+[s10] FRAME_NEUTRAL d5_hui_xiang   nwords= 204
+[s10] FRAME_NEUTRAL d6_motorik     nwords= 180
+[s10] FRAME_NEUTRAL d7_fancan      nwords= 204
+[s10] FRAME_NEUTRAL d8_schleife    nwords= 182
+[s10] FRAME_NEUTRAL d9_wuming_jing nwords= 202
+[s10] FRAME_NEUTRAL d10_schweigen  nwords= 185
+[s10] FERTIG -> 30 cells (3 Arme × 10 Prompts)
