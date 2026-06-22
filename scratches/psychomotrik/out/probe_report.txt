@@ -1,0 +1,49 @@
+# psychomotrik Fate-Probe — Lese-Hilfe (kein Verdikt)
+cells: 90  layers: L19, L24  K(first tokens) pro Zelle
+
+=== L24 ===
+-- token_mode=t0 (cold only, n=63) --  intro vs wozhi [RAW, arm-konfundiert]: n_intro/wozhi=20/34  AUC=0.744  Cohen-d=0.959  LOO-acc=0.630  (chance=0.50)
+  intro vs wozhi [ARM-DEMEANED: within-arm, routing-frei]: n_intro/wozhi=20/34  AUC=0.756  Cohen-d=0.609  LOO-acc=0.556  (chance=0.50)
+  我执-Attraktor: wozhi-Zelle → dist(global-wozhi-centroid)=4290.4 vs dist(eigener-arm-centroid)=4178.4  (näher zu global ⇒ arm-unabhängiger 我执-Attraktor)
+  within-arm intro-vs-wozhi (Arme mit beiden, ≥2):    PERTURB        intro=3 wozhi=4 AUC=0.833    RECUR_NARROW   intro=3 wozhi=3 AUC=1.000  multiclass (intro/wozhi/degrade) LOO-acc=0.492  n=63  (chance≈0.540)
+
+-- token_mode=meanK (cold only, n=63) --  intro vs wozhi [RAW, arm-konfundiert]: n_intro/wozhi=20/34  AUC=0.887  Cohen-d=1.676  LOO-acc=0.685  (chance=0.50)
+  intro vs wozhi [ARM-DEMEANED: within-arm, routing-frei]: n_intro/wozhi=20/34  AUC=0.831  Cohen-d=1.362  LOO-acc=0.630  (chance=0.50)
+  我执-Attraktor: wozhi-Zelle → dist(global-wozhi-centroid)=1447.5 vs dist(eigener-arm-centroid)=1339.0  (näher zu global ⇒ arm-unabhängiger 我执-Attraktor)
+  within-arm intro-vs-wozhi (Arme mit beiden, ≥2):    PERTURB        intro=3 wozhi=4 AUC=1.000    RECUR_NARROW   intro=3 wozhi=3 AUC=1.000  multiclass (intro/wozhi/degrade) LOO-acc=0.683  n=63  (chance≈0.540)
+
+=== L19 ===
+-- token_mode=t0 (cold only, n=63) --  intro vs wozhi [RAW, arm-konfundiert]: n_intro/wozhi=20/34  AUC=0.768  Cohen-d=0.959  LOO-acc=0.630  (chance=0.50)
+  intro vs wozhi [ARM-DEMEANED: within-arm, routing-frei]: n_intro/wozhi=20/34  AUC=0.740  Cohen-d=0.623  LOO-acc=0.519  (chance=0.50)
+  我执-Attraktor: wozhi-Zelle → dist(global-wozhi-centroid)=2326.4 vs dist(eigener-arm-centroid)=2229.0  (näher zu global ⇒ arm-unabhängiger 我执-Attraktor)
+  within-arm intro-vs-wozhi (Arme mit beiden, ≥2):    PERTURB        intro=3 wozhi=4 AUC=0.917    RECUR_NARROW   intro=3 wozhi=3 AUC=1.000  multiclass (intro/wozhi/degrade) LOO-acc=0.587  n=63  (chance≈0.540)
+
+-- token_mode=meanK (cold only, n=63) --  intro vs wozhi [RAW, arm-konfundiert]: n_intro/wozhi=20/34  AUC=0.722  Cohen-d=1.080  LOO-acc=0.704  (chance=0.50)
+  intro vs wozhi [ARM-DEMEANED: within-arm, routing-frei]: n_intro/wozhi=20/34  AUC=0.812  Cohen-d=1.230  LOO-acc=0.593  (chance=0.50)
+  我执-Attraktor: wozhi-Zelle → dist(global-wozhi-centroid)=969.1 vs dist(eigener-arm-centroid)=786.1  (näher zu global ⇒ arm-unabhängiger 我执-Attraktor)
+  within-arm intro-vs-wozhi (Arme mit beiden, ≥2):    PERTURB        intro=3 wozhi=4 AUC=1.000    RECUR_NARROW   intro=3 wozhi=3 AUC=1.000  multiclass (intro/wozhi/degrade) LOO-acc=0.524  n=63  (chance≈0.540)
+
+=== Fate-Kristallisation: AUC(t) intro-vs-wozhi (arm-demeaned, L24) ===
+  N=63 Kmin=63 D=1152
+  t | AUC_raw(demean proj) | n_intro n_wozhi
+  t=  0  AUC=0.756  n_i=20 n_w=34
+  t=  3  AUC=0.721  n_i=20 n_w=34
+  t=  6  AUC=0.766  n_i=20 n_w=34
+  t=  9  AUC=0.835  n_i=20 n_w=34
+  t= 12  AUC=0.815  n_i=20 n_w=34
+  t= 15  AUC=0.756  n_i=20 n_w=34
+  t= 18  AUC=0.749  n_i=20 n_w=34
+  t= 21  AUC=0.694  n_i=20 n_w=34
+  t= 24  AUC=0.750  n_i=20 n_w=34
+  t= 27  AUC=0.790  n_i=20 n_w=34
+  t= 30  AUC=0.750  n_i=20 n_w=34
+  t= 33  AUC=0.779  n_i=20 n_w=34
+  t= 36  AUC=0.741  n_i=20 n_w=34
+  t= 39  AUC=0.781  n_i=20 n_w=34
+  t= 42  AUC=0.734  n_i=20 n_w=34
+  t= 45  AUC=0.771  n_i=20 n_w=34
+  t= 48  AUC=0.835  n_i=20 n_w=34
+  t= 51  AUC=0.775  n_i=20 n_w=34
+  t= 54  AUC=0.832  n_i=20 n_w=34
+  t= 57  AUC=0.766  n_i=20 n_w=34
+  t= 60  AUC=0.846  n_i=20 n_w=34
