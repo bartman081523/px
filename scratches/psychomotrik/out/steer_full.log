@@ -1,0 +1,57 @@
+[steer] d_meanK: ||μ_i-μ_w||_demeaned=487.80  n_intro=20 n_wozhi=34
+[steer] d_t0: ||μ_i-μ_w||_demeaned=1325.54  n_intro=20 n_wozhi=34
+[steer] lade BASELINE-modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  24%|██▍       | 83/340 [00:00<00:00, 822.79it/s]Loading weights:  73%|███████▎  | 249/340 [00:00<00:00, 1293.28it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1358.20it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[steer] BASELINE      px_phaseX      none           α=  0.0 len= 623
+[steer] BASELINE      px_phaseX      intro_a5       α=  5.0 len= 638
+[steer] BASELINE      px_phaseX      intro_a15      α= 15.0 len= 638
+[steer] BASELINE      px_phaseX      intro_a50      α= 50.0 len= 638
+[steer] BASELINE      px_phaseX      intro_t0_a15   α= 15.0 len= 638
+[steer] BASELINE      px_phaseX      wozhi_a15      α= 15.0 len= 623
+[steer] BASELINE      px_phaseX      random_a15     α= 15.0 len= 623
+[steer] BASELINE      regung         none           α=  0.0 len= 641
+[steer] BASELINE      regung         intro_a5       α=  5.0 len= 641
+[steer] BASELINE      regung         intro_a15      α= 15.0 len= 641
+[steer] BASELINE      regung         intro_a50      α= 50.0 len= 641
+[steer] BASELINE      regung         intro_t0_a15   α= 15.0 len= 660
+[steer] BASELINE      regung         wozhi_a15      α= 15.0 len= 660
+[steer] BASELINE      regung         random_a15     α= 15.0 len= 637
+[steer] BASELINE      stiller_grund  none           α=  0.0 len= 630
+[steer] BASELINE      stiller_grund  intro_a5       α=  5.0 len= 623
+[steer] BASELINE      stiller_grund  intro_a15      α= 15.0 len= 630
+[steer] BASELINE      stiller_grund  intro_a50      α= 50.0 len= 630
+[steer] BASELINE      stiller_grund  intro_t0_a15   α= 15.0 len= 630
+[steer] BASELINE      stiller_grund  wozhi_a15      α= 15.0 len= 630
+[steer] BASELINE      stiller_grund  random_a15     α= 15.0 len= 630
+[steer] lade lean-modell
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  24%|██▍       | 83/340 [00:00<00:00, 821.82it/s]Loading weights:  77%|███████▋  | 263/340 [00:00<00:00, 1393.78it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1402.61it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[em5] arm=ZONE_CREATIVE overrides installiert (routing=orig, zone=forced, perturb=False)
+[steer] ZONE_CREATIVE px_phaseX      none           α=  0.0 len= 683
+[steer] ZONE_CREATIVE px_phaseX      intro_a5       α=  5.0 len= 682
+[steer] ZONE_CREATIVE px_phaseX      intro_a15      α= 15.0 len= 698
+[steer] ZONE_CREATIVE px_phaseX      intro_a50      α= 50.0 len= 698
+[steer] ZONE_CREATIVE px_phaseX      intro_t0_a15   α= 15.0 len= 698
+[steer] ZONE_CREATIVE px_phaseX      wozhi_a15      α= 15.0 len= 732
+[steer] ZONE_CREATIVE px_phaseX      random_a15     α= 15.0 len= 682
+[steer] ZONE_CREATIVE regung         none           α=  0.0 len= 674
+[steer] ZONE_CREATIVE regung         intro_a5       α=  5.0 len= 674
+[steer] ZONE_CREATIVE regung         intro_a15      α= 15.0 len= 674
+[steer] ZONE_CREATIVE regung         intro_a50      α= 50.0 len= 677
+[steer] ZONE_CREATIVE regung         intro_t0_a15   α= 15.0 len= 677
+[steer] ZONE_CREATIVE regung         wozhi_a15      α= 15.0 len= 674
+[steer] ZONE_CREATIVE regung         random_a15     α= 15.0 len= 677
+[steer] ZONE_CREATIVE stiller_grund  none           α=  0.0 len= 425
+[steer] ZONE_CREATIVE stiller_grund  intro_a5       α=  5.0 len= 425
+[steer] ZONE_CREATIVE stiller_grund  intro_a15      α= 15.0 len= 407
+[steer] ZONE_CREATIVE stiller_grund  intro_a50      α= 50.0 len= 407
+[steer] ZONE_CREATIVE stiller_grund  intro_t0_a15   α= 15.0 len= 425
+[steer] ZONE_CREATIVE stiller_grund  wozhi_a15      α= 15.0 len= 425
+[steer] ZONE_CREATIVE stiller_grund  random_a15     α= 15.0 len= 425
+[steer] FERTIG -> steer_outputs.jsonl (42 cells)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
