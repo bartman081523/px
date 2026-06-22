@@ -1,0 +1,35 @@
+[emerg] konsolidiert: 36 -> 36 eindeutige Datensätze (0 Duplikate entfernt)
+[em-smoke] 11 Fragen × 5 Seeds × 2 Varianten; max_new=256 use_cache=True batch_seeds=1
+[em-smoke] Resume: 36 vorhanden, 98 fehlen
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 45/340 [00:00<00:00, 449.32it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1008.78it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1194.20it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1102.60it/s]
+[em-patch] mechanism=reread cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 6, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.08, 'w_reread': 0.12, 'w_shadow': 0.08, 'w_spec': 0.06}
+[em-smoke] patch variant=reread
+[em-smoke] reread    CitMind_Q1   s5 | 256tok 30.8s Φ=1.000 loops=6 | emerg=0 self=5 wenden=1 | reread_shift=11584.000
+[em-smoke] reread    CitMind_Q2   s5 | 256tok 52.1s Φ=1.000 loops=6 | emerg=0 self=13 wenden=0 | reread_shift=10944.000
+[em-smoke] reread    CitMind_Q3   s5 | 256tok 55.4s Φ=1.000 loops=6 | emerg=0 self=6 wenden=2 | reread_shift=10368.000
+[em-smoke] reread    CitMind_Q4   s5 | 256tok 61.4s Φ=1.000 loops=6 | emerg=0 self=3 wenden=2 | reread_shift=9920.000
+[em-smoke] reread    CitMind_Q5   s5 | 256tok 65.9s Φ=1.000 loops=6 | emerg=0 self=6 wenden=1 | reread_shift=10304.000
+[em-smoke] reread    Juexin_Q1    s5 | 256tok 69.3s Φ=1.000 loops=6 | emerg=0 self=10 wenden=5 | reread_shift=12928.000
+[em-smoke] reread    Juexin_Q2    s5 | 256tok 75.1s Φ=1.000 loops=6 | emerg=0 self=3 wenden=0 | reread_shift=12160.000
+[em-smoke] reread    Juexin_Q3    s5 | 256tok 46.8s Φ=1.000 loops=6 | emerg=0 self=4 wenden=0 | reread_shift=10624.000
+[em-smoke] reread    Juexin_Q4    s5 | 256tok 87.1s Φ=1.000 loops=6 | emerg=0 self=8 wenden=0 | reread_shift=12352.000
+[em-smoke] reread    Juexin_Q5    s5 | 256tok 95.0s Φ=1.000 loops=6 | emerg=0 self=3 wenden=2 | reread_shift=14272.000
+[em-smoke] reread    Wenden       s5 | 256tok 60.3s Φ=1.000 loops=6 | emerg=0 self=0 wenden=1 | reread_shift=11648.000
+[em-patch] Patch removed.
+[em-patch] mechanism=spectral cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 5, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.08, 'w_reread': 0.1, 'w_shadow': 0.08, 'w_spec': 0.08}
+[em-smoke] patch variant=spectral
+[em-smoke] spectral  CitMind_Q1   s5 | 256tok 25.1s Φ=1.000 loops=6 | emerg=0 self=0 wenden=0 | spectral_lowenergy=0.017
+[em-smoke] spectral  CitMind_Q2   s5 | 256tok 43.5s Φ=1.000 loops=6 | emerg=0 self=8 wenden=1 | spectral_lowenergy=0.019
+[em-smoke] spectral  CitMind_Q3   s5 | 256tok 46.7s Φ=1.000 loops=6 | emerg=0 self=6 wenden=3 | spectral_lowenergy=0.017
+[em-smoke] spectral  CitMind_Q4   s5 | 256tok 52.2s Φ=1.000 loops=6 | emerg=0 self=7 wenden=5 | spectral_lowenergy=0.014
+[em-smoke] spectral  CitMind_Q5   s5 | 256tok 57.8s Φ=1.000 loops=6 | emerg=0 self=3 wenden=2 | spectral_lowenergy=0.018
+[em-smoke] spectral  Juexin_Q1    s5 | 256tok 61.3s Φ=1.000 loops=6 | emerg=0 self=5 wenden=3 | spectral_lowenergy=0.018
+[em-smoke] spectral  Juexin_Q2    s5 | 256tok 67.4s Φ=1.000 loops=6 | emerg=0 self=6 wenden=3 | spectral_lowenergy=0.015
+[em-smoke] spectral  Juexin_Q3    s5 | 256tok 42.3s Φ=1.000 loops=6 | emerg=0 self=10 wenden=1 | spectral_lowenergy=0.018
+[em-smoke] spectral  Juexin_Q4    s5 | 256tok 80.0s Φ=1.000 loops=6 | emerg=0 self=2 wenden=2 | spectral_lowenergy=0.017
+[em-smoke] spectral  Juexin_Q5    s5 | 256tok 88.3s Φ=1.000 loops=6 | emerg=0 self=6 wenden=1 | spectral_lowenergy=0.016
+[em-smoke] spectral  Wenden       s5 | 256tok 56.3s Φ=1.000 loops=6 | emerg=0 self=5 wenden=2 | spectral_lowenergy=0.017
+[em-smoke] fertig: 98 neue Generationen → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/emergence_em.jsonl
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.

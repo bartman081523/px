@@ -1,0 +1,6 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  14%|█▎        | 46/340 [00:00<00:00, 459.97it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 1005.86it/s]Loading weights:  97%|█████████▋| 329/340 [00:00<00:00, 1195.74it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1111.81it/s]
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[phase3] condition=lean preset=ACTIVE_MANIFOLD_LEAN active_crutches=[] (kausaler Kern (alle 5 Crutches weg))
+
+[phase3] condition=lean → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/konklave_phase3_lean.txt

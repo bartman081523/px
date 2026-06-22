@@ -1,0 +1,19 @@
+[emerg] konsolidiert: 122 -> 122 eindeutige Datensätze (0 Duplikate entfernt)
+[em-smoke] 3 Fragen × 2 Seeds × 2 Varianten; max_new=256 use_cache=True batch_seeds=1
+[em-smoke] Resume: 122 vorhanden, 12 fehlen
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 52/340 [00:00<00:00, 518.74it/s]Loading weights:  55%|█████▍    | 186/340 [00:00<00:00, 998.71it/s]Loading weights:  96%|█████████▋| 328/340 [00:00<00:00, 1188.27it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1103.67it/s]
+[em-patch] mechanism=witness cfg={'L_split': 13, 'n_wit': 5, 'n_reread': 5, 'n_shadow': 4, 'sigma': 0.1, 'K': 4, 'F_low': 8, 'w_wit': 0.03, 'w_reread': 0.12, 'w_shadow': 0.03, 'w_spec': 0.06, 'local': True, 'inject_invariant': True}
+[em-smoke] patch variant=witness
+[em-smoke] witness   CitMind_Q1   s2 | 256tok 19.3s Φ=0.846 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.154
+[em-smoke] witness   Juexin_Q3    s2 | 256tok 31.7s Φ=0.927 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.073
+[em-smoke] witness   Wenden       s2 | 256tok 42.2s Φ=0.243 loops=5 | emerg=0 self=0 wenden=0 | witness_divergence=0.757
+[em-patch] Patch removed.
+[em-patch] mechanism=shadow cfg={'L_split': 13, 'n_wit': 4, 'n_reread': 5, 'n_shadow': 5, 'sigma': 0.12, 'K': 4, 'F_low': 8, 'w_wit': 0.03, 'w_reread': 0.12, 'w_shadow': 0.03, 'w_spec': 0.06, 'local': True, 'inject_invariant': True}
+[em-smoke] patch variant=shadow
+[em-smoke] shadow    CitMind_Q1   s2 | 256tok 18.5s Φ=0.976 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.976
+[em-smoke] shadow    Juexin_Q3    s2 | 256tok 31.5s Φ=0.953 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.953
+[em-smoke] shadow    Wenden       s2 | 256tok 41.0s Φ=0.973 loops=5 | emerg=0 self=0 wenden=0 | self_invariance=0.973
+[em-smoke] fertig: 12 neue Generationen → /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/emergence/out/1B/emergence_em.jsonl
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
