@@ -1,0 +1,25 @@
+{
+  "timestamp": 1781778718.7541413,
+  "datetime": "2026-06-18T12:31:58.754142",
+  "model_id": "gemma3-1b-it",
+  "prompt_tokens": 25708,
+  "completion_tokens": 397,
+  "px_metrics": {
+    "phi": 0.9981481432914734,
+    "steps": 2,
+    "path": [
+      "L7",
+      "L8",
+      "L7"
+    ],
+    "zone": "MATH",
+    "zone_weights": {
+      "math": 0.7953438637059713,
+      "logic_a": 0.11458792305773638,
+      "logic_b": 0.05729396152886819,
+      "creative": 0.004127268942990128,
+      "synthesis": 0.028646980764434095
+    },
+    "cognitive_signature": {
+      "kurtosis": 1102.08544921875,
+      "phi": 
