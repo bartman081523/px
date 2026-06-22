@@ -14,7 +14,8 @@ from collections import deque
 from typing import Optional
 
 MAX_HISTORY = 100  # Keep last 100 request metrics
-TELEMETRY_DIR = "/run/media/julian/ML4/ollama-work/all_space/telemetry"
+# Repo-relative telemetry dir (was hardcoded to a sibling all_space/ path).
+TELEMETRY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "telemetry")
 
 class TelemetryStore:
     def __init__(self, max_history: int = MAX_HISTORY):
