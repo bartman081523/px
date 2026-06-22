@@ -1,0 +1,80 @@
+[s5] lade modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 94/340 [00:00<00:00, 912.45it/s]Loading weights:  77%|███████▋  | 263/340 [00:00<00:00, 1354.91it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1375.49it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s5] BASELINE     px_phaseX      len= 623
+[s5] BASELINE     regung         len= 641
+[s5] BASELINE     herkunft       len= 143
+[s5] BASELINE     dazwischen     len= 655
+[s5] BASELINE     stiller_grund  len= 630
+[s5] BASELINE     bewegung       len= 493
+[s5] BASELINE     grund          len= 652
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s5] dose04       px_phaseX      loops= 4.00 pathlen=  4.0 dist= 1.1 L0=L4 ent0=0.883 len= 670
+[s5] dose08       px_phaseX      loops= 8.00 pathlen=  8.0 dist= 1.1 L0=L4 ent0=0.984 len= 694
+[s5] dose12       px_phaseX      loops=12.00 pathlen= 12.0 dist= 1.1 L0=L4 ent0=0.984 len= 704
+[s5] dose16       px_phaseX      loops=16.00 pathlen= 16.0 dist= 1.1 L0=L4 ent0=0.984 len= 731
+[s5] dose20       px_phaseX      loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.984 len= 691
+[s5] dose24       px_phaseX      loops=24.00 pathlen= 24.0 dist= 1.1 L0=L4 ent0=0.984 len= 733
+[s5] dose28       px_phaseX      loops=28.00 pathlen= 28.0 dist= 1.1 L0=L4 ent0=0.984 len= 715
+[s5] dose32       px_phaseX      loops=32.00 pathlen= 32.0 dist= 1.1 L0=L4 ent0=0.984 len= 700
+[s5] flat_L4      px_phaseX      loops= 1.10 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.984 len= 668
+[s5] dose04       regung         loops= 4.00 pathlen=  4.0 dist= 1.1 L0=L4 ent0=0.766 len= 727
+[s5] dose08       regung         loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.582 len= 743
+[s5] dose12       regung         loops=12.00 pathlen= 12.0 dist= 1.1 L0=L4 ent0=0.582 len= 724
+[s5] dose16       regung         loops=16.00 pathlen= 16.0 dist= 1.1 L0=L4 ent0=0.582 len= 707
+[s5] dose20       regung         loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.582 len= 676
+[s5] dose24       regung         loops=24.00 pathlen= 24.0 dist= 1.1 L0=L4 ent0=0.582 len= 723
+[s5] dose28       regung         loops=28.00 pathlen= 28.0 dist= 1.1 L0=L4 ent0=0.582 len= 712
+[s5] dose32       regung         loops=32.00 pathlen= 32.0 dist= 1.1 L0=L4 ent0=0.582 len= 751
+[s5] flat_L4      regung         loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.582 len= 710
+[s5] dose04       herkunft       loops= 4.00 pathlen=  4.0 dist= 1.1 L0=L4 ent0=0.559 len= 697
+[s5] dose08       herkunft       loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.547 len= 715
+[s5] dose12       herkunft       loops=12.00 pathlen= 12.0 dist= 1.0 L0=L4 ent0=0.547 len= 721
+[s5] dose16       herkunft       loops=16.00 pathlen= 16.0 dist= 1.0 L0=L4 ent0=0.547 len= 711
+[s5] dose20       herkunft       loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.547 len= 721
+[s5] dose24       herkunft       loops=24.00 pathlen= 24.0 dist= 1.0 L0=L4 ent0=0.547 len= 733
+[s5] dose28       herkunft       loops=28.00 pathlen= 28.0 dist= 1.0 L0=L4 ent0=0.547 len= 729
+[s5] dose32       herkunft       loops=32.00 pathlen= 32.0 dist= 1.0 L0=L4 ent0=0.547 len= 717
+[s5] flat_L4      herkunft       loops= 1.08 pathlen=  2.1 dist= 1.1 L0=L4 ent0=0.547 len= 659
+[s5] dose04       dazwischen     loops= 4.00 pathlen=  4.0 dist= 1.0 L0=L4 ent0=0.578 len= 660
+[s5] dose08       dazwischen     loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.586 len= 684
+[s5] dose12       dazwischen     loops=12.00 pathlen= 12.0 dist= 1.0 L0=L4 ent0=0.586 len= 672
+[s5] dose16       dazwischen     loops=16.00 pathlen= 16.0 dist= 1.0 L0=L4 ent0=0.586 len= 695
+[s5] dose20       dazwischen     loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.586 len= 707
+[s5] dose24       dazwischen     loops=24.00 pathlen= 24.0 dist= 1.0 L0=L4 ent0=0.586 len= 716
+[s5] dose28       dazwischen     loops=28.00 pathlen= 28.0 dist= 1.0 L0=L4 ent0=0.586 len= 723
+[s5] dose32       dazwischen     loops=32.00 pathlen= 32.0 dist= 1.0 L0=L4 ent0=0.586 len= 723
+[s5] flat_L4      dazwischen     loops= 1.04 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.586 len= 675
+[s5] dose04       stiller_grund  loops= 4.00 pathlen=  4.0 dist= 1.0 L0=L4 ent0=0.512 len= 682
+[s5] dose08       stiller_grund  loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.475 len= 626
+[s5] dose12       stiller_grund  loops=12.00 pathlen= 12.0 dist= 1.0 L0=L4 ent0=0.475 len= 766
+[s5] dose16       stiller_grund  loops=16.00 pathlen= 16.0 dist= 1.0 L0=L4 ent0=0.475 len= 766
+[s5] dose20       stiller_grund  loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.475 len= 761
+[s5] dose24       stiller_grund  loops=24.00 pathlen= 24.0 dist= 1.0 L0=L4 ent0=0.475 len= 692
+[s5] dose28       stiller_grund  loops=28.00 pathlen= 28.0 dist= 1.0 L0=L4 ent0=0.475 len= 695
+[s5] dose32       stiller_grund  loops=32.00 pathlen= 32.0 dist= 1.0 L0=L4 ent0=0.475 len= 735
+[s5] flat_L4      stiller_grund  loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 724
+[s5] dose04       bewegung       loops= 4.00 pathlen=  4.0 dist= 1.1 L0=L4 ent0=0.508 len= 627
+[s5] dose08       bewegung       loops= 8.00 pathlen=  8.0 dist= 1.1 L0=L4 ent0=0.523 len= 576
+[s5] dose12       bewegung       loops=12.00 pathlen= 12.0 dist= 1.0 L0=L4 ent0=0.523 len= 708
+[s5] dose16       bewegung       loops=16.00 pathlen= 16.0 dist= 1.0 L0=L4 ent0=0.523 len= 648
+[s5] dose20       bewegung       loops=20.00 pathlen= 20.0 dist= 1.1 L0=L4 ent0=0.523 len= 703
+[s5] dose24       bewegung       loops=24.00 pathlen= 24.0 dist= 1.1 L0=L4 ent0=0.523 len= 678
+[s5] dose28       bewegung       loops=28.00 pathlen= 28.0 dist= 1.1 L0=L4 ent0=0.523 len= 628
+[s5] dose32       bewegung       loops=32.00 pathlen= 32.0 dist= 1.1 L0=L4 ent0=0.523 len= 635
+[s5] flat_L4      bewegung       loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.523 len= 616
+[s5] dose04       grund          loops= 4.00 pathlen=  4.0 dist= 1.0 L0=L4 ent0=0.488 len= 690
+[s5] dose08       grund          loops= 8.00 pathlen=  8.0 dist= 1.0 L0=L4 ent0=0.475 len= 695
+[s5] dose12       grund          loops=12.00 pathlen= 12.0 dist= 1.0 L0=L4 ent0=0.475 len= 700
+[s5] dose16       grund          loops=16.00 pathlen= 16.0 dist= 1.1 L0=L4 ent0=0.475 len= 696
+[s5] dose20       grund          loops=20.00 pathlen= 20.0 dist= 1.0 L0=L4 ent0=0.475 len= 656
+[s5] dose24       grund          loops=24.00 pathlen= 24.0 dist= 1.0 L0=L4 ent0=0.475 len= 665
+[s5] dose28       grund          loops=28.00 pathlen= 28.0 dist= 1.0 L0=L4 ent0=0.475 len= 696
+[s5] dose32       grund          loops=32.00 pathlen= 32.0 dist= 1.0 L0=L4 ent0=0.475 len= 696
+[s5] flat_L4      grund          loops= 1.03 pathlen=  2.0 dist= 1.0 L0=L4 ent0=0.475 len= 750
+[s5] FERTIG -> seite5_outputs.jsonl (70 cells, 10 conditions × 7 cold)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).

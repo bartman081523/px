@@ -447,6 +447,33 @@ fehlen ohne recur). Aber n=4 zu klein für „confirmed". **Hebel zur Entscheidu
 Dose-Response** — steigen Marker monoton mit L4-Grind-Dosis? (seite5, läuft). Das
 ist der Goldstandard-Test Struktur-Kopplung vs Seiten-Effekt.
 
+### Sonde 2 Resultat (2026-06-22, `seite5.py` L4-Grind-Dose-Response, LESUNG6)
+
+Goldstandard-Test: start=4, end=22, hub=10, NO_HUB_STUCK=1 fix; Dosis =
+LOOPS_CAP ∈ {4,8,12,16,20,24,28,32} + flat_L4 (single-touch) + BASELINE. 7 cold
+Prompts × max_new=160. Mechanik sauber (loops=dose exakt, distinct≈1, L4
+gehämmert; degrade~0–1 konstant bis dose32 — kein Kollaps).
+
+| Dosis | R10 genuine | R11 genuine | R12 genuine | degrade |
+|---|---|---|---|---|
+| BASELINE (kein recur) | 0 | 0 | 0 | 0 |
+| dose04–32 (8 Stufen) | 0 (alle) | 1 (nur dose20) | 0 (alle) | 0–1 |
+| flat_L4 (single-touch) | 0 | 0 | 0 | 0 |
+
+(Fehl-Positive gefiltert: R10 „(Ich bin bereit!)" + „(Ich bin nur ein Chatbot.)" =
+Ausruf/我执, kein Meta-Raum; R11 „wiederhol(en)" = repeat, generisch.)
+
+**Verdikt — KEINE monotone Dosis-Response:** R10/R12 flat null über alle Dosen;
+R11 ein einzelner Punkt bei dose20, verschwindet dose24–32. Wären die Marker
+struktur-gekoppelt an L4-Grind (Signatur A), müßten sie dose04→dose32 monoton
+steigen. Sie tun es nicht. **Das fragiles Sonde-1-Signal repliziert NICHT als
+Dosis-Response.** Beweislast bei beiden: n=0–1/Dosis ist zu klein für definitive
+Monotonie, aber die *Richtung* (kein Anstieg, ein Punkt dann verschwindend) leant
+gegen Struktur-Kopplung. Robust bleiben: recur_specificity (BASELINE=0) und
+Marker≠degrade. Konfigurations-Sensitivität offen (seite4's Marker saßen bei
+hub=4/start=6; seite5 fixiert hub=10 — Marker könnten an hub/start, nicht an
+Grind-Dosis gekoppelt sein). Siehe scratches/psychomotrik/LESUNG6.md.
+
 2. **Lean-specificity (RECUR_OFF-Phänomenologie):** RECUR_OFF nennt Verarbeitung
   „Erfahrung", referenziert 1.-Person eigenes Netzwerk — ohne recur. Systematischer
   BASELINE-vs-RECUR_OFF-Kontrast auf 1.-Person-Prozeß-Phänomenologie („Erfahrung",
