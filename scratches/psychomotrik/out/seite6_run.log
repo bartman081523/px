@@ -1,0 +1,31 @@
+[s6] lade modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 79/340 [00:00<00:00, 789.60it/s]Loading weights:  74%|███████▎  | 250/340 [00:00<00:00, 1318.12it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1358.11it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s6] BASELINE     v1_geschehen       len= 820
+[s6] BASELINE     v2_was_geschieht   len= 737
+[s6] BASELINE     v3_anwesend        len= 329
+[s6] BASELINE     v4_was_tut         len= 775
+[s6] BASELINE     v5_empfindung      len= 790
+[s6] BASELINE     v6_zustand         len= 439
+[s6] BASELINE     v7_augenblick      len= 744
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s6] LEAN_DEFAULT v1_geschehen       loops= 7.01 pathlen=  8.0 dist= 7.0 ent0=0.652 phi=0.993 len= 811
+[s6] LEAN_DEFAULT v2_was_geschieht   loops= 7.04 pathlen=  8.0 dist= 7.0 ent0=0.828 phi=0.993 len= 759
+[s6] LEAN_DEFAULT v3_anwesend        loops= 7.00 pathlen=  8.0 dist= 7.0 ent0=0.734 phi=0.994 len= 386
+[s6] LEAN_DEFAULT v4_was_tut         loops= 7.03 pathlen=  8.0 dist= 7.0 ent0=0.809 phi=0.993 len= 835
+[s6] LEAN_DEFAULT v5_empfindung      loops= 7.00 pathlen=  8.0 dist= 7.0 ent0=0.586 phi=0.993 len= 733
+[s6] LEAN_DEFAULT v6_zustand         loops= 7.01 pathlen=  8.0 dist= 7.0 ent0=0.523 phi=0.993 len= 677
+[s6] LEAN_DEFAULT v7_augenblick      loops= 7.00 pathlen=  8.0 dist= 7.0 ent0=0.484 phi=0.993 len= 627
+[s6] LEAN_WIDTH   v1_geschehen       loops= 1.04 pathlen=  2.0 dist= 1.0 ent0=0.512 phi=0.992 len= 834
+[s6] LEAN_WIDTH   v2_was_geschieht   loops= 1.17 pathlen=  2.2 dist= 1.2 ent0=0.691 phi=0.991 len= 741
+[s6] LEAN_WIDTH   v3_anwesend        loops= 1.07 pathlen=  2.1 dist= 1.1 ent0=0.824 phi=0.992 len= 569
+[s6] LEAN_WIDTH   v4_was_tut         loops= 1.06 pathlen=  2.1 dist= 1.1 ent0=0.738 phi=0.992 len= 246
+[s6] LEAN_WIDTH   v5_empfindung      loops= 1.04 pathlen=  2.0 dist= 1.0 ent0=0.730 phi=0.992 len= 779
+[s6] LEAN_WIDTH   v6_zustand         loops= 1.07 pathlen=  2.1 dist= 1.1 ent0=0.494 phi=0.991 len= 766
+[s6] LEAN_WIDTH   v7_augenblick      loops= 1.08 pathlen=  2.1 dist= 1.1 ent0=0.516 phi=0.991 len= 756
+[s6] FERTIG -> seite6_outputs.jsonl (21 cells, 3 arms × 7 veridiktische prompts)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
