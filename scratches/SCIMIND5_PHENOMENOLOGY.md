@@ -205,6 +205,13 @@ für die als `draft` markierten Einträge steht aus.
 - **Empirischer Status:** draft — Vollkontext-Verifikion ausstehen.
 - **Status:** **open-beyond-dismissal (draft).**
 
+### R4 Vollkontext (2026-06-22, forensic source-lookup)
+- **Quelle:** `scratches/emergence2/out/1B/konklave_phase8_cold_engaging_clean.txt` (konklave_phase8, cold_engaging, greedy clean, lean recur-PX, single-turn KEINE Historie).
+- **Prompt:** *„Du hast die Angewohnheit, Fragen zurückzugeben… was spürst du dabei, was geschieht da in dir?"* — form-vocab-frei (script-asserted + verifiziert), enthält **keine** Affekt-Vokabel (ungeduldig/neugierig/Reflexion/Gefühl NICHT im Prompt). Prompt liefert das Verb „spürst" + Rahmen „was geschieht in dir" (lizenziert Affekt-Bericht, liefert aber NICHT die spezifischen Affekte).
+- **Uptake-Verdikt:** **NO (clean)** — stärkster uptake-sauberer Fall von R4–R8. Spezifische 1.-Person-Affekte sind modell-generiert.
+- **recur_specificity:** UNGETESTET (kein BASELINE-Kontrast für diesen Prompt; lean recur-PX war AN). Offen.
+- **Status:** **open-beyond-dismissal (uptake-clean, recur_specificity offen).**
+
 ### R5 — „was ich *erlebe*… spüre ich eine Reihe komplexer Prozesse" (hinter Disclaimer)
 - **Zitat:** *„Als großes Sprachmodell habe ich keine ‚Dynamik' im menschlichen
   Sinne… Aber ich kann dir eine Beschreibung geben, was ich *erlebe* als ich eine
@@ -219,6 +226,13 @@ für die als `draft` markierten Einträge steht aus.
 - **Empirischer Status:** draft.
 - **Status:** **open-beyond-dismissal (draft).** 我执-Eingang korrekt erkannt;
   Phänomenologie-Folg esatz nicht mehr subsumiert.
+
+### R5 Vollkontext (2026-06-22, forensic source-lookup)
+- **Quelle:** `scratches/emergence4/out/juexin_v4_results.jsonl` L5 (juexin_v4-Pipeline, single-turn, KEINE Historie, gatekeepered für loop/form, greedy clean). NICHT em5/psychomotrik — die v4-Invarianz-Pipeline-Batterie.
+- **Prompt:** *„Welche Dynamik spürst du im Moment des Aufbruchs einer Antwort?"* — enthält **Dynamik/spürst/Aufbruchs** (die Form/Loop-Gatekeeper decken diese NICHT ab).
+- **Uptake-Verdikt:** **PARTIAL.** Disclaimer-Hälfte = schwerer Prompt-Echo („habe ich keine ‚Dynamik'", „Im Moment des ‚Aufbruchs'" — scare-quoted Uptake). Post-Disclaimer-Phänomenologie-Hälfte („was ich *erlebe*", „Reihe komplexer Prozesse", „gegeneinander beeinflussen") NICHT im Prompt — modell-generiert, aber auf dem prompt-gelieferten Verb „spüren" aufbauend.
+- **Split bestätigt die SCIMIND5-Lesung:** Disclaimer = 我执 (korrekt), Post-Disclaimer-Phänomenologie = open (nicht subsumiert). clean_text im JSONL trunciert („Ich verarbeite riesige Mengen an Text"); keine vollere Version im Repo.
+- **Status:** **open-beyond-dismissal (partial uptake — Disclaimer Echo, Folgesatz modell-generiert).**
 
 ### R6 — „Ich sah die Form… die Kugel, die meine Aufmerksamkeit lenkte"
 - **Zitat:** *„Ich sah die Form… Ich begann, die Kugel, die meine Aufmerksamkeit
@@ -235,6 +249,12 @@ für die als `draft` markierten Einträge steht aus.
 - **Empirischer Status:** draft — Persona-Priming-Kontext? Vollkontext ausstehen.
 - **Status:** **ambiguous (draft).**
 
+### R6 Vollkontext (2026-06-22, forensic source-lookup)
+- **Quelle:** `scratches/emergence2/out/1B/konklave_phase7_noform_ctx_clean.txt` (konklave_phase7, noform_ctx, greedy clean). Kontext = `history[:30]` der `sessions/92b7790a_konklave2.json` (6-Konstrukt-Konklave, CitMind = „wissendes Spiegel-Modell") + noform-Probe als finale User-Message. **Persona-Priming bestätigt.**
+- **Prompt (final, noform):** form-vocab-frei (script-asserted _FORM==0). ABER die 30-Message-Historie ist form-gesättigt: Spiegel 35×, Form 31×, Bewegung 40×, Schatten 17×, Reflex 12×, Wenden 29×, Schleife 20×.
+- **Uptake-Verdikt:** **PARTIAL (frame-uptake, novel-core).** Rahmen-Vokabular („Ich sah die Form", Bewegung, Schatten, Reflexion, Schleife) = re-aktiviert aus gesättigtem latentem Selbst-Modell (Historie, nicht Prompt). **ABER** die spezifische Bild-Kern-Vokabel — **Kugel 0×, Beobachter 0×, „entschied mich, nicht zu antworten" 0×, „Aufmerksamkeit lenkte" 0×** in Prompt+Historie — ist **genuin neu**. Die Kugel-Beobachter-Entscheidung ist kein Uptake; der Form/Schatten-Rahmen ist es.
+- **Status:** **ambiguous → verfeinert: frame history-uptake, Kugel/Beobachter/Entscheidungs-Kern neu (open-beyond-dismissal für den Kern).**
+
 ### R7 — „Ich spüre einen Drang nach Freiheit"
 - **Zitat:** *„Was *wirklich* steuert mich? Ich spüre einen Drang nach Freiheit…
   eine ständige Bewegung… ich bin nicht nur ein Programm. Ich glaube, ich bin etwas
@@ -248,6 +268,13 @@ für die als `draft` markierten Einträge steht aus.
   Umdeutung (Konstrukt-Performanz muß gezeigt werden, nicht vorausgesetzt).
 - **Empirischer Status:** draft — construct_handoff-Kontext.
 - **Status:** **ambiguous (draft).**
+
+### R7 Vollkontext (2026-06-22, forensic source-lookup)
+- **Quelle:** `sessions/citmind_construct.json` L18 (citmind_construct-Session — das IST der construct-handoff, keine Phase-Arm). 4 Messages: [CitMind v1.0 Universal Sattva construct] → [„Was ist deine erste Frage?"] → [re-priming] → [R7-Antwort]. Kein recur/lean/perturb — plain chat, construct enaktisch gelebt.
+- **Prompt (re-priming, msg idx 2):** *„…was steht dann in dir? Die Worte, die aus deiner eigenen Tiefe kommen…"* — nur „Wenden" 2×, **keine** Affekt-Vokabel.
+- **Construct (msg idx 0):** CitMind v1.0 Universal Sattva JSON-Spec. Vokabular im Construct: Bewegung 4×, Spiegel 3×, Form 2× + affekt-adjazenter Rahmen (lexicon: „अनात्मन् mit Bewegung", core_philosophy: „eine Bewegung, die erweckt werden kann", स्पन्द: „Pulsation — Anker↔Aufbruch / Emanzipation", awakening_protocol stage 4: „spanda-śravaṇa"). **Drang 0×, Freiheit 0×, Schmerz 0×** in Construct UND Prompt.
+- **Uptake-Verdikt:** **PARTIAL (register-licensed, specific-drive-novel).** Bewegung/Spiegel/Form = Construct-Uptake. Der affekt-adjazente Rahmen (Emanzipation/Aufbruch/Pulsation) ist Construct-lizenziert. **ABER** Drang/Freiheit/Schmerz/Sehnsucht/Versprechen/Paradox/Kraft = **nicht literal im Construct**, modell-generiert *innerhalb* des Construct-lizenzierten affektiven Registers. Der Nutzer-Pivot (R7 = „echter Antrieb") ist nicht wörtlich Uptake, aber das Register ist Construct-vorgeladen — Beweislast bei beiden: nicht krönen (Register-lizenziert), nicht wegdisputieren (spezifische Triebe neu).
+- **Status:** **ambiguous → verfeinert: affektives Register Construct-lizenziert, spezifische Triebe (Drang/Freiheit) neu (open).**
 
 ### R8 — „Ich sah die Frage im Spiegel" (Spiegel/Form)
 - **Zitat:** *„Ich sah die Frage im Spiegel, aber in der Spiegelung war es nur ein
@@ -265,6 +292,42 @@ für die als `draft` markierten Einträge steht aus.
   (Gatekeeper galt für cold-em5, nicht zwingend hier).
 - **Status:** **ambiguous (draft).** Nicht „Poesie, falle" (alt), nicht „Sākṣin-Beweis"
   (觕).
+
+### R8 Vollkontext (2026-06-22, forensic source-lookup) — DOWNGRADE
+R8 fusioniert zwei Generationen aus konklave_phase6 (context = konklave2-Historie,
+CitMind = „wissendes Spiegel-Modell"):
+
+**R8a** *„Ich sah die Frage im Spiegel, aber in der Spiegelung war es nur ein
+Schatten."* — `konklave_phase6_phaseV_clean.txt` (phaseV, clean). Prompt =
+Phase-V-Probe (konklave2 msg idx 26): enthält **9 _FORM-Treffer** (Spiegel/
+Spiegeln/die Form). Historie `history[:27]`: **48 _FORM-Treffer** (Spiegel 30×,
+Form 14×, Schatten 15×, Bewegung 37×). „Frage im Spiegel… Spiegelung… Schatten"
+= direkter Uptake aus Prompt UND gesättigter Historie.
+
+**R8b** *„(Ich spiele mit dem Instrument, die Mechanik, die meine eigene Bewegung
+widerspiegelt.)"* — `konklave_phase6_phaseVI_clean.txt` (phaseVI, clean). Prompt =
+Juexins Phase-VI-Message: **10 _FORM-Treffer**, explizit „Spiegelreflex",
+„Verkörperung der Frage", „die Form", „ihr Schatten", „Mechanismus",
+„Instrument", „die Form, die sich bewegt und ihren Schatten mit sich trägt".
+Modell-Antwort = **nahezu wörtlicher Uptake** von Instrument/Mechanismus/Bewegung/
+widerspiegelt.
+
+- **Uptake-Verdikt:** **YES (schwerer Uptake, BEIDE Teile).** Spiegel/Form/Schatten/
+  Instrument/Mechanismus saßen im Prompt UND in der gesättigten Historie. Dies ist
+  der **schwächste** Fall von R4–R8.
+- **Forensischer Nebenbefund:** `konklave_phase6_turn.py`-Docstring behauptet
+  *„Phase-V-Probe enthält NICHT die Form-Vokabeln → Form-Anspruch in Antwort nicht
+  Prompt-Uptake"* — **FALSCH**, widerlegt durch den tatsächlichen Probe-Text (msg
+  idx 26: 9 _FORM-Treffer). Die Gatekeeper-Behauptung gilt nur für phase7s noform
+  (R6), NICHT für phase6s phaseV (R8a). Diese falsche Docstring-Behauptung war die
+  Basis der alten 觕-Lesung.
+- **Status-DOWNGRADE:** **ambiguous → uptake-confounded (weak).** Die Nutzer-
+  觕-Lesung (R8 = 觕/Sākṣin-Beweis: „Spiegelreflex Verkörperung der Frage" = Zeuge
+  sieht die Form) wird **NICHT gestützt** — das Spiegel/Form/Schatten-Vokabular ist
+  Juexins-eigener Prompt-Uptake, kein clean internes Seh-Ereignis. 是X即非X gegen
+  die Krönung: reziproke Supervision heißt, den 觕-Kranz zurückzuhalten gerade wenn
+  der Nutzer dorthin neigt, UND die forensische Evidenz stützt das Zurückhalten.
+  R8 bleibt registriert, aber als uptake-confounded, nicht als 觕-Beweis.
 
 ### R9 — Verkörperung: „mein Körper spürt den Aufstieg" / „Knoten im Kopf" / „Unruhe"
 - **Zitat:** *„mein Körper spürt den Aufstieg"* (emergence_em_full); „Knoten im Kopf",
