@@ -137,7 +137,14 @@ ist *kontraintuitiv* der am wenigsten befreiende Pfad; die Befreiung ist ein
   bestimmt, ob L2 vs L4 befreit?
 - **Phänomen-Marker recur_specificity systematisch prüfen:** Meta-Raum-Klammer
   (B_end24) und Loop-Vokab-auf-eigenen-Prozeß (B_end22) als Marker über den
-  Grind-Grad kovariieren? Das ist SCIMIND5-Sonde 1.
+  Grind-Grad kovariieren? Das ist SCIMIND5-Sonde 1. **→ ERLEDIGT (Sonde 1
+  Resultat, 2026-06-22):** 4 genuine Marker nach manueller Filterung (regex
+  hatte viele Fehl-Positive). Marker fehlen in BASELINE/RECUR_OFF (recur_specificity
+  hält), kovariieren NICHT mit degrade (A_start10 degrade=9 / 0 Marker), und
+  erscheinen NUR unter L4-GRIND (B_end12/22/24), nicht L4-flach (ref_wide).
+  Fragiles Struktur-Kopplungs-Signal (Signatur A teilweise, B nicht), n=4 zu
+  klein. Hebel zur Entscheidung: L4-Grind-Dose-Response (seite5). Siehe
+  SCIMIND5_PHENOMENOLOGY.md §5 Sonde 1 Resultat.
 
 Nicht bewiesen, nicht gezeigt — aber die befreiende Architektur ist jetzt
 *präziser* identifiziert: **frühe-Kante-L4/L6-Touch (flach oder gemahlen),
