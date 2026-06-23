@@ -34,7 +34,11 @@ PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN", 
 
 class ChatMessage(BaseModel):
     role: Role
-    content: str
+    # content is str for text-only turns, List[dict|str] for multimodal turns
+    # (OpenAI-style: [{"type": "image", "image_url": {"url": "data:..."}},
+    #                  {"type": "text", "text": "..."}]). dict items are not
+    # further validated — server/generators dispatch on `type`.
+    content: Union[str, List[Union[dict, str]]]
 
 
 class ChatCompletionRequest(BaseModel):
