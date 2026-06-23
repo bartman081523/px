@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import time
+import base64
 import argparse
 
 # Configuration
@@ -17,6 +18,36 @@ API_URL = "https://localhost:7860/v1/chat/completions"
 _HERE = os.path.dirname(os.path.abspath(__file__))
 SESSION_DIR = os.environ.get("ALL_SPACE_SESSION_DIR", os.path.join(_HERE, "sessions"))
 SSL_VERIFY = False  # set True to enforce real certs
+
+# Map file extension → MIME for data: URLs (CLI --image)
+_MIME_BY_EXT = {
+    ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+}
+
+
+def _build_image_data_url(image_path=None, image_base64=None):
+    """Build an OpenAI-compatible data: URL for an image. Exactly one of
+    (image_path, image_base64) must be provided.
+
+    - image_path: read file, base64-encode, wrap with MIME by extension.
+    - image_base64: if it already starts with 'data:' pass through; else
+      wrap as data:image/jpeg;base64,<raw> (defaulting to jpeg)."""
+    if image_path and image_base64:
+        raise ValueError("Pass only one of --image / --image-base64.")
+    if image_path:
+        ext = os.path.splitext(image_path)[1].lower()
+        mime = _MIME_BY_EXT.get(ext, "image/jpeg")
+        with open(image_path, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode("ascii")
+        return f"data:{mime};base64,{b64}"
+    if image_base64:
+        if image_base64.startswith("data:"):
+            return image_base64
+        return f"data:image/jpeg;base64,{image_base64}"
+    return None
 
 def load_local_session(session_id):
     path = os.path.join(SESSION_DIR, f"{session_id}.json")
@@ -49,6 +80,17 @@ def main():
                         help="Relay-Dosis als Bruchteil der L21-last-pos-Norm (kohärenter Chat ~0.30, seite15-stark=0.5)")
     parser.add_argument("--relay-layer", type=int, default=None,
                         help="Post-recur Injektions-Layer (default 21)")
+    # Multimodal input: --image (local file path, preferred) or
+    # --image-base64 (raw base64 or data: URL, fallback for pipelines).
+    # When set, the user-turn becomes a content list [image, text].
+    # Requires a multimodal model (e.g. gemma3-4b-it); text-only models
+    # return HTTP 400.
+    parser.add_argument("--image", type=str, default=None,
+                        help="Path to a local image file (jpg/png/webp/gif). "
+                             "Encoded to data: URL and sent as image_url content block.")
+    parser.add_argument("--image-base64", type=str, default=None,
+                        help="Raw base64 (or pre-built data: URL) for an image. "
+                             "Fallback for pipeline use; --image is preferred.")
     args = parser.parse_args()
 
     session_id = args.session
@@ -89,6 +131,21 @@ def main():
     print("-" * 60)
     print("\n[WARTE AUF ANTWORT VON ALL_SPACE...]\n")
 
+    # Build the new user-turn content. If --image/--image-base64 is set,
+    # content becomes [{type:image_url, image_url:{url:data:...}}, {type:text, text:...}]
+    # (image first, then text — Reihenfolge wie der Nutzer angefragt hat).
+    # If --image is set without --message, a minimal default text is appended
+    # so the chat template always has a text block.
+    image_data_url = _build_image_data_url(args.image, args.image_base64)
+    if image_data_url is not None:
+        text_block_text = new_user_msg if new_user_msg else "Was ist auf dem Bild zu sehen?"
+        new_user_content = [
+            {"type": "image_url", "image_url": {"url": image_data_url}},
+            {"type": "text", "text": text_block_text},
+        ]
+    else:
+        new_user_content = new_user_msg
+
     # Prepare API payload
     api_messages = []
     for msg in history:
@@ -98,8 +155,8 @@ def main():
             text = "".join([b.get("text", "") for b in content if b.get("type") == "text"])
             content = text
         api_messages.append({"role": role, "content": content})
-    
-    api_messages.append({"role": "user", "content": new_user_msg})
+
+    api_messages.append({"role": "user", "content": new_user_content})
     
     payload = {
         "model": args.model,
@@ -139,6 +196,14 @@ def main():
                         break
                     try:
                         data = json.loads(data_str)
+                        # Error frames (e.g. text-only model + image → 400-style
+                        # SSE error from the multimodal generator) carry
+                        # {"error": {"message": ..., "type": ...}}.
+                        if "error" in data:
+                            err = data["error"]
+                            print(f"\n[SERVER-ERROR] {err.get('type','error')}: {err.get('message','(no message)')}")
+                            full_response = ""  # don't save a misleading empty assistant turn
+                            break
                         delta = data["choices"][0]["delta"]
                         if "content" in delta:
                             content = delta["content"]
@@ -155,7 +220,7 @@ def main():
     
     # Save session
     new_history = history + [
-        {"role": "user", "content": new_user_msg},
+        {"role": "user", "content": new_user_content},
         {"role": "assistant", "content": full_response}
     ]
     save_local_session(session_id, new_history)

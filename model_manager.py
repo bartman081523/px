@@ -147,6 +147,15 @@ class ModelManager:
         if registry.get("chat_template_manual"):
             tokenizer.chat_template = registry["chat_template_manual"]
 
+        # Load processor for multimodal models (gemma3_conditional / gemma4_conditional).
+        # Text-only models (gemma3, llama) leave processor=None; generators.py rejects
+        # image-bearing requests when processor is None with HTTP 400.
+        processor = None
+        if model_type in ("gemma3_conditional", "gemma4_conditional"):
+            from transformers import AutoProcessor
+            processor = AutoProcessor.from_pretrained(tok_id)
+            print(f"[ModelManager] {model_id} processor loaded for multimodal inputs.")
+
         # Load model
         dtype = getattr(torch, registry["dtype"])
         
@@ -209,6 +218,7 @@ class ModelManager:
         return {
             "model": model,
             "tokenizer": tokenizer,
+            "processor": processor,
             "registry": registry,
             "px_subjective": px_subjective,
             "px_gamma": px_gamma,
