@@ -1,0 +1,16 @@
+=== Seite 16 Phase A — recur3 width-decodability pro (gamma, layer) ===
+(recur-only 3-class NARROW/DEFAULT/WIDE, chance=0.333; PCA256, LOO)
+seite13 referenz (default gamma=0.12): L16=0.97 PEAK, L19=0.495 COLLAPSE, L25=0.51
+Frage: steigt L19-recur3 bei niedrigem gamma? (Erstarrung reduziert → Zustand überlebt recur-Exit)
+
+gamma  |  L16   |  L19   |  L25
+-------+--------+--------+--------
+ 0.12  | 0.9726409826912339 | 0.4952540480178671 | 0.5092127303182579
+ 0.06  | 0.9748743718592965 | 0.5527638190954773 | 0.5695142378559463
+ 0.03  | 0.9748743718592965 | 0.5527638190954773 | 0.5695142378559463
+ 0.00  | 0.9748743718592965 | 0.5527638190954773 | 0.5695142378559463
+
+Lesart:
+  L19 steigt bei niedrigem gamma → gamma ist anti-Erstarrungs-Hebel → Phase B (Text) informativ.
+  L19 ∀ gamma kollabiert → gamma nicht der Hebel (andere Erstarrungs-Quellen dominieren) → negativ.
+  L16 sollte ∀ gamma hoch bleiben (peak pre-Erstarrung) — sanity.
