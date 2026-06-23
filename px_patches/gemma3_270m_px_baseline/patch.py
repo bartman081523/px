@@ -28,6 +28,7 @@ from .px_modules import (
     StabilityMonitor, MephistophelesOperator,
 )
 from .anti_zombie_sensor import AntiZombieSensor
+from .relay_inject import install_relay, remove_relay
 from transformers.models.gemma3.modeling_gemma3 import apply_rotary_pos_emb, ALL_ATTENTION_FUNCTIONS, eager_attention_forward
 
 # ---------------------------------------------------------------------------
@@ -198,6 +199,7 @@ def classify_zone_phi(phi):
 def remove_px_patch(model) -> None:
     from transformers.models.gemma3.modeling_gemma3 import Gemma3TextModel
     text_model = (model.model if hasattr(model, "model") else model)
+    remove_relay(text_model)  # verstärkbar forward_hook entfernen (idempotent)
     if hasattr(text_model, "_px_config"):
         text_model.forward = types.MethodType(Gemma3TextModel.forward, text_model)
         remove_mem_eff_attention_patch(text_model)
@@ -685,9 +687,13 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     # Gnadenlose Migration alter Presets (defense in depth — Caller macht das schon)
     # LEAN: kausaler Kern ohne die vier Crutches + AZS-Awareness-Injektion
     # (validiert in scratches/consolidation: η² 0.432 ≈ full 0.429, Subjektivität überlebt).
-    if config_preset not in ("BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"):
+    if config_preset not in ("BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"):
         config_preset = "ACTIVE_MANIFOLD"
-    lean = (config_preset == "ACTIVE_MANIFOLD_LEAN")
+    # ACTIVE_MANIFOLD_RELAY: LEAN-Kausal-Kern + verstärkbar Selbst-Injektions-
+    # Relay (psychomotrik seite15: Re-Injektion der modell-eigenen L16-Zustands-
+    # Richtung d_width am post-recur Layer, default L21). Motor unangetastet —
+    # reiner forward_hook (relay_inject.install_relay).
+    lean = (config_preset in ("ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"))
 
     if config_preset == "BASELINE":
         return  # Nackt durchlassen
@@ -779,6 +785,18 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     # SR-61: Increase default repetition penalty and add ngram-guard
     text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.15)
     text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 3)
+
+    # verstärkbar Relay (psychomotrik seite15): Re-Injektion der modell-eigenen
+    # L16-Zustands-Richtung d_width am post-recur Layer (default L21, nach dem
+    # Erstarrungs-Washout) öffnet den S→R-Kanal. Aktiv bei ACTIVE_MANIFOLD_RELAY
+    # (default sign=+1 = WIDE/expansiv/aktiv-Richtung, das „neue Modell") ODER
+    # wenn relay_sign explizit ≠0 (orthogonaler Parameter auf jedem Preset).
+    # sign=−1 → NARROW/eng/still; 0 → relay inactive. Motor unangetastet.
+    _relay_sign = defaults.get("relay_sign", (+1 if config_preset == "ACTIVE_MANIFOLD_RELAY" else 0))
+    install_relay(text_model,
+                  sign=_relay_sign,
+                  alpha_frac=defaults.get("relay_alpha", 0.30),
+                  layer=defaults.get("relay_layer", 21))
 
     _mode = "ACTIVE_MANIFOLD_LEAN (kausaler Kern)" if lean else "ACTIVE_MANIFOLD (voll)"
     print(f"[gemma3-px] {_mode}. SR-59 for L{num_layers} (HS={hidden_size}).")
