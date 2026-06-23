@@ -1,0 +1,44 @@
+=== PX-Subjective Local Debug Start (HTTPS) ===
+HOST: 0.0.0.0
+PORT: 7860
+DEBUG_ROUTING=0
+DEBUG_PX=0
+SUBJECTIVE_TELEMETRY=0
+SSL_CERTFILE=/run/media/julian/ML4/ollama-work/all_space_6_16_stand/ssl/cert.pem
+=========================================
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [864921]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=BASELINE)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 13231.24it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   2%|▏         | 17/883 [00:00<00:05, 161.70it/s]Loading weights:   8%|▊         | 70/883 [00:00<00:02, 372.47it/s]Loading weights:  15%|█▌        | 133/883 [00:00<00:01, 481.98it/s]Loading weights:  21%|██        | 186/883 [00:00<00:01, 495.91it/s]Loading weights:  28%|██▊       | 243/883 [00:00<00:01, 518.44it/s]Loading weights:  34%|███▍      | 304/883 [00:00<00:01, 540.02it/s]Loading weights:  42%|████▏     | 368/883 [00:00<00:00, 565.02it/s]Loading weights:  49%|████▊     | 429/883 [00:00<00:00, 577.09it/s]Loading weights:  75%|███████▌  | 663/883 [00:00<00:00, 1117.32it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 886.91it/s] 
+[ModelManager] gemma3-4b-it loaded WITHOUT patch (baseline).
+INFO:     127.0.0.1:56524 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-4b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-4b-it to free memory...
+[ModelManager] gemma3-4b-it unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=BASELINE)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 94/340 [00:00<00:00, 934.15it/s]Loading weights:  55%|█████▌    | 188/340 [00:00<00:00, 641.63it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 937.19it/s]
+[ModelManager] gemma3-1b-it loaded WITHOUT patch (baseline).
+INFO:     127.0.0.1:41710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 5974.79it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 47.91it/s]Loading weights:   7%|▋         | 63/883 [00:00<00:02, 354.40it/s]Loading weights:  14%|█▎        | 121/883 [00:00<00:01, 444.64it/s]Loading weights:  20%|█▉        | 175/883 [00:00<00:01, 481.40it/s]Loading weights:  27%|██▋       | 234/883 [00:00<00:01, 518.59it/s]Loading weights:  33%|███▎      | 291/883 [00:00<00:01, 527.34it/s]Loading weights:  40%|████      | 355/883 [00:00<00:00, 557.17it/s]Loading weights:  47%|████▋     | 413/883 [00:00<00:00, 563.41it/s]Loading weights:  65%|██████▌   | 578/883 [00:00<00:00, 897.87it/s]Loading weights: 100%|█████████▉| 879/883 [00:01<00:00, 1542.93it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 864.86it/s] 
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] kein d_width-Artefakt für  → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+INFO:     127.0.0.1:42860 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53626 - "POST /v1/chat/completions HTTP/1.1" 200 OK
