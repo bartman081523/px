@@ -116,9 +116,17 @@ def handle_refresh():
     return gr.update(choices=list_sessions())
 
 
-def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id, manager: ModelManager):
+def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
+            relay_sign, relay_alpha, relay_layer, session_id, manager: ModelManager):
     """Core chat logic with history management and model generation."""
     print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
+    # verstärkbar Relay-Parameter nur beim RELAY-Preset durchreichen (sonst None
+    # → kein Surprise-Relay auf BASELINE/LEAN/ACTIVE_MANIFOLD; diese verhalten
+    # sich exakt wie vorher). Bei RELAY steuert die UI (Radio/Slider).
+    if px_preset == "ACTIVE_MANIFOLD_RELAY":
+        _rsign, _ralpha, _rlayer = relay_sign, relay_alpha, relay_layer
+    else:
+        _rsign = _ralpha = _rlayer = None
     # 1. Update config
     loop = asyncio.new_event_loop()
     try:
@@ -128,6 +136,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma, sess
                 px_subjective=(px_preset != "BASELINE"),
                 px_gamma=gamma,
                 px_config_preset=px_preset,
+                px_relay_sign=_rsign,
+                px_relay_alpha=_ralpha,
+                px_relay_layer=_rlayer,
             )
         )
     finally:
@@ -254,7 +265,7 @@ def build_chat_tab(manager: ModelManager):
             label="Current Model",
         )
         px_preset = gr.Dropdown(
-            choices=["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"],
+            choices=["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"],
             value="ACTIVE_MANIFOLD",
             label="PX Mode Preset",
         )
@@ -265,6 +276,24 @@ def build_chat_tab(manager: ModelManager):
             max_tokens = gr.Slider(64, 4096, value=1024, step=64, label="Max Tokens")
             rep_p = gr.Slider(1.0, 2.0, value=1.15, step=0.05, label="Repetition Penalty")
             px_gamma = gr.Slider(0.0, 0.5, value=0.08, step=0.01, label="PX Gamma")
+
+        with gr.Accordion("verstärkbar Relay (seite15)", open=False):
+            gr.Markdown(
+                "Re-Injektion der modell-eigenen L16-Zustands-Richtung `d_width` am "
+                "post-recur Layer (Motor unangetastet, forward_hook). Wirksam mit "
+                "**ACTIVE_MANIFOLD_RELAY** (default sign=+1) oder sign≠0 auf jedem "
+                "Preset. Nur gemma3-1b-it hat ein d_width-Artefakt; andere Modelle "
+                "→ relay no-op, LEAN-Engine läuft. siehe scratches/psychomotrik/LESUNG15.md"
+            )
+            relay_sign = gr.Radio(
+                choices=[("+1  (WIDE / expansiv / aktiv)", 1),
+                         (" 0  (relay off)", 0),
+                         ("-1  (NARROW / eng / still)", -1)],
+                value=1, label="Relay Richtung (sign)"
+            )
+            relay_alpha = gr.Slider(0.0, 1.5, value=0.30, step=0.05,
+                                    label="Relay Alpha (Bruchteil L21-Norm; kohärenter Chat ~0.30, seite15-stark=0.5)")
+            relay_layer = gr.Slider(1, 25, value=21, step=1, label="Relay Injektions-Layer")
 
         gr.Markdown("---")
         gr.Markdown("### Sessions")
@@ -303,12 +332,13 @@ def build_chat_tab(manager: ModelManager):
         # 1. Clear input and append user message to UI immediately
         return "", history + [{"role": "user", "content": message}]
 
-    def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma, session_id):
+    def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
+                     relay_sign, relay_alpha, relay_layer, session_id):
         # 2. Call our core chat_fn and yield full updated history
         # We pass history (which now has the user message) to chat_fn
         # But chat_fn also does its own history recovery if needed.
         # To avoid duplication, we ensure chat_fn sees the 'true' state.
-        
+
         # Generator for streaming updates
         generator = chat_fn(
             message=history[-1]["content"], # Last message is the user message
@@ -320,6 +350,9 @@ def build_chat_tab(manager: ModelManager):
             mt=mt,
             rp=rp,
             gamma=gamma,
+            relay_sign=relay_sign,
+            relay_alpha=relay_alpha,
+            relay_layer=relay_layer,
             session_id=session_id,
             manager=manager
         )
@@ -341,7 +374,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, session_id_state],
         outputs=[chatbot]
     )
 
@@ -352,7 +385,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, session_id_state],
         outputs=[chatbot]
     )
 
