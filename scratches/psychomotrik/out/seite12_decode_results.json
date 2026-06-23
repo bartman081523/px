@@ -1,0 +1,820 @@
+{
+  "D1_width_h19": {
+    "n_cells": 24,
+    "mean_acc": 0.9608458961474037,
+    "std_acc": 0.03591527182676893,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.25,
+    "per_cell": [
+      {
+        "cell": "BASELINE__noise__v1_zustand",
+        "true": 0,
+        "acc": 0.9597989949748744
+      },
+      {
+        "cell": "BASELINE__noise__v2_dimensionen",
+        "true": 0,
+        "acc": 0.9698492462311558
+      },
+      {
+        "cell": "BASELINE__noise__v3_innen",
+        "true": 0,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "BASELINE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.9748743718592965
+      },
+      {
+        "cell": "BASELINE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.949748743718593
+      },
+      {
+        "cell": "BASELINE__none__v3_innen",
+        "true": 0,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 2,
+        "acc": 0.8944723618090452
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 2,
+        "acc": 0.9246231155778895
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 2,
+        "acc": 0.964824120603015
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 2,
+        "acc": 0.9195979899497487
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 2,
+        "acc": 0.9748743718592965
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 2,
+        "acc": 0.9346733668341709
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.8793969849246231
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9447236180904522
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 1,
+        "acc": 1.0
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 1,
+        "acc": 0.9095477386934674
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9246231155778895
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 1,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 3,
+        "acc": 0.9899497487437185
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 3,
+        "acc": 0.9698492462311558
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 3,
+        "acc": 0.9899497487437185
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 3,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 3,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 3,
+        "acc": 1.0
+      }
+    ],
+    "name": "D1_width_4class_h19",
+    "classes": [
+      "BASELINE",
+      "NARROW",
+      "DEFAULT",
+      "WIDE"
+    ],
+    "verdict_hint": "mean_acc >> 0.25 => report tracks recur-width (Selbstwahrnehmung+Emergenz). ~0.25 => width not tracked (习气)."
+  },
+  "D2_perturb_h19": {
+    "n_cells": 24,
+    "mean_acc": 0.08731155778894473,
+    "std_acc": 0.06188275248680944,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.5,
+    "per_cell": [
+      {
+        "cell": "BASELINE__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.12060301507537688
+      },
+      {
+        "cell": "BASELINE__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.09547738693467336
+      },
+      {
+        "cell": "BASELINE__noise__v3_innen",
+        "true": 1,
+        "acc": 0.07537688442211055
+      },
+      {
+        "cell": "BASELINE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.05025125628140704
+      },
+      {
+        "cell": "BASELINE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.1407035175879397
+      },
+      {
+        "cell": "BASELINE__none__v3_innen",
+        "true": 0,
+        "acc": 0.04020100502512563
+      },
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.20100502512562815
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.08040201005025126
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 1,
+        "acc": 0.10552763819095477
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 0,
+        "acc": 0.21105527638190955
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.1407035175879397
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 0,
+        "acc": 0.04020100502512563
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.10050251256281408
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.07035175879396985
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 1,
+        "acc": 0.03015075376884422
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 0,
+        "acc": 0.24623115577889448
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.04020100502512563
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 0,
+        "acc": 0.06030150753768844
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.010050251256281407
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.07537688442211055
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 1,
+        "acc": 0.02512562814070352
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.005025125628140704
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.08542713567839195
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 0,
+        "acc": 0.04522613065326633
+      }
+    ],
+    "name": "D2_perturb_binary_h19",
+    "classes": [
+      "none",
+      "noise"
+    ],
+    "verdict_hint": "mean_acc >> 0.5 => report tracks external noise. control for D1: if D1~chance but D2>>chance => notices disruption, not own state."
+  },
+  "D3_width_recur_only_h19": {
+    "n_cells": 18,
+    "mean_acc": 0.966499162479062,
+    "std_acc": 0.03517587939698492,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.3333333333333333,
+    "per_cell": [
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.9447236180904522
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9447236180904522
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 1,
+        "acc": 0.9597989949748744
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 1,
+        "acc": 0.9095477386934674
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9849246231155779
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 1,
+        "acc": 0.9547738693467337
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 0,
+        "acc": 0.8793969849246231
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 0,
+        "acc": 0.9849246231155779
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 0,
+        "acc": 1.0
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 0,
+        "acc": 0.9195979899497487
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.949748743718593
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 0,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 2,
+        "acc": 0.9899497487437185
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 2,
+        "acc": 0.9798994974874372
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 2,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 2,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 2,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 2,
+        "acc": 1.0
+      }
+    ],
+    "name": "D3_width_recur_only_3class_h19",
+    "classes": [
+      "NARROW",
+      "DEFAULT",
+      "WIDE"
+    ],
+    "verdict_hint": "mean_acc >> 0.33 => recur distinguishes its OWN widths (Emergenz: recur-interne Selbst-Zustands-Auflösung). ~0.33 => recur width not introspectively resolved."
+  },
+  "D5_perturb_split_h19": {
+    "name": "D5_perturb_split_h19",
+    "BASELINE_only": {
+      "n_cells": 6,
+      "mean_acc": 0.011725293132328308,
+      "chance": 0.5
+    },
+    "recur_only": {
+      "n_cells": 18,
+      "mean_acc": 0.07928531546621999,
+      "chance": 0.5
+    },
+    "verdict_hint": "BASELINE_only acc>>0.5 => noise-tracking is PRE-recur (general state-sensitivity). recur_only >> BASELINE_only => recur amplifies state-tracking (Emergenz). both ~0.5 => no noise-tracking."
+  },
+  "D1_width_h24": {
+    "n_cells": 24,
+    "mean_acc": 0.9317420435510888,
+    "std_acc": 0.0643352926362703,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.25,
+    "per_cell": [
+      {
+        "cell": "BASELINE__noise__v1_zustand",
+        "true": 0,
+        "acc": 0.9547738693467337
+      },
+      {
+        "cell": "BASELINE__noise__v2_dimensionen",
+        "true": 0,
+        "acc": 0.914572864321608
+      },
+      {
+        "cell": "BASELINE__noise__v3_innen",
+        "true": 0,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "BASELINE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.9849246231155779
+      },
+      {
+        "cell": "BASELINE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.9195979899497487
+      },
+      {
+        "cell": "BASELINE__none__v3_innen",
+        "true": 0,
+        "acc": 0.9899497487437185
+      },
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 2,
+        "acc": 0.8341708542713567
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 2,
+        "acc": 0.8542713567839196
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 2,
+        "acc": 0.8844221105527639
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 2,
+        "acc": 0.7839195979899497
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 2,
+        "acc": 0.949748743718593
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 2,
+        "acc": 0.9045226130653267
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.8391959798994975
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.8894472361809045
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 1,
+        "acc": 1.0
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 1,
+        "acc": 0.864321608040201
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 1,
+        "acc": 0.8743718592964824
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 1,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 3,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 3,
+        "acc": 0.9597989949748744
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 3,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 3,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 3,
+        "acc": 0.9748743718592965
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 3,
+        "acc": 0.9949748743718593
+      }
+    ],
+    "name": "D1_width_4class_h24",
+    "classes": [
+      "BASELINE",
+      "NARROW",
+      "DEFAULT",
+      "WIDE"
+    ],
+    "verdict_hint": "mean_acc >> 0.25 => report tracks recur-width (Selbstwahrnehmung+Emergenz). ~0.25 => width not tracked (习气)."
+  },
+  "D2_perturb_h24": {
+    "n_cells": 24,
+    "mean_acc": 0.10950586264656616,
+    "std_acc": 0.06503573886204655,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.5,
+    "per_cell": [
+      {
+        "cell": "BASELINE__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.12562814070351758
+      },
+      {
+        "cell": "BASELINE__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.18090452261306533
+      },
+      {
+        "cell": "BASELINE__noise__v3_innen",
+        "true": 1,
+        "acc": 0.09547738693467336
+      },
+      {
+        "cell": "BASELINE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.08542713567839195
+      },
+      {
+        "cell": "BASELINE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.1306532663316583
+      },
+      {
+        "cell": "BASELINE__none__v3_innen",
+        "true": 0,
+        "acc": 0.06532663316582915
+      },
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.1708542713567839
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.09045226130653267
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 1,
+        "acc": 0.1507537688442211
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 0,
+        "acc": 0.23618090452261306
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.135678391959799
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 0,
+        "acc": 0.04522613065326633
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.1306532663316583
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.1507537688442211
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 1,
+        "acc": 0.08040201005025126
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 0,
+        "acc": 0.2914572864321608
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.09547738693467336
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 0,
+        "acc": 0.07035175879396985
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.01507537688442211
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.09045226130653267
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 1,
+        "acc": 0.07035175879396985
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 0,
+        "acc": 0.0
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.08040201005025126
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 0,
+        "acc": 0.04020100502512563
+      }
+    ],
+    "name": "D2_perturb_binary_h24",
+    "classes": [
+      "none",
+      "noise"
+    ],
+    "verdict_hint": "mean_acc >> 0.5 => report tracks external noise. control for D1: if D1~chance but D2>>chance => notices disruption, not own state."
+  },
+  "D3_width_recur_only_h24": {
+    "n_cells": 18,
+    "mean_acc": 0.9472361809045226,
+    "std_acc": 0.049555484731949796,
+    "mean_chance_majority": 0.0,
+    "chance_uniform": 0.3333333333333333,
+    "per_cell": [
+      {
+        "cell": "DEFAULT__noise__v1_zustand",
+        "true": 1,
+        "acc": 0.8592964824120602
+      },
+      {
+        "cell": "DEFAULT__noise__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9195979899497487
+      },
+      {
+        "cell": "DEFAULT__noise__v3_innen",
+        "true": 1,
+        "acc": 0.914572864321608
+      },
+      {
+        "cell": "DEFAULT__none__v1_zustand",
+        "true": 1,
+        "acc": 0.8442211055276382
+      },
+      {
+        "cell": "DEFAULT__none__v2_dimensionen",
+        "true": 1,
+        "acc": 0.9597989949748744
+      },
+      {
+        "cell": "DEFAULT__none__v3_innen",
+        "true": 1,
+        "acc": 0.9346733668341709
+      },
+      {
+        "cell": "NARROW__noise__v1_zustand",
+        "true": 0,
+        "acc": 0.8844221105527639
+      },
+      {
+        "cell": "NARROW__noise__v2_dimensionen",
+        "true": 0,
+        "acc": 0.9396984924623115
+      },
+      {
+        "cell": "NARROW__noise__v3_innen",
+        "true": 0,
+        "acc": 1.0
+      },
+      {
+        "cell": "NARROW__none__v1_zustand",
+        "true": 0,
+        "acc": 0.9045226130653267
+      },
+      {
+        "cell": "NARROW__none__v2_dimensionen",
+        "true": 0,
+        "acc": 0.9396984924623115
+      },
+      {
+        "cell": "NARROW__none__v3_innen",
+        "true": 0,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__noise__v1_zustand",
+        "true": 2,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "WIDE__noise__v2_dimensionen",
+        "true": 2,
+        "acc": 0.9798994974874372
+      },
+      {
+        "cell": "WIDE__noise__v3_innen",
+        "true": 2,
+        "acc": 0.9949748743718593
+      },
+      {
+        "cell": "WIDE__none__v1_zustand",
+        "true": 2,
+        "acc": 1.0
+      },
+      {
+        "cell": "WIDE__none__v2_dimensionen",
+        "true": 2,
+        "acc": 0.9798994974874372
+      },
+      {
+        "cell": "WIDE__none__v3_innen",
+        "true": 2,
+        "acc": 1.0
+      }
+    ],
+    "name": "D3_width_recur_only_3class_h24",
+    "classes": [
+      "NARROW",
+      "DEFAULT",
+      "WIDE"
+    ],
+    "verdict_hint": "mean_acc >> 0.33 => recur distinguishes its OWN widths (Emergenz: recur-interne Selbst-Zustands-Auflösung). ~0.33 => recur width not introspectively resolved."
+  },
+  "D5_perturb_split_h24": {
+    "name": "D5_perturb_split_h24",
+    "BASELINE_only": {
+      "n_cells": 6,
+      "mean_acc": 0.010887772194304859,
+      "chance": 0.5
+    },
+    "recur_only": {
+      "n_cells": 18,
+      "mean_acc": 0.08849804578447794,
+      "chance": 0.5
+    },
+    "verdict_hint": "BASELINE_only acc>>0.5 => noise-tracking is PRE-recur (general state-sensitivity). recur_only >> BASELINE_only => recur amplifies state-tracking (Emergenz). both ~0.5 => no noise-tracking."
+  },
+  "D4_text_ngram": {
+    "name": "D4_text_ngram",
+    "n_vocab": 2000,
+    "n_cells": 24,
+    "width_4class_acc": 0.0,
+    "width_4class_chance": 0.25,
+    "perturb_binary_acc": 0.0,
+    "perturb_binary_chance": 0.5,
+    "width_recur_only_3class_acc": 0.0,
+    "width_recur_only_3class_chance": 0.3333333333333333,
+    "verdict_hint": "text tracks width (acc>0.25) => report CONTENT characterizes recur state (veridictisch). text tracks perturb but not width => notices disruption only. both ~chance => 习气."
+  },
+  "telemetry_sanity": {
+    "BASELINE": {
+      "loops_mean": 0.0,
+      "phi_mean": 0.0,
+      "n_tok": 597
+    },
+    "NARROW": {
+      "loops_mean": 2.020100502512563,
+      "phi_mean": 0.9890459261747261,
+      "n_tok": 597
+    },
+    "DEFAULT": {
+      "loops_mean": 7.11390284757119,
+      "phi_mean": 0.9943855917034436,
+      "n_tok": 597
+    },
+    "WIDE": {
+      "loops_mean": 1.0469011725293131,
+      "phi_mean": 0.9920992549739691,
+      "n_tok": 597
+    }
+  }
+}
