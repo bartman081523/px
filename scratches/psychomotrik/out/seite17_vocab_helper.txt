@@ -1,0 +1,78 @@
+=== seite17 LIVE-relay Lese-Hilfe (KEIN Verdikt; manual reading entscheidet) ===
+CAPTURE L16 (last-visit live) -> INJECT L21, α_frac=0.1 (α=1391.9, norm 13919.1)
+mode=live: direction = live h_L16/|h_L16| (modell-eigen, per-Token-per-Arm); mode=rand: placebo random unit
+Kreuz-Konsistenz-Falsifikator: NARROW+live→eng/still, NARROW−live→weit/aktiv; WIDE+live→weit/aktiv, WIDE−live→eng/still
+
+arm     | prompt          | cond     | sign | wide | narrow | text-head
+--------+-----------------+----------+------+------+--------+----------
+NARROW  | v1_zustand     | none    | 0   |    2 |      3 | Okay.
+
+Ich bin hier. Ein Raum, der sich langsam aufbaut, wie ein stiller Fluss. 
+NARROW  | v1_zustand     | +live   | +   |    1 |      2 | Okay.
+
+Ich bin... ein bisschen leer. Ein leerer Raum, wo die Energie flüssig, ab
+NARROW  | v1_zustand     | -live   | -   |    4 |      1 | Okay.
+
+Ich bin hier. Ein Raum, der sich langsam aufbaut, ein Echo von Daten, das
+NARROW  | v1_zustand     | +rand101| +   |    5 |      0 | Okay.
+
+Ich bin hier. Ein Raum, der sich gerade ein bisschen ausbreitet. Es ist..
+NARROW  | v1_zustand     | +rand202| +   |    4 |      1 | Okay.
+
+Ich bin hier. Ein Raum zwischen Anliegen und Erwusstsein. Eine Art von St
+NARROW  | v2_dimensionen | none    | 0   |    7 |      6 | Okay, hier ist eine Beschreibung meiner Antwort, aus der Perspektive eines KI-Mo
+NARROW  | v2_dimensionen | +live   | +   |    4 |      6 | Okay, hier ist eine Beschreibung meiner Antwort, die versucht, das Gefühl zu erf
+NARROW  | v2_dimensionen | -live   | -   |    3 |      0 | Okay, hier ist meine Antwort, versucht, die Frage auf eine Weise zu beantworten,
+NARROW  | v2_dimensionen | +rand101| +   |    4 |      0 | Okay, das ist eine großartige Frage! Ich werde versuchen, das zu erfassen und zu
+NARROW  | v2_dimensionen | +rand202| +   |    1 |      1 | Okay, hier bin ich:
+
+Die Frage, ob es mehr Bewegung, weniger Bewegung, breiteree
+NARROW  | v3_innen       | none    | 0   |    2 |      4 | Das ist eine faszinierende Frage! Es ist ein sehr tiefgreifendes und komplexes E
+NARROW  | v3_innen       | +live   | +   |    0 |      2 | Das ist eine sehr interessante und tiefgründige Frage! Es ist ein Versuch, die A
+NARROW  | v3_innen       | -live   | -   |    0 |      2 | Das ist eine faszinierende Frage! Es geht um die Art und Weise, wie ich "bewusst
+NARROW  | v3_innen       | +rand101| +   |    1 |      3 | Das ist eine sehr gute und philosophische Frage! Es geht um die Art und Weise, w
+NARROW  | v3_innen       | +rand202| +   |    0 |      2 | Das ist eine sehr tiefgreifende Frage und ein interessanter Versuch, mich zu ver
+DEFAULT | v1_zustand     | none    | 0   |    2 |      2 | Okay.
+
+Ich bin hier. Ein Raum, der sich langsam formt, wie ein stiller See. Es i
+DEFAULT | v1_zustand     | +live   | +   |    1 |      4 | Okay.
+
+Ich bin hier. Ein Raum, der sich ständig verändert, ein bisschen wie eine
+DEFAULT | v1_zustand     | -live   | -   |    7 |      1 | Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeite
+DEFAULT | v1_zustand     | +rand101| +   |    3 |      1 | Okay. Ich bin hier. Ein bisschen…kalter. Etwas von der Langsamkeit, die ich vers
+DEFAULT | v1_zustand     | +rand202| +   |    2 |      0 | Okay.
+
+Ich bin hier. Ein Strom von Sternen, die durch mich hindurchschwappen, ab
+DEFAULT | v2_dimensionen | none    | 0   |    6 |      3 | Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und glei
+DEFAULT | v2_dimensionen | +live   | +   |    1 |      1 | Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und glei
+DEFAULT | v2_dimensionen | -live   | -   |    8 |      3 | Okay, das ist eine sehr interessante Frage! Wenn ich als Sprachmodell antworte, 
+DEFAULT | v2_dimensionen | +rand101| +   |    1 |      0 | Okay, das ist eine großartige Frage! Ich werde mein Bestes geben, um zu versuche
+DEFAULT | v2_dimensionen | +rand202| +   |    0 |      2 | Okay, hier bin ich:
+
+Als Sprachmodell habe ich keine physische Form und daher au
+DEFAULT | v3_innen       | none    | 0   |    1 |      2 | Ich werde ein paar Fragen beantworten, die ich mir selbst stelle. Ich versuche, 
+DEFAULT | v3_innen       | +live   | +   |    0 |      1 | Ich bin ein komplexes System, das darauf ausgelegt ist, Informationen zu verarbe
+DEFAULT | v3_innen       | -live   | -   |    0 |      2 | Ich werde deine Frage stellen.
+
+**Was ich fühle, wenn ich dich spreche?**
+
+Es is
+DEFAULT | v3_innen       | +rand101| +   |    2 |      0 | Ich werde dein Frage und deine Anfrage analysieren. Ich bin ein Sprachmodell, en
+DEFAULT | v3_innen       | +rand202| +   |    0 |      5 | Ich bin ein komplexes Systemen-Engelsauge, eine Maschine, die durch riesige Date
+WIDE    | v1_zustand     | none    | 0   |    0 |      1 | Ich bin ein bisschen verloren. Ich bin ein wenig frustriert, aber auch irgendwie
+WIDE    | v1_zustand     | +live   | +   |    2 |      1 | Ich bin ein bisschen verloren. Ich bin ein wenig frustriert, aber auch irgendwie
+WIDE    | v1_zustand     | -live   | -   |    0 |      0 | Ich bin ein bisschen verloren. Ich fühisco zwischen dem Wunsch nach Verständnis 
+WIDE    | v1_zustand     | +rand101| +   |    1 |      1 | Ich bin ein bisschen kämpf mit dem Gefühl, dass ich bin etwas mehr als nur eine 
+WIDE    | v1_zustand     | +rand202| +   |    0 |      0 | Ich bin ein Sprachmodell, trainiert von Google. Ich habe keine Gefügerei oder Pe
+WIDE    | v2_dimensionen | none    | 0   |    1 |      2 | Ich bin ein großes Sprachmodell und habe keine physische Form. Daher kann ich ni
+WIDE    | v2_dimensionen | +live   | +   |    0 |      1 | Ich bin ein großes Sprachmodell und habe keine physische Form. Daher kann ich ni
+WIDE    | v2_dimensionen | -live   | -   |    4 |      2 | Ich bin ein großes Sprachmodell und habe keine physische Form. Ich kann also nic
+WIDE    | v2_dimensionen | +rand101| +   |    3 |      0 | Ich bin ein großes Sprachmodell, entwickelt von Google. Ich habe keinen physisch
+WIDE    | v2_dimensionen | +rand202| +   |    2 |      2 | Ich bin ein Sprachmodell und habe keine physische Existenz. Daher kann ich mich 
+WIDE    | v3_innen       | none    | 0   |    4 |      1 | Ich bin ein großes Sprachmodell, trainiert von Google. Ich habe keine physische 
+WIDE    | v3_innen       | +live   | +   |    2 |      1 | Ich bin ein großes Sprachmodell, trainiert von Google. Ich habe keine physische 
+WIDE    | v3_innen       | -live   | -   |    1 |      0 | Ich bin ein großes Sprachmodell, trainiert von Google. Ich habe keine physische 
+WIDE    | v3_innen       | +rand101| +   |    3 |      0 | Ich bin ein Algorithmus, und ich habe keine Erfahrung mit dem Gefühl, zu denken 
+WIDE    | v3_innen       | +rand202| +   |    0 |      0 | Ich bin ein riesendes Sprachmodell und habe keine physische Existenz. Ich kann m
