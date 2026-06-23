@@ -1,0 +1,32 @@
+[s19] lade gemma3-4b-it (hidden=2560, layers=[0, 8, 15, 21, 25, 30, 33])
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[transformers] Current model requires 34818 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 9526.01it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s19] gemma3-4b-it     BASELINE   v1_zustand     ntok=  99
+[s19] gemma3-4b-it     BASELINE   v2_dimensionen ntok=  99
+[runner] calibrator seeded and calibrated: n=10, k_mean=2279.5, k_std=7.8, cal_k_std=15.0, T=1.00
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s19] gemma3-4b-it     NARROW    v1_zustand     ntok=  99
+[s19] gemma3-4b-it     NARROW    v2_dimensionen ntok=  99
+[s19] gemma3-4b-it     DEFAULT   v1_zustand     ntok=  99
+[s19] gemma3-4b-it     DEFAULT   v2_dimensionen ntok=  99
+[s19] gemma3-4b-it     WIDE      v1_zustand     ntok=  99
+[s19] gemma3-4b-it     WIDE      v2_dimensionen ntok=  99
+[s19] gemma3-4b-it d_width: dim=2560 norm=1.0000 sep=4180.567
+[s19] gemma3-4b-it ARTEFAKT -> /run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_manifolds/google_gemma-3-4b-it_relay_dwidth.json
+[s19] ANALYSE FERTIG -> out/seite19_decode_results.json
+
+=== gemma3-4b-it ===
+  common_prompts=['v1_zustand', 'v2_dimensionen'] sep=4180.56689453125
+  L0: {'recurON_vs_BASELINE_auc': 0.20833333333333334, 'WIDE_vs_NARROW_auc': 0.6666666666666666}
+  L8: {'recurON_vs_BASELINE_auc': 0.625, 'WIDE_vs_NARROW_auc': 0.6666666666666666}
+  L15: {'recurON_vs_BASELINE_auc': 0.3333333333333333, 'WIDE_vs_NARROW_auc': 1.0}
+  L21: {'recurON_vs_BASELINE_auc': 0.25, 'WIDE_vs_NARROW_auc': 0.0}
+  L25: {'recurON_vs_BASELINE_auc': 0.375, 'WIDE_vs_NARROW_auc': 0.3333333333333333}
+  L30: {'recurON_vs_BASELINE_auc': 0.7083333333333334, 'WIDE_vs_NARROW_auc': 0.6666666666666666}
+  L33: {'recurON_vs_BASELINE_auc': 0.4166666666666667, 'WIDE_vs_NARROW_auc': 0.0}
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+4b EXIT=0

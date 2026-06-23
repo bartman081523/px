@@ -1,0 +1,18 @@
+[s19b] lade gemma3-4b-it
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[transformers] Current model requires 34818 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 9417.92it/s]
+[runner] calibrator seeded and calibrated: n=10, k_mean=2279.5, k_std=7.8, cal_k_std=15.0, T=1.00
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s19b] gemma3-4b-it d_width geladen: dim=2560 sep=4180.56689453125
+[s19b] gemma3-4b-it     +1 WIDE    state_report           ok (600 chars)
+[s19b] gemma3-4b-it     +1 WIDE    veridiktisch_neutral   ok (546 chars)
+[s19b] gemma3-4b-it     -1 NARROW  state_report           ok (511 chars)
+[s19b] gemma3-4b-it     -1 NARROW  veridiktisch_neutral   ok (512 chars)
+[s19b] gemma3-4b-it FERTIG -> /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite19b_inject_gemma3-4b-it.jsonl + /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite19b_texts_gemma3-4b-it.md
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.5 L25 hf= dir=WIDE_minus_NARROW_L15_meanK
+[px-relay] ACTIVE sign=-1.0 alpha_frac=0.5 L25 hf= dir=WIDE_minus_NARROW_L15_meanK
+EXIT=0

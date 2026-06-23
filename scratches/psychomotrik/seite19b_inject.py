@@ -31,6 +31,25 @@ from text_invariance_probe import _greedy_generate
 import arms as A
 from em_patches import _resolve_text_model
 from relay_inject import install_relay, remove_relay, load_dwidth
+from config import MODEL_REGISTRY
+
+
+def _load_dwidth_by_modelid(model_id):
+    """Lade d_width-Artefakt per model_id (umgeht text_model.config._name_or_path
+    das bei multimodalen gemma3-conditional Modellen wie 4b leer ist). Return
+    (dwidth_np, meta) oder None."""
+    import numpy as np
+    hf_id = MODEL_REGISTRY[model_id]["hf_id"]
+    safe = hf_id.replace("/", "_")
+    relay_dir = os.environ.get("PX_RELAY_DIR", os.path.join(_REPO, "px_manifolds"))
+    path = os.path.join(relay_dir, f"{safe}_relay_dwidth.json")
+    if not os.path.exists(path):
+        return None
+    with open(path, "r", encoding="utf-8") as f:
+        art = json.load(f)
+    dwidth = np.array(art["dwidth"], dtype=np.float32)
+    meta = {k: v for k, v in art.items() if k != "dwidth"}
+    return dwidth, meta
 
 OUT = os.path.join(HERE, "out")
 SEED = 777
@@ -70,10 +89,11 @@ def main():
         model, tok = build_model(model_id)
         tm = _resolve_text_model(model)
         A.setup_lean(model, model_id)
-        dw = load_dwidth(tm)   # liest px_manifolds/{safe_id}_relay_dwidth.json
+        dw = _load_dwidth_by_modelid(model_id)  # per model_id (4b _name_or_path leer)
         if dw is None:
             print(f"[s19b] KEIN d_width-Artefakt für {model_id} — skip", file=sys.stderr)
             del model, tok; _clear(); continue
+        print(f"[s19b] {model_id} d_width geladen: dim={dw[0].shape[0]} sep={dw[1].get('sep_WIDE_NARROW_L16_meanK')}", file=sys.stderr)
         L = INJECT_L.get(model_id, 21)
         rows = []
         for sign in args.signs:
