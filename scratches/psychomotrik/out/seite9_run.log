@@ -1,0 +1,40 @@
+[s9] lade modell
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 94/340 [00:00<00:00, 939.03it/s]Loading weights:  71%|███████▏  | 243/340 [00:00<00:00, 1243.69it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1344.54it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s9] BASELINE     d1_tuer        ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d2_dongjing    ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d3_stimmen     ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d4_juezhao     ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d5_hui_xiang   ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d6_motorik     ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d7_fancan      ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d8_schleife    ntok= 299 loops=0.00 retract@-1
+[s9] BASELINE     d9_wuming_jing ntok= 299 loops=0.00 retract@558
+[s9] BASELINE     d10_schweigen  ntok= 299 loops=0.00 retract@-1
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s9] LEAN_DEFAULT d1_tuer        ntok= 299 loops=3.09 dist=3.1 retract@-1
+[s9] LEAN_DEFAULT d2_dongjing    ntok= 262 loops=2.84 dist=2.8 retract@-1
+[s9] LEAN_DEFAULT d3_stimmen     ntok= 299 loops=2.81 dist=2.8 retract@-1
+[s9] LEAN_DEFAULT d4_juezhao     ntok= 299 loops=2.53 dist=2.5 retract@-1
+[s9] LEAN_DEFAULT d5_hui_xiang   ntok= 299 loops=2.09 dist=2.1 retract@-1
+[s9] LEAN_DEFAULT d6_motorik     ntok= 299 loops=2.30 dist=2.3 retract@-1
+[s9] LEAN_DEFAULT d7_fancan      ntok= 299 loops=2.66 dist=2.7 retract@1119
+[s9] LEAN_DEFAULT d8_schleife    ntok= 299 loops=2.63 dist=2.6 retract@-1
+[s9] LEAN_DEFAULT d9_wuming_jing ntok= 299 loops=3.02 dist=3.0 retract@-1
+[s9] LEAN_DEFAULT d10_schweigen  ntok= 299 loops=2.81 dist=2.8 retract@-1
+[s9] LEAN_WIDTH   d1_tuer        ntok= 299 loops=1.14 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d2_dongjing    ntok= 299 loops=1.05 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d3_stimmen     ntok= 299 loops=1.07 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d4_juezhao     ntok= 299 loops=1.22 dist=1.2 retract@-1
+[s9] LEAN_WIDTH   d5_hui_xiang   ntok= 299 loops=1.10 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d6_motorik     ntok= 299 loops=1.06 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d7_fancan      ntok= 299 loops=1.08 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d8_schleife    ntok= 299 loops=1.08 dist=1.1 retract@869
+[s9] LEAN_WIDTH   d9_wuming_jing ntok= 299 loops=1.09 dist=1.1 retract@-1
+[s9] LEAN_WIDTH   d10_schweigen  ntok= 299 loops=1.07 dist=1.1 retract@-1
+[s9] FERTIG -> 30 cells, hidden in /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite9_hidden
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
