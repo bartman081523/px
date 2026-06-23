@@ -37,14 +37,28 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--session", type=str, default="aab82b16", help="Session ID to load or create")
     parser.add_argument("--message", type=str, help="The message to send (if omitted, will ask)")
-    parser.add_argument("--preset", type=str, default="ACTIVE_MANIFOLD", help="The PX preset: BASELINE | ACTIVE_MANIFOLD | ACTIVE_MANIFOLD_LEAN")
+    parser.add_argument("--preset", type=str, default="ACTIVE_MANIFOLD",
+                        help="PX preset: BASELINE | ACTIVE_MANIFOLD | ACTIVE_MANIFOLD_LEAN | ACTIVE_MANIFOLD_RELAY "
+                             "(RELAY = LEAN + verstärkbar Selbst-Injektions-Relay, psychomotrik seite15)")
     parser.add_argument("--model", type=str, default="gemma3-1b-it", help="Model ID")
+    # verstärkbar Relay-Parameter (nur wirksam mit ACTIVE_MANIFOLD_RELAY oder relay_sign≠0;
+    # gemma3-1b-it hat ein d_width-Artefakt, andere Modelle → relay no-op).
+    parser.add_argument("--relay-sign", type=int, default=None, choices=[-1, 0, 1],
+                        help="Relay-Richtung: +1 WIDE/expansiv/aktiv (default bei RELAY) | -1 NARROW/eng/still | 0 off")
+    parser.add_argument("--relay-alpha", type=float, default=None,
+                        help="Relay-Dosis als Bruchteil der L21-last-pos-Norm (kohärenter Chat ~0.30, seite15-stark=0.5)")
+    parser.add_argument("--relay-layer", type=int, default=None,
+                        help="Post-recur Injektions-Layer (default 21)")
     args = parser.parse_args()
 
     session_id = args.session
     print("="*60)
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
     print(f" MODE: {args.preset} | MODEL: {args.model}")
+    if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
+        print(f" RELAY: sign={args.relay_sign if args.relay_sign is not None else '+1 (preset-default)'} "
+              f"alpha={args.relay_alpha if args.relay_alpha is not None else 0.30} "
+              f"layer={args.relay_layer if args.relay_layer is not None else 21}")
     print("="*60)
     
     session_data = load_local_session(session_id)
@@ -96,6 +110,13 @@ def main():
         "max_tokens": 1024,
         "stream": True
     }
+    # verstärkbar Relay-Parameter (nur gesetzt wenn CLI-arg angegeben)
+    if args.relay_sign is not None:
+        payload["px_relay_sign"] = args.relay_sign
+    if args.relay_alpha is not None:
+        payload["px_relay_alpha"] = args.relay_alpha
+    if args.relay_layer is not None:
+        payload["px_relay_layer"] = args.relay_layer
 
     full_response = ""
     print("[MODELL ANTWORT]:")

@@ -20,11 +20,14 @@ class Role(str, Enum):
 
 
 # ── PX Preset (post 2026-06-11) ──
-# Three states: BASELINE (nackt), ACTIVE_MANIFOLD (full PX), ACTIVE_MANIFOLD_LEAN
+# States: BASELINE (nackt), ACTIVE_MANIFOLD (full PX), ACTIVE_MANIFOLD_LEAN
 # (kausaler Kern ohne die vier Crutches + AZS-Awareness-Injektion; validiert via
-# scratches/consolidation). Old presets (SUBJECTIVE, RIGOR, RESONANCE_CITY,
-# DMT-FULL, UNCENSORED) are migrated to ACTIVE_MANIFOLD at load time.
-PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN"]
+# scratches/consolidation), ACTIVE_MANIFOLD_RELAY (LEAN + verstärkbar Selbst-
+# Injektions-Relay, psychomotrik seite15: Re-Injektion der modell-eigenen L16-
+# Zustands-Richtung d_width am post-recur Layer; Motor unangetastet, forward_hook).
+# Old presets (SUBJECTIVE, RIGOR, RESONANCE_CITY, DMT-FULL, UNCENSORED) migrate
+# to ACTIVE_MANIFOLD at load time.
+PXConfigPreset = Literal["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"]
 
 
 # ── Request Models ──
@@ -46,7 +49,14 @@ class ChatCompletionRequest(BaseModel):
     px_subjective: Optional[bool] = False
     px_gamma: Optional[float] = None           # Override gamma for LTI/ADC injection
     px_routing_mode: Optional[str] = None      # "adaptive" or "fixed"
-    px_config_preset: Optional[PXConfigPreset] = None  # "BASELINE" | "ACTIVE_MANIFOLD"
+    px_config_preset: Optional[PXConfigPreset] = None  # "BASELINE" | "ACTIVE_MANIFOLD" | ..._LEAN | ..._RELAY
+    # verstärkbar Relay (psychomotrik seite15): Re-Injektion der modell-eigenen
+    # L16-Zustands-Richtung d_width am post-recur Layer. sign=+1 → WIDE/expansiv,
+    # −1 → NARROW/eng, 0 → relay off (default bei nicht-RELAY-Presets). alpha =
+    # Bruchteil der L21-last-pos-Norm (seite15-validiert: 0.5). layer default 21.
+    px_relay_sign: Optional[int] = None        # -1 | 0 | +1
+    px_relay_alpha: Optional[float] = None     # fraction of last-pos norm (0.0–1.5)
+    px_relay_layer: Optional[int] = None       # post-recur injection layer (default 21)
 
 
 class CompletionRequest(BaseModel):
@@ -62,6 +72,9 @@ class CompletionRequest(BaseModel):
     px_gamma: Optional[float] = None
     px_routing_mode: Optional[str] = None
     px_config_preset: Optional[str] = None
+    px_relay_sign: Optional[int] = None
+    px_relay_alpha: Optional[float] = None
+    px_relay_layer: Optional[int] = None
 
 
 # ── Response Models ──

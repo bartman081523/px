@@ -124,6 +124,9 @@ async def chat_completions(request: ChatCompletionRequest):
             px_gamma=request.px_gamma,
             px_routing_mode=request.px_routing_mode,
             px_config_preset=request.px_config_preset,
+            px_relay_sign=request.px_relay_sign,
+            px_relay_alpha=request.px_relay_alpha,
+            px_relay_layer=request.px_relay_layer,
         )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
@@ -205,6 +208,9 @@ async def completions(request: CompletionRequest):
             px_gamma=request.px_gamma,
             px_routing_mode=request.px_routing_mode,
             px_config_preset=request.px_config_preset,
+            px_relay_sign=request.px_relay_sign,
+            px_relay_alpha=request.px_relay_alpha,
+            px_relay_layer=request.px_relay_layer,
         )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
