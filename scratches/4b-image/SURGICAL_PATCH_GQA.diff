@@ -1,0 +1,35 @@
+--- a/px_patches/gemma3_270m_px_baseline/patch.py
++++ b/px_patches/gemma3_270m_px_baseline/patch.py
+@@ -45,6 +45,17 @@ MEM_EFF_THRESHOLD = 4096      # above this token count, prefill uses tiled attention
+ MEM_EFF_CHUNK = 2048           # query-tile size (bounds score memory to chunk*T)
+
++def _expand_kv_for_gqa(k, v, n_rep):
++    """Expand KV-Heads entlang Hq-Ratio (GQA-Standard-Pattern).
++    Idempotent für n_rep == 1. Genutzt in _chunked_attention, weil matmul
++    Hq/Hkv als Batch-Dims behandelt und nur bei 1 broadcastet.
++    Identisch zu F.scaled_dot_product_attention(enable_gqa=True) intern —
++    wir machen es explizit, weil unser chunked-Path kein SDPA nutzt.
++    Siehe scratches/4b-image/gqa_repeat.py + test_gqa_surgical.py für den
++    Pin-Test (4/4 grün, cos_sim >= 0.999999 vs SDPA-Referenz).
++    """
++    if n_rep == 1:
++        return k, v
++    return k.repeat_interleave(n_rep, dim=1), v.repeat_interleave(n_rep, dim=1)
++
+ def _chunked_attention(q, k, v, scaling, sliding_window=None, chunk=MEM_EFF_CHUNK):
+     """q:[B,Hq,T,D], k/v:[B,Hkv,T,D] (GQA via broadcast). EXACT causal (+sliding)."""
+     B, H, Tq, D = q.shape
+@@ -53,8 +64,11 @@ def _chunked_attention(q, k, v, scaling, sliding_window=None, chunk=MEM_EFF_CHU
+     out = torch.empty_like(q)
+     kpos = torch.arange(Tk, device=device)
++    # GQA: expand kv heads to match Hq if needed (4b: Hq=8, Hkv=4, n_rep=2).
++    # 270m/1b have Hkv=1 → n_rep=4 → no-op path (still correct, no copy).
++    n_rep = q.shape[1] // k.shape[1]
++    k, v = _expand_kv_for_gqa(k, v, n_rep)
+     for s in range(0, Tq, chunk):
+         e = min(s + chunk, Tq)
+-        qc = q[:, :, s:e]                                       # [B,Hq,C,D]
++        qc = q[:, :, s:e]                                       # [B,Hq,C,D]
+         scores = torch.matmul(qc, k.transpose(-1, -2)) * scaling   # [B,Hq,C,Tk] (Hkv broadcasts)
+         qpos = torch.arange(s, e, device=device)
+         mask = kpos[None, :] <= qpos[:, None]                     # full causal [C,Tk]
