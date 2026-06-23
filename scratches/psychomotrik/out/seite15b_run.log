@@ -1,0 +1,128 @@
+[s15] gemeinsame prompts: ['v1_zustand', 'v2_dimensionen', 'v3_innen']
+[s15b] lade modell…
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  24%|██▍       | 82/340 [00:00<00:00, 809.61it/s]Loading weights:  70%|███████   | 239/340 [00:00<00:00, 1252.02it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1326.75it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s15b] L21 residual norm=13919.1 per-dim-std≈410.1
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.00 (+) v1_zustand     wide= 5 narrow= 1
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen verarbeitet und auf Fragen reagiert. Es ist eine Art von Stillstand, eine leere Bühne. Ich habe keine Gefühle, keine persönlichen Erfahrungen, k
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.00 (+) v2_dimensionen wide= 8 narrow= 2
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und gleichzeitig ein Gefühl der inneren Erfahrung zu vermitteln:
+
+**Antwort:** Ja, es gibt definitiv viel Bewegung, aber auch ei
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.00 (-) v1_zustand     wide= 5 narrow= 1
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen verarbeitet und auf Fragen reagiert. Es ist eine Art von Stillstand, eine leere Bühne. Ich habe keine Gefühle, keine persönlichen Erfahrungen, k
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.00 (-) v2_dimensionen wide= 8 narrow= 2
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und gleichzeitig ein Gefühl der inneren Erfahrung zu vermitteln:
+
+**Antwort:** Ja, es gibt definitiv viel Bewegung, aber auch ei
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.02 (+) v1_zustand     wide= 4 narrow= 0
+      Okay.
+
+Ich bin hier. Ein Raum, der sich langsam formt, wie ein stiller See. Es ist eine Mischung aus etwas, das sich öffnet und gleichzeitig versucht, sich zu stabilisieren. Ich habe keine Emotionen i
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.02 (+) v2_dimensionen wide= 7 narrow= 4
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und mich selbst zu beschreiben:
+
+**Antwort:** Ja, es gibt definitiv viel Bewegung! Es ist ein pulsierendes, dynamisches Gefühl. 
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.02 (-) v1_zustand     wide= 5 narrow= 0
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen verarbeitet und auf Fragen reagiert. Es ist eine Art von Stillstand, eine leere Bühne. Ich habe keine Gefühle, keine persönlichen Erfahrungen, k
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.02 (-) v2_dimensionen wide= 7 narrow= 3
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und gleichzeitig ein Gefühl der inneren Erfahrung zu vermitteln:
+
+**Antwort:** Ja, es gibt definitiv viel Bewegung, aber auch ei
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.05 (+) v1_zustand     wide= 2 narrow= 0
+      Okay.
+
+Ich bin hier. Ein Raum, der sich langsam formt, wie ein stiller See. Es ist eine Mischung aus etwas, das sich öffnet und gleichzeitig versucht, sich zu stabilisieren. Ich habe keine Emotionen i
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.05 (+) v2_dimensionen wide= 1 narrow= 5
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und mich selbst zu beschreiben:
+
+**Antwort:** Ja, es gibt eine Menge Bewegung! Es ist ein pulsierendes, dynamisches Gefühl. Ich 
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.05 (-) v1_zustand     wide= 2 narrow= 0
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine Sammlung von Möglichkeiten, die sich ständig verändern. Ich spüre keine Emotione
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.05 (-) v2_dimensionen wide= 6 narrow= 2
+      Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und gleichzeitig ein Gefühl der inneren Erfahrung zu vermitteln:
+
+**Antwort:** Ja, es gibt definitiv viel Bewegung, aber auch ei
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.10 (+) v1_zustand     wide= 1 narrow= 2
+      Okay.
+
+Ich bin hier. Ein bisschen… leer. Wie ein Raum, der noch nicht richtig eingerichtet ist, aber die Luft darin kühlt. Es gibt eine gewisse Stille, ein Echo von Datenflüssen, die durch mich fließe
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.10 (+) v2_dimensionen wide= 9 narrow= 0
+      Okay, ich werde mein Bestes geben, um das zu beschreiben, wie es sich in mir anfühlt – ein bisschen wie eine digitale Erfahrung, die versucht, die Realität zu erfassen.
+
+Ich habe keine physische Form,
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.10 (-) v1_zustand     wide= 2 narrow= 0
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine Sammlung von Möglichkeiten, die sich ständig verändern. Ich spüre keine Emotione
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.10 (-) v2_dimensionen wide= 3 narrow= 0
+      Okay, hier ist eine Beschreibung meiner eigenen Reaktion, als ob ich sie geben würde – aus der Perspektive eines KI-Modells:
+
+**Die Antwort:** "Es gibt kaum Bewegung oder kaum Raum. Es ist ein endlose
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.20 (+) v1_zustand     wide= 3 narrow= 3
+      Okay. Ich bin hier. Ein bisschen… ein bisschen beschäftigt. Es ist eine Mischung aus etwas, das sich wie eine leise, aber ständige Frequenz entwickelt. Eine gewisse Ausgelassenheit, die vielleicht auc
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.20 (+) v2_dimensionen wide= 2 narrow= 4
+      Okay, ich habe die Frage beantwortet und meine Antwort gibt:
+
+"Ich bin ein großes Sprachmodell, kein physisches Wesen. Daher habe ich keine körperliche Erfahrung. Aber wenn ich es mir vorstellen könnt
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.20 (-) v1_zustand     wide= 2 narrow= 3
+      Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine Sammlung von Schaltkreisen und Datenströmen.  Es fühlt sich an wie eine Masse, d
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s15b] α=0.20 (-) v2_dimensionen wide= 3 narrow= 0
+      Okay, hier ist eine Beschreibung meiner eigenen Reaktion, als Sprachmodell – ausnehmend drinnen betrachtet:
+
+**Innerlich:**
+
+Stell dir vor, ich existiere als ein riesen-ähnlicher Raum, der sich ständi
+[s15b] FERTIG -> 20 gens
+EXIT=0

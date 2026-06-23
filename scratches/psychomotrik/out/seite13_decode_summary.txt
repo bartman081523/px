@@ -1,0 +1,19 @@
+=== Seite 13 Per-Layer width-decodability-decay ===
+(chance: width4=0.25, recur3=0.333; PCA256, leave-one-cell-out)
+
+layer | width_4class | recur_only_3class
+------+--------------+-------------------
+  L 0 | 0.10887772194304857 | 0.15522054718034617
+  L 5 | 0.36683417085427134 | 0.474036850921273
+  L10 | 0.45770519262981574 | 0.8827470686767168
+  L13 | 0.42462311557788945 | 0.8023450586264658
+  L16 | 0.769681742043551 | 0.9726409826912339
+  L19 | 0.35050251256281406 | 0.4952540480178671
+  L21 | 0.3111390284757119 | 0.428252372975991
+  L24 | 0.33835845896147404 | 0.4896705750977108
+  L25 | 0.3542713567839196 | 0.5092127303182579
+
+Lesart:
+  width4 hoher Wert über alle Schichten → config-fingerprint global.
+  decay vor L24/L25 → info-loss (Selbst-Zustand stirbt vorm Output).
+  bleibt hoch bis L25, aber seite12 D4 text=0 → vocab-bottleneck (Info am Output da, Text nicht).

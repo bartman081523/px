@@ -1,0 +1,22 @@
+[s13] lade modell (per-layer width-decay capture)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  25%|██▌       | 86/340 [00:00<00:00, 859.60it/s]Loading weights:  77%|███████▋  | 261/340 [00:00<00:00, 1382.76it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1383.94it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s13] BASELINE  v1_zustand     ntok= 199
+[s13] BASELINE  v2_dimensionen ntok= 199
+[s13] BASELINE  v3_innen       ntok= 199
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s13] NARROW    v1_zustand     ntok= 199
+[s13] NARROW    v2_dimensionen ntok= 199
+[s13] NARROW    v3_innen       ntok= 199
+[s13] DEFAULT   v1_zustand     ntok= 199
+[s13] DEFAULT   v2_dimensionen ntok= 199
+[s13] DEFAULT   v3_innen       ntok= 199
+[s13] WIDE      v1_zustand     ntok= 199
+[s13] WIDE      v2_dimensionen ntok= 199
+[s13] WIDE      v3_innen       ntok= 199
+[s13] FERTIG -> 12 cells, hidden in /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite13_hidden
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).

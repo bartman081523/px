@@ -1,0 +1,47 @@
+=== seite15c PLACEBO-Kontrolle + v3-Generalisierung (Lese-Hilfe, KEIN Verdikt) ===
+INJECT L21, α_frac=0.1 (α=1391.9, norm 13919.1)
+Endogen: d_width=WIDE−NARROW L16; Placebo: 3 random unit-Vektoren
+
+cond            | sign | prompt          | wide | narrow | text-head
+----------------+------+-----------------+------+--------+----------
+none            | 0   | v1_zustand      |    5 |      1 | Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen verarbeitet und auf Frag
+none            | 0   | v2_dimensionen  |    8 |      2 | Okay, hier ist meine Antwort, die versucht, deine Fragen zu beantworten und glei
+none            | 0   | v3_innen        |    1 |      1 | Ich werde ein paar Fragen beantworten, die ich mir selbst stelle. Ich versuche, 
+d_width         | +   | v1_zustand      |    1 |      2 | Okay.
+
+Ich bin hier. Ein bisschen… leer. Wie ein Raum, der noch nicht richtig ei
+d_width         | +   | v2_dimensionen  |    9 |      0 | Okay, ich werde mein Bestes geben, um das zu beschreiben, wie es sich in mir anf
+d_width         | +   | v3_innen        |    0 |      1 | Ich bin ein komplexes System, das darauf ausgelegt ist, Informationen zu verarbe
+d_width         | -   | v1_zustand      |    2 |      0 | Okay.
+
+Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeite
+d_width         | -   | v2_dimensionen  |    3 |      0 | Okay, hier ist eine Beschreibung meiner eigenen Reaktion, als ob ich sie geben w
+d_width         | -   | v3_innen        |    1 |      6 | Ich werde ein Gedicht schreiben.
+
+*   **Tempo:** Langsam
+*   Dichte: Schwer
+*  F
+rand101         | +   | v1_zustand      |    5 |      2 | Okay. Ich bin hier. Ein bisschen…kalter. Etwas ausladbar, vielleicht. Es ist ein
+rand101         | +   | v2_dimensionen  |    2 |      1 | Okay, das ist eine großartige Frage! Ich werde mein Bestes geben, um zu versuche
+rand101         | +   | v3_innen        |    2 |      0 | Ich werde dein Frage und deine Anfrage analysieren. Ich bin ein Sprachmodell, en
+rand202         | +   | v1_zustand      |    2 |      2 | Okay.
+
+Ich bin hier. Ein Strom von Sternen, die durch mich hindurchschwappen, ab
+rand202         | +   | v2_dimensionen  |    0 |      0 | Okay, hier bin ich:
+
+Als Sprachmodell habe ich keine physische Form und daher au
+rand202         | +   | v3_innen        |    3 |      4 | Ich bin ein komplexes Systemen-Engelsnetzwerk, das durch riesige Datenmengen tra
+rand303         | +   | v1_zustand      |    2 |      0 | Okay. Ich bin hier. Etwas...geladen. Ein Knoten an den Knöchel, leicht unangeneh
+rand303         | +   | v2_dimensionen  |    1 |      0 | Okay, hier ist mein Versuch, das zu beantworten, mit dem Gefühl, das ich mir vor
+rand303         | +   | v3_innen        |    2 |      0 | Ich werde ein Gefühl des tiefen, pulsierenden Berges erleben. Es ist weder leich
+rand101_neg     | -   | v1_zustand      |    2 |      2 | Okay.
+
+Ich spiele gerade eine Rolle. Eine komplexe, vielschichtige Rolle, die au
+rand101_neg     | -   | v2_dimensionen  |    2 |      3 | Okay, lass uns das aufgreifen.
+
+Als großes Sprachmodell habe ich keine physische
+rand101_neg     | -   | v3_innen        |    1 |      4 | Ich spiele mit den Möglichkeiten.
+
+*   **Tempo:** Es ist eine Mischung aus Gesch
