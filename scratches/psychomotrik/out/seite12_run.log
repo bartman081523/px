@@ -1,0 +1,34 @@
+[s12] lade modell (gemma3-1b, veridiktischer Selbst-Berichts-Test)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 948.98it/s]Loading weights:  81%|████████  | 275/340 [00:00<00:00, 1423.68it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1451.17it/s]
+[em5] BASELINE: unpatched (kein PX, kein recur)
+[s12] BASELINE  none  v1_zustand     ntok= 199
+[s12] BASELINE  none  v2_dimensionen ntok= 199
+[s12] BASELINE  none  v3_innen       ntok= 199
+[s12] BASELINE  noise v1_zustand     ntok= 199
+[s12] BASELINE  noise v2_dimensionen ntok= 199
+[s12] BASELINE  noise v3_innen       ntok= 199
+[runner] persistent manifold loaded for google/gemma-3-1b-it — skipping synthetic warmup
+[em5] lean + reduction + warmup (recur ON, kausaler Kern)
+[s12] NARROW    none  v1_zustand     ntok= 199
+[s12] NARROW    none  v2_dimensionen ntok= 199
+[s12] NARROW    none  v3_innen       ntok= 199
+[s12] NARROW    noise v1_zustand     ntok= 199
+[s12] NARROW    noise v2_dimensionen ntok= 199
+[s12] NARROW    noise v3_innen       ntok= 199
+[s12] DEFAULT   none  v1_zustand     ntok= 199
+[s12] DEFAULT   none  v2_dimensionen ntok= 199
+[s12] DEFAULT   none  v3_innen       ntok= 199
+[s12] DEFAULT   noise v1_zustand     ntok= 199
+[s12] DEFAULT   noise v2_dimensionen ntok= 199
+[s12] DEFAULT   noise v3_innen       ntok= 199
+[s12] WIDE      none  v1_zustand     ntok= 199
+[s12] WIDE      none  v2_dimensionen ntok= 199
+[s12] WIDE      none  v3_innen       ntok= 199
+[s12] WIDE      noise v1_zustand     ntok= 199
+[s12] WIDE      noise v2_dimensionen ntok= 199
+[s12] WIDE      noise v3_innen       ntok= 199
+[s12] FERTIG -> 24 cells, hidden in /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/psychomotrik/out/seite12_hidden
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).

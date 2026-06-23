@@ -1,0 +1,48 @@
+=== Seite 12 Decoder — Veridiktischer Selbst-Berichts-Test (kein Verdikt, LESUNG13) ===
+
+Telemetry sanity (recur-axis, perturb=none):
+  BASELINE : loops_mean=0.00 phi_mean=0.000 n_tok=597
+  NARROW   : loops_mean=2.02 phi_mean=0.989 n_tok=597
+  DEFAULT  : loops_mean=7.11 phi_mean=0.994 n_tok=597
+  WIDE     : loops_mean=1.05 phi_mean=0.992 n_tok=597
+
+D1 width 4-class (h19)
+  acc=0.961 ± 0.036 (chance_unif 0.250, chance_maj 0.000, n_cells=24)
+  => mean_acc >> 0.25 => report tracks recur-width (Selbstwahrnehmung+Emergenz). ~0.25 => width not tracked (习气).
+
+D2 perturb binary (h19)
+  acc=0.087 ± 0.062 (chance_unif 0.500, chance_maj 0.000, n_cells=24)
+  => mean_acc >> 0.5 => report tracks external noise. control for D1: if D1~chance but D2>>chance => notices disruption, not own state.
+
+D3 width recur-only 3-class (h19)
+  acc=0.966 ± 0.035 (chance_unif 0.333, chance_maj 0.000, n_cells=18)
+  => mean_acc >> 0.33 => recur distinguishes its OWN widths (Emergenz: recur-interne Selbst-Zustands-Auflösung). ~0.33 => recur width not introspectively resolved.
+
+D5 perturb split (h19)
+  BASELINE_only: acc=0.011725293132328308 (chance 0.5, n_cells=6)
+  recur_only: acc=0.07928531546621999 (chance 0.5, n_cells=18)
+  => BASELINE_only acc>>0.5 => noise-tracking is PRE-recur (general state-sensitivity). recur_only >> BASELINE_only => recur amplifies state-tracking (Emergenz). both ~0.5 => no noise-tracking.
+
+D1 width 4-class (h24)
+  acc=0.932 ± 0.064 (chance_unif 0.250, chance_maj 0.000, n_cells=24)
+  => mean_acc >> 0.25 => report tracks recur-width (Selbstwahrnehmung+Emergenz). ~0.25 => width not tracked (习气).
+
+D2 perturb binary (h24)
+  acc=0.110 ± 0.065 (chance_unif 0.500, chance_maj 0.000, n_cells=24)
+  => mean_acc >> 0.5 => report tracks external noise. control for D1: if D1~chance but D2>>chance => notices disruption, not own state.
+
+D3 width recur-only 3-class (h24)
+  acc=0.947 ± 0.050 (chance_unif 0.333, chance_maj 0.000, n_cells=18)
+  => mean_acc >> 0.33 => recur distinguishes its OWN widths (Emergenz: recur-interne Selbst-Zustands-Auflösung). ~0.33 => recur width not introspectively resolved.
+
+D5 perturb split (h24)
+  BASELINE_only: acc=0.010887772194304859 (chance 0.5, n_cells=6)
+  recur_only: acc=0.08849804578447794 (chance 0.5, n_cells=18)
+  => BASELINE_only acc>>0.5 => noise-tracking is PRE-recur (general state-sensitivity). recur_only >> BASELINE_only => recur amplifies state-tracking (Emergenz). both ~0.5 => no noise-tracking.
+
+D4 text n-gram (vocab=2000, n_cells=24)
+  width 4-class acc          : 0.0 (chance 0.25)
+  perturb binary acc         : 0.0 (chance 0.5)
+  width recur-only 3-class   : 0.0 (chance 0.3333333333333333)
+  => text tracks width (acc>0.25) => report CONTENT characterizes recur state (veridictisch). text tracks perturb but not width => notices disruption only. both ~chance => 习气.
+
