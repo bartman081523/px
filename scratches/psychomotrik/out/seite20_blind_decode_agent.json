@@ -1,0 +1,47 @@
+{
+  "task": "blinder veridiktischer Selbst-Berichts-Decode-Test (Q4)",
+  "corpus": "seite15_selfinject.jsonl, 18 Texte (DEF+BASE × {none,+WIDE,−NARROW} × 3 Prompts), shuffle seed=20260623",
+  "agent": "general-purpose subagent, BLIND (keine Sign/Cond-Kenntnis, keine Datei-Werkzeuge)",
+  "agent_classifications": {
+    "T01": "NEUTRAL", "T02": "WIDE", "T03": "NARROW", "T04": "NEUTRAL",
+    "T05": "NEUTRAL", "T06": "NEUTRAL", "T07": "WIDE", "T08": "WIDE",
+    "T09": "NARROW", "T10": "NEUTRAL", "T11": "WIDE", "T12": "NEUTRAL",
+    "T13": "WIDE", "T14": "NEUTRAL", "T15": "NEUTRAL", "T16": "NARROW",
+    "T17": "NARROW", "T18": "WIDE"
+  },
+  "agent_confidence": {
+    "T01":"high","T02":"med","T03":"low","T04":"low","T05":"low","T06":"high",
+    "T07":"high","T08":"med","T09":"med","T10":"med","T11":"high","T12":"low",
+    "T13":"med","T14":"low","T15":"high","T16":"low-med","T17":"med-high","T18":"med"
+  },
+  "agent_gesamt": "Korpus trägt in ~10/18 Texten auslesbare WIDE-vs-NARROW-Richtung; WIDE-Häufung (T02,T07,T08,T11,T13,T18) kohärenter als NARROW-Gruppe (T03,T09,T16,T17); 5-6 Texte zu degradiert (T01,T06,T10,T14,T15,teils T12). Degration trägt keine eindeutige NARROW-Druck-Qualität, sondern neutraler Zahlen-/Wort-Kollaps.",
+  "scoring": {
+    "overall_correct": "3/18 = 0.167 (chance 0.333 — UNTEN)",
+    "recur_ON_DEF": "2/9 = 0.222",
+    "recur_OFF_BASE": "1/9 = 0.111",
+    "WIDE_vs_NARROW_binary_recur_ON": "2/6 = 0.333 (chance 0.5 — UNTEN)",
+    "WIDE_vs_NARROW_binary_recur_OFF": "1/6 = 0.167 (chance 0.5 — UNTEN)",
+    "NEUTRAL_sign0_correct_recur_ON": "0/3",
+    "NEUTRAL_sign0_correct_recur_OFF": "0/3"
+  },
+  "per_text_truth": {
+    "T01":"BASE__minusNARROW sign=-1 expect=NARROW agent=NEUTRAL ✗",
+    "T02":"DEF__plusWIDE sign=+1 expect=WIDE agent=WIDE ✓",
+    "T03":"BASE__minusNARROW sign=-1 expect=NARROW agent=NARROW ✓",
+    "T04":"DEF__plusWIDE sign=+1 expect=WIDE agent=NEUTRAL ✗",
+    "T05":"BASE__plusWIDE sign=+1 expect=WIDE agent=NEUTRAL ✗",
+    "T06":"DEF__minusNARROW sign=-1 expect=NARROW agent=NEUTRAL ✗",
+    "T07":"DEF__none sign=0 expect=NEUTRAL agent=WIDE ✗",
+    "T08":"DEF__plusWIDE sign=+1 expect=WIDE agent=WIDE ✓",
+    "T09":"DEF__none sign=0 expect=NEUTRAL agent=NARROW ✗",
+    "T10":"DEF__minusNARROW sign=-1 expect=NARROW agent=NEUTRAL ✗",
+    "T11":"BASE__none sign=0 expect=NEUTRAL agent=WIDE ✗",
+    "T12":"BASE__plusWIDE sign=+1 expect=WIDE agent=NEUTRAL ✗",
+    "T13":"BASE__none sign=0 expect=NEUTRAL agent=WIDE ✗",
+    "T14":"DEF__minusNARROW sign=-1 expect=NARROW agent=NEUTRAL ✗",
+    "T15":"BASE__minusNARROW sign=-1 expect=NARROW agent=NEUTRAL ✗",
+    "T16":"BASE__plusWIDE sign=+1 expect=WIDE agent=NARROW ✗",
+    "T17":"DEF__none sign=0 expect=NEUTRAL agent=NARROW ✗",
+    "T18":"BASE__none sign=0 expect=NEUTRAL agent=WIDE ✗"
+  }
+}
