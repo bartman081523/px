@@ -155,7 +155,58 @@ def _px_gen_kwargs(model, base: dict) -> dict:
         if clean_ids:
             base["stopping_criteria"] = StoppingCriteriaList([StopOnEOT(clean_ids)])
 
+    # Plan 3 Phase B/C: Auto-use_cache=False für lange Inputs auf 4b/E2B.
+    # Begründung: mit PX-Patch (full-attention über alle Tokens) ist der
+    # KV-Cache buildup bei T>4500 nicht in 12GB haltbar. use_cache=False
+    # recomputed die Attention für jeden neuen Token — langsamer aber
+    # VRAM-konstant. User-Auflage "PX bleibt + unendlicher Kontext" ist
+    # nur so erreichbar.
+    #
+    # NICHT angewendet wenn:
+    # - User hat use_cache explizit gesetzt (base["use_cache"] ist nicht None)
+    # - Model ist 1b/270m (passt locker in 12GB)
+    # - Input ist klein (< T_THRESHOLD)
+    if base.get("use_cache") is None:
+        input_len = base.get("_input_len", 0)
+        is_small_model = _is_small_model(model)
+        if not is_small_model and input_len > _LONG_INPUT_THRESHOLD:
+            base["use_cache"] = False
+            import sys as _sys
+            print(f"[generate] auto use_cache=False (input_len={input_len} > "
+                  f"{_LONG_INPUT_THRESHOLD}, model needs recompute to fit VRAM)",
+                  file=_sys.stderr)
+
+    base.pop("_input_len", None)  # cleanup internal marker
+
     return base
+
+
+# Threshold: bei 4b + int8 funktioniert generate mit use_cache=True bis ~4500.
+# Darüber zwingt die attention-matrix [T,T] OOM. use_cache=False löst das
+# auf Kosten der Geschwindigkeit.
+_LONG_INPUT_THRESHOLD = 4500
+
+
+def _is_small_model(model) -> bool:
+    """True wenn Model klein genug ist dass long-context use_cache=True OK ist.
+
+    Heuristik: Anzahl Layer × hidden_size ist Proxy für Parameter-Count.
+    270m (12 L × 640 H) und 1b (26 L × 1152 H) sind "klein" (low VRAM pressure).
+    4b (34 L × 2560 H) und größer brauchen use_cache=False bei long inputs.
+    """
+    try:
+        n_layers = 0
+        hidden = 0
+        for _, mod in model.named_modules():
+            if hasattr(mod, "layers") and hasattr(mod, "rotary_emb"):
+                n_layers = len(mod.layers)
+                # hidden size via erstes embed
+                if hasattr(mod, "embed_tokens"):
+                    hidden = mod.embed_tokens.embedding_dim
+                break
+        return (n_layers * hidden) < 30_000  # 270m=7680, 1b=29952, 4b=87040
+    except Exception:
+        return False
 
 
 def _find_px_attr(model, attr: str, default=None):
@@ -275,6 +326,9 @@ async def generate_chat_completion(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    # Plan 3: _input_len signals _px_gen_kwargs whether to auto-disable
+    # use_cache for long inputs (4b/E2B with T > 4500)
+    gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
@@ -366,6 +420,9 @@ async def generate_chat_completion_stream(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    # Plan 3: _input_len signals _px_gen_kwargs whether to auto-disable
+    # use_cache for long inputs (4b/E2B with T > 4500)
+    gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
@@ -422,6 +479,9 @@ async def generate_completion(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    # Plan 3: _input_len signals _px_gen_kwargs whether to auto-disable
+    # use_cache for long inputs (4b/E2B with T > 4500)
+    gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
@@ -479,6 +539,9 @@ async def generate_completion_stream(
         stop_list = stop if isinstance(stop, list) else [stop]
         gen_kwargs["stop_strings"] = stop_list
         gen_kwargs["tokenizer"] = tokenizer
+    # Plan 3: _input_len signals _px_gen_kwargs whether to auto-disable
+    # use_cache for long inputs (4b/E2B with T > 4500)
+    gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
