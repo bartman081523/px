@@ -8,6 +8,7 @@ OpenAI-compatible SSE format: data: {json}\n\n, data: [DONE]\n\n
 import torch
 import json
 import time
+from fastapi import HTTPException
 from transformers import StoppingCriteria, StoppingCriteriaList
 
 
@@ -27,6 +28,76 @@ from typing import Generator, Optional, List, Union
 from schemas import (
     ChatMessage, ChatCompletionChunk, StreamChoice, StreamDelta, Role
 )
+
+
+def _has_image_content(messages):
+    """True if any message has list-content with image/image_url type items.
+    Used to choose between the multimodal processor route and the text-only
+    tokenizer route. text-only models with image-bearing requests get 400."""
+    return any(
+        isinstance(m.get("content"), list) and
+        any(isinstance(c, dict) and c.get("type") in ("image", "image_url")
+            for c in m["content"])
+        for m in messages
+    )
+
+
+def _extract_images(messages):
+    """Pull PIL.Image objects out of message content lists (base64-decoded
+    from data: URLs) AND replace each image block in the cleaned message
+    with an OpenAI-style `{"type": "image"}` (no URL) so the chat template
+    still counts the image and substitutes <image_soft_token> placeholders.
+
+    HTTP(S) URLs are skipped silently (out of scope this iteration) and the
+    image block is dropped from the cleaned content (model sees text only).
+
+    Returns (cleaned_messages, images_list). Order-preserving."""
+    from PIL import Image
+    import io, base64
+    images = []
+    cleaned = []
+    for m in messages:
+        content = m.get("content")
+        if isinstance(content, list):
+            new_items = []
+            text_parts = []
+            for c in content:
+                if isinstance(c, dict):
+                    ctype = c.get("type")
+                    if ctype in ("image", "image_url"):
+                        url = (c.get("image_url") or {}).get("url", "") if ctype == "image_url" else c.get("url", "")
+                        if isinstance(url, str) and url.startswith("data:") and ";base64," in url:
+                            b64 = url.split(";base64,", 1)[1]
+                            img = Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB")
+                            images.append(img)
+                            # Keep a stub image block so the chat template
+                            # inserts the right number of <image_soft_token>
+                            # placeholders (one block → one image token run).
+                            new_items.append({"type": "image"})
+                        # else: http(s) URL → skip block entirely
+                    elif ctype == "text":
+                        text_parts.append(c.get("text", ""))
+                        new_items.append(c)
+                    else:
+                        new_items.append(c)
+                elif isinstance(c, str):
+                    text_parts.append(c)
+            # Build final content: if all parts were images with no text,
+            # produce a string "" so the role has a content field. Otherwise
+            # use a list of {type:text} blocks plus the kept image stubs.
+            if text_parts:
+                final_content = [{"type": "text", "text": "\n".join(text_parts)}]
+                # Append image stubs at the end (gemma3 chat-template inserts
+                # <image_soft_token> per "image" dict regardless of position).
+                for it in new_items:
+                    if isinstance(it, dict) and it.get("type") == "image":
+                        final_content.append(it)
+            else:
+                final_content = new_items if new_items else ""
+            cleaned.append({"role": m.get("role", "user"), "content": final_content})
+        else:
+            cleaned.append(m)
+    return cleaned, images
 
 
 def _stringify_content(content):
@@ -164,22 +235,33 @@ async def generate_chat_completion(
     """Non-streaming chat completion. Returns text + token counts."""
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
+    processor = model_entry.get("processor")
 
-    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
-    has_images = any(
-        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
-        for m in messages
-    )
-    if not has_images:
-        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+    has_images = _has_image_content(messages)
+    if has_images and processor is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Model does not support images (text-only model). Use a multimodal model (gemma3-4b-it) or remove the image."
+        )
+
+    if has_images:
+        # Gemma3 multimodal pattern (Transformers >=4.50):
+        #   1) apply_chat_template with tokenize=False → text with <image> placeholders
+        #   2) processor(text=..., images=...) → BatchFeature with input_ids + pixel_values
+        # apply_chat_template(..., tokenize=True, images=...) errors on Gemma3Processor
+        # because it forwards `images=...` internally and the kwarg collides.
+        cleaned, images = _extract_images(messages)
+        prompt_text = processor.apply_chat_template(
+            cleaned, tokenize=False, add_generation_prompt=True
+        )
+        inputs = processor(text=prompt_text, images=images, return_tensors="pt").to(model.device)
     else:
-        processed_messages = messages
-
-    # Build prompt using chat template
-    input_text = tokenizer.apply_chat_template(
-        processed_messages, tokenize=False, add_generation_prompt=True
-    )
-    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+        # Text-only path (unchanged from prior behavior).
+        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+        input_text = tokenizer.apply_chat_template(
+            processed_messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
     input_len = inputs["input_ids"].shape[1]
 
     # Generate
@@ -241,21 +323,30 @@ async def generate_chat_completion_stream(
 
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
+    processor = model_entry.get("processor")
 
-    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
-    has_images = any(
-        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
-        for m in messages
-    )
-    if not has_images:
-        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+    has_images = _has_image_content(messages)
+    if has_images and processor is None:
+        # Cannot raise HTTPException from inside a sync generator after the SSE
+        # response has started. Yield a single error chunk then [DONE] so the
+        # bridge surfaces a readable message instead of dying silently.
+        err = {"error": {"message": "Model does not support images (text-only model). Use a multimodal model (gemma3-4b-it) or remove the image.", "type": "invalid_request_error"}}
+        yield f"data: {json.dumps(err)}\n\n"
+        yield "data: [DONE]\n\n"
+        return
+
+    if has_images:
+        cleaned, images = _extract_images(messages)
+        prompt_text = processor.apply_chat_template(
+            cleaned, tokenize=False, add_generation_prompt=True
+        )
+        inputs = processor(text=prompt_text, images=images, return_tensors="pt").to(model.device)
     else:
-        processed_messages = messages
-
-    input_text = tokenizer.apply_chat_template(
-        processed_messages, tokenize=False, add_generation_prompt=True
-    )
-    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+        input_text = tokenizer.apply_chat_template(
+            processed_messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
     # Setup streamer
     streamer = TextIteratorStreamer(
