@@ -1,0 +1,61 @@
+[s14] lade seite13 hidden per arm/layer…
+[s14] arme: ['BASELINE', 'NARROW', 'DEFAULT', 'WIDE']
+[s14] lade modell für lm_head + tokenizer…
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 94/340 [00:00<00:00, 937.82it/s]Loading weights:  80%|███████▉  | 271/340 [00:00<00:00, 1425.45it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1433.37it/s]
+[s14] lm_head W shape=(262144, 1152)
+
+========== LAYER 16 ==========
+[s14] L16 BASELINE top-12: � � � �  パ  エ  ハ  ア  バ  デ  сих �
+[s14] L16 NARROW top-12: � � � �  パ  エ  ハ  ア  バ �  デ  сих
+[s14] L16 DEFAULT top-12: � � � �  パ  エ  ハ  ア  バ  デ  сих �
+[s14] L16 WIDE top-12: � � � �  パ  エ  ハ  ア  バ  デ  сих �
+[s14] L16 WIDE−NARROW  WIDE-favored: � � � �  パ  デ  ア  ハ  エ  сих
+[s14] L16 WIDE−NARROW  NARROW-favored: <unused62> <unused1821> <unused960>  দেবযানীর  രഹ്  কচের  स्कयर <unused984>  रक्षाबंधनाच्या <unused1685>
+[s14] L16 DEFAULT−NARROW  DEFAULT-favored: <unused960> <unused62> <unused1821>  দেবযানীর  രഹ് <unused984> <unused1685> ാരോഗ്യകേന്ദ്രം NeedConnect  কচের
+[s14] L16 DEFAULT−NARROW  NARROW-favored: � � � �  エ  パ  ハ  スマ �  バ
+[s14] L16 WIDE−DEFAULT  WIDE-favored: � � � �  パ  エ  ハ  ア  сих �
+[s14] L16 WIDE−DEFAULT  DEFAULT-favored: <unused62> <unused960> <unused1821>  দেবযানীর  രഹ് <unused984> <unused1685> ാരോഗ്യകേന്ദ്രം  কচের  सूत्रकृमि
+[s14] L16 DEFAULT−BASELINE  DEFAULT-favored: <unused960> <unused62> <unused1821>  দেবযানীর  രഹ് <unused984> <unused1685> ാരോഗ്യകേന്ദ്രം NeedConnect  কচের
+[s14] L16 DEFAULT−BASELINE  BASELINE-favored: � � � �  エ  パ  ハ  сих �  スマ
+[s14] L16 WIDE−BASELINE  WIDE-favored: � � � �  パ  エ  ハ  ア  デ  バ
+[s14] L16 WIDE−BASELINE  BASELINE-favored: <unused62> <unused1821> <unused960>  দেবযানীর  രഹ്  रक्षाबंधनाच्या <unused984>  কচের <unused1685> ാരോഗ്യകേന്ദ്രം
+[s14] L16 NARROW−BASELINE  NARROW-favored: � � �  エ  パ �  ハ  バ ハ  ア
+[s14] L16 NARROW−BASELINE  BASELINE-favored: <unused62> <unused960> <unused1821>  দেবযানীর  രഹ് ാരോഗ്യകേന്ദ്രം  रक्षाबंधनाच्या <unused984> NeedConnect <unused1685>
+
+========== LAYER 19 ==========
+[s14] L19 BASELINE top-12: � � � �  パ  エ  ハ  ア  バ �  デ  сих
+[s14] L19 NARROW top-12: � � � �  パ  エ  ハ  ア  バ �  デ  сих
+[s14] L19 DEFAULT top-12: � � � �  パ  エ  ハ  ア  バ �  デ  сих
+[s14] L19 WIDE top-12: � � � �  パ  エ  ハ  ア  バ �  デ  сих
+[s14] L19 WIDE−NARROW  WIDE-favored: � � � �  パ  ハ  デ  エ  сих  ア
+[s14] L19 WIDE−NARROW  NARROW-favored: <unused960> <unused62> <unused1821>  দেবযানীর  രഹ്  কচের <unused984>  रक्षाबंधनाच्या  स्कयर  सूत्रकृमि
+[s14] L19 DEFAULT−NARROW  DEFAULT-favored: <unused62> <unused1821> <unused960>  দেবযানীর  രഹ് <unused984> ാരോഗ്യകേന്ദ്രം <unused1685> NeedConnect थोरो
+[s14] L19 DEFAULT−NARROW  NARROW-favored: � � � �  パ  エ  ハ  バ  マ  ア
+[s14] L19 WIDE−DEFAULT  WIDE-favored: � � � �  パ  ハ  エ  ア  デ  сих
+[s14] L19 WIDE−DEFAULT  DEFAULT-favored: <unused62> <unused960> <unused1821>  দেবযানীর  രഹ് <unused984>  কচের  रक्षाबंधनाच्या <unused1685> ാരോഗ്യകേന്ദ്രം
+[s14] L19 DEFAULT−BASELINE  DEFAULT-favored: <unused62> <unused1821> <unused960>  দেবযানীর <unused984>  രഹ് <unused1685> ാരോഗ്യകേന്ദ്രം मियल  सूत्रकृमि
+[s14] L19 DEFAULT−BASELINE  BASELINE-favored: � � � �  パ  エ  ハ  ア  マ  バ
+[s14] L19 WIDE−BASELINE  WIDE-favored: � � � �  ハ  сих  パ  デ  エ  ア
+[s14] L19 WIDE−BASELINE  BASELINE-favored: <unused960> <unused62> <unused1821>  দেবযানীর  രഹ്  কচের  स्कयर  रक्षाबंधनाच्या  सूत्रकृमि ാരോഗ്യകേന്ദ്രം
+[s14] L19 NARROW−BASELINE  NARROW-favored: <unused960> <unused62> <unused1821>  দেবযানীর <unused984> <unused1685>  രഹ് मियल  titleImageUrl  কচের
+[s14] L19 NARROW−BASELINE  BASELINE-favored: � � � �  パ  ア  エ  ハ �  レ
+
+========== LAYER 25 ==========
+[s14] L25 BASELINE top-12: � � � �  сих  スマ �  エ  ハ  zahrani  パ  kontinuier
+[s14] L25 NARROW top-12: � � � �  сих  スマ  エ �  zahrani  ハ  conco  パ
+[s14] L25 DEFAULT top-12: � � � �  сих  スマ �  エ  zahrani  ハ  パ  conco
+[s14] L25 WIDE top-12: � � � �  сих  スマ  ハ  エ  パ �  zahrani  conco
+[s14] L25 WIDE−NARROW  WIDE-favored:  dashing  specifica  importante  necesidad  eficacia  tenga  uso  sencillo  có 恥
+[s14] L25 WIDE−NARROW  NARROW-favored: layered  stratum brothers 䣨  logarithm  − Wind  [' িনবার্গ  summand
+[s14] L25 DEFAULT−NARROW  DEFAULT-favored: 			 \) 		 .""" )\ 				 ｣ $$\ ⏎⏎⏎⏎⏎⏎⏎⏎ ⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎⏎
+[s14] L25 DEFAULT−NARROW  NARROW-favored:  algorithm intersection algorithm templat  Algorithm  Loan ফোঁ  Billion  universes  algorith
+[s14] L25 WIDE−DEFAULT  WIDE-favored:  có  relación  dashing  eficaz รัก  specifica  sayı  useful  boo  eficacia
+[s14] L25 WIDE−DEFAULT  DEFAULT-favored: )* ␣  =& 䣨  *)  − )]) )` })+ rägt
+[s14] L25 DEFAULT−BASELINE  DEFAULT-favored: <unused62> <unused1821> <unused960>  দেবযানীর <unused1685>  स्कयर  কচের  सूत्रकृमि  ב  চাহিয়
+[s14] L25 DEFAULT−BASELINE  BASELINE-favored: � �  сих LinearLayout � �  GIS  autocor  エ  スマ
+[s14] L25 WIDE−BASELINE  WIDE-favored: 可愛い  dashing  confi  cuidar  ال 必要な 足り 鎧  need  את
+[s14] L25 WIDE−BASELINE  BASELINE-favored: �  Layer Layer layered  wind []} �  phenol Wind  summand
+[s14] L25 NARROW−BASELINE  NARROW-favored: <unused62> <unused960> <unused1821>  দেবযানীর <unused1685> <unused984> बंधनाच्या मियल  रक्षाबंधनाच्या  কচের
+[s14] L25 NARROW−BASELINE  BASELINE-favored: � � � �  ア  întâm  ウォ �  allgeme  サ
+[s14] FERTIG -> seite14_unembed_results.json
