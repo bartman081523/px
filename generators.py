@@ -185,9 +185,20 @@ def _px_gen_kwargs(model, base: dict) -> dict:
 
 
 # Threshold: bei 4b + int8 funktioniert generate mit use_cache=True bis ~4500.
-# Darüber zwingt die attention-matrix [T,T] OOM. use_cache=False löst das
-# auf Kosten der Geschwindigkeit.
-_LONG_INPUT_THRESHOLD = 4500
+# Plan 3: Schwellwert für Auto-Switch zu chunked_prefill (Plan 3 Phase D).
+# Empirisch gemessen mit profile_threshold_sweep.py (T=4000..9000, 4b+int8+PX):
+#   use_cache=True funktioniert bis T=9000 ohne OOM (peak 7.67 GB,
+#   3.89 GB headroom auf 11.56 GB GPU). InfLLM/chunked-attention macht
+#   Score-Matrix-Materialisierung bounded, deshalb skaliert das linear
+#   mit T statt quadratisch.
+#   Vorher: 4500 → cross_model_holographic_01 (T=5371 text-only via
+#   streaming_bridge) lief durch chunked_generate (~22.8s) statt direkt
+#   use_cache=True (~19.6s, 14% schneller).
+#   Mit 8800 als Schwellwert landen ALLE realistischen Session-Größen
+#   (≤ 9k tokens) im use_cache=True-Pfad; chunked_generate bleibt als
+#   Fallback für extreme Längen (>8800) erhalten.
+# Quelle: scratches/4b-image/profile_threshold_sweep_results.json
+_LONG_INPUT_THRESHOLD = 8800
 
 
 def _is_small_model(model) -> bool:
