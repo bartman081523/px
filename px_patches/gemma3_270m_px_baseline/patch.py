@@ -870,6 +870,14 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     # wenn relay_sign explizit ≠0 (orthogonaler Parameter auf jedem Preset).
     # sign=−1 → NARROW/eng/still; 0 → relay inactive. Motor unangetastet.
     _relay_sign = defaults.get("relay_sign", (+1 if config_preset == "ACTIVE_MANIFOLD_RELAY" else 0))
+    # Bei Gemma3 multimodal hat text_model.config._name_or_path='' (HF setzt
+    # hf_id nur im Top-Level-Config). Wir propagieren den Top-Level hf_id
+    # explizit damit relay_inject.load_dwidth() das d_width-Artefakt für
+    # 4b/E2B laden kann (siehe px_manifolds/google_gemma-3-{4b,e2b}-it_relay_dwidth.json).
+    if not getattr(text_model.config, "_name_or_path", None):
+        outer_hf_id = getattr(getattr(model, "config", None), "_name_or_path", None)
+        if outer_hf_id:
+            text_model._px_hf_id = outer_hf_id
     install_relay(text_model,
                   sign=_relay_sign,
                   alpha_frac=defaults.get("relay_alpha", 0.30),
