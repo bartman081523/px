@@ -17206,3 +17206,8 @@ INFO:     127.0.0.1:36076 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Se
 [generate] auto chunked_prefill (input_len=6152 > 4500; use_cache=False würde langsam, chunked_prefill ist 6x schneller)
 [generate] multimodal + long context (T=6152) → use_cache=False Fallback (chunked_generate hat noch keine Vision-Token-Position-Heuristik)
 INFO:     127.0.0.1:34924 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:51630 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[generate] auto chunked_prefill (input_len=5533 > 4500; use_cache=False würde langsam, chunked_prefill ist 6x schneller)
+[generate] multimodal + long context (T=5533) → use_cache=False Fallback (chunked_generate hat noch keine Vision-Token-Position-Heuristik)
+INFO:     127.0.0.1:52832 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error

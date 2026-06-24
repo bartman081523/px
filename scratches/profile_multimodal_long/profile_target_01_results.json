@@ -1,0 +1,75 @@
+{
+  "session": "profile_target_01",
+  "mode_text": {
+    "mode": "text",
+    "T": 5371,
+    "n_images": 0,
+    "max_new_tokens": 16,
+    "stage_C": {
+      "dt": 0.009230375289916992,
+      "vram_peak_gb": 4.643373966217041,
+      "vram_before_gb": 4.643293857574463,
+      "vram_after_gb": 4.643373966217041,
+      "input_ids_shape": [
+        1,
+        5371
+      ],
+      "pixel_values_shape": null
+    },
+    "stage_D_use_cache_true": {
+      "dt": 19.603016138076782,
+      "vram_peak_gb": 6.376812934875488,
+      "ok": true,
+      "error": ""
+    },
+    "stage_E_use_cache_false": {
+      "dt": 236.6989622116089,
+      "vram_peak_gb": 5.684080600738525,
+      "ok": true,
+      "error": ""
+    },
+    "stage_F_chunked_text_only": {
+      "dt": 22.78710150718689,
+      "vram_peak_gb": 5.603696823120117,
+      "ok": true,
+      "error": ""
+    }
+  },
+  "mode_multimodal": {
+    "mode": "multimodal",
+    "T": 6151,
+    "n_images": 3,
+    "max_new_tokens": 16,
+    "stage_C": {
+      "dt": 0.06458616256713867,
+      "vram_peak_gb": 4.6787872314453125,
+      "vram_before_gb": 4.651731967926025,
+      "vram_after_gb": 4.6787872314453125,
+      "input_ids_shape": [
+        1,
+        6151
+      ],
+      "pixel_values_shape": [
+        3,
+        3,
+        896,
+        896
+      ]
+    },
+    "stage_D_use_cache_true": {
+      "dt": 0.1310439109802246,
+      "vram_peak_gb": 11.050944805145264,
+      "ok": false,
+      "error": "OOM: CUDA out of memory. Tried to allocate 768.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 65.25 MiB is free. Including non-PyTorch memory, this process has 11.27 GiB memory in use. Of the all"
+    },
+    "stage_E_use_cache_false": {
+      "dt": 0.22771310806274414,
+      "vram_peak_gb": 11.050944805145264,
+      "ok": false,
+      "error": "OOM: CUDA out of memory. Tried to allocate 768.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 65.25 MiB is free. Including non-PyTorch memory, this process has 11.27 GiB memory in use. Of the all"
+    },
+    "stage_F_chunked_text_only": {
+      "skipped": "multimodal"
+    }
+  }
+}
