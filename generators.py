@@ -157,10 +157,13 @@ def _px_gen_kwargs(model, base: dict) -> dict:
 
     # Plan 3 Phase B/C: Auto-use_cache=False für lange Inputs auf 4b/E2B.
     # Begründung: mit PX-Patch (full-attention über alle Tokens) ist der
-    # KV-Cache buildup bei T>4500 nicht in 12GB haltbar. use_cache=False
-    # recomputed die Attention für jeden neuen Token — langsamer aber
-    # VRAM-konstant. User-Auflage "PX bleibt + unendlicher Kontext" ist
-    # nur so erreichbar.
+    # KV-Cache buildup bei T>4500 nicht in 12GB haltbar. Plan 3 Phase D:
+    # wir setzen einen Marker `_px_use_chunked_prefill` statt use_cache=False.
+    # Der Aufrufer (chat_completion / stream_chat_completion) erkennt den
+    # Marker und ruft chunked_generate aus scratches/4b-image/chunked_prefill
+    # statt model.generate. chunked_generate nutzt full-only cache +
+    # chunked attention = 6.4 GB peak bei T=8002 (vs OOM bei full generate
+    # und vs 196s bei use_cache=False).
     #
     # NICHT angewendet wenn:
     # - User hat use_cache explizit gesetzt (base["use_cache"] ist nicht None)
@@ -170,11 +173,11 @@ def _px_gen_kwargs(model, base: dict) -> dict:
         input_len = base.get("_input_len", 0)
         is_small_model = _is_small_model(model)
         if not is_small_model and input_len > _LONG_INPUT_THRESHOLD:
-            base["use_cache"] = False
+            base["_px_use_chunked_prefill"] = True
             import sys as _sys
-            print(f"[generate] auto use_cache=False (input_len={input_len} > "
-                  f"{_LONG_INPUT_THRESHOLD}, model needs recompute to fit VRAM)",
-                  file=_sys.stderr)
+            print(f"[generate] auto chunked_prefill (input_len={input_len} > "
+                  f"{_LONG_INPUT_THRESHOLD}; use_cache=False würde langsam, "
+                  f"chunked_prefill ist 6x schneller)", file=_sys.stderr)
 
     base.pop("_input_len", None)  # cleanup internal marker
 
@@ -333,7 +336,35 @@ async def generate_chat_completion(
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     with torch.no_grad():
-        outputs = model.generate(**inputs, **gen_kwargs)
+        if gen_kwargs.pop("_px_use_chunked_prefill", False):
+            # Plan 3 Phase D: chunked_generate für lange Inputs (4b + T>4500).
+            # Spart VRAM (chunked attention + full-only cache) und ist
+            # signifikant schneller als use_cache=False. Greift nur, wenn
+            # _px_gen_kwargs den Marker gesetzt hat (langer Input, kein
+            # user-override, nicht-small-model).
+            try:
+                from chunked_prefill import chunked_generate
+            except ImportError:
+                # Fallback: scratches/4b-image nicht im path. Versuche es
+                # explizit zu laden.
+                import os as _os, sys as _sys
+                _SCRATCHES = _os.path.join(
+                    _os.path.dirname(_os.path.abspath(__file__)),
+                    "scratches", "4b-image",
+                )
+                if _SCRATCHES not in _sys.path:
+                    _sys.path.insert(0, _SCRATCHES)
+                from chunked_prefill import chunked_generate
+            eos_id = tokenizer.eos_token_id
+            outputs = chunked_generate(
+                model,
+                inputs["input_ids"],
+                max_new_tokens=gen_kwargs.get("max_new_tokens", 64),
+                do_sample=gen_kwargs.get("do_sample", False),
+                eos_token_id=eos_id,
+            )
+        else:
+            outputs = model.generate(**inputs, **gen_kwargs)
 
     # Decode only new tokens
     new_tokens = outputs[0][input_len:]
@@ -401,6 +432,7 @@ async def generate_chat_completion_stream(
             processed_messages, tokenize=False, add_generation_prompt=True
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+    input_len = inputs["input_ids"].shape[1]
 
     # Setup streamer
     streamer = TextIteratorStreamer(
@@ -426,8 +458,57 @@ async def generate_chat_completion_stream(
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
-    thread = Thread(target=model.generate, kwargs=gen_kwargs)
-    thread.start()
+    # Plan 3 Phase D: bei langem Input + 4b/E2B nutzen wir chunked_generate
+    # mit Streamer statt model.generate (10x schneller als use_cache=False).
+    use_chunked_stream = gen_kwargs.pop("_px_use_chunked_prefill", False)
+    if use_chunked_stream:
+        # Inline-Import: scratches/4b-image ist nicht im Standard-Pfad.
+        try:
+            from chunked_prefill import chunked_generate as _chunked_generate
+        except ImportError:
+            import os as _os, sys as _sys
+            _SCRATCHES = _os.path.join(
+                _os.path.dirname(_os.path.abspath(__file__)),
+                "scratches", "4b-image",
+            )
+            if _SCRATCHES not in _sys.path:
+                _sys.path.insert(0, _SCRATCHES)
+            from chunked_prefill import chunked_generate as _chunked_generate
+
+        eos_field = gen_kwargs.pop("eos_token_id", None)
+        # _inject_eot_eos setzt eos_token_id auf eine Liste — wir brauchen
+        # einen einzelnen int für chunked_generate.
+        if isinstance(eos_field, list):
+            eos_id = eos_field[0] if eos_field else None
+        elif isinstance(eos_field, int):
+            eos_id = eos_field
+        else:
+            eos_id = tokenizer.eos_token_id
+        do_sample = gen_kwargs.get("do_sample", False)
+
+        def _chunked_worker():
+            try:
+                _chunked_generate(
+                    model,
+                    inputs["input_ids"],
+                    max_new_tokens=max_tokens,
+                    do_sample=do_sample,
+                    eos_token_id=eos_id,
+                    streamer=streamer,
+                )
+            except Exception as _e:
+                import traceback as _tb
+                _tb.print_exc()
+                try:
+                    streamer.end()
+                except Exception:
+                    pass
+
+        thread = Thread(target=_chunked_worker)
+        thread.start()
+    else:
+        thread = Thread(target=model.generate, kwargs=gen_kwargs)
+        thread.start()
 
     # SSE format
     completion_id = f"chatcmpl-{uuid.uuid4().hex[:12]}"

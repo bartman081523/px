@@ -127,6 +127,7 @@ async def chat_completions(request: ChatCompletionRequest):
             px_relay_sign=request.px_relay_sign,
             px_relay_alpha=request.px_relay_alpha,
             px_relay_layer=request.px_relay_layer,
+            quantization=request.quantization,
         )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
@@ -211,6 +212,7 @@ async def completions(request: CompletionRequest):
             px_relay_sign=request.px_relay_sign,
             px_relay_alpha=request.px_relay_alpha,
             px_relay_layer=request.px_relay_layer,
+            quantization=request.quantization,
         )
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
