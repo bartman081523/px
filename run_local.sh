@@ -45,4 +45,11 @@ if lsof -ti:$PX_PORT >/dev/null 2>&1; then
 fi
 
 PYTHON="/run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python"
+# PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True reduziert Fragmentierung
+# (PyTorch allokiert einen großen Block und expandiert ihn dynamisch statt
+# vieler kleiner Splits). max_split_size_mb:256 verhindert überdimensionierte
+# Splits, die nach free nicht zurückgegeben werden. Wichtig für 4b auf 12 GB:
+# ohne diese Settings OOM beim MLP-Layer trotz 200+ MB freiem Speicher
+# (siehe GQA-Smoke vom 23. Jun).
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:256
 PYTHONUNBUFFERED=1 $PYTHON app.py 2>&1 | tee -a "${SCRIPT_DIR}/local_debug.log"
