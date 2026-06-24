@@ -42,10 +42,59 @@ def _relay_dir():
     return os.path.normpath(os.path.join(here, "..", "..", "px_manifolds"))
 
 
+def _find_hf_id(text_model):
+    """Finde den hf_id für text_model.
+
+    Bei Gemma3 multimodal (Gemma3ForConditionalGeneration → Gemma3Model →
+    Gemma3TextModel) hat das TextModel-Sub-config _name_or_path='' (leer),
+    weil HF den hf_id nur im Top-Level-Config setzt. Wir versuchen drei
+    Fallbacks in dieser Reihenfolge:
+
+    1. Explizit via patch.py gesetztes text_model._px_hf_id (bevorzugt,
+       deterministisch)
+    2. text_model.config._name_or_path (1b-Pfad, funktioniert)
+    3. Rekursive Suche abwärts im module-tree (für Gemma3 multimodal:
+       Gemma3TextModel.config ist leer, aber parent-modules haben den hf_id)
+
+    Das wird einmalig pro Modell gecacht (text_model._px_hf_id).
+    """
+    cached = getattr(text_model, "_px_hf_id", None)
+    if cached:
+        return cached
+
+    # Fallback 2: eigener config
+    cand = getattr(getattr(text_model, "config", None), "_name_or_path", None)
+    if isinstance(cand, str) and cand:
+        text_model._px_hf_id = cand
+        return cand
+
+    # Fallback 3: walk down the module tree to find a non-empty _name_or_path.
+    # (Im Gemma3 multimodal Fall hat z.B. m.model.config._name_or_path den
+    # richtigen Wert — Gemma3TextModel ist Kind davon.)
+    def _walk(node, depth=0):
+        cand = getattr(getattr(node, "config", None), "_name_or_path", None)
+        if isinstance(cand, str) and cand:
+            return cand
+        if depth > 6:
+            return None
+        for child in node._modules.values():
+            if child is None:
+                continue
+            r = _walk(child, depth + 1)
+            if r:
+                return r
+        return None
+
+    hf_id = _walk(text_model)
+    if hf_id:
+        text_model._px_hf_id = hf_id
+    return hf_id
+
+
 def load_dwidth(text_model):
     """Lade d_width-Artefakt für text_model (gecacht). Return (dwidth_np, meta)
     oder None (kein Artefakt / dim-mismatch)."""
-    hf_id = getattr(text_model.config, "_name_or_path", None)
+    hf_id = _find_hf_id(text_model)
     if not hf_id:
         return None
     safe_id = hf_id.replace("/", "_")
@@ -122,7 +171,7 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
     text_model._px_relay_handles = [handle]
     text_model._px_relay_cfg = {
         "sign": sign_f, "alpha_frac": alpha_f, "layer": layer,
-        "hf_id": getattr(text_model.config, "_name_or_path", "?"),
+        "hf_id": _find_hf_id(text_model) or "?",
         "direction": meta.get("direction", "?"),
     }
     print(f"[px-relay] ACTIVE sign={sign_f:+.1f} alpha_frac={alpha_f} L{layer} "
