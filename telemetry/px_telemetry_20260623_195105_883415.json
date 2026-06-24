@@ -1,0 +1,25 @@
+{
+  "timestamp": 1782237065.8834019,
+  "datetime": "2026-06-23T19:51:05.883404",
+  "model_id": "gemma3-1b-it",
+  "prompt_tokens": 17,
+  "completion_tokens": 9,
+  "px_metrics": {
+    "phi": 1.0,
+    "steps": 0,
+    "path": [],
+    "zone": "UNKNOWN",
+    "zone_weights": {},
+    "cognitive_signature": {},
+    "telemetry_trace": [],
+    "aks_profile": {
+      "correction_strength": 0.0
+    },
+    "subjective_metrics": {
+      "emancipation": 0.0
+    },
+    "entropy": 0.0
+  },
+  "prompt": "What is 2+2?",
+  "completion": "2 + 2 = 4\n"
+}
