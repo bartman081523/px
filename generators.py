@@ -292,6 +292,7 @@ async def generate_chat_completion(
     processor = model_entry.get("processor")
 
     has_images = _has_image_content(messages)
+    _force_chunked = False  # Plan 4: chunked-vision-encoder Pfad
     if has_images and processor is None:
         raise HTTPException(
             status_code=400,
@@ -304,11 +305,55 @@ async def generate_chat_completion(
         #   2) processor(text=..., images=...) → BatchFeature with input_ids + pixel_values
         # apply_chat_template(..., tokenize=True, images=...) errors on Gemma3Processor
         # because it forwards `images=...` internally and the kwarg collides.
+        #
+        # Plan 4: chunked-vision-encoding. Bei 3+ Bildern allokiert der
+        # standard processor >6 GB extra für Vision-Tower activations
+        # → peak 11+ GB → OOM auf 12 GB GPU. Chunked encoder macht 1 Bild
+        # pro forward und löscht intermediates → peak ~7 GB.
+        # Auch bei kurzem Input: chunked encoder ist sicherer, ABER langsamer
+        # (~3× wegen 3× vision_tower forward). Switch-Logik:
+        #   - N images > CHUNKED_VISION_THRESHOLD: chunked encoder
+        #   - sonst: standard processor (schneller)
         cleaned, images = _extract_images(messages)
-        prompt_text = processor.apply_chat_template(
-            cleaned, tokenize=False, add_generation_prompt=True
-        )
-        inputs = processor(text=prompt_text, images=images, return_tensors="pt").to(model.device)
+        n_images = len(images)
+        CHUNKED_VISION_THRESHOLD = 2  # >2 Bilder → chunked
+        if n_images > CHUNKED_VISION_THRESHOLD:
+            try:
+                from chunked_vision_encoder import chunked_process_multimodal
+                chunked_inputs = chunked_process_multimodal(
+                    model, processor, tokenizer, cleaned, images,
+                )
+                # Replace `inputs` with the chunked-encoder result, in a form
+                # that the downstream code can dispatch to chunked_generate
+                # via the use_chunked branch below.
+                inputs = {
+                    "input_ids": chunked_inputs["input_ids"],
+                    "inputs_embeds": chunked_inputs["inputs_embeds"],
+                    "attention_mask": chunked_inputs["attention_mask"],
+                }
+                # Force chunked path (chunked_generate with inputs_embeds)
+                _force_chunked = True
+                import sys as _sys
+                print(f"[generate] multimodal {n_images} images → "
+                      f"chunked-vision-encoder (Plan 4)", file=_sys.stderr)
+            except Exception as e:
+                import sys as _sys
+                print(f"[generate] chunked-vision-encoder failed "
+                      f"({type(e).__name__}: {str(e)[:200]}) → fallback "
+                      f"to standard processor", file=_sys.stderr)
+                prompt_text = processor.apply_chat_template(
+                    cleaned, tokenize=False, add_generation_prompt=True
+                )
+                inputs = processor(text=prompt_text, images=images,
+                                   return_tensors="pt").to(model.device)
+                _force_chunked = False
+        else:
+            prompt_text = processor.apply_chat_template(
+                cleaned, tokenize=False, add_generation_prompt=True
+            )
+            inputs = processor(text=prompt_text, images=images,
+                                return_tensors="pt").to(model.device)
+            _force_chunked = False
     else:
         # Text-only path (unchanged from prior behavior).
         processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
@@ -337,6 +382,11 @@ async def generate_chat_completion(
 
     with torch.no_grad():
         use_chunked = gen_kwargs.pop("_px_use_chunked_prefill", False)
+        # Plan 4: chunked-vision-encoder liefert pre-merged inputs_embeds.
+        # In diesem Fall MUSS chunked_generate laufen (sonst kriegt das
+        # Model die Vision-Embeds nicht).
+        if _force_chunked:
+            use_chunked = True
         # Multimodal + chunked: Vision-Tokens werden vom processor an einer
         # festen Position eingefügt, die nicht zwingend im ersten Chunk
         # liegt. Aktuell nicht unterstützt — fallback auf model.generate
@@ -377,6 +427,12 @@ async def generate_chat_completion(
                 eos_token_id=eos_id,
                 pixel_values=inputs.get("pixel_values"),
                 token_type_ids=inputs.get("token_type_ids"),
+                # Plan 4: chunked-vision-encoder liefert pre-merged
+                # text+image embeddings → inputs_embeds statt pixel_values.
+                # Wenn chunked-vision-encoder aktiv war, ist
+                # inputs["inputs_embeds"] gesetzt und inputs["pixel_values"]
+                # NICHT gesetzt.
+                inputs_embeds=inputs.get("inputs_embeds"),
             )
         else:
             outputs = model.generate(**inputs, **gen_kwargs)

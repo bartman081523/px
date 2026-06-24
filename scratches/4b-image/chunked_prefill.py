@@ -91,6 +91,7 @@ def chunked_generate(
     streamer=None,
     pixel_values=None,
     token_type_ids=None,
+    inputs_embeds: Optional[torch.Tensor] = None,
 ):
     """Generate tokens via chunked prefill + incremental decode.
 
@@ -116,6 +117,13 @@ def chunked_generate(
         token_type_ids: optional [B, T_prefill] — 0=text, 1=image. Gemma3
                         braucht das für vision-token Identifikation im
                         multimodalen Pfad.
+        inputs_embeds: optional [B, T_prefill, hidden] — überspringt das
+                       interne embedding-Lookup. Für multimodal mit
+                       pre-encoded Bild-Features (chunked-vision-encoder):
+                       inputs_embeds enthält bereits die projizierten
+                       vision-embeddings an image_soft_token-Positionen.
+                       Falls gesetzt, ignoriert chunked_generate input_ids
+                       für den Prefill und benutzt stattdessen inputs_embeds.
 
     Returns:
         output_ids: [B, T_prefill + max_new_tokens] (truncated at eos)
@@ -145,10 +153,23 @@ def chunked_generate(
     prefill_logits = None
     image_token_consumed = False  # Track: erster Chunk encodet Bild
 
+    # Bei inputs_embeds (chunked-vision-encoder): die Embeddings sind
+    # BEREITS gemerged (text + projizierte vision features). Wir übergeben
+    # sie statt input_ids an model/text_model und brauchen KEIN
+    # pixel_values mehr.
+    use_inputs_embeds = inputs_embeds is not None
+    if use_inputs_embeds and is_multimodal:
+        raise ValueError(
+            "chunked_generate: inputs_embeds und pixel_values sind beide "
+            "gesetzt — bitte nur einen Pfad wählen. "
+            "chunked-vision-encoder: inputs_embeds (kein pixel_values)."
+        )
+
     for i in range(n_chunks):
         s = i * chunk_size
         e = min(s + chunk_size, T_prefill)
         chunk_ids = input_ids[:, s:e]
+        chunk_embeds = inputs_embeds[:, s:e, :] if use_inputs_embeds else None
 
         # Vision-Encoding: erster Chunk MUSS durch model.forward() fließen
         # damit pixel_values encodiert und in den Text-Token-Stream eingefügt
@@ -170,6 +191,21 @@ def chunked_generate(
             # model.forward() returnt Gemma3CausalLMOutputWithPast:
             #   - out.logits ist BEREITS über lm_head berechnet (kein lm_head
             #     re-call nötig)
+            with torch.no_grad():
+                chunk_logits = out.logits[:, -1:, :].clone()
+                prefill_logits = chunk_logits
+        elif use_inputs_embeds:
+            # chunked-vision-encoder Pfad: pre-merged text+image embeddings.
+            # Forward durch das ganze Modell (für Vision-Embed-Pfad)
+            # — text_model kann KEINE inputs_embeds im multimodal-Setup
+            # verarbeiten weil Gemma3TextModel keine vision kennt.
+            with torch.inference_mode():
+                out = model(
+                    inputs_embeds=chunk_embeds,
+                    past_key_values=past_kv,
+                    use_cache=use_cache,
+                )
+            past_kv = out.past_key_values
             with torch.no_grad():
                 chunk_logits = out.logits[:, -1:, :].clone()
                 prefill_logits = chunk_logits
