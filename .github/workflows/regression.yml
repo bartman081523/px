@@ -1,0 +1,166 @@
+name: regression
+
+# Regression-Suite für all_space.
+#
+# Job 1 — `unit` (immer, schnell, CPU-only):
+#   Mock-/Pin-Tests für die Bereiche, die KEIN echtes Modell brauchen:
+#     - px_patches/gemma3_270m_px_baseline/relay_inject.py  (RELAY preset,
+#       commit 8235926)
+#     - infinite_context.py  (orphaned InfLLM block memory + ReAttention,
+#       commit 7cf8218) — pin-only, keine aktive Integration
+#     - sonstige Unit-Tests ohne GPU/live-Server
+#   Ziel: jeder Push/PR läuft diese in < 30 s, fängt Aliasing-Bugs,
+#   Forward-Hook-Regressionen, block-boundary-Drifts etc.
+#
+# Job 2 — `gpu-smoke` (manuell auslösbar, hosted-runner mit T4):
+#   Echtes Modell + px_patch.smoke. Wird default NICHT auf Push/PR getriggert
+#   (RTX 2060 12 GB lokal reicht für 270m + 1b, aber CI-Runner-Kosten für
+#   GPU sind hoch). Per workflow_dispatch oder Label „gpu" am PR manuell
+#   startbar.
+#
+# Live-Server-Tests (TestAllModelsPresets, TestGemma4E2B) sind in keinem Job
+# enthalten — sie brauchen einen bewusst hochgefahrenen lokalen Server +
+# Modell und gehören in eine separate staging-pipeline.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+# Standardmäßig kein GPU-Smoke auf Push/PR — explizit über workflow_dispatch
+# oder Label „gpu" am PR.
+concurrency:
+  group: regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unit regression (CPU, < 30s)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Minimal stack: PyTorch (CPU reicht für Relay/InfLLM-Pin-Tests,
+          # FakeTextModel + InfLLMCache mit Zufallstensoren), pytest.
+          pip install --index-url https://download.pytorch.org/whl/cpu \
+              torch==2.1.0
+          pip install pytest pytest-asyncio numpy
+          # HF-Transformers für die Import-Pfade in relay_inject.py / model_manager
+          # ist nicht nötig — die Unit-Tests mocken alle PretrainedConfig-Felder.
+
+      - name: Run unit regression suite
+        run: |
+          # Default: gpu + live Marker werden via addopts in pytest.ini als
+          # lauffähig markiert (für CI wollen wir nur die unmarkierten Tests).
+          # Tests mit @pytest.mark.gpu / @pytest.mark.live werden NICHT
+          # ausgewählt, da sie nicht zu diesem Job gehören.
+          #
+          # NOTE: tests/test_px_integrity.py::test_telemetry_file_persistence
+          # ist NICHT enthalten — er liest das alphabetisch letzte File in
+          # telemetry/ und scheitert, wenn eine vorgängige Aufzeichnung
+          # abgeschnitten wurde (Recorder schreibt nicht atomar). Das ist
+          # ein vorhandener Fragility-Bug (siehe
+          # tests/OBSOLETE_TESTS.md Pattern A) — gehört in einen separaten
+          # Fix, der den Recorder um atomare Writes ergänzt.
+          pytest tests/test_relay_inject.py \
+                 tests/test_infllm_smoke.py \
+                 tests/test_coupler.py \
+                 tests/test_recursion_regression_suite.py \
+                 tests/test_eos_token.py \
+                 -v --tb=short
+
+      - name: Annotate PR with results
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'regression.yml',
+              per_page: 1,
+            });
+            const run = runs.workflow_runs[0];
+            const conclusion = run.conclusion || 'pending';
+            const body = `🔬 **Regression Suite**: ${conclusion.toUpperCase()}\n\n` +
+                         `See the [workflow run](${run.html_url}) for details.`;
+            // Post a single comment per PR (collapses older comments via
+            // issue_comment API rather than PR review API).
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const marker = '🔬 **Regression Suite**:';
+            const existing = comments.find(c => c.body.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+  gpu-smoke:
+    name: GPU smoke (manual, hosted T4)
+    runs-on: linux-gpu  # requires GitHub-hosted GPU runner access
+    timeout-minutes: 30
+    # Default: nicht auf Push/PR. Manuell via Actions-Tab oder workflow_dispatch.
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'gpu')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch transformers accelerate pytest pytest-asyncio numpy
+          # RTX-2060-äquivalente GPU-Smoke-Tests laden 270m (kleinste Modell-
+          # Stufe). 1b/4b brauchen mehr Speicher und sind für lokales Smoke.
+
+      - name: Run GPU smoke (270m only)
+        # Schmal gehalten: ein Modell, ein Preset (BASELINE), ein Prompt. Wenn
+        # dieses Smoke grün ist, ist der Motor + Patch-Pfad + Generierung
+        # intakt. Vollständige Eval-Runs (80 Prompts) bleiben lokal / staging.
+        run: |
+          pytest tests/test_relay_inject.py \
+                 tests/test_infllm_smoke.py \
+                 -v --tb=short -m "not live"
+          # Plus: manuell die Modell-Loading-Pfade (kein pytest, da sie den
+          # Modell-Cache brauchen — siehe model_manager.LazyModelLoader).
+          python -c "
+          from model_manager import LazyModelLoader
+          loader = LazyModelLoader()
+          m = loader.load('gemma3-270m-it', preset='BASELINE')
+          out = m.generate('Hello world', max_new_tokens=8)
+          assert isinstance(out, str) and len(out) > 0
+          print('GPU smoke OK:', repr(out))
+          "
