@@ -42,10 +42,14 @@ def test_short_input_no_chunked():
 
 
 def test_long_input_triggers_chunked():
-    """T>4500 + 4b: chunked_generate marker gesetzt."""
+    """T > _LONG_INPUT_THRESHOLD + 4b: chunked_generate marker gesetzt.
+
+    Schwelle ist seit profile_threshold_sweep.py 8800 (use_cache=True safe
+    bis T=9000 mit 4b+int8+PX). Test nutzt T=10000 um jenseits zu landen.
+    """
     sys.path.insert(0, _SCRATCHES)
     sys.path.insert(0, _REPO)
-    from generators import _px_gen_kwargs
+    from generators import _px_gen_kwargs, _LONG_INPUT_THRESHOLD
 
     class MockModel:
         class _M:
@@ -56,11 +60,13 @@ def test_long_input_triggers_chunked():
             yield ("inner", self._M())
 
     m = MockModel()
-    base = {"max_new_tokens": 16, "do_sample": False, "_input_len": 8000}
+    # T = threshold + 1200 → garantiert jenseits der Schwelle
+    base = {"max_new_tokens": 16, "do_sample": False,
+            "_input_len": _LONG_INPUT_THRESHOLD + 1200}
     out = _px_gen_kwargs(m, base)
     assert out.get("_px_use_chunked_prefill", False) is True, \
-        f"long input on 4b SHOULD trigger chunked: {out}"
-    print("[OK] long input (T=8000) + 4b → chunked")
+        f"long input (T={_LONG_INPUT_THRESHOLD + 1200}) on 4b SHOULD trigger chunked: {out}"
+    print(f"[OK] long input (T={_LONG_INPUT_THRESHOLD + 1200}) + 4b → chunked")
 
 
 def test_small_model_no_chunked():
