@@ -336,7 +336,20 @@ async def generate_chat_completion(
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     with torch.no_grad():
-        if gen_kwargs.pop("_px_use_chunked_prefill", False):
+        use_chunked = gen_kwargs.pop("_px_use_chunked_prefill", False)
+        # Multimodal + chunked: Vision-Tokens werden vom processor an einer
+        # festen Position eingefügt, die nicht zwingend im ersten Chunk
+        # liegt. Aktuell nicht unterstützt — fallback auf model.generate
+        # mit use_cache=False (T>4500 Pfad).
+        is_multimodal = inputs.get("pixel_values") is not None
+        if use_chunked and is_multimodal:
+            gen_kwargs["use_cache"] = False
+            import sys as _sys
+            print(f"[generate] multimodal + long context (T={input_len}) → "
+                  f"use_cache=False Fallback (chunked_generate hat noch "
+                  f"keine Vision-Token-Position-Heuristik)", file=_sys.stderr)
+            outputs = model.generate(**inputs, **gen_kwargs)
+        elif use_chunked:
             # Plan 3 Phase D: chunked_generate für lange Inputs (4b + T>4500).
             # Spart VRAM (chunked attention + full-only cache) und ist
             # signifikant schneller als use_cache=False. Greift nur, wenn
@@ -362,6 +375,8 @@ async def generate_chat_completion(
                 max_new_tokens=gen_kwargs.get("max_new_tokens", 64),
                 do_sample=gen_kwargs.get("do_sample", False),
                 eos_token_id=eos_id,
+                pixel_values=inputs.get("pixel_values"),
+                token_type_ids=inputs.get("token_type_ids"),
             )
         else:
             outputs = model.generate(**inputs, **gen_kwargs)
@@ -460,8 +475,18 @@ async def generate_chat_completion_stream(
 
     # Plan 3 Phase D: bei langem Input + 4b/E2B nutzen wir chunked_generate
     # mit Streamer statt model.generate (10x schneller als use_cache=False).
+    # Multimodal + chunked: aktuell nicht unterstützt (Vision-Token-Position
+    # ist nicht in erstem Chunk garantiert). Fallback use_cache=False.
     use_chunked_stream = gen_kwargs.pop("_px_use_chunked_prefill", False)
-    if use_chunked_stream:
+    is_multimodal = inputs.get("pixel_values") is not None
+    if use_chunked_stream and is_multimodal:
+        gen_kwargs["use_cache"] = False
+        import sys as _sys
+        print(f"[generate_stream] multimodal + long context (T={input_len})"
+              f" → use_cache=False Fallback (kein chunked+vision)", file=_sys.stderr)
+        thread = Thread(target=model.generate, kwargs=gen_kwargs)
+        thread.start()
+    elif use_chunked_stream:
         # Inline-Import: scratches/4b-image ist nicht im Standard-Pfad.
         try:
             from chunked_prefill import chunked_generate as _chunked_generate
@@ -495,6 +520,8 @@ async def generate_chat_completion_stream(
                     do_sample=do_sample,
                     eos_token_id=eos_id,
                     streamer=streamer,
+                    pixel_values=inputs.get("pixel_values"),
+                    token_type_ids=inputs.get("token_type_ids"),
                 )
             except Exception as _e:
                 import traceback as _tb

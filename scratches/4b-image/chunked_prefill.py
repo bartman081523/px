@@ -89,6 +89,8 @@ def chunked_generate(
     use_cache: bool = True,
     eos_token_id: Optional[int] = None,
     streamer=None,
+    pixel_values=None,
+    token_type_ids=None,
 ):
     """Generate tokens via chunked prefill + incremental decode.
 
@@ -106,6 +108,14 @@ def chunked_generate(
                   Token-ID-Tensor via put() (Form [1] oder [B, 1]). Der
                   Streamer dekodiert selbst. Konkret für unsere Pipeline:
                   HF TextIteratorStreamer pusht decoded text in seine Queue.
+        pixel_values: optional [B, C, H, W] — wenn gesetzt, wird der erste
+                      Chunk via `model.forward()` (multimodal) encodiert
+                      damit der Vision-Encoder das Bild verarbeitet.
+                      token_type_ids muss mit übergeben werden, damit
+                      Gemma3 vision/text Tokens unterscheiden kann.
+        token_type_ids: optional [B, T_prefill] — 0=text, 1=image. Gemma3
+                        braucht das für vision-token Identifikation im
+                        multimodalen Pfad.
 
     Returns:
         output_ids: [B, T_prefill + max_new_tokens] (truncated at eos)
@@ -117,6 +127,7 @@ def chunked_generate(
     device = input_ids.device
     B, T_prefill = input_ids.shape
 
+    is_multimodal = pixel_values is not None
     text_model = _resolve_text_model(model)
     past_kv = _build_full_only_cache(text_model)
 
@@ -132,28 +143,53 @@ def chunked_generate(
     # === Phase 1: Chunked Prefill ===
     n_chunks = (T_prefill + chunk_size - 1) // chunk_size
     prefill_logits = None
+    image_token_consumed = False  # Track: erster Chunk encodet Bild
 
     for i in range(n_chunks):
         s = i * chunk_size
         e = min(s + chunk_size, T_prefill)
         chunk_ids = input_ids[:, s:e]
 
-        with torch.inference_mode():
-            out = text_model(
-                input_ids=chunk_ids,
-                past_key_values=past_kv,
-                use_cache=use_cache,
-            )
-        past_kv = out.past_key_values
-        # Get logits via lm_head. Hidden state is in inference_mode → clone to
-        # no_grad tensor (Inference tensors cannot be saved for backward).
-        with torch.no_grad():
-            hidden = out.last_hidden_state[:, -1:, :].clone()
-            if hasattr(model, "lm_head"):
-                chunk_logits = model.lm_head(hidden)
-            else:
-                chunk_logits = hidden
-            prefill_logits = chunk_logits
+        # Vision-Encoding: erster Chunk MUSS durch model.forward() fließen
+        # damit pixel_values encodiert und in den Text-Token-Stream eingefügt
+        # werden. Folge-Chunks haben keine Bilder mehr — text_model reicht.
+        if is_multimodal and not image_token_consumed:
+            with torch.inference_mode():
+                out = model(
+                    input_ids=chunk_ids,
+                    past_key_values=past_kv,
+                    pixel_values=pixel_values,
+                    token_type_ids=token_type_ids[:, s:e] if token_type_ids is not None else None,
+                    use_cache=use_cache,
+                )
+            image_token_consumed = True
+            # WICHTIG: past_kv muss aus dem multimodal-output übernommen
+            # werden, sonst verlieren Folge-Chunks die Vision-Embeds im
+            # KV-Cache.
+            past_kv = out.past_key_values
+            # model.forward() returnt Gemma3CausalLMOutputWithPast:
+            #   - out.logits ist BEREITS über lm_head berechnet (kein lm_head
+            #     re-call nötig)
+            with torch.no_grad():
+                chunk_logits = out.logits[:, -1:, :].clone()
+                prefill_logits = chunk_logits
+        else:
+            with torch.inference_mode():
+                out = text_model(
+                    input_ids=chunk_ids,
+                    past_key_values=past_kv,
+                    use_cache=use_cache,
+                )
+            past_kv = out.past_key_values
+            # Get logits via lm_head. Hidden state is in inference_mode → clone to
+            # no_grad tensor (Inference tensors cannot be saved for backward).
+            with torch.no_grad():
+                hidden = out.last_hidden_state[:, -1:, :].clone()
+                if hasattr(model, "lm_head"):
+                    chunk_logits = model.lm_head(hidden)
+                else:
+                    chunk_logits = hidden
+                prefill_logits = chunk_logits
 
     # === Phase 2: Incremental Decode ===
     # Letztes Token aus Prefill als erstes generated token.
