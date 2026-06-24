@@ -59,11 +59,23 @@ class ModelManager:
                          px_gamma: float = None, px_routing_mode: str = None,
                          px_config_preset: str = "ACTIVE_MANIFOLD",
                          px_relay_sign: int = None, px_relay_alpha: float = None,
-                         px_relay_layer: int = None) -> dict:
-        """Get a loaded model, loading lazily if needed."""
+                         px_relay_layer: int = None,
+                         quantization: str = None) -> dict:
+        """Get a loaded model, loading lazily if needed.
+
+        quantization: None → read registry default (gemma3-4b-it ships as
+        int8 because bf16 doesn't fit 12 GB at long prefill; 1b/270m default
+        to "none"). Pass "none" or "int8" explicitly to override.
+        """
         async with self._lock:
             if model_id not in MODEL_REGISTRY:
                 raise ValueError(f"Unknown model: {model_id}")
+
+            # Resolve quantization=None → registry default
+            if quantization is None:
+                quantization = MODEL_REGISTRY[model_id].get("quantization", "none")
+                if quantization is None:
+                    quantization = "none"
 
             if model_id in self._models:
                 entry = self._models[model_id]
@@ -121,7 +133,7 @@ class ModelManager:
             try:
                 # Run blocking load in a thread to keep event loop alive
                 loop = asyncio.get_running_loop()
-                entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset, px_relay_sign, px_relay_alpha, px_relay_layer))
+                entry = await loop.run_in_executor(None, lambda: self._load_model(model_id, px_subjective, px_gamma, px_routing_mode, px_config_preset, px_relay_sign, px_relay_alpha, px_relay_layer, quantization))
                 self._models[model_id] = entry
                 self._last_used[model_id] = time.time()
                 return entry
@@ -132,9 +144,16 @@ class ModelManager:
                      px_gamma: float = None, px_routing_mode: str = None,
                      px_config_preset: str = "ACTIVE_MANIFOLD",
                      px_relay_sign: int = None, px_relay_alpha: float = None,
-                     px_relay_layer: int = None) -> dict:
-        """Load model weights + tokenizer + apply PX patch."""
+                     px_relay_layer: int = None,
+                     quantization: str = None) -> dict:
+        """Load model weights + tokenizer + apply PX patch.
+
+        quantization: None → read registry default. Registry default for
+        gemma3-4b-it is "int8" (bf16 OOMs on 12 GB at long prefill).
+        """
         registry = MODEL_REGISTRY[model_id]
+        if quantization is None:
+            quantization = registry.get("quantization") or "none"
         hf_id = registry["hf_id"]
         tok_id = registry["tokenizer_id"]
         model_type = registry.get("model_type", "gemma3")
@@ -180,6 +199,34 @@ class ModelManager:
                 torch_dtype=dtype,
                 device_map="auto",
             )
+
+        # Apply weight quantization (Plan 1, Phase D). Default "none" preserves
+        # the legacy bf16/fp16 path. "int8" monkey-patches every nn.Linear with
+        # QuantizedLinear from scratches/4b-image/ — reduces VRAM by ~50% on
+        # 4b (8 GB → ~4.5 GB weights), sufficient to fit long prefills on
+        # 12 GB GPUs that previously OOM'd at the MLP layer.
+        # Quantization happens BEFORE the PX patch so that _px_forward sees
+        # the (already quantized) Linear modules. The patch walks the module
+        # tree normally; our QuantizedLinear subclasses nn.Module transparently.
+        if quantization not in ("none", "int8"):
+            raise ValueError(f"unsupported quantization {quantization!r}; "
+                             "supported: 'none', 'int8'")
+        if quantization == "int8":
+            try:
+                from scratches._4b_image.quantize_pipeline import quantize_all_linears
+            except ImportError:
+                # Fallback: sys.path-based import (when called from a different
+                # working dir). scratches/ is two levels deep from this file.
+                import sys, os
+                _scratches_path = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)), "scratches", "4b-image")
+                if _scratches_path not in sys.path:
+                    sys.path.insert(0, _scratches_path)
+                from quantize_pipeline import quantize_all_linears
+            n_replaced = quantize_all_linears(model)
+            print(f"[ModelManager] {model_id} quantized int8: {n_replaced} Linears replaced")
+        else:
+            print(f"[ModelManager] {model_id} quantization=none (bf16 path)")
 
         # Apply PX patch (skip for unpatched baseline models or if BASELINE preset selected)
         if registry.get("patch_dir") is not None and px_config_preset != "BASELINE":

@@ -29,12 +29,18 @@ class InfLLMCache:
     """
     SR-64: Infinite Context Cache with InfLLM (Block Memory) and ReAttention (Decoupled RoPE).
     """
-    def __init__(self, config, block_size: int = 128, r_tokens: int = 8, top_k_blocks: int = 16, sinks_count: int = 4):
+    def __init__(self, config, block_size: int = 128, r_tokens: int = 8, top_k_blocks: int = 16, sinks_count: int = 4,
+                 max_l1_blocks: Optional[int] = None, l2_path: Optional[str] = None):
         self.config = config
         self.block_size = block_size
         self.r_tokens = r_tokens
         self.top_k_blocks = top_k_blocks
         self.sinks_count = sinks_count
+        # Phase B (Plan 2): L1-Bounding + L2-Disk-Auslagerung. Beide
+        # optional — wenn nicht gesetzt, ist das Verhalten IDENTISCH zur
+        # früheren Implementation (alle Tests bleiben grün).
+        self.max_l1_blocks = max_l1_blocks  # None = unbegrenzt
+        self.l2_path = l2_path                # None = kein Disk-Evict
         
         # Long-term memory (LTM) - stored un-rotated on CPU
         num_layers = getattr(config, "num_hidden_layers", 28)
@@ -107,17 +113,35 @@ class InfLLMCache:
             ret_k, ret_v = self._retrieve(layer_idx, q)
 
         # 5. Concatenate Context: [Sinks, Retrieved, LocalBuffer]
+        # Phase B: device-Konsistenz. Sinks/Buffer können auf CPU sein (von
+        # from_kv_cache oder ersten CPU-Calls); ret_k ist auf q.device. Wir
+        # moven alles auf ret_k.device wenn vorhanden, sonst q.device.
+        target_dev = ret_k.device if ret_k is not None else q.device
         k_parts = []
         v_parts = []
         if self.sinks_k[layer_idx] is not None:
-            k_parts.append(self.sinks_k[layer_idx])
-            v_parts.append(self.sinks_v[layer_idx])
+            sk = self.sinks_k[layer_idx]
+            if sk.device != target_dev:
+                sk = sk.to(target_dev)
+            k_parts.append(sk)
+            sv = self.sinks_v[layer_idx]
+            if sv.device != target_dev:
+                sv = sv.to(target_dev)
+            v_parts.append(sv)
         if ret_k is not None:
             k_parts.append(ret_k)
             v_parts.append(ret_v)
-        
-        local_k = torch.cat(self.buffer_k[layer_idx], dim=-2)
-        local_v = torch.cat(self.buffer_v[layer_idx], dim=-2)
+
+        local_k = torch.cat(
+            [t.to(target_dev) if t.device != target_dev else t
+             for t in self.buffer_k[layer_idx]],
+            dim=-2,
+        )
+        local_v = torch.cat(
+            [t.to(target_dev) if t.device != target_dev else t
+             for t in self.buffer_v[layer_idx]],
+            dim=-2,
+        )
         k_parts.append(local_k)
         v_parts.append(local_v)
 
@@ -169,29 +193,81 @@ class InfLLMCache:
             self.ltm_v[layer_idx].append(block_v.cpu())
             self.ltm_rk[layer_idx].append(r_k)
 
+            # Phase B: L1-Bounding. Wenn L1 voll: ältester Block raus.
+            if self.max_l1_blocks is not None:
+                while len(self.ltm_k[layer_idx]) > self.max_l1_blocks:
+                    if self.l2_path is None:
+                        # Ohne l2_path: harte Grenze (verlustbehaftet)
+                        del self.ltm_k[layer_idx][0]
+                        del self.ltm_v[layer_idx][0]
+                        del self.ltm_rk[layer_idx][0]
+                    else:
+                        # Mit l2_path: ältester Block wandert auf Disk
+                        old_k = self.ltm_k[layer_idx][0]
+                        old_v = self.ltm_v[layer_idx][0]
+                        old_rk = self.ltm_rk[layer_idx][0]
+                        self._l2_serialize_block(
+                            layer_idx=layer_idx,
+                            block_idx=len(self.ltm_k[layer_idx]),
+                            block_k=old_k, block_v=old_v, r_k=old_rk,
+                        )
+                        del self.ltm_k[layer_idx][0]
+                        del self.ltm_v[layer_idx][0]
+                        del self.ltm_rk[layer_idx][0]
+
             all_k = all_k[:, :, self.block_size:, :]
             all_v = all_v[:, :, self.block_size:, :]
 
         self.buffer_k[layer_idx] = [all_k]
         self.buffer_v[layer_idx] = [all_v]
 
+    # --- Phase B: L2 Disk-Storage ----------------------------------------
+    def _l2_path_for(self, layer_idx: int, block_idx: int) -> str:
+        import os
+        return os.path.join(
+            self.l2_path,
+            f"layer{layer_idx:02d}_block{block_idx:06d}.pt",
+        )
+
+    def _l2_serialize_block(self, layer_idx: int, block_idx: int,
+                             block_k: torch.Tensor, block_v: torch.Tensor,
+                             r_k: torch.Tensor):
+        import os
+        os.makedirs(self.l2_path, exist_ok=True)
+        path = self._l2_path_for(layer_idx, block_idx)
+        torch.save({
+            "block_k": block_k.cpu(),
+            "block_v": block_v.cpu(),
+            "r_k": r_k.cpu(),
+        }, path)
+
+    def _l2_load_block(self, layer_idx: int, block_idx: int):
+        path = self._l2_path_for(layer_idx, block_idx)
+        blob = torch.load(path, weights_only=False)
+        return blob["block_k"], blob["block_v"], blob["r_k"]
+
     def _retrieve(self, layer_idx: int, q: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         q_last = q[:, :, -1:, :] # Use last query token
-        
+        target_device = q.device
+
         scores = []
         for i, rk in enumerate(self.ltm_rk[layer_idx]):
-            # rk: [B, H, r_tokens, D]
-            attn = torch.matmul(q_last, rk.transpose(-1, -2))
+            # rk: [B, H, r_tokens, D] — kann auf CPU sein (LTM), muss aber
+            # für das matmul gegen q_last (cuda) auf das q-device gemoved
+            # werden. Sonst: RuntimeError "mat2 is on cpu, different from
+            # other tensors on cuda:0" (gefunden via Phase-B-TDD).
+            rk_dev = rk.to(target_device) if rk.device != target_device else rk
+            attn = torch.matmul(q_last, rk_dev.transpose(-1, -2))
             score = attn.max(dim=-1)[0].mean()
             scores.append((score.item(), i))
-            
+
         scores.sort(key=lambda x: x[0], reverse=True)
         selected = [idx for _, idx in scores[:self.top_k_blocks]]
         selected.sort()
-        
-        ret_k = torch.cat([self.ltm_k[layer_idx][i].to(q.device) for i in selected], dim=-2)
-        ret_v = torch.cat([self.ltm_v[layer_idx][i].to(q.device) for i in selected], dim=-2)
-        
+
+        ret_k = torch.cat([self.ltm_k[layer_idx][i].to(target_device) for i in selected], dim=-2)
+        ret_v = torch.cat([self.ltm_v[layer_idx][i].to(target_device) for i in selected], dim=-2)
+
         return ret_k, ret_v
 
     # --- Cache Interface Implementation ---
@@ -206,6 +282,134 @@ class InfLLMCache:
         self.buffer_k[layer_idx].append(key_states)
         self.buffer_v[layer_idx].append(value_states)
         return torch.cat(self.buffer_k[layer_idx], dim=-2), torch.cat(self.buffer_v[layer_idx], dim=-2)
+
+    # --- Phase A: API-Gaps -----------------------------------------------
+    # from_kv_cache, evict_block, serialize/deserialize: gebraucht für
+    # Phase B (Hierarchical Cache) + Phase C (Forward-Integration via Hook).
+    # Alle drei operieren auf den existierenden ltm_k/ltm_v/ltm_rk/buffer_*-
+    # Strukturen — KEINE Verhaltensänderung für bestehende Aufrufer.
+
+    def from_kv_cache(self, k_cache, v_cache, source_device: str = "cpu"):
+        """Initial-Befüllung aus existierendem KV-Cache.
+
+        k_cache, v_cache: List[Tensor] pro Layer; jeder Tensor hat Shape
+        [B, H, T, D]. Die Daten werden in Blöcke zu je block_size zerlegt
+        und in ltm_k/ltm_v (CPU) + ltm_rk (GPU) archiviert. Rest (kleiner
+        als block_size) bleibt im Buffer (GPU).
+
+        source_device: "cpu" wenn die Tensoren schon auf CPU sind (schnell),
+        "auto" für `.to(layer_device)` transfer.
+        """
+        import torch
+        num_layers = len(self.ltm_k)
+        assert len(k_cache) == num_layers and len(v_cache) == num_layers, (
+            f"k_cache/v_cache length ({len(k_cache)}) != num_layers ({num_layers})")
+
+        for layer_idx in range(num_layers):
+            k = k_cache[layer_idx]
+            v = v_cache[layer_idx]
+            if k.numel() == 0:
+                continue
+            B, H, T, D = k.shape
+
+            # In Blöcke zu block_size zerlegen
+            n_full = T // self.block_size
+            remainder = T - n_full * self.block_size
+
+            for b in range(n_full):
+                s = b * self.block_size
+                e = s + self.block_size
+                block_k = k[:, :, s:e, :].clone()
+                block_v = v[:, :, s:e, :].clone()
+                # Representative Keys (Top-k magnitude) — auf GPU für retrieve
+                magnitudes = block_k.norm(dim=-1)
+                _, indices = magnitudes.topk(self.r_tokens, dim=-1)
+                r_k = torch.gather(
+                    block_k, -2,
+                    indices.unsqueeze(-1).expand(-1, -1, -1, block_k.size(-1)),
+                )
+                self.ltm_k[layer_idx].append(block_k.cpu())
+                self.ltm_v[layer_idx].append(block_v.cpu())
+                self.ltm_rk[layer_idx].append(r_k)  # default device (CPU OK,
+                # wird in _retrieve sowieso auf q.device gemoved)
+
+            # Rest in Buffer (GPU für schnellen Zugriff)
+            if remainder > 0:
+                s = n_full * self.block_size
+                self.buffer_k[layer_idx].append(k[:, :, s:, :])
+                self.buffer_v[layer_idx].append(v[:, :, s:, :])
+
+            # Sinks: erste sinks_count tokens
+            if T >= self.sinks_count and self.sinks_k[layer_idx] is None:
+                self.sinks_k[layer_idx] = k[:, :, :self.sinks_count, :].clone()
+                self.sinks_v[layer_idx] = v[:, :, :self.sinks_count, :].clone()
+
+    def evict_block(self, layer_idx: int, block_idx: int):
+        """Entfernt einen LTM-Block. Sinks werden NICHT angetastet.
+
+        layer_idx: int
+        block_idx: int — Index in self.ltm_k[layer_idx] (0-basiert)
+        """
+        n = len(self.ltm_k[layer_idx])
+        if not (0 <= block_idx < n):
+            raise IndexError(
+                f"evict_block: block_idx {block_idx} out of range (0..{n - 1})")
+        del self.ltm_k[layer_idx][block_idx]
+        del self.ltm_v[layer_idx][block_idx]
+        del self.ltm_rk[layer_idx][block_idx]
+
+    def serialize(self) -> dict:
+        """Snapshot des Cache-Zustands als pickle-fähiges dict.
+
+        Enthält: block_size, r_tokens, top_k_blocks, sinks_count,
+        ltm_k/ltm_v/ltm_rk (CPU tensors), buffer_k/buffer_v (devices bleiben),
+        sinks_k/ltm_sinks_v, seen_tokens. KEINE Reference auf `self.config` —
+        das wird beim deserialize aus einem neuen Config-Objekt instanziert.
+        """
+        return {
+            "block_size": self.block_size,
+            "r_tokens": self.r_tokens,
+            "top_k_blocks": self.top_k_blocks,
+            "sinks_count": self.sinks_count,
+            "seen_tokens": self.seen_tokens,
+            "ltm_k": [[t.cpu() for t in layer] for layer in self.ltm_k],
+            "ltm_v": [[t.cpu() for t in layer] for layer in self.ltm_v],
+            "ltm_rk": [[t.cpu() for t in layer] for layer in self.ltm_rk],
+            "buffer_k": [list(layer) for layer in self.buffer_k],
+            "buffer_v": [list(layer) for layer in self.buffer_v],
+            "sinks_k": list(self.sinks_k),
+            "sinks_v": list(self.sinks_v),
+        }
+
+    def deserialize(self, blob: dict):
+        """Stellt Cache-Zustand aus einem serialize()-dict wieder her.
+
+        Schreibt direkt in self.ltm_* / buffer_* / sinks_*. Die Cache-
+        Konfiguration (block_size, r_tokens, etc.) wird AUS DEM BLOB gelesen,
+        nicht aus self — d.h. der Cache kann seine Konfiguration wechseln
+        und trotzdem einen alten Zustand deserialisieren.
+        """
+        # Konfiguration (überschreibt self, falls abweichend)
+        self.block_size = blob["block_size"]
+        self.r_tokens = blob["r_tokens"]
+        self.top_k_blocks = blob["top_k_blocks"]
+        self.sinks_count = blob["sinks_count"]
+        self.seen_tokens = blob["seen_tokens"]
+
+        # Datenstrukturen neu aufbauen (müssen zur num_hidden_layers passen)
+        num_layers = len(self.ltm_k)
+        # Falls Cache-Config größer war, schneiden wir ab
+        n_ltm = len(blob["ltm_k"])
+        assert n_ltm == num_layers, (
+            f"deserialize: blob has {n_ltm} layers, cache expects {num_layers}")
+
+        self.ltm_k = [list(layer) for layer in blob["ltm_k"]]
+        self.ltm_v = [list(layer) for layer in blob["ltm_v"]]
+        self.ltm_rk = [list(layer) for layer in blob["ltm_rk"]]
+        self.buffer_k = [list(layer) for layer in blob["buffer_k"]]
+        self.buffer_v = [list(layer) for layer in blob["buffer_v"]]
+        self.sinks_k = list(blob["sinks_k"])
+        self.sinks_v = list(blob["sinks_v"])
 
 
 # ---------------------------------------------------------------------------

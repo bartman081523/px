@@ -61,6 +61,10 @@ class ChatCompletionRequest(BaseModel):
     px_relay_sign: Optional[int] = None        # -1 | 0 | +1
     px_relay_alpha: Optional[float] = None     # fraction of last-pos norm (0.0–1.5)
     px_relay_layer: Optional[int] = None       # post-recur injection layer (default 21)
+    # Weight quantization (Plan 1): "none" (default) = bf16, "int8" = per-channel
+    # symmetric int8 weights. None = use registry default (gemma3-4b-it ships as
+    # int8 because bf16 doesn't fit 12 GB at long prefill). Override per-request.
+    quantization: Optional[Literal["none", "int8"]] = None
 
 
 class CompletionRequest(BaseModel):
@@ -79,6 +83,7 @@ class CompletionRequest(BaseModel):
     px_relay_sign: Optional[int] = None
     px_relay_alpha: Optional[float] = None
     px_relay_layer: Optional[int] = None
+    quantization: Optional[Literal["none", "int8"]] = None
 
 
 # ── Response Models ──

@@ -73,6 +73,12 @@ MODEL_REGISTRY = {
         "model_type": "gemma3_conditional",
         "dtype": "bfloat16",
         "max_length": 4096,
+        # Plan 1 Phase D: int8 by default to fit 4b on 12 GB GPUs for long
+        # prefills. bf16 path OOM'd at the MLP layer (T=4800 needed >200 MB
+        # headroom that bf16 weight memory didn't leave). int8 monkey-patches
+        # every nn.Linear with QuantizedLinear (~50% weight-VRAM reduction).
+        # Override per-request with `quantization="none"` if you need bf16.
+        "quantization": "int8",
     },
 
     # ── Gemma4 E2B ──

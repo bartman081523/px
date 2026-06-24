@@ -9,36 +9,76 @@ SSL_CERTFILE=/run/media/julian/ML4/ollama-work/all_space_6_16_stand/ssl/cert.pem
 [PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
 [PX Explorer] API:  https://localhost:7860/v1/
 [PX Explorer] UI:   https://localhost:7860/gradio
-INFO:     Started server process [864921]
+INFO:     Started server process [997810]
 INFO:     Waiting for application startup.
 [PX API] Server starting...
 INFO:     Application startup complete.
 INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
-[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=BASELINE)...
+INFO:     127.0.0.1:34806 - "GET /v1/models HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=False, preset=None)...
 [ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
-Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 13231.24it/s]
-Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   2%|▏         | 17/883 [00:00<00:05, 161.70it/s]Loading weights:   8%|▊         | 70/883 [00:00<00:02, 372.47it/s]Loading weights:  15%|█▌        | 133/883 [00:00<00:01, 481.98it/s]Loading weights:  21%|██        | 186/883 [00:00<00:01, 495.91it/s]Loading weights:  28%|██▊       | 243/883 [00:00<00:01, 518.44it/s]Loading weights:  34%|███▍      | 304/883 [00:00<00:01, 540.02it/s]Loading weights:  42%|████▏     | 368/883 [00:00<00:00, 565.02it/s]Loading weights:  49%|████▊     | 429/883 [00:00<00:00, 577.09it/s]Loading weights:  75%|███████▌  | 663/883 [00:00<00:00, 1117.32it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 886.91it/s] 
-[ModelManager] gemma3-4b-it loaded WITHOUT patch (baseline).
-INFO:     127.0.0.1:56524 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[ModelManager] Waiting for gemma3-4b-it to be free for unloading...
-[ModelManager] Unloading model gemma3-4b-it to free memory...
-[ModelManager] gemma3-4b-it unloaded.
-[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=BASELINE)...
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 94/340 [00:00<00:00, 934.15it/s]Loading weights:  55%|█████▌    | 188/340 [00:00<00:00, 641.63it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 937.19it/s]
-[ModelManager] gemma3-1b-it loaded WITHOUT patch (baseline).
-INFO:     127.0.0.1:41710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-INFO:     127.0.0.1:41722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
-[ModelManager] Unloading model gemma3-1b-it to free memory...
-[ModelManager] gemma3-1b-it unloaded.
-[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
-[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
-Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 5974.79it/s]
-Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 47.91it/s]Loading weights:   7%|▋         | 63/883 [00:00<00:02, 354.40it/s]Loading weights:  14%|█▎        | 121/883 [00:00<00:01, 444.64it/s]Loading weights:  20%|█▉        | 175/883 [00:00<00:01, 481.40it/s]Loading weights:  27%|██▋       | 234/883 [00:00<00:01, 518.59it/s]Loading weights:  33%|███▎      | 291/883 [00:00<00:01, 527.34it/s]Loading weights:  40%|████      | 355/883 [00:00<00:00, 557.17it/s]Loading weights:  47%|████▋     | 413/883 [00:00<00:00, 563.41it/s]Loading weights:  65%|██████▌   | 578/883 [00:00<00:00, 897.87it/s]Loading weights: 100%|█████████▉| 879/883 [00:01<00:00, 1542.93it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 864.86it/s] 
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 6781.41it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 47.41it/s]Loading weights:   6%|▋         | 56/883 [00:00<00:02, 308.32it/s]Loading weights:  12%|█▏        | 108/883 [00:00<00:01, 398.26it/s]Loading weights:  18%|█▊        | 161/883 [00:00<00:01, 437.10it/s]Loading weights:  25%|██▍       | 217/883 [00:00<00:01, 478.65it/s]Loading weights:  31%|███▏      | 277/883 [00:00<00:01, 516.65it/s]Loading weights:  39%|███▊      | 341/883 [00:00<00:00, 552.46it/s]Loading weights:  45%|████▍     | 397/883 [00:00<00:00, 549.26it/s]Loading weights:  57%|█████▋    | 502/883 [00:00<00:00, 699.97it/s]Loading weights:  91%|█████████▏| 807/883 [00:01<00:00, 1411.91it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 839.66it/s] 
 [gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
-[px-relay] kein d_width-Artefakt für  → relay inactive (LEAN engine läuft)
-[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L34 (HS=2560).
 [ModelManager] gemma3-4b-it loaded and patched successfully.
-INFO:     127.0.0.1:42860 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53626 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35694 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53388 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Exception in thread Thread-6 (generate):
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2580, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2773, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3819, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 956, in forward
+    outputs = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 746, in wrapper
+    return self_outer._px_original_forward(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 903, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 855, in forward
+    outputs = self.language_model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 275, in _px_forward
+    hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 181, in _layer_step
+    out = layer(h, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 411, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 95, in _mem_eff_attention_forward
+    attn_output = _chunked_attention(query_states, key_states, value_states, self.scaling, sliding_window=sw).transpose(1, 2)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 58, in _chunked_attention
+    scores = torch.matmul(qc, k.transpose(-1, -2)) * scaling   # [B,Hq,C,Tk] (Hkv broadcasts)
+RuntimeError: The size of tensor a (8) must match the size of tensor b (4) at non-singleton dimension 1
