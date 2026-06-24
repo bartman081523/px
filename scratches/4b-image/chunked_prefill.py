@@ -1,5 +1,5 @@
 """
-chunked_prefill.py — Plan 3 Phase B: Chunked-Prefill via forward_hook
+chunked_prefill.py — Plan 3 Phase D: Chunked-Prefill via forward_hook
 ======================================================================
 
 Löst T>4500 OOM durch Aufteilen des Prefills in Chunks.
@@ -19,15 +19,64 @@ Trade-off:
   - Logits werden erst nach letztem Chunk gelesen
   - Aber: VRAM peak ~ KV_so_far + chunk_size × hidden statt T_total × hidden
 
+Critical fix für Gemma3 sliding-window:
+  Gemma3-4b hat HYBRID attention (5 sliding + 1 full + 5 sliding ...).
+  Sliding-Layer haben sliding_window=1024. HF DynamicSlidingWindowLayer
+  hat einen Bug: bei inkrementellem Prefill berechnet
+  `get_mask_sizes(query_length)` die kv_length als
+  `sliding_window - 1 + query_length` = 1535 für chunk=512 nach
+  cumulative_length=1024. Aber die zurückgegebenen full_key_states
+  haben nur 1024 Tokens (cat 512+512). Mismatch: SDPA-Error.
+
+  Fix: für chunked prefill bauen wir einen FULL-ONLY cache (alle
+  Layers als full_attention, sliding_window=None). Das umgeht den
+  sliding-window-Bug. Semantisch verliert Gemma3 sein sliding-pattern
+  NUR während des Prefills — Sliding-Decode funktioniert danach
+  wieder normal.
+
+  Achtung: die `score_mem_mb` MEM_EFF_MAX_SCORE_MB-Logik in patch.py
+  ist hier weiterhin aktiv: für jedes SDPA-attention check entscheidet
+  sie, ob chunked-Pfad (über die normale _chunked_attention) genutzt
+  wird. Da past_kv schon voll ist, ist T_k = T_so_far groß und der
+  SDPA-Pfad wird vermieden — chunked-Pfad ist aktiv für jedes chunk.
+
 Run:
     python -c "from chunked_prefill import chunked_generate; help(chunked_generate)"
 """
 from __future__ import annotations
 
+import copy
 import sys
 from typing import Optional
 
 import torch
+from transformers.cache_utils import DynamicCache
+
+
+def _build_full_only_cache(text_model) -> DynamicCache:
+    """Baut einen DynamicCache mit allen Layers als full_attention.
+
+    Workaround für Gemma3-DynamicSlidingWindowLayer-Bug: bei inkrementellem
+    Prefill berechnet `get_mask_sizes` die kv_length falsch (sliding_window-1
+    + query_length statt tatsächlicher full_key_states-Länge). Mit full-only
+    Cache fällt das weg.
+    """
+    text_cfg = copy.deepcopy(text_model.config)
+    if hasattr(text_cfg, "layer_types"):
+        text_cfg.layer_types = ["full_attention"] * text_cfg.num_hidden_layers
+    text_cfg.sliding_window = None
+    return DynamicCache(config=text_cfg)
+
+
+def _resolve_text_model(model):
+    """Findet das Gemma3TextModel (HF internal)."""
+    if hasattr(model, "model") and hasattr(model.model, "language_model"):
+        return model.model.language_model
+    if hasattr(model, "language_model"):
+        return model.language_model
+    if hasattr(model, "model") and hasattr(model.model, "layers"):
+        return model.model
+    return model
 
 
 def chunked_generate(
@@ -39,36 +88,48 @@ def chunked_generate(
     do_sample: bool = False,
     use_cache: bool = True,
     eos_token_id: Optional[int] = None,
+    streamer=None,
 ):
     """Generate tokens via chunked prefill + incremental decode.
 
     Args:
         model: HuggingFace model (mit past_key_values support)
         input_ids: [B, T_prefill] input token IDs
-        attention_mask: [B, T_prefill] (optional, 1=valid)
+        attention_mask: [B, T_prefill] (optional, 1=valid) — wird ignoriert
+                        im aktuellen Pfad (PX-Patch baut Mask intern)
         max_new_tokens: N — number of new tokens to generate
         chunk_size: prefill chunk size (default 512)
         do_sample: greedy wenn False
         use_cache: KV-Cache aktiv (default True)
         eos_token_id: stop token id (optional)
+        streamer: optional. HF TextIteratorStreamer-kompatibel — erwartet
+                  Token-ID-Tensor via put() (Form [1] oder [B, 1]). Der
+                  Streamer dekodiert selbst. Konkret für unsere Pipeline:
+                  HF TextIteratorStreamer pusht decoded text in seine Queue.
 
     Returns:
         output_ids: [B, T_prefill + max_new_tokens] (truncated at eos)
 
     Speicher-Charakteristik:
-        Peak ≈ (T_so_far + chunk_size) × hidden_size × bytes
-             + (chunk_size + T_so_far) × bytes (attention logits, cached)
-        Bei T=8000, chunk=512: peak ≈ 8512 × 4096 × 2 = 70 MB statt
-        8000 × 8000 × 2 = 122 MB für attention matrix. Faktor 12x.
+        Peak ≈ KV_full + chunk_size × hidden
+        Bei T=8000, chunk=512, 4b: ~6-7 GB statt ~12 GB full-attention.
     """
     device = input_ids.device
     B, T_prefill = input_ids.shape
 
-    # Past_key_values initialisieren (HF-Cache)
-    past_kv = None
+    text_model = _resolve_text_model(model)
+    past_kv = _build_full_only_cache(text_model)
+
+    def _push(token_id_tensor):
+        """Decode ein Token und pushe an streamer (falls gesetzt)."""
+        if streamer is None:
+            return
+        # HF streamer erwartet Tensor mit Token-IDs (Form [1]).
+        if token_id_tensor.dim() == 2:
+            token_id_tensor = token_id_tensor[0]
+        streamer.put(token_id_tensor)
 
     # === Phase 1: Chunked Prefill ===
-    # Wir gehen über die input_ids in Chunks. Jeder Chunk baut den KV-Cache auf.
     n_chunks = (T_prefill + chunk_size - 1) // chunk_size
     prefill_logits = None
 
@@ -77,25 +138,30 @@ def chunked_generate(
         e = min(s + chunk_size, T_prefill)
         chunk_ids = input_ids[:, s:e]
 
-        # attention_mask für diesen Chunk
-        if attention_mask is not None:
-            chunk_mask = attention_mask[:, :e]
-        else:
-            chunk_mask = None
-
         with torch.inference_mode():
-            out = model(
+            out = text_model(
                 input_ids=chunk_ids,
-                attention_mask=chunk_mask,
                 past_key_values=past_kv,
                 use_cache=use_cache,
             )
         past_kv = out.past_key_values
-        prefill_logits = out.logits  # logits für LAST token in chunk
+        # Get logits via lm_head. Hidden state is in inference_mode → clone to
+        # no_grad tensor (Inference tensors cannot be saved for backward).
+        with torch.no_grad():
+            hidden = out.last_hidden_state[:, -1:, :].clone()
+            if hasattr(model, "lm_head"):
+                chunk_logits = model.lm_head(hidden)
+            else:
+                chunk_logits = hidden
+            prefill_logits = chunk_logits
 
     # === Phase 2: Incremental Decode ===
-    # Letztes Token aus Prefill als erstes generated token
-    next_token_logits = prefill_logits[:, -1, :]
+    # Letztes Token aus Prefill als erstes generated token.
+    # Logits sind aus inference_mode — wir nehmen den letzten Token und
+    # verlassen inference_mode hier (Tokens sind in autograd-tracking Modus
+    # ab dann).
+    last_logits = prefill_logits[:, -1, :].clone()
+    next_token_logits = last_logits
     if do_sample:
         probs = torch.nn.functional.softmax(next_token_logits, dim=-1)
         next_token = torch.multinomial(probs, num_samples=1)
@@ -103,19 +169,27 @@ def chunked_generate(
         next_token = next_token_logits.argmax(dim=-1, keepdim=True)
 
     output_ids = [input_ids, next_token]
+    _push(next_token)
     if eos_token_id is not None and (next_token == eos_token_id).all():
+        if streamer is not None:
+            streamer.end()
         return torch.cat(output_ids, dim=1)
 
     # Decode N-1 weitere tokens
     for step in range(max_new_tokens - 1):
         with torch.inference_mode():
-            out = model(
+            out = text_model(
                 input_ids=next_token,
                 past_key_values=past_kv,
                 use_cache=use_cache,
             )
         past_kv = out.past_key_values
-        next_token_logits = out.logits[:, -1, :]
+        with torch.no_grad():
+            hidden = out.last_hidden_state[:, -1:, :].clone()
+            if hasattr(model, "lm_head"):
+                next_token_logits = model.lm_head(hidden).squeeze(1)
+            else:
+                next_token_logits = hidden[:, -1, :]
         if do_sample:
             probs = torch.nn.functional.softmax(next_token_logits, dim=-1)
             next_token = torch.multinomial(probs, num_samples=1)
@@ -123,9 +197,12 @@ def chunked_generate(
             next_token = next_token_logits.argmax(dim=-1, keepdim=True)
 
         output_ids.append(next_token)
+        _push(next_token)
         if eos_token_id is not None and (next_token == eos_token_id).all():
             break
 
+    if streamer is not None:
+        streamer.end()
     return torch.cat(output_ids, dim=1)
 
 
@@ -152,7 +229,7 @@ def test_chunked_against_full():
     T = inputs["input_ids"].shape[1]
     print(f"Prompt T={T}")
 
-    # === Reference: full generate (sollte für T=4502 OK sein) ===
+    # === Reference: full generate ===
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
     pre_vram = torch.cuda.memory_allocated() / 1e9
@@ -180,11 +257,10 @@ def test_chunked_against_full():
     print(f"\nCHUNKED generate: T={T} peak={peak_chunked:.3f}GB dt={dt_chunked:.1f}s")
     print(f"  text[:100]: {text_chunked[:100]!r}")
 
-    # Vergleich: text soll identisch sein (greedy decoding)
+    # Vergleich
     if text_full == text_chunked:
         print(f"\n[OK] chunked == full (byte-identisch)")
     else:
-        # Akzeptanz: erste 50% sollen gleich sein
         common_prefix = 0
         for a, b in zip(text_full, text_chunked):
             if a == b:
