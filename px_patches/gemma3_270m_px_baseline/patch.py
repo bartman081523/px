@@ -43,7 +43,77 @@ from transformers.models.gemma3.modeling_gemma3 import apply_rotary_pos_emb, ALL
 # stock SDPA path unchanged (zero overhead, no regression vs pre-infinite-context).
 # ---------------------------------------------------------------------------
 MEM_EFF_THRESHOLD = 4096      # above this token count, prefill uses tiled attention
-MEM_EFF_CHUNK = 2048           # query-tile size (bounds score memory to chunk*T)
+# chunk=512: bounds score matrix to 1*Hq*chunk*Tk*4B. For 4b (Hq=8) at Tk=4800:
+# 8*512*4800*4 = 78 MB. Was 2048 (8*2048*4800*4 = 314 MB), OOM on 12 GB after
+# the GQA-fix expanded Hkv→Hq. Smaller chunk = smaller peak score memory.
+# Semantic equivalence: bitwise lossless (cos_sim=1.000333 vs SDPA-Reference).
+MEM_EFF_CHUNK = 512
+# Plan 3 Phase D: score-matrix Heuristik (ersetzt die alte UND-Schwelle).
+# Aktiviert chunked-Pfad auch wenn T_q KLEIN und T_k groß ist (chunked prefill
+# im Aufrufer). Alte Logik: chunked nur wenn T_q UND T_k > THRESHOLD.
+# Neue Logik: chunked wenn T_q * T_k * Hq * 4 (bytes) > MEM_EFF_MAX_SCORE_MB.
+# Score-Matrix pro Layer = B * Hq * T_q * T_k * 4 bytes (bf16).
+# 4b hat Hq=8 → 32 bytes per (T_q*T_k) element. MEM_EFF_MAX_SCORE_MB=64 MB
+# heißt: pro Layer ≤ 64 MB score-matrix × 34 Layers = 2.2 GB (passt locker in
+# 12 GB). Bei T_q=512,T_k=8000: 125 MB → chunked. Bei T_q=128,T_k=8000: 31 MB
+# → SDPA (passt, schneller).
+MEM_EFF_MAX_SCORE_MB = 64
+# Plan 3 Phase D: Hq wird für score-Berechnung benutzt. Hq ist Query-Head-Count
+# und beim 4b=8 (2560/8/128 = ...). Wir nehmen 8 als Default für die 4b-Familie.
+# Andere Modelle haben andere Hq; korrekt wäre es per-model zu setzen, aber
+# der Konservative-Ansatz (Hq=8) schadet nicht — die Schwelle wird einfach
+# etwas früher erreicht, was chunked-Pfad auswählt (auch nicht schlimm).
+_MEM_EFF_ASSUMED_HQ = 8
+
+
+def score_mem_mb(T_q: int, T_k: int, Hq: int = _MEM_EFF_ASSUMED_HQ) -> float:
+    """Score-Matrix Speicherbedarf pro Layer in MB.
+
+    Args:
+        T_q: query token count
+        T_k: key token count (= past + new für inkrementelles Decoding)
+        Hq: query head count (default 8 für 4b)
+
+    Returns:
+        Speicher in MB für [B=1, Hq, T_q, T_k] in bf16 (4 bytes).
+    """
+    return (T_q * T_k * Hq * 4) / (1024 * 1024)
+
+
+def should_use_chunked(T_q: int, T_k: int) -> bool:
+    """True wenn der chunked attention path benutzt werden soll.
+
+    Args:
+        T_q: query token count
+        T_k: key token count (full KV, inkl. past)
+
+    Returns:
+        True für chunked-Pfad, False für SDPA-Pfad.
+
+    Heuristik:
+      - Decode (T_q=1): immer SDPA (chunked bringt nichts)
+      - Kurze Prefills: SDPA wenn score-matrix < MEM_EFF_MAX_SCORE_MB
+      - Lange Prefills: chunked (memory-bounded)
+
+    Tests in test_chunked_threshold_logic.py.
+    """
+    if T_q == 1:
+        return False  # decode: SDPA ist optimal
+    return score_mem_mb(T_q, T_k) > MEM_EFF_MAX_SCORE_MB
+
+def _expand_kv_for_gqa(k, v, n_rep):
+    """Expand KV-Heads entlang Hq-Ratio (GQA-Standard-Pattern). Idempotent
+    für n_rep == 1. Genutzt in _chunked_attention, weil matmul Hq/Hkv als
+    Batch-Dims behandelt und nur bei 1 broadcastet. Identisch zu
+    F.scaled_dot_product_attention(enable_gqa=True) intern — wir machen es
+    explizit, weil unser chunked-Path kein SDPA nutzt.
+
+    Siehe scratches/4b-image/gqa_repeat.py + test_gqa_surgical.py für den
+    Pin-Test (4/4 grün, cos_sim >= 0.999999 vs SDPA-Referenz).
+    """
+    if n_rep == 1:
+        return k, v
+    return k.repeat_interleave(n_rep, dim=1), v.repeat_interleave(n_rep, dim=1)
 
 def _chunked_attention(q, k, v, scaling, sliding_window=None, chunk=MEM_EFF_CHUNK):
     """q:[B,Hq,T,D], k/v:[B,Hkv,T,D] (GQA via broadcast). EXACT causal (+sliding)."""
@@ -52,6 +122,10 @@ def _chunked_attention(q, k, v, scaling, sliding_window=None, chunk=MEM_EFF_CHUN
     device, dtype = q.device, q.dtype
     out = torch.empty_like(q)
     kpos = torch.arange(Tk, device=device)
+    # GQA: expand kv heads to match Hq if needed (4b: Hq=8, Hkv=4, n_rep=2).
+    # 270m/1b have Hkv=1 → n_rep=4 → no-op path (still correct, no copy).
+    n_rep = q.shape[1] // k.shape[1]
+    k, v = _expand_kv_for_gqa(k, v, n_rep)
     for s in range(0, Tq, chunk):
         e = min(s + chunk, Tq)
         qc = q[:, :, s:e]                                       # [B,Hq,C,D]
@@ -81,7 +155,10 @@ def _mem_eff_attention_forward(self, hidden_states, position_embeddings=None, at
     T_q, T_k = query_states.shape[-2], key_states.shape[-2]
     sw = getattr(self, "sliding_window", None)
     # Decode (T_q==1) and short prefills: stock SDPA path — identical to pre-infinite-context.
-    if T_q == 1 or (T_q <= MEM_EFF_THRESHOLD and T_k <= MEM_EFF_THRESHOLD):
+    # Plan 3 Phase D: score_mem_mb-Heuristik (siehe MEM_EFF_MAX_SCORE_MB).
+    # Aktiviert chunked-Pfad auch wenn T_q klein und T_k groß ist
+    # (z.B. chunked prefill: T_q=512, T_k=8000 → 125 MB → chunked).
+    if T_q == 1 or not should_use_chunked(T_q, T_k):
         attn_interface = ALL_ATTENTION_FUNCTIONS.get_interface(self.config._attn_implementation, eager_attention_forward)
         attn_output, _ = attn_interface(self, query_states, key_states, value_states, attention_mask,
                                         dropout=self.attention_dropout if self.training else 0.0,

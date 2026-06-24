@@ -105,7 +105,13 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
             nrm = lp.float().norm().item()
             if nrm < 1e-6:
                 return
-            inj = (sign_f * alpha_f * nrm) * d_unit.to(h.device, dtype=h.dtype)
+            # Pre-allocate `inj` as a fresh tensor (not a view of h) to avoid
+            # the in-place aliasing trap: `h[:, -1, :] = lp + inj` would
+            # otherwise have `lp + inj` re-allocate onto the same storage
+            # as `h`, scrambling the write. copy_() into a standalone buffer
+            # makes the assignment deterministic.
+            inj = torch.empty_like(lp, dtype=h.dtype, device=h.device)
+            inj.copy_((sign_f * alpha_f * nrm) * d_unit.to(h.device, dtype=h.dtype))
             h[:, -1, :] = lp + inj
 
     try:
