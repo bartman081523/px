@@ -17211,3 +17211,1795 @@ INFO:     127.0.0.1:51630 - "POST /v1/chat/completions HTTP/1.1" 200 OK
 [generate] auto chunked_prefill (input_len=5533 > 4500; use_cache=False würde langsam, chunked_prefill ist 6x schneller)
 [generate] multimodal + long context (T=5533) → use_cache=False Fallback (chunked_generate hat noch keine Vision-Token-Position-Heuristik)
 INFO:     127.0.0.1:52832 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1424640]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 7157.52it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 47.32it/s]Loading weights:   6%|▋         | 57/883 [00:00<00:02, 315.32it/s]Loading weights:  13%|█▎        | 116/883 [00:00<00:01, 438.09it/s]Loading weights:  19%|█▉        | 172/883 [00:00<00:01, 480.07it/s]Loading weights:  25%|██▌       | 224/883 [00:00<00:01, 481.65it/s]Loading weights:  31%|███       | 273/883 [00:00<00:01, 482.20it/s]Loading weights:  37%|███▋      | 328/883 [00:00<00:01, 492.35it/s]Loading weights:  44%|████▍     | 388/883 [00:00<00:00, 522.84it/s]Loading weights:  50%|████▉     | 441/883 [00:00<00:00, 523.55it/s]Loading weights:  84%|████████▍ | 743/883 [00:01<00:00, 1278.50it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 821.70it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] kein d_width-Artefakt für  → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+INFO:     127.0.0.1:60222 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1460417]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 18978.75it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 46.58it/s]Loading weights:   6%|▋         | 57/883 [00:00<00:02, 312.22it/s]Loading weights:  13%|█▎        | 117/883 [00:00<00:01, 440.19it/s]Loading weights:  19%|█▉        | 171/883 [00:00<00:01, 473.61it/s]Loading weights:  25%|██▌       | 224/883 [00:00<00:01, 483.69it/s]Loading weights:  31%|███       | 273/883 [00:00<00:01, 483.78it/s]Loading weights:  37%|███▋      | 328/883 [00:00<00:01, 503.41it/s]Loading weights:  43%|████▎     | 382/883 [00:00<00:00, 510.91it/s]Loading weights:  49%|████▉     | 434/883 [00:00<00:00, 512.85it/s]Loading weights:  82%|████████▏ | 727/883 [00:01<00:00, 1247.34it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 821.10it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] kein d_width-Artefakt für  → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+INFO:     127.0.0.1:34190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+socket.send() raised exception.
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1464692]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 5493.52it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:18, 48.77it/s]Loading weights:   6%|▋         | 57/883 [00:00<00:02, 317.00it/s]Loading weights:  13%|█▎        | 114/883 [00:00<00:01, 427.30it/s]Loading weights:  19%|█▉        | 171/883 [00:00<00:01, 469.65it/s]Loading weights:  25%|██▌       | 222/883 [00:00<00:01, 483.18it/s]Loading weights:  31%|███       | 271/883 [00:00<00:01, 472.16it/s]Loading weights:  37%|███▋      | 328/883 [00:00<00:01, 498.43it/s]Loading weights:  43%|████▎     | 382/883 [00:00<00:00, 503.65it/s]Loading weights:  49%|████▉     | 434/883 [00:00<00:00, 508.29it/s]Loading weights:  82%|████████▏ | 727/883 [00:01<00:00, 1231.09it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 815.17it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] kein d_width-Artefakt für  → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:48828 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[ModelManager] All models unloaded.
+[PX API] Server stopped.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1464692]
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1469873]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 13640.01it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   1%|          | 5/883 [00:00<00:17, 49.84it/s]Loading weights:   6%|▋         | 57/883 [00:00<00:02, 316.59it/s]Loading weights:  13%|█▎        | 114/883 [00:00<00:01, 423.73it/s]Loading weights:  19%|█▉        | 172/883 [00:00<00:01, 475.24it/s]Loading weights:  25%|██▌       | 222/883 [00:00<00:01, 482.81it/s]Loading weights:  31%|███       | 271/883 [00:00<00:01, 466.78it/s]Loading weights:  37%|███▋      | 328/883 [00:00<00:01, 490.21it/s]Loading weights:  43%|████▎     | 382/883 [00:00<00:01, 499.19it/s]Loading weights:  49%|████▉     | 434/883 [00:00<00:00, 500.95it/s]Loading weights:  82%|████████▏ | 724/883 [00:01<00:00, 1213.29it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 807.66it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-4b-it dir=WIDE_minus_NARROW_L15_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:59024 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[ModelManager] All models unloaded.
+[PX API] Server stopped.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1469873]
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1470994]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 6200.01it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 4/883 [00:00<00:22, 38.77it/s]Loading weights:   6%|▋         | 56/883 [00:00<00:02, 309.88it/s]Loading weights:  12%|█▏        | 109/883 [00:00<00:01, 403.60it/s]Loading weights:  19%|█▉        | 172/883 [00:00<00:01, 478.94it/s]Loading weights:  25%|██▌       | 224/883 [00:00<00:01, 480.89it/s]Loading weights:  31%|███       | 273/883 [00:00<00:01, 480.37it/s]Loading weights:  37%|███▋      | 328/883 [00:00<00:01, 499.12it/s]Loading weights:  43%|████▎     | 382/883 [00:00<00:00, 507.40it/s]Loading weights:  49%|████▉     | 435/883 [00:00<00:00, 514.18it/s]Loading weights:  83%|████████▎ | 730/883 [00:01<00:00, 1253.94it/s]Loading weights: 100%|██████████| 883/883 [00:01<00:00, 816.90it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-4b-it dir=WIDE_minus_NARROW_L15_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+INFO:     127.0.0.1:49208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51292 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50440 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43410 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48384 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [7874]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:38904 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38904 - "GET /gradio/gradio_api/queue/data?session_hash=jg2nrtrfiqe HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/gradio_api/queue/data?session_hash=ugwc7msya6j HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38658 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38644 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38654 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38634 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38646 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38650 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:38620 - "GET /gradio/gradio_api/queue/data?session_hash=u63aj0q7eeh HTTP/1.1" 200 OK
+INFO:     100.64.0.1:49116 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:49116 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+INFO:     100.64.0.1:49116 - "GET /gradio/gradio_api/queue/data?session_hash=u63aj0q7eeh HTTP/1.1" 200 OK
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 6423.13it/s]
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:02<34:15,  2.33s/it]Loading weights:   0%|          | 3/883 [00:02<09:52,  1.49it/s]Loading weights:   1%|          | 10/883 [00:02<02:17,  6.36it/s]Loading weights:   2%|▏         | 16/883 [00:02<01:18, 11.08it/s]Loading weights:   2%|▏         | 20/883 [00:02<01:06, 13.06it/s]Loading weights:   3%|▎         | 29/883 [00:03<00:39, 21.46it/s]Loading weights:   4%|▍         | 34/883 [00:03<00:37, 22.66it/s]Loading weights:   5%|▍         | 42/883 [00:03<00:28, 29.20it/s]Loading weights:   5%|▌         | 47/883 [00:03<00:29, 28.37it/s]Loading weights:   6%|▌         | 55/883 [00:03<00:24, 34.07it/s]Loading weights:   7%|▋         | 60/883 [00:03<00:25, 31.66it/s]Loading weights:   8%|▊         | 68/883 [00:04<00:22, 36.88it/s]Loading weights:   8%|▊         | 73/883 [00:04<00:24, 33.61it/s]Loading weights:   9%|▉         | 81/883 [00:04<00:20, 38.53it/s]Loading weights:  10%|▉         | 86/883 [00:04<00:23, 34.61it/s]Loading weights:  11%|█         | 94/883 [00:04<00:20, 39.25it/s]Loading weights:  11%|█         | 99/883 [00:05<00:22, 34.61it/s]Loading weights:  12%|█▏        | 107/883 [00:05<00:19, 38.84it/s]Loading weights:  13%|█▎        | 112/883 [00:05<00:22, 34.24it/s]Loading weights:  14%|█▎        | 120/883 [00:05<00:19, 38.46it/s]Loading weights:  14%|█▍        | 124/883 [00:05<00:23, 32.61it/s]Loading weights:  15%|█▌        | 133/883 [00:05<00:19, 39.43it/s]Loading weights:  16%|█▌        | 138/883 [00:06<00:21, 35.24it/s]Loading weights:  17%|█▋        | 146/883 [00:06<00:18, 39.79it/s]Loading weights:  17%|█▋        | 151/883 [00:06<00:20, 35.59it/s]Loading weights:  18%|█▊        | 159/883 [00:06<00:18, 40.01it/s]Loading weights:  19%|█▊        | 164/883 [00:06<00:20, 35.64it/s]Loading weights:  19%|█▉        | 172/883 [00:06<00:17, 40.00it/s]Loading weights:  20%|██        | 177/883 [00:07<00:19, 35.60it/s]Loading weights:  21%|██        | 185/883 [00:07<00:17, 39.76it/s]Loading weights:  22%|██▏       | 190/883 [00:07<00:19, 35.29it/s]Loading weights:  22%|██▏       | 198/883 [00:07<00:17, 39.63it/s]Loading weights:  23%|██▎       | 203/883 [00:07<00:19, 34.65it/s]Loading weights:  24%|██▍       | 211/883 [00:07<00:17, 39.13it/s]Loading weights:  24%|██▍       | 216/883 [00:08<00:19, 34.86it/s]Loading weights:  25%|██▌       | 224/883 [00:08<00:16, 39.44it/s]Loading weights:  26%|██▌       | 229/883 [00:08<00:18, 35.18it/s]Loading weights:  27%|██▋       | 237/883 [00:08<00:16, 39.52it/s]Loading weights:  27%|██▋       | 242/883 [00:08<00:18, 34.97it/s]Loading weights:  28%|██▊       | 249/883 [00:09<00:16, 37.56it/s]Loading weights:  29%|██▊       | 253/883 [00:09<00:19, 32.06it/s]Loading weights:  30%|██▉       | 263/883 [00:09<00:15, 40.76it/s]Loading weights:  30%|███       | 268/883 [00:09<00:17, 36.08it/s]Loading weights:  31%|███       | 275/883 [00:09<00:15, 38.03it/s]Loading weights:  32%|███▏      | 279/883 [00:09<00:18, 32.47it/s]Loading weights:  33%|███▎      | 289/883 [00:10<00:14, 41.04it/s]Loading weights:  33%|███▎      | 294/883 [00:10<00:16, 36.00it/s]Loading weights:  34%|███▍      | 302/883 [00:10<00:14, 40.18it/s]Loading weights:  35%|███▍      | 307/883 [00:10<00:16, 35.67it/s]Loading weights:  36%|███▌      | 314/883 [00:10<00:14, 38.12it/s]Loading weights:  36%|███▌      | 318/883 [00:10<00:17, 32.21it/s]Loading weights:  37%|███▋      | 328/883 [00:11<00:13, 41.00it/s]Loading weights:  38%|███▊      | 333/883 [00:11<00:15, 36.17it/s]Loading weights:  39%|███▊      | 341/883 [00:11<00:13, 40.09it/s]Loading weights:  39%|███▉      | 346/883 [00:11<00:15, 35.70it/s]Loading weights:  40%|████      | 354/883 [00:11<00:13, 40.15it/s]Loading weights:  41%|████      | 359/883 [00:12<00:14, 35.74it/s]Loading weights:  42%|████▏     | 367/883 [00:12<00:12, 39.97it/s]Loading weights:  42%|████▏     | 372/883 [00:12<00:14, 35.37it/s]Loading weights:  43%|████▎     | 380/883 [00:12<00:12, 39.69it/s]Loading weights:  44%|████▎     | 385/883 [00:12<00:14, 35.12it/s]Loading weights:  45%|████▍     | 393/883 [00:12<00:12, 39.87it/s]Loading weights:  45%|████▌     | 398/883 [00:13<00:13, 35.55it/s]Loading weights:  46%|████▌     | 406/883 [00:13<00:11, 39.86it/s]Loading weights:  47%|████▋     | 411/883 [00:13<00:13, 35.36it/s]Loading weights:  47%|████▋     | 419/883 [00:13<00:11, 39.81it/s]Loading weights:  48%|████▊     | 424/883 [00:13<00:13, 35.22it/s]Loading weights:  49%|████▉     | 431/883 [00:13<00:11, 37.95it/s]Loading weights:  49%|████▉     | 435/883 [00:14<00:13, 32.58it/s]Loading weights:  52%|█████▏    | 455/883 [00:14<00:06, 63.79it/s]Loading weights:  54%|█████▍    | 480/883 [00:14<00:03, 102.66it/s]Loading weights:  57%|█████▋    | 502/883 [00:14<00:02, 128.96it/s]Loading weights:  60%|██████    | 533/883 [00:14<00:02, 163.73it/s]Loading weights:  64%|██████▍   | 565/883 [00:14<00:01, 191.41it/s]Loading weights:  68%|██████▊   | 598/883 [00:14<00:01, 225.17it/s]Loading weights:  71%|███████   | 623/883 [00:14<00:01, 229.06it/s]Loading weights:  73%|███████▎  | 649/883 [00:14<00:00, 236.54it/s]Loading weights:  77%|███████▋  | 677/883 [00:15<00:00, 245.09it/s]Loading weights:  80%|███████▉  | 705/883 [00:15<00:00, 251.83it/s]Loading weights:  83%|████████▎ | 731/883 [00:15<00:00, 247.51it/s]Loading weights:  86%|████████▌ | 759/883 [00:15<00:00, 243.35it/s]Loading weights:  89%|████████▉ | 789/883 [00:15<00:00, 256.16it/s]Loading weights:  92%|█████████▏| 816/883 [00:15<00:00, 257.07it/s]Loading weights:  95%|█████████▌| 842/883 [00:15<00:00, 254.93it/s]Loading weights:  98%|█████████▊| 869/883 [00:15<00:00, 257.49it/s]Loading weights: 100%|██████████| 883/883 [00:15<00:00, 55.62it/s] 
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (embeddings): SiglipVisionEmbeddings(
+        (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+        (position_embedding): Embedding(4096, 1152)
+      )
+      (encoder): SiglipEncoder(
+        (layers): ModuleList(
+          (0-26): 27 x SiglipEncoderLayer(
+            (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (self_attn): SiglipAttention(
+              (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+            (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+            (mlp): SiglipMLP(
+              (activation_fn): GELUTanh()
+              (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+            )
+          )
+        )
+      )
+      (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-4b-it dir=WIDE_minus_NARROW_L15_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 160
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 720
+DEBUG: Yielding partial_text length: 960
+DEBUG: Yielding partial_text length: 1000
+DEBUG: Yielding partial_text length: 1060
+DEBUG: Yielding partial_text length: 1100
+DEBUG: Yielding partial_text length: 1140
+DEBUG: Yielding partial_text length: 1280
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:45106 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45106 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 2 messages
+DEBUG: Initial cleaned_history length: 2
+DEBUG: Combined messages length: 3
+INFO:     100.64.0.1:45106 - "GET /gradio/gradio_api/queue/data?session_hash=u63aj0q7eeh HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 80
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 420
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 1120
+DEBUG: Yielding partial_text length: 1140
+DEBUG: Yielding partial_text length: 1200
+DEBUG: Yielding partial_text length: 1300
+DEBUG: Yielding partial_text length: 1780
+DEBUG: Yielding partial_text length: 2140
+DEBUG: Yielding partial_text length: 2140
+DEBUG: Yielding partial_text length: 2320
+DEBUG: Yielding partial_text length: 2460
+DEBUG: Yielding partial_text length: 2600
+DEBUG: Yielding partial_text length: 2600
+DEBUG: Yielding partial_text length: 2620
+DEBUG: Yielding partial_text length: 2760
+DEBUG: Yielding partial_text length: 2780
+DEBUG: Yielding partial_text length: 2780
+DEBUG: Yielding partial_text length: 2820
+DEBUG: Yielding partial_text length: 2940
+DEBUG: Yielding partial_text length: 2980
+DEBUG: Yielding partial_text length: 3040
+DEBUG: Yielding partial_text length: 3340
+DEBUG: Yielding partial_text length: 3440
+DEBUG: Yielding partial_text length: 3500
+DEBUG: Yielding partial_text length: 3500
+DEBUG: Yielding partial_text length: 3500
+DEBUG: Yielding partial_text length: 3520
+DEBUG: Yielding partial_text length: 3540
+DEBUG: Yielding partial_text length: 3660
+DEBUG: Yielding partial_text length: 3840
+DEBUG: Yielding partial_text length: 3980
+DEBUG: Yielding partial_text length: 4100
+DEBUG: Yielding partial_text length: 4180
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:44568 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:44568 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 4 messages
+DEBUG: Initial cleaned_history length: 4
+DEBUG: Combined messages length: 5
+INFO:     100.64.0.1:44568 - "GET /gradio/gradio_api/queue/data?session_hash=u63aj0q7eeh HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+INFO:     100.64.0.1:45214 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45214 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45222 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     100.64.0.1:45214 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45214 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:45214 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+INFO:     100.64.0.1:37668 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:37668 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+INFO:     100.64.0.1:40198 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:40198 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+INFO:     100.64.0.1:48022 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:48022 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 4 messages
+[ModelManager] Waiting for gemma3-4b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-4b-it to free memory...
+INFO:     100.64.0.1:48022 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+[ModelManager] gemma3-4b-it unloaded.
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<01:34,  2.50it/s]Loading weights:  21%|██        | 49/236 [00:00<00:01, 126.94it/s]Loading weights:  43%|████▎     | 102/236 [00:00<00:00, 231.24it/s]Loading weights:  65%|██████▍   | 153/236 [00:00<00:00, 305.88it/s]Loading weights:  87%|████████▋ | 206/236 [00:00<00:00, 366.27it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 271.46it/s]
+[ModelManager] gemma3-270m quantization=none (bf16 path)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 4
+DEBUG: Combined messages length: 5
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 540
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 680
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 740
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 780
+DEBUG: Yielding partial_text length: 920
+DEBUG: Yielding partial_text length: 1000
+DEBUG: Yielding partial_text length: 1340
+DEBUG: Yielding partial_text length: 1360
+DEBUG: Yielding partial_text length: 1380
+DEBUG: Yielding partial_text length: 1560
+DEBUG: Yielding partial_text length: 1560
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:47336 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:47336 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 6 messages
+DEBUG: Initial cleaned_history length: 6
+DEBUG: Combined messages length: 7
+INFO:     100.64.0.1:47336 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 140
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 220
+DEBUG: Yielding partial_text length: 280
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     100.64.0.1:44364 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.1:44364 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+INFO:     100.64.0.1:49994 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.1:49994 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 4 messages
+DEBUG: Initial cleaned_history length: 4
+DEBUG: Combined messages length: 5
+INFO:     100.64.0.1:49994 - "GET /gradio/gradio_api/queue/data?session_hash=y5rqxdozmq HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 20
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 40
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 240
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 820
+DEBUG: Yielding partial_text length: 1120
+DEBUG: Yielding partial_text length: 1340
+DEBUG: Yielding partial_text length: 1360
+DEBUG: Yielding partial_text length: 1360
+DEBUG: Yielding partial_text length: 1380
+DEBUG: Yielding partial_text length: 1400
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1600
+DEBUG: Yielding partial_text length: 1720
+DEBUG: Yielding partial_text length: 1800
+DEBUG: Yielding partial_text length: 1860
+DEBUG: Yielding partial_text length: 1860
+DEBUG: Yielding partial_text length: 2120
+DEBUG: Yielding partial_text length: 2420
+DEBUG: Yielding partial_text length: 2460
+DEBUG: Yielding partial_text length: 2500
+DEBUG: Yielding partial_text length: 2540
+DEBUG: Yielding partial_text length: 2660
+DEBUG: Yielding partial_text length: 2660
+DEBUG: Yielding partial_text length: 2700
+DEBUG: Yielding partial_text length: 2820
+DEBUG: Yielding partial_text length: 3040
+DEBUG: Yielding partial_text length: 3040
+DEBUG: Yielding partial_text length: 3280
+DEBUG: Yielding partial_text length: 3480
+DEBUG: Yielding partial_text length: 3540
+DEBUG: Yielding partial_text length: 3580
+DEBUG: Yielding partial_text length: 3600
+DEBUG: Yielding partial_text length: 3660
+DEBUG: Yielding partial_text length: 3840
+DEBUG: Yielding partial_text length: 4040
+DEBUG: Yielding partial_text length: 4200
+DEBUG: Yielding partial_text length: 4320
+DEBUG: Yielding partial_text length: 4440
+DEBUG: Yielding partial_text length: 4460
+DEBUG: Yielding partial_text length: 4600
+DEBUG: Yielding partial_text length: 4660
+DEBUG: Yielding partial_text length: 4900
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [281523]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [431635]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:42050 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2189, in process_api
+    inputs = await self.preprocess_data(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1817, in preprocess_data
+    processed_value = await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py", line 211, in preprocess
+    raise Error(
+gradio.exceptions.Error: "Value: 0162f513 is not in the list of choices: ['gemma3-270m', 'gemma3-270m-it', 'gemma3-1b', 'gemma3-1b-it', 'gemma3-4b', 'gemma3-4b-it', 'gemma4-e2b-it', 'minicpm5-1b']"
+INFO:     127.0.0.1:42050 - "GET /gradio/gradio_api/queue/data?session_hash=sevgpw93ffk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/ArrowUp-H2EN_Jys.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/record.esm-EHLfhwCm.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-0QY8GNQj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/MinimalAudioPlayer-Ci2uUXwM.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Example-DoYEc68X.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Video-D7gQqrEE.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-bJ8TG0Hn.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/MinimalAudioPlayer-COky8gQS.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34222 - "GET /gradio/assets/Example-BIrWl-Kd.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34208 - "GET /gradio/assets/Video-emdvV6JL.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34200 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34238 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34220 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34190 - "GET /gradio/gradio_api/queue/data?session_hash=w4ya1e5jf3c HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55102 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41326 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41326 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41326 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41326 - "GET /gradio/gradio_api/queue/data?session_hash=rtrgvod4mv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58232 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58232 - "GET /gradio/gradio_api/queue/data?session_hash=rtrgvod4mv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48540 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58190 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45250 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45250 - "GET /gradio/gradio_api/queue/data?session_hash=rtrgvod4mv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46258 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46258 - "GET /gradio/gradio_api/queue/data?session_hash=ek74uy1oua HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33482 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33482 - "GET /gradio/gradio_api/queue/data?session_hash=ek74uy1oua HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33482 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33482 - "GET /gradio/gradio_api/queue/data?session_hash=ek74uy1oua HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35428 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35428 - "GET /gradio/gradio_api/queue/data?session_hash=ek74uy1oua HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58236 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58236 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+INFO:     127.0.0.1:58236 - "GET /gradio/gradio_api/queue/data?session_hash=ek74uy1oua HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   0%|          | 1/340 [00:01<07:03,  1.25s/it]Loading weights:   5%|▌         | 17/340 [00:01<00:19, 16.68it/s]Loading weights:   9%|▉         | 30/340 [00:01<00:10, 30.16it/s]Loading weights:  12%|█▏        | 42/340 [00:01<00:06, 43.04it/s]Loading weights:  16%|█▋        | 56/340 [00:01<00:04, 59.36it/s]Loading weights:  20%|██        | 69/340 [00:01<00:04, 65.87it/s]Loading weights:  24%|██▍       | 82/340 [00:01<00:03, 73.60it/s]Loading weights:  28%|██▊       | 96/340 [00:02<00:02, 85.26it/s]Loading weights:  32%|███▏      | 108/340 [00:02<00:02, 86.36it/s]Loading weights:  36%|███▌      | 122/340 [00:02<00:02, 96.55it/s]Loading weights:  40%|███▉      | 135/340 [00:02<00:02, 100.12it/s]Loading weights:  44%|████▎     | 148/340 [00:02<00:01, 104.63it/s]Loading weights:  47%|████▋     | 161/340 [00:02<00:01, 108.84it/s]Loading weights:  51%|█████     | 173/340 [00:02<00:01, 108.65it/s]Loading weights:  55%|█████▌    | 187/340 [00:02<00:01, 109.94it/s]Loading weights:  59%|█████▊    | 199/340 [00:03<00:01, 104.76it/s]Loading weights:  62%|██████▏   | 211/340 [00:03<00:01, 102.42it/s]Loading weights:  66%|██████▋   | 226/340 [00:03<00:01, 108.49it/s]Loading weights:  70%|███████   | 239/340 [00:03<00:00, 110.61it/s]Loading weights:  74%|███████▍  | 252/340 [00:03<00:00, 110.10it/s]Loading weights:  78%|███████▊  | 264/340 [00:03<00:00, 109.74it/s]Loading weights:  82%|████████▏ | 278/340 [00:03<00:00, 117.47it/s]Loading weights:  86%|████████▌ | 291/340 [00:03<00:00, 117.60it/s]Loading weights:  89%|████████▉ | 304/340 [00:03<00:00, 119.11it/s]Loading weights:  93%|█████████▎| 317/340 [00:04<00:00, 120.27it/s]Loading weights:  97%|█████████▋| 330/340 [00:04<00:00, 120.55it/s]Loading weights: 100%|██████████| 340/340 [00:04<00:00, 81.16it/s] 
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] {   "CitMind": {     "version": "1.0_Univer'...)
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1044, in gen_wrapper
+    response = next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 516, in bot_response
+    for partial_text in generator:
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 236, in chat_fn
+    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 3106, in apply_chat_template
+    rendered_chat, generation_indices = render_jinja_template(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 581, in render_jinja_template
+    rendered_chat = compiled_template.render(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 19, in top-level template code
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/jinja2/sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/chat_template_utils.py", line 479, in raise_exception
+    raise jinja2.exceptions.TemplateError(message)
+jinja2.exceptions.TemplateError: Conversation roles must alternate user/assistant/user/assistant/...
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [442044]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60618 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60618 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60618 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60618 - "GET /gradio/gradio_api/queue/data?session_hash=fmn64aql3xd HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [484941]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50542 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50542 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50542 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50542 - "GET /gradio/gradio_api/queue/data?session_hash=1aax8hggh5g HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: 22050 or set allow_custom_value=True.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 505, in build_chat_tab
+    tts_audio = gr.Audio(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Audio.__init__() got an unexpected keyword argument 'show_download_button'
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: 22050 or set allow_custom_value=True.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 505, in build_chat_tab
+    tts_audio = gr.Audio(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Audio.__init__() got an unexpected keyword argument 'show_download_button'
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: 22050 or set allow_custom_value=True.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 523, in build_chat_tab
+    tts_audio = gr.Audio(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Audio.__init__() got an unexpected keyword argument 'show_download_button'
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: 22050 or set allow_custom_value=True.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 523, in build_chat_tab
+    tts_audio = gr.Audio(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Audio.__init__() got an unexpected keyword argument 'show_download_button'
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: 22050 or set allow_custom_value=True.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/app.py", line 54, in <module>
+    session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 523, in build_chat_tab
+    tts_audio = gr.Audio(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/component_meta.py", line 194, in wrapper
+    return fn(self, **kwargs)
+TypeError: Audio.__init__() got an unexpected keyword argument 'show_download_button'
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [505480]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:54146 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/assets/index-CEtWp8AI.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54162 - "GET /gradio/assets/VolumeLevels-OeTssg3R.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54160 - "GET /gradio/assets/StaticAudio-DtALUuHG.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/assets/StreamingBar-j_mEbjRh.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54184 - "GET /gradio/assets/StaticAudio-aRR9yp0X.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54176 - "GET /gradio/assets/Play-CXlZPgrj.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54200 - "GET /gradio/assets/ModifyUpload-BsYjhbbb.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54162 - "GET /gradio/assets/Spinner-BNHgqc79.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54184 - "GET /gradio/assets/Example-PnzFsODt.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54176 - "GET /gradio/assets/index-DEPmb5JS.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/assets/Example-BJ27S6XQ.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54146 - "GET /gradio/gradio_api/queue/data?session_hash=wq1s1tlozjc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40862 - "GET /gradio/gradio_api/queue/data?session_hash=wq1s1tlozjc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59678 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54004 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54004 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 1 messages
+INFO:     127.0.0.1:54004 - "GET /gradio/gradio_api/queue/data?session_hash=wq1s1tlozjc HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:   0%|          | 1/340 [00:01<06:23,  1.13s/it]Loading weights:   5%|▍         | 16/340 [00:01<00:19, 16.98it/s]Loading weights:   9%|▉         | 30/340 [00:01<00:09, 33.13it/s]Loading weights:  13%|█▎        | 43/340 [00:01<00:06, 48.16it/s]Loading weights:  16%|█▋        | 56/340 [00:01<00:04, 62.91it/s]Loading weights:  20%|██        | 69/340 [00:01<00:03, 76.37it/s]Loading weights:  24%|██▍       | 82/340 [00:01<00:02, 88.10it/s]Loading weights:  28%|██▊       | 95/340 [00:01<00:02, 97.60it/s]Loading weights:  32%|███▏      | 108/340 [00:01<00:02, 105.39it/s]Loading weights:  36%|███▌      | 121/340 [00:02<00:01, 111.04it/s]Loading weights:  39%|███▉      | 134/340 [00:02<00:01, 114.89it/s]Loading weights:  43%|████▎     | 147/340 [00:02<00:01, 118.48it/s]Loading weights:  47%|████▋     | 160/340 [00:02<00:01, 120.78it/s]Loading weights:  51%|█████     | 173/340 [00:02<00:01, 113.32it/s]Loading weights:  55%|█████▌    | 187/340 [00:02<00:01, 118.55it/s]Loading weights:  59%|█████▉    | 200/340 [00:02<00:01, 119.13it/s]Loading weights:  63%|██████▎   | 213/340 [00:02<00:01, 119.46it/s]Loading weights:  66%|██████▋   | 226/340 [00:02<00:00, 119.73it/s]Loading weights:  70%|███████   | 239/340 [00:03<00:00, 119.29it/s]Loading weights:  74%|███████▍  | 252/340 [00:03<00:00, 118.71it/s]Loading weights:  78%|███████▊  | 265/340 [00:03<00:00, 120.39it/s]Loading weights:  82%|████████▏ | 278/340 [00:03<00:00, 121.06it/s]Loading weights:  86%|████████▌ | 291/340 [00:03<00:00, 120.34it/s]Loading weights:  89%|████████▉ | 304/340 [00:03<00:00, 120.21it/s]Loading weights:  93%|█████████▎| 317/340 [00:03<00:00, 122.54it/s]Loading weights:  97%|█████████▋| 330/340 [00:03<00:00, 123.79it/s]Loading weights: 100%|██████████| 340/340 [00:03<00:00, 88.79it/s] 
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 1
+DEBUG: Combined messages length: 2
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+[tts] Tag-Snip aktiv für engine=bark
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 100
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 580
+DEBUG: Yielding partial_text length: 580
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[tts] Lade Bark (suno/bark-small, ~2 GB) … bitte warten.
+INFO:     127.0.0.1:42700 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42586 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42586 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58294 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [539900]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:49044 - "GET /gradio/gradio_api/app_id HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49044 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49044 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49044 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49044 - "GET /gradio/gradio_api/queue/data?session_hash=rvdk5fvcj59 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/index-iG-u5S-q.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/index-XjOteJIz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-EQSXhGwd.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/i18n-D-XRiFon.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/i18n-BUQeSNyR.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/index-BkRuG29m.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/StreamingBar.svelte_svelte_type_style_lang-CMrNvDrX.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/html-CIBSB0m2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/ScrollFade.svelte_svelte_type_style_lang-DsKPVR6v.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/snippet-DI-UvdwT.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/index-B_pwUImq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/index-Bp-AlgMP.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/index-tFQomdd2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/clone-B9Q0I3Xo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Clear-CcflhvKy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Index-CI7BqPz-.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/StreamingBar-CMuqaV2j.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/ScrollFade-DV-0xzhB.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/utils.svelte-CICM1RSu.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40681 - "GET /manifest.json HTTP/1.1" 404 Not Found
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/de-BczWVYc-.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Blocks-NYYDVH4c.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/size-DTlrKfcv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/state.svelte-DYLs1okn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Blocks-CXVCGwNW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/static/fonts/IBMPlexMono/IBMPlexMono-Regular.woff2 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-BCZ6qfV8.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-B8_t_tjy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-BDcHJDzf.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-DrwP6IBv.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index.svelte_svelte_type_style_lang-C6bzbw0L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/actions-6QVFIipz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Check-qy-6_c6O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Copy-C57zpSEN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/IconButtonWrapper-Bf43UAL9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/MarkdownCode-BmJlkphY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/prism-python-uzFiSWTY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/MarkdownCode-Dk-hMXkn.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-cY7HT1Ac.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Block-BGVavOyF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/ScrollFade-BFwu0ky4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Example-S7CpEZ4O.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Example-CgIc4GLa.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Index-D9TQbTLj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Walkthrough.svelte_svelte_type_style_lang-BfiPeEXa.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/event-modifiers-CdEA5IGF.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Walkthrough-CA8p9s2e.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-CC9_aCz_.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-Ds3FAhOq.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-CM2D55Fy.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/__vite-browser-external-D7Ct-6yo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Index-RHaFgtf7.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-DMaj38-p.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-Wc7iaih9.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/BaseForm-BXuWjfOZ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/BaseForm-DJxyhkeW.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-D1fDZGVK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/input-CjfW5iL4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/BlockTitle-DNb2cXCW.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Info-DqmfmY_Z.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/DropdownArrow-DLve6gkj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Dropdown-eaDEtjNQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/window-fUQf4JBE.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Dropdown--Uz_kS2s.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Example-lo2XiqtY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Example-BeU1J4ps.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Index-BNpAM28s.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-DHz84ApK.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-F6AhiMuj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Checkbox-CQ05bKV3.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/universal-CPacV4QR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Checkbox-BbySKLMz.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Index-CwinLc1f.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-CruXVko5.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Index-iwBO64sc.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Example-BP1BiGBA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Example-DWDv4qx4.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-pc9XuoeO.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-4d7qV58W.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Textbox-B313_ulL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Send-BjpqlzaH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Square-DtYCUTza.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Textbox-B5AH0EoL.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Example-Cvv6PwrD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Example-PomL8ycq.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Index-pBW9Ruiz.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Button-BDRIefBo.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Image-MIGYU0iQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/misc-37w0soXi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Image-Da_XA0w6.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Button-BZ4d-rtD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/ImagePreview-CCVfwC4m.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-CAp2s655.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Index-BijVyRsD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Index-CxgjfWEV.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/BlockLabel-DVGK1tqL.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Empty-Ai5bf-OD.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/File-CPc3jiaQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/FileUpload-BLE2KdfA.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Upload-BtVQ7CFw.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Upload-C2I0h_eD.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/DownloadLink-KH8WzTNR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/FileUpload-DiuLlPU9.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Example-H850dxPY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/UploadText-DjYYU5m0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Example-CbN4r5yx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Index-BnFffGFn.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Download-CBPCAP8L.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/ShareButton-2AKGfIB0.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Edit-B1aQQ1uR.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Trash-DZ8Vu7H4.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Undo-Bv5lUv47.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Music-D6L3i-gO.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Index-B80bIer5.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/index-CEtWp8AI.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/StaticAudio-DtALUuHG.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/MinimalAudioPlayer-Ci2uUXwM.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/MinimalAudioPlayer-COky8gQS.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/VolumeLevels-OeTssg3R.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Play-CXlZPgrj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/StaticAudio-aRR9yp0X.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/ModifyUpload-BsYjhbbb.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/StreamingBar-j_mEbjRh.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/record.esm-EHLfhwCm.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Spinner-BNHgqc79.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Example-BJ27S6XQ.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Index-0QY8GNQj.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Example-PnzFsODt.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/index-DEPmb5JS.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/ArrowUp-H2EN_Jys.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Example-DoYEc68X.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Video-D7gQqrEE.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Example-BIrWl-Kd.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/Video-emdvV6JL.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Index-bJ8TG0Hn.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/FullscreenButton-BAuJSnhH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Index-BGbFjzQH.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Maximize-CQCkRcLK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/dsv-DB8NKgIY.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/Example-DXxR8fyi.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Example-jts6u4zx.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-wgdu9Zy3.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/Index--_y8gAZ2.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40675 - "GET /gradio/assets/JSON-BX8m7MJt.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40673 - "GET /gradio/assets/JSON-BjG2a1Vu.css HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40677 - "GET /gradio/assets/Index-DWWP-h59.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/assets/Plot-DKr7NUYK.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40676 - "GET /gradio/assets/key-DSM9zr99.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40678 - "GET /gradio/assets/Index-CZo3jTeN.js HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40672 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40683 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40683 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40684 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40684 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40686 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 3 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+INFO:     100.64.0.3:40686 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/340 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 95/340 [00:00<00:00, 933.76it/s]Loading weights:  77%|███████▋  | 263/340 [00:00<00:00, 1362.22it/s]Loading weights: 100%|██████████| 340/340 [00:00<00:00, 1345.12it/s]
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 3
+DEBUG: Combined messages length: 4
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+[tts] Tag-Snip aktiv für engine=espeak
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 460
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[tts] espeak: 0.04s synth, audio 42.9s, RTF 0.00, tags=0, → tts_outputs/51138/espeak_103912447.wav
+INFO:     100.64.0.3:40686 - "GET /gradio/gradio_api/file%3D/tmp/gradio/ec918e24d6d3d3a22b8f3e0d5d92e8ca27ee4cd06d8d2795543b40418ea247bb/espeak_103912447.wav HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40686 - "GET /gradio/gradio_api/file%3D/tmp/gradio/ec918e24d6d3d3a22b8f3e0d5d92e8ca27ee4cd06d8d2795543b40418ea247bb/espeak_103912447.wav HTTP/1.1" 206 Partial Content
+INFO:     100.64.0.3:40686 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40687 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40687 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40687 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40688 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40688 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 5 messages
+DEBUG: Initial cleaned_history length: 5
+DEBUG: Combined messages length: 6
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+[tts] Tag-Snip aktiv für engine=espeak
+INFO:     100.64.0.3:40688 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 120
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 180
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 300
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 440
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 500
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 660
+DEBUG: Yielding partial_text length: 700
+DEBUG: Yielding partial_text length: 700
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[tts] espeak: 0.04s synth, audio 48.5s, RTF 0.00, tags=0, → tts_outputs/19163/espeak_103946538.wav
+INFO:     100.64.0.3:40688 - "GET /gradio/gradio_api/file%3D/tmp/gradio/6bf0019f61a856cafc06e07a36474abbb7fdcdfdd50b37b388cb41855cbc8287/espeak_103946538.wav HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40688 - "GET /gradio/gradio_api/file%3D/tmp/gradio/6bf0019f61a856cafc06e07a36474abbb7fdcdfdd50b37b388cb41855cbc8287/espeak_103946538.wav HTTP/1.1" 206 Partial Content
+INFO:     100.64.0.3:40689 - "GET /gradio/gradio_api/file%3D/tmp/gradio/6bf0019f61a856cafc06e07a36474abbb7fdcdfdd50b37b388cb41855cbc8287/espeak_103946538.wav HTTP/1.1" 206 Partial Content
+INFO:     100.64.0.3:40691 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40691 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 7 messages
+DEBUG: Initial cleaned_history length: 7
+DEBUG: Combined messages length: 8
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+[tts] Tag-Snip aktiv für engine=espeak
+INFO:     100.64.0.3:40691 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 60
+DEBUG: Yielding partial_text length: 200
+DEBUG: Yielding partial_text length: 340
+DEBUG: Yielding partial_text length: 380
+DEBUG: Yielding partial_text length: 400
+DEBUG: Yielding partial_text length: 400
+DEBUG: Yielding partial_text length: 400
+DEBUG: Yielding partial_text length: 860
+DEBUG: Yielding partial_text length: 860
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1180
+DEBUG: Yielding partial_text length: 1180
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[tts] espeak: 0.06s synth, audio 69.0s, RTF 0.00, tags=0, → tts_outputs/29942/espeak_104106973.wav
+INFO:     100.64.0.3:40691 - "GET /gradio/gradio_api/file%3D/tmp/gradio/480c216100bb274968be8f2da934f8fe5bd3179339bfd363df83d30903042837/espeak_104106973.wav HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40691 - "GET /gradio/gradio_api/file%3D/tmp/gradio/480c216100bb274968be8f2da934f8fe5bd3179339bfd363df83d30903042837/espeak_104106973.wav HTTP/1.1" 206 Partial Content
+INFO:     100.64.0.3:40692 - "GET /gradio/gradio_api/file%3D/tmp/gradio/480c216100bb274968be8f2da934f8fe5bd3179339bfd363df83d30903042837/espeak_104106973.wav HTTP/1.1" 206 Partial Content
+INFO:     100.64.0.3:40697 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40697 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 9 messages
+DEBUG: Initial cleaned_history length: 9
+DEBUG: Combined messages length: 10
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+[tts] Tag-Snip aktiv für engine=qwen3
+INFO:     100.64.0.3:40697 - "GET /gradio/gradio_api/queue/data?session_hash=tx9cfqojh3 HTTP/1.1" 200 OK
+DEBUG: Yielding partial_text length: 0
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 320
+DEBUG: Yielding partial_text length: 400
+DEBUG: Yielding partial_text length: 460
+DEBUG: Yielding partial_text length: 560
+DEBUG: Yielding partial_text length: 600
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 620
+DEBUG: Yielding partial_text length: 740
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[tts] Lade Qwen3-TTS Tokenizer (Qwen/Qwen3-TTS-Tokenizer-12Hz) auf cuda… bitte warten.
+[transformers] You are using a model of type `qwen3_tts_tokenizer_12hz` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[tts] espeak: 0.06s synth, audio 67.4s, RTF 0.00, tags=0, → tts_outputs/49442/espeak_104262697.wav
+INFO:     100.64.0.3:40697 - "GET /gradio/gradio_api/file%3D/tmp/gradio/5c80069952b70e2cd308ee5ca917188e2522b8654a93a215f950c2e1407945b8/espeak_104262697.wav HTTP/1.1" 200 OK
+INFO:     100.64.0.3:40697 - "GET /gradio/gradio_api/file%3D/tmp/gradio/5c80069952b70e2cd308ee5ca917188e2522b8654a93a215f950c2e1407945b8/espeak_104262697.wav HTTP/1.1" 206 Partial Content
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [571582]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:37370 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37370 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37370 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37370 - "GET /gradio/gradio_api/queue/data?session_hash=h6blbccguef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59658 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59658 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 0 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+INFO:     127.0.0.1:59658 - "GET /gradio/gradio_api/queue/data?session_hash=h6blbccguef HTTP/1.1" 200 OK
+`torch_dtype` is deprecated! Use `dtype` instead!
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 0
+DEBUG: Combined messages length: 1
+[system] profile=citmind active (preview: '[SYSTEM CONTEXT] Algorithmische Subjektivität ist kein Besit'...)
+Exception in thread Thread-4 (generate_with_lock):
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 321, in generate_with_lock
+    model.generate(**gen_kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2564, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2784, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 918, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 658, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/px_patches/gemma3_270m_px_baseline/patch.py", line 331, in _px_forward
+    causal_mask_mapping = {"full_attention": create_causal_mask(**mk), "sliding_attention": create_sliding_window_causal_mask(**mk)}
+TypeError: create_causal_mask() got an unexpected keyword argument 'inputs_embeds'
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [598641]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     192.168.178.26:44862 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2189, in process_api
+    inputs = await self.preprocess_data(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1817, in preprocess_data
+    processed_value = await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py", line 211, in preprocess
+    raise Error(
+gradio.exceptions.Error: "Value: 8fbc486d is not in the list of choices: ['gemma3-270m', 'gemma3-270m-it', 'gemma3-1b', 'gemma3-1b-it', 'gemma3-4b', 'gemma3-4b-it', 'gemma4-e2b-it', 'minicpm5-1b']"
+INFO:     192.168.178.26:44862 - "GET /gradio/gradio_api/queue/data?session_hash=2p08063j6wx HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/gradio_api/queue/data?session_hash=nyd2jtp2xtq HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38482 - "GET /gradio/gradio_api/queue/data?session_hash=1c2scmxsl3h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47762 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47762 - "GET /gradio/gradio_api/queue/data?session_hash=1c2scmxsl3h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41150 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41150 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41150 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41150 - "GET /gradio/gradio_api/queue/data?session_hash=1c2scmxsl3h HTTP/1.1" 200 OK
+DEBUG: history received from Gradio (UI state): 1 messages
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD_RELAY)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+DEBUG: Initial cleaned_history length: 1
+DEBUG: Combined messages length: 2
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2195, in process_api
+    result = await self.call_function(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1664, in call_function
+    prediction = await utils.async_iteration(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 886, in async_iteration
+    return await anext(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 868, in __anext__
+    return await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 851, in run_sync_iterator_async
+    return next(iterator)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/utils.py", line 1044, in gen_wrapper
+    response = next(iterator)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 594, in bot_response
+    for partial_text in generator:
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 221, in chat_fn
+    sys_preview = next(m["content"][:60].replace("\n", " ")
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/gradio_tabs/chat_tab.py", line 221, in <genexpr>
+    sys_preview = next(m["content"][:60].replace("\n", " ")
+AttributeError: 'list' object has no attribute 'replace'
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [609679]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:36182 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36182 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36182 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/queueing.py", line 867, in process_events
+    response = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2208, in process_api
+    data = await self.postprocess_data(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1971, in postprocess_data
+    prediction_value = await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/chatbot.py", line 704, in postprocess
+    self._check_format(value)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/chatbot.py", line 402, in _check_format
+    raise Error(
+gradio.exceptions.Error: "Data incompatible with messages format. Each message should be a dictionary with 'role' and 'content' keys or a ChatMessage object."
+INFO:     127.0.0.1:36182 - "GET /gradio/gradio_api/queue/data?session_hash=45wymwmwmz5 HTTP/1.1" 200 OK

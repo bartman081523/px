@@ -1,0 +1,609 @@
+{
+  "started_at": "2026-06-26T12:51:13.696281+00:00",
+  "python_version": "3.14.5 (main, May 10 2026, 18:26:20) [GCC 16.1.1 20260430]",
+  "available_engines": [
+    "off"
+  ],
+  "engine_init_times_s": {
+    "piper": null,
+    "bark": null,
+    "qwen3": null,
+    "espeak": null
+  },
+  "per_engine_per_length": {
+    "piper": {
+      "10": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 10,
+        "actual_word_count": 6
+      },
+      "30": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 30,
+        "actual_word_count": 21
+      },
+      "80": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 80,
+        "actual_word_count": 52
+      },
+      "150": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 150,
+        "actual_word_count": 99
+      },
+      "300": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "piper",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from piper to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 300,
+        "actual_word_count": 169
+      }
+    },
+    "bark": {
+      "10": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 10,
+        "actual_word_count": 6
+      },
+      "30": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 30,
+        "actual_word_count": 21
+      },
+      "80": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 80,
+        "actual_word_count": 52
+      },
+      "150": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 150,
+        "actual_word_count": 99
+      },
+      "300": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "bark",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from bark to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 300,
+        "actual_word_count": 169
+      }
+    },
+    "qwen3": {
+      "10": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 10,
+        "actual_word_count": 6
+      },
+      "30": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 30,
+        "actual_word_count": 21
+      },
+      "80": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 80,
+        "actual_word_count": 52
+      },
+      "150": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 150,
+        "actual_word_count": 99
+      },
+      "300": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "qwen3",
+            "fell_back_to": "off",
+            "init_error": "factory fell back from qwen3 to off",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 300,
+        "actual_word_count": 169
+      }
+    },
+    "espeak": {
+      "10": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 10,
+        "actual_word_count": 6
+      },
+      "30": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 30,
+        "actual_word_count": 21
+      },
+      "80": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 80,
+        "actual_word_count": 52
+      },
+      "150": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 150,
+        "actual_word_count": 99
+      },
+      "300": {
+        "runs": [
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 0
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 1
+          },
+          {
+            "available": false,
+            "requested_engine": "espeak",
+            "init_error": "espeak-ng binary nicht gefunden",
+            "run_i": 2
+          }
+        ],
+        "mean_synth_time_s": null,
+        "mean_audio_duration_s": null,
+        "mean_rtf": null,
+        "target_word_count": 300,
+        "actual_word_count": 169
+      }
+    }
+  },
+  "finished_at": "2026-06-26T12:51:13.706880+00:00"
+}

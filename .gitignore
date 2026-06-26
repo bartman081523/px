@@ -2,3 +2,9 @@ __pycache__/
 
 # TLS secrets — never commit (scrubbed from history 2026-06-22)
 ssl/
+
+# TTS-Audio-Output (ephemeral WAV-Dateien, kein Forschungsartefakt).
+# Pro Assistant-Turn wird hier eine WAV geschrieben; sie werden NICHT
+# committed. Im Gegensatz zu scratches/*/out/ (Forschungs-Artefakte) ist
+# dies Session-Lifetime-Müll.
+tts_outputs/

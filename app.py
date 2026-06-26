@@ -51,7 +51,19 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
     with gr.Tabs():
         with gr.Tab("💬 Chat"):
-            session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+            # Plan 5.3: build_chat_tab returns 19 outputs (4 state +
+            # 15 settings widgets) so that the demo.load auto-resume
+            # hook can initialise every widget to the persisted session's
+            # settings without an extra round-trip through the UI.
+            (
+                session_id_state, chatbot, session_dropdown,
+                session_id_display,
+                model_select, px_preset, auto_tune_cb,
+                temperature, top_p, max_tokens, rep_p, px_gamma,
+                relay_sign, relay_alpha, relay_layer,
+                system_profile, system_prompt_text,
+                tts_engine_dd, tts_sample_rate_dd, tts_auto_cb,
+            ) = build_chat_tab(manager)
 
         with gr.Tab("🧪 Cognitive Tests"):
             build_cognitive_tests_tab(manager, engine)
@@ -62,15 +74,37 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
         with gr.Tab("📊 Telemetry"):
             build_telemetry_tab(manager)
 
-    # ── Initialization ──
+    # ── Initialization (Plan 5.3: Auto-Resume) ──
     def init_app(session_id):
-        from gradio_tabs.chat_tab import on_load
-        return on_load(session_id)
+        """Auto-Resume der zuletzt-modifizierten Session, wenn
+        ``session_id`` (BrowserState) leer ist (Cookies gelöscht, neuer
+        Browser). Liefert alle 19 Outputs."""
+        from gradio_tabs.chat_tab import handle_load_saved
+        if session_id is None or session_id == "":
+            from sessions import list_session_mtimes
+            candidates = list_session_mtimes()
+            if candidates:
+                session_id = candidates[0][1]  # mtime-newest
+            else:
+                # Kein Session-File vorhanden → komplette Skip-Reihe,
+                # damit die UI leer bleibt.
+                return (
+                    gr.skip(), gr.skip(), gr.skip(), gr.skip(),
+                    *(gr.skip() for _ in range(15)),
+                )
+        return handle_load_saved(session_id)
 
     demo.load(
         fn=init_app,
         inputs=[session_id_state],
-        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
+        outputs=[
+            session_id_state, chatbot, session_dropdown, session_id_display,
+            model_select, px_preset, auto_tune_cb,
+            temperature, top_p, max_tokens, rep_p, px_gamma,
+            relay_sign, relay_alpha, relay_layer,
+            system_profile, system_prompt_text,
+            tts_engine_dd, tts_sample_rate_dd, tts_auto_cb,
+        ]
     )
 
     gr.Markdown("""

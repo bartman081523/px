@@ -6,6 +6,10 @@ import time
 import base64
 import argparse
 
+from gradio_tabs.system_prompt import (
+    build_system_message, inject_into_messages, list_profiles, merge_system_into_first_user,
+)
+
 # Configuration
 # HTTPS via self-signed cert (see ssl/ dir). The all_space server (app.py)
 # is started by run_local.sh from THIS checkout with SSL_CERTFILE / SSL_KEYFILE
@@ -91,6 +95,38 @@ def main():
     parser.add_argument("--image-base64", type=str, default=None,
                         help="Raw base64 (or pre-built data: URL) for an image. "
                              "Fallback for pipeline use; --image is preferred.")
+    # System-Prompt (psychomotrik: Frame-Orientierer). Rangordnung:
+    # --system-prompt TEXT > --profile NAME > kein System (backward-compatible).
+    # Quelle: gradio_tabs/system_prompt.py (single source of truth für beide Pade).
+    parser.add_argument("--profile", type=str, default=None,
+                        choices=list_profiles(),
+                        help=f"Profile preset (citmind | juexin | neutral). Default: none. "
+                             f"Available: {list_profiles()}")
+    parser.add_argument("--system-prompt", type=str, default=None,
+                        help="Free-text override for the system prompt (overrides --profile). "
+                             "Empty string disables the system prompt.")
+    # TTS (Plan 5): lokales Vorlesen der Antwort. Engine-Auswahl +
+    # Sample-Rate-Reduktion + Output-File. Bei --tts-engine piper/bark/
+    # qwen3/espeak wird nach Stream-Ende die Antwort lokal synthetisiert
+    # und als WAV geschrieben. Bei Init-Fehler automatischer Fallback auf
+    # espeak (oder off). Quelle: gradio_tabs/tts_engine.py.
+    parser.add_argument("--tts-engine", type=str, default="off",
+                        choices=["piper", "bark", "qwen3", "espeak", "off"],
+                        help="TTS-Engine für lokales Vorlesen (default off). "
+                             "Bei piper/bark/qwen3 wird die Modell-Initialisierung "
+                             "beim ersten Stream getriggert.")
+    parser.add_argument("--tts-sample-rate", type=int, default=22050,
+                        choices=[24000, 22050, 16000, 8000, 4000, 2000, 1000],
+                        help="Sample-Rate des Output-WAV (default 22050). "
+                             "Niedriger = kleinere Datei, <1 Prozent CPU-Sparen.")
+    parser.add_argument("--tts-output-file", type=str, default=None,
+                        help="Pfad zur Output-WAV (default = tempdir/<engine>_T.wav). "
+                             "Wenn gesetzt, wird die WAV hierhin geschrieben.")
+    parser.add_argument("--tts-tags", action="store_true",
+                        help="Wenn gesetzt, wird das Vocoder-Tag-Vokabular an den "
+                             "System-Prompt angehängt — das LLM kann dann [#A0]/"
+                             "[#PAUSE]/[#WHISPER] in die Antwort einbetten. "
+                             "Stripping passiert engine-spezifisch vor Synthese.")
     args = parser.parse_args()
 
     session_id = args.session
@@ -157,7 +193,40 @@ def main():
         api_messages.append({"role": role, "content": content})
 
     api_messages.append({"role": "user", "content": new_user_content})
-    
+
+    # System-Prompt-Injection: Rangordnung --system-prompt > --profile > keiner.
+    # Der System-Eintrag wird als History-Item vorne eingefügt (persistiert
+    # automatisch in der Server-Session über schemas.ChatMessage.role="system").
+    # Für den Server-Render-Pfad mergen wir den System-Inhalt in den ersten
+    # user-turn, weil Gemma3-Jinja-Chat-Template (a) keine system-Rolle
+    # kennt und (b) strikte user/assistant-Alternation einfordert. Wäre der
+    # system-Eintrag im Payload, würde der Server
+    # tokenizer.apply_chat_template mit "must alternate user/assistant"
+    # fehlschlagen. → merge_system_into_first_user baut die Jinja-konforme
+    # Eingabe (System-Inhalt in den ersten user-turn prefixen). Hard-Rule
+    # "kein server.py-Edit" bleibt gewahrt, da die Konversion hier im
+    # Client passiert.
+    _edit = args.system_prompt if args.system_prompt else None
+    _profile = args.profile if args.profile else "neutral"
+    if _edit is not None or _profile != "neutral":
+        sys_msg = build_system_message(_profile, _edit)
+        if sys_msg["content"]:
+            api_messages = inject_into_messages(api_messages, _profile, _edit)
+            api_messages = merge_system_into_first_user(api_messages, _profile, _edit)
+            # Konsole: sichtbar machen, dass System aktiv ist (für Live-Diagnose).
+            preview = sys_msg["content"][:60].replace("\n", " ")
+            print(f"[system] profile={_profile} active (preview: {preview!r}...)")
+
+    # TTS-Tag-Snip (Plan 5): wenn --tts-tags gesetzt, hängen wir das
+    # Vocoder-Vokabular an die System-Message an (siehe chat_tab.py für
+    # die gleiche Logik). Das LLM kann dann Tags produzieren; das
+    # Stripping passiert erst später in der TTS-Synthese.
+    if args.tts_tags and args.tts_engine != "off":
+        from gradio_tabs.system_prompt import append_tag_snippet
+        from gradio_tabs.vocoder_tags import render_tag_system_prompt
+        api_messages = append_tag_snippet(api_messages, render_tag_system_prompt())
+        print(f"[tts] Tag-Snip aktiv (engine={args.tts_engine})")
+
     payload = {
         "model": args.model,
         "messages": api_messages,
@@ -217,7 +286,45 @@ def main():
         return
 
     print("\n\n" + "="*60)
-    
+
+    # TTS-Synthese (Plan 5): one-shot nach Stream-Ende. Engine + Sample-Rate
+    # kommen aus CLI-Flags. Tag-Stripping passiert engine-spezifisch via
+    # strip_tags_for_engine (piper strippt alles, bark behält native).
+    # Plan 5.1: strip_tags_for_engine gibt jetzt (clean_text, audio_tags)
+    # zurück; Piper/Espeak wenden die audio_tags audio-seitig an
+    # (pitch-shift, pause-insert, amplitude).
+    if args.tts_engine != "off" and full_response.strip():
+        try:
+            from gradio_tabs.tts_engine import make_engine as _tts_make_engine
+            from gradio_tabs.vocoder_tags import (
+                strip_tags_for_engine as _strip_tags,
+                tag_density_warning as _tag_density_warn,
+            )
+            eng = _tts_make_engine(
+                args.tts_engine, sample_rate=args.tts_sample_rate,
+                verbose=True, preflight=True,
+            )
+            if eng.name == "off":
+                print("[tts] Engine nicht verfügbar — keine Synthese.")
+            else:
+                clean_text, audio_tags = _strip_tags(eng.name, full_response)
+                density = _tag_density_warn(full_response)
+                if density:
+                    print(density)
+                out_dir = (os.path.dirname(args.tts_output_file)
+                           if args.tts_output_file else None)
+                res = eng.synthesize(clean_text, tags=audio_tags, output_dir=out_dir)
+                final_path = args.tts_output_file or res.filepath
+                if args.tts_output_file and res.filepath != args.tts_output_file:
+                    # Verschiebe falls make_engine einen anderen Pfad wählte.
+                    import shutil as _sh
+                    _sh.move(res.filepath, args.tts_output_file)
+                print(f"[tts] {eng.name}: synth={res.synth_time_s:.2f}s, "
+                      f"audio={res.audio_duration_s:.1f}s, RTF={res.rtf:.2f}, "
+                      f"tags={len(audio_tags)}, → {final_path}")
+        except Exception as e:
+            print(f"[tts] Synthese fehlgeschlagen: {e}")
+
     # Save session
     new_history = history + [
         {"role": "user", "content": new_user_content},
