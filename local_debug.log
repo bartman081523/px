@@ -19003,3 +19003,62 @@ Traceback (most recent call last):
     raise Error(
 gradio.exceptions.Error: "Data incompatible with messages format. Each message should be a dictionary with 'role' and 'content' keys or a ChatMessage object."
 INFO:     127.0.0.1:36182 - "GET /gradio/gradio_api/queue/data?session_hash=45wymwmwmz5 HTTP/1.1" 200 OK
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [617047]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:54032 - "GET /gradio/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "GET /gradio/theme.css?v=078b53afbcde6e67684be7a1e3236158d24ca87d4009f3a800e3e7b202955106 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: ASSISTANT or set allow_custom_value=True.
+  warnings.warn(
+INFO:     127.0.0.1:54032 - "GET /gradio/gradio_api/queue/data?session_hash=faaqglp3ff8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54048 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/routes.py", line 1301, in predict
+    output = await route_utils.call_process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/route_utils.py", line 386, in call_process_api
+    output = await app.get_blocks().process_api(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 2189, in process_api
+    inputs = await self.preprocess_data(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/blocks.py", line 1817, in preprocess_data
+    processed_value = await anyio.to_thread.run_sync(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py", line 211, in preprocess
+    raise Error(
+gradio.exceptions.Error: "Value: ASSISTANT is not in the list of choices: ['neutral', 'citmind', 'juexin']"
+INFO:     127.0.0.1:54074 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:54058 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54060 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54038 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54048 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54058 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "POST /gradio/gradio_api/run/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54032 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: ASSISTANT or set allow_custom_value=True.
+  warnings.warn(
+INFO:     127.0.0.1:54032 - "GET /gradio/gradio_api/queue/data?session_hash=faaqglp3ff8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50698 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: ASSISTANT or set allow_custom_value=True.
+  warnings.warn(
+INFO:     127.0.0.1:50698 - "GET /gradio/gradio_api/queue/data?session_hash=faaqglp3ff8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56064 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56064 - "GET /gradio/gradio_api/queue/data?session_hash=faaqglp3ff8 HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: ASSISTANT or set allow_custom_value=True.
+  warnings.warn(
+INFO:     127.0.0.1:37170 - "POST /gradio/gradio_api/queue/join HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37170 - "GET /gradio/gradio_api/queue/data?session_hash=faaqglp3ff8 HTTP/1.1" 200 OK
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/gradio/components/dropdown.py:235: UserWarning: The value passed into gr.Dropdown() is not in the list of choices. Please update the list of choices to include: ASSISTANT or set allow_custom_value=True.
+  warnings.warn(
