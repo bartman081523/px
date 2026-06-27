@@ -174,6 +174,91 @@ def test_norm_7_does_not_mutate_input():
     assert hist[0]["content"][0] == {"text": "raw"}
 
 
+def test_norm_8_openai_image_url_converted_to_gradio_file():
+    """OpenAI-Format ``{"type": "image_url", "image_url": {"url": ...}}``
+    ist KEIN gültiges Gradio-Chatbot-Format → Gradio's
+    ``_postprocess_content`` raises ``ValueError: Invalid message for
+    Chatbot component``.
+
+    Auch ``{"type": "image", "image": ...}`` (mein erster Versuch) wird
+    abgelehnt — Gradio 6.x akzeptiert im Chatbot nur
+    ``{"type": "file", "file": {"path": ..., "mime_type": ...}}``.
+    Korrekter Konversions-Pfad ist daher OpenAI image_url → Gradio file
+    mit FileData-Struktur.
+
+    Regression für frischen Crash: User lud Session mit Bild-Upload
+    (data-URL aus multimodal_input), Normalizer reichte OpenAI-Format
+    durch, Chatbot-Postprocess crashte hart.
+    """
+    data_url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAI"
+    hist = [
+        m("user", [
+            {"type": "text", "text": "look at this"},
+            {"type": "image_url", "image_url": {"url": data_url}},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    assert len(out) == 1
+    blocks = out[0]["content"]
+    assert isinstance(blocks, list)
+    # text-Block bleibt.
+    assert blocks[0] == {"type": "text", "text": "look at this"}
+    # image_url → Gradio file-Block mit FileData.
+    file_block = blocks[1]
+    assert file_block["type"] == "file"
+    assert file_block["file"]["path"] == data_url
+    assert file_block["file"]["mime_type"] == "image/png"
+
+
+def test_norm_9_input_audio_converted_to_gradio_file():
+    """OpenAI ``input_audio`` (transkription-pfad) → Gradio file-Block."""
+    audio_url = "data:audio/wav;base64,UklGRiQ="
+    hist = [
+        m("user", [
+            {"type": "text", "text": "transcribe"},
+            {"type": "input_audio", "input_audio": {"url": audio_url}},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    assert len(out) == 1
+    blocks = out[0]["content"]
+    assert blocks[0] == {"type": "text", "text": "transcribe"}
+    assert blocks[1]["type"] == "file"
+    assert blocks[1]["file"]["path"] == audio_url
+    assert blocks[1]["file"]["mime_type"] == "audio/wav"
+
+
+def test_norm_10_image_url_only_block_in_message():
+    """User-turn mit NUR Bild, kein Text-Block. Konvertierung muss
+    das Bild trotzdem liefern, nicht alles droppen."""
+    hist = [
+        m("user", [
+            {"type": "image_url", "image_url": {"url": "data:image/png;base64,XYZ"}},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    assert len(out) == 1
+    blocks = out[0]["content"]
+    assert len(blocks) == 1
+    assert blocks[0]["type"] == "file"
+    assert blocks[0]["file"]["path"].startswith("data:image/png")
+    assert blocks[0]["file"]["mime_type"] == "image/png"
+
+
+def test_norm_11_image_url_http_url_preserves_url():
+    """Auch http(s)-URLs müssen durchkommen — nicht nur data:-URLs.
+    mime_type wird nicht erraten, default = image/png."""
+    hist = [
+        m("user", [
+            {"type": "image_url", "image_url": {"url": "https://example.com/cat.jpg"}},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    blocks = out[0]["content"]
+    assert blocks[0]["file"]["path"] == "https://example.com/cat.jpg"
+    assert blocks[0]["file"]["mime_type"] == "image/png"
+
+
 # --- undo_last_entry ---------------------------------------------------------
 
 def test_entry_8_removes_last_assistant():

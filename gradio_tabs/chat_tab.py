@@ -68,6 +68,65 @@ def _stringify_content(content):
     return str(content)
 
 
+def _convert_openai_block_to_gradio(block):
+    """Konvertiert einen einzelnen Multimodal-Block ins Gradio-Format.
+
+    Akzeptiert:
+      - text → passthrough
+      - file / component → passthrough (bereits Gradio-Format)
+      - image_url (OpenAI) → Gradio file-Block mit FileData
+        (Gradio 6.x Chatbot kennt nur `{"type": "file", "file": {...}}`,
+        `{"type": "image"}` ist KEIN gültiges Format → ValueError)
+      - input_audio (OpenAI) → Gradio file-Block (analog)
+
+    Die url/der Pfad wird in das `path`-Feld gesetzt (Gradio akzeptiert
+    data:-URLs, http(s)-URLs und lokale Pfade dort).
+
+    Returns None wenn der Block nicht konvertierbar ist (Caller droppt).
+    """
+    if not isinstance(block, dict):
+        return None
+    btype = block.get("type")
+    if btype == "text":
+        return block
+    if btype in ("file", "component"):
+        return block
+    if btype == "image_url":
+        # OpenAI: {"type": "image_url", "image_url": {"url": "data:..."}}.
+        # → Gradio: {"type": "file", "file": {"path": url, "mime_type": "image/..."}}.
+        url = (block.get("image_url") or {}).get("url")
+        if not url:
+            return None
+        mime = _guess_mime_from_data_url(url, default="image/png")
+        return {
+            "type": "file",
+            "file": {"path": url, "mime_type": mime},
+        }
+    if btype == "input_audio":
+        url = (block.get("input_audio") or {}).get("url") or (
+            block.get("input_audio") or {}
+        ).get("data")
+        if not url:
+            return None
+        mime = _guess_mime_from_data_url(url, default="audio/wav")
+        return {
+            "type": "file",
+            "file": {"path": url, "mime_type": mime},
+        }
+    # Unbekannt: durchreichen. Caller filtert ggf. mit einer allow-list.
+    return block
+
+
+def _guess_mime_from_data_url(url: str, default: str) -> str:
+    """Extrahiert den MIME-Type aus einem data:-URL, sonst default."""
+    if url.startswith("data:"):
+        # Format: data:<mime>;base64,<data>
+        head = url[5:].split(";", 1)[0]
+        if head:
+            return head
+    return default
+
+
 def _normalize_history_for_chatbot(history):
     """Normalize a persisted history list so it survives Gradio's
     ``Chatbot._check_format`` + ``_postprocess_content``.
@@ -107,11 +166,25 @@ def _normalize_history_for_chatbot(history):
             # Inspect each block: if any block has a recognised ``type``,
             # keep the list. Otherwise collapse to a single string.
             has_typed_block = any(
-                isinstance(b, dict) and b.get("type") in ("text", "file", "component")
+                isinstance(b, dict) and b.get("type") in (
+                    "text", "file", "component",
+                    # OpenAI-Multimodal-Blöcke werden in _convert_openai_block_to_gradio
+                    # ins Gradio-Format übersetzt. Sie zählen hier als
+                    # 'typed', damit sie nicht zu (leerem) String geflatted werden.
+                    "image_url", "input_audio",
+                )
                 for b in content
             )
             if has_typed_block:
-                out.append({"role": role, "content": content})
+                # OpenAI-Multimodal-Blöcke (image_url / input_audio) in
+                # Gradio-Format konvertieren — Gradio-Chatbot lehnt das
+                # OpenAI-Schema in _postprocess_content mit ValueError ab.
+                converted = [_convert_openai_block_to_gradio(b) for b in content]
+                # Defensive: nur behalten wenn nach Konversion noch was da ist.
+                converted = [b for b in converted if b is not None]
+                if not converted:
+                    continue
+                out.append({"role": role, "content": converted})
             else:
                 # Either no type keys, or unknown shapes — flatten.
                 text = extract_text_blocks(content)
