@@ -23,6 +23,19 @@ from scratches.tag_production.variants import (  # noqa: E402
 )
 
 
+def _has_user_prompt(msgs, prompt):
+    """True wenn der user-prompt im user-turn-Content enthalten ist.
+
+    Regression-Test für Bug f77950f: BASE_USER_MSG war [{content:""}],
+    apply() setzte den prompt nicht in base_messages → Modell bekam nur
+    CitMind+Snip, alle Antworten byte-identisch 'Okay, ich verstehe'.
+    """
+    for m in msgs:
+        if m.get("role") == "user":
+            return prompt in (m.get("content") or "")
+    return False
+
+
 PROMPT = "Sage etwas Trauriges in einem Satz."
 BASE_MSGS = [{"role": "user", "content": PROMPT}]
 
@@ -160,3 +173,37 @@ def test_variant_e_has_no_citmind_but_has_tag_snip():
     assert "VOCODER" in user_c or "[#" in user_c
     # Original-Prompt bleibt.
     assert PROMPT in user_c
+
+
+# ─── Regression: user-prompt muss in jeder Variante durchkommen ─────────
+# Bug: BASE_USER_MSG hatte content="", apply() nutzte nur base_messages
+# → Modell bekam CitMind+Snip aber keinen user-prompt, alle Antworten
+# byte-identisch "Okay, ich verstehe..." (commit f77950f Befund).
+
+
+def _check_prompt_present_in_variant(variant_id: str):
+    label, fn = VARIANTS[variant_id]
+    msgs = fn(BASE_MSGS, PROMPT)
+    assert _has_user_prompt(msgs, PROMPT), (
+        f"Variante {variant_id}: user-prompt {PROMPT!r} fehlt im user-turn"
+    )
+
+
+def test_variant_a_preserves_user_prompt():
+    _check_prompt_present_in_variant("A")
+
+
+def test_variant_b_preserves_user_prompt():
+    _check_prompt_present_in_variant("B")
+
+
+def test_variant_c_preserves_user_prompt():
+    _check_prompt_present_in_variant("C")
+
+
+def test_variant_d_preserves_user_prompt():
+    _check_prompt_present_in_variant("D")
+
+
+def test_variant_e_preserves_user_prompt():
+    _check_prompt_present_in_variant("E")

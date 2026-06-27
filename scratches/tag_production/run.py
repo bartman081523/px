@@ -178,7 +178,12 @@ def run_smoke_variant(
     print(f"{'='*60}")
     print(f"[smoke/{variant_id}] Prompt: {SMOKE_PROMPT!r}")
 
-    msgs = apply_fn(BASE_USER_MSG, SMOKE_PROMPT)
+    # base_messages MUSS den user-content enthalten — apply() reicht das
+    # durch zu inject_into_messages(...). user_prompt ist nur ein
+    # Hook für Varianten, die ihn anderswo brauchen.
+    msgs = apply_fn(
+        [{"role": "user", "content": SMOKE_PROMPT}], SMOKE_PROMPT,
+    )
     print(f"[smoke/{variant_id}] Messages-Anzahl: {len(msgs)}")
     print(f"[smoke/{variant_id}] System-Eintrag vorhanden: "
           f"{any(m['role'] == 'system' for m in msgs)}")
@@ -320,7 +325,9 @@ def run_full_variant(
           f"({len(TEST_PROMPTS)} Prompts × {n_seeds} Seeds)...")
 
     for p_def in TEST_PROMPTS:
-        msgs = apply_fn(BASE_USER_MSG, p_def["prompt"])
+        msgs = apply_fn(
+            [{"role": "user", "content": p_def["prompt"]}], p_def["prompt"],
+        )
         for seed in range(n_seeds):
             print(f"  [{len(responses)+1}/{n_total}] "
                   f"{p_def['id']} (seed={seed}): {p_def['prompt'][:50]!r}...")
@@ -423,9 +430,6 @@ def run_full_variant(
 
 
 # ─── 4. Helpers ──────────────────────────────────────────────────────────
-
-
-BASE_USER_MSG = [{"role": "user", "content": ""}]
 
 
 def _user_content(msgs):
