@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "px-all-space"
+version = "0.0.0"
+description = "Recurrent Transformer PX-Engine for algorithmic subjectivity (gemma3-1b/4b/270m)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [{ name = "Julian" }]
+
+# Minimal CI stack — matches .github/workflows/regression.yml install step.
+# Local development uses the openmythos-venv at
+# /run/media/julian/ML4/open-mythos_p2/venv_openmythos/ which already has
+# torch 2.12+CUDA13/transformers 5.9. CI pins a leaner stack (CPU torch 2.1
+# + transformers shim for gemma3) so the regression job stays under 30 s.
+dependencies = [
+    # CPU-only torch for the unit-regression job (matches CI: pip index-url
+    # https://download.pytorch.org/whl/cpu, torch==2.1.0).
+    "torch==2.1.0",
+    "transformers>=4.43,<5.0",  # gemma3 support landed in 4.43+
+    "numpy>=1.24",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "huggingface_hub>=0.23",
+]
+
+[project.optional-dependencies]
+# Full local stack (matches openmythos-venv). NOT installed by CI; only for
+# reference and for `pip install -e ".[local]"`.
+local = [
+    "torch>=2.12",
+    "transformers>=5.9",
+    "accelerate",
+    "safetensors>=0.7",
+    "huggingface_hub>=1.16",
+    "gradio>=6.0",
+    "fastapi",
+    "uvicorn[standard]",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gradio_tabs*", "px_patches*", "px_modules*", "tests*"]
+exclude = ["scratches*", "sessions*", "telemetry*", "docs*", "out*"]
+
+[tool.pytest.ini_options]
+# Marker für GPU-/Live-Server-Tests (von den Unit-Tests ausgeschlossen).
+markers = [
+    "gpu: requires GPU + model load (skipped in CI unit job)",
+    "live: requires live server (skipped in CI)",
+]
+# Default addopts: laufen alle Tests ohne Marker. CI ruft pytest mit
+# expliziten Pfaden + `-m "not live"` o.ä.
+addopts = "-ra -q"
+testpaths = ["tests"]
