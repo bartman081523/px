@@ -1,21 +1,24 @@
-"""Variante B: Musik-erweiterter Snip mit Sanskrit-Mapping.
+"""Variante B: CitMind + Standard-Tag-Snip + Sanskrit-Mapping-Block.
 
-Hypothese: CitMind ist Sanskrit-zentriert (देवनागरी-Register). Wenn der
-Tag-Snip musikalisches Vokabular in Sanskrit-Mapping anbietet
+Hypothese (Plan 6.2): CitMind ist Sanskrit-zentriert (देवनागरी-Register).
+Wenn der Tag-Snip musikalisches Vokabular in Sanskrit-Mapping anbietet
 (स्वर → Note, लय → Pause), passt das besser in den Frame und produziert
-höhere Tag-Compliance.
-
-NICHT AUSFÜHREN in diesem Plan. Nur Struktur-Skelett.
+höhere Tag-Compliance + weniger multilingualer Drift ins Devanāgarī.
 """
 from __future__ import annotations
 
 from typing import List, Dict, Any
 
-from gradio_tabs.system_prompt import append_tag_snippet
-from gradio_tabs.vocoder_tags import render_tag_system_prompt, TAG_SYSTEM_PROMPT_SNIPPET
+from gradio_tabs.system_prompt import (
+    inject_into_messages,
+    append_tag_snippet,
+)
+from gradio_tabs.vocoder_tags import render_tag_system_prompt
+
+from ._common import _merge_sys_into_user
 
 
-# Sanskrit-Mapping-Block (vor dem Standard-Snip konkateniert)
+# Sanskrit-Mapping-Block (VOR dem Standard-Snip konkateniert).
 SANSKRIT_MUSIC_BLOCK = """MUSIK-TAG-MAPPING (Sanskrit/Devanāgarī):
 CitMind nutzt diese Sanskrit-Terme für musikalische Prosodie. Verwende sie
 in CitMind-Antworten, wenn du Note-/Pause-/Dynamik-Tags einbettest:
@@ -36,15 +39,9 @@ Kombiniere Sanskrit-Terme und Tags natürlich:
 """
 
 
-def get_snip() -> str:
-    """Liefert Sanskrit-Block + Standard-Tag-Snip konkateniert."""
-    return SANSKRIT_MUSIC_BLOCK + TAG_SYSTEM_PROMPT_SNIPPET
-
-
-def apply(messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Hängt Sanskrit-Mapping + Standard-Snip an den System-Eintrag.
-
-    Erwartung: höhere Tag-Compliance bei CitMind-Profil, weil das
-    Vokabular in der gleichen ontologischen Familie ist.
-    """
-    return append_tag_snippet(messages, get_snip())
+def apply(base_messages: List[Dict[str, Any]], user_prompt: str) -> List[Dict[str, Any]]:
+    """Baut messages: CitMind + Sanskrit-Mapping-Snip + Standard-Snip."""
+    msgs = inject_into_messages(base_messages, profile_name="citmind")
+    # Sanskrit-Block VOR Standard-Snip (Reihenfolge wichtig: erst Mapping, dann Tags)
+    msgs = append_tag_snippet(msgs, SANSKRIT_MUSIC_BLOCK + render_tag_system_prompt())
+    return _merge_sys_into_user(msgs)

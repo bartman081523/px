@@ -1,18 +1,22 @@
 """scratches/tag_production/run.py — End-to-End Harness für Tag-Produktion.
 
 Lädt gemma3-1b-it nativ (kein PX-Patch, BASELINE-Äquivalent), baut
-System-Prompt mit CitMind-Profil + Standard-Tag-Snip via
-append_tag_snippet, generiert 10 Test-Prompts und misst Tag-Compliance.
+System-Prompt via Variant-A/B/C/D/E aus ``variants/``, generiert Test-
+Prompts und misst Tag-Compliance. Pro Variante ein eigener JSON + Report.
+Am Ende ein Vergleichs-Report ``out/COMPARISON.md``.
 
 CLI:
-    python run.py --smoke           # 1 Prompt, 64 Token, ~30 s
-    python run.py --full            # 10 Prompts × 1 Seed, ~3-15 Min
-    python run.py --full --seeds 3  # für statistische Robustheit
+    python run.py --smoke                       # 1 Prompt, 64 Token (A default)
+    python run.py --smoke --variants A,B,E      # Smoke für A+B+E
+    python run.py --full                        # 10 Prompts × 1 Seed (A default)
+    python run.py --full --variants A,B,C,D,E   # 5 Varianten voll
+    python run.py --full --variants A --seeds 3 # Statistische Robustheit
 
 Output:
-    out/smoke_<ts>.json   (Smoke-Test)
-    out/run_<ts>.json     (Full-Run, Rohdaten + Aggregate)
-    out/REPORT.md         (lesbare Tabelle + manuelle Notes-Sektion)
+    out/smoke_<ts>_v<A>.json   (Smoke-Test, pro Variante)
+    out/run_<ts>_v<X>.json     (Full-Run, pro Variante)
+    out/REPORT_v<X>.md         (lesbare Tabelle, pro Variante)
+    out/COMPARISON.md          (Vergleichs-Tabelle über alle Varianten)
 
 Hard-Rules (vom User):
   - KEINE Änderungen am Motor (config.py, model_manager.py, patch.py,
@@ -32,7 +36,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Callable, List, Optional, Tuple
 
 # Repo-Root auf sys.path (für gradio_tabs + config Imports)
 _REPO = Path(__file__).resolve().parent.parent.parent
@@ -53,13 +57,6 @@ from gradio_tabs.vocoder_tags import (  # noqa: E402
     render_tag_system_prompt,
     tag_density_warning,
 )
-from gradio_tabs.system_prompt import (  # noqa: E402
-    inject_into_messages,
-    merge_system_into_first_user,
-    append_tag_snippet,
-    list_profiles,
-    build_system_message,
-)
 
 from scratches.tag_production.prompts import (  # noqa: E402
     TEST_PROMPTS,
@@ -68,6 +65,11 @@ from scratches.tag_production.prompts import (  # noqa: E402
 from scratches.tag_production.metrics import (  # noqa: E402
     compute_per_response_metrics,
     aggregate_run_metrics,
+)
+from scratches.tag_production.variants import (  # noqa: E402
+    VARIANTS,
+    list_variants,
+    get_variant,
 )
 
 
@@ -112,78 +114,7 @@ def build_model(model_id: str = "gemma3-1b-it"):
     return model, tokenizer, device
 
 
-# ─── 2. System-Prompt-Bau (identisch zu streaming_bridge.py:209-227) ─────
-
-
-def build_messages(
-    profile_name: str,
-    user_prompt: str,
-    use_tag_snip: bool = True,
-) -> list:
-    """Baut die messages-Liste 1:1 wie der Server-Pfad.
-
-    WORKAROUND (Plan 6.1): ``merge_system_into_first_user`` rendert das
-    System aus ``profile_name`` neu via ``render_for_chat_template`` —
-    der Tag-Snip, der VOR dem Merge via ``append_tag_snippet`` an die
-    System-Message angehängt wurde, geht dabei verloren. Wir mergen
-    deshalb VOR ``merge_system_into_first_user`` manuell: kopiere den
-    vorhandenen System-Inhalt (inkl. Snip) als user-turn-Prefix, entferne
-    das System-Item, und übergebe eine NEUE user-Liste an
-    ``merge_system_into_first_user`` mit ``profile_name="neutral"``
-    (kein Re-Render). So bleibt der Snip erhalten.
-
-    Siehe streaming_bridge.py:209-227 für die Streaming-Bridge-Variante
-    (gleicher Bug, gleicher Workaround wäre dort nötig — ist hier nicht
-    in scope, weil wir die Webapp/CLI nicht anfassen).
-    """
-    base = [{"role": "user", "content": user_prompt}]
-    msgs = inject_into_messages(base, profile_name=profile_name)
-
-    if use_tag_snip:
-        msgs = append_tag_snippet(msgs, render_tag_system_prompt())
-
-    # WORKAROUND: System-Inhalt aus messages extrahieren (inkl. Snip),
-    # als user-turn-Prefix setzen, System-Item droppen.
-    sys_idx = next(
-        (i for i, m in enumerate(msgs) if m.get("role") == "system"),
-        None,
-    )
-    if sys_idx is not None:
-        sys_content = msgs[sys_idx].get("content") or ""
-        if isinstance(sys_content, str) and sys_content:
-            # User-turn finden, Prefix setzen, System droppen.
-            user_idx = next(
-                (i for i, m in enumerate(msgs) if m.get("role") == "user"),
-                None,
-            )
-            new_msgs = [m for m in msgs if m.get("role") != "system"]
-            if user_idx is not None:
-                # user_idx hat sich durch drop um 1 verschoben, neu suchen:
-                user_idx_new = next(
-                    (i for i, m in enumerate(new_msgs)
-                     if m.get("role") == "user"),
-                    None,
-                )
-                if user_idx_new is not None:
-                    old_user_content = new_msgs[user_idx_new].get("content") or ""
-                    new_msgs[user_idx_new] = {
-                        **new_msgs[user_idx_new],
-                        "content": sys_content + "\n\n" + old_user_content,
-                    }
-                else:
-                    new_msgs.insert(0, {"role": "user", "content": sys_content})
-            else:
-                new_msgs.insert(0, {"role": "user", "content": sys_content})
-            msgs = new_msgs
-
-    # Jetzt hat msgs KEINEN system-Eintrag mehr. merge_system_into_first_user
-    # mit neutral → keine Re-Injection (nur system-strip, was wir schon
-    # gemacht haben). Ergebnis ist sauber für Gemma3-Chat-Template.
-    msgs = merge_system_into_first_user(msgs, profile_name="neutral")
-    return msgs
-
-
-# ─── 3. Generation ────────────────────────────────────────────────────────
+# ─── 2. Generation ────────────────────────────────────────────────────────
 
 
 def generate_one(
@@ -228,49 +159,56 @@ def generate_one(
     }
 
 
-# ─── 4. Smoke-Test ────────────────────────────────────────────────────────
+# ─── 3. Per-Variant-Smoke + Run ──────────────────────────────────────────
 
 
-def run_smoke(model, tokenizer) -> Path:
-    """Ein-Prompt-Test: validiert dass die ganze Pipeline integer ist."""
+def run_smoke_variant(
+    model,
+    tokenizer,
+    variant_id: str,
+    apply_fn: Callable[[List[dict], str], List[dict]],
+    label: str,
+) -> Path:
+    """Ein-Prompt-Test pro Variante. Schreibt smoke_<ts>_v<X>.json."""
     out_dir = Path(__file__).parent / "out"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"\n[smoke] Prompt: {SMOKE_PROMPT!r}")
-    msgs = build_messages("citmind", SMOKE_PROMPT, use_tag_snip=True)
-    print(f"[smoke] Messages-Anzahl: {len(msgs)}")
-    print(f"[smoke] System-Eintrag vorhanden: "
+    print(f"\n{'='*60}")
+    print(f" VARIANT {variant_id}: {label}")
+    print(f"{'='*60}")
+    print(f"[smoke/{variant_id}] Prompt: {SMOKE_PROMPT!r}")
+
+    msgs = apply_fn(BASE_USER_MSG, SMOKE_PROMPT)
+    print(f"[smoke/{variant_id}] Messages-Anzahl: {len(msgs)}")
+    print(f"[smoke/{variant_id}] System-Eintrag vorhanden: "
           f"{any(m['role'] == 'system' for m in msgs)}")
-    sys_content = next((m["content"] for m in msgs if m["role"] == "system"), None)
-    if isinstance(sys_content, str):
-        print(f"[smoke] System-Content-Länge: {len(sys_content)} Zeichen")
-        print(f"[smoke] Tag-Snip vorhanden: "
-              f"{'VOCODER-TAG-SYSTEM' in sys_content}")
+    has_user_prefix = bool(_user_content(msgs))
+    print(f"[smoke/{variant_id}] User-Prefix vorhanden: {has_user_prefix}")
 
     gen = generate_one(
         model, tokenizer, msgs, max_new_tokens=64, seed=0,
     )
     metrics = compute_per_response_metrics(gen["answer"], prompt_id="smoke")
 
-    print(f"\n[smoke] Antwort ({gen['output_tokens']} tokens, "
+    print(f"\n[smoke/{variant_id}] Antwort ({gen['output_tokens']} tokens, "
           f"{gen['gen_time_sec']}s):")
     print(f"  >>> {gen['answer']!r}")
-    print(f"[smoke] Tag-Counts: total={metrics['classification']['total_tags']}, "
+    print(f"[smoke/{variant_id}] Tag-Counts: total={metrics['classification']['total_tags']}, "
           f"note={metrics['classification']['note']}, "
           f"dynamic={metrics['classification']['dynamic']}, "
           f"affect={metrics['classification']['affect']}, "
           f"pause={metrics['classification']['pause']}")
-    print(f"[smoke] Density: {metrics['classification']['density_per_100w']}/100w")
+    print(f"[smoke/{variant_id}] Density: {metrics['classification']['density_per_100w']}/100w")
     if metrics["classification"]["density_warning"]:
-        print(f"[smoke] WARN: {metrics['classification']['density_warning']}")
+        print(f"[smoke/{variant_id}] WARN: {metrics['classification']['density_warning']}")
 
     payload = {
         "meta": {
             "started_at": datetime.now(timezone.utc).isoformat(),
+            "variant_id": variant_id,
+            "variant_label": label,
             "model_id": "gemma3-1b-it",
             "model_hf_id": MODEL_REGISTRY["gemma3-1b-it"]["hf_id"],
-            "profile": "citmind",
-            "use_tag_snip": True,
             "max_new_tokens": 64,
             "temperature": 0.7,
         },
@@ -280,27 +218,25 @@ def run_smoke(model, tokenizer) -> Path:
         "metrics": metrics,
     }
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    out_path = out_dir / f"smoke_{ts}.json"
+    out_path = out_dir / f"smoke_{ts}_v{variant_id}.json"
     out_path.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
-    print(f"\n[smoke] → {out_path}")
+    print(f"\n[smoke/{variant_id}] → {out_path}")
     return out_path
-
-
-# ─── 5. Volllauf ──────────────────────────────────────────────────────────
 
 
 def render_report(payload: dict, agg: dict, responses: list) -> str:
     """Baut einen Markdown-Report aus dem Run-Dict."""
     meta = payload["meta"]
+    variant_id = meta.get("variant_id", "?")
+    label = meta.get("variant_label", "")
     lines = [
-        f"# Tag-Production Run — {meta['model_id']}",
+        f"# Tag-Production Run — {meta['model_id']} (Variant {variant_id})",
         "",
+        f"**Variant:** {variant_id} — {label}  ",
         f"**Started:** {meta['started_at']}  ",
-        f"**Profile:** `{meta['profile']}`  ",
-        f"**Tag-Snip:** {meta['use_tag_snip']}  ",
         f"**Prompts:** {meta['n_prompts']}  ",
         f"**Seeds/Prompt:** {meta['n_seeds']}  ",
         f"**max_new_tokens:** {meta['max_new_tokens']}  ",
@@ -328,7 +264,7 @@ def render_report(payload: dict, agg: dict, responses: list) -> str:
     ]
     for r in responses:
         c = r["metrics"]["classification"]
-        preview = r["answer"][:200].replace("\n", " ").replace("|", "\\|")
+        preview = (r.get("answer") or "")[:200].replace("\n", " ").replace("|", "\\|")
         lines.append(
             f"| {r['prompt_id']} | {r['category']} | {c['total_tags']} | "
             f"{'✓' if c['has_note'] else '·'} | "
@@ -347,53 +283,44 @@ def render_report(payload: dict, agg: dict, responses: list) -> str:
         "2. Sind Tags semantisch intendiert (nicht Echo der Aufgabe)?",
         "3. Was fällt am Output auf — Vokabular-Referenzen ohne `[#…]`?",
         "",
-        "Notes hier eintragen (Scratch-Konvention: Edits in den Outputs erlaubt):",
+        "Notes hier eintragen:",
         "",
         "```",
         "- p01: ...",
         "- p02: ...",
         "- p10: ...",
         "```",
-        "",
-        "## Hypothese vs Befund",
-        "",
-        "**Erwartung**: bei Standard-Variante A vermutlich `tag_rate ≤ 0.2`, "
-        "`note_tag_rate ≈ 0.0` (Snip-Beispiel enthält keine Noten, "
-        "CitMind ist musik-neutral).",
-        "",
-        "**Falls `note_tag_rate ≥ 0.5`**: Variante A funktioniert — "
-        "nächster Schritt ist Plan 6.2 (Variant B/C/D Vergleich).",
-        "",
-        "**Falls `note_tag_rate < 0.3`**: Variante B (musik-erweiterter "
-        "Snip mit Sanskrit) als nächstes testen.",
-        "",
     ])
     return "\n".join(lines)
 
 
-def run_full(model, tokenizer, n_seeds: int = 1, max_new_tokens: int = 256,
-             temperature: float = 0.7, out_tag: Optional[str] = None) -> Path:
-    """Voller Run: 10 Prompts × n_seeds. Schreibt JSON + REPORT.md."""
+def run_full_variant(
+    model,
+    tokenizer,
+    variant_id: str,
+    apply_fn: Callable[[List[dict], str], List[dict]],
+    label: str,
+    n_seeds: int = 1,
+    max_new_tokens: int = 256,
+    temperature: float = 0.7,
+) -> Tuple[Path, Path, dict]:
+    """Voller Run für EINE Variante. Returns (json_path, report_path, agg)."""
     out_dir = Path(__file__).parent / "out"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Profil prüfen — wenn citmind nicht parsbar ist, fallback auf neutral
-    profiles = list_profiles()
-    profile = "citmind" if "citmind" in profiles else "neutral"
-    print(f"[full] Profile: {profile} (available: {profiles})")
-
-    sys_msg = build_system_message(profile)
-    print(f"[full] System-Content-Länge: {len(sys_msg['content'])} Zeichen")
+    print(f"\n{'='*60}")
+    print(f" VARIANT {variant_id}: {label}")
+    print(f"{'='*60}")
 
     started = datetime.now(timezone.utc).isoformat()
     responses = []
 
     n_total = len(TEST_PROMPTS) * n_seeds
-    print(f"[full] Starte {n_total} Generierungen "
+    print(f"[full/{variant_id}] Starte {n_total} Generierungen "
           f"({len(TEST_PROMPTS)} Prompts × {n_seeds} Seeds)...")
 
     for p_def in TEST_PROMPTS:
-        msgs = build_messages(profile, p_def["prompt"], use_tag_snip=True)
+        msgs = apply_fn(BASE_USER_MSG, p_def["prompt"])
         for seed in range(n_seeds):
             print(f"  [{len(responses)+1}/{n_total}] "
                   f"{p_def['id']} (seed={seed}): {p_def['prompt'][:50]!r}...")
@@ -435,7 +362,6 @@ def run_full(model, tokenizer, n_seeds: int = 1, max_new_tokens: int = 256,
                     "mechanistic_notes": f"Generation failed: {e}",
                 })
 
-    # Aggregate über ALLE Antworten (auch Errors zählen als 0-Tag).
     agg_input = [
         {
             "word_count": r["metrics"]["word_count"],
@@ -447,14 +373,14 @@ def run_full(model, tokenizer, n_seeds: int = 1, max_new_tokens: int = 256,
 
     payload = {
         "meta": {
+            "variant_id": variant_id,
+            "variant_label": label,
             "started_at": started,
             "finished_at": datetime.now(timezone.utc).isoformat(),
             "python": platform.python_version(),
             "model_id": "gemma3-1b-it",
             "model_hf_id": MODEL_REGISTRY["gemma3-1b-it"]["hf_id"],
             "dtype": MODEL_REGISTRY["gemma3-1b-it"]["dtype"],
-            "profile": profile,
-            "use_tag_snip": True,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
             "n_prompts": len(TEST_PROMPTS),
@@ -462,12 +388,9 @@ def run_full(model, tokenizer, n_seeds: int = 1, max_new_tokens: int = 256,
         },
         "config": {
             "tag_snip_source": "gradio_tabs.vocoder_tags.render_tag_system_prompt",
-            "system_message_source": (
-                "gradio_tabs.system_prompt.build_system_message('citmind')"
-            ),
             "append_method": "gradio_tabs.system_prompt.append_tag_snippet",
             "merge_method": (
-                "gradio_tabs.system_prompt.merge_system_into_first_user"
+                "scratches.tag_production.variants._common._merge_sys_into_user"
             ),
             "generation": (
                 "transformers.AutoModelForCausalLM.generate"
@@ -479,27 +402,120 @@ def run_full(model, tokenizer, n_seeds: int = 1, max_new_tokens: int = 256,
         "aggregate": agg,
     }
 
-    suffix = f"_{out_tag}" if out_tag else ""
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    json_path = out_dir / f"run_{ts}{suffix}.json"
+    json_path = out_dir / f"run_{ts}_v{variant_id}.json"
     json_path.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
 
-    # REPORT.md schreiben
     report_md = render_report(payload, agg, responses)
-    report_path = out_dir / "REPORT.md"
-    # Bestehender Report wird überschrieben (latest = last run)
+    report_path = out_dir / f"REPORT_v{variant_id}.md"
     report_path.write_text(report_md, encoding="utf-8")
 
-    print(f"\n[full] → {json_path}")
-    print(f"[full] → {report_path}")
-    print(f"\n[full] Aggregate:")
+    print(f"\n[full/{variant_id}] → {json_path}")
+    print(f"[full/{variant_id}] → {report_path}")
+    print(f"\n[full/{variant_id}] Aggregate:")
     print(f"  tag_rate = {agg['tag_rate']}")
     print(f"  note_tag_rate = {agg['note_tag_rate']}")
     print(f"  tags_per_100_words_global = {agg['tags_per_100_words_global']}")
-    return json_path
+    return json_path, report_path, agg
+
+
+# ─── 4. Helpers ──────────────────────────────────────────────────────────
+
+
+BASE_USER_MSG = [{"role": "user", "content": ""}]
+
+
+def _user_content(msgs):
+    """Holt Content des ersten user-Turns."""
+    for m in msgs:
+        if m.get("role") == "user":
+            return m.get("content") or ""
+    return ""
+
+
+# ─── 5. Vergleichs-Report ────────────────────────────────────────────────
+
+
+def render_comparison(runs: List[Tuple[str, str, dict, Path]]) -> str:
+    """Baut COMPARISON.md über alle Varianten."""
+    lines = [
+        "# Tag-Production Variant-Vergleich — gemma3-1b-it",
+        "",
+        f"**Model:** gemma3-1b-it (BASELINE, kein PX-Patch)  ",
+        f"**Prompts:** 10 (siehe scratches/tag_production/prompts.py)  ",
+        f"**Seeds:** 1  ",
+        f"**max_new_tokens:** 256  ",
+        f"**temperature:** 0.7  ",
+        f"**Date:** {datetime.now(timezone.utc).isoformat()}  ",
+        "",
+        "## Varianten",
+        "",
+        "| ID | Profil | Snip | Hypothese |",
+        "|----|--------|------|-----------|",
+        "| A | CitMind | Standard (`render_tag_system_prompt()`) | Baseline — bereits gemessen |",
+        "| B | CitMind | Standard + Sanskrit-Mapping-Block | Note-Compliance ↑, Devanāgarī-Drift ↓ |",
+        "| C | CitMind | Standard + 3 Few-Shot-Turns | Compliance bei distinktiven Tags ↑ |",
+        "| D | CitMind | ABC-Notation-Snip (statt Vocoder) | Note-Compliance ↑ wenn ABC vertraut |",
+        "| E | Neutral | Standard-Snip (kein CitMind) | CitMind-Blocker-Kontrolle |",
+        "",
+        "## Aggregate-Tabelle",
+        "",
+        "| Metrik | " + " | ".join(vid for vid, _, _, _ in runs) + " |",
+        "|--------|" + "|".join(["---"] * len(runs)) + "|",
+    ]
+    # Aggregate rows
+    metrics_to_show = [
+        ("n_responses", "n_responses"),
+        ("tag_rate", "tag_rate"),
+        ("note_tag_rate", "note_tag_rate"),
+        ("dynamic_tag_rate", "dynamic_tag_rate"),
+        ("affect_tag_rate", "affect_tag_rate"),
+        ("pause_tag_rate", "pause_tag_rate"),
+        ("tags_per_100_words_global", "tags/100w_global"),
+        ("mean_density_when_tagging", "mean_density"),
+        ("max_density", "max_density"),
+        ("density_warnings_count", "density_warnings"),
+    ]
+    for key, display in metrics_to_show:
+        row = f"| {display} | "
+        for _, _, agg, _ in runs:
+            val = agg.get(key, "N/A")
+            if isinstance(val, float):
+                row += f"{val:.3f} | "
+            else:
+                row += f"{val} | "
+        lines.append(row)
+
+    lines.extend([
+        "",
+        "## Verdikt-Hypothesen",
+        "",
+        "- **Falls B > A in `note_tag_rate`**: Sanskrit-Mapping aktiviert CitMind-Vokabular-Kopplung → Folge-Plan 6.2b.",
+        "- **Falls C > A in `dynamic_tag_rate` + `pause_tag_rate`**: Few-Shot-Pattern hilft → Folge-Plan 6.2c.",
+        "- **Falls D > A in `note_tag_rate`**: ABC ist vertrauter → Folge-Plan 6.2d.",
+        "- **Falls E > A insgesamt**: CitMind ist kontraproduktiv → Folge-Plan 6.2e (CitMind-Default überdenken).",
+        "",
+        "## Per-Variant-Dateien",
+        "",
+    ])
+    for vid, label, _, json_path in runs:
+        lines.append(f"- **{vid}** — {label}: `{json_path.name}` + `REPORT_v{vid}.md`")
+
+    lines.extend([
+        "",
+        "## Manuelle Lesung (Pflicht)",
+        "",
+        "Pro Variante mind. 3 Antworten vollständig lesen:",
+        "1. Tags syntaktisch korrekt?",
+        "2. Semantisch intendiert (nicht Echo)?",
+        "3. Vokabular-Referenzen ohne `[#…]`?",
+        "4. Antwort leer/fehlerhaft — warum?",
+        "",
+    ])
+    return "\n".join(lines)
 
 
 # ─── 6. CLI ───────────────────────────────────────────────────────────────
@@ -511,14 +527,18 @@ def main() -> None:
                         help="Nur 1 Prompt, 64 Token (~30 s)")
     parser.add_argument("--full", action="store_true",
                         help="Volle 10-Prompt-Matrix")
+    parser.add_argument(
+        "--variants",
+        type=str,
+        default="A",
+        help="Komma-getrennte Variant-IDs (default: A). Verfügbar: A,B,C,D,E",
+    )
     parser.add_argument("--seeds", type=int, default=1,
                         help="Seeds pro Prompt (default 1)")
     parser.add_argument("--max-new-tokens", type=int, default=256,
                         help="Max neue Tokens pro Antwort")
     parser.add_argument("--temperature", type=float, default=0.7,
                         help="Sampling-Temperature")
-    parser.add_argument("--out-tag", type=str, default=None,
-                        help="Suffix für Output-Filename (z.B. 'baseline')")
     args = parser.parse_args()
 
     if not (args.smoke or args.full):
@@ -526,27 +546,66 @@ def main() -> None:
         print("\nFEHLER: --smoke oder --full angeben.")
         sys.exit(1)
 
+    # Varianten parsen + validieren
+    variant_ids = [v.strip().upper() for v in args.variants.split(",") if v.strip()]
+    unknown = [v for v in variant_ids if v not in VARIANTS]
+    if unknown:
+        print(f"FEHLER: Unbekannte Varianten {unknown}. Verfügbar: {list(VARIANTS.keys())}")
+        sys.exit(1)
+
     print("=" * 60)
-    print(" TAG-PRODUCTION HARNESS — gemma3-1b-it + CitMind + Tag-Snip")
+    print(f" TAG-PRODUCTION HARNESS — gemma3-1b-it — {len(variant_ids)} Varianten")
     print("=" * 60)
     print(f" Python: {platform.python_version()}")
     print(f" CUDA: {torch.cuda.is_available()}")
     if torch.cuda.is_available():
         print(f" GPU: {torch.cuda.get_device_name(0)}")
+    print(f" Varianten: {', '.join(variant_ids)}")
     print("=" * 60)
 
     model, tokenizer, device = build_model("gemma3-1b-it")
+
+    # Runs: Liste von (variant_id, label, agg, json_path)
+    runs: List[Tuple[str, str, dict, Path]] = []
+
     try:
-        if args.smoke:
-            run_smoke(model, tokenizer)
-        elif args.full:
-            run_full(
-                model, tokenizer,
-                n_seeds=args.seeds,
-                max_new_tokens=args.max_new_tokens,
-                temperature=args.temperature,
-                out_tag=args.out_tag,
-            )
+        for variant_id in variant_ids:
+            label, apply_fn = get_variant(variant_id)
+            try:
+                if args.smoke:
+                    run_smoke_variant(model, tokenizer, variant_id, apply_fn, label)
+                elif args.full:
+                    json_path, _, agg = run_full_variant(
+                        model, tokenizer, variant_id, apply_fn, label,
+                        n_seeds=args.seeds,
+                        max_new_tokens=args.max_new_tokens,
+                        temperature=args.temperature,
+                    )
+                    runs.append((variant_id, label, agg, json_path))
+            except Exception as e:  # noqa: BLE001
+                # Eine crashende Variante soll die anderen nicht stoppen.
+                print(f"\n[VARIANT {variant_id}] FAILED: {type(e).__name__}: {e}")
+                runs.append((
+                    variant_id, label,
+                    {"n_responses": 0, "tag_rate": "FAILED",
+                     "note_tag_rate": "FAILED", "dynamic_tag_rate": "FAILED",
+                     "affect_tag_rate": "FAILED", "pause_tag_rate": "FAILED",
+                     "tags_per_100_words_global": "FAILED",
+                     "mean_density_when_tagging": "FAILED",
+                     "max_density": "FAILED",
+                     "density_warnings_count": "FAILED"},
+                    Path("FAILED"),
+                ))
+
+        # COMPARISON.md nur bei --full und ≥2 erfolgreichen Runs
+        if args.full and len(runs) >= 2:
+            out_dir = Path(__file__).parent / "out"
+            comp_md = render_comparison(runs)
+            comp_path = out_dir / "COMPARISON.md"
+            comp_path.write_text(comp_md, encoding="utf-8")
+            print(f"\n[comparison] → {comp_path}")
+        elif args.full and len(runs) == 1:
+            print("\n[comparison] (skip — nur 1 Variante)")
     finally:
         del model
         gc.collect()
