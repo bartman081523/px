@@ -407,3 +407,114 @@ def tag_density_warning(text: str, max_tags_per_100_tokens: int = 30) -> Optiona
                 f"Wörter (Schwelle {max_tags_per_100_tokens}); LLM hat "
                 f"möglicherweise über-produziert.")
     return None
+
+
+def strip_tags_with_density_cap(
+    engine: str,
+    text: str,
+    *,
+    max_tags_per_100_tokens: int = 30,
+) -> Tuple[str, List[TagEvent], Optional[str]]:
+    """strip_tags_for_engine + Auto-Strip wenn Dichte überschritten.
+
+    Plan 6.2c: Wenn das LLM substanziell über-produziert (>30/100w),
+    werden die audio-seitigen Tags auf das zulässige Maximum gekappt
+    und aus dem clean_text entfernt. So bekommt die TTS-Engine nicht
+    eine Flut von Tags, die Audio unbrauchbar machen.
+
+    Verhalten
+    ---------
+    - Berechnet ``max_tags = int((word_count * max_tags_per_100_tokens) / 100)``
+      aus dem Original-Text (nicht aus dem gestripten clean_text).
+    - Wenn ``len(audio_tags) <= max_tags``: Verhalten identisch zu
+      ``strip_tags_for_engine`` (engine-spezifisches Strippen), kein
+      weiterer Cap. Warning = None.
+    - Sonst: behält die ersten ``max_tags`` audio_tags (nach Position im
+      Original-Text); strippt die überzähligen Tag-Strings aus dem Output.
+
+    Parameters
+    ----------
+    engine : str. Engine-Name (piper/espeak/off/bark/qwen3/...).
+    text : str. Original-Text mit Tags.
+    max_tags_per_100_tokens : int (default 30). Schwelle wie
+        ``tag_density_warning``.
+
+    Returns
+    -------
+    (clean_text, audio_tags, warning_str_or_None):
+      - ``clean_text``: Text mit Tags gestrippt (Cap-Version wenn getriggert).
+      - ``audio_tags``: Engine-relevante Tags, gecappt auf max_tags.
+      - ``warning_str``: None wenn unter Schwelle, sonst Warning-String.
+    """
+    if not text:
+        return "", [], None
+
+    clean_text, audio_tags = strip_tags_for_engine(engine, text)
+
+    if not audio_tags:
+        return clean_text, audio_tags, None
+
+    word_count = max(1, len(text.split()))
+    max_tags = int((word_count * max_tags_per_100_tokens) / 100)
+
+    if len(audio_tags) <= max_tags:
+        # Unter Schwelle: nichts zu cap. Aber Piper/espeak geben clean_text
+        # ohne Tags zurück — das ist gewollt (Strippen ist Engine-Pflicht).
+        # Bark/qwen3 geben clean_text mit Bark-Specials / NL-Prefix zurück.
+        # Wir respektieren das Engine-Verhalten.
+        return clean_text, audio_tags, None
+
+    # Cap aktiv. Behalte die ersten max_tags (nach Position im Original).
+    kept = audio_tags[:max_tags]
+    dropped = audio_tags[max_tags:]
+
+    # Rekonstruiere clean_text: parse_tags entfernt ALLE Tags (note/dynamic/
+    # affect/pause/bark). Jetzt müssen wir die `raw` der gedroppten Tags
+    # zusätzlich aus dem clean_all entfernen, die `raw` der behaltenen
+    # Tags bleiben (sind schon im parse_tags-Strip drin → NICHT).
+    #
+    # Aber: parse_tags hat ALLE Tags entfernt (auch die, die wir behalten).
+    # Wir wollen: die behaltenen Tags im clean_text BEHALTEN, die gedroppten
+    # RAUS. Anders herum als parse_tags.
+    #
+    # Pragmatisch: baue clean_text neu aus dem Original-Text, lass die
+    # `raw`-Strings der behaltenen Tags drin, strippe den Rest.
+    raw_kept = {t.raw for t in kept}
+
+    out_parts: List[str] = []
+    cursor = 0
+    # Iteriere alle Tag-Spans (note/dynamic/affect/pause/bark) im Original.
+    all_spans: List[Tuple[int, int]] = []
+    for m in _PAUSE_PATTERN.finditer(text):
+        all_spans.append((m.start(), m.end()))
+    for m in _BARK_TAG_PATTERN.finditer(text):
+        all_spans.append((m.start(), m.end()))
+    for m in _VOC_TAG_PATTERN.finditer(text):
+        all_spans.append((m.start(), m.end()))
+    all_spans.sort()
+
+    for s, e in all_spans:
+        # Text vor dem Tag beibehalten.
+        out_parts.append(text[cursor:s])
+        # Tag nur behalten wenn sein `raw` in kept.
+        tag_raw = text[s:e]
+        if tag_raw in raw_kept:
+            out_parts.append(tag_raw)
+        # Sonst: weg.
+        cursor = e
+    out_parts.append(text[cursor:])
+    capped_clean = "".join(out_parts)
+
+    # Wenn Engine affect-Tags ohnehin nicht in audio_tags hat (piper/espeak),
+    # dann sind affect-Tags im Original zwar im all_spans, aber NICHT in
+    # kept/dropped. Sie wurden in clean_text entfernt (alle raus via
+    # all_spans). Das ist konsistent mit strip_tags_for_engine-Verhalten.
+
+    # Audio-Tags sind die behaltenen.
+    tags_per_100 = (len(audio_tags) / word_count) * 100
+    warning = (
+        f"[vocoder-tags] WARN: Dichte-Cap aktiv — {len(dropped)} überzählige "
+        f"Tags entfernt (>{max_tags_per_100_tokens}/100w, gemessen "
+        f"{tags_per_100:.1f}/100w)."
+    )
+    return capped_clean, kept, warning

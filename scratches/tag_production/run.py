@@ -464,6 +464,7 @@ def render_comparison(runs: List[Tuple[str, str, dict, Path]]) -> str:
         "| C | CitMind | Standard + 3 Few-Shot-Turns | Compliance bei distinktiven Tags ↑ |",
         "| D | CitMind | ABC-Notation-Snip (statt Vocoder) | Note-Compliance ↑ wenn ABC vertraut |",
         "| E | Neutral | Standard-Snip (kein CitMind) | CitMind-Blocker-Kontrolle |",
+        "| F | CitMind | Standard + Few-Shot via Motor-API (`append_tag_snippet(..., few_shot=True)`) | Motor-API-Validierung — gleicher Effekt wie C erwartet |",
         "",
         "## Aggregate-Tabelle",
         "",

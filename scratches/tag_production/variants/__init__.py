@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Callable, Dict, List, Tuple
 
-from . import a_baseline, b_sanskrit, c_few_shot, d_abc, e_tag_only
+from . import a_baseline, b_sanskrit, c_few_shot, d_abc, e_tag_only, f_motor_fewshot
 
 ApplyFn = Callable[[List[dict], str], List[dict]]
 
@@ -21,6 +21,7 @@ VARIANTS: Dict[str, Tuple[str, ApplyFn]] = {
     "C": ("CitMind + Standard-Snip + 3 Few-Shot-Turns", c_few_shot.apply),
     "D": ("CitMind + ABC-Notation-Snip (statt Vocoder-Snip)", d_abc.apply),
     "E": ("Neutral-Profil + Standard-Snip (kein CitMind)", e_tag_only.apply),
+    "F": ("Motor-opt-in Few-Shot via append_tag_snippet(..., few_shot=True)", f_motor_fewshot.apply),
 }
 
 
@@ -38,4 +39,4 @@ __all__ = ["VARIANTS", "ApplyFn", "list_variants", "get_variant"]
 
 
 # Avoid "imported but unused" for the module-level imports.
-_ = (a_baseline, b_sanskrit, c_few_shot, d_abc, e_tag_only)
+_ = (a_baseline, b_sanskrit, c_few_shot, d_abc, e_tag_only, f_motor_fewshot)

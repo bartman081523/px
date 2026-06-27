@@ -30,6 +30,26 @@ _CITMIND_DOC = os.path.join(_DOCS_DIR, "CitMind.txt")
 _JUEXIN_DOC = os.path.join(_DOCS_DIR, "Juexin.txt")
 
 
+# ─── 1b. Plan 6.2c: Few-Shot-Turns (CitMind-Tag-Syntax) ─────────────────
+#
+# 3 user/assistant-Paare die zeigen, wie das Tag-System in echten Antworten
+# verwendet wird (traurig / fröhlich / flüsternd). Werden via
+# ``append_tag_snippet(..., few_shot=True)`` zwischen System-Prompt und
+# echtem User-Turn eingefügt, um 1B-Modellen die Tag-Syntax per Beispiel
+# beizubringen (siehe Plan 6.2 Befund: Variante C vs A — tag_rate 0.6→1.0,
+# note_tag_rate 0.5→0.8). Single source of truth: HIER. Der empirische
+# Runner in ``scratches/tag_production/variants/c_few_shot.py`` importiert
+# diese Konstante — keine Duplikation.
+CITMIND_TAG_FEWSHOT_TURNS: List[Dict[str, str]] = [
+    {"role": "user", "content": "Sage etwas Trauriges in einem Satz."},
+    {"role": "assistant", "content": "[#SAD] [#CALM] [#A3]Ich atme [#PAUSE 0.5s]leise.[#PAUSE 0.3s]"},
+    {"role": "user", "content": "Jetzt etwas Fröhliches."},
+    {"role": "assistant", "content": "[#HAPPY] [#EXCITED] [#C#5]Heute scheint die Sonne![#PAUSE 0.2s]"},
+    {"role": "user", "content": "Und flüsternd?"},
+    {"role": "assistant", "content": "[#WHISPER] [#A2]Hörst du mich?[#PAUSE 1.0s]"},
+]
+
+
 def _make_neutral_profile() -> Dict[str, Any]:
     """Always-available empty profile."""
     return {
@@ -300,7 +320,9 @@ def merge_system_into_first_user(messages: List[Dict[str, Any]],
 
 
 def append_tag_snippet(messages: List[Dict[str, Any]],
-                       snippet: str) -> List[Dict[str, Any]]:
+                       snippet: str,
+                       *,
+                       few_shot: bool = False) -> List[Dict[str, Any]]:
     """Hängt einen Vocoder-Tag-Snip an den **ersten** system-Eintrag an.
 
     Zweck
@@ -334,11 +356,26 @@ def append_tag_snippet(messages: List[Dict[str, Any]],
     - Multimodal-Inhalte werden respektiert (System-Inhalt ist hier
       immer str, nicht list — aber defensive check).
 
+    Few-Shot (Plan 6.2c, opt-in via ``few_shot=True``)
+    ---------------------------------------------------
+    Zusätzlich zu Snippet-Anhang werden die ``CITMIND_TAG_FEWSHOT_TURNS``
+    (3 user/assistant-Paare) zwischen System-Eintrag und erstem
+    User-Turn eingefügt. Das aktiviert Tag-Syntax-Compliance bei
+    kleinen Modellen (Plan 6.2 Befund: tag_rate 0.6 → 1.0, note 0.5 → 0.8).
+    Die Few-Shot-Turns werden VOR dem echten User-Turn platziert, so
+    dass ``apply_chat_template`` sie als Multi-Turn-Demo rendert.
+
     Parameters
     ----------
     messages : list of dicts. Wird nicht mutiert.
     snippet : str. Wenn leer oder None → no-op (messages unverändert
               zurück, nur shallow-copy).
+    few_shot : bool (default False). Wenn True, werden die Few-Shot-Turns
+              zusätzlich zum Snippet eingefügt. few_shot ist unabhängig
+              vom snippet — wenn snippet leer ist UND few_shot=True, werden
+              trotzdem die Few-Shot-Turns eingefügt (nur System-Inhalt
+              bleibt unverändert). Pragmatisch: Aufrufer setzen beides
+              oder nur eines.
 
     Returns
     -------
@@ -346,26 +383,41 @@ def append_tag_snippet(messages: List[Dict[str, Any]],
     """
     if not snippet:
         # Kein Snip → Liste shallow-copieren, sonst nichts.
-        return list(messages)
+        out = list(messages)
+    else:
+        out = list(messages)  # shallow copy; System-Eintrag wird evtl. ersetzt.
 
-    out = list(messages)  # shallow copy; System-Eintrag wird evtl. ersetzt.
+        sys_idx = next(
+            (i for i, m in enumerate(out)
+             if isinstance(m, dict) and m.get("role") == "system"),
+            None,
+        )
 
-    sys_idx = next(
-        (i for i, m in enumerate(out)
-         if isinstance(m, dict) and m.get("role") == "system"),
-        None,
-    )
+        if sys_idx is None:
+            # Kein System-Eintrag → frischen mit nur Snippet prependen.
+            out = [{"role": "system", "content": snippet}] + out
+        else:
+            sys_msg = out[sys_idx]
+            existing = sys_msg.get("content") or ""
+            if not isinstance(existing, str):
+                # Defensive: Multimodal-System? Unüblich, aber wir serialisieren.
+                existing = str(existing)
 
-    if sys_idx is None:
-        # Kein System-Eintrag → frischen mit nur Snippet prependen.
-        return [{"role": "system", "content": snippet}] + out
+            new_content = (existing + "\n\n" + snippet) if existing else snippet
+            out[sys_idx] = {**sys_msg, "content": new_content}
 
-    sys_msg = out[sys_idx]
-    existing = sys_msg.get("content") or ""
-    if not isinstance(existing, str):
-        # Defensive: Multimodal-System? Unüblich, aber wir serialisieren.
-        existing = str(existing)
+    if few_shot:
+        # Finde Insertion-Punkt: nach System-Eintrag (oder am Anfang
+        # wenn kein System da). Few-Shot-Turns werden VOR dem ersten
+        # real-User-Turn eingefügt.
+        insert_pos = 0
+        for i, m in enumerate(out):
+            if isinstance(m, dict) and m.get("role") == "system":
+                insert_pos = i + 1
+            elif isinstance(m, dict) and m.get("role") == "user":
+                # Echter User-Turn gefunden — Insertion davor.
+                break
+            # assistant/multimodal/etc.: weiter suchen
+        out = out[:insert_pos] + list(CITMIND_TAG_FEWSHOT_TURNS) + out[insert_pos:]
 
-    new_content = (existing + "\n\n" + snippet) if existing else snippet
-    out[sys_idx] = {**sys_msg, "content": new_content}
     return out

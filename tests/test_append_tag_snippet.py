@@ -194,3 +194,98 @@ def test_message_order_preserved():
     assert out[1]["content"] == "u1"
     assert out[2]["content"] == "a1"
     assert out[3]["content"] == "u2"
+
+
+# ─── 5. Plan 6.2c: few_shot=True Opt-in (Few-Shot-Library) ────────────
+
+
+def test_few_shot_default_false_no_extra_turns():
+    """few_shot=False (default): kein Verhaltens-Unterschied zu früher."""
+    messages = [
+        {"role": "system", "content": "X"},
+        {"role": "user", "content": "hi"},
+    ]
+    out_default = append_tag_snippet(messages, SNIPPET)
+    out_explicit_false = append_tag_snippet(messages, SNIPPET, few_shot=False)
+    assert out_default == out_explicit_false
+    # Keine zusätzlichen Turns.
+    assert sum(1 for m in out_default if m["role"] != "system") == 1
+
+
+def test_few_shot_true_inserts_three_pairs_between_system_and_user():
+    """few_shot=True: 3 user/assistant-Paare aus CITMIND_TAG_FEWSHOT_TURNS
+    werden zwischen system-Eintrag und echtem user-Turn eingefügt.
+
+    Erwartete Reihenfolge: system → shot1.user → shot1.assistant → shot2.user
+    → shot2.assistant → shot3.user → shot3.assistant → real.user = 8 turns.
+    """
+    from gradio_tabs.system_prompt import CITMIND_TAG_FEWSHOT_TURNS
+
+    assert len(CITMIND_TAG_FEWSHOT_TURNS) == 6, (
+        f"Erwartet 3 user + 3 assistant = 6 Turns, got {len(CITMIND_TAG_FEWSHOT_TURNS)}"
+    )
+
+    messages = [
+        {"role": "system", "content": "X"},
+        {"role": "user", "content": "real question"},
+    ]
+    out = append_tag_snippet(messages, SNIPPET, few_shot=True)
+    # system + 3*(user+assistant) + real user = 1 + 6 + 1 = 8 turns.
+    assert len(out) == 8, f"got {len(out)}: {[m['role'] for m in out]}"
+
+    roles = [m["role"] for m in out]
+    assert roles == [
+        "system",
+        "user", "assistant",
+        "user", "assistant",
+        "user", "assistant",
+        "user",
+    ], roles
+
+    # System-Inhalt enthält Snip (Few-Shot ändert das nicht).
+    assert "VOCODER-TAG-SYSTEM" in out[0]["content"]
+    # Erster Few-Shot-Turn ist ein user-Turn mit "Trauriges".
+    assert "Trauriges" in out[1]["content"]
+    # Letzter Turn ist die echte Frage.
+    assert out[-1] == {"role": "user", "content": "real question"}
+
+
+def test_few_shot_works_without_existing_user_turn():
+    """few_shot=True ohne user-Turn: Few-Shot-Turns werden an System
+    angehängt (nicht prepended — Real-Turn gibt es nicht)."""
+    messages = [{"role": "system", "content": "X"}]
+    out = append_tag_snippet(messages, SNIPPET, few_shot=True)
+    # system + 6 Few-Shot = 7 turns.
+    assert len(out) == 7
+    assert out[0]["role"] == "system"
+    assert out[-1]["role"] == "assistant"  # letzter Few-Shot-Turn
+
+
+def test_few_shot_empty_messages_list():
+    """few_shot=True mit leerer messages-Liste: System + 6 Few-Shot = 7."""
+    out = append_tag_snippet([], SNIPPET, few_shot=True)
+    assert len(out) == 7
+    assert out[0]["role"] == "system"
+    assert "VOCODER-TAG-SYSTEM" in out[0]["content"]
+
+
+def test_few_shot_with_no_system_entry_still_prepends_system():
+    """few_shot=True ohne system-Eintrag: System wird prependet,
+    dann Few-Shot-Turns, dann real user."""
+    messages = [{"role": "user", "content": "real"}]
+    out = append_tag_snippet(messages, SNIPPET, few_shot=True)
+    assert len(out) == 8  # system + 6 shots + real user
+    assert out[0]["role"] == "system"
+    assert "VOCODER-TAG-SYSTEM" in out[0]["content"]
+    assert out[-1] == {"role": "user", "content": "real"}
+
+
+def test_few_shot_does_not_mutate_input():
+    """few_shot=True mutiert die Input-Liste nicht."""
+    messages = [
+        {"role": "system", "content": "X"},
+        {"role": "user", "content": "real"},
+    ]
+    snapshot = json.dumps(messages, sort_keys=True)
+    _ = append_tag_snippet(messages, SNIPPET, few_shot=True)
+    assert json.dumps(messages, sort_keys=True) == snapshot

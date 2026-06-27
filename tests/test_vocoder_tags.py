@@ -477,3 +477,101 @@ def test_parse_tag_at_start_of_text():
     clean, tags = parse_tags("[#A2]Text")
     assert clean == "Text"
     assert tags[0].char_offset == 0
+
+
+# ─── 7. Plan 6.2c: strip_tags_with_density_cap (Auto-Strip) ─────────
+
+
+from gradio_tabs.vocoder_tags import strip_tags_with_density_cap  # noqa: E402
+
+
+def test_density_cap_below_threshold_unchanged():
+    """Unter Schwelle (≤30/100w): Verhalten identisch zu strip_tags_for_engine.
+
+    Returns: (clean_text, audio_tags, None).
+    """
+    # 30 Wörter Fließtext + 3 audio_tags → Dichte ≈ 10/100w → kein Cap.
+    words = " ".join(f"Wort{i}" for i in range(30))
+    text = f"[#CALM] {words} [#A2] Ende [#PAUSE 0.3s]"
+    clean, audio_tags, warning = strip_tags_with_density_cap("piper", text)
+    plain, plain_tags = strip_tags_for_engine("piper", text)
+    assert clean == plain
+    assert len(audio_tags) == len(plain_tags)
+    assert warning is None
+
+
+def test_density_cap_returns_three_tuple():
+    """Neue Funktion liefert (clean, audio_tags, warning_str_or_None)."""
+    text = "[#CALM]Hallo"
+    result = strip_tags_with_density_cap("piper", text)
+    assert isinstance(result, tuple)
+    assert len(result) == 3
+    clean, tags, warning = result
+    assert isinstance(clean, str)
+    assert isinstance(tags, list)
+    assert warning is None or isinstance(warning, str)
+
+
+def test_density_cap_above_threshold_caps_tags():
+    """Bei Überschreitung (>30/100w): audio_tags werden auf max_tags gekappt,
+    warning-String wird zurückgegeben.
+
+    Beispiel: 20 Note-Tags in 5 Wörtern = 400/100w → max_tags = 30*5/100 = 1.5 → 1 Tag.
+    """
+    text = " ".join(f"[#A{i % 8}]Wort{i}" for i in range(20))  # 20 Tags, 20 Wörter
+    # Tatsächliche Wörter im Text: "Wort0 Wort1 ... Wort19" = 20 → max_tags = 30*20/100 = 6
+    # → 6 von 20 Tags bleiben, 14 fallen weg.
+    clean, audio_tags, warning = strip_tags_with_density_cap(
+        "piper", text, max_tags_per_100_tokens=30,
+    )
+    # audio_tags gekappt.
+    assert len(audio_tags) <= 6, f"expected ≤6 audio_tags, got {len(audio_tags)}"
+    # Warning-String gesetzt.
+    assert warning is not None
+    assert "WARN" in warning or "Dichte" in warning
+
+
+def test_density_cap_preserves_first_tags_by_position():
+    """Die ersten N Tags (nach Position im Text) bleiben — der Rest
+    wird aus dem Output gestrippt. Reihenfolge wichtig für Audio-Timing."""
+    text = "[#A2]First [#A3]Second [#A4]Third [#A5]Fourth"
+    # 4 Wörter (First/Second/Third/Fourth) → max_tags = 30*4/100 = 1.2 → 1 Tag.
+    clean, audio_tags, warning = strip_tags_with_density_cap(
+        "piper", text, max_tags_per_100_tokens=30,
+    )
+    assert len(audio_tags) == 1
+    assert audio_tags[0].value == "A2"  # das erste Tag bleibt
+    # Im clean_text sind die ersten 3 überzähligen Tags raus.
+    assert "[#A3]" not in clean
+    assert "[#A4]" not in clean
+    assert "[#A5]" not in clean
+    assert warning is not None
+
+
+def test_density_cap_default_threshold_is_30():
+    """Default-Schwelle ist 30/100w (gleicher Wert wie tag_density_warning)."""
+    # 31 Tags in 100 Wörtern = 31/100 → triggert Cap.
+    words = " ".join(f"Wort{i}" for i in range(100))
+    text = " ".join(f"[#A0]{words.split()[i]}" for i in range(31))
+    clean, audio_tags, warning = strip_tags_with_density_cap("piper", text)
+    assert warning is not None
+
+
+def test_density_cap_empty_text():
+    """Leerer Text → keine Cap-Aktion, warning=None."""
+    clean, audio_tags, warning = strip_tags_with_density_cap("piper", "")
+    assert clean == ""
+    assert audio_tags == []
+    assert warning is None
+
+
+def test_density_cap_affect_tags_still_filtered_out_for_piper():
+    """Affect-Tags werden für piper sowieso schon aus audio_tags gefiltert
+    (von strip_tags_for_engine). Density-Cap ändert das nicht — er cappt
+    nur die nach strip_tags_for_engine verbleibenden audio_tags."""
+    text = "[#HAPPY] [#A2] [#WHISPER]Hallo [#PAUSE 0.3s] [#SAD]Welt"
+    # 4 Note/Dynamic/Pause-Tags, 2 Wörter → Dichte = 200/100w → max = 0.6 → 0
+    clean, audio_tags, warning = strip_tags_with_density_cap("piper", text)
+    assert warning is not None
+    # audio_tags könnte 0 sein weil over-cap, aber KEIN affect.
+    assert all(t.kind != "affect" for t in audio_tags)

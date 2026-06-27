@@ -58,14 +58,14 @@ def _has_system(msgs):
 
 def test_registry_has_all_five_variants():
     """5 Varianten A-E registriert."""
-    assert set(VARIANTS.keys()) == {"A", "B", "C", "D", "E"}
+    assert set(VARIANTS.keys()) == {"A", "B", "C", "D", "E", "F"}
 
 
 def test_list_variants_returns_all_five():
     listing = list_variants()
-    assert len(listing) == 5
+    assert len(listing) == 6
     ids = [k for k, _ in listing]
-    assert ids == ["A", "B", "C", "D", "E"]
+    assert ids == ["A", "B", "C", "D", "E", "F"]
 
 
 def test_get_variant_known():
@@ -207,3 +207,51 @@ def test_variant_d_preserves_user_prompt():
 
 def test_variant_e_preserves_user_prompt():
     _check_prompt_present_in_variant("E")
+
+
+# ─── Variante F: Motor-opt-in Few-Shot (Plan 6.2c) ──────────────────────
+
+
+def test_variant_f_has_three_few_shot_pairs_via_motor_flag():
+    """F: gleiche Wirkung wie C, aber Few-Shots via Motor-Flag.
+
+    Strukturell: 3 user-shots + 3 assistant-shots + 1 user-echt = 4+3 turns.
+    Inhaltlich: gleiche SHOTS wie C (single source of truth =
+    CITMIND_TAG_FEWSHOT_TURNS in gradio_tabs/system_prompt.py).
+    """
+    from gradio_tabs.system_prompt import CITMIND_TAG_FEWSHOT_TURNS
+
+    label, fn = VARIANTS["F"]
+    msgs = fn(BASE_MSGS, PROMPT)
+
+    user_turns = [m for m in msgs if m.get("role") == "user"]
+    assistant_turns = [m for m in msgs if m.get("role") == "assistant"]
+
+    assert len(user_turns) >= 4, f"Erwartet mind. 4 user-Turns, got {len(user_turns)}"
+    assert len(assistant_turns) == 3, f"Erwartet genau 3 assistant-Turns, got {len(assistant_turns)}"
+
+    # Letzter user-Turn ist die echte Frage.
+    assert user_turns[-1].get("content") == PROMPT
+
+    # Shot-Assistant-Inhalte müssen aus CITMIND_TAG_FEWSHOT_TURNS stammen.
+    assistant_contents = [a.get("content") for a in assistant_turns]
+    expected_assistant_contents = [
+        s["content"] for s in CITMIND_TAG_FEWSHOT_TURNS if s["role"] == "assistant"
+    ]
+    assert assistant_contents == expected_assistant_contents, (
+        "F's Assistant-Shot-Contents müssen mit CITMIND_TAG_FEWSHOT_TURNS übereinstimmen"
+    )
+
+
+def test_variant_f_citmind_and_tag_snip_in_prefix():
+    """F: CitMind + Standard-Tag-Snip + Few-Shots."""
+    label, fn = VARIANTS["F"]
+    msgs = fn(BASE_MSGS, PROMPT)
+
+    user_c = _user_content(msgs)
+    assert "CitMind" in user_c
+    assert "VOCODER" in user_c or "[#" in user_c
+
+
+def test_variant_f_preserves_user_prompt():
+    _check_prompt_present_in_variant("F")
