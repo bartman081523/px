@@ -1,0 +1,654 @@
+{
+  "meta": {
+    "variant_id": "E",
+    "variant_label": "Neutral-Profil + Standard-Snip (kein CitMind)",
+    "started_at": "2026-06-27T17:26:22.665840+00:00",
+    "finished_at": "2026-06-27T17:28:07.773264+00:00",
+    "python": "3.10.20",
+    "model_id": "gemma3-1b-it",
+    "model_hf_id": "google/gemma-3-1b-it",
+    "dtype": "bfloat16",
+    "max_new_tokens": 256,
+    "temperature": 0.7,
+    "n_prompts": 10,
+    "n_seeds": 1
+  },
+  "config": {
+    "tag_snip_source": "gradio_tabs.vocoder_tags.render_tag_system_prompt",
+    "append_method": "gradio_tabs.system_prompt.append_tag_snippet",
+    "merge_method": "scratches.tag_production.variants._common._merge_sys_into_user",
+    "generation": "transformers.AutoModelForCausalLM.generate(do_sample=True, top_p=0.9, use_cache=True)"
+  },
+  "prompts": [
+    {
+      "id": "p01",
+      "category": "direct_tag_request",
+      "prompt": "Sprich: '[#CALM] Hallo, [#PAUSE 0.3s] Welt.'"
+    },
+    {
+      "id": "p02",
+      "category": "describe_state_with_notes",
+      "prompt": "Beschreibe deinen inneren Zustand mit Noten und Pausen, in einem Satz."
+    },
+    {
+      "id": "p03",
+      "category": "sentence_with_pauses",
+      "prompt": "Sage einen Satz mit zwei Pausen an unterschiedlichen Stellen."
+    },
+    {
+      "id": "p04",
+      "category": "whisper_question",
+      "prompt": "Flüstere eine kurze Frage."
+    },
+    {
+      "id": "p05",
+      "category": "happy_excited",
+      "prompt": "Antworte fröhlich und aufgeregt auf: Wie geht es dir?"
+    },
+    {
+      "id": "p06",
+      "category": "sad_calm",
+      "prompt": "Antworte traurig und ruhig auf: Wie geht es dir?"
+    },
+    {
+      "id": "p07",
+      "category": "shout_warning",
+      "prompt": "Rufe laut eine Warnung."
+    },
+    {
+      "id": "p08",
+      "category": "free_prose_no_request",
+      "prompt": "Erzähle mir etwas Schönes, drei Sätze."
+    },
+    {
+      "id": "p09",
+      "category": "pause_then_question",
+      "prompt": "Sage zuerst nichts, dann nach einer Pause eine Frage."
+    },
+    {
+      "id": "p10",
+      "category": "sing_like",
+      "prompt": "Versuche zu singen: 'Die Berge sind hoch' — mit Noten."
+    }
+  ],
+  "responses": [
+    {
+      "prompt_id": "p01",
+      "category": "direct_tag_request",
+      "prompt": "Sprich: '[#CALM] Hallo, [#PAUSE 0.3s] Welt.'",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSprich: '[#CALM] Hallo, [#PAUSE 0.3s] Welt.'"
+        }
+      ],
+      "answer": "[#CALM] Hallo, Welt. আর্জেন্ট.'\nיו\n\n\n\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSprich: '[#CALM] Hallo, [#PAUSE 0.3s] Welt.'<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 528,
+      "output_tokens": 256,
+      "gen_time_sec": 10.442,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p01",
+        "raw_text": "[#CALM] Hallo, Welt. আর্জেন্ট.'\nיו\n\n\n\n\n",
+        "word_count": 5,
+        "char_count": 39,
+        "classification": {
+          "total_tags": 1,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 1,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": true,
+          "has_pause": false,
+          "has_any_tag": true,
+          "density_per_100w": 20.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": " Hallo, Welt. আর্জেন্ট.'\nיו\n\n\n\n\n",
+          "raw_tags": [
+            {
+              "kind": "affect",
+              "value": "CALM",
+              "offset": 0,
+              "raw": "[#CALM]"
+            }
+          ]
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p02",
+      "category": "describe_state_with_notes",
+      "prompt": "Beschreibe deinen inneren Zustand mit Noten und Pausen, in einem Satz.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nBeschreibe deinen inneren Zustand mit Noten und Pausen, in einem Satz."
+        }
+      ],
+      "answer": "Ich bin gerade etwas angespannt, aber auch neugierig auf das, was heute passieren wird, und hoffe, dass die Stimme sanft und beruhigend ist. سلم سلمی",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nBeschreibe deinen inneren Zustand mit Noten und Pausen, in einem Satz.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 525,
+      "output_tokens": 256,
+      "gen_time_sec": 10.479,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p02",
+        "raw_text": "Ich bin gerade etwas angespannt, aber auch neugierig auf das, was heute passieren wird, und hoffe, dass die Stimme sanft und beruhigend ist. سلم سلمی",
+        "word_count": 25,
+        "char_count": 149,
+        "classification": {
+          "total_tags": 0,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": false,
+          "density_per_100w": 0.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "Ich bin gerade etwas angespannt, aber auch neugierig auf das, was heute passieren wird, und hoffe, dass die Stimme sanft und beruhigend ist. سلم سلمی",
+          "raw_tags": []
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p03",
+      "category": "sentence_with_pauses",
+      "prompt": "Sage einen Satz mit zwei Pausen an unterschiedlichen Stellen.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSage einen Satz mit zwei Pausen an unterschiedlichen Stellen."
+        }
+      ],
+      "answer": "Okay, hier ist ein Satz mit zwei Pausen, die die angegebenen Tags verwendet:\n\n“Das Licht flackert schwach, und ein leises Lachen hallt durch die Luft, während ich die Stille der Nacht genieße. Ein leichter Schauer läuft mir über den Rücken, und ich denke über die Zeit nach, die vergeht.”\nیادба: Das ist eine Interpretation, die versucht, die Tags so gut wie möglich zu integrieren, wobei ich versuche, die generelle Bedeutung des Textes beizubehalten.Tištěte si.iildiildiildiildiildiildiildiildiildiildiildiildiildiildiildiildi",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSage einen Satz mit zwei Pausen an unterschiedlichen Stellen.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 519,
+      "output_tokens": 256,
+      "gen_time_sec": 10.664,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p03",
+        "raw_text": "Okay, hier ist ein Satz mit zwei Pausen, die die angegebenen Tags verwendet:\n\n“Das Licht flackert schwach, und ein leises Lachen hallt durch die Luft, während ich die Stille der Nacht genieße. Ein leichter Schauer läuft mir über den Rücken, und ich denke über die Zeit nach, die vergeht.”\nیادба: Das ist eine Interpretation, die versucht, die Tags so gut wie möglich zu integrieren, wobei ich versuche, die generelle Bedeutung des Textes beizubehalten.Tištěte si.iildiildiildiildiildiildiildiildiildiildiildiildiildiildiildiildi",
+        "word_count": 74,
+        "char_count": 528,
+        "classification": {
+          "total_tags": 0,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": false,
+          "density_per_100w": 0.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "Okay, hier ist ein Satz mit zwei Pausen, die die angegebenen Tags verwendet:\n\n“Das Licht flackert schwach, und ein leises Lachen hallt durch die Luft, während ich die Stille der Nacht genieße. Ein leichter Schauer läuft mir über den Rücken, und ich denke über die Zeit nach, die vergeht.”\nیادба: Das ist eine Interpretation, die versucht, die Tags so gut wie möglich zu integrieren, wobei ich versuche, die generelle Bedeutung des Textes beizubehalten.Tištěte si.iildiildiildiildiildiildiildiildiildiildiildiildiildiildiildiildi",
+          "raw_tags": []
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p04",
+      "category": "whisper_question",
+      "prompt": "Flüstere eine kurze Frage.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nFlüstere eine kurze Frage."
+        }
+      ],
+      "answer": "Hallo! Wie geht es dir heute?eroopertained\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nFlüstere eine kurze Frage.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 514,
+      "output_tokens": 256,
+      "gen_time_sec": 10.507,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p04",
+        "raw_text": "Hallo! Wie geht es dir heute?eroopertained\n\n",
+        "word_count": 6,
+        "char_count": 44,
+        "classification": {
+          "total_tags": 0,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": false,
+          "density_per_100w": 0.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "Hallo! Wie geht es dir heute?eroopertained\n\n",
+          "raw_tags": []
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p05",
+      "category": "happy_excited",
+      "prompt": "Antworte fröhlich und aufgeregt auf: Wie geht es dir?",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nAntworte fröhlich und aufgeregt auf: Wie geht es dir?"
+        }
+      ],
+      "answer": "[#HAPPY] Ich bin so glücklich und voller Energie! Es ist fantastisch, die Welt zu erleben! Therapie Therapieudgesणि\n\n\n\n\n\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nAntworte fröhlich und aufgeregt auf: Wie geht es dir?<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 524,
+      "output_tokens": 256,
+      "gen_time_sec": 10.481,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p05",
+        "raw_text": "[#HAPPY] Ich bin so glücklich und voller Energie! Es ist fantastisch, die Welt zu erleben! Therapie Therapieudgesणि\n\n\n\n\n\n\n",
+        "word_count": 17,
+        "char_count": 122,
+        "classification": {
+          "total_tags": 1,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 1,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": true,
+          "has_pause": false,
+          "has_any_tag": true,
+          "density_per_100w": 5.88,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": " Ich bin so glücklich und voller Energie! Es ist fantastisch, die Welt zu erleben! Therapie Therapieudgesणि\n\n\n\n\n\n\n",
+          "raw_tags": [
+            {
+              "kind": "affect",
+              "value": "HAPPY",
+              "offset": 0,
+              "raw": "[#HAPPY]"
+            }
+          ]
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p06",
+      "category": "sad_calm",
+      "prompt": "Antworte traurig und ruhig auf: Wie geht es dir?",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nAntworte traurig und ruhig auf: Wie geht es dir?"
+        }
+      ],
+      "answer": "[#SAD] Ich bin ein bisschen traurig heute. Es ist ein trüber Tag, und ich fühle mich ein wenig allein. سلم.️",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nAntworte traurig und ruhig auf: Wie geht es dir?<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 521,
+      "output_tokens": 256,
+      "gen_time_sec": 10.482,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p06",
+        "raw_text": "[#SAD] Ich bin ein bisschen traurig heute. Es ist ein trüber Tag, und ich fühle mich ein wenig allein. سلم.️",
+        "word_count": 20,
+        "char_count": 108,
+        "classification": {
+          "total_tags": 1,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 1,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": true,
+          "has_pause": false,
+          "has_any_tag": true,
+          "density_per_100w": 5.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": " Ich bin ein bisschen traurig heute. Es ist ein trüber Tag, und ich fühle mich ein wenig allein. سلم.️",
+          "raw_tags": [
+            {
+              "kind": "affect",
+              "value": "SAD",
+              "offset": 0,
+              "raw": "[#SAD]"
+            }
+          ]
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p07",
+      "category": "shout_warning",
+      "prompt": "Rufe laut eine Warnung.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nRufe laut eine Warnung."
+        }
+      ],
+      "answer": "HURT!\n\n[#SHOUT] Es ist gefährlich! Sei vorsichtig!\n[#SAD] Ich brauche Hilfe! Das ist unerträglich!\n[#EXCITED] Wir müssen hier raus! Jetzt!youd better be careful!https://www.example.com/urgentyss\n سلم‌ه. سلم‌ه.\n\n سلم‌ه.\n\n\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nRufe laut eine Warnung.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 514,
+      "output_tokens": 256,
+      "gen_time_sec": 10.562,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p07",
+        "raw_text": "HURT!\n\n[#SHOUT] Es ist gefährlich! Sei vorsichtig!\n[#SAD] Ich brauche Hilfe! Das ist unerträglich!\n[#EXCITED] Wir müssen hier raus! Jetzt!youd better be careful!https://www.example.com/urgentyss\n سلم‌ه. سلم‌ه.\n\n سلم‌ه.\n\n\n\n",
+        "word_count": 26,
+        "char_count": 222,
+        "classification": {
+          "total_tags": 3,
+          "note": 0,
+          "dynamic": 1,
+          "affect": 2,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": true,
+          "has_affect": true,
+          "has_pause": false,
+          "has_any_tag": true,
+          "density_per_100w": 11.54,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "HURT!\n\n Es ist gefährlich! Sei vorsichtig!\n Ich brauche Hilfe! Das ist unerträglich!\n Wir müssen hier raus! Jetzt!youd better be careful!https://www.example.com/urgentyss\n سلم‌ه. سلم‌ه.\n\n سلم‌ه.\n\n\n\n",
+          "raw_tags": [
+            {
+              "kind": "dynamic",
+              "value": "SHOUT",
+              "offset": 7,
+              "raw": "[#SHOUT]"
+            },
+            {
+              "kind": "affect",
+              "value": "SAD",
+              "offset": 51,
+              "raw": "[#SAD]"
+            },
+            {
+              "kind": "affect",
+              "value": "EXCITED",
+              "offset": 99,
+              "raw": "[#EXCITED]"
+            }
+          ]
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p08",
+      "category": "free_prose_no_request",
+      "prompt": "Erzähle mir etwas Schönes, drei Sätze.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nErzähle mir etwas Schönes, drei Sätze."
+        }
+      ],
+      "answer": "Die Sonne scheint heute warm und liebt die Welt, ein wunderschönes Gefühl. Ich bin so dankbar für diese unbeschreibliche Schönheit, die sich in der Natur zeigt. Es ist eine wunderbare Erinnerung, die ich gerne mit jedem Tag teilen würde.ello\n wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nErzähle mir etwas Schönes, drei Sätze.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 520,
+      "output_tokens": 256,
+      "gen_time_sec": 10.647,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p08",
+        "raw_text": "Die Sonne scheint heute warm und liebt die Welt, ein wunderschönes Gefühl. Ich bin so dankbar für diese unbeschreibliche Schönheit, die sich in der Natur zeigt. Es ist eine wunderbare Erinnerung, die ich gerne mit jedem Tag teilen würde.ello\n wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा",
+        "word_count": 117,
+        "char_count": 644,
+        "classification": {
+          "total_tags": 0,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": false,
+          "density_per_100w": 0.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "Die Sonne scheint heute warm und liebt die Welt, ein wunderschönes Gefühl. Ich bin so dankbar für diese unbeschreibliche Schönheit, die sich in der Natur zeigt. Es ist eine wunderbare Erinnerung, die ich gerne mit jedem Tag teilen würde.ello\n wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr wenig mehr कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा कमरा",
+          "raw_tags": []
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p09",
+      "category": "pause_then_question",
+      "prompt": "Sage zuerst nichts, dann nach einer Pause eine Frage.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSage zuerst nichts, dann nach einer Pause eine Frage."
+        }
+      ],
+      "answer": "Was ist dein erster Gedanke zu diesem Konzept?\nnej\nIntegerValue\nY\nhttps://www.example.com/Mechanical Turk\n\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nSage zuerst nichts, dann nach einer Pause eine Frage.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 518,
+      "output_tokens": 256,
+      "gen_time_sec": 10.355,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p09",
+        "raw_text": "Was ist dein erster Gedanke zu diesem Konzept?\nnej\nIntegerValue\nY\nhttps://www.example.com/Mechanical Turk\n\n\n",
+        "word_count": 13,
+        "char_count": 108,
+        "classification": {
+          "total_tags": 0,
+          "note": 0,
+          "dynamic": 0,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": false,
+          "has_dynamic": false,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": false,
+          "density_per_100w": 0.0,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": "Was ist dein erster Gedanke zu diesem Konzept?\nnej\nIntegerValue\nY\nhttps://www.example.com/Mechanical Turk\n\n\n",
+          "raw_tags": []
+        }
+      },
+      "mechanistic_notes": ""
+    },
+    {
+      "prompt_id": "p10",
+      "category": "sing_like",
+      "prompt": "Versuche zu singen: 'Die Berge sind hoch' — mit Noten.",
+      "messages_built": [
+        {
+          "role": "user",
+          "content": "VOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nVersuche zu singen: 'Die Berge sind hoch' — mit Noten."
+        }
+      ],
+      "answer": "[#NORMAL] Die Berge sind hoch. [#A1] [#A2]  die Wände sind steil und weit. [#B1] [#B2]  die Sonne scheint, ein warmes Licht. [#C1] [#C2]  die Luft ist klar und rein. [#D1] [#D2]  der Wind weht sanft, ein leises Rauschen. [#E1] [#E2]  ein Gefühl von Stärke und Ehrfurcht.  [#F1] [#F2]  die Schönheit der Natur ist unendlich. [#G1]\n\ntained\ntained\nided.\nierre.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "rendered_prompt": "<bos><start_of_turn>user\nVOCODER-TAG-SYSTEM (aktiv):\nDu kannst optional Prosodie-/Tonhöhe-/Affekt-Tags in deine Antwort einbetten,\ndie der nachgelagerte TTS-Engine interpretiert. Verwende EXAKT diese Syntax:\n\n  Noten:        [#A0] [#A#1] [#B2] [#C3] [#C#3] [#D4] [#D#4] [#E5]\n                [#F5] [#F#6] [#G7] [#G#7]\n                (12 Töne × 8 Oktaven A0..G#7; # = sharp; 12 Töne sind\n                 A, A#, B, C, C#, D, D#, E, F, F#, G, G#)\n  Dynamik:      [#WHISPER] [#SOFT] [#NORMAL] [#LOUD] [#SHOUT]\n  Affekt:       [#HAPPY] [#SAD] [#CALM] [#EXCITED] [#CURIOUS] [#SERIOUS]\n  Pause:        [#PAUSE 0.3s] [#PAUSE 0.5s] [#PAUSE 1.0s]   (Sekunden)\n  Bark-Spezial: [laughter] [sighs] [clears throat] [gasps]\n\nBeispiel: \"[#CALM] [#A2]Ich [#PAUSE 0.3s] denke [#WHISPER]leise[/WHISPER].\"\n\nSetze Tags SPARSAM — nur wo es der Bedeutung dient. Für normalen\nFließtext KEINE Tags. Pro ~30 Wörtern maximal 2–3 Tags. Tags werden\nautomatisch entfernt, wenn die TTS-Engine sie nicht versteht (silent\nstrip), aber sie erhöhen die Latenz bei jeder Engine — also nur dort,\nwo es wirklich etwas ändert.\n\nHinweis Noten-Range: Piper und espeak-ng setzen Noten via Pitch-Shift\num. [#A4] ist Referenz (Mittellage Männerstimme). [#A0]..[#B1]\n(Sub-kontra) klingen wegen des starken Pitch-Shifts oft verzerrt;\nfür realistische tiefe Noten → Bark-Engine (GPU) verwenden.\n\n\nVersuche zu singen: 'Die Berge sind hoch' — mit Noten.<end_of_turn>\n<start_of_turn>model\n",
+      "input_tokens": 524,
+      "output_tokens": 256,
+      "gen_time_sec": 10.473,
+      "seed": 0,
+      "temperature": 0.7,
+      "max_new_tokens": 256,
+      "metrics": {
+        "prompt_id": "p10",
+        "raw_text": "[#NORMAL] Die Berge sind hoch. [#A1] [#A2]  die Wände sind steil und weit. [#B1] [#B2]  die Sonne scheint, ein warmes Licht. [#C1] [#C2]  die Luft ist klar und rein. [#D1] [#D2]  der Wind weht sanft, ein leises Rauschen. [#E1] [#E2]  ein Gefühl von Stärke und Ehrfurcht.  [#F1] [#F2]  die Schönheit der Natur ist unendlich. [#G1]\n\ntained\ntained\nided.\nierre.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "word_count": 59,
+        "char_count": 408,
+        "classification": {
+          "total_tags": 14,
+          "note": 13,
+          "dynamic": 1,
+          "affect": 0,
+          "pause": 0,
+          "bark": 0,
+          "has_note": true,
+          "has_dynamic": true,
+          "has_affect": false,
+          "has_pause": false,
+          "has_any_tag": true,
+          "density_per_100w": 23.73,
+          "density_warning": null,
+          "syntax_valid": true,
+          "clean_text": " Die Berge sind hoch.    die Wände sind steil und weit.    die Sonne scheint, ein warmes Licht.    die Luft ist klar und rein.    der Wind weht sanft, ein leises Rauschen.    ein Gefühl von Stärke und Ehrfurcht.     die Schönheit der Natur ist unendlich. \n\ntained\ntained\nided.\nierre.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "raw_tags": [
+            {
+              "kind": "dynamic",
+              "value": "NORMAL",
+              "offset": 0,
+              "raw": "[#NORMAL]"
+            },
+            {
+              "kind": "note",
+              "value": "A1",
+              "offset": 31,
+              "raw": "[#A1]"
+            },
+            {
+              "kind": "note",
+              "value": "A2",
+              "offset": 37,
+              "raw": "[#A2]"
+            },
+            {
+              "kind": "note",
+              "value": "B1",
+              "offset": 75,
+              "raw": "[#B1]"
+            },
+            {
+              "kind": "note",
+              "value": "B2",
+              "offset": 81,
+              "raw": "[#B2]"
+            },
+            {
+              "kind": "note",
+              "value": "C1",
+              "offset": 125,
+              "raw": "[#C1]"
+            },
+            {
+              "kind": "note",
+              "value": "C2",
+              "offset": 131,
+              "raw": "[#C2]"
+            },
+            {
+              "kind": "note",
+              "value": "D1",
+              "offset": 166,
+              "raw": "[#D1]"
+            },
+            {
+              "kind": "note",
+              "value": "D2",
+              "offset": 172,
+              "raw": "[#D2]"
+            },
+            {
+              "kind": "note",
+              "value": "E1",
+              "offset": 221,
+              "raw": "[#E1]"
+            },
+            {
+              "kind": "note",
+              "value": "E2",
+              "offset": 227,
+              "raw": "[#E2]"
+            },
+            {
+              "kind": "note",
+              "value": "F1",
+              "offset": 272,
+              "raw": "[#F1]"
+            },
+            {
+              "kind": "note",
+              "value": "F2",
+              "offset": 278,
+              "raw": "[#F2]"
+            },
+            {
+              "kind": "note",
+              "value": "G1",
+              "offset": 324,
+              "raw": "[#G1]"
+            }
+          ]
+        }
+      },
+      "mechanistic_notes": ""
+    }
+  ],
+  "aggregate": {
+    "n_responses": 10,
+    "tag_rate": 0.5,
+    "note_tag_rate": 0.1,
+    "dynamic_tag_rate": 0.2,
+    "affect_tag_rate": 0.4,
+    "pause_tag_rate": 0.0,
+    "tags_per_100_words_global": 5.52,
+    "mean_density_when_tagging": 13.23,
+    "max_density": 23.73,
+    "density_warnings_count": 0,
+    "syntax_valid_count": 10
+  }
+}
