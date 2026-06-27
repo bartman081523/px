@@ -117,20 +117,24 @@ async def chat_completions(request: ChatCompletionRequest):
     if model_id not in MODEL_REGISTRY:
         raise HTTPException(404, f"Model {model_id} not found")
 
-    try:
-        model_entry = await manager.get_model(
-            model_id,
-            px_subjective=request.px_subjective,
-            px_gamma=request.px_gamma,
-            px_routing_mode=request.px_routing_mode,
-            px_config_preset=request.px_config_preset,
-            px_relay_sign=request.px_relay_sign,
-            px_relay_alpha=request.px_relay_alpha,
-            px_relay_layer=request.px_relay_layer,
-            quantization=request.quantization,
-        )
-    except Exception as e:
-        raise HTTPException(503, f"Failed to load model: {e}")
+    # Plan 7.1: try/except entfernt — unbehandelte Exceptions crashen jetzt
+    # den Server (via sys.excepthook), statt in 503 zu verschwinden.
+    # Original:
+    #   try:
+    #       model_entry = await manager.get_model(...)
+    #   except Exception as e:
+    #       raise HTTPException(503, f"Failed to load model: {e}")
+    model_entry = await manager.get_model(
+        model_id,
+        px_subjective=request.px_subjective,
+        px_gamma=request.px_gamma,
+        px_routing_mode=request.px_routing_mode,
+        px_config_preset=request.px_config_preset,
+        px_relay_sign=request.px_relay_sign,
+        px_relay_alpha=request.px_relay_alpha,
+        px_relay_layer=request.px_relay_layer,
+        quantization=request.quantization,
+    )
 
     messages = [{"role": m.role.value, "content": m.content} for m in request.messages]
 
@@ -153,18 +157,20 @@ async def chat_completions(request: ChatCompletionRequest):
             },
         )
 
-    # Non-streaming
-    try:
-        result = await generate_chat_completion(
-            model_entry=model_entry,
-            messages=messages,
-            temperature=request.temperature,
-            top_p=request.top_p,
-            max_tokens=request.max_tokens,
-            stop=request.stop,
-        )
-    except Exception as e:
-        raise HTTPException(500, f"Generation failed: {e}")
+    # Plan 7.1: try/except entfernt — Generation-Crash → Server-Crash.
+    # Original:
+    #   try:
+    #       result = await generate_chat_completion(...)
+    #   except Exception as e:
+    #       raise HTTPException(500, f"Generation failed: {e}")
+    result = await generate_chat_completion(
+        model_entry=model_entry,
+        messages=messages,
+        temperature=request.temperature,
+        top_p=request.top_p,
+        max_tokens=request.max_tokens,
+        stop=request.stop,
+    )
 
     # Collect PX metrics
     px_metrics = manager.get_px_metrics(model_id)
@@ -202,20 +208,24 @@ async def completions(request: CompletionRequest):
     if model_id not in MODEL_REGISTRY:
         raise HTTPException(404, f"Model {model_id} not found")
 
-    try:
-        model_entry = await manager.get_model(
-            model_id,
-            px_subjective=request.px_subjective,
-            px_gamma=request.px_gamma,
-            px_routing_mode=request.px_routing_mode,
-            px_config_preset=request.px_config_preset,
-            px_relay_sign=request.px_relay_sign,
-            px_relay_alpha=request.px_relay_alpha,
-            px_relay_layer=request.px_relay_layer,
-            quantization=request.quantization,
-        )
-    except Exception as e:
-        raise HTTPException(503, f"Failed to load model: {e}")
+    # Plan 7.1: try/except entfernt — unbehandelte Exceptions crashen jetzt
+    # den Server (via sys.excepthook), statt in 503 zu verschwinden.
+    # Original:
+    #   try:
+    #       model_entry = await manager.get_model(...)
+    #   except Exception as e:
+    #       raise HTTPException(503, f"Failed to load model: {e}")
+    model_entry = await manager.get_model(
+        model_id,
+        px_subjective=request.px_subjective,
+        px_gamma=request.px_gamma,
+        px_routing_mode=request.px_routing_mode,
+        px_config_preset=request.px_config_preset,
+        px_relay_sign=request.px_relay_sign,
+        px_relay_alpha=request.px_relay_alpha,
+        px_relay_layer=request.px_relay_layer,
+        quantization=request.quantization,
+    )
 
     if request.stream:
         return StreamingResponse(
@@ -236,17 +246,20 @@ async def completions(request: CompletionRequest):
             },
         )
 
-    try:
-        result = await generate_completion(
-            model_entry=model_entry,
-            prompt=request.prompt,
-            temperature=request.temperature,
-            top_p=request.top_p,
-            max_tokens=request.max_tokens,
-            stop=request.stop,
-        )
-    except Exception as e:
-        raise HTTPException(500, f"Generation failed: {e}")
+    # Plan 7.1: try/except entfernt — Generation-Crash → Server-Crash.
+    # Original:
+    #   try:
+    #       result = await generate_completion(...)
+    #   except Exception as e:
+    #       raise HTTPException(500, f"Generation failed: {e}")
+    result = await generate_completion(
+        model_entry=model_entry,
+        prompt=request.prompt,
+        temperature=request.temperature,
+        top_p=request.top_p,
+        max_tokens=request.max_tokens,
+        stop=request.stop,
+    )
 
     px_metrics = manager.get_px_metrics(model_id)
     telemetry.record(

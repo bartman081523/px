@@ -579,24 +579,26 @@ async def generate_chat_completion_stream(
         do_sample = gen_kwargs.get("do_sample", False)
 
         def _chunked_worker():
-            try:
-                _chunked_generate(
-                    model,
-                    inputs["input_ids"],
-                    max_new_tokens=max_tokens,
-                    do_sample=do_sample,
-                    eos_token_id=eos_id,
-                    streamer=streamer,
-                    pixel_values=inputs.get("pixel_values"),
-                    token_type_ids=inputs.get("token_type_ids"),
-                )
-            except Exception as _e:
-                import traceback as _tb
-                _tb.print_exc()
-                try:
-                    streamer.end()
-                except Exception:
-                    pass
+            # Plan 7.1: try/except entfernt — Exception propagiert zu
+            # threading.excepthook → crash_handler._log_and_die().
+            # Original:
+            #   try:
+            #       _chunked_generate(...)
+            #   except Exception as _e:
+            #       import traceback as _tb
+            #       _tb.print_exc()
+            #       try: streamer.end()
+            #       except Exception: pass
+            _chunked_generate(
+                model,
+                inputs["input_ids"],
+                max_new_tokens=max_tokens,
+                do_sample=do_sample,
+                eos_token_id=eos_id,
+                streamer=streamer,
+                pixel_values=inputs.get("pixel_values"),
+                token_type_ids=inputs.get("token_type_ids"),
+            )
 
         thread = Thread(target=_chunked_worker)
         thread.start()
