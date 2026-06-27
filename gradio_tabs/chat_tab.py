@@ -151,7 +151,7 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     # If history is empty (e.g. after loading a session or if save_history=False),
     # load it from the session storage to ensure continuity.
     if (not history or len(history) == 0) and session_id:
-        data = load_session(session_id)
+        data = load_session(session_id) or {}
         history = data.get("history", [])
     
     cleaned_history = _clean_history(history)
