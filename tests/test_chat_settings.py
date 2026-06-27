@@ -91,6 +91,45 @@ def test_widget_updates_use_defaults_for_missing_keys():
         )
 
 
+def test_widget_updates_unknown_profile_falls_back_to_neutral():
+    """Legacy 'ASSISTANT' aus alten Sessions wird auf 'neutral' gemappt.
+
+    Hintergrund: Commit d7322c4 hat das Profile-Dropdown eingeführt,
+    das nur [neutral, citmind, juexin] kennt. Vorher persistierte
+    SETTINGS_DEFAULTS 'ASSISTANT' — Gradio lehnt diesen Wert ab und
+    wirft 500 Internal Server Error. Der Fallback hier fängt das ab,
+    ohne die Settings-Datei direkt zu mutieren.
+    """
+    s = {**SETTINGS_DEFAULTS, "system_profile": "ASSISTANT"}
+    out = widget_updates_from_settings(s)
+    d = dict(out["system_profile"])
+    assert d.get("value") == "neutral", (
+        f"expected 'neutral', got {d.get('value')!r}"
+    )
+
+
+def test_widget_updates_known_profile_preserved():
+    """Bekannte Profile (neutral, citmind, juexin) bleiben unangetastet."""
+    for prof in ["neutral", "citmind", "juexin"]:
+        out = widget_updates_from_settings(
+            {**SETTINGS_DEFAULTS, "system_profile": prof})
+        d = dict(out["system_profile"])
+        assert d.get("value") == prof, (
+            f"{prof}: expected preserved, got {d.get('value')!r}"
+        )
+
+
+def test_widget_updates_unknown_profile_string_falls_back_to_neutral():
+    """Auch andere ungültige Strings (nicht nur 'ASSISTANT') werden gemappt."""
+    for bogus in ["", "FOO", "ChatBot", "null"]:
+        out = widget_updates_from_settings(
+            {**SETTINGS_DEFAULTS, "system_profile": bogus})
+        d = dict(out["system_profile"])
+        assert d.get("value") == "neutral", (
+            f"{bogus!r}: expected 'neutral', got {d.get('value')!r}"
+        )
+
+
 # ── SettingsDebouncer ──
 
 def test_debouncer_merges_pending_changes():

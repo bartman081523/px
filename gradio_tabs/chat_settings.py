@@ -25,6 +25,7 @@ from typing import Any, Callable, Dict, Optional
 import gradio as gr
 
 from sessions import SETTINGS_DEFAULTS, SETTINGS_FIELDS
+from gradio_tabs.system_prompt import list_profiles as _list_profiles
 
 
 def settings_from_widgets(*, model_id: str, px_preset: str,
@@ -76,6 +77,13 @@ def widget_updates_from_settings(settings: dict) -> Dict[str, gr.update]:
     """
     s = {**SETTINGS_DEFAULTS, **(settings or {})}
     auto = bool(s["auto_tune"])
+    # Defensive: unbekannte Profile (z.B. Legacy "ASSISTANT" aus alten
+    # Session-Files vor Commit d7322c4) auf "neutral" mappen, sonst
+    # lehnt Gradio's Dropdown-Validation den Wert ab (500 Internal Error).
+    _known_profiles = _list_profiles()
+    _profile_value = (
+        s["system_profile"] if s["system_profile"] in _known_profiles else "neutral"
+    )
     return {
         "model_id": gr.update(value=s["model_id"]),
         "px_preset": gr.update(value=s["px_preset"]),
@@ -90,7 +98,7 @@ def widget_updates_from_settings(settings: dict) -> Dict[str, gr.update]:
         "relay_sign": gr.update(value=s["relay_sign"]),
         "relay_alpha": gr.update(value=s["relay_alpha"]),
         "relay_layer": gr.update(value=s["relay_layer"]),
-        "system_profile": gr.update(value=s["system_profile"]),
+        "system_profile": gr.update(value=_profile_value),
         "system_prompt_text": gr.update(value=s["system_prompt_text"]),
         "tts_engine": gr.update(value=s["tts_engine"]),
         "tts_sample_rate": gr.update(value=s["tts_sample_rate"]),

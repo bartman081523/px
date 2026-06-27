@@ -35,7 +35,7 @@ SETTINGS_DEFAULTS: Dict[str, Any] = {
     "relay_sign": 1,
     "relay_alpha": 0.0,
     "relay_layer": 16,
-    "system_profile": "ASSISTANT",
+    "system_profile": "neutral",
     "system_prompt_text": "",
     "tts_engine": "piper",
     "tts_sample_rate": 22050,
