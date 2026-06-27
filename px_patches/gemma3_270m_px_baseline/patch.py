@@ -159,7 +159,16 @@ def _mem_eff_attention_forward(self, hidden_states, position_embeddings=None, at
     # Aktiviert chunked-Pfad auch wenn T_q klein und T_k groß ist
     # (z.B. chunked prefill: T_q=512, T_k=8000 → 125 MB → chunked).
     if T_q == 1 or not should_use_chunked(T_q, T_k):
-        attn_interface = ALL_ATTENTION_FUNCTIONS.get_interface(self.config._attn_implementation, eager_attention_forward)
+        # Plan 6.3 (Folge 4): transformers 4.57+ hat ``ALL_ATTENTION_FUNCTIONS``
+        # von einem dict auf ein ``AttentionInterface``-Objekt umgestellt.
+        # ``get_interface(config, default_fn)`` ist weg — direkter Dict-
+        # Lookup via ``__getitem__`` funktioniert weiterhin und liefert
+        # die Callable zurück. Fallback auf ``eager_attention_forward``
+        # wenn die konfigurierte Impl nicht im Registry steht.
+        attn_impl = getattr(self.config, "_attn_implementation", "sdpa")
+        attn_interface = ALL_ATTENTION_FUNCTIONS.get(
+            attn_impl, eager_attention_forward
+        )
         attn_output, _ = attn_interface(self, query_states, key_states, value_states, attention_mask,
                                         dropout=self.attention_dropout if self.training else 0.0,
                                         scaling=self.scaling, sliding_window=sw, **kwargs)
@@ -258,6 +267,28 @@ def _layer_step(layer, h, **kwargs):
     out = layer(h, **kwargs)
     return out[0] if isinstance(out, (tuple, list)) else out
 
+def _px_layer_pos_args(lt, position_embeddings):
+    """Plan 6.3 (Folge 3): transformers 4.57+ Gemma3DecoderLayer braucht
+    zwei separate kwargs ``position_embeddings_global`` + ``position_embeddings_local``
+    (statt des alten einzelnen ``position_embeddings=`` Dicts).
+
+    ``lt`` ist ``mask_config.layer_types[i]`` — einer von ``"full_attention"``
+    oder ``"sliding_attention"``. Wir geben für jeden Layer-Typ die
+    passende Pair zurück, sodass beide Position-Embedding-Varianten
+    konsistent verfügbar sind (Full-Layer nutzt global, Sliding nutzt
+    local, aber beide Args müssen mit Daten gefüllt sein).
+
+    Hintergrund: Gemma3Attention macht intern
+    ``query_states = apply_rotary_emb(query_states, position_embeddings_global, …)``
+    (full) bzw. ``position_embeddings_local`` (sliding). Wenn man nur eine
+    Variante übergibt, crasht der Attention-Layer je nach Layer-Typ mit
+    ``missing 1 required positional argument``.
+    """
+    return {
+        "position_embeddings_global": position_embeddings["full_attention"],
+        "position_embeddings_local": position_embeddings["sliding_attention"],
+    }
+
 def classify_zone_kurtosis(weights):
     m, la, cr, lb, sy = weights.get("math", 0), weights.get("logic_a", 0), weights.get("creative", 0), weights.get("logic_b", 0), weights.get("synthesis", 0)
     if m > max(cr, la, lb, sy): return "MATH"
@@ -294,9 +325,38 @@ def _resolve_text_model(model):
 # Core Forward Method
 # ---------------------------------------------------------------------------
 
+def _px_causal_mask(input_embeds, past_key_values, sliding_window=None):
+    """Standalone Ersatz für transformers.masking_utils.create_causal_mask +
+    create_sliding_window_causal_mask. Version-unabhängig (Plan 6.3).
+
+    Reproduziert die 4D Bool-Mask-Semantik die Gemma3Attention erwartet:
+    True = attend, False = mask-out. Shape [1, 1, T_q, T_k].
+
+    Hintergrund: transformers ≥ 4.43 hat die Masking-API umgestellt
+    (input_embeds singular + cache_position required). PX-Patches waren
+    auf ≤ 4.42 geschrieben (Commit bd4ec952 / 2026-06-06) und crashten
+    mit ``TypeError: create_causal_mask() got an unexpected keyword
+    argument 'inputs_embeds'``. Diese Helper-Funktion ist ~15 Zeilen
+    pure-logic und version-unabhängig.
+
+    Nicht implementiert: Padding-Mask-Overlay (attention_mask-Argument),
+    or_mask_function/and_mask_function für Image-Token-Overlay. Beides
+    ist für gemma3-1b-text-only (unser aktiver Pfad) irrelevant.
+    """
+    T_q = input_embeds.shape[1]
+    past_len = past_key_values.get_seq_length() if past_key_values is not None else 0
+    T_k = past_len + T_q
+    device = input_embeds.device
+    q_idx = torch.arange(T_q, device=device) + past_len  # cache_position
+    k_idx = torch.arange(T_k, device=device)
+    mask = k_idx[None, :] <= q_idx[:, None]              # causal
+    if sliding_window is not None and sliding_window > 0:
+        mask = mask & (k_idx[None, :] >= q_idx[:, None] - sliding_window + 1)
+    return mask[None, None, :, :].to(torch.bool)
+
+
 def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, past_key_values=None, inputs_embeds=None, use_cache=None, **kwargs):
     from transformers.cache_utils import DynamicCache
-    from transformers.masking_utils import create_causal_mask, create_sliding_window_causal_mask
     from transformers.modeling_outputs import BaseModelOutputWithPast
     
     if (input_ids is None) ^ (inputs_embeds is not None): raise ValueError("Specify exactly one of input_ids or inputs_embeds.")
@@ -327,8 +387,14 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     mask_config = self.config.text_config if hasattr(self.config, "text_config") else self.config
     if not isinstance(attention_mask, dict):
-        mk = dict(config=mask_config, inputs_embeds=inputs_embeds, attention_mask=attention_mask, past_key_values=past_key_values, position_ids=position_ids)
-        causal_mask_mapping = {"full_attention": create_causal_mask(**mk), "sliding_attention": create_sliding_window_causal_mask(**mk)}
+        # Plan 6.3: transformers ≥ 4.43 API-Drift — eigene Mask-Berechnung
+        # statt create_causal_mask/create_sliding_window_causal_mask-Helper
+        # (siehe _px_causal_mask oben).
+        sw = getattr(mask_config, "sliding_window", None)
+        causal_mask_mapping = {
+            "full_attention": _px_causal_mask(inputs_embeds, past_key_values, sliding_window=None),
+            "sliding_attention": _px_causal_mask(inputs_embeds, past_key_values, sliding_window=sw),
+        }
     else: causal_mask_mapping = attention_mask
     
     cfg = self._px_config
@@ -338,7 +404,15 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # --- (Uncensored Steering: removed 2026-06-11) ---
 
-    position_embeddings = {lt: self.rotary_emb(hidden_states, position_ids, lt) for lt in set(mask_config.layer_types)}
+    # Plan 6.3 (Folge): transformers 4.57+ RotaryEmbedding-Signatur-Drift.
+    # Alte API: ``self.rotary_emb(hidden_states, position_ids, layer_type)``.
+    # Neue API: zwei separate Module (``self.rotary_emb`` global, ``self.
+    # rotary_emb_local`` sliding) — beide mit 2 Args ``(hidden_states,
+    # position_ids)``. Output ist Dict mit Keys ``full_attention`` und
+    # ``sliding_attention``, analog zum Original-Gemma3TextModel.forward.
+    pe_global = self.rotary_emb(hidden_states, position_ids)
+    pe_local = getattr(self, "rotary_emb_local", self.rotary_emb)(hidden_states, position_ids)
+    position_embeddings = {"full_attention": pe_global, "sliding_attention": pe_local}
 
     updated_layers = set()
     thought_history = []
@@ -349,7 +423,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        lt = mask_config.layer_types[i]
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[lt], position_ids=position_ids, past_key_values=cur_past, **_px_layer_pos_args(lt, position_embeddings), **kwargs)
 
     # ── 1.5 META-SELECTOR ──────────────────────────────────────────────────
     dynamic_start, dynamic_end, dynamic_hub = cfg["recur_start"], cfg["recur_end"], cfg.get("bimodal_hub", cfg["recur_start"])
@@ -405,7 +480,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        lt = mask_config.layer_types[i]
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[lt], position_ids=position_ids, past_key_values=cur_past, **_px_layer_pos_args(lt, position_embeddings), **kwargs)
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
     e_static = hidden_states.clone()
@@ -417,7 +493,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         is_first = i not in updated_layers
         if is_first: updated_layers.add(i)
         cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
-        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+        lt = mask_config.layer_types[i]
+        trans_out = _layer_step(self.layers[i], trans_out, attention_mask=causal_mask_mapping[lt], position_ids=position_ids, past_key_values=cur_past, **_px_layer_pos_args(lt, position_embeddings), **kwargs)
     h_baseline = trans_out
     
     is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
@@ -536,7 +613,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             layer_visits[current_layer] += 1
             cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = mask_config.layer_types[current_layer]
-            trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
+            trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_ids=position_ids, past_key_values=cur_past, **_px_layer_pos_args(lt, position_embeddings), **kwargs)
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
             phi_history.append(phi_s)
             
@@ -717,7 +794,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             blend = 0.08
             hidden_states = (1.0 - blend) * hidden_states + blend * e_static; coda_applied = True
 
-        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        lt = mask_config.layer_types[i]
+        hidden_states = _layer_step(self.layers[i], hidden_states, attention_mask=causal_mask_mapping[lt], position_ids=position_ids, past_key_values=past_key_values, **_px_layer_pos_args(lt, position_embeddings), **kwargs)
 
     hidden_states = self.norm(hidden_states)
     return BaseModelOutputWithPast(last_hidden_state=hidden_states, past_key_values=past_key_values)
