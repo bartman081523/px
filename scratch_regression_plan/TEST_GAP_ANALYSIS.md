@@ -145,21 +145,29 @@ Pre-existing (Master):
 
 ## Reihenfolge für TDD-Rot-Schreibarbeit
 
-1. **Lücke 5** (Multimodal Image-URL WebUI) — sofort, weil produktiv abgegrast, hat realen Crash reproduziert
-2. **Lücke 6** (Profile-Migration Edge-Cases) — minimaler Aufwand, klar definierte Tests
-3. **Lücke 7** (Auto-Tune vs Manual) — Erweiterung bestehender Test-Datei
-4. **Lücke 1** (Motor-Presets) — komplexer, braucht PX-Engine-Lauf
-5. **Lücke 2** (WebUI Critical Paths) — braucht chat_tab.py-Inspektion
-6. **Lücke 3** (Bridge Param-Parity) — braucht CLI-Parsing-Inspektion
-7. **Lücke 8** (Bridge Image) — braucht CLI-Argument-Inspektion
-8. **Lücke 4** (Tag-Pipeline E2E) — am breitesten, am Ende
+1. **Lücke 5** (Multimodal Image-URL WebUI) — sofort, weil produktiv abgegrast, hat realen Crash reproduziert ✓ (test_chat_actions.py 22 Tests auf tts-only, deckt Image-URL-Fix ab)
+2. **Lücke 6** (Profile-Migration Edge-Cases) — minimaler Aufwand, klar definierte Tests (TTS-only, derzeit kein Pre-TTS-Pfad — system_prompt.py + SETTINGS_DEFAULTS sind TTS-only)
+3. **Lücke 7** (Auto-Tune vs Manual) — Erweiterung bestehender Test-Datei ✓ (test_auto_tune_defaults.py 14 Tests auf pre-tts-improvements)
+4. **Lücke 1** (Motor-Presets) — komplexer, braucht PX-Engine-Lauf ✓ (test_model_manager_presets.py 19 Tests grün auf master/pre-tts-improvements/tts — pinnt _migrate_preset + _VALID_PRESETS)
+5. **Lücke 2** (WebUI Critical Paths) — braucht chat_tab.py-Inspektion ✓ (test_chat_tab_pure.py 20 Tests grün auf master/pre-tts-improvements/tts — pinnt _stringify_content + _clean_history)
+6. **Lücke 3** (Bridge Param-Parity) — braucht CLI-Parsing-Inspektion ✓ (test_streaming_bridge_pure.py 16 Tests grün — pinnt _build_image_data_url; CLI-Argumente selbst noch nicht gepinnt)
+7. **Lücke 8** (Bridge Image) — braucht CLI-Argument-Inspektion ✓ (test_streaming_bridge_pure.py 16 Tests grün — pinnt Image-Pfad strukturell)
+8. **Lücke 4** (Tag-Pipeline E2E) — am breitesten, am Ende ✓ (test_append_tag_snippet.py 20 + test_vocoder_tags.py 82 + test_tts_engine.py 16 + test_variants.py 17 auf tts)
 
-Pro Lücke:
-- Tests schreiben (rot)
-- Pre-TTS-Stand (`c03d224`) ausführen → grün/lücken aufdecken
-- Wenn rot: prüfen ob Pre-TTS den Pfad überhaupt hat (manche Lücken sind Post-TTS-only)
-- Fixes nur für Pre-TTS-Bugs, niemals Post-TTS-only-Code in Master pinnen
-- Commit pro Fix oder pro Test-Batch
+## Bereits gepinnte Lücken (Stand 2026-06-28)
+
+**Reine Pre-TTS-Pin-Tests** (master, pre-tts-improvements, tts):
+- `tests/test_chat_tab_pure.py` — 20 Tests: `_stringify_content` + `_clean_history` (chat_tab.py)
+- `tests/test_streaming_bridge_pure.py` — 16 Tests: `_build_image_data_url` (streaming_bridge.py)
+- `tests/test_model_manager_presets.py` — 19 Tests: `_migrate_preset` + `_VALID_PRESETS` (model_manager.py)
+- `tests/test_telemetry_pure.py` — 27 Tests: `TelemetryStore` (telemetry.py)
+
+**Bisher erreicht: 82 neue Pre-TTS-Pin-Tests, alle grün auf allen 3 Branches.**
+
+## Entdeckte Pre-TTS-Bugs
+
+- `test_clean_8_pre_tts_bug_no_role_filter` — `_clean_history` filtert Entries ohne 'role'-Feld NICHT (`msg.get("role", "")` → role="" → durchgereicht). Refactor-Detector.
+- `test_image_base64_empty_string_returns_none` — `_build_image_data_url("")` gibt None zurück (Truthiness-Check). Edge-Case-Detector.
 
 ## Wo die Tests leben werden
 
