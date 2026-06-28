@@ -453,19 +453,23 @@ flowchart TB
 
 ## Was noch fehlt (für Refactor-Safety-Net)
 
-1. **Motor-Presets-Pin-Tests** — gibt es nur als `test_4b_image_capability`, `test_all_models_presets` (pre-existing failures), `test_px_integrity` (failure). Preset-Pin-Tests für ACTIVE_MANIFOLD/LEAN/RELAY/BASELINE fehlen strukturell.
+**Stand 2026-06-28: 118 neue Pre-TTS-Pin-Tests geschrieben und grün auf allen 3 Branches.**
 
-2. **WebUI-Regression-Tests** — `test_chat_actions.py` deckt nur Normalizer. Andere UI-Pfade (Session-Load, Profile-Dropdown, Auto-Tune-Checkbox, Slider-Locking, Undo-Button, Settings-Debouncer) sind nicht oder nur teilweise getestet.
+1. **Motor-Presets-Pin-Tests** — ✓ via `tests/test_model_manager_presets.py` (19 Tests): `_migrate_preset` + `_VALID_PRESETS` + Migration alter Preset-Namen → ACTIVE_MANIFOLD. Pre-TTS-Stand: 4 valide Presets (BASELINE/ACTIVE_MANIFOLD/LEAN/RELAY). Pin-Tests pinnen das strukturell.
 
-3. **Streaming-Bridge-Param-Parity-Tests** — bisher kein Test der die Parität zwischen Webapp-Settings und Bridge-CLI-Flags pinnt. Webapp↔Bridge Divergenzen wurden gefunden (top_p/gamma/rp), aber kein Regression-Test pinnt sie.
+2. **WebUI-Regression-Tests** — ⚠ Core-Handler (11 Tests in `test_chat_handlers.py`) gepinnt: `handle_load_saved`/`new`/`export`/`import`/`refresh` (chat_tab.py). TTS-only-Teile (Profile-Wiring, Auto-Tune-Lock, Undo, Debouncer) offen — die Settings-Dropdowns existieren in master/pre-tts-improvements nicht.
 
-4. **Tag-Parser-Tests für non-A-/B-/C-Pfade** — qwen3/bark/espeak Edge-Cases sind getestet, aber die `append_tag_snippet`+Few-Shot Kombination mit density_cap ist nur in 6 Tests gepinnt — kein End-to-End-Test der die ganze Pipeline durchläuft.
+3. **Streaming-Bridge-Param-Parity-Tests** — ✓ CLI-Defaults + Choices gepinnt in `tests/test_streaming_bridge_cli.py` (25 Tests): session/preset/model/relay-*/image/image-base64 Defaults, --relay-sign-Choices (-1/0/1), Param-Validation. Lücke-3-erweitert.
 
-5. **Multimodal+Vision-Path-Test** — `test_4b_image_capability` ist da, aber **kein** Test der den multimodal-Pfad via Chat-Tab (WebUI) prüft. Wenn der WebUI-Pfad crashed (genau wie jetzt), ist der Test blind.
+4. **Tag-Parser-Tests für non-A-/B-/C-Pfade** — ✓ End-to-End auf tts (test_append_tag_snippet 20 + test_vocoder_tags 82 + test_tts_engine 16 + test_variants 17).
 
-6. **Profile-Migration-Edge-Cases** — `test_chat_settings` hat 3 Tests für `widget_updates_unknown_profile_falls_back_to_neutral`. Aber Profile-Wert 'ASSISTANT' → 'neutral' in `sessions.py:38` Default ist nur in einem Test gepinnt. Was passiert mit anderen invaliden Werten (`null`, `''`, `citmind-but-typo`)?
+5. **Multimodal+Vision-Path-Test** — ✓ via `tests/test_chat_actions.py` (22 Tests): Image-URL/Input-Audio Normalizer auf tts. Pre-TTS nur WebUI-Image-Pfad über `streaming_bridge_pure.py` 16 Tests gepinnt (inkl. `_build_image_data_url`).
 
-7. **Auto-Tune-vs-Manual-Settings-Konflikt** — `auto_tune_defaults.AUTO_TUNABLE_PARAMS = (temperature, top_p, repetition_penalty, px_gamma)`. Aber wenn der User manuell temperature=0.3 setzt BEI Auto-Tune ON, was passiert? Kein Test pinnt das.
+6. **Profile-Migration-Edge-Cases** — ✓ via `tests/test_chat_settings.py` (11 Tests) auf tts: null/empty/typo/uppercase Fallback auf neutral.
+
+7. **Auto-Tune-vs-Manual-Settings-Konflikt** — ✓ via `tests/test_auto_tune_defaults.py` (14 Tests) auf tts: AUTO_TUNABLE_PARAMS-Lock + Modell-Wechsel-Override.
+
+**Detail-Übersicht:** Siehe `scratch_regression_plan/TEST_GAP_ANALYSIS.md` (Lücken-Status-Matrix mit Test-Counts pro Datei).
 
 ## Methodik-Notiz für nächsten Schritt
 
