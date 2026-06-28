@@ -171,17 +171,17 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # Causal mask mapping — EXACTLY like original
     if not isinstance(causal_mask_mapping := attention_mask, dict):
-        mk = dict(config=self.config, inputs_embeds=inputs_embeds, attention_mask=attention_mask,
-                  past_key_values=past_key_values, position_ids=position_ids)
+        cache_position = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
+        mk = dict(config=self.config, input_embeds=inputs_embeds, attention_mask=attention_mask,
+                  cache_position=cache_position, past_key_values=past_key_values, position_ids=position_ids)
         causal_mask_mapping = {
             "full_attention": create_causal_mask(**mk),
             "sliding_attention": create_sliding_window_causal_mask(**mk),
         }
 
-    # Position embeddings — EXACTLY like original
-    position_embeddings = {}
-    for layer_type in self.unique_layer_types:
-        position_embeddings[layer_type] = self.rotary_emb(inputs_embeds, position_ids, layer_type)
+    # Position embeddings — Plan 6.3+ (transformers 4.57.3): two rotary modules
+    pe_global = self.rotary_emb(inputs_embeds, position_ids)
+    pe_local = getattr(self, "rotary_emb_local", self.rotary_emb)(inputs_embeds, position_ids)
 
     # shared_kv_states — EXACTLY like original (pop from kwargs!)
     shared_kv_states = kwargs.pop("shared_kv_states", UserDict())
@@ -216,7 +216,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 hidden_states, pli,
                 shared_kv_states=shared_kv_states,
                 attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=cur_past,
                 **kwargs,
@@ -237,7 +237,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 hidden_states, pli,
                 shared_kv_states=shared_kv_states,
                 attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=cur_past,
                 **kwargs,
@@ -343,7 +343,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 hidden_states, pli,
                 shared_kv_states=shared_kv_states,
                 attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=cur_past,
                 **kwargs,
@@ -365,7 +365,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 trans_out, pli,
                 shared_kv_states=shared_kv_states,
                 attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=cur_past,
                 **kwargs,
@@ -426,7 +426,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                     h_loop, pli,
                     shared_kv_states=recursion_shared_kv,
                     attention_mask=causal_mask_mapping[lt],
-                    position_embeddings=position_embeddings[lt],
+                    position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                     position_ids=position_ids,
                     past_key_values=None,
                     **kwargs,
@@ -474,7 +474,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 hidden_states, pli,
                 shared_kv_states=shared_kv_states,
                 attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-                position_embeddings=position_embeddings[self.config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=cur_past,
                 **kwargs,
@@ -535,7 +535,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             hidden_states, pli,
             shared_kv_states=shared_kv_states,
             attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=cur_past,
             **kwargs,
@@ -604,7 +604,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             hidden_states, pli,
             shared_kv_states=shared_kv_states,
             attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=cur_past,
             **kwargs,
@@ -628,7 +628,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             trans_out, pli,
             shared_kv_states=shared_kv_states,
             attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=cur_past,
             **kwargs,
@@ -725,7 +725,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 h_exp, pli,
                 shared_kv_states=recursion_shared_kv,
                 attention_mask=causal_mask_mapping[lt],
-                position_embeddings=position_embeddings[lt],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=None,
                 **kwargs,
@@ -879,7 +879,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             hidden_states, pli,
             shared_kv_states=shared_kv_states,
             attention_mask=causal_mask_mapping[self.config.layer_types[i]],
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=past_key_values,
             **kwargs,
@@ -950,9 +950,9 @@ def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, 
             'sliding_attention': create_sliding_window_causal_mask(**mask_kwargs),
         }
     hidden_states = inputs_embeds
-    position_embeddings = {}
-    for layer_type in self.unique_layer_types:
-        position_embeddings[layer_type] = self.rotary_emb(hidden_states, position_ids, layer_type)
+    # Plan 6.3+ (transformers 4.57.3): two rotary modules (global+local)
+    pe_global = self.rotary_emb(hidden_states, position_ids)
+    pe_local = getattr(self, "rotary_emb_local", self.rotary_emb)(hidden_states, position_ids)
     shared_kv_states = kwargs.pop('shared_kv_states', UserDict())
     if shared_kv_states is None:
         shared_kv_states = UserDict()
@@ -963,7 +963,7 @@ def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, 
         hidden_states = self.layers[i](
             hidden_states, pli,
             shared_kv_states=shared_kv_states,
-            position_embeddings=position_embeddings[self.config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             attention_mask=causal_mask_mapping[self.config.layer_types[i]],
             position_ids=position_ids,
             past_key_values=past_key_values,
