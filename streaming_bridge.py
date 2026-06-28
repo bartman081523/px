@@ -68,7 +68,9 @@ def save_local_session(session_id, history):
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
 
-def main():
+def _build_argparser():
+    """Baut den streaming_bridge CLI-Argument-Parser. Pure-Funktion, damit
+    Tests die Defaults + Choices pinnen können ohne main() zu triggern."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--session", type=str, default="aab82b16", help="Session ID to load or create")
     parser.add_argument("--message", type=str, help="The message to send (if omitted, will ask)")
@@ -127,7 +129,11 @@ def main():
                              "System-Prompt angehängt — das LLM kann dann [#A0]/"
                              "[#PAUSE]/[#WHISPER] in die Antwort einbetten. "
                              "Stripping passiert engine-spezifisch vor Synthese.")
-    args = parser.parse_args()
+    return parser
+
+
+def main():
+    args = _build_argparser().parse_args()
 
     session_id = args.session
     print("="*60)
