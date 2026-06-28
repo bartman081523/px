@@ -1,0 +1,44 @@
+{
+  "timestamp": 1782651761.1562684,
+  "datetime": "2026-06-28T15:02:41.156273",
+  "model_id": "minicpm5-1b",
+  "prompt_tokens": 11,
+  "completion_tokens": 15,
+  "px_metrics": {
+    "phi": 0.9988893866539001,
+    "steps": 9,
+    "path": [
+      "L9(0.9990737438201904296875)",
+      "L10(0.9986511468887329101562)",
+      "L11(0.9988895058631896972656)",
+      "L12(0.9986633658409118652344)",
+      "L13(0.9989675283432006835938)",
+      "L14(0.9987388849258422851562)",
+      "L15(0.9990456700325012207031)",
+      "L16(0.9988349080085754394531)",
+      "L17(0.9991397261619567871094)"
+    ],
+    "telemetry": [],
+    "subjective": false,
+    "cognitive_signature": {
+      "kurtosis": 17.246212005615234,
+      "phi": 0.9988893866539001,
+      "token_diversity": 0.6363636363636364,
+      "zone": "BLEND ()",
+      "zone_weights": {},
+      "emancipation_final": null,
+      "aks_correction": 0.0,
+      "loops_run": 9,
+      "path_length": 9,
+      "subjective": false,
+      "focus_index": 0.5,
+      "gamma": 0.06
+    },
+    "zone": "BLEND ()",
+    "zone_weights": {},
+    "emancipation_trajectory": [],
+    "aks_profile": {}
+  },
+  "prompt": "Hi",
+  "completion": "**\u4e00\u3001**\u4e00\u3001**\u4e8c\u3001**\u4e09\u3001**\u56db\u3001"
+}
