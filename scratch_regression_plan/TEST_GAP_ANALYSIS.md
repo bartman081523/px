@@ -161,8 +161,31 @@ Pre-existing (Master):
 - `tests/test_streaming_bridge_pure.py` — 16 Tests: `_build_image_data_url` (streaming_bridge.py)
 - `tests/test_model_manager_presets.py` — 19 Tests: `_migrate_preset` + `_VALID_PRESETS` (model_manager.py)
 - `tests/test_telemetry_pure.py` — 27 Tests: `TelemetryStore` (telemetry.py)
+- `tests/test_chat_handlers.py` — 11 Tests: `handle_load_saved`/`new`/`export`/`import`/`refresh` (chat_tab.py)
+- `tests/test_streaming_bridge_cli.py` — 25 Tests: `_build_argparser` CLI-Defaults + Choices (streaming_bridge.py)
 
-**Bisher erreicht: 82 neue Pre-TTS-Pin-Tests, alle grün auf allen 3 Branches.**
+**Bisher erreicht: 118 neue Pre-TTS-Pin-Tests, alle grün auf allen 3 Branches.**
+
+**Lücken-Status-Matrix (Stand 2026-06-28):**
+
+| Lücke | Beschreibung | Status |
+|-------|--------------|--------|
+| 1 | Motor-Presets | ✓ via test_model_manager_presets.py (19 Tests) |
+| 2 | WebUI Critical Paths | ⚠ Core-Handler gepinnt (11), TTS-only-Teile offen (Profile-Wiring, Auto-Tune-Lock, Undo, Debouncer) |
+| 3 | Bridge Param-Parity | ✓ CLI-Defaults+Choices gepinnt (25 Tests, Lücke 3 erweitert) |
+| 4 | Tag-Pipeline E2E | ✓ auf tts (test_append_tag_snippet 20 + test_vocoder_tags 82 + test_tts_engine 16 + test_variants 17) |
+| 5 | Multimodal+Vision WebUI | ✓ via test_chat_actions.py (22 Tests) auf tts |
+| 6 | Profile-Migration Edge-Cases | ✓ via test_chat_settings.py (11 Tests) auf tts |
+| 7 | Auto-Tune vs Manual | ✓ via test_auto_tune_defaults.py (14 Tests) auf tts |
+| 8 | Bridge Image-Pfad | ✓ via test_streaming_bridge_pure.py (16 Tests, inkl. --image/--image-base64-Pin) |
+
+**Verbleibend für Lücke 2** (alle TTS-only):
+- Profile-Wechsel via Dropdown → `system_prompt.py:inject_into_messages` mit neuem Profil (TTS-Stand)
+- Auto-Tune-Checkbox ON + manueller Set → keine sofortige UI-Überschreibung (Debouncer) (TTS-Stand)
+- Undo-Button → History-State-Reset auf vorigen Snapshot (TTS-Stand)
+- SettingsDebouncer 400ms → 5 schnelle Changes zu 1 final-Call (TTS-Stand)
+
+Diese Tests sind nur auf tts-Branch sinnvoll (die Settings-Dropdowns existieren in master/pre-tts-improvements nicht). Wenn der User Refactor-Start wünscht, vorab Task-Snapshot anlegen.
 
 ## Entdeckte Pre-TTS-Bugs
 
