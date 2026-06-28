@@ -258,10 +258,12 @@ def _px_forward(
 
     # ── Llama: Single causal mask (no layer_types, no sliding window) ──
     if not isinstance(attention_mask, torch.Tensor):
+        cache_position = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
         causal_mask = create_causal_mask(
             config=self.config,
-            inputs_embeds=inputs_embeds,
+            input_embeds=inputs_embeds,
             attention_mask=attention_mask,
+            cache_position=cache_position,
             past_key_values=past_key_values,
             position_ids=position_ids,
         )

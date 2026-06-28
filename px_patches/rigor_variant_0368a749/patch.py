@@ -228,10 +228,12 @@ def _px_forward(
         mask_config = mask_config.text_config
 
     if not isinstance(attention_mask, dict):
+        cache_position = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
         mk = dict(
             config=mask_config,
-            inputs_embeds=inputs_embeds,
+            input_embeds=inputs_embeds,
             attention_mask=attention_mask,
+            cache_position=cache_position,
             past_key_values=past_key_values,
             position_ids=position_ids,
         )
@@ -243,11 +245,9 @@ def _px_forward(
         causal_mask_mapping = attention_mask
 
     hidden_states = inputs_embeds
-    position_embeddings = {}
-    for layer_type in set(mask_config.layer_types):
-        position_embeddings[layer_type] = self.rotary_emb(
-            hidden_states, position_ids, layer_type
-        )
+    # Plan 6.3+ (transformers 4.57.3): two rotary modules (global+local)
+    pe_global = self.rotary_emb(hidden_states, position_ids)
+    pe_local = getattr(self, "rotary_emb_local", self.rotary_emb)(hidden_states, position_ids)
 
     cfg = self._px_config
     updated_layers = set() # Phase 14.9: Global visit tracker for this forward pass
@@ -258,7 +258,7 @@ def _px_forward(
         layer_out = self.layers[i](
             hidden_states,
             attention_mask=causal_mask_mapping[mask_config.layer_types[i]],
-            position_embeddings=position_embeddings[mask_config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=past_key_values,
             **kwargs,
@@ -358,7 +358,7 @@ def _px_forward(
             layer_out = self.layers[i](
                 hidden_states,
                 attention_mask=causal_mask_mapping[mask_config.layer_types[i]],
-                position_embeddings=position_embeddings[mask_config.layer_types[i]],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=past_key_values,
                 **kwargs,
@@ -379,7 +379,7 @@ def _px_forward(
         layer_out = self.layers[i_layer](
             trans_out,
             attention_mask=causal_mask_mapping[l_type],
-            position_embeddings=position_embeddings[l_type],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=past_key_values,
             **kwargs,
@@ -616,7 +616,7 @@ def _px_forward(
             layer_out = self.layers[current_layer](
                 h_exp,
                 attention_mask=causal_mask_mapping[l_type],
-                position_embeddings=position_embeddings[l_type],
+                position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                 position_ids=position_ids,
                 past_key_values=current_past, 
                 **kwargs,
@@ -779,14 +779,14 @@ def _px_forward(
 
                     out_a = self.layers[next_l](
                         h_a, attention_mask=causal_mask_mapping[nl_type],
-                        position_embeddings=position_embeddings[nl_type],
+                        position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                         position_ids=position_ids, past_key_values=lookahead_past, **kwargs
                     )[0]
                     phi_a = StabilityMonitor.calculate_phi(out_a, h_a).item()
                     
                     out_b = self.layers[next_l](
                         h_b, attention_mask=causal_mask_mapping[nl_type],
-                        position_embeddings=position_embeddings[nl_type],
+                        position_embeddings_global=pe_global, position_embeddings_local=pe_local,
                         position_ids=position_ids, past_key_values=lookahead_past, **kwargs
                     )[0]
                     phi_b = StabilityMonitor.calculate_phi(out_b, h_b).item()
@@ -936,7 +936,7 @@ def _px_forward(
         layer_out = self.layers[i](
             hidden_states,
             attention_mask=causal_mask_mapping[mask_config.layer_types[i]],
-            position_embeddings=position_embeddings[mask_config.layer_types[i]],
+            position_embeddings_global=pe_global, position_embeddings_local=pe_local,
             position_ids=position_ids,
             past_key_values=past_key_values,
             **kwargs,
