@@ -21,6 +21,11 @@ os.environ.setdefault("DEBUG_ROUTING", "0")
 os.environ.setdefault("DEBUG_PX", "0")
 os.environ.setdefault("SUBJECTIVE_TELEMETRY", "0")
 
+# Plan 7.1: Hard-Crash auf unbehandelte Exceptions — sys/threading/faulthandler-
+# Hooks installieren. ENV PX_HARD_CRASH=0 macht install() zum no-op.
+import crash_handler
+crash_handler.install()
+
 import gradio as gr
 from server import app as fastapi_app, manager
 from config import MODEL_REGISTRY, SERVER_CONFIG
@@ -115,5 +120,21 @@ if __name__ == "__main__":
     if use_ssl:
         run_kwargs["ssl_certfile"] = ssl_cert
         run_kwargs["ssl_keyfile"] = ssl_key
-        
-    uvicorn.run(**run_kwargs)
+
+    # Plan 7.1: uvicorn.Server statt uvicorn.run() damit wir nach
+    # Loop-Creation den asyncio-Hook attachen können (uvicorn.run()
+    # versteckt den Loop hinter einer Fire-and-forget-Wrapper-Funktion).
+    config = uvicorn.Config(**run_kwargs)
+    server = uvicorn.Server(config)
+
+    _orig_startup = server.startup
+    async def _patched_startup(sockets=None):
+        await _orig_startup(sockets=sockets)
+        # uvicorn ≥0.30 speichert den Loop erst während serve() als
+        # ``server.main_loop``. Hier läuft unser Patched-Startup im
+        # selben Loop, also können wir den aktuellen direkt greifen.
+        import asyncio as _asyncio
+        crash_handler.install_asyncio(_asyncio.get_running_loop())
+    server.startup = _patched_startup
+
+    server.run()
