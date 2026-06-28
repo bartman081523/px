@@ -17261,3 +17261,441 @@ INFO:     127.0.0.1:54714 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Se
 INFO:     127.0.0.1:54714 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
 INFO:     127.0.0.1:60340 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
 INFO:     127.0.0.1:60340 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1808082]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:48040 - "GET /v1/models HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1837758]
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=None)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:45562 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m-it to be free for unloading...
+[ModelManager] Unloading model gemma3-270m-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m-it unloaded.
+[ModelManager] Loading gemma3-270m from google/gemma-3-270m (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-270m quantization=none (bf16 path)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m loaded and patched successfully.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:56838 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m to be free for unloading...
+[ModelManager] Unloading model gemma3-270m to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m unloaded.
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:56844 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-270m-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:60680 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m-it to be free for unloading...
+[ModelManager] Unloading model gemma3-270m-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m-it unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:50054 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:36084 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=False, gamma=None, routing=None, preset=None)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+INFO:     127.0.0.1:36100 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53466 - "POST /v1/chat/completions HTTP/1.1" 422 Unprocessable Entity
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD_RELAY)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:53482 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD_LEAN)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:46724 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD_RELAY)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=-1.0 alpha_frac=0.5 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:45752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:45760 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-270m-it to be free for unloading...
+[ModelManager] Unloading model gemma3-270m-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-270m-it unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:36294 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:47530 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:47540 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-1b from google/gemma-3-1b-pt (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-1b quantization=none (bf16 path)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:49410 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b to be free for unloading...
+[ModelManager] Unloading model gemma3-1b to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b unloaded.
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=False, preset=None)...
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.86s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  3.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  4.00s/it]
+Some parameters are on the meta device because they were offloaded to the cpu.
+INFO:     127.0.0.1:59038 - "POST /v1/chat/completions HTTP/1.1" 503 Service Unavailable
+[ModelManager] Loading minicpm5-1b from openbmb/MiniCPM5-1B (type=llama, subjective=False, preset=None)...
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/utils/modeling.py:1566: UserWarning: Current model requires 128 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+  warnings.warn(
+[ModelManager] minicpm5-1b quantization=none (bf16 path)
+[minicpm5-px] Peak patch active for L24. Preset: SUBJECTIVE.
+[ModelManager] minicpm5-1b loaded and patched successfully.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+INFO:     127.0.0.1:59682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for minicpm5-1b to be free for unloading...
+[ModelManager] Unloading model minicpm5-1b to free memory...
+[minicpm5-px] Patch removed.
+[ModelManager] minicpm5-1b unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:35966 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:60218 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD_RELAY)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] ACTIVE sign=+1.0 alpha_frac=0.3 L21 hf=google/gemma-3-1b-it dir=WIDE_minus_NARROW_L16_meanK
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:33100 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35010 - "GET /gradio HTTP/1.1" 307 Temporary Redirect
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-4b from google/gemma-3-4b-pt (type=gemma3_conditional, subjective=False, preset=None)...
+[ModelManager] gemma3-4b processor loaded for multimodal inputs.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:23<00:23, 23.11s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:31<00:00, 14.47s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:31<00:00, 15.77s/it]
+[ModelManager] gemma3-4b quantization=none (bf16 path)
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:55158 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-4b to be free for unloading...
+[ModelManager] Unloading model gemma3-4b to free memory...
+[ModelManager] gemma3-4b unloaded.
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=False, preset=None)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:06<00:06,  6.53s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.77s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.34s/it]
+Some parameters are on the meta device because they were offloaded to the cpu.
+INFO:     127.0.0.1:40308 - "POST /v1/chat/completions HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:45778 - "GET /v1/sessions HTTP/1.1" 404 Not Found
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=True, preset=ACTIVE_MANIFOLD_LEAN)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/utils/modeling.py:1566: UserWarning: Current model requires 33282 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.42it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.40it/s]
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (vision_model): SiglipVisionTransformer(
+        (embeddings): SiglipVisionEmbeddings(
+          (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+          (position_embedding): Embedding(4096, 1152)
+        )
+        (encoder): SiglipEncoder(
+          (layers): ModuleList(
+            (0-26): 27 x SiglipEncoderLayer(
+              (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+              (self_attn): SiglipAttention(
+                (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              )
+              (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+              (mlp): SiglipMLP(
+                (activation_fn): GELUTanh()
+                (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              )
+            )
+          )
+        )
+        (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+      )
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+      (rotary_emb_local): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD_LEAN (kausaler Kern). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:55526 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:51228 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-4b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-4b-it (subjective=True, gamma=None, routing=None, preset=ACTIVE_MANIFOLD)...
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L34 (HS=2560).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:45178 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:55012 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:51306 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-4b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-4b-it to free memory...
+[ModelManager] gemma3-4b-it unloaded.
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+INFO:     127.0.0.1:51882 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[ModelManager] Waiting for gemma3-1b-it to be free for re-patching...
+[ModelManager] Re-patching gemma3-1b-it (subjective=True, gamma=0.06, routing=None, preset=ACTIVE_MANIFOLD)...
+[gemma3-px-subjective] Patch removed.
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:32862 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41054 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41058 - "GET /v1/px/metrics/gemma3-1b-it HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37998 - "GET /gradio_api/info HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51852 - "GET /gradio_api/info HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:45638 - "GET /gradio_api/info HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:37270 - "GET /gradio_api/info HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35882 - "GET /config HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:48766 - "GET /config HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35624 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35586 - "GET /gradio/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33654 - "GET /gradio/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54864 - "GET /gradio/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48670 - "POST /gradio/api/handle_refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47196 - "POST /gradio/api/handle_refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57422 - "POST /gradio/call/handle_refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50902 - "POST /gradio/queue/join HTTP/1.1" 404 Not Found
+[ModelManager] Waiting for gemma3-1b-it to be free for unloading...
+[ModelManager] Unloading model gemma3-1b-it to free memory...
+[gemma3-px-subjective] Patch removed.
+[ModelManager] gemma3-1b-it unloaded.
+[ModelManager] Loading gemma3-4b-it from google/gemma-3-4b-it (type=gemma3_conditional, subjective=False, preset=None)...
+[ModelManager] gemma3-4b-it processor loaded for multimodal inputs.
+/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/accelerate/utils/modeling.py:1566: UserWarning: Current model requires 33282 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  5.24it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  6.92it/s]
+[ModelManager] gemma3-4b-it quantized int8: Gemma3ForConditionalGeneration(
+  (model): Gemma3Model(
+    (vision_tower): SiglipVisionModel(
+      (vision_model): SiglipVisionTransformer(
+        (embeddings): SiglipVisionEmbeddings(
+          (patch_embedding): Conv2d(3, 1152, kernel_size=(14, 14), stride=(14, 14), padding=valid)
+          (position_embedding): Embedding(4096, 1152)
+        )
+        (encoder): SiglipEncoder(
+          (layers): ModuleList(
+            (0-26): 27 x SiglipEncoderLayer(
+              (layer_norm1): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+              (self_attn): SiglipAttention(
+                (k_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (v_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (q_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (out_proj): QuantizedLinear(in_features=1152, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              )
+              (layer_norm2): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+              (mlp): SiglipMLP(
+                (activation_fn): GELUTanh()
+                (fc1): QuantizedLinear(in_features=1152, out_features=4304, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+                (fc2): QuantizedLinear(in_features=4304, out_features=1152, bias=True, dtype=torch.bfloat16, storage=int8+scale)
+              )
+            )
+          )
+        )
+        (post_layernorm): LayerNorm((1152,), eps=1e-06, elementwise_affine=True, bias=True)
+      )
+    )
+    (multi_modal_projector): Gemma3MultiModalProjector(
+      (mm_soft_emb_norm): Gemma3RMSNorm((1152,), eps=1e-06)
+      (avg_pool): AvgPool2d(kernel_size=4, stride=4, padding=0)
+    )
+    (language_model): Gemma3TextModel(
+      (embed_tokens): Gemma3TextScaledWordEmbedding(262208, 2560, padding_idx=0)
+      (layers): ModuleList(
+        (0-33): 34 x Gemma3DecoderLayer(
+          (self_attn): Gemma3Attention(
+            (q_proj): QuantizedLinear(in_features=2560, out_features=2048, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (k_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (v_proj): QuantizedLinear(in_features=2560, out_features=1024, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (o_proj): QuantizedLinear(in_features=2048, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+          )
+          (mlp): Gemma3MLP(
+            (gate_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (up_proj): QuantizedLinear(in_features=2560, out_features=10240, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (down_proj): QuantizedLinear(in_features=10240, out_features=2560, bias=False, dtype=torch.bfloat16, storage=int8+scale)
+            (act_fn): GELUTanh()
+          )
+          (input_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (pre_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+          (post_feedforward_layernorm): Gemma3RMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Gemma3RMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Gemma3RotaryEmbedding()
+      (rotary_emb_local): Gemma3RotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=262208, bias=False)
+) Linears replaced
+[gemma3-px] Patched 34 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L34 (HS=2560).
+[ModelManager] gemma3-4b-it loaded and patched successfully.
+[Telemetry] Failed to save telemetry file: Object of type Tensor is not JSON serializable
+INFO:     127.0.0.1:51246 - "POST /v1/chat/completions HTTP/1.1" 200 OK

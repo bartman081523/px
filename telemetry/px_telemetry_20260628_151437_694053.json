@@ -1,0 +1,25 @@
+{
+  "timestamp": 1782652477.6940327,
+  "datetime": "2026-06-28T15:14:37.694036",
+  "model_id": "gemma3-4b-it",
+  "prompt_tokens": 11,
+  "completion_tokens": 15,
+  "px_metrics": {
+    "phi": 0.5074111223220825,
+    "steps": 2,
+    "path": [
+      "L8",
+      "L8",
+      "L8"
+    ],
+    "zone": "MATH",
+    "zone_weights": {
+      "math": 0.2,
+      "logic_a": 0.2,
+      "logic_b": 0.2,
+      "creative": 0.2,
+      "synthesis": 0.2
+    },
+    "cognitive_signature": {
+      "kurtosis": 2441.52490234375,
+      "phi": 
