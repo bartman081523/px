@@ -17211,3 +17211,53 @@ INFO:     127.0.0.1:51630 - "POST /v1/chat/completions HTTP/1.1" 200 OK
 [generate] auto chunked_prefill (input_len=5533 > 4500; use_cache=False würde langsam, chunked_prefill ist 6x schneller)
 [generate] multimodal + long context (T=5533) → use_cache=False Fallback (chunked_generate hat noch keine Vision-Token-Position-Heuristik)
 INFO:     127.0.0.1:52832 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+=== PX-Subjective Local Debug Start (HTTPS) ===
+HOST: 0.0.0.0
+PORT: 7860
+DEBUG_ROUTING=0
+DEBUG_PX=0
+SUBJECTIVE_TELEMETRY=0
+SSL_CERTFILE=/run/media/julian/ML4/ollama-work/all_space_6_16_stand/ssl/cert.pem
+=========================================
+[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/[PX Explorer] Starting on 0.0.0.0:7860 (SSL: True)
+[PX Explorer] API:  https://localhost:7860/v1/
+[PX Explorer] UI:   https://localhost:7860/gradio
+
+[PX Explorer] UI:   https://localhost:7860/gradio
+INFO:     Started server process [1338495]
+INFO:     Started server process [1338495]
+INFO:     Waiting for application startup.
+INFO:     Waiting for application startup.
+[PX API] Server starting...
+[PX API] Server starting...
+INFO:     Application startup complete.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     Uvicorn running on https://0.0.0.0:7860 (Press CTRL+C to quit)
+INFO:     127.0.0.1:40350 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40350 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40360 - "GET /gradio HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:40360 - "GET /gradio HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:40374 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40374 - "GET /v1/models HTTP/1.1" 200 OK
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+[ModelManager] Loading gemma3-1b-it from google/gemma-3-1b-it (type=gemma3, subjective=False, preset=None)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[ModelManager] gemma3-1b-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[AutoCalibrator] Loaded manifold for google/gemma-3-1b-it (T=0.60)
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[gemma3-px] Patched 26 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L26 (HS=1152).
+
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+[ModelManager] gemma3-1b-it loaded and patched successfully.
+INFO:     127.0.0.1:54714 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:54714 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60340 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60340 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error

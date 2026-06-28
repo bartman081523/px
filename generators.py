@@ -372,6 +372,9 @@ async def generate_chat_completion(
             processed_messages, tokenize=False, add_generation_prompt=True
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+        # Plan 7.2: Llama-Modelle kennen token_type_ids nicht — entfernen wenn tokenizer es fälschlich setzt (z.B. MiniCPM5-1B).
+        if "token_type_ids" in inputs and "token_type_ids" not in getattr(model, "forward", lambda **k: None).__code__.co_varnames:
+            inputs.pop("token_type_ids", None)
     input_len = inputs["input_ids"].shape[1]
 
     # Generate
@@ -437,7 +440,7 @@ async def generate_chat_completion(
                 do_sample=gen_kwargs.get("do_sample", False),
                 eos_token_id=eos_id,
                 pixel_values=inputs.get("pixel_values"),
-                token_type_ids=inputs.get("token_type_ids"),
+                **({"token_type_ids": inputs["token_type_ids"]} if inputs.get("token_type_ids") is not None else {}),
                 # Plan 4: chunked-vision-encoder liefert pre-merged
                 # text+image embeddings → inputs_embeds statt pixel_values.
                 # Wenn chunked-vision-encoder aktiv war, ist
@@ -514,6 +517,9 @@ async def generate_chat_completion_stream(
             processed_messages, tokenize=False, add_generation_prompt=True
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+        # Plan 7.2: Llama-Modelle kennen token_type_ids nicht — entfernen wenn tokenizer es fälschlich setzt (z.B. MiniCPM5-1B).
+        if "token_type_ids" in inputs and "token_type_ids" not in getattr(model, "forward", lambda **k: None).__code__.co_varnames:
+            inputs.pop("token_type_ids", None)
     input_len = inputs["input_ids"].shape[1]
 
     # Setup streamer
@@ -588,7 +594,7 @@ async def generate_chat_completion_stream(
                     eos_token_id=eos_id,
                     streamer=streamer,
                     pixel_values=inputs.get("pixel_values"),
-                    token_type_ids=inputs.get("token_type_ids"),
+                    **({"token_type_ids": inputs["token_type_ids"]} if inputs.get("token_type_ids") is not None else {}),
                 )
             except Exception as _e:
                 import traceback as _tb

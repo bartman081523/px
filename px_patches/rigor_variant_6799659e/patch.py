@@ -162,11 +162,14 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     if position_ids is None: position_ids = (torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen).unsqueeze(0)
     mask_config = self.config.text_config if hasattr(self.config, "text_config") else self.config
     if not isinstance(attention_mask, dict):
-        mk = dict(config=mask_config, inputs_embeds=inputs_embeds, attention_mask=attention_mask, past_key_values=past_key_values, position_ids=position_ids)
+        cache_position = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
+        mk = dict(config=mask_config, input_embeds=inputs_embeds, attention_mask=attention_mask, cache_position=cache_position, past_key_values=past_key_values, position_ids=position_ids)
         causal_mask_mapping = {"full_attention": create_causal_mask(**mk), "sliding_attention": create_sliding_window_causal_mask(**mk)}
     else: causal_mask_mapping = attention_mask
     hidden_states = inputs_embeds
-    position_embeddings = {lt: self.rotary_emb(hidden_states, position_ids, lt) for lt in set(mask_config.layer_types)}
+    # Plan 6.3+ (transformers 4.57.3): two rotary modules (global+local)
+    pe_global = self.rotary_emb(hidden_states, position_ids)
+    pe_local = getattr(self, "rotary_emb_local", self.rotary_emb)(hidden_states, position_ids)
 
     cfg = self._px_config
     updated_layers = set()
@@ -183,7 +186,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     # ── 1. PRELUDE (layers 0..recur_start) ─────────────────────────────────
     for i in range(cfg["prelude_end"]):
         updated_layers.add(i)
-        layer_out = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        layer_out = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings_global=pe_global, position_embeddings_local=pe_local, position_ids=position_ids, past_key_values=past_key_values, **kwargs)
         hidden_states = layer_out[0] if isinstance(layer_out, tuple) else layer_out
 
     # --- Phase 56: Central Memory (Recall) ---
@@ -215,7 +218,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         zone_name = self._px_calibrator.classify_zone(kurtosis, phi=getattr(self, "_px_phi", None), token_diversity=getattr(self, "_task_token_diversity", None))
         for i in range(cfg["prelude_end"], dynamic_start):
             updated_layers.add(i)
-            layer_out = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+            layer_out = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings_global=pe_global, position_embeddings_local=pe_local, position_ids=position_ids, past_key_values=past_key_values, **kwargs)
             hidden_states = layer_out[0] if isinstance(layer_out, tuple) else layer_out
 
     # ── 2. REASONING ZONE ──────────────────────────────────────────────────
@@ -224,7 +227,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
     trans_out = hidden_states
     for i in range(dynamic_start, dynamic_end):
         updated_layers.add(i)
-        layer_out = self.layers[i](trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)
+        layer_out = self.layers[i](trans_out, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings_global=pe_global, position_embeddings_local=pe_local, position_ids=position_ids, past_key_values=past_key_values, **kwargs)
         trans_out = layer_out[0] if isinstance(layer_out, tuple) else layer_out
     h_baseline = trans_out
     is_vision = getattr(self, '_px_has_image_tokens', False) and inputs_embeds.shape[1] > 1
@@ -284,7 +287,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             layer_visits[current_layer] += 1
             cur_past = RecursiveMemoryCache(past_key_values, thought_history, layer_types=mask_config.layer_types, read_only=not is_first, expected_len=expected_len) if past_key_values else None
             lt = mask_config.layer_types[current_layer]
-            trans_out = self.layers[current_layer](h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=position_embeddings[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)[0]
+            trans_out = self.layers[current_layer](h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings_global=pe_global, position_embeddings_local=pe_local, position_ids=position_ids, past_key_values=cur_past, **kwargs)[0]
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev).item()
             if t_norm > 0.5 and phi_s > 0.9999:
                 stability_cnt += 1
@@ -341,7 +344,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             blend = 0.08 * (damper.step(i - dynamic_end) if damper else 1.0)
             hidden_states = (1.0 - blend) * hidden_states + blend * e_static
             coda_applied = True
-        hidden_states = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings=position_embeddings[mask_config.layer_types[i]], position_ids=position_ids, past_key_values=past_key_values, **kwargs)[0]
+        hidden_states = self.layers[i](hidden_states, attention_mask=causal_mask_mapping[mask_config.layer_types[i]], position_embeddings_global=pe_global, position_embeddings_local=pe_local, position_ids=position_ids, past_key_values=past_key_values, **kwargs)[0]
     
     hidden_states = self.norm(hidden_states)
     return BaseModelOutputWithPast(last_hidden_state=hidden_states, past_key_values=past_key_values)
