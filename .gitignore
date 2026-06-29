@@ -8,3 +8,9 @@ ssl/
 # committed. Im Gegensatz zu scratches/*/out/ (Forschungs-Artefakte) ist
 # dies Session-Lifetime-Müll.
 tts_outputs/
+
+# Chat-Sessions (smoke-test / dev-Artefakte; 168 Files historisch in
+# d7322c4 'wip tts' mit reingekommen — gehören nicht in den Repo-Stand).
+# Laufzeit-Daten, lokal regenerierbar. Test-Fixtures liegen in
+# tests/fixtures/ (committed) statt hier.
+sessions/

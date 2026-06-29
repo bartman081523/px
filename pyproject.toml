@@ -46,13 +46,6 @@ where = ["."]
 include = ["gradio_tabs*", "px_patches*", "px_modules*", "tests*"]
 exclude = ["scratches*", "sessions*", "telemetry*", "docs*", "out*"]
 
-[tool.pytest.ini_options]
-# Marker für GPU-/Live-Server-Tests (von den Unit-Tests ausgeschlossen).
-markers = [
-    "gpu: requires GPU + model load (skipped in CI unit job)",
-    "live: requires live server (skipped in CI)",
-]
-# Default addopts: laufen alle Tests ohne Marker. CI ruft pytest mit
-# expliziten Pfaden + `-m "not live"` o.ä.
-addopts = "-ra -q"
-testpaths = ["tests"]
+# pytest-Konfig lebt in pytest.ini (single source of truth). pyproject.toml
+# hat absichtlich KEINE [tool.pytest.ini_options]-Section, sonst meckert
+# pytest "ignoring pytest config in pyproject.toml".

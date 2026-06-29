@@ -172,7 +172,7 @@ class TestCrossModelHolographicSessionReplay(unittest.TestCase):
 
     Vorgehen:
       1. Lade cross_model_holographic_01.json
-      2. Erstelle sessions/cross_model_image_test_01.json (Kopie)
+      2. Erstelle tests/fixtures/cross_model_image_test_01.json (Kopie)
       3. Kürze history auf erste 8 turns (vor den Bildern)
       4. Hänge ein user-turn mit rotem Quadrat + Frage dran
       5. Schicke die History ans Modell
@@ -182,9 +182,12 @@ class TestCrossModelHolographicSessionReplay(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.red_b64 = _make_red_square("/tmp/red_square_64.png")
-        src = ROOT / "sessions" / "cross_model_holographic_01.json"
+        # sessions/ ist seit Session-Purge gitignored — Fixtures liegen unter
+        # tests/fixtures/ und werden via Repo getrackt. Frühere Session-
+        # Smoke-Test-Artefakte in sessions/ gehören nicht ins Repo.
+        src = ROOT / "tests" / "fixtures" / "cross_model_holographic_01.json"
         cls.src_session = json.loads(src.read_text())
-        cls.copy_path = ROOT / "sessions" / "cross_model_image_test_01.json"
+        cls.copy_path = ROOT / "tests" / "fixtures" / "cross_model_image_test_01.json"
         # cleanup from prior run
         if cls.copy_path.exists():
             cls.copy_path.unlink()
