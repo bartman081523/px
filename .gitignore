@@ -14,3 +14,10 @@ tts_outputs/
 # Laufzeit-Daten, lokal regenerierbar. Test-Fixtures liegen in
 # tests/fixtures/ (committed) statt hier.
 sessions/
+
+# Debug-Logs: lokal pro Run (Server-Start, Smoke-Test, Stream-Bridge).
+# Mehrere Versionen >50 MB historisch im Repo (Warn-Limit). Ab jetzt:
+# nicht mehr committed.
+local_debug.log
+logs/local_debug.log
+logs/*.log.local

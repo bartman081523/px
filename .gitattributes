@@ -1,8 +1,25 @@
+# Git LFS-Tracking für Binaries in scratches/*/out/.
+# Vor diesem File wurden *.pt + *.bin direkt im Repo getrackt (teilweise >50 MB),
+# was GitHubs Soft-Warn-Limit reizt und Clone-Slow macht. Ab jetzt: LFS.
+# `git lfs ls-files` listet die bereits getrackten LFS-Objekte; `git lfs install`
+# wurde mit `--local` ausgeführt (Hooks nur in diesem Repo).
+#
+# Warum NICHT für ALLE Binaries: tl;dr — Tests + runs die Binaries lokal
+# erzeugen, gehören per Memory-Regel [[scratch-artifacts-stay-in-commits]] ins
+# Repo. Aber *Riesiges* (>5 MB) macht in Git nur Probleme. Heuristik:
+# - PyTorch-Tensor-Files (.pt) → LFS
+# - Numpy-Archive (.npz, .npy) → LFS
+# - Pickle-Dateien (.pkl) → LFS
+# - ONNX / generische Binaries (.onnx, .bin, .h5, .safetensors) → LFS
+# Nicht-LFS-Binaries (sollten weiter als Text committed werden):
+# - JSON, MD, CSV, TSV, Logs → kein LFS
+
+# scratches/ research artefacts
 scratches/**/*.pt filter=lfs diff=lfs merge=lfs -text
-scratches/**/*.bin filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.npz filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.npy filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.pkl filter=lfs diff=lfs merge=lfs -text
+scratches/**/*.bin filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.onnx filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
 tests/fixtures/cross_model_holographic_01.json filter=lfs diff=lfs merge=lfs -text
