@@ -22,4 +22,5 @@ scratches/**/*.pkl filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.bin filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.onnx filter=lfs diff=lfs merge=lfs -text
 scratches/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
+# Test-Fixtures: cross_model_holographic_01.json (80 MB) zu groß für direkten Track → LFS.
 tests/fixtures/cross_model_holographic_01.json filter=lfs diff=lfs merge=lfs -text
