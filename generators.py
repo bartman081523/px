@@ -120,6 +120,48 @@ def _stringify_content(content):
     return str(content)
 
 
+def strip_unsupported_model_kwargs(model, gen_kwargs: dict) -> dict:
+    """Entfernt kwargs aus gen_kwargs, die das Model-Forward nicht akzeptiert.
+
+    Hintergrund (Plan 7.2, 2026-06-30): Llama-basierte Modelle (z.B. MiniCPM5-1B)
+    kennen `token_type_ids` nicht, aber einige Tokenizer (Gemma-kompatibel?)
+    setzen es ungewollt. `model.generate()` validiert model_kwargs VOR dem
+    ersten forward und lehnt unbekannte Keys mit ValueError ab.
+
+    Vorher: der Strip war dupliziert in generate() und chunked_generate().
+    Chat-Tab-Pfad (gradio_tabs/chat_tab.py:generate_with_lock) hatte KEINEN
+    Strip → Live-Crash mit minicpm5-1b + ACTIVE_MANIFOLD_RELAY-Preset
+    ("ValueError: The following `model_kwargs` are not used by the model:
+    ['token_type_ids']").
+
+    Diese Funktion ist die single source of truth: alle Aufrufer von
+    model.generate(**kwargs) müssen sie vorher rufen.
+
+    Implementierung: targeted Liste bekannter "Llama-weiß-nicht"-kwargs
+    (`token_type_ids`). Generische Heuristik (alle kwargs prüfen, ob in
+    forward.co_varnames) ist zu aggressiv — `streamer`, `max_new_tokens`,
+    `do_sample`, `temperature` etc. sind generate()-spezifisch, NICHT
+    forward()-spezifisch, würden aber fälschlich gestrippt.
+
+    Erkenntnis: model.generate() selbst akzeptiert diese generate-spezifischen
+    kwargs (sie sind Teil von GenerationConfig), nur model.forward nicht.
+    transformers' _validate_model_kwargs prüft beide Schichten.
+    """
+    # Targeted: nur kwargs, von denen wir empirisch wissen, dass sie
+    # model.generate() bei Llama-Pfaden crashen.
+    KNOWN_LLAMA_UNSUPPORTED = ("token_type_ids",)
+    forward = getattr(model, "forward", None)
+    if forward is not None and hasattr(forward, "__code__"):
+        supported = set(forward.__code__.co_varnames)
+        return {
+            k: v for k, v in gen_kwargs.items()
+            if k not in KNOWN_LLAMA_UNSUPPORTED or k in supported
+        }
+    # Fallback: forward nicht inspizierbar — generischer Strip auf
+    # known-unsupported kwargs.
+    return {k: v for k, v in gen_kwargs.items() if k not in KNOWN_LLAMA_UNSUPPORTED}
+
+
 def _px_gen_kwargs(model, base: dict) -> dict:
     """Inject PX-specific kwargs (e.g. repetition_penalty, no_repeat_ngram_size)
     onto a generation kwargs dict. The patched model exposes
@@ -372,9 +414,9 @@ async def generate_chat_completion(
             processed_messages, tokenize=False, add_generation_prompt=True
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-        # Plan 7.2: Llama-Modelle kennen token_type_ids nicht — entfernen wenn tokenizer es fälschlich setzt (z.B. MiniCPM5-1B).
-        if "token_type_ids" in inputs and "token_type_ids" not in getattr(model, "forward", lambda **k: None).__code__.co_varnames:
-            inputs.pop("token_type_ids", None)
+        # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids
+        # nicht. Single source of truth: strip_unsupported_model_kwargs.
+        inputs = strip_unsupported_model_kwargs(model, inputs)
     input_len = inputs["input_ids"].shape[1]
 
     # Generate
@@ -517,9 +559,9 @@ async def generate_chat_completion_stream(
             processed_messages, tokenize=False, add_generation_prompt=True
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-        # Plan 7.2: Llama-Modelle kennen token_type_ids nicht — entfernen wenn tokenizer es fälschlich setzt (z.B. MiniCPM5-1B).
-        if "token_type_ids" in inputs and "token_type_ids" not in getattr(model, "forward", lambda **k: None).__code__.co_varnames:
-            inputs.pop("token_type_ids", None)
+        # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids
+        # nicht. Single source of truth: strip_unsupported_model_kwargs.
+        inputs = strip_unsupported_model_kwargs(model, inputs)
     input_len = inputs["input_ids"].shape[1]
 
     # Setup streamer
