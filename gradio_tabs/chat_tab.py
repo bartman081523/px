@@ -208,9 +208,14 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
 
     # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
     try:
-        from generators import _px_gen_kwargs, _inject_eot_eos
+        from generators import _px_gen_kwargs, _inject_eot_eos, strip_unsupported_model_kwargs
         gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
         gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+        # Plan 7.2 / Live-Crash 2026-06-30: Llama-Pfade (z.B. MiniCPM5-1B)
+        # lehnen `token_type_ids` ab, das der Tokenizer fälschlich setzt.
+        # model.generate() validiert VOR dem ersten forward → muss hier
+        # gestrippt werden, nicht erst im forward.
+        gen_kwargs = strip_unsupported_model_kwargs(model, gen_kwargs)
     except ImportError:
         pass
 
