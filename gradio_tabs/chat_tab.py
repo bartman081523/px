@@ -265,7 +265,13 @@ def build_chat_tab(manager: ModelManager):
     # Plan ui-styling Task #183: position="right" verschiebt die Sidebar
     # auf die rechte Seite (Standard in Gradio 6.x ist "left"; rechts ist
     # moderner für Chat-UIs). width=320 ist Default und explizit gesetzt.
+    # Plan ui-styling Task #184: Status-Pill oben (live-Anwendung von
+    # _styles.pill_style — accent=Hintergrund, pill=Radius, weißer Text).
     with gr.Sidebar(label="PX Controls", position="right", width=320):
+        from gradio_tabs._styles import pill_style
+        gr.HTML(
+            f"<div style='{pill_style('Engine: PX', 'accent')}'>Engine: PX ✓</div>"
+        )
         gr.Markdown("### Model Selection")
         model_select = gr.Dropdown(
             choices=model_choices,
