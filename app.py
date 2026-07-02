@@ -34,6 +34,7 @@ from gradio_tabs.chat_tab import build_chat_tab
 from gradio_tabs.cognitive_tests_tab import build_cognitive_tests_tab
 from gradio_tabs.pzombie_eval_tab import build_pzombie_eval_tab
 from gradio_tabs.telemetry_tab import build_telemetry_tab
+from gradio_tabs._styles import get_css
 
 
 # ── Create shared benchmark engine ──
@@ -41,6 +42,9 @@ engine = BenchmarkEngine(manager)
 
 
 # ── Build Gradio Blocks ──
+# Plan ui-styling Task #181: CSS-Variablen aus _styles.py werden in
+# mount_gradio_app(css=...) injiziert (Gradio 6 API: css ist launch-time,
+# nicht Blocks-constructor — siehe UserWarning sonst).
 with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
     # Resolve protocol for UI display
     protocol = "https" if SERVER_CONFIG.get("ssl_cert") and os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), SERVER_CONFIG.get("ssl_cert"))) else "http"
@@ -86,7 +90,8 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
 
 # ── Mount Gradio onto FastAPI at /gradio ──
-app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
+# Plan ui-styling: CSS aus _styles.py an mount_gradio_app weiterreichen.
+app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio", css=get_css())
 
 
 if __name__ == "__main__":

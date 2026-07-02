@@ -316,10 +316,25 @@ def build_chat_tab(manager: ModelManager):
         import_btn = gr.Button("Import & Load", size="sm")
 
     # ── Chat Components ──
-
+    # Plan ui-styling Task #182: Markdown-Renderer + Bubble-Alignment.
+    # render_markdown=True: Assistant-Antworten mit ``` Code-Blöcken werden
+    #   gerendert (default).
+    # sanitize_html=True: HTML in Messages wird escaped (default).
+    # line_breaks=True: Newlines in Plain-Text bleiben sichtbar.
+    # group_consecutive_messages=True: aufeinanderfolgende gleiche Rollen
+    #   werden zu einer Bubble gruppiert (default in 6.15.2).
+    # avatar_images=(None, None): kein Bild-Avatar (Plan-Default).
+    # Hinweis: gr.Blocks(css=...) wird in app.py gesetzt (siehe _styles.py).
     chatbot = gr.Chatbot(
         autoscroll=False,
         scale=1,
+        render_markdown=True,
+        sanitize_html=True,
+        line_breaks=True,
+        group_consecutive_messages=True,
+        avatar_images=(None, None),
+        height=520,
+        show_label=False,
     )
     
     with gr.Row():
