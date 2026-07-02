@@ -262,7 +262,10 @@ def build_chat_tab(manager: ModelManager):
 
     model_choices = list(MODEL_REGISTRY.keys())
 
-    with gr.Sidebar(label="PX Controls"):
+    # Plan ui-styling Task #183: position="right" verschiebt die Sidebar
+    # auf die rechte Seite (Standard in Gradio 6.x ist "left"; rechts ist
+    # moderner für Chat-UIs). width=320 ist Default und explizit gesetzt.
+    with gr.Sidebar(label="PX Controls", position="right", width=320):
         gr.Markdown("### Model Selection")
         model_select = gr.Dropdown(
             choices=model_choices,
