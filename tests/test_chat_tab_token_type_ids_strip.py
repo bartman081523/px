@@ -218,6 +218,100 @@ class TestChatTabImportsStrip(unittest.TestCase):
         )
 
 
+class TestStripPxInternalKwargs(unittest.TestCase):
+    """T7-T10: pin strip_unsupported_model_kwargs für PX-Engine-Internes.
+
+    Hintergrund (Live-Crash auf master, 2026-06-30):
+      POST /v1/chat/completions mit long-context →
+        ValueError: The following `model_kwargs` are not used by the model:
+        ['_px_use_chunked_prefill']
+
+    Ursache: generators.py:_px_gen_kwargs setzt `base["_px_use_chunked_prefill"]=True`
+    als Marker für chunked_generate. Dieser Marker wird in `generate()`
+    gepoppt (Zeile 440: `gen_kwargs.pop("_px_use_chunked_prefill", False)`),
+    ABER nur im chunked-Pfad. Im Standard-pfad bleibt er in gen_kwargs und
+    landet bei model.generate() — wo transformers ihn als unbekanntes kwarg
+    ablehnt.
+
+    Fix: strip_unsupported_model_kwargs muss PX-Engine-Internes (alle Keys
+    mit `_px_` prefix) auch strippen — diese sind NIE in model.forward.
+    """
+
+    def setUp(self):
+        from generators import strip_unsupported_model_kwargs
+        self.strip = strip_unsupported_model_kwargs
+        self.llama_model = _FakeModel(_FakeForward().forward)
+        self.gemma_model = _FakeModel(_FakeForwardGemma().forward)
+
+    def test_t7_strips_px_use_chunked_prefill(self):
+        """_px_use_chunked_prefill ist PX-Internes → muss weg, BEIDE Pfade."""
+        gen_kwargs = {
+            "input_ids": "fake_tensor",
+            "attention_mask": "fake_mask",
+            "_px_use_chunked_prefill": True,
+        }
+        # Auf Llama UND Gemma — der Key ist NIE in forward.
+        for model in (self.llama_model, self.gemma_model):
+            result = self.strip(model, gen_kwargs)
+            self.assertNotIn(
+                "_px_use_chunked_prefill", result,
+                f"_px_use_chunked_prefill must be stripped (PX-internal); "
+                f"got: {result!r}"
+            )
+
+    def test_t8_strips_all_px_prefixed_keys(self):
+        """ALLE Keys mit _px_ prefix sind PX-Internes und müssen gestrippt
+        werden, unabhängig davon ob sie in forward.co_varnames sind.
+
+        Hintergrund: PX-Engine hat ~10 interne Marker (_px_input_len,
+        _px_use_chunked_prefill, _px_skip_apply_template, etc.). Strip muss
+        pauschal für _px_* greifen — sonst crasht ein neuer Marker sofort
+        beim ersten Auftreten (Live-Crash-Logik)."""
+        gen_kwargs = {
+            "input_ids": "fake",
+            "attention_mask": "fake",
+            "_px_use_chunked_prefill": True,
+            "_px_input_len": 1234,
+            "_px_skip_apply_template": False,
+            "_px_some_future_marker": "x",
+        }
+        result = self.strip(self.llama_model, gen_kwargs)
+        for k in ("_px_use_chunked_prefill", "_px_input_len",
+                  "_px_skip_apply_template", "_px_some_future_marker"):
+            self.assertNotIn(
+                k, result,
+                f"{k!r} (_px_-prefixed) must be stripped; got: {result!r}"
+            )
+        # non-_px_ keys bleiben
+        self.assertIn("input_ids", result)
+        self.assertIn("attention_mask", result)
+
+    def test_t9_idempotent_with_px_keys(self):
+        """Strip mit _px_-Keys ist idempotent (zweiter Aufruf no-op)."""
+        gen_kwargs = {
+            "input_ids": "fake", "attention_mask": "fake",
+            "_px_use_chunked_prefill": True,
+        }
+        once = self.strip(self.llama_model, gen_kwargs)
+        twice = self.strip(self.llama_model, once)
+        self.assertEqual(once, twice, "strip must be idempotent for _px_ keys")
+
+    def test_t10_combined_token_type_ids_and_px(self):
+        """Real-Crash-Szenario: token_type_ids UND _px_use_chunked_prefill
+        gleichzeitig in gen_kwargs → BEIDE müssen weg (Llama-Pfad)."""
+        gen_kwargs = {
+            "input_ids": "fake", "attention_mask": "fake",
+            "token_type_ids": "should_be_stripped",
+            "_px_use_chunked_prefill": True,
+            "streamer": "fake_streamer",
+        }
+        result = self.strip(self.llama_model, gen_kwargs)
+        self.assertNotIn("token_type_ids", result)
+        self.assertNotIn("_px_use_chunked_prefill", result)
+        self.assertEqual(result["input_ids"], "fake")
+        self.assertEqual(result["streamer"], "fake_streamer")
+
+
 class TestLlamaForwardHasNoTokenTypeIds(unittest.TestCase):
     """Sanity-Check: Vergewissert uns, dass die Llama-Forward-Signatur
     tatsächlich kein token_type_ids hat. Falls transformers das ändert,

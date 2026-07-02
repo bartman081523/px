@@ -148,18 +148,35 @@ def strip_unsupported_model_kwargs(model, gen_kwargs: dict) -> dict:
     transformers' _validate_model_kwargs prüft beide Schichten.
     """
     # Targeted: nur kwargs, von denen wir empirisch wissen, dass sie
-    # model.generate() bei Llama-Pfaden crashen.
+    # model.generate() crashen.
+    #
+    # token_type_ids — Llama-basierte Modelle (MiniCPM5-1B) kennen es nicht.
+    #   Live-Crash 2026-06-30: "model_kwargs not used: ['token_type_ids']".
+    #
+    # _px_* — PX-Engine-Interne Marker (z.B. _px_use_chunked_prefill, _px_input_len,
+    #   _px_skip_apply_template). Werden in _px_gen_kwargs gesetzt, in
+    #   chunked-Pfaden gepoppt, aber im Standard-generate() bleibt der
+    #   _px_use_chunked_prefill in gen_kwargs und landet bei model.generate().
+    #   Live-Crash 2026-06-30: "model_kwargs not used: ['_px_use_chunked_prefill']".
+    #   Pauschal-Strip für _px_-Prefix ist sicher: alle _px_*-Keys sind
+    #   per Definition nicht in transformers' GenerationConfig / forward.
     KNOWN_LLAMA_UNSUPPORTED = ("token_type_ids",)
+    PX_INTERNAL_PREFIX = "_px_"
     forward = getattr(model, "forward", None)
     if forward is not None and hasattr(forward, "__code__"):
         supported = set(forward.__code__.co_varnames)
         return {
             k: v for k, v in gen_kwargs.items()
-            if k not in KNOWN_LLAMA_UNSUPPORTED or k in supported
+            if (k not in KNOWN_LLAMA_UNSUPPORTED or k in supported)
+            and not k.startswith(PX_INTERNAL_PREFIX)
         }
     # Fallback: forward nicht inspizierbar — generischer Strip auf
-    # known-unsupported kwargs.
-    return {k: v for k, v in gen_kwargs.items() if k not in KNOWN_LLAMA_UNSUPPORTED}
+    # known-unsupported kwargs + PX-Internes.
+    return {
+        k: v for k, v in gen_kwargs.items()
+        if k not in KNOWN_LLAMA_UNSUPPORTED
+        and not k.startswith(PX_INTERNAL_PREFIX)
+    }
 
 
 def _px_gen_kwargs(model, base: dict) -> dict:
