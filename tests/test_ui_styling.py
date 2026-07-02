@@ -188,5 +188,35 @@ class TestStyleHelpers(unittest.TestCase):
         self.assertIn("background:#a371f7", s)  # accent
 
 
+class TestIntegration(unittest.TestCase):
+    """Integration-Smoke: _styles ist von chat_tab + app importierbar.
+
+    Hintergrund (Plan ui-styling, 2026-07-02):
+      chat_tab importiert _styles für die Status-Pill (Task #184).
+      app importiert _styles für mount_gradio_app(css=...) (Task #182).
+      Wenn _styles-Import kaputt geht, brechen alle UI-Builds.
+    """
+
+    def test_styles_importable(self):
+        """_styles.py ist importierbar (kein Syntax/ImportError)."""
+        from gradio_tabs import _styles  # noqa: F401
+
+    def test_get_css_returns_nonempty_string(self):
+        """get_css() returnt non-empty String (für gr.mount_gradio_app)."""
+        from gradio_tabs._styles import get_css
+        css = get_css()
+        self.assertIsInstance(css, str)
+        self.assertGreater(len(css), 100)  # 1410 chars typisch
+
+    def test_pill_style_usable_in_html(self):
+        """pill_style-Output ist gültiger CSS-String (für f-string interpolation)."""
+        from gradio_tabs._styles import pill_style
+        style = pill_style("Test", "accent")
+        # Sollte in f"<div style='{style}'>...</div>" ohne Quote-Bruch passen
+        html = f"<div style='{style}'>Test</div>"
+        self.assertIn("Test", html)
+        self.assertIn("style='", html)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
