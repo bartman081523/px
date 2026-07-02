@@ -192,6 +192,62 @@ def test_multimodal_combination():
     assert args.message == "Was siehst du?"
 
 
+# --- Relay-Layer-Resolver (Plan 6.2c) ----------------------------------
+
+def test_default_relay_resolver_mode_is_cached():
+    """Ohne --relay-resolver-mode: 'cached' (cache hit → heuristic fallback)."""
+    args = _parse_no_args()
+    assert args.relay_resolver_mode == "cached"
+
+
+def test_relay_resolver_mode_accepts_heuristic():
+    """--relay-resolver-mode heuristic → args.relay_resolver_mode == 'heuristic'."""
+    args = _parse(["--relay-resolver-mode", "heuristic"])
+    assert args.relay_resolver_mode == "heuristic"
+
+
+def test_relay_resolver_mode_accepts_mechanistic():
+    """--relay-resolver-mode mechanistic → args.relay_resolver_mode == 'mechanistic'."""
+    args = _parse(["--relay-resolver-mode", "mechanistic"])
+    assert args.relay_resolver_mode == "mechanistic"
+
+
+def test_relay_resolver_mode_rejects_unknown():
+    """--relay-resolver-mode foo → SystemExit (nur cached/heuristic/mechanistic)."""
+    import pytest
+    with pytest.raises(SystemExit):
+        _parse(["--relay-resolver-mode", "foo"])
+
+
+def test_default_relay_auto_discover_is_false():
+    """Ohne --relay-auto-discover: False (kein Sweep beim Start)."""
+    args = _parse_no_args()
+    assert args.relay_auto_discover is False
+
+
+def test_relay_auto_discover_flag_works():
+    """--relay-auto-discover → args.relay_auto_discover is True."""
+    args = _parse(["--relay-auto-discover"])
+    assert args.relay_auto_discover is True
+
+
+def test_resolve_n_layers_known_models():
+    """_resolve_n_layers returnt bekannte Defaults via AutoConfig oder Fallback.
+    gemma3-1b=26, 270m=18. MiniCPM-1B-sft-bf16: 52 Layer (AutoConfig live) oder
+    40 (fallback wenn AutoConfig fehlt) — beide sind valide."""
+    from streaming_bridge import _resolve_n_layers
+    assert _resolve_n_layers("google/gemma-3-1b-it") == 26
+    assert _resolve_n_layers("google/gemma-3-270m-it") == 18
+    cpm = _resolve_n_layers("openbmb/MiniCPM-1B-sft-bf16")
+    assert cpm in (40, 52), f"MiniCPM-1B n_layers={cpm}, expected 40 (fallback) or 52 (AutoConfig)"
+
+
+def test_resolve_n_layers_unknown_falls_back_to_26():
+    """Unbekanntes Modell → fallback 26 (gemma3-1b default)."""
+    from streaming_bridge import _resolve_n_layers
+    assert _resolve_n_layers("totally-unknown/model") == 26
+
+
 def test_help_flag_works():
     """--help → SystemExit (argparse-Standard)."""
     import pytest

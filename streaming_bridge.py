@@ -81,7 +81,16 @@ def _build_argparser():
     parser.add_argument("--relay-alpha", type=float, default=None,
                         help="Relay-Dosis als Bruchteil der L21-last-pos-Norm (kohärenter Chat ~0.30, seite15-stark=0.5)")
     parser.add_argument("--relay-layer", type=int, default=None,
-                        help="Post-recur Injektions-Layer (default 21)")
+                        help="Post-recur Injektions-Layer (default 21, oder "
+                             "auto-resolved via px_patches/_relay_layer_resolver "
+                             "aus px_manifolds/relay_layer_cache.json)")
+    parser.add_argument("--relay-auto-discover", action="store_true",
+                        help="Trigger Layer-Sweep via "
+                             "scratches/relay_layer_sweep/cpm_layer_sweep.py "
+                             "(subprocess). Schreibt Result in Cache + returnt Layer.")
+    parser.add_argument("--relay-resolver-mode", type=str, default="cached",
+                        choices=["cached", "heuristic", "mechanistic"],
+                        help="Resolver-Strategie (default: cached → heuristic fallback)")
     # Multimodal input: --image (local file path, preferred) or
     # --image-base64 (raw base64 or data: URL, fallback for pipelines).
     # When set, the user-turn becomes a content list [image, text].
@@ -96,6 +105,28 @@ def _build_argparser():
     return parser
 
 
+def _resolve_n_layers(model_id: str) -> int:
+    """Versucht n_layers via AutoConfig zu lesen, fallback 26 (gemma3-1b default)."""
+    try:
+        from transformers import AutoConfig
+        cfg = AutoConfig.from_pretrained(model_id, trust_remote_code=True)
+        n = getattr(cfg, "num_hidden_layers", None) or getattr(
+            getattr(cfg, "text_config", None), "num_hidden_layers", None
+        )
+        if n:
+            return int(n)
+    except Exception:
+        pass
+    # bekannte defaults
+    if "gemma-3-1b" in model_id:
+        return 26
+    if "gemma-3-270m" in model_id:
+        return 18
+    if "MiniCPM" in model_id:
+        return 40
+    return 26
+
+
 def main():
     args = _build_argparser().parse_args()
 
@@ -104,9 +135,65 @@ def main():
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
     print(f" MODE: {args.preset} | MODEL: {args.model}")
     if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
+        # Default-Layer vor dem print-Block auflösen, damit user sieht was genutzt wird.
+        if args.relay_layer is not None:
+            resolved_layer = args.relay_layer
+            resolved_via = "explicit-cli"
+        else:
+            from px_patches._relay_layer_resolver import (
+                find_relay_layer, update_cache_entry, _CACHE_PATH,
+            )
+            # --relay-auto-discover: subprocess sweep ausführen, dann mechanistic nutzen
+            if args.relay_auto_discover:
+                import subprocess
+                sweep_script = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)),
+                    "scratches", "relay_layer_sweep", "cpm_layer_sweep.py"
+                )
+                print(f"[relay] auto-discover: triggering sweep via {sweep_script}")
+                try:
+                    subprocess.run(
+                        [sys.executable, sweep_script, "--model-id", args.model,
+                         "--out-dir", os.path.join(
+                             os.path.dirname(os.path.abspath(__file__)),
+                             "scratches", "relay_layer_sweep", "out"
+                         )],
+                        check=False, timeout=1800,
+                    )
+                except Exception as e:
+                    print(f"[relay] WARN auto-discover subprocess failed: {e}",
+                          file=sys.stderr)
+            # mode: cached (default) → fallback heuristic, mechanistic → sweep
+            sweep_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "scratches", "relay_layer_sweep", "out",
+                args.model.replace("/", "_") + "_layers.json"
+            )
+            n_layers = _resolve_n_layers(args.model)
+            resolved_layer = find_relay_layer(
+                args.model, mode=args.relay_resolver_mode,
+                n_layers=n_layers, sweep_path=sweep_path,
+                cache_path=_CACHE_PATH,
+            )
+            resolved_via = f"resolver[{args.relay_resolver_mode}]"
+            # Wenn auto-discover: cache frisch updaten
+            if args.relay_auto_discover and os.path.exists(sweep_path):
+                try:
+                    with open(sweep_path) as f:
+                        sweep = json.load(f)
+                    best = sweep.get("best_layer")
+                    best_r2 = sweep.get("best_layer_r2")
+                    if best is not None:
+                        update_cache_entry(
+                            args.model, best_layer=int(best),
+                            r2_score=float(best_r2 or 0.0),
+                            cache_path=_CACHE_PATH,
+                        )
+                except Exception as e:
+                    print(f"[relay] WARN cache-update failed: {e}", file=sys.stderr)
         print(f" RELAY: sign={args.relay_sign if args.relay_sign is not None else '+1 (preset-default)'} "
               f"alpha={args.relay_alpha if args.relay_alpha is not None else 0.30} "
-              f"layer={args.relay_layer if args.relay_layer is not None else 21}")
+              f"layer={resolved_layer} (via {resolved_via})")
     print("="*60)
     
     session_data = load_local_session(session_id)
@@ -178,8 +265,14 @@ def main():
         payload["px_relay_sign"] = args.relay_sign
     if args.relay_alpha is not None:
         payload["px_relay_alpha"] = args.relay_alpha
-    if args.relay_layer is not None:
-        payload["px_relay_layer"] = args.relay_layer
+    # resolved_layer kommt aus dem print-Block (explicit-cli oder resolver)
+    if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
+        try:
+            payload["px_relay_layer"] = resolved_layer
+        except NameError:
+            # Kein RELAY-Branch ausgeführt, default
+            if args.relay_layer is not None:
+                payload["px_relay_layer"] = args.relay_layer
 
     full_response = ""
     print("[MODELL ANTWORT]:")
