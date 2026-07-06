@@ -1,0 +1,24 @@
+{
+  "session_id": "test_concurrent",
+  "model_id": "gemma3-1b",
+  "history": [],
+  "settings": {
+    "model_id": "gemma3-1b",
+    "px_preset": "ACTIVE_MANIFOLD",
+    "auto_tune": false,
+    "temperature": 0.6000000000000001,
+    "top_p": 0.95,
+    "max_tokens": 1024,
+    "rep_p": 1.15,
+    "px_gamma": 0.5,
+    "relay_sign": 1,
+    "relay_alpha": 0.0,
+    "relay_layer": 16,
+    "system_profile": "ASSISTANT",
+    "system_prompt_text": "",
+    "tts_engine": "piper",
+    "tts_sample_rate": 22050,
+    "tts_auto": true
+  },
+  "updated_at": 1782499668.8873048
+}
