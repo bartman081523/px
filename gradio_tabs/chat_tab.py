@@ -116,6 +116,25 @@ def handle_refresh():
     return gr.update(choices=list_sessions())
 
 
+# Plan ui-styling 2026-07-06: Undo-Button für "letzten Turn rückgängig".
+# Poppt das letzte (user, assistant)-Paar via chat_actions.undo_last_turn
+# und persistiert die gekürzte History sofort via save_session.
+def handle_undo(session_id, history):
+    """Click-handler für den Undo-Button.
+
+    Returns: (updated_history, status_text)
+        - updated_history: gekürzte History (oder skip wenn nichts zu undo)
+        - status_text: "✓ Undone" oder "⚠ Nothing to undo"
+    """
+    from gradio_tabs.chat_actions import undo_last_turn, can_undo
+    if not can_undo(history):
+        return gr.skip(), "⚠ Nothing to undo"
+    new_history = undo_last_turn(history)
+    if session_id:
+        save_session(session_id, new_history)
+    return new_history, f"✓ Undone (history: {len(new_history)} msgs)"
+
+
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             relay_sign, relay_alpha, relay_layer,
             system_profile, system_prompt_text,
@@ -395,6 +414,13 @@ def build_chat_tab(manager: ModelManager):
         )
         submit_btn = gr.Button("Send", scale=1, variant="primary")
 
+    # Plan ui-styling 2026-07-06: Undo-Button für "letzten Turn rückgängig".
+    # Eigene Zeile unter dem Input, damit er optisch von der Haupt-Action
+    # (Send) getrennt ist. Status-Markdown zeigt "✓ Undone" / "⚠ Nothing to undo".
+    with gr.Row():
+        undo_btn = gr.Button("↶ Undo Last Turn", size="sm", variant="secondary")
+        undo_status = gr.Markdown("")
+
     # ── Logic ──
 
     def user_message(message, history):
@@ -478,5 +504,13 @@ def build_chat_tab(manager: ModelManager):
     export_btn.click(fn=handle_export, inputs=[session_id_state, chatbot], outputs=[export_file])
     import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chatbot, session_dropdown, session_id_display])
     refresh_sessions_btn.click(fn=handle_refresh, outputs=[session_dropdown])
+
+    # Plan ui-styling 2026-07-06: Undo-Button click-handler.
+    # Outputs: chatbot (gekürzte History) + undo_status (Feedback).
+    undo_btn.click(
+        fn=handle_undo,
+        inputs=[session_id_state, chatbot],
+        outputs=[chatbot, undo_status],
+    )
 
     return session_id_state, chatbot, session_dropdown, session_id_display
