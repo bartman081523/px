@@ -117,8 +117,17 @@ def handle_refresh():
 
 
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
-            relay_sign, relay_alpha, relay_layer, session_id, manager: ModelManager):
-    """Core chat logic with history management and model generation."""
+            relay_sign, relay_alpha, relay_layer,
+            system_profile, system_prompt_text,
+            session_id, manager: ModelManager):
+    """Core chat logic with history management and model generation.
+
+    Plan ui-styling 2026-07-06: zwei neue Parameter (system_profile,
+    system_prompt_text) — kommen aus dem Einstellungen-Tab. Vor dem
+    chat_template-apply wird inject_into_messages() aufgerufen, das die
+    System-Message an Index 0 setzt (und alle existing system-Einträge
+    strippt). Bei neutral+leerer Edit: no-op (Original-Liste).
+    """
     print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
     # verstärkbar Relay-Parameter nur beim RELAY-Preset durchreichen (sonst None
     # → kein Surprise-Relay auf BASELINE/LEAN/ACTIVE_MANIFOLD; diese verhalten
@@ -156,7 +165,15 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     
     cleaned_history = _clean_history(history)
     print(f"DEBUG: Initial cleaned_history length: {len(cleaned_history)}")
-    
+
+    # Plan ui-styling 2026-07-06: System-Prompt injizieren (Frame-Orientierer).
+    # inject_into_messages setzt System-Message an Index 0 und strippt alle
+    # existing system-Einträge. Bei neutral+leerem Edit: no-op (Pin T3).
+    from gradio_tabs.system_prompt import inject_into_messages
+    cleaned_history = inject_into_messages(
+        cleaned_history, system_profile, system_prompt_text,
+    )
+
     actual_message = message
     if isinstance(message, dict):
         text = message.get("text", "")
@@ -310,6 +327,29 @@ def build_chat_tab(manager: ModelManager):
             relay_layer = gr.Slider(1, 25, value=21, step=1, label="Relay Injektions-Layer")
 
         gr.Markdown("---")
+        # Plan ui-styling 2026-07-06: System-Prompt-Widgets in der Sidebar.
+        # Vollständige Persistenz + UI erfolgt im "⚙️ Einstellungen"-Tab;
+        # diese Sidebar-Widgets sind Quick-Access (gleiche Werte).
+        # DYNAMISCH aus list_profiles() — neue Profile erscheinen automatisch.
+        from gradio_tabs.system_prompt import list_profiles as _list_profiles
+        _profile_choices = _list_profiles()
+        with gr.Accordion("System-Prompt (Frame-Orientierer)", open=False):
+            gr.Markdown(
+                "Frame = Orientierer, nicht 观-Produzent. Quick-Access — "
+                "Hauptkonfiguration im ⚙️ Einstellungen-Tab (mit Save/Reset)."
+            )
+            system_profile = gr.Dropdown(
+                choices=_profile_choices,
+                value="neutral" if "neutral" in _profile_choices else _profile_choices[0],
+                label="Profil",
+            )
+            system_prompt_text = gr.Textbox(
+                label="Edit (überschreibt Profil)",
+                placeholder="Leer = Profil-Text wird verwendet",
+                lines=2,
+            )
+
+        gr.Markdown("---")
         gr.Markdown("### Sessions")
         new_session_btn = gr.Button("New Session", variant="secondary")
         with gr.Row():
@@ -362,7 +402,9 @@ def build_chat_tab(manager: ModelManager):
         return "", history + [{"role": "user", "content": message}]
 
     def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
-                     relay_sign, relay_alpha, relay_layer, session_id):
+                     relay_sign, relay_alpha, relay_layer,
+                     system_profile, system_prompt_text,
+                     session_id):
         # 2. Call our core chat_fn and yield full updated history
         # We pass history (which now has the user message) to chat_fn
         # But chat_fn also does its own history recovery if needed.
@@ -382,6 +424,8 @@ def build_chat_tab(manager: ModelManager):
             relay_sign=relay_sign,
             relay_alpha=relay_alpha,
             relay_layer=relay_layer,
+            system_profile=system_profile,
+            system_prompt_text=system_prompt_text,
             session_id=session_id,
             manager=manager
         )
@@ -403,7 +447,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -414,7 +458,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 

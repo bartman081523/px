@@ -44,8 +44,21 @@ def _update(**kwargs):
 # Patch gradio BEFORE importing chat_tab so dass handle_load_saved die
 # mocks bekommt.
 import gradio as gr
+_ORIG_SKIP = gr.skip
+_ORIG_UPDATE = gr.update
 gr.skip = _skip
 gr.update = _update
+
+
+def _restore_gradio():
+    """Cleanup: stelle das echte gr.skip/gr.update wieder her, damit der
+    Patch nicht in andere Tests leakt (Plan ui-styling 2026-07-06:
+    test_chat_settings braucht echtes gr.update(value=...) Subscripting)."""
+    gr.skip = _ORIG_SKIP
+    gr.update = _ORIG_UPDATE
+
+import atexit
+atexit.register(_restore_gradio)
 
 from gradio_tabs.chat_tab import (
     handle_load_saved, handle_new_session, handle_refresh, handle_export,
