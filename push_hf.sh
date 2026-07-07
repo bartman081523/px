@@ -214,7 +214,11 @@ fi
 # ── Zurück zu ui-styling ───────────────────────────────────────
 echo ""
 echo "=== Cleanup ==="
-git checkout "$BRANCH_LOCAL" >/dev/null
+# -f: force, weil unversionierte Files (local_debug.log etc.) im Working-Tree
+# den Checkout sonst blocken — sie existieren auf ui-styling als getrackt,
+# wurden aber im Sparse-Branch aus dem Index entfernt. Working-Tree bleibt
+# unangetastet (git checkout -f überschreibt nur Index-Mismatches).
+git checkout -f "$BRANCH_LOCAL" >/dev/null
 git branch -D "$BRANCH_HF" >/dev/null
 echo "Zurück auf '$BRANCH_LOCAL'. Sparse-Branch gelöscht."
 echo "Working-Tree ist 100% identisch zu vorher (Index-Cleanup war --cached-only)."
