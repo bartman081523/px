@@ -34,12 +34,15 @@ SPACE_NAME="${SPACE_NAME:-px-explorer-v3}"
 REMOTE_URL="https://${HF_USER}:${HF_TOKEN}@huggingface.co/spaces/${HF_USER}/${SPACE_NAME}"
 
 # Was NIE in den Push soll (HF free tier 1 GB, diese Files füllen das Limit)
+# ACHTUNG: sessions_bak3/temp_media/ enthält .png-Files die HF pre-receive-hook
+# auch dann ablehnt, wenn sie nicht referenziert sind — Hook checkt das WORKING-TREE.
 EXCLUDE_PATHS=(
-    "scratches/"          # 575M emergence-Experimente
-    "telemetry/"          # 20M Telemetrie-Snapshots
-    "sessions/"           # 28M User-Chat-Historien (Daten, nicht Code)
-    "local_debug.log"     # 1.8M Server-Debug-Log
-    "logs/local_debug.log"  # LFS-pointer (verhindert LFS-Upload komplett)
+    "scratches/"             # 575M emergence-Experimente
+    "telemetry/"             # 20M Telemetrie-Snapshots
+    "sessions/"              # 28M User-Chat-Historien (Daten, nicht Code)
+    "sessions_bak3/"         # Session-Backup mit PNGs in temp_media/
+    "local_debug.log"        # 1.8M Server-Debug-Log
+    "logs/local_debug.log"   # LFS-pointer (verhindert LFS-Upload komplett)
 )
 
 # ── Sanity-Checks ────────────────────────────────────────────────
