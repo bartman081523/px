@@ -1,0 +1,38 @@
+# requirements.txt — PX Cognitive Architecture Explorer
+#
+# HF Space neuralworm/px-explorer-v5 (cuda-fähiges Image, cpu-basic-Hardware).
+# Pre-v5: kein requirements.txt → ModuleNotFoundError: No module named 'torch'
+# beim Import von model_manager.py. Build war clean, aber Runtime gecrasht.
+#
+# Pinning-Strategie ~= (compatible-release):
+#   - Minor eingefroren, Patch darf wandern (Sicherheitspatches)
+#   - torch+cu130: lokal verifiziert auf RTX 2060 (openmythos-venv-default.md)
+#   - transformers 5.13.0: erforderlich für unsere 5.13.0-API-Refactor-Commits
+#     (pe_dict[layer_type], position_embeddings= positional, inputs_embeds plural)
+#
+# HF-Image installiert nur gradio+uvicorn+spaces — alles hier ist EXTRAS.
+
+# ── ML-Stack (CUDA-fähig, läuft auch auf cpu-basic ohne Crash) ──────────
+torch~=2.12.0+cu130
+transformers~=5.13.0
+accelerate~=1.12.0
+bitsandbytes~=0.48.0
+huggingface_hub~=1.22.0
+tokenizers~=0.22.2
+safetensors~=0.8.0
+sentencepiece~=0.2.0
+protobuf~=5.28.0
+
+# ── Numerik / Visualisierung ──────────────────────────────────────────
+numpy~=2.0.0
+Pillow~=11.0.0
+matplotlib~=3.10.0
+requests~=2.32.0
+
+# ── Server-Stack (HF-Image hat das, aber explizit pinnen für Repro) ──
+gradio~=6.15.2
+fastapi~=0.136.0
+uvicorn~=0.32.0
+websockets~=13.0
+spaces~=0.42.0
+hf-transfer~=0.1.4
