@@ -1,24 +1,27 @@
 # requirements.txt — PX Cognitive Architecture Explorer
 #
-# HF Space neuralworm/px-explorer-v4 (cuda-fähiges Image, cpu-basic-Hardware).
-# Pre-v5: kein requirements.txt → ModuleNotFoundError: No module named 'torch'
-# beim Import von model_manager.py. Build war clean, aber Runtime gecrasht.
+# HF Space neuralworm/px-explorer-v4 (cpu-basic-Hardware, GPU-Runtime
+# für später geplant). Pre-requirements.txt-Stand crashte mit:
+#   ModuleNotFoundError: No module named 'torch'
+# in model_manager.py:8.
 #
 # Pinning-Strategie:
-#   - torch: == (PEP 440 local-version-label +cu130 braucht exakte Pin)
-#   - alles andere: ~= (compatible-release, Patch-Versionen erlaubt)
-#   - torch 2.12.0+cu130: lokal verifiziert auf RTX 2060 (openmythos-venv-default.md)
-#   - transformers 5.13.0: erforderlich für unsere 5.13.0-API-Refactor-Commits
-#     (pe_dict[layer_type], position_embeddings= positional, inputs_embeds plural)
+#   - torch~=2.12.0 (compatible-release, Patch-Versionen erlaubt).
+#     Standard-PyPI-Build ohne Suffix — pip installiert automatisch
+#     die CUDA-Libs mit (User-Wahl 2026-07-08). Spart 2.4 GB cu130-wheel-
+#     Download + OOM auf HF free-tier 16 GB build-RAM.
+#   - transformers~=5.13.0: erforderlich für unsere 5.13.0-API-Refactor-
+#     Commits (pe_dict[layer_type], position_embeddings= positional,
+#     inputs_embeds plural). Minor eingefroren.
+#   - alles andere: ~= für Sicherheitspatches.
 #
-# HF-Image installiert nur gradio+uvicorn+spaces — alles hier ist EXTRAS.
-# HF-Python:3.13 verwendet PyPI ohne CUDA-Index → torch+cu130 muss via
-# download.pytorch.org/whl/cu130 als extra-index-url aufgelöst werden.
+# GPU-PLAN: User will CUDA-fähiges torch installiert haben. Standard-torch
+# bringt CUDA-Libs mit, läuft auf cpu-basic ohne Crash (torch.cuda.is_
+# available() == False, models laden auf CPU). Bei späterem Switch auf
+# gpu-runtime wird torch automatisch CUDA nutzen.
 
---extra-index-url https://download.pytorch.org/whl/cu130
-
-# ── ML-Stack (CUDA-fähig, läuft auch auf cpu-basic ohne Crash) ──────────
-torch==2.12.0+cu130
+# ── ML-Stack ──────────────────────────────────────────────────────────
+torch~=2.12.0
 transformers~=5.13.0
 accelerate~=1.12.0
 bitsandbytes~=0.48.0
