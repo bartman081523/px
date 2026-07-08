@@ -98,13 +98,17 @@ if __name__ == "__main__":
     import uvicorn
     from config import SERVER_CONFIG
 
-    # HF-Space-Detection: wenn das gradio-SDK den Container startet,
-    # exportiert das Modul das `demo`/`app`-Objekt und HF startet den
-    # Server selber (gr.launch intern). Unser __main__-Block würde
-    # dann DOPPELT starten → "Address already in use" auf 7860.
-    # SPACES_RUN_MODE wird von HF-Docker-Image gesetzt wenn Space läuft.
+    # HF-Space-Detection: HF startet das gradio-App via gr.launch().
+    # Auf HF-Space haben wir:
+    #   - /v1/ API:  NICHT verfügbar (kein uvicorn-Server)
+    #   - /gradio UI: verfügbar via demo.launch()
+    # Das ist der Trade-off — HF's gradio-SDK kann nur ein einzelnes
+    # gr.Blocks mounten, nicht ein FastAPI+Gradio-Composite.
+    # Plan: portiere /v1/ API auf Gradio-API-Endpoints in einem
+    # separaten Schritt (siehe TODO app.py:port-v1-to-gradio).
     if os.environ.get("SPACES_RUN_MODE") or os.environ.get("SPACE_ID"):
-        print(f"[PX Explorer] HF-Space detected — skipping manual uvicorn.run() (HF will start via gr.launch)")
+        print(f"[PX Explorer] HF-Space detected — launching gr.Blocks via demo.launch() (no /v1/ API on HF)")
+        demo.launch(server_name="0.0.0.0", server_port=7860, show_error=True)
     else:
         # SSL Configuration
         ssl_cert = SERVER_CONFIG.get("ssl_cert")
