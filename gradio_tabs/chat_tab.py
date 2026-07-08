@@ -124,9 +124,11 @@ def handle_refresh():
     return gr.update(choices=list_sessions())
 
 
-# Plan ui-styling 2026-07-06: Undo-Button für "letzten Turn rückgängig".
-# Poppt das letzte (user, assistant)-Paar via chat_actions.undo_last_turn
-# und persistiert die gekürzte History sofort via save_session.
+# Plan ui-styling 2026-07-08: Undo-Button für "letzte Nachricht rückgängig"
+# (User-Feedback: vorher poppte er das ganze (user, assistant)-Paar — User
+# wollte aber nur 1 Element rückgängig machen, entweder die letzte User- oder
+# die letzte Agent-Antwort). Nutzt chat_actions.undo_last_entry statt
+# undo_last_turn. Persistiert die gekürzte History sofort via save_session.
 def handle_undo(session_id, history):
     """Click-handler für den Undo-Button.
 
@@ -134,10 +136,10 @@ def handle_undo(session_id, history):
         - updated_history: gekürzte History (oder skip wenn nichts zu undo)
         - status_text: "✓ Undone" oder "⚠ Nothing to undo"
     """
-    from gradio_tabs.chat_actions import undo_last_turn, can_undo
-    if not can_undo(history):
+    from gradio_tabs.chat_actions import undo_last_entry, can_undo_entry
+    if not can_undo_entry(history):
         return gr.skip(), "⚠ Nothing to undo"
-    new_history = undo_last_turn(history)
+    new_history = undo_last_entry(history)
     if session_id:
         save_session(session_id, new_history)
     return new_history, f"✓ Undone (history: {len(new_history)} msgs)"
@@ -487,11 +489,13 @@ def build_chat_tab(manager: ModelManager):
         )
         submit_btn = gr.Button("Send", scale=1, variant="primary")
 
-    # Plan ui-styling 2026-07-06: Undo-Button für "letzten Turn rückgängig".
-    # Eigene Zeile unter dem Input, damit er optisch von der Haupt-Action
-    # (Send) getrennt ist. Status-Markdown zeigt "✓ Undone" / "⚠ Nothing to undo".
+    # Plan ui-styling 2026-07-08: Undo-Button umbenannt von "Undo Last Turn"
+    # zu "Undo Last Message" — semantisch korrekt: poppt nur 1 Element
+    # (User oder Agent), nicht das ganze (user, assistant)-Paar. Eigene Zeile
+    # unter dem Input, damit er optisch von der Haupt-Action (Send) getrennt
+    # ist. Status-Markdown zeigt "✓ Undone" / "⚠ Nothing to undo".
     with gr.Row():
-        undo_btn = gr.Button("↶ Undo Last Turn", size="sm", variant="secondary")
+        undo_btn = gr.Button("↶ Undo Last Message", size="sm", variant="secondary")
         undo_status = gr.Markdown("")
 
     # ── Logic ──

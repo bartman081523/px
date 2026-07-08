@@ -184,5 +184,32 @@ class TestCanUndo(unittest.TestCase):
         self.assertFalse(self.can_undo([{"role": "user", "content": "hi"}]))
 
 
+class TestCanUndoEntry(unittest.TestCase):
+    """can_undo_entry (2026-07-08): erlaubt 1-Element-Undo für Button."""
+
+    def setUp(self):
+        from gradio_tabs.chat_actions import can_undo_entry
+        self.can_undo_entry = can_undo_entry
+
+    def test_t13_single_message_can_undo(self):
+        """can_undo_entry([user]) returnt True — 1 Element reicht."""
+        self.assertTrue(self.can_undo_entry([{"role": "user", "content": "hi"}]))
+
+    def test_t14_empty_history_cannot_undo(self):
+        """can_undo_entry([]) returnt False."""
+        self.assertFalse(self.can_undo_entry([]))
+
+    def test_t15_two_messages_can_undo(self):
+        """can_undo_entry(history mit ≥ 1 Message) returnt True."""
+        self.assertTrue(self.can_undo_entry([{"role": "user", "content": "hi"},
+                                             {"role": "assistant", "content": "x"}]))
+
+    def test_t16_non_list_returns_false(self):
+        """can_undo_entry("not a list") returnt False (Type-Safety)."""
+        self.assertFalse(self.can_undo_entry("not a list"))
+        self.assertFalse(self.can_undo_entry(None))
+        self.assertFalse(self.can_undo_entry(42))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

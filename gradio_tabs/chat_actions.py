@@ -25,6 +25,15 @@ def can_undo(history: List[Dict[str, Any]]) -> bool:
     return isinstance(history, list) and len(history) >= 2
 
 
+def can_undo_entry(history: List[Dict[str, Any]]) -> bool:
+    """Returnt True wenn history ≥ 1 Message hat (Undo-Bar für Single-Entry).
+
+    Verwendet vom Button "Undo Last Message" (1 Element, nicht Paar).
+    Erlaubt auch mid-stream halbe States (z.B. crash nach user ohne assistant).
+    """
+    return isinstance(history, list) and len(history) >= 1
+
+
 def undo_last_turn(history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Popt das letzte (user, assistant)-Paar.
 
