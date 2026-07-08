@@ -49,5 +49,8 @@ gradio~=6.15.2
 fastapi~=0.136.0
 uvicorn~=0.32.0
 websockets~=13.0
-spaces~=0.42.0
+spaces~=0.50.4
+# spaces 0.43.0+ erforderlich — HF gradio-Docker-Image startet intern
+# gradio/utils.py:322 watchdog-thread mit `spaces>0.43.0` requirement.
+# 0.42.0 crasht mit RuntimeError "Spaces hot-reloading requires spaces>0.43.0".
 hf-transfer~=0.1.4
