@@ -171,9 +171,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
 
     # Causal mask mapping — EXACTLY like original
     if not isinstance(causal_mask_mapping := attention_mask, dict):
-        cache_position = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
-        mk = dict(config=self.config, input_embeds=inputs_embeds, attention_mask=attention_mask,
-                  cache_position=cache_position, past_key_values=past_key_values, position_ids=position_ids)
+        # transformers 5.13.0: create_causal_mask() akzeptiert nur
+        # `inputs_embeds` (plural) und kein `cache_position` mehr (entfernt).
+        mk = dict(config=self.config, inputs_embeds=inputs_embeds, attention_mask=attention_mask,
+                  past_key_values=past_key_values, position_ids=position_ids)
         causal_mask_mapping = {
             "full_attention": create_causal_mask(**mk),
             "sliding_attention": create_sliding_window_causal_mask(**mk),
