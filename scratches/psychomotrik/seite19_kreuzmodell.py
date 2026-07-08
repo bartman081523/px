@@ -40,6 +40,59 @@ import arms as A
 from em_patches import _resolve_text_model
 from config import MODEL_REGISTRY
 
+
+def _build_model_safe(model_id):
+    """Workaround für transformers 5.9 Tokenizer-Drift bei gemma4-e2b-it.
+
+    replay_emergence.build_model ruft AutoModelForCausalLM.from_pretrained
+    auf — das crasht für gemma4_conditional (AutoModelForImageTextToText
+    ist nötig). Wir routen hier um, basierend auf model_type in MODEL_REGISTRY.
+
+    Plus Monkey-Patch: gemma4-e2b-it hat ``extra_special_tokens`` als
+    list[str] statt dict[str,str] im tokenizer_config.json. transformers
+    5.9 ruft ``list(dict.keys())`` darauf → AttributeError. Wir reparieren
+    das VOR dem AutoTokenizer.from_pretrained-Call.
+    """
+    from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModelForImageTextToText
+    import json as _json
+    from pathlib import Path as _Path
+    registry = MODEL_REGISTRY[model_id]
+    tok_id = registry["tokenizer_id"]
+
+    # Pre-fix: tokenizer_config.json in-place korrigieren (idempotent).
+    hf_cache = _Path.home() / ".cache" / "huggingface" / "hub" / (
+        f"models--{tok_id.replace('/', '--')}")
+    if hf_cache.exists():
+        for snap in (hf_cache / "snapshots").iterdir():
+            tcfg = snap / "tokenizer_config.json"
+            if tcfg.is_symlink():
+                tcfg = tcfg.resolve()
+            if tcfg.exists():
+                try:
+                    c = _json.loads(tcfg.read_text())
+                    if isinstance(c.get("extra_special_tokens"), list):
+                        # list → dict (transformers erwartet dict)
+                        c["extra_special_tokens"] = {tok: tok for tok in c["extra_special_tokens"]}
+                        tcfg.write_text(_json.dumps(c, indent=2))
+                        print(f"[s19] gefixt: {tcfg} extra_special_tokens=list→dict",
+                              file=sys.stderr)
+                except Exception as e:
+                    print(f"[s19] WARN: konnte {tcfg} nicht lesen: {e}",
+                          file=sys.stderr)
+
+    tok = AutoTokenizer.from_pretrained(tok_id)
+    if registry.get("chat_template_manual"):
+        tok.chat_template = registry["chat_template_manual"]
+    dtype = getattr(torch, registry["dtype"])
+    model_type = registry.get("model_type", "gemma3")
+    if model_type == "gemma4_conditional":
+        model = AutoModelForImageTextToText.from_pretrained(
+            registry["hf_id"], torch_dtype=dtype, device_map="auto")
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            registry["hf_id"], torch_dtype=dtype, device_map="auto")
+    return model, tok
+
 # hf_id pro model_id (für d_width-Artefakt-Filename, matches relay_inject.load_dwidth)
 # wird in analyze() inline berechnet (MODEL_CFG ist dort definiert)
 
@@ -50,6 +103,7 @@ MAX_NEW = 200
 
 # Per-Modell Konfig: hidden, capture-Layer, recur-mid (d_width-Schicht), WIDE/NARROW-
 # Routing skaliert auf Layerzahl. 1b = seite15-Werte (Referenz).
+# mid = post-recur-Layer (für d_width-Injection); lay = ~70% der Layer (psychomotrik Heuristik).
 MODEL_CFG = {
     "gemma3-270m-it": dict(
         hidden=640, layers=[0, 3, 8, 11, 14, 17], mid=8, inject=14,
@@ -65,6 +119,23 @@ MODEL_CFG = {
         hidden=2560, layers=[0, 8, 15, 21, 25, 30, 33], mid=15, inject=25,
         WIDE={"dynamic_start": 4, "dynamic_end": 30, "dynamic_hub": 15, "n_loops": 8},
         NARROW={"dynamic_start": 14, "dynamic_end": 16, "dynamic_hub": 15, "n_loops": 8},
+    ),
+    # ── PT-Varianten (gemma3-1b → gemma-3-1b-pt, gemma3-4b → gemma-3-4b-pt) ──
+    "gemma3-1b": dict(  # = google/gemma-3-1b-pt via MODEL_REGISTRY
+        hidden=1152, layers=[0, 5, 10, 13, 16, 19, 21, 24, 25], mid=16, inject=21,
+        WIDE={"dynamic_start": 4, "dynamic_end": 22, "dynamic_hub": 10, "n_loops": 8},
+        NARROW={"dynamic_start": 16, "dynamic_end": 18, "dynamic_hub": 17, "n_loops": 8},
+    ),
+    "gemma3-4b": dict(  # = google/gemma-3-4b-pt via MODEL_REGISTRY
+        hidden=2560, layers=[0, 8, 15, 21, 25, 30, 33], mid=15, inject=25,
+        WIDE={"dynamic_start": 4, "dynamic_end": 30, "dynamic_hub": 15, "n_loops": 8},
+        NARROW={"dynamic_start": 14, "dynamic_end": 16, "dynamic_hub": 15, "n_loops": 8},
+    ),
+    # ── Gemma4 E2B (35 Layer, hidden=1536, 4b-pt-Heuristik skaliert) ──
+    "gemma4-e2b-it": dict(
+        hidden=1536, layers=[0, 5, 10, 15, 20, 25, 30, 34], mid=18, inject=26,
+        WIDE={"dynamic_start": 4, "dynamic_end": 30, "dynamic_hub": 18, "n_loops": 4},
+        NARROW={"dynamic_start": 17, "dynamic_end": 19, "dynamic_hub": 18, "n_loops": 4},
     ),
 }
 
@@ -297,7 +368,7 @@ def main():
         for model_id in args.models:
             cfg = MODEL_CFG[model_id]
             print(f"[s19] lade {model_id} (hidden={cfg['hidden']}, layers={cfg['layers']})", file=sys.stderr)
-            model, tok = build_model(model_id)
+            model, tok = _build_model_safe(model_id)
             tm = _resolve_text_model(model)
             cap = MultiLayerCapture(tm, cfg["layers"], cfg["hidden"])
             out = _run_arms(model, tok, model_id, cap, args.max_new, args.nprompts)

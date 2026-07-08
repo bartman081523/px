@@ -23,12 +23,22 @@ sys.path.insert(0, os.path.join(_REPO, "scratches", "consolidation"))
 
 from model_manager import _migrate_preset  # noqa: E402
 from config import MODEL_REGISTRY  # noqa: E402
-from px_patches.gemma3_270m_px_baseline.patch import (  # noqa: E402
-    apply_px_patch, remove_px_patch,
-)
 from reduction import apply_reduction  # noqa: E402
 from eval.runner import _calibrator_warmup, _SCALE_WARMUP_DEFAULTS  # noqa: E402
 from em_patches import _resolve_text_model  # noqa: E402
+
+
+def _patch_module_for(model_id: str):
+    """Gibt das (apply_px_patch, remove_px_patch)-Tupel für model_id zurück.
+
+    Dynamisch aus MODEL_REGISTRY[model_id]['patch_dir'] importiert — damit
+    funktioniert arms.setup_lean/setup_baseline mit allen Model-Keys
+    (gemma3-1b/4b via gemma3_270m_px_baseline, gemma4-e2b-it via
+    gemma4_2b_px, etc.)."""
+    import importlib
+    patch_dir = MODEL_REGISTRY[model_id]["patch_dir"]
+    mod = importlib.import_module(f"px_patches.{patch_dir}.patch")
+    return mod.apply_px_patch, mod.remove_px_patch
 
 
 # Arme: routing = get_routing_params-Override-Dict (oder None = original);
@@ -66,14 +76,27 @@ ARM_ORDER = ["BASELINE", "RECUR_OFF", "RECUR_STD", "RECUR_NARROW", "RECUR_WIDE",
 
 
 def setup_baseline(model):
-    """Arm BASELINE: kein PX, kein recur (unpatched Gemma3 single-pass)."""
-    remove_px_patch(model)
+    """Arm BASELINE: kein PX, kein recur (unpatched single-pass).
+
+    Iteriert über alle bekannten Patch-Dirs, um sicherzustellen, dass
+    auch wirklich KEIN PX-Patch aktiv ist (idempotent)."""
+    for mid in MODEL_REGISTRY:
+        try:
+            _, remove_px_patch = _patch_module_for(mid)
+            remove_px_patch(model)
+        except Exception:
+            pass
     print("[em5] BASELINE: unpatched (kein PX, kein recur)", file=sys.stderr)
 
 
 def setup_lean(model, model_id):
     """Lean-Konfig EINMAL pro Modell-Ladung: LEAN-Preset + 5-Crutche-Reduktion
-    + Calibrator-Warmup. Arme wechseln danach nur Override-Monkeypatches."""
+    + Calibrator-Warmup. Arme wechseln danach nur Override-Monkeypatches.
+
+    Lädt das passende Patch-Modul dynamisch aus MODEL_REGISTRY[model_id]
+    ['patch_dir'] — funktioniert mit allen gemma3/gemma4-Patch-Verzeichnissen.
+    """
+    apply_px_patch, remove_px_patch = _patch_module_for(model_id)
     remove_px_patch(model)
     registry = MODEL_REGISTRY[model_id]
     kw = dict(registry.get("patch_kwargs", {}))
@@ -84,7 +107,7 @@ def setup_lean(model, model_id):
     wcfg = _SCALE_WARMUP_DEFAULTS.get(model_id, _SCALE_WARMUP_DEFAULTS["default"])
     _calibrator_warmup(model, n_warmup=10,
                        kurtosis_seed=wcfg["seed"], kurtosis_jitter=wcfg["jitter"])
-    print("[em5] lean + reduction + warmup (recur ON, kausaler Kern)",
+    print(f"[em5] lean + reduction + warmup für {model_id} (recur ON, kausaler Kern)",
           file=sys.stderr)
 
 
