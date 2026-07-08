@@ -1,21 +1,23 @@
 # requirements.txt — PX Cognitive Architecture Explorer
 #
-# HF Space neuralworm/px-explorer-v5 (cuda-fähiges Image, cpu-basic-Hardware).
+# HF Space neuralworm/px-explorer-v4 (cuda-fähiges Image, cpu-basic-Hardware).
 # Pre-v5: kein requirements.txt → ModuleNotFoundError: No module named 'torch'
 # beim Import von model_manager.py. Build war clean, aber Runtime gecrasht.
 #
-# Pinning-Strategie ~= (compatible-release):
-#   - Minor eingefroren, Patch darf wandern (Sicherheitspatches)
-#   - torch+cu130: lokal verifiziert auf RTX 2060 (openmythos-venv-default.md)
+# Pinning-Strategie:
+#   - torch: == (PEP 440 local-version-label +cu130 braucht exakte Pin)
+#   - alles andere: ~= (compatible-release, Patch-Versionen erlaubt)
+#   - torch 2.12.0+cu130: lokal verifiziert auf RTX 2060 (openmythos-venv-default.md)
 #   - transformers 5.13.0: erforderlich für unsere 5.13.0-API-Refactor-Commits
 #     (pe_dict[layer_type], position_embeddings= positional, inputs_embeds plural)
 #
 # HF-Image installiert nur gradio+uvicorn+spaces — alles hier ist EXTRAS.
+# HF-Python:3.13 verwendet PyPI ohne CUDA-Index → torch+cu130 muss via
+# download.pytorch.org/whl/cu130 als extra-index-url aufgelöst werden.
+
+--extra-index-url https://download.pytorch.org/whl/cu130
 
 # ── ML-Stack (CUDA-fähig, läuft auch auf cpu-basic ohne Crash) ──────────
-# HF-Spaces-pip akzeptiert das `+cu130`-Suffix NUR mit == oder !=.
-# ~= mit local-version-label ist invalid → muss exakt gepinnt sein.
-# HF-Python:3.13-Image verwendet pip 24+ (PEP 440 strikt).
 torch==2.12.0+cu130
 transformers~=5.13.0
 accelerate~=1.12.0
