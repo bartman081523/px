@@ -25,7 +25,27 @@ from model_manager import _migrate_preset  # noqa: E402
 from config import MODEL_REGISTRY  # noqa: E402
 from reduction import apply_reduction  # noqa: E402
 from eval.runner import _calibrator_warmup, _SCALE_WARMUP_DEFAULTS  # noqa: E402
-from em_patches import _resolve_text_model  # noqa: E402
+from em_patches import _resolve_text_model as _resolve_text_model_gemma3
+from px_patches.gemma4_2b_px.patch import _resolve_text_model as _resolve_text_model_gemma4
+
+
+def _resolve_text_model(model):
+    """Dispatch an die richtige _resolve_text_model-Implementierung je model_type.
+
+    gemma3 / gemma2 / llama → em_patches._resolve_text_model (gemma3-Variante)
+    gemma4 → px_patches.gemma4_2b_px._resolve_text_model (erkennt
+    model.model.language_model als text_model)
+    """
+    cfg = getattr(model, "config", None)
+    hf_id = getattr(cfg, "_name_or_path", "") or ""
+    mt = ""
+    for mid, reg in MODEL_REGISTRY.items():
+        if reg.get("hf_id") == hf_id or reg.get("tokenizer_id") == hf_id:
+            mt = reg.get("model_type", "")
+            break
+    if mt in ("gemma4_conditional", "gemma4"):
+        return _resolve_text_model_gemma4(model)
+    return _resolve_text_model_gemma3(model)
 
 
 def _patch_module_for(model_id: str):
