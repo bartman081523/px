@@ -40,6 +40,7 @@ EXCLUDE_PATHS=(
     "scratches/"             # 575M emergence-Experimente
     "telemetry/"             # 20M Telemetrie-Snapshots
     "sessions/"              # 28M User-Chat-Historien (Daten, nicht Code)
+    "sessions_bak/"          # Session-Backup (Daten, nicht Code)
     "sessions_bak3/"         # Session-Backup mit PNGs in temp_media/
     "local_debug.log"        # 1.8M Server-Debug-Log
     "logs/local_debug.log"   # LFS-pointer (verhindert LFS-Upload komplett)
