@@ -34,7 +34,6 @@ from gradio_tabs.chat_tab import build_chat_tab
 from gradio_tabs.cognitive_tests_tab import build_cognitive_tests_tab
 from gradio_tabs.pzombie_eval_tab import build_pzombie_eval_tab
 from gradio_tabs.telemetry_tab import build_telemetry_tab
-from gradio_tabs.settings_tab import build_settings_tab
 from gradio_tabs._styles import get_css
 
 
@@ -62,11 +61,6 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
     with gr.Tabs():
         with gr.Tab("💬 Chat"):
             session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
-
-        # Plan ui-styling 2026-07-06: eigener Einstellungen-Tab für
-        # System-Prompt-Profil + Edit-Text mit voller Persistenz.
-        with gr.Tab("⚙️ Einstellungen"):
-            settings_state, _settings_profile_dd, _settings_prompt_tb = build_settings_tab(manager)
 
         with gr.Tab("🧪 Cognitive Tests"):
             build_cognitive_tests_tab(manager, engine)

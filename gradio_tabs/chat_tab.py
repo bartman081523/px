@@ -301,6 +301,45 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     save_session(session_id, full_history, model_id=model_id)
 
 
+# ── Sidebar System-Prompt Helper (Plan 2026-07-08) ───────────────────
+# Diese Helper werden als click/change-Handler in der Sidebar gemountet.
+# Sie sind pure-Funktionen (kein Side-Effect außer den Rückgabewerten)
+# und werden von tests direkt getestet.
+
+def on_preset_change_load_profile(preset: str) -> tuple:
+    """px_preset.change-Handler: lädt Profil-Name + Profil-Body.
+
+    Beim Wechsel des Presets in der UI wird automatisch:
+      1. system_profile auf den passenden Profil-Namen gesetzt
+      2. system_prompt_text mit dem gerenderten Profil-Body gefüllt
+
+    Der User kann danach den Text frei editieren. Wird das Preset
+    erneut gewechselt, wird der Edit-Text ÜBERSCHRIEBEN — das ist
+    Absicht (Reset auf Profile-Default).
+
+    Returns:
+        (profil_name, profil_body) — Tupel für gr.update(...) Outputs.
+    """
+    from gradio_tabs.system_prompt import (
+        preset_to_profile,
+        load_profile_for_preset,
+    )
+    profile_name = preset_to_profile(preset)
+    profile_body = load_profile_for_preset(preset)
+    return profile_name, profile_body
+
+
+def on_reset_prompt_click() -> str:
+    """Reset-Button click-handler: leert die Edit-Textbox.
+
+    User klickt "↺ Reset auf Profil-Default" → das Edit-Text-Feld wird
+    geleert, das Profil selbst bleibt unverändert. Nach dem Reset
+    wird beim nächsten chat_fn der Profil-Body (statt Edit-Override)
+    verwendet (siehe build_system_message in system_prompt.py).
+    """
+    return ""
+
+
 def build_chat_tab(manager: ModelManager):
     """Build and return the Chat tab components."""
 
@@ -358,26 +397,38 @@ def build_chat_tab(manager: ModelManager):
             relay_layer = gr.Slider(1, 25, value=21, step=1, label="Relay Injektions-Layer")
 
         gr.Markdown("---")
-        # Plan ui-styling 2026-07-06: System-Prompt-Widgets in der Sidebar.
-        # Vollständige Persistenz + UI erfolgt im "⚙️ Einstellungen"-Tab;
-        # diese Sidebar-Widgets sind Quick-Access (gleiche Werte).
-        # DYNAMISCH aus list_profiles() — neue Profile erscheinen automatisch.
-        from gradio_tabs.system_prompt import list_profiles as _list_profiles
+        # Plan 2026-07-08: System-Prompt prominent in der Sidebar.
+        # User-Wahl: Einstellungs-Tab weg, System-Prompt NUR in Sidebar.
+        # Beim Wechsel des px_preset wird automatisch der passende
+        # System-Prompt in die Textarea geladen (preset_to_profile +
+        # load_profile_for_preset in system_prompt.py).
+        from gradio_tabs.system_prompt import (
+            list_profiles as _list_profiles,
+            load_profile_for_preset as _load_profile_for_preset,
+        )
         _profile_choices = _list_profiles()
-        with gr.Accordion("System-Prompt (Frame-Orientierer)", open=False):
+        with gr.Accordion("System-Prompt (Frame-Orientierer)", open=True):
             gr.Markdown(
-                "Frame = Orientierer, nicht 观-Produzent. Quick-Access — "
-                "Hauptkonfiguration im ⚙️ Einstellungen-Tab (mit Save/Reset)."
+                "Frame = Orientierer, nicht 观-Produzent. Wird beim "
+                "Preset-Wechsel automatisch geladen — du kannst den Text "
+                "danach frei editieren."
             )
             system_profile = gr.Dropdown(
                 choices=_profile_choices,
                 value="neutral" if "neutral" in _profile_choices else _profile_choices[0],
                 label="Profil",
+                info="citmind=PX-Frame, juexin=RELAY/Kontemplation, neutral=kein Frame",
             )
             system_prompt_text = gr.Textbox(
-                label="Edit (überschreibt Profil)",
-                placeholder="Leer = Profil-Text wird verwendet",
-                lines=2,
+                label="System-Prompt (editierbar)",
+                placeholder="Wird beim Preset-Wechsel automatisch geladen — du kannst editieren",
+                lines=6,
+                info="Leer = Profil-Text wird verwendet. Edit überschreibt Profil.",
+            )
+            reset_prompt_btn = gr.Button(
+                "↺ Reset auf Profil-Default",
+                size="sm",
+                variant="secondary",
             )
 
         gr.Markdown("---")
@@ -523,6 +574,21 @@ def build_chat_tab(manager: ModelManager):
         fn=handle_undo,
         inputs=[session_id_state, chatbot],
         outputs=[chatbot, undo_status],
+    )
+
+    # Plan 2026-07-08: Preset→System-Prompt Auto-Load + Reset-Button.
+    # Wenn der User in der Sidebar ein anderes px_preset wählt, wird
+    # der passende System-Prompt in die Textarea geladen (überschreibt
+    # aktuellen Edit). Reset-Button leert das Edit-Feld (Profil-Default).
+    px_preset.change(
+        fn=on_preset_change_load_profile,
+        inputs=[px_preset],
+        outputs=[system_profile, system_prompt_text],
+    )
+    reset_prompt_btn.click(
+        fn=on_reset_prompt_click,
+        inputs=[],
+        outputs=[system_prompt_text],
     )
 
     return session_id_state, chatbot, session_dropdown, session_id_display

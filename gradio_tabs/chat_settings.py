@@ -237,7 +237,7 @@ class SettingsDebouncer:
 def make_default_debouncer(session_id: Optional[str]) -> SettingsDebouncer:
     """Returnt einen SettingsDebouncer der direkt update_settings() aufruft.
 
-    Convenience für den "Standard-Use-Case" in chat_tab + settings_tab.
+    Convenience für den "Standard-Use-Case" in chat_tab (Sidebar-Widgets).
     """
     def on_save(patch: Dict[str, Any]) -> None:
         update_settings(session_id, **patch)

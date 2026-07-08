@@ -218,6 +218,52 @@ def _render_profile_body(profile: Dict[str, Any]) -> str:
     return "\n".join(parts)
 
 
+# ── Preset → Profil Mapping (Plan 2026-07-08) ─────────────────────────
+# Wenn der User in der UI einen px_preset auswählt, lädt der Sidebar-
+# Handler automatisch den passenden System-Prompt. Mapping:
+#   BASELINE              → neutral   (kein Frame, vanilla)
+#   ACTIVE_MANIFOLD       → citmind   (PX-Frame)
+#   ACTIVE_MANIFOLD_LEAN  → citmind   (LEAN-Frame)
+#   ACTIVE_MANIFOLD_RELAY → juexin    (Kontemplations-Frame, RELAY)
+# Unbekannte Presets / None / "" → neutral (defensiv).
+
+PRESET_TO_PROFILE: Dict[str, str] = {
+    "BASELINE": "neutral",
+    "ACTIVE_MANIFOLD": "citmind",
+    "ACTIVE_MANIFOLD_LEAN": "citmind",
+    "ACTIVE_MANIFOLD_RELAY": "juexin",
+}
+
+
+def preset_to_profile(preset: Optional[str]) -> str:
+    """Mappt ein px_preset auf einen System-Prompt-Profilnamen.
+
+    Public-API für UI-Handler (z.B. px_preset.change() in chat_tab.py).
+    Unbekannte Presets fallen defensiv auf "neutral" zurück — das ist
+    der "kein Frame"-Zustand, gleicher Default wie list_profiles()[0].
+    """
+    if not preset:
+        return "neutral"
+    return PRESET_TO_PROFILE.get(preset, "neutral")
+
+
+def load_profile_for_preset(preset: Optional[str]) -> str:
+    """Returnt den gerenderten Profile-Body für das passende Profil.
+
+    Sidebar-Handler ruft diese Funktion auf wenn px_preset wechselt, und
+    lädt das Ergebnis in die System-Prompt-Textarea. Der User kann den
+    Text dann frei editieren.
+
+    Returnt "" für BASELINE (neutral = leerer Body), nicht-leeren String
+    für citmind/juexin.
+    """
+    profile_name = preset_to_profile(preset)
+    if profile_name == "neutral":
+        return NEUTRAL_BODY
+    profile = resolve_profile(profile_name)
+    return _render_profile_body(profile)
+
+
 def build_system_message(profile_name: str, edit_text: Optional[str] = None) -> Dict[str, str]:
     """Baut die finale System-Message.
 
