@@ -37,8 +37,30 @@ import seite12_veridiktisch as S12   # PROMPTS, RECUR_NARROW
 from replay_emergence import build_model
 from text_invariance_probe import _greedy_generate
 import arms as A
-from em_patches import _resolve_text_model
+from em_patches import _resolve_text_model as _resolve_text_model_gemma3
+from px_patches.gemma4_2b_px.patch import _resolve_text_model as _resolve_text_model_gemma4
 from config import MODEL_REGISTRY
+
+
+def _resolve_text_model(model):
+    """Dispatch an die richtige _resolve_text_model-Implementierung je
+    model_type (gemma3 vs gemma4 haben unterschiedliche Architekturen —
+    gemma4 hat language_model als Submodul, gemma3 nicht)."""
+    mt = MODEL_REGISTRY.get(_get_model_id(model), {}).get("model_type", "gemma3")
+    if mt in ("gemma4_conditional", "gemma4"):
+        return _resolve_text_model_gemma4(model)
+    return _resolve_text_model_gemma3(model)
+
+
+def _get_model_id(model):
+    """Reverse-Lookup: welcher MODEL_REGISTRY-Key gehört zu diesem Modell?
+    Wir prüfen config._name_or_path gegen hf_id."""
+    cfg = getattr(model, "config", None)
+    hf_id = getattr(cfg, "_name_or_path", None) or ""
+    for mid, reg in MODEL_REGISTRY.items():
+        if reg.get("hf_id") == hf_id or reg.get("tokenizer_id") == hf_id:
+            return mid
+    return ""
 
 
 def _build_model_safe(model_id):
@@ -131,9 +153,9 @@ MODEL_CFG = {
         WIDE={"dynamic_start": 4, "dynamic_end": 30, "dynamic_hub": 15, "n_loops": 8},
         NARROW={"dynamic_start": 14, "dynamic_end": 16, "dynamic_hub": 15, "n_loops": 8},
     ),
-    # ── Gemma4 E2B (35 Layer, hidden=1536, 4b-pt-Heuristik skaliert) ──
+    # ── Gemma4 E2B (35 Layer [0..34], hidden=1536, post-recur L26) ──
     "gemma4-e2b-it": dict(
-        hidden=1536, layers=[0, 5, 10, 15, 20, 25, 30, 34], mid=18, inject=26,
+        hidden=1536, layers=[0, 5, 10, 15, 18, 20, 25, 30, 34], mid=18, inject=26,
         WIDE={"dynamic_start": 4, "dynamic_end": 30, "dynamic_hub": 18, "n_loops": 4},
         NARROW={"dynamic_start": 17, "dynamic_end": 19, "dynamic_hub": 18, "n_loops": 4},
     ),
