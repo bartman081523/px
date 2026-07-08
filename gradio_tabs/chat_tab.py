@@ -232,14 +232,26 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    # Plan 2026-07-08: Output-Quality — Greedy Decoding für alle PX-Presets.
+    # BASELINE = vanilla Modell, behält temperature/top_p/sampling wie User
+    # es im Slider einstellt. ACTIVE_MANIFOLD/LEAN/RELAY = deterministisch
+    # (do_sample=False, temperature=1e-10), damit RELAY-Output reproduzierbar
+    # und nachvollziehbar wird. PX-Mechanik selbst (patch.py, relay_inject)
+    # bleibt unangetastet — nur der Decoder wechselt.
+    if px_preset == "BASELINE":
+        _temperature = temp if temp > 0 else 1e-10
+        _do_sample = temp > 0
+    else:
+        _temperature = 1e-10
+        _do_sample = False
     gen_kwargs = dict(
         **inputs,
         streamer=streamer,
         max_new_tokens=int(mt),
-        temperature=temp if temp > 0 else 1e-10,
+        temperature=_temperature,
         top_p=tp,
         repetition_penalty=rp,
-        do_sample=temp > 0,
+        do_sample=_do_sample,
     )
 
     # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
