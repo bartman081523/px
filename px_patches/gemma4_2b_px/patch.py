@@ -978,6 +978,9 @@ def _safe_forward(self, input_ids=None, attention_mask=None, position_ids=None, 
     )
 
 
+from .relay_inject import install_relay, remove_relay
+
+
 # ---------------------------------------------------------------------------
 # Patch Application
 # ---------------------------------------------------------------------------
@@ -987,13 +990,17 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     Two states only:
       - BASELINE: nackt durchlassen, keine Modifikationen
       - ACTIVE_MANIFOLD: vollständige PX-Architektur
+
+    Plus RELAY (2026-07-08): ACTIVE_MANIFOLD_RELAY = LEAN-Kausal-Kern +
+    verstärkbar Selbst-Injektions-Relay (forward_hook via relay_inject).
+    ACTIVE_MANIFOLD_LEAN läuft auf E2B weiterhin als volles ACTIVE_MANIFOLD
+    (sicherer Default) — LEAN+RELAY-Verhalten ist hier vorerst nur
+    Code-Side vorbereitet; Empirie = Follow-up.
     """
-    # ACTIVE_MANIFOLD_LEAN ist auf E2B nicht validiert → läuft absichtlich als
-    # volles ACTIVE_MANIFOLD (sicherer Default; LEAN-Verhalten für E2B = Follow-up).
-    if config_preset == "ACTIVE_MANIFOLD_LEAN":
-        config_preset = "ACTIVE_MANIFOLD"
-    if config_preset != "BASELINE" and config_preset != "ACTIVE_MANIFOLD":
+    if config_preset not in ("BASELINE", "ACTIVE_MANIFOLD",
+                            "ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"):
         config_preset = "ACTIVE_MANIFOLD"  # Gnadenlose Migration
+    lean = (config_preset in ("ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"))
     if config_preset == "BASELINE":
         return False  # Nackt durchlassen
 
@@ -1059,6 +1066,26 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     text_model._px_repetition_penalty = defaults.get("repetition_penalty", 1.15)
     text_model._px_no_repeat_ngram_size = defaults.get("no_repeat_ngram_size", 3)
 
+    # verstärkbar Relay (psychomotrik seite15 / seite19 cross-model): Re-Injektion
+    # der modell-eigenen Zustands-Richtung d_width am post-recur Layer (L26 für
+    # E2B, nach dem Erstarrungs-Washout) öffnet den S→R-Kanal. Aktiv bei
+    # ACTIVE_MANIFOLD_RELAY (default sign=+1 = WIDE/expansiv) ODER wenn
+    # relay_sign explizit ≠0 (orthogonaler Parameter auf jedem Preset).
+    # sign=−1 → NARROW; 0 → relay inactive. Motor unangetastet.
+    _relay_sign = defaults.get("relay_sign", (+1 if config_preset == "ACTIVE_MANIFOLD_RELAY" else 0))
+    # Bei Gemma multimodal hat text_model.config._name_or_path='' (HF setzt
+    # hf_id nur im Top-Level-Config). Wir propagieren den Top-Level hf_id
+    # explizit damit relay_inject.load_dwidth() das d_width-Artefakt laden kann
+    # (siehe px_manifolds/google_gemma-4-E2B-it_relay_dwidth.json).
+    if not getattr(text_model.config, "_name_or_path", None):
+        outer_hf_id = getattr(getattr(model, "config", None), "_name_or_path", None)
+        if outer_hf_id:
+            text_model._px_hf_id = outer_hf_id
+    install_relay(text_model,
+                  sign=_relay_sign,
+                  alpha_frac=defaults.get("relay_alpha", 0.30),
+                  layer=defaults.get("relay_layer", 26))
+
     print(f"[gemma4-px] Active Manifold for L{num_layers}.")
     return True
 
@@ -1066,6 +1093,7 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
 def remove_px_patch(model):
     """Restore original model forward pass."""
     text_model = _resolve_text_model(model)
+    remove_relay(text_model)  # verstärkbar forward_hook entfernen (idempotent)
     if hasattr(text_model, "_px_original_forward"):
         text_model.forward = text_model._px_original_forward
         del text_model._px_original_forward
@@ -1076,7 +1104,8 @@ def remove_px_patch(model):
         '_px_current_telemetry', '_px_current_telemetry_raw', '_px_last_metrics',
         '_task_kurtosis', '_task_jitter', '_task_token_diversity', '_px_zone_weights',
         '_px_calibrator', '_px_injection_norm', '_px_mephisto', '_px_aks', '_px_subj_sensor',
-        '_px_azs', '_px_has_image_tokens', '_px_saved_input_ids'
+        '_px_azs', '_px_has_image_tokens', '_px_saved_input_ids',
+        '_px_relay_handles', '_px_relay_cfg', '_px_hf_id',
     ]:
         if hasattr(text_model, attr):
             try:
