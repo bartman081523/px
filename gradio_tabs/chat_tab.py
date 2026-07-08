@@ -18,6 +18,12 @@ from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
 from telemetry import telemetry
+from gradio_tabs.multimodal_input import (
+    normalize_multimodal_message,
+    is_empty_message,
+    extract_text_blocks,
+    _normalize_history_for_chatbot,
+)
 
 
 # ── Session Handlers ──
@@ -77,7 +83,9 @@ def on_load(session_id):
         session_id = get_new_session_id()
     
     data = load_session(session_id)
-    history = data.get("history", [])
+    # Normalize history for Gradio 6.15.2 Chatbot (OpenAI blocks + untyped dicts
+    # would otherwise crash _postprocess_content; see multimodal_input.py).
+    history = _normalize_history_for_chatbot(data.get("history", []))
     return session_id, history, gr.update(choices=list_sessions()), session_id
 
 def handle_new_session():
@@ -88,7 +96,7 @@ def handle_load_saved(session_id):
     if not session_id:
         return gr.skip(), [], gr.skip(), gr.skip()
     data = load_session(session_id)
-    return session_id, data.get("history", []), gr.skip(), session_id
+    return session_id, _normalize_history_for_chatbot(data.get("history", [])), gr.skip(), session_id
 
 def handle_export(session_id, history):
     if not history:
@@ -193,17 +201,11 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         cleaned_history, system_profile, system_prompt_text,
     )
 
-    actual_message = message
-    if isinstance(message, dict):
-        text = message.get("text", "")
-        files = message.get("files", [])
-        if files:
-            actual_message = [{"type": "text", "text": text}]
-            for f in files:
-                fpath = f["path"] if isinstance(f, dict) and "path" in f else f
-                actual_message.append({"type": "image", "image": fpath})
-        else:
-            actual_message = text
+    # Normalize the Gradio MultimodalTextbox value into chat_fn's expected
+    # message content (plain str, or content-list with text + image blocks).
+    # All shape-handling lives in gradio_tabs.multimodal_input — kept pure
+    # for testability (tests/test_multimodal_input.py).
+    actual_message = normalize_multimodal_message(message)
 
     messages = cleaned_history + [{"role": "user", "content": actual_message}]
     print(f"DEBUG: Combined messages length: {len(messages)}")
@@ -469,11 +471,19 @@ def build_chat_tab(manager: ModelManager):
     )
     
     with gr.Row():
-        msg_input = gr.Textbox(
-            placeholder="Type a message...",
+        # Plan 2026-07-08: Bild-/Anhang-Upload im Chat. gr.MultimodalTextbox
+        # gibt {"text": str, "files": [path_or_dict, ...]} zurück — wird
+        # in chat_fn via normalize_multimodal_message() in einen
+        # content-list mit text+image-Blöcken konvertiert. Server-Side
+        # (streaming_bridge._build_image_data_url, generators._extract_images,
+        # schemas) ist bereits da; nur die UI fehlte.
+        msg_input = gr.MultimodalTextbox(
+            placeholder="Type a message, or attach an image…",
             show_label=False,
             scale=9,
-            container=False
+            container=False,
+            file_count="multiple",
+            file_types=["image"],
         )
         submit_btn = gr.Button("Send", scale=1, variant="primary")
 
@@ -487,8 +497,14 @@ def build_chat_tab(manager: ModelManager):
     # ── Logic ──
 
     def user_message(message, history):
-        # 1. Clear input and append user message to UI immediately
-        return "", history + [{"role": "user", "content": message}]
+        # Plan 2026-07-08: Bild-Upload. MultmodalTextbox liefert dict
+        # {"text": ..., "files": [...]} (oder str bei reiner Text-Eingabe).
+        # Normalisierung in multimodal_input.normalize_multimodal_message
+        # damit der Chat-Eintrag exakt das Format hat das chat_fn erwartet.
+        if is_empty_message(message):
+            return gr.update(), history
+        content = normalize_multimodal_message(message)
+        return gr.update(value=None), history + [{"role": "user", "content": content}]
 
     def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
                      relay_sign, relay_alpha, relay_layer,
