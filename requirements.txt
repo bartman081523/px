@@ -13,7 +13,10 @@
 # HF-Image installiert nur gradio+uvicorn+spaces — alles hier ist EXTRAS.
 
 # ── ML-Stack (CUDA-fähig, läuft auch auf cpu-basic ohne Crash) ──────────
-torch~=2.12.0+cu130
+# HF-Spaces-pip akzeptiert das `+cu130`-Suffix NUR mit == oder !=.
+# ~= mit local-version-label ist invalid → muss exakt gepinnt sein.
+# HF-Python:3.13-Image verwendet pip 24+ (PEP 440 strikt).
+torch==2.12.0+cu130
 transformers~=5.13.0
 accelerate~=1.12.0
 bitsandbytes~=0.48.0
