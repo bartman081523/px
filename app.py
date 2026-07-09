@@ -108,7 +108,21 @@ if __name__ == "__main__":
     # separaten Schritt (siehe TODO app.py:port-v1-to-gradio).
     if os.environ.get("SPACES_RUN_MODE") or os.environ.get("SPACE_ID"):
         print(f"[PX Explorer] HF-Space detected — launching gr.Blocks via demo.launch() (no /v1/ API on HF)")
-        demo.launch(server_name="0.0.0.0", server_port=7860, show_error=True)
+        # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
+        # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
+        # HF-Container scheitert (kein Node installiert). Gradio fällt
+        # auf 7861 zurück, aber SvelteKit-SSR-Loader will trotzdem
+        # /info JSON von 127.0.0.1:7861 fetchen — was der BROWSER nicht
+        # kann (localhost → user-machine). Resultat: data:null im
+        # Page-Render → "Could not get API info" → Login-Panel.
+        # ssr_mode=False → client-side-render → /info ist relative URL
+        # → HF-Proxy leitet korrekt zu Gradio-Server auf 7861 weiter.
+        demo.launch(
+            server_name="0.0.0.0",
+            server_port=7860,
+            show_error=True,
+            ssr_mode=False,
+        )
     else:
         # SSL Configuration
         ssl_cert = SERVER_CONFIG.get("ssl_cert")
