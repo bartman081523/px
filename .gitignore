@@ -2,3 +2,54 @@ __pycache__/
 
 # TLS secrets — never commit (scrubbed from history 2026-06-22)
 ssl/
+
+# ── Credentials & Secrets (Plan 2026-07-09) ──────────────────────
+# push_hf.sh sourced .env → HF_TOKEN darf NIE ins Repo.
+.env
+.env.local
+.env.*.local
+
+# ── HF-Push-Ausschluss (per push_hf.sh EXCLUDE_PATHS) ─────────────
+# Werden im sparse-branch zusätzlich explizit excluded, gitignore hier
+# verhindert versehentliche Commits in zukünftigen Iterationen.
+scratches/
+telemetry/
+sessions/
+sessions_bak/
+sessions_bak3/
+local_debug.log
+logs/local_debug.log
+
+# ── Python-Build-Artefakte ───────────────────────────────────────
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ── Test/Cache-Artefakte ─────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.cache
+.pyright_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── IDE / Editor ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ── HF Space Build-Artefakte (lokal) ──────────────────────────────
+*.pyi
+node_modules/
+.gradio/

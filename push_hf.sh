@@ -9,8 +9,12 @@
 #   3. Original-Branch ui-styling und Working-Tree bleiben 100% unangetastet.
 #
 # Verwendung:
-#   HF_TOKEN=hf_xxx SPACE_NAME=px-explorer-v3 ./push_hf.sh
-#   HF_TOKEN=hf_xxx SPACE_NAME=px-explorer-v4 ./push_hf.sh  # nächste Iteration
+#   bash push_hf.sh                                       # nutzt .env + px-explorer-v4 default
+#   HF_TOKEN=hf_xxx SPACE_NAME=px-explorer-v4 ./push_hf.sh  # override aus env
+#
+# Standard-Space: px-explorer-v4 (User-Instruction 2026-07-09:
+#   "wir bleiben für immer auf v4. mal merken.").
+#   HF free-tier lehnt neue gradio-Spaces seit 2026-07 mit 402 ab.
 #
 # Voraussetzungen:
 #   - git lfs installiert (git-lfs >= 2.x)
@@ -26,11 +30,24 @@
 
 set -euo pipefail
 
+# ── .env laden (Plan 2026-07-09) ────────────────────────────────
+# Lokale Credentials liegen in .env (HF_TOKEN), .env ist .gitignored.
+# Falls .env nicht existiert, wird HF_TOKEN aus dem Env erwartet.
+if [[ -f .env ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    source .env
+    set +a
+fi
+
 # ── Konfiguration ────────────────────────────────────────────────
 BRANCH_LOCAL="ui-styling"
 BRANCH_HF="ui-styling-hf"
 HF_USER="neuralworm"
-SPACE_NAME="${SPACE_NAME:-px-explorer-v3}"
+# User-Instruction 2026-07-09: "wir bleiben für immer auf v4. mal merken."
+# → v4 ist der permanente Space. Neue Spaces (v5/v6) werden seit 2026-07
+#   von HF free-tier mit 402 (PRO-only) abgelehnt.
+SPACE_NAME="${SPACE_NAME:-px-explorer-v4}"
 REMOTE_URL="https://${HF_USER}:${HF_TOKEN}@huggingface.co/spaces/${HF_USER}/${SPACE_NAME}"
 
 # Was NIE in den Push soll (HF free tier 1 GB, diese Files füllen das Limit)
