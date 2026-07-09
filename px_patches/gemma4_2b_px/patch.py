@@ -1036,6 +1036,14 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     defaults["repetition_penalty"] = 1.15
     defaults["no_repeat_ngram_size"] = 3
 
+    # Plan 2026-07-09: UI-Override für relay_sign/alpha/layer durchreichen.
+    # Vorher: defaults.update(kwargs) fehlte → model_manager übergibt
+    # relay_layer=21 via patch_kwargs, aber gemma4-patch ignoriert es und
+    # benutzt hardcoded fallback 26 (siehe defaults.get("relay_layer", 26)
+    # Zeile 1104). User sah 21 in UI, aber tatsächlich wurde L26 injiziert.
+    # gemma3 hat diesen update (patch.py:816), gemma4 nicht.
+    defaults.update(kwargs)
+
     # Gemma 4 memory optimization: fewer loops because recursion uses past_key_values=None
     is_gemma4 = hidden_size == 1536 and num_layers == 35
     if is_gemma4:
