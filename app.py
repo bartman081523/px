@@ -89,9 +89,16 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
     """)
 
 
-# ── Mount Gradio onto FastAPI at /gradio ──
-# Plan ui-styling: CSS aus _styles.py an mount_gradio_app weiterreichen.
-app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio", css=get_css())
+# HF-Space-Mode: KEIN mount_gradio_app! HF's gradio-SDK ruft die
+# `app`-Variable ggf. via uvicorn auf, was Port 7860 vorab belegt
+# → demo.launch(7860) crasht mit "Cannot find empty port".
+# Plan: in HF-Mode nur `demo` exportieren, Mount nur in local-mode.
+if os.environ.get("SPACES_RUN_MODE") or os.environ.get("SPACE_ID"):
+    app = None  # HF-SDK: nichts zu mounten
+else:
+    # ── Mount Gradio onto FastAPI at /gradio ──
+    # Plan ui-styling: CSS aus _styles.py an mount_gradio_app weiterreichen.
+    app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio", css=get_css())
 
 
 if __name__ == "__main__":
