@@ -311,18 +311,12 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
 # und werden von tests direkt getestet.
 
 def on_preset_change_load_profile(preset: str) -> tuple:
-    """px_preset.change-Handler: lädt Profil-Name + Profil-Body.
+    """px_preset.change-Handler (LEGACY, nicht mehr gemountet seit 2026-07-09).
 
-    Beim Wechsel des Presets in der UI wird automatisch:
-      1. system_profile auf den passenden Profil-Namen gesetzt
-      2. system_prompt_text mit dem gerenderten Profil-Body gefüllt
-
-    Der User kann danach den Text frei editieren. Wird das Preset
-    erneut gewechselt, wird der Edit-Text ÜBERSCHRIEBEN — das ist
-    Absicht (Reset auf Profile-Default).
-
-    Returns:
-        (profil_name, profil_body) — Tupel für gr.update(...) Outputs.
+    Lädt Profil-Name + Profil-Body passend zum PX-Preset. Wurde am
+    2026-07-09 entkoppelt: User will, dass px_preset NICHT mehr
+    automatisch citmind/juexin lädt. Bleibt als pure-Funktion
+    erhalten, damit ggf. Tests und Backward-Compat gewahrt sind.
     """
     from gradio_tabs.system_prompt import (
         preset_to_profile,
@@ -331,6 +325,23 @@ def on_preset_change_load_profile(preset: str) -> tuple:
     profile_name = preset_to_profile(preset)
     profile_body = load_profile_for_preset(preset)
     return profile_name, profile_body
+
+
+def on_profile_change_load_body(profile_name: str) -> str:
+    """system_profile.change-Handler: lädt Profil-Body in die Textarea.
+
+    Plan 2026-07-09: User klickt in der Sidebar auf einen Profil-Eintrag
+    (z.B. "juexin", "citmind", "neutral") → der gerenderte Body wird
+    in das system_prompt_text-Feld geladen. Der User kann danach den
+    Text frei editieren — was auch immer in der Textarea steht, geht
+    in den nächsten Chat (build_system_message nutzt edit_text, wenn
+    vorhanden, sonst den Profil-Body).
+
+    Returns:
+        profile_body — String für gr.update(value=...) auf der Textarea.
+    """
+    from gradio_tabs.system_prompt import load_profile_body
+    return load_profile_body(profile_name)
 
 
 def on_reset_prompt_click() -> str:
@@ -371,7 +382,7 @@ def build_chat_tab(manager: ModelManager):
         )
         px_preset = gr.Dropdown(
             choices=["BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN", "ACTIVE_MANIFOLD_RELAY"],
-            value="ACTIVE_MANIFOLD",
+            value="ACTIVE_MANIFOLD_RELAY",
             label="PX Mode Preset",
         )
 
@@ -413,9 +424,10 @@ def build_chat_tab(manager: ModelManager):
         _profile_choices = _list_profiles()
         with gr.Accordion("System-Prompt (Frame-Orientierer)", open=True):
             gr.Markdown(
-                "Frame = Orientierer, nicht 观-Produzent. Wird beim "
-                "Preset-Wechsel automatisch geladen — du kannst den Text "
-                "danach frei editieren."
+                "Frame = Orientierer, nicht 观-Produzent. Klicke auf "
+                "'Profil' um einen Default in die Textarea zu laden, oder "
+                "schreibe direkt deinen eigenen Text. Der Textarea-Inhalt "
+                "geht direkt in den nächsten Chat."
             )
             system_profile = gr.Dropdown(
                 choices=_profile_choices,
@@ -425,9 +437,15 @@ def build_chat_tab(manager: ModelManager):
             )
             system_prompt_text = gr.Textbox(
                 label="System-Prompt (editierbar)",
-                placeholder="Wird beim Preset-Wechsel automatisch geladen — du kannst editieren",
+                placeholder=(
+                    "Klicke unten auf 'Profil' um einen Default zu laden, oder "
+                    "schreibe direkt deinen eigenen Text. Leer = kein System-Prompt."
+                ),
                 lines=6,
-                info="Leer = Profil-Text wird verwendet. Edit überschreibt Profil.",
+                info=(
+                    "Source-of-Truth: was hier steht, geht in den Chat. "
+                    "Profil-Auswahl überschreibt das Edit-Feld."
+                ),
             )
             reset_prompt_btn = gr.Button(
                 "↺ Reset auf Profil-Default",
@@ -596,14 +614,26 @@ def build_chat_tab(manager: ModelManager):
         outputs=[chatbot, undo_status],
     )
 
-    # Plan 2026-07-08: Preset→System-Prompt Auto-Load + Reset-Button.
-    # Wenn der User in der Sidebar ein anderes px_preset wählt, wird
-    # der passende System-Prompt in die Textarea geladen (überschreibt
-    # aktuellen Edit). Reset-Button leert das Edit-Feld (Profil-Default).
-    px_preset.change(
-        fn=on_preset_change_load_profile,
-        inputs=[px_preset],
-        outputs=[system_profile, system_prompt_text],
+    # Plan 2026-07-09: Preset und System-Prompt sind komplett entkoppelt.
+    # User-Entscheidung 2026-07-09: "ich will nicht automatisch citmind
+    # oder juexin paden, default soll der systemprompt leer sein. und
+    # wenn ich auf die systemprompt liste einen eintrag klicke, dann
+    # soll der geladen werden, ins systemprompt feld. und von dort soll
+    # er immer für den chat benutzt werden, also wenn ich da was ändere,
+    # dass es gleich auswirkungen auf den chat danach hat".
+    #
+    # → px_preset wählt NUR den PX-Engine-Modus (BASELINE/ACTIVE_MANIFOLD/
+    #   ACTIVE_MANIFOLD_RELAY), ändert NICHT den System-Prompt.
+    # → system_profile wählt NUR den Profil-Default, lädt dessen Body in
+    #   die Textarea (überschreibt aktuelles Edit).
+    # → system_prompt_text ist die Source-of-Truth: was dort steht, geht
+    #   in den Chat (build_system_message nutzt edit_text, wenn vorhanden).
+    # → reset_prompt_btn leert die Textarea (Profil-Default wird beim
+    #   nächsten system_profile.change() neu geladen).
+    system_profile.change(
+        fn=on_profile_change_load_body,
+        inputs=[system_profile],
+        outputs=[system_prompt_text],
     )
     reset_prompt_btn.click(
         fn=on_reset_prompt_click,

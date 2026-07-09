@@ -264,6 +264,22 @@ def load_profile_for_preset(preset: Optional[str]) -> str:
     return _render_profile_body(profile)
 
 
+def load_profile_body(profile_name: Optional[str]) -> str:
+    """Returnt den gerenderten Profile-Body für einen Profilnamen.
+
+    Plan 2026-07-09: system_profile.change-Handler. User klickt in der
+    Sidebar auf einen Profil-Eintrag (juexin/citmind/neutral) → der
+    gerenderte Body dieses Profils landet in der system_prompt_text-
+    Textarea. Wird vom Edit überschrieben, sobald der User was tippt.
+
+    Unbekannte Namen / None / "" → "" (neutral, leerer Body).
+    """
+    if not profile_name:
+        return NEUTRAL_BODY
+    profile = resolve_profile(profile_name)
+    return _render_profile_body(profile)
+
+
 def build_system_message(profile_name: str, edit_text: Optional[str] = None) -> Dict[str, str]:
     """Baut die finale System-Message.
 
