@@ -22,6 +22,10 @@
 
 # ── ML-Stack ──────────────────────────────────────────────────────────
 torch~=2.12.0
+# Plan 2026-07-09: torchvision erforderlich für gemma4-e2b multimodal
+# (image_processing_gemma4.py:17 importiert torchvision.transforms.v2).
+# Ohne torchvision crashed der ModelManager-Load mit ModuleNotFoundError.
+torchvision~=0.28.0
 transformers~=5.13.0
 accelerate~=1.12.0
 bitsandbytes~=0.48.0
