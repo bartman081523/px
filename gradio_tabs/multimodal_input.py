@@ -14,8 +14,15 @@ Supported input shapes (handle ALL):
   - dict missing "text" or "files" keys -> treat missing as "" / []
 
 File classification (per attached file):
-  - image extensions (png/jpg/jpeg/gif/bmp/webp) -> {"type":"image","image":path}
-    (path stored, NOT read — the vision processor loads it later)
+  - image extensions (png/jpg/jpeg/gif/bmp/webp) -> Gradio file-Block
+    ``{"type": "file", "file": {"path": path, "mime_type": "image/<ext>"}}``
+    WICHTIG: Gradio 6.15.2 Chatbot akzeptiert NUR ``type:text|file|component``
+    — NICHT ``type:image``. (Plan 2026-07-09: HF-Space-v4-Runlog zeigte
+    ``ValueError: Invalid message for Chatbot component: {'type': 'image', ...}``
+    in ``chatbot.py:542`` weil der vorherige ``type:image``-Block an die
+    Chatbot-Postprocess-Pipeline durchgereicht wurde. Jetzt: file-Block mit
+    FileData-Struktur — gleiche Form wie OpenAI-``image_url``→Gradio-Mapping
+    in ``_convert_openai_block_to_gradio``.)
   - text extensions (txt/md/py/json/csv/log/xml/html/yml/yaml/tsv/js/ts/sh/
     ini/cfg/toml/rst/tex) -> inline the file contents as a text block
     (UTF-8, errors replaced, capped at MAX_TEXT_FILE_BYTES)
@@ -28,9 +35,13 @@ The path string is extracted robustly.
 
 Plus (wip-tts a7f4643 port): history normalization for the Gradio Chatbot.
   - _convert_openai_block_to_gradio: OpenAI image_url/input_audio → Gradio file
+  - _convert_legacy_image_block_to_file: ``type:image`` aus alten persistierten
+    Sessions (vor 2026-07-09) → Gradio file-Block (defensiv, weil solche
+    Sessions noch geladen werden könnten).
   - _guess_mime_from_data_url: data:<mime>;base64 → <mime>
   - _normalize_history_for_chatbot: persisted history with mixed shapes
-    (str / untyped list / Gradio-typed list / OpenAI blocks) → Gradio-safe
+    (str / untyped list / Gradio-typed list / OpenAI blocks / legacy
+    image-blocks) → Gradio-safe (alle ``type:image`` werden zu ``type:file``)
 """
 
 import os
@@ -39,6 +50,16 @@ import os
 MAX_TEXT_FILE_BYTES = 64 * 1024
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
+
+# Image MIME-Types für Gradio FileData-Struktur. Plan 2026-07-09.
+IMAGE_MIME_TYPES = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".bmp": "image/bmp",
+    ".webp": "image/webp",
+}
 
 TEXT_EXTS = {
     ".txt", ".md", ".py", ".json", ".csv", ".log", ".xml", ".html", ".htm",
@@ -96,12 +117,25 @@ def _load_text_file(path: str, cap: int = MAX_TEXT_FILE_BYTES) -> str:
 
 
 def _file_block(f):
-    """Build the content block for one attached file entry."""
+    """Build the content block for one attached file entry.
+
+    Plan 2026-07-09: Image-Blöcke werden jetzt als Gradio file-Block
+    (mit mime_type) zurückgegeben, NICHT als ``{"type": "image", ...}``.
+    Grund: Gradio 6.15.2 Chatbot._postprocess_content in
+    ``chatbot.py:482-542`` unterstützt nur ``type:text|file|component``
+    und raise'd ValueError für alles andere. Wir hatten
+    ``type:image``-Blöcke produziert, die bei jeder Bild-Antwort im
+    Chatbot-Stream crashed sind. Jetzt: file-Block mit FileData-Struktur.
+    """
     path = _extract_path(f)
     name = _extract_name(f)
     ext = _ext_of(path)
     if ext in IMAGE_EXTS:
-        return {"type": "image", "image": path}
+        mime = IMAGE_MIME_TYPES.get(ext, "image/png")
+        return {
+            "type": "file",
+            "file": {"path": path, "mime_type": mime},
+        }
     if ext in TEXT_EXTS:
         label = ext.lstrip(".") or "txt"
         body = _load_text_file(path)
@@ -200,6 +234,9 @@ def _convert_openai_block_to_gradio(block):
         (Gradio 6.x Chatbot kennt nur `{"type": "file", "file": {...}}`,
         `{"type": "image"}` ist KEIN gültiges Format → ValueError)
       - input_audio (OpenAI) → Gradio file-Block (analog)
+      - image (Plan 2026-07-09: legacy aus pre-2026-07-09 persistierten
+        Sessions) → Gradio file-Block mit FileData. Wir leiten den Pfad
+        in ``file.path`` weiter und raten den mime_type aus der Extension.
 
     Die url/der Pfad wird in das `path`-Feld gesetzt (Gradio akzeptiert
     data:-URLs, http(s)-URLs und lokale Pfade dort).
@@ -213,6 +250,21 @@ def _convert_openai_block_to_gradio(block):
         return block
     if btype in ("file", "component"):
         return block
+    if btype == "image":
+        # Plan 2026-07-09: legacy-Format aus pre-2026-07-09 persistierten
+        # Sessions. Vorher hat _file_block {"type": "image", "image": path}
+        # produziert, das Gradio 6.15.2 Chatbot ablehnt. Migration:
+        # {"type": "image", "image": path} → {"type": "file", "file": {...}}.
+        path = block.get("image") or block.get("image_url")
+        if not isinstance(path, str):
+            return None
+        # mime_type aus Extension raten
+        ext = os.path.splitext(path)[1].lower()
+        mime = IMAGE_MIME_TYPES.get(ext, "image/png")
+        return {
+            "type": "file",
+            "file": {"path": path, "mime_type": mime},
+        }
     if btype == "image_url":
         # OpenAI: {"type": "image_url", "image_url": {"url": "data:..."}}.
         # → Gradio: {"type": "file", "file": {"path": url, "mime_type": "image/..."}}.
@@ -253,7 +305,7 @@ def _normalize_history_for_chatbot(history):
     """Normalize a persisted history list so it survives Gradio's
     ``Chatbot._check_format`` + ``_postprocess_content``.
 
-    Two failure modes observed when loading legacy sessions:
+    Three failure modes observed when loading legacy sessions:
 
     1. ``content`` is a list of dicts WITHOUT the ``"type"`` key
        (e.g. ``[{"text": "[SYSTEM CONTEXT]\\n..."}]``). Gradio's
@@ -265,13 +317,20 @@ def _normalize_history_for_chatbot(history):
     2. ``content`` is a plain ``str`` with embedded newlines or other
        control chars — usually fine, but we strip null bytes defensively.
 
+    3. ``content`` is a list with ``{"type": "image", "image": path}``
+       blocks (Plan 2026-07-09). Solche Blöcke stammen aus pre-2026-07-09
+       Session-Persistenz (alter _file_block-Output). Gradio 6.15.2 Chatbot
+       kennt ``type:image`` NICHT → ValueError. Wir konvertieren sie via
+       ``_convert_openai_block_to_gradio`` zu Gradio file-Blöcken
+       (gleiche Pipeline wie OpenAI-``image_url``).
+
     The function:
       - Drops None / non-dict entries.
       - Coerces ``content=list`` whose blocks are missing ``type`` into
         a single concatenated string (via ``extract_text_blocks``).
       - Preserves valid multimodal lists (``type=="text"|"file"|...``).
-      - Converts OpenAI image_url/input_audio blocks via
-        ``_convert_openai_block_to_gradio`` before storing.
+      - Converts OpenAI image_url/input_audio AND legacy ``type:image``
+        blocks via ``_convert_openai_block_to_gradio`` before storing.
       - Returns a NEW list — does not mutate the input.
     """
     if not history:
@@ -296,6 +355,11 @@ def _normalize_history_for_chatbot(history):
                     # ins Gradio-Format übersetzt. Sie zählen hier als
                     # 'typed', damit sie nicht zu (leerem) String geflatted werden.
                     "image_url", "input_audio",
+                    # Plan 2026-07-09: legacy ``type:image``-Blöcke aus
+                    # pre-2026-07-09 persistierten Sessions. Werden im
+                    # _convert_openai_block_to_gradio-Pfad zu file-Blöcken
+                    # migriert (gleiche Pipeline wie image_url).
+                    "image",
                 )
                 for b in content
             )

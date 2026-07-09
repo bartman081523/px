@@ -31,25 +31,32 @@ def test_dict_no_files():
 
 def test_dict_one_file_string_path():
     result = normalize_multimodal_message({"text": "look", "files": ["/p/a.png"]})
+    # Plan 2026-07-09: image-Blöcke werden jetzt als Gradio file-Block
+    # zurückgegeben, NICHT als ``{"type": "image", "image": path}``. Grund:
+    # Gradio 6.15.2 Chatbot lehnt ``type:image`` mit ValueError ab.
     assert result == [{"type": "text", "text": "look"},
-                      {"type": "image", "image": "/p/a.png"}]
+                      {"type": "file",
+                       "file": {"path": "/p/a.png", "mime_type": "image/png"}}]
 
 def test_dict_multiple_files():
     result = normalize_multimodal_message({"text": "two", "files": ["/p/a.png", "/p/b.jpg"]})
     assert result == [{"type": "text", "text": "two"},
-                      {"type": "image", "image": "/p/a.png"},
-                      {"type": "image", "image": "/p/b.jpg"}]
+                      {"type": "file",
+                       "file": {"path": "/p/a.png", "mime_type": "image/png"}},
+                      {"type": "file",
+                       "file": {"path": "/p/b.jpg", "mime_type": "image/jpeg"}}]
 
 def test_gradio_file_dict_objects():
     result = normalize_multimodal_message(
         {"text": "x", "files": [{"path": "/p/a.png", "orig_name": "a.png", "size": 123}]})
     assert result == [{"type": "text", "text": "x"},
-                      {"type": "image", "image": "/p/a.png"}]
+                      {"type": "file",
+                       "file": {"path": "/p/a.png", "mime_type": "image/png"}}]
 
 def test_missing_text_key():
     assert normalize_multimodal_message({"files": ["/p/a.png"]}) == [
         {"type": "text", "text": ""},
-        {"type": "image", "image": "/p/a.png"}]
+        {"type": "file", "file": {"path": "/p/a.png", "mime_type": "image/png"}}]
 
 def test_missing_files_key():
     assert normalize_multimodal_message({"text": "hi"}) == "hi"
@@ -57,7 +64,8 @@ def test_missing_files_key():
 def test_empty_text_with_files():
     result = normalize_multimodal_message({"text": "", "files": ["/p/a.png"]})
     assert result == [{"type": "text", "text": ""},
-                      {"type": "image", "image": "/p/a.png"}]
+                      {"type": "file",
+                       "file": {"path": "/p/a.png", "mime_type": "image/png"}}]
 
 def test_is_empty_none():
     assert is_empty_message(None) is True
@@ -131,9 +139,13 @@ def test_text_file_truncation():
 
 def test_image_not_read_when_missing():
     # Image path that does NOT exist must still yield an image block (no read).
+    # Plan 2026-07-09: image-Blöcke werden jetzt als Gradio file-Block
+    # (mit mime_type) zurückgegeben.
     result = normalize_multimodal_message({"text": "look", "files": ["/nonexistent/missing.PNG"]})
     assert result == [{"type": "text", "text": "look"},
-                      {"type": "image", "image": "/nonexistent/missing.PNG"}]
+                      {"type": "file",
+                       "file": {"path": "/nonexistent/missing.PNG",
+                                "mime_type": "image/png"}}]
 
 def test_mixed_text_and_image_files():
     import tempfile
@@ -144,7 +156,10 @@ def test_mixed_text_and_image_files():
         result = normalize_multimodal_message({"text": "t", "files": [mdpath, "/p/a.png"]})
         assert result[0] == {"type": "text", "text": "t"}
         assert result[1]["type"] == "text" and result[1]["text"].startswith("```md ")
-        assert result[2] == {"type": "image", "image": "/p/a.png"}
+        # Plan 2026-07-09: image → Gradio file-Block (statt type:image).
+        assert result[2] == {"type": "file",
+                             "file": {"path": "/p/a.png",
+                                      "mime_type": "image/png"}}
     finally:
         os.remove(mdpath)
 
@@ -198,18 +213,26 @@ def test_norm_1_untyped_text_block_collapses_to_string():
 
 def test_norm_2_typed_text_blocks_preserved_as_list():
     """Blocks with valid ``type=='text'`` (Gradio's expected format) are
-    kept as a list — no flattening."""
+    kept as a list — no flattening.
+
+    Plan 2026-07-09: ``type:image``-Blöcke aus pre-2026-07-09 persistierten
+    Sessions werden via ``_convert_openai_block_to_gradio`` zu
+    Gradio file-Blöcken migriert. Hier testen wir mit Gradio file-Format
+    (was der Normalizer heute korrekt durchreicht)."""
     hist = [
         m("user", [
             {"type": "text", "text": "look at this"},
-            {"type": "image", "image": "/p/a.png"},
+            {"type": "file",
+             "file": {"path": "/p/a.png", "mime_type": "image/png"}},
         ]),
     ]
     out = _normalize_history_for_chatbot(hist)
     assert len(out) == 1
     assert isinstance(out[0]["content"], list)
     assert out[0]["content"][0]["type"] == "text"
-    assert out[0]["content"][1]["type"] == "image"
+    # Plan 2026-07-09: file-Block bleibt als file-Block (passthrough).
+    assert out[0]["content"][1]["type"] == "file"
+    assert out[0]["content"][1]["file"]["path"] == "/p/a.png"
 
 
 def test_norm_3_untyped_list_in_system_block_real_world_crash():
@@ -334,6 +357,77 @@ def test_norm_11_image_url_http_url_preserves_url():
     blocks = out[0]["content"]
     assert blocks[0]["file"]["path"] == "https://example.com/cat.jpg"
     assert blocks[0]["file"]["mime_type"] == "image/png"
+
+
+def test_norm_12_legacy_type_image_block_migrated_to_file():
+    """Plan 2026-07-09: pre-2026-07-09 persistierte Sessions haben
+    ``{"type": "image", "image": path}`` Blöcke. Gradio 6.15.2 Chatbot
+    lehnt ``type:image`` mit ValueError ab (HF-Space-v4 Runlog
+    2026-07-09 05:46:19). Normalizer muss diese Blöcke via
+    ``_convert_openai_block_to_gradio`` zu Gradio file-Blöcken migrieren."""
+    hist = [
+        m("user", [
+            {"type": "text", "text": "look at this"},
+            {"type": "image", "image": "/p/cat.png"},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    assert len(out) == 1
+    blocks = out[0]["content"]
+    assert len(blocks) == 2
+    # text-Block bleibt.
+    assert blocks[0] == {"type": "text", "text": "look at this"}
+    # image-Block → Gradio file-Block mit FileData.
+    file_block = blocks[1]
+    assert file_block["type"] == "file"
+    assert file_block["file"]["path"] == "/p/cat.png"
+    assert file_block["file"]["mime_type"] == "image/png"
+
+
+def test_norm_13_legacy_type_image_block_jpeg_mime():
+    """Migration respektiert die Extension für mime_type."""
+    hist = [
+        m("user", [
+            {"type": "image", "image": "/tmp/photo.jpg"},
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    blocks = out[0]["content"]
+    assert blocks[0]["type"] == "file"
+    assert blocks[0]["file"]["mime_type"] == "image/jpeg"
+
+
+def test_norm_14_legacy_type_image_no_path_drops_block():
+    """Wenn der legacy-Block kein ``image``-Feld hat, wird er gedroppt
+    (kein Crash, kein leerer Müll im Chatbot)."""
+    hist = [
+        m("user", [
+            {"type": "image"},  # kein path
+        ]),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    # Block wird gedroppt weil ``_convert_openai_block_to_gradio`` None
+    # returnt und der Normalizer ``None`` rausfiltert.
+    # Resultat: leere Liste → kompletter Message-Drop in der History.
+    assert out == []
+
+
+def test_norm_15_convert_legacy_image_block_helper():
+    """Unit-Test des ``_convert_openai_block_to_gradio`` Helpers für
+    ``type:image``-Migration. Direkter Aufruf, keine History nötig."""
+    from gradio_tabs.multimodal_input import _convert_openai_block_to_gradio
+    # png
+    out = _convert_openai_block_to_gradio({"type": "image", "image": "/x.png"})
+    assert out == {"type": "file", "file": {"path": "/x.png", "mime_type": "image/png"}}
+    # jpeg
+    out = _convert_openai_block_to_gradio({"type": "image", "image": "/x.jpg"})
+    assert out["file"]["mime_type"] == "image/jpeg"
+    # kein image-Feld → None (Caller droppt)
+    out = _convert_openai_block_to_gradio({"type": "image"})
+    assert out is None
+    # text bleibt
+    out = _convert_openai_block_to_gradio({"type": "text", "text": "hi"})
+    assert out == {"type": "text", "text": "hi"}
 
 
 def main():

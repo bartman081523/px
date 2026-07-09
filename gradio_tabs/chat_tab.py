@@ -221,9 +221,22 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     save_session(session_id, messages, model_id=model_id)
 
     # 3. Generate with streaming
-    # Robustness: Flatten to strings if no images are present to satisfy text-only templates
+    # Robustness: Flatten to strings if no images are present to satisfy text-only templates.
+    # Plan 2026-07-09: Image-Detection erweitert. Vorher: ``type == "image"``
+    # (altes _file_block-Format). Jetzt: ``type == "file"`` mit mime_type
+    # image/* (Gradio file-Block) ODER legacy ``type == "image"`` (zur
+    # Sicherheit — sollte nicht mehr auftreten, aber defensive Programmierung).
     has_images = any(
-        isinstance(m.get("content"), list) and any(isinstance(c, dict) and c.get("type") == "image" for c in m["content"])
+        isinstance(m.get("content"), list) and any(
+            isinstance(c, dict) and (
+                c.get("type") == "image"  # legacy pre-2026-07-09
+                or (
+                    c.get("type") == "file"
+                    and str((c.get("file") or {}).get("mime_type", "")).startswith("image/")
+                )
+            )
+            for c in m["content"]
+        )
         for m in messages
     )
     
