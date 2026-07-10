@@ -14,7 +14,11 @@ import sys
 import tempfile
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from streaming_bridge import _build_image_data_url, _MIME_BY_EXT
+from streaming_bridge import (
+    _build_image_data_url,
+    _MIME_BY_EXT,
+    _extract_text_from_content,
+)
 
 
 # --- _build_image_data_url — both args ----------------------------------
@@ -184,6 +188,125 @@ def test_mime_map_jpg_and_jpeg_share_mime():
     """.jpg und .jpeg haben beide image/jpeg."""
     assert _MIME_BY_EXT[".jpg"] == "image/jpeg"
     assert _MIME_BY_EXT[".jpeg"] == "image/jpeg"
+
+
+# --- _extract_text_from_content ----------------------------------------
+# Plan 2026-07-09: Beim Rebuild der History für die /v1/chat/completions-API
+# wird Multimodal-Listen-Content (text+file-Blöcke) zu reinem Text geflatted.
+# Vorher crashte das still, wenn ein Gradio-File-Block im Content war — der
+# wurde einfach gedroppt, der User sah nur "look at this" statt Hinweis aufs
+# Bild. Mit dem Helper bekommen File-Blöcke einen [image: <path>]-Marker,
+# damit der Kontext nicht still kürzer wird.
+
+def test_extract_text_from_plain_string_passthrough():
+    """Plain-String → unverändert (User hat nur Text eingegeben)."""
+    assert _extract_text_from_content("hello") == "hello"
+
+
+def test_extract_text_from_none_returns_empty():
+    """None → "" (defensiv für uninitialisierte Messages)."""
+    assert _extract_text_from_content(None) == ""
+
+
+def test_extract_text_from_text_block_only():
+    """Liste mit nur text-Block → dessen Text."""
+    out = _extract_text_from_content([{"type": "text", "text": "hi"}])
+    assert out == "hi"
+
+
+def test_extract_text_from_file_block_marker():
+    """Gradio-File-Block (image/png) → [image: <basename>]-Marker.
+
+    Vor dem Fix crashte das still — der Block wurde komplett gedroppt
+    und die User-Message bestand nur aus dem Text-Anteil."""
+    out = _extract_text_from_content([
+        {"type": "file", "file": {"path": "/tmp/cat.png", "mime_type": "image/png"}},
+        {"type": "text", "text": "look at this"},
+    ])
+    assert "[image: cat.png]" in out
+    assert "look at this" in out
+
+
+def test_extract_text_from_legacy_image_block_marker():
+    """Legacy-pre-2026-07-09 ``type:image``-Block → auch [image: ...]."""
+    out = _extract_text_from_content([
+        {"type": "image", "image": "/tmp/dog.jpg"},
+    ])
+    assert "[image: dog.jpg]" in out
+
+
+def test_extract_text_from_openai_image_url_block_marker():
+    """OpenAI-``image_url``-Block → [image: <basename of url>]-Marker.
+
+    Bei data:-URLs wird der basename der URL verwendet (geht nicht besser,
+    ohne den Base64-Inhalt zu decoden — wir wollen ja nur den Context-
+    Hint, nicht das Bild selbst)."""
+    out = _extract_text_from_content([
+        {"type": "image_url", "image_url": {"url": "data:image/png;base64,XYZ"}},
+        {"type": "text", "text": "transcribe"},
+    ])
+    assert "[image:" in out
+    assert "transcribe" in out
+
+
+def test_extract_text_from_text_file_block_marker():
+    """Gradio-File-Block mit Text-MIME (.txt/.py/.md) → [text-file: name]."""
+    out = _extract_text_from_content([
+        {"type": "file", "file": {"path": "/tmp/notes.md", "mime_type": "text/markdown"}},
+    ])
+    assert "[text-file: notes.md]" in out
+
+
+def test_extract_text_from_audio_file_block_marker():
+    """Audio-File-Block → [audio: <basename>]-Marker (klar vom Bild unterscheidbar)."""
+    out = _extract_text_from_content([
+        {"type": "file", "file": {"path": "/tmp/clip.wav", "mime_type": "audio/wav"}},
+    ])
+    assert "[audio: clip.wav]" in out
+
+
+def test_extract_text_from_input_audio_block_marker():
+    """OpenAI-``input_audio``-Block → [audio: ...]-Marker."""
+    out = _extract_text_from_content([
+        {"type": "input_audio", "input_audio": {"url": "data:audio/wav;base64,XYZ"}},
+    ])
+    assert "[audio:" in out
+
+
+def test_extract_text_from_file_block_no_path_uses_default():
+    """File-Block ohne path (defensive) → '?' statt Crash."""
+    out = _extract_text_from_content([
+        {"type": "file", "file": {"mime_type": "image/png"}},
+    ])
+    assert "[image: ?]" in out
+
+
+def test_extract_text_preserves_text_block_order():
+    """Bei mehreren text-Blöcken wird die Reihenfolge preserved (join)."""
+    out = _extract_text_from_content([
+        {"type": "text", "text": "first"},
+        {"type": "file", "file": {"path": "/x.png", "mime_type": "image/png"}},
+        {"type": "text", "text": "second"},
+    ])
+    # text parts in order, file-marker in between
+    assert out.index("first") < out.index("[image:") < out.index("second")
+
+
+def test_extract_text_from_empty_list_returns_empty():
+    """Leere Liste → ""."""
+    assert _extract_text_from_content([]) == ""
+
+
+def test_extract_text_from_unknown_dict_type_drops_silently():
+    """Unbekannter Block-Typ → wird gedroppt (nicht crashen).
+
+    Defensiv: ein neuer Block-Typ den wir noch nicht kennen, blockiert
+    nicht die ganze History."""
+    out = _extract_text_from_content([
+        {"type": "future_thing_we_dont_know", "data": "???"},
+        {"type": "text", "text": "real text"},
+    ])
+    assert out == "real text"
 
 
 # --- runner ------------------------------------------------------------

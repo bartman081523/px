@@ -28,6 +28,97 @@ _MIME_BY_EXT = {
 }
 
 
+def _basename_marker(path: str) -> str:
+    """Best-effort basename from a path/URL, falls back to ``?`` if empty.
+
+    Plan 2026-07-09: Streaming-Bridge zeigt beim History-Rebuild einen
+    kurzen ``[image: cat.png]``-Marker statt den File-Block still zu
+    droppen. So behält der User den Kontext, dass in der migrierten
+    Message ein Bild war (Gradio-FileData ``{"type":"file","file":{...}}``).
+    """
+    if not path:
+        return "?"
+    # data:-URLs haben keinen Pfad — basename wirkt, gibt aber nur "image/png"
+    # o.ä. Wir nehmen einfach den Teil nach dem letzten "/" — bei data:-URLs
+    # ist das der Base64-Payload-Identifier, was OK ist als "irgendein Marker".
+    return os.path.basename(path) or "?"
+
+
+def _extract_text_from_content(content):
+    """Flatten a multimodal message-content into a plain text string for
+    the ``/v1/chat/completions`` API (which is text-only on the wire).
+
+    Plan 2026-07-09: Vorher hat der History-Rebuild in ``main()`` nur
+    ``type:text``-Blöcke extrahiert und alles andere still gedroppt.
+    Nach Gradio-Migration (Plan 2026-07-09: pre-2026-07-09-Sessions mit
+    ``type:image``, neuere Sessions mit ``type:file``+mime_type) wäre
+    das ein **stiller Datenverlust**: der Bild-Kontext verschwindet,
+    das Modell sieht nur noch Text.
+
+    Dieser Helper konvertiert jeden Block-Typ in einen lesbaren Marker:
+
+      - ``type:text`` → dessen Text
+      - ``type:file`` mit mime_type image/* → ``[image: <basename>]``
+      - ``type:file`` mit mime_type audio/* → ``[audio: <basename>]``
+      - ``type:file`` mit mime_type text/* → ``[text-file: <basename>]``
+      - ``type:file`` sonst → ``[file: <basename>]``
+      - ``type:image`` (legacy pre-2026-07-09) → ``[image: <basename>]``
+      - ``type:image_url`` (OpenAI) → ``[image: <basename>]``
+      - ``type:input_audio`` (OpenAI) → ``[audio: <basename>]``
+      - unbekannter Typ → wird gedroppt (kein Crash)
+      - Plain-String → unverändert
+      - None → ``""``
+
+    Returns the concatenated string (text parts interleaved with markers
+    in the original order). Roundtrip: ``_extract_text_from_content([...])``
+    verliert zwar die Bild-Daten, aber NICHT den Kontext-Hinweis.
+    """
+    if content is None:
+        return ""
+    if isinstance(content, str):
+        return content
+    if not isinstance(content, list):
+        return str(content)
+
+    parts = []
+    for block in content:
+        if not isinstance(block, dict):
+            if isinstance(block, str):
+                parts.append(block)
+            continue
+        btype = block.get("type")
+        if btype == "text":
+            parts.append(str(block.get("text", "") or ""))
+        elif btype == "file":
+            file_data = block.get("file") or {}
+            path = file_data.get("path") or file_data.get("url") or ""
+            mime = str(file_data.get("mime_type", "")).lower()
+            base = _basename_marker(path)
+            if mime.startswith("image/"):
+                parts.append(f"[image: {base}]")
+            elif mime.startswith("audio/"):
+                parts.append(f"[audio: {base}]")
+            elif mime.startswith("text/") or mime.startswith("application/"):
+                parts.append(f"[text-file: {base}]")
+            else:
+                parts.append(f"[file: {base}]")
+        elif btype == "image":
+            # Legacy pre-2026-07-09: Gradio erzeugte {"type":"image","image":path}.
+            # Wird in Gradio-Sessions nicht mehr produziert, kann aber in
+            # von Hand exportierten JSONs noch vorkommen.
+            path = block.get("image") or ""
+            parts.append(f"[image: {_basename_marker(path)}]")
+        elif btype == "image_url":
+            url = (block.get("image_url") or {}).get("url") or ""
+            parts.append(f"[image: {_basename_marker(url)}]")
+        elif btype == "input_audio":
+            audio = block.get("input_audio") or {}
+            url = audio.get("url") or audio.get("data") or ""
+            parts.append(f"[audio: {_basename_marker(url)}]")
+        # else: unbekannter Typ → silently dropped
+    return "".join(parts)
+
+
 def _build_image_data_url(image_path=None, image_base64=None):
     """Build an OpenAI-compatible data: URL for an image. Exactly one of
     (image_path, image_base64) must be provided.
@@ -116,12 +207,12 @@ def main():
     if history:
         last_msg = history[-1]
         print(f"\n[LETZTER KONTEXT - {last_msg['role'].upper()}]:")
-        content = last_msg['content']
-        if isinstance(content, list):
-             text = "".join([b.get("text", "") for b in content if b.get("type") == "text"])
-             print(text[:300] + "..." if len(text) > 300 else text)
-        else:
-             print(content[:300] + "..." if len(content) > 300 else content)
+        # Plan 2026-07-09: Robust gegen Multimodal-Listen (text+file/audio/
+        # image) — vorher stille Drops bei type:file-Blöcken. Helper gibt
+        # [image: <basename>]-Marker aus statt den Block zu verlieren.
+        content = _extract_text_from_content(last_msg.get("content", ""))
+        if content:
+            print(content[:300] + "..." if len(content) > 300 else content)
     else:
         print("\n[NEUE SESSION GESTARTET]")
 
@@ -156,10 +247,13 @@ def main():
     api_messages = []
     for msg in history:
         role = msg["role"]
-        content = msg["content"]
-        if isinstance(content, list):
-            text = "".join([b.get("text", "") for b in content if b.get("type") == "text"])
-            content = text
+        # Plan 2026-07-09: Robust gegen Multimodal-Listen (text+file/audio/
+        # image) — vorher stille Drops bei type:file-Blöcken. Helper gibt
+        # [image: <basename>]-Marker aus, damit der Bild-Kontext nicht
+        # komplett verloren geht, wenn die History aus einer Gradio-Session
+        # (Gradio file-Block) oder einer alten pre-2026-07-09-Session
+        # (legacy type:image) geladen wird.
+        content = _extract_text_from_content(msg.get("content", ""))
         api_messages.append({"role": role, "content": content})
 
     api_messages.append({"role": "user", "content": new_user_content})
