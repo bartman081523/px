@@ -375,23 +375,33 @@ def _get_model(arm_name: str, arm_preset: Optional[str]):
     # RIGOR-Override installieren (v2-Pattern)
     if arm_name.startswith("rigor_") and patch_kwargs and HAVE_V1_PX:
         tm = mm._resolve_text_model(model)
+        # WICHTIG: ModelManager cachet das Text-Model pro model_id. Wenn ein
+        # vorheriger rigor_* Arm recur_end modifiziert hat, müssen wir es
+        # ZUERST zurücksetzen, sonst sehen alle nachfolgenden Arms die
+        # Werte des ersten Arms.
+        if hasattr(tm, "_rigor_orig_recur_end") and hasattr(tm, "_px_config"):
+            tm._px_config["recur_end"] = tm._rigor_orig_recur_end
+        # Mephisto-Original-Forward wiederherstellen (v1 Restore)
+        restore_rigor_forward(tm)
         rigor_info = install_rigor_forward(
             tm, config_preset="RIGOR", **patch_kwargs,
         )
         print(f"    → RIGOR-Override installiert: {rigor_info}")
-        # Recursion-Damping: zusätzlich n_loops proportional zu scale reduzieren
-        # (gemma3-270m: weniger Recursion-Cycles → weniger repetitive Outputs)
+        # Recursion-Damping: reduziere recur_end in cfg, sodass AutoCalibrator
+        # (70% Gewicht auf recur_end in dynamic_end) die Recursion-Range
+        # proportional zu scale verkleinert.
+        # v1 install_rigor_forward patched nur _px_mephisto.forward, nicht
+        # _px_forward selbst — wir müssen also auf cfg-Ebene arbeiten.
         scale = patch_kwargs.get("rigor_mephisto_scale", 1.0)
         if scale < 1.0 and hasattr(tm, "_px_config"):
             cfg = tm._px_config
-            if "n_loops" in cfg:
-                base_n_loops = cfg["n_loops"]
-                new_n_loops = max(0, int(round(scale * base_n_loops)))
-                if new_n_loops != base_n_loops:
-                    if not hasattr(tm, "_rigor_orig_n_loops"):
-                        tm._rigor_orig_n_loops = base_n_loops
-                    cfg["n_loops"] = new_n_loops
-                    print(f"    → Recursion-Damping: n_loops {base_n_loops} → {new_n_loops}")
+            base_recur_range = cfg.get("recur_end", 12) - cfg.get("recur_start", 5)
+            new_range = max(1, int(round(base_recur_range * scale)))
+            if "recur_end" in cfg:
+                if not hasattr(tm, "_rigor_orig_recur_end"):
+                    tm._rigor_orig_recur_end = cfg["recur_end"]
+                cfg["recur_end"] = cfg["recur_start"] + new_range
+                print(f"    → Recursion-Damping: recur_range {base_recur_range} → {new_range} (scale={scale})")
     if model is not None and tokenizer is not None:
         _model_cache[key] = (model, tokenizer, patch_kwargs)
     return _model_cache.get(key)
