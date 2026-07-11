@@ -483,7 +483,10 @@ def run_gpu_loop(
             # (Recursion kann Layers mehrfach durchlaufen → KV-Cache wächst
             #  über T_prefill hinaus. max_in*2 + max_new_tokens + 64.)
             max_in = max(n_input_tokens_list) if n_input_tokens_list else 32
-            max_seq = max_in * 2 + max_new_tokens + 64
+            # MAX_SEQ großzügig (max_in*3 statt *2): Gemma3-Hybrid-Cache
+            # kann nach Prefill eine um 1-2 abweichende seq_length reporten,
+            # und CUDA-Graph verlangt exakte Größen-Übereinstimmung.
+            max_seq = max_in * 3 + max_new_tokens + 128
             cfg = CUDAGraphRunnerConfig(batch_size=B, max_seq_len=max_seq)
             try:
                 runner = CUDAGraphRunner(model, cfg)
