@@ -61,9 +61,9 @@ from rigor_verify import (
 )
 from rigor_stats import compute_eta2, bootstrap_ci
 
-# Optional v1-PX-Imports
+# Optional v1-PX-Imports (mit Fallback: nur install_/restore_ sind verfügbar)
 try:
-    from rigor_zone_forward import install_rigor_forward, uninstall_rigor_forward
+    from rigor_zone_forward import install_rigor_forward, restore_rigor_forward
     from rigor_zone_manifold import _at as _rigor_at
     HAVE_V1_PX = True
 except ImportError:
@@ -342,20 +342,21 @@ def _get_model(arm_name: str, arm_preset: Optional[str]):
               f"px_patches_v3.patch (per-Layer Hq aus self.config)")
     mm = ModelManager()
     # Wenn rigor_* Arm: install_rigor_forward (v1 monkey-patch)
+    # v1-API: kwargs sind rigor_mephisto (bool) + rigor_mephisto_scale (float)
     patch_kwargs = None
     if arm_name.startswith("rigor_") and HAVE_V1_PX:
         if arm_name == "rigor_disabled":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 0.0}
+            patch_kwargs = {"rigor_mephisto": False, "rigor_mephisto_scale": 0.0}
         elif arm_name == "rigor_least":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 0.1}
+            patch_kwargs = {"rigor_mephisto": True, "rigor_mephisto_scale": 0.1}
         elif arm_name == "rigor_low":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 0.3}
+            patch_kwargs = {"rigor_mephisto": True, "rigor_mephisto_scale": 0.3}
         elif arm_name == "rigor_mid":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 0.5}
+            patch_kwargs = {"rigor_mephisto": True, "rigor_mephisto_scale": 0.5}
         elif arm_name == "rigor_high":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 0.7}
+            patch_kwargs = {"rigor_mephisto": True, "rigor_mephisto_scale": 0.7}
         elif arm_name == "rigor_full":
-            patch_kwargs = {"mephisto_mode": "damped", "mephisto_scale": 1.0}
+            patch_kwargs = {"rigor_mephisto": True, "rigor_mephisto_scale": 1.0}
     # Preset-Migration (v2-konform): "RIGOR" → "ACTIVE_MANIFOLD"
     if arm_name == "baseline":
         effective_preset = "BASELINE"
@@ -378,6 +379,19 @@ def _get_model(arm_name: str, arm_preset: Optional[str]):
             tm, config_preset="RIGOR", **patch_kwargs,
         )
         print(f"    → RIGOR-Override installiert: {rigor_info}")
+        # Recursion-Damping: zusätzlich n_loops proportional zu scale reduzieren
+        # (gemma3-270m: weniger Recursion-Cycles → weniger repetitive Outputs)
+        scale = patch_kwargs.get("rigor_mephisto_scale", 1.0)
+        if scale < 1.0 and hasattr(tm, "_px_config"):
+            cfg = tm._px_config
+            if "n_loops" in cfg:
+                base_n_loops = cfg["n_loops"]
+                new_n_loops = max(0, int(round(scale * base_n_loops)))
+                if new_n_loops != base_n_loops:
+                    if not hasattr(tm, "_rigor_orig_n_loops"):
+                        tm._rigor_orig_n_loops = base_n_loops
+                    cfg["n_loops"] = new_n_loops
+                    print(f"    → Recursion-Damping: n_loops {base_n_loops} → {new_n_loops}")
     if model is not None and tokenizer is not None:
         _model_cache[key] = (model, tokenizer, patch_kwargs)
     return _model_cache.get(key)
@@ -455,9 +469,11 @@ def run_gpu_loop(
         if use_cuda_graph and arm_name != "baseline":
             from px_patches_v3.cuda_graph_runner import CUDAGraphRunner, CUDAGraphRunnerConfig
             B = input_ids.shape[0]
-            # MAX_SEQ = max_new_tokens + max(n_input_tokens) (für sichere Generierung)
+            # MAX_SEQ mit großzügigem Puffer für PX-Recursion-Wachstum
+            # (Recursion kann Layers mehrfach durchlaufen → KV-Cache wächst
+            #  über T_prefill hinaus. max_in*2 + max_new_tokens + 64.)
             max_in = max(n_input_tokens_list) if n_input_tokens_list else 32
-            max_seq = max_in + max_new_tokens + 16
+            max_seq = max_in * 2 + max_new_tokens + 64
             cfg = CUDAGraphRunnerConfig(batch_size=B, max_seq_len=max_seq)
             try:
                 runner = CUDAGraphRunner(model, cfg)
