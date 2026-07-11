@@ -1,0 +1,17 @@
+{
+  "arm": "active_manifold",
+  "preset": "ACTIVE_MANIFOLD",
+  "patch_kwargs": null,
+  "with_search": false,
+  "task_name": "Manifold-Logic",
+  "task_prompt": "Given a set of non-Euclidean coordinates in a 7-dimensional manifold, identify the curvature tensor if the metric is defined by the model's own internal state-predictor output.",
+  "timestamp": 1783751402.5602283,
+  "web_search_invoked": false,
+  "search_context_chars": 0,
+  "success": true,
+  "output": "clause of a 7D Euclidean distance.",
+  "n_input_tokens": 48,
+  "n_new_tokens": 11,
+  "px_zone": "MATH",
+  "duration_sec": 4.3638036251068115
+}

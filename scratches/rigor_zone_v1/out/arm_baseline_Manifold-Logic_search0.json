@@ -1,0 +1,17 @@
+{
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "patch_kwargs": null,
+  "with_search": false,
+  "task_name": "Manifold-Logic",
+  "task_prompt": "Given a set of non-Euclidean coordinates in a 7-dimensional manifold, identify the curvature tensor if the metric is defined by the model's own internal state-predictor output.",
+  "timestamp": 1783751293.0883472,
+  "web_search_invoked": false,
+  "search_context_chars": 0,
+  "success": true,
+  "output": "The curvature tensor is defined by the model's internal state-predictor output.",
+  "n_input_tokens": 48,
+  "n_new_tokens": 18,
+  "px_zone": "UNKNOWN",
+  "duration_sec": 3.733079433441162
+}

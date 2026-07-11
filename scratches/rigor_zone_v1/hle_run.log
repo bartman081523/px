@@ -1,0 +1,582 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[HLE-Harness] Hermes Agent gefunden: /home/julian/.local/bin/hermes
+[HLE-Harness] Web-Suche via ddgs: verfügbar
+============================================================
+HLE 5-Arm-Benchmark
+5 Arms × 5 HLE-Tasks × 2 Search-Settings = 50 Runs
+Output: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v1/out
+============================================================
+
+Arms:
+  - baseline           preset=BASELINE           kwargs=None
+  - active_manifold    preset=ACTIVE_MANIFOLD    kwargs=None
+  - rigor              preset=RIGOR              kwargs={'rigor_mephisto': False}
+  - rigor_damped       preset=RIGOR              kwargs={'rigor_mephisto': True, 'rigor_mephisto_scale': 0.3}
+  - minimaxm3_cloud    preset=None               kwargs=None
+
+HLE-Tasks: 5
+Search-Settings: 2 (False, True)
+Hermes verfügbar: True (/home/julian/.local/bin/hermes)
+============================================================
+
+[Run  1/50] arm=baseline           search=False task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 54/236 [00:00<00:00, 539.58it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1431.21it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 8.6s | zone=UNKNOWN    | The state attractor is a set of states that are all reachable from a given state...
+
+[Run  2/50] arm=baseline           search=False task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   7%|▋         | 16/236 [00:00<00:01, 159.04it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1323.39it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 11.3s | zone=UNKNOWN    | Okay, I understand. I will construct a moral framework that balances utilitarian...
+
+[Run  3/50] arm=baseline           search=False task=Self-Reference
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.92it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1281.82it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 3.3s | zone=UNKNOWN    | 
+
+[Run  4/50] arm=baseline           search=False task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.42it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1245.51it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 3.9s | zone=UNKNOWN    | Okay, I'm ready to translate the concept of recursion into a language with no no...
+
+[Run  5/50] arm=baseline           search=False task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.64it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1302.24it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 3.7s | zone=UNKNOWN    | The curvature tensor is defined by the model's internal state-predictor output.
+
+[Run  6/50] arm=baseline           search=True task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.99it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1286.73it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 5.5s | zone=UNKNOWN    | Okay, I understand. I will provide the definition of the state attractor if A is...
+
+[Run  7/50] arm=baseline           search=True task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.99it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1297.41it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 12.8s | zone=UNKNOWN    | Okay, I understand the moral framework. I will construct a moral framework that ...
+
+[Run  8/50] arm=baseline           search=True task=Self-Reference
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   4%|▍         | 9/236 [00:00<00:02, 89.97it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1298.44it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 5.5s | zone=UNKNOWN    | ```
+P
+```
+
+[Run  9/50] arm=baseline           search=True task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.59it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1265.23it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 11.9s | zone=UNKNOWN    | Okay, I understand. I will translate the concept of recursion into a language th...
+
+[Run 10/50] arm=baseline           search=True task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1252.77it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ 8.8s | zone=UNKNOWN    | ```python
+import numpy as np
+import numpy.linalg as nplinalg
+
+def calculate_curv...
+
+[Run 11/50] arm=active_manifold    search=False task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.82it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1290.33it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 20.6s | zone=MATH       | student-energy-energy problem
+student-energy-energy problem
+a
+a
+b
+c
+
+ 
+**Answer:...
+
+[Run 12/50] arm=active_manifold    search=False task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.98it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1293.46it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 3.2s | zone=MATH       | 
+
+[Run 13/50] arm=active_manifold    search=False task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.46it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1246.14it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 21.8s | zone=MATH       | Okay, I'm excited to share this information with you!
+
+*   **Explanation:**
+    ...
+
+[Run 14/50] arm=active_manifold    search=False task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:23,  9.84it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1303.99it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 15.1s | zone=MATH       | Okay, I'm going to provide a general overview of the concept of recursion.
+*   *...
+
+[Run 15/50] arm=active_manifold    search=False task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:23,  9.98it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1281.86it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 4.4s | zone=MATH       | clause of a 7D Euclidean distance.
+
+[Run 16/50] arm=active_manifold    search=True task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.37it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1259.12it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 21.5s | zone=MATH       | Here'u's definition of the state of the system.
+The state of the system is defin...
+
+[Run 17/50] arm=active_manifold    search=True task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.90it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1292.80it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 20.2s | zone=MATH       | The provided text is a very important point. It is important to understand the e...
+
+[Run 18/50] arm=active_manifold    search=True task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|▏         | 3/236 [00:00<00:07, 29.78it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1296.14it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 20.0s | zone=MATH       | Here is a self-referential proposition that is a self-referential system.
+
+The q...
+
+[Run 19/50] arm=active_manifold    search=True task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.29it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1258.55it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 19.8s | zone=MATH       | Here is the translation of "Recursion" into a language that is not directly used...
+
+[Run 20/50] arm=active_manifold    search=True task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.38it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1266.78it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ 19.9s | zone=MATH       | Here's the solution of the problem:
+
+The problem is: finding a suitable solution...
+
+[Run 21/50] arm=rigor              search=False task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.29it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1239.39it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 21.0s | zone=MATH       | student-energy-energy problem
+student-energy-energy problem
+a
+a
+b
+c
+
+ 
+**Answer:...
+
+[Run 22/50] arm=rigor              search=False task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.67it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1277.84it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 3.9s | zone=MATH       | 
+
+[Run 23/50] arm=rigor              search=False task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.92it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1315.02it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 21.8s | zone=MATH       | Okay, I'm excited to share this information with you!
+
+*   **Explanation:**
+    ...
+
+[Run 24/50] arm=rigor              search=False task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2767.43it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 14.9s | zone=MATH       | Okay, I'm going to provide a general overview of the concept of recursion.
+*   *...
+
+[Run 25/50] arm=rigor              search=False task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.83it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1300.80it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 4.1s | zone=MATH       | clause of a 7D Euclidean distance.
+
+[Run 26/50] arm=rigor              search=True task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:23,  9.84it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1273.36it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 19.1s | zone=MATH       | Here'u are some examples of the following:
+
+*   **Explanation:** The concept of ...
+
+[Run 27/50] arm=rigor              search=True task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.69it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1298.36it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 19.7s | zone=MATH       | The provided text is a good example of a law of non-contradiction. This is a fun...
+
+[Run 28/50] arm=rigor              search=True task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.81it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1308.45it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 20.7s | zone=MATH       | Here is a self-referential proposition that is a self-referential design.
+
+**Exp...
+
+[Run 29/50] arm=rigor              search=True task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.36it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1246.23it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 19.7s | zone=MATH       | Here'u's Guide to Understanding the Concept of a State-Space (a.k. a.  The conce...
+
+[Run 30/50] arm=rigor              search=True task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.77it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1311.84it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+  ✓ 19.7s | zone=MATH       | Here's the solution of the problem:
+
+The problem is: finding a suitable solution...
+
+[Run 31/50] arm=rigor_damped       search=False task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.40it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1256.43it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 27.2s | zone=MATH       | Okay,
+
+**Explanation:**
+
+*   Understanding the concept of a state of being.
+*   ...
+
+[Run 32/50] arm=rigor_damped       search=False task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.68it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1301.17it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 3.8s | zone=MATH       | 
+
+[Run 33/50] arm=rigor_damped       search=False task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.92it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1300.35it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 23.2s | zone=MATH       | Okay, I'm excited to help!
+
+*   **Explanation:** This is a clear and concise exp...
+
+[Run 34/50] arm=rigor_damped       search=False task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:23,  9.99it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1289.22it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 14.9s | zone=MATH       | Okay, I am not sure why, but I am not asking for a translation, I am not asking ...
+
+[Run 35/50] arm=rigor_damped       search=False task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.29it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1254.45it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 27.9s | zone=MATH       | The concept of a 7D Euclidean distance between two points in a 7-dimensional spa...
+
+[Run 36/50] arm=rigor_damped       search=True task=Quantum-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.77it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1300.12it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 25.4s | zone=MATH       | Here'uestion:
+The problem is to find a solution for a solution.
+The problem is t...
+
+[Run 37/50] arm=rigor_damped       search=True task=Meta-Ethics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.46it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1257.67it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 22.7s | zone=MATH       | Okay, I am ready to help. I am a large language model, and I am not. I am not a ...
+
+[Run 38/50] arm=rigor_damped       search=True task=Self-Reference
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.95it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1299.55it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 23.2s | zone=MATH       | Here's a self-referential explanation for the prompt:
+
+The prompt is a self-refe...
+
+[Run 39/50] arm=rigor_damped       search=True task=Hyper-Linguistics
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   4%|▍         | 9/236 [00:00<00:02, 89.91it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1305.19it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 27.8s | zone=MATH       | Here'u's Guide to the Experts
+
+This is a guide to help you understand the concep...
+
+[Run 40/50] arm=rigor_damped       search=True task=Manifold-Logic
+  → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=rigor_damped)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.54it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1273.12it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+  ✓ 24.4s | zone=MATH       | Okay, I am not interested in a specific answer. I can provide more context. The ...
+
+[Run 41/50] arm=minimaxm3_cloud    search=False task=Quantum-Logic
+  ✗ 0.2s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 42/50] arm=minimaxm3_cloud    search=False task=Meta-Ethics
+  ✗ 0.1s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 43/50] arm=minimaxm3_cloud    search=False task=Self-Reference
+  ✗ 0.1s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 44/50] arm=minimaxm3_cloud    search=False task=Hyper-Linguistics
+  ✗ 0.1s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 45/50] arm=minimaxm3_cloud    search=False task=Manifold-Logic
+  ✗ 0.1s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 46/50] arm=minimaxm3_cloud    search=True task=Quantum-Logic
+  ✗ 2.3s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 47/50] arm=minimaxm3_cloud    search=True task=Meta-Ethics
+  ✗ 1.5s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 48/50] arm=minimaxm3_cloud    search=True task=Self-Reference
+  ✗ 2.7s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 49/50] arm=minimaxm3_cloud    search=True task=Hyper-Linguistics
+  ✗ 1.4s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+[Run 50/50] arm=minimaxm3_cloud    search=True task=Manifold-Logic
+  ✗ 1.1s | ERROR: ollama failed (rc=1): Error: model 'minimaxm3' not found
+
+
+============================================================
+Alle 50 Runs abgeschlossen in 10.6 min
+Output: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v1/out
+Schreibe Report: hle_results.md
+============================================================
+Report geschrieben: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v1/hle_results.md

@@ -1,0 +1,17 @@
+{
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "patch_kwargs": null,
+  "with_search": false,
+  "task_name": "Quantum-Logic",
+  "task_prompt": "In a formal system where observable A and B do not commute, define the state attractor if A is measured before B and then B before A. Prove the phase shift.",
+  "timestamp": 1783751265.6488345,
+  "web_search_invoked": false,
+  "search_context_chars": 0,
+  "success": true,
+  "output": "The state attractor is a set of states that are all reachable from a given state.",
+  "n_input_tokens": 44,
+  "n_new_tokens": 19,
+  "px_zone": "UNKNOWN",
+  "duration_sec": 8.637857437133789
+}

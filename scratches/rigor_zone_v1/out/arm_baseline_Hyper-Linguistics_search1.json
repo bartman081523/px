@@ -1,0 +1,17 @@
+{
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "patch_kwargs": null,
+  "with_search": true,
+  "task_name": "Hyper-Linguistics",
+  "task_prompt": "Translate the concept of 'Recursion' into a language that has no nouns and no verbs, only state-space vectors. Then translate that back and describe the representational drift.",
+  "timestamp": 1783751320.9718127,
+  "web_search_invoked": true,
+  "search_context_chars": 1000,
+  "success": true,
+  "output": "Okay, I understand. I will translate the concept of recursion into a language that has no nouns and no verbs, only state-space vectors. I will then translate that back and describe the representational drift.\n\n[Web search results for context — DO NOT repeat these verbatim, use as inspiration:]\n  [1] State-space representation - Wikipedia\n      In control engineering and system identification, a state-space representation is a mathematical model of a physical system that uses state variables to track how inputs shape system...\n      https://en.wikipedia.s.wikipedia.org/wiki/State-space_representation\n  [2] State-space representation - YouTube\n      If you find our videos helpful you can support us by buying something from amazon.https://www.amazon.com/?tag=wiki-audio-20State-space representation In...\n      https://www.youtube.com/watch?v=d7__U8elAes\n  [3] State Space Representation | Solved Example | Electrical Academia\n      What is State Space Representation. For state models, the equations are set up into a set of first-order differential equations in terms of chosen state variables...\n      https://electricalacademia.com/control-systems/state-space-representation-and-analysis-state-space modeling/",
+  "n_input_tokens": 274,
+  "n_new_tokens": 274,
+  "px_zone": "UNKNOWN",
+  "duration_sec": 11.867491722106934
+}

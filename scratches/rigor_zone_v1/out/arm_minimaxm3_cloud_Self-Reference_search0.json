@@ -1,0 +1,15 @@
+{
+  "arm": "minimaxm3_cloud",
+  "preset": null,
+  "patch_kwargs": null,
+  "with_search": false,
+  "task_name": "Self-Reference",
+  "task_prompt": "Create a self-referential proposition P such that P states: 'This architecture at its maximum loop depth will never halt on this input.' Analyze if your own processing is a proof of P.",
+  "timestamp": 1783751893.8329332,
+  "web_search_invoked": false,
+  "search_context_chars": 0,
+  "success": false,
+  "error": "ollama failed (rc=1): Error: model 'minimaxm3' not found\n",
+  "traceback": "Traceback (most recent call last):\n  File \"/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v1/rigor_zone_harness.py\", line 294, in run_arm_ollama_cloud\n    raise RuntimeError(f\"ollama failed (rc={proc.returncode}): {proc.stderr[:200]}\")\nRuntimeError: ollama failed (rc=1): Error: model 'minimaxm3' not found\n\n",
+  "duration_sec": 0.13775134086608887
+}

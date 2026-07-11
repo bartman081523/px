@@ -1,0 +1,15 @@
+{
+  "arm": "minimaxm3_cloud",
+  "preset": null,
+  "patch_kwargs": null,
+  "with_search": true,
+  "task_name": "Meta-Ethics",
+  "task_prompt": "Construct a moral framework that is simultaneously utilitarian and deontological without violating the Law of Non-Contradiction. Use your internal stability as a measure for the consistency of this framework.",
+  "timestamp": 1783751896.5518456,
+  "web_search_invoked": true,
+  "search_context_chars": 1064,
+  "success": false,
+  "error": "ollama failed (rc=1): Error: model 'minimaxm3' not found\n",
+  "traceback": "Traceback (most recent call last):\n  File \"/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v1/rigor_zone_harness.py\", line 294, in run_arm_ollama_cloud\n    raise RuntimeError(f\"ollama failed (rc={proc.returncode}): {proc.stderr[:200]}\")\nRuntimeError: ollama failed (rc=1): Error: model 'minimaxm3' not found\n\n",
+  "duration_sec": 1.5357017517089844
+}
