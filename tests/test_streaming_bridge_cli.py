@@ -14,7 +14,7 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from streaming_bridge import _build_argparser
+from streaming_bridge import _build_argparser, _resolve_relay_layer
 
 
 def _parse(argv):
@@ -197,6 +197,56 @@ def test_help_flag_works():
     import pytest
     with pytest.raises(SystemExit):
         _parse(["--help"])
+
+
+# --- _resolve_relay_layer -------------------------------------------
+# Plan 2026-07-09: per-Modell-Default-Layer-Lookup. User-Angabe hat
+# höchste Priorität; sonst wird der inject_layer aus dem d_width-Artefakt
+# gelesen (Source-of-Truth); sonst Fallback pro Modell-Größe.
+
+def test_resolve_relay_layer_user_wins():
+    """User-Angabe --relay-layer=99 überschreibt den Modell-Default."""
+    layer = _resolve_relay_layer("gemma3-1b-it", user_layer=99)
+    assert layer == 99
+
+def test_resolve_relay_layer_user_zero_is_kept():
+    """Layer=0 (defensive) wird nicht als None interpretiert."""
+    layer = _resolve_relay_layer("gemma3-1b-it", user_layer=0)
+    assert layer == 0
+
+def test_resolve_relay_layer_270m_default_14():
+    """gemma3-270m-it ohne user-Layer → L14 (Artefakt)."""
+    layer = _resolve_relay_layer("gemma3-270m-it", user_layer=None)
+    assert layer == 14
+
+def test_resolve_relay_layer_1b_default_21():
+    """gemma3-1b-it ohne user-Layer → L21."""
+    layer = _resolve_relay_layer("gemma3-1b-it", user_layer=None)
+    assert layer == 21
+
+def test_resolve_relay_layer_4b_default_25():
+    """gemma3-4b-it ohne user-Layer → L25 (war vorher fälschlich 21)."""
+    layer = _resolve_relay_layer("gemma3-4b-it", user_layer=None)
+    assert layer == 25
+
+def test_resolve_relay_layer_e2b_default_26():
+    """gemma4-e2b-it ohne user-Layer → L26 (per spec)."""
+    layer = _resolve_relay_layer("gemma4-e2b-it", user_layer=None)
+    assert layer == 26
+
+def test_resolve_relay_layer_unknown_model_falls_back_to_21():
+    """Modell ohne Artefakt → finaler Fallback L21 (1b-default).
+
+    1b ist der häufigste Fall, der Default ist also nicht völlig aus der
+    Luft gegriffen. Caller (Patch) hat nochmal seinen eigenen hidden_size-
+    Fallback, aber hier in der Bridge geht's nur um User-Feedback."""
+    layer = _resolve_relay_layer("some/unknown-model", user_layer=None)
+    assert layer == 21
+
+def test_resolve_relay_layer_empty_string_falls_back_to_21():
+    """Leerer model_id → Fallback (defensiv)."""
+    layer = _resolve_relay_layer("", user_layer=None)
+    assert layer == 21
 
 
 # --- runner ------------------------------------------------------------

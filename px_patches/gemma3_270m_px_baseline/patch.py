@@ -28,7 +28,7 @@ from .px_modules import (
     StabilityMonitor, MephistophelesOperator,
 )
 from .anti_zombie_sensor import AntiZombieSensor
-from .relay_inject import install_relay, remove_relay
+from .relay_inject import install_relay, remove_relay, get_inject_layer_for_hf_id
 from transformers.models.gemma3.modeling_gemma3 import apply_rotary_pos_emb, ALL_ATTENTION_FUNCTIONS, eager_attention_forward
 
 # ---------------------------------------------------------------------------
@@ -888,10 +888,28 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
         outer_hf_id = getattr(getattr(model, "config", None), "_name_or_path", None)
         if outer_hf_id:
             text_model._px_hf_id = outer_hf_id
+    # Plan 2026-07-09: per-Modell relay_layer-Default. Vorher war
+    # ``defaults.get("relay_layer", 21)`` hardcoded auf 1b → 270m (L14),
+    # 4b (L25), gemma4 (L26) kriegten die falsche Schicht. Lookup-Reihenfolge:
+    # 1. User-Wert via patch_kwargs (höchste Priorität)
+    # 2. inject_layer aus d_width-Artefakt (Source-of-Truth, get_inject_layer_for_hf_id)
+    # 3. hidden_size → layer Map (Final-Fallback für Modelle ohne Artefakt)
+    _user_layer = defaults.get("relay_layer")
+    _hf_id_for_layer = (
+        getattr(text_model, "_px_hf_id", None)
+        or getattr(getattr(text_model, "config", None), "_name_or_path", None)
+        or getattr(getattr(model, "config", None), "_name_or_path", None)
+    )
+    _relay_layer = _user_layer
+    if _relay_layer is None and _hf_id_for_layer:
+        _relay_layer = get_inject_layer_for_hf_id(_hf_id_for_layer)
+    if _relay_layer is None:
+        # Final fallback: hidden_size → layer (für Modelle ohne d_width-Artefakt)
+        _relay_layer = {640: 14, 1152: 21, 2560: 25, 1536: 26}.get(hidden_size, 21)
     install_relay(text_model,
                   sign=_relay_sign,
                   alpha_frac=defaults.get("relay_alpha", 0.30),
-                  layer=defaults.get("relay_layer", 21))
+                  layer=_relay_layer)
 
     _mode = "ACTIVE_MANIFOLD_LEAN (kausaler Kern)" if lean else "ACTIVE_MANIFOLD (voll)"
     print(f"[gemma3-px] {_mode}. SR-59 for L{num_layers} (HS={hidden_size}).")

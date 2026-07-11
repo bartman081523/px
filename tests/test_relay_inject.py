@@ -50,6 +50,7 @@ from px_patches.gemma3_270m_px_baseline.relay_inject import (  # noqa: E402
     install_relay,
     remove_relay,
     load_dwidth,
+    get_inject_layer_for_hf_id,
 )
 
 
@@ -362,6 +363,91 @@ class TestLoadDwidthCaching(unittest.TestCase):
         # Both cached as None (no artefact on disk for either).
         self.assertIsNone(relay_inject._DWIDTH_CACHE["model_a"])
         self.assertIsNone(relay_inject._DWIDTH_CACHE["model_b"])
+
+
+# ────────────────────────────────────────────────────────────────────
+# get_inject_layer_for_hf_id — Plan 2026-07-09: per-Modell-Default
+# ────────────────────────────────────────────────────────────────────
+# Auto-Layer-Lookup für streaming_bridge + patch.py. Liest inject_layer
+# aus px_manifolds/{hf_id_safe}_relay_dwidth.json. Source-of-Truth ist
+# das Artefakt-File, NICHT eine hardcoded map.
+#
+# Motivation: jeder Modell-Größe hat einen anderen post-recur-Layer:
+#   gemma3-270m-it → L14 (capture L8, hidden_size 640)
+#   gemma3-1b-it   → L21 (capture L16, hidden_size 1152)
+#   gemma3-4b-it   → L25 (capture L15, hidden_size 2560)
+#   gemma4-e2b-it  → L26 (capture L18, hidden_size 1536)
+# Vorher: hardcoded 21 (=1b) im Patch → 270m/4b/E2B kriegten die falsche
+# Schicht und der Relay-Effekt verpuffte (gemma4 wurde kürzlich auf 26
+# gefixt, 270m/4b aber nicht).
+#
+# Tests pinnen: alle 4 echten Modelle, missing file → None, falsches JSON
+# → None, explizit übergebener layer gewinnt über Default.
+
+
+class TestGetInjectLayerForHfId(unittest.TestCase):
+    """Liest inject_layer pro Modell aus den d_width-Artefakten."""
+
+    def setUp(self):
+        # Cache resetten, weil get_inject_layer selbst nicht cached
+        # (cheap file-read), aber Konsistenz mit load_dwidth-Tests.
+        from px_patches.gemma3_270m_px_baseline import relay_inject
+        relay_inject._DWIDTH_CACHE.clear()
+
+    def test_270m_returns_layer_14(self):
+        """gemma3-270m-it → L14 (aus Artefakt, nicht hardcoded)."""
+        layer = get_inject_layer_for_hf_id("google/gemma-3-270m-it")
+        self.assertEqual(layer, 14)
+
+    def test_1b_returns_layer_21(self):
+        """gemma3-1b-it → L21 (default seit seite15, alle Modelle gleich)."""
+        layer = get_inject_layer_for_hf_id("google/gemma-3-1b-it")
+        self.assertEqual(layer, 21)
+
+    def test_4b_returns_layer_25(self):
+        """gemma3-4b-it → L25 (war vorher fälschlich auf 21)."""
+        layer = get_inject_layer_for_hf_id("google/gemma-3-4b-it")
+        self.assertEqual(layer, 25)
+
+    def test_e2b_returns_layer_26(self):
+        """gemma4-e2b-it → L26 (per spec, gemma4 hat andere Capture-Layer).
+
+        Note: hf_id in config.py ist ``google/gemma-4-E2B-it`` mit großem E
+        (siehe MODEL_REGISTRY). Artefakt-Filename matched case-sensitive —
+        filename ist ``google_gemma-4-E2B-it_relay_dwidth.json``."""
+        layer = get_inject_layer_for_hf_id("google/gemma-4-E2B-it")
+        self.assertEqual(layer, 26)
+
+    def test_unknown_hf_id_returns_none(self):
+        """Kein Artefakt → None (Caller entscheidet: fallback auf hardcoded
+        Map oder kein Relay). Wirft NICHT."""
+        self.assertIsNone(get_inject_layer_for_hf_id("some/unknown-model"))
+
+    def test_empty_hf_id_returns_none(self):
+        """Leerer String ist defensiv → None (kein Crash)."""
+        self.assertIsNone(get_inject_layer_for_hf_id(""))
+
+    def test_corrupt_json_returns_none(self):
+        """Korruptes JSON-File (z.B. wenn User es halb-editiert hat) → None,
+        kein Crash. Wird via tmp-Pfad-Override getestet."""
+        import json
+        import tempfile
+        from px_patches.gemma3_270m_px_baseline import relay_inject
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Override _relay_dir via PX_RELAY_DIR
+            old_env = os.environ.get("PX_RELAY_DIR")
+            os.environ["PX_RELAY_DIR"] = tmpdir
+            try:
+                # Schreibe korruptes JSON mit dem richtigen Filename-Pattern
+                with open(os.path.join(tmpdir, "broken_model_relay_dwidth.json"), "w") as f:
+                    f.write("{not valid json")
+                result = get_inject_layer_for_hf_id("broken/model")
+                self.assertIsNone(result)
+            finally:
+                if old_env is None:
+                    os.environ.pop("PX_RELAY_DIR", None)
+                else:
+                    os.environ["PX_RELAY_DIR"] = old_env
 
 
 if __name__ == "__main__":

@@ -104,11 +104,21 @@ def test_valid_preset_set_includes_relay():
 
 
 def test_relay_default_layer_for_gemma4_is_26():
-    """Default-Layer für gemma4-e2b relay ist 26 (post-recur)."""
+    """Default-Layer für gemma4-e2b relay ist 26 (post-recur).
+
+    Plan 2026-07-09: Lookup-Reihenfolge ist jetzt (1) User-arg,
+    (2) get_inject_layer_for_hf_id() aus d_width-Artefakt, (3)
+    hidden_size-Map-Fallback. Früher hardcoded ``defaults.get(..., 26)``.
+    Der finale hidden_size-Fallback enthält weiterhin 26 für gemma4
+    (hidden_size=1536), wir pinnen also das Verhalten, nicht die Syntax."""
     import px_patches.gemma4_2b_px.patch as P2
     src = open(os.path.join(os.path.dirname(P2.__file__), "patch.py")).read()
-    # install_relay wird mit layer=26 aufgerufen (statt gemma3 21)
-    assert "layer=defaults.get(\"relay_layer\", 26)" in src
+    # (a) Helper-Import
+    assert "get_inject_layer_for_hf_id" in src
+    # (b) hidden_size-Map enthält 26 für gemma4
+    assert "26" in src
+    # (c) Reihenfolge: User-Layer hat höchste Priorität vor Auto-Lookup
+    assert "_user_layer = defaults.get(\"relay_layer\")" in src
 
 
 def test_relay_sign_default_for_relay_preset_is_positive():

@@ -91,6 +91,45 @@ def _find_hf_id(text_model):
     return hf_id
 
 
+def get_inject_layer_for_hf_id(hf_id):
+    """Lese ``inject_layer`` aus dem d_width-Artefakt für ``hf_id``.
+
+    Plan 2026-07-09: Vorher hatte der Patch einen einzigen hardcoded
+    Fallback ``defaults.get("relay_layer", 21)`` für gemma3 und 26 für
+    gemma4 — beides manual und fehleranfällig. Source-of-Truth ist jetzt
+    das Artefakt-File (``inject_layer``-Feld), das per
+    ``scratches/psychomotrik/save_relay_dwidth.py`` aus dem Capture-
+    Prozess geschrieben wird. Identische Signatur zum Schwester-Modul
+    in ``gemma3_270m_px_baseline/relay_inject.py`` (Plan 2026-07-09:
+    spec-sync, beide patches lesen aus dem gleichen px_manifolds/-Pool).
+
+    Args:
+        hf_id: HF-Model-ID wie ``"google/gemma-4-E2B-it"``. Leer/None →
+            None (defensiv).
+
+    Returns:
+        ``inject_layer`` (int) wenn Artefakt existiert + parsebar ist,
+        sonst ``None``. Caller entscheidet, was mit None passiert
+        (typisch: fallback auf hardcoded Map pro hidden_size oder kein
+        Relay). Wirft NICHT — auch nicht bei korruptem JSON.
+    """
+    if not hf_id or not isinstance(hf_id, str):
+        return None
+    safe_id = hf_id.replace("/", "_")
+    path = os.path.join(_relay_dir(), f"{safe_id}_relay_dwidth.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            art = json.load(f)
+        layer = art.get("inject_layer")
+        if not isinstance(layer, int):
+            return None
+        return layer
+    except (json.JSONDecodeError, OSError, KeyError, TypeError, ValueError):
+        return None
+
+
 def load_dwidth(text_model):
     """Lade d_width-Artefakt für text_model (gecacht). Return (dwidth_np, meta)
     oder None (kein Artefakt / dim-mismatch)."""

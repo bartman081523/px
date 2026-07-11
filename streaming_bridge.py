@@ -119,6 +119,36 @@ def _extract_text_from_content(content):
     return "".join(parts)
 
 
+def _resolve_relay_layer(model_id, user_layer):
+    """Resolve den effektiven relay_layer für die API.
+
+    Plan 2026-07-09: per-Modell-Default statt globalem 21. Reihenfolge:
+      1. user_layer (CLI-arg ``--relay-layer``) — höchste Priorität
+      2. inject_layer aus d_width-Artefakt via get_inject_layer_for_hf_id
+      3. finaler Fallback L21 (1b-default, häufigster Fall)
+    Auch wenn 0 als user_layer übergeben wird, wird 0 akzeptiert
+    (defensive — 0 wäre ein unsinniger Layer, aber Caller entscheidet).
+    """
+    if user_layer is not None:
+        return user_layer
+    hf_id = None
+    try:
+        from config import MODEL_REGISTRY
+        if model_id in MODEL_REGISTRY:
+            hf_id = MODEL_REGISTRY[model_id].get("hf_id")
+    except ImportError:
+        pass
+    if hf_id:
+        from px_patches.gemma3_270m_px_baseline.relay_inject import (
+            get_inject_layer_for_hf_id,
+        )
+        layer = get_inject_layer_for_hf_id(hf_id)
+        if layer is not None:
+            return layer
+    # Final fallback: 1b-default (häufigster Fall in der Praxis)
+    return 21
+
+
 def _build_image_data_url(image_path=None, image_base64=None):
     """Build an OpenAI-compatible data: URL for an image. Exactly one of
     (image_path, image_base64) must be provided.
@@ -191,13 +221,20 @@ def main():
     args = _build_argparser().parse_args()
 
     session_id = args.session
+    # Plan 2026-07-09: per-Modell-Default für relay_layer, statt globalem 21.
+    # Reihenfolge: User (--relay-layer) > d_width-Artefakt > Fallback 21.
+    # User sieht jetzt beim print UND der API-Call nutzt den richtigen Layer
+    # automatisch — kein manuelles --relay-layer mehr nötig für 270m/4b/E2B.
+    resolved_layer = _resolve_relay_layer(args.model, args.relay_layer)
     print("="*60)
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
     print(f" MODE: {args.preset} | MODEL: {args.model}")
     if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
+        # source: USER wenn --relay-layer explizit, sonst "auto ({modell})"
+        layer_src = "user" if args.relay_layer is not None else f"auto ({args.model})"
         print(f" RELAY: sign={args.relay_sign if args.relay_sign is not None else '+1 (preset-default)'} "
               f"alpha={args.relay_alpha if args.relay_alpha is not None else 0.30} "
-              f"layer={args.relay_layer if args.relay_layer is not None else 21}")
+              f"layer={resolved_layer} [{layer_src}]")
     print("="*60)
     
     session_data = load_local_session(session_id)
@@ -267,13 +304,17 @@ def main():
         "max_tokens": 1024,
         "stream": True
     }
-    # verstärkbar Relay-Parameter (nur gesetzt wenn CLI-arg angegeben)
+    # verstärkbar Relay-Parameter (nur gesetzt wenn CLI-arg angegeben —
+    # AUSNAHME px_relay_layer: der wird per-Modell auto-resolved, sonst
+    # kriegt z.B. 270m die 1b-Schicht 21 statt 14, und der Relay-Effekt
+    # verpufft. Plan 2026-07-09.)
     if args.relay_sign is not None:
         payload["px_relay_sign"] = args.relay_sign
     if args.relay_alpha is not None:
         payload["px_relay_alpha"] = args.relay_alpha
-    if args.relay_layer is not None:
-        payload["px_relay_layer"] = args.relay_layer
+    # relay_layer: User-Angabe > d_width-Artefakt > Fallback 21
+    if args.relay_layer is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
+        payload["px_relay_layer"] = resolved_layer
 
     full_response = ""
     print("[MODELL ANTWORT]:")
