@@ -1,0 +1,313 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[WARN] v1-PX (rigor_zone_forward/manifold) nicht importierbar — rigor_* Arms laufen ohne Damping
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 45 Tasks
+    - Math: 15
+    - Computer Science/AI: 15
+    - Humanities/Social Science: 15
+    45 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    33 HTTP-Calls in 8.1s (45 unique Tasks)
+[A] 1108 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.74it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1319.85it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.42it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1297.12it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.92it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1334.22it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.56it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1272.13it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   4%|▍         | 10/236 [00:00<00:02, 99.27it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1348.45it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.61it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1304.65it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.63it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1302.60it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.71it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1311.52it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_full geladen
+    8/8 Modelle in 27.5s
+
+======================================================================
+Phase B: GPU-Loop
+======================================================================
+
+[B] Arm=baseline preset=BASELINE search=True seed=43 (36 Items)
+  → 36 Outputs (36/1108 total)
+
+[B] Arm=baseline preset=BASELINE search=False seed=43 (34 Items)
+  → 34 Outputs (70/1108 total)
+
+[B] Arm=baseline preset=BASELINE search=False seed=42 (15 Items)
+  → 15 Outputs (85/1108 total)
+
+[B] Arm=baseline preset=BASELINE search=True seed=42 (15 Items)
+  → 15 Outputs (100/1108 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (136/1108 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (172/1108 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (208/1108 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (244/1108 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (280/1108 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (316/1108 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (352/1108 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (388/1108 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (424/1108 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (460/1108 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (496/1108 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (532/1108 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (568/1108 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (604/1108 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (640/1108 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (676/1108 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (712/1108 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (748/1108 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (784/1108 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (820/1108 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (856/1108 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (892/1108 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (928/1108 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (964/1108 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (1000/1108 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (885) must match the size of tensor b (884) at non-singleto), fallback to model.generate
+  → 36 Outputs (1036/1108 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=42 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (1072/1108 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=43 (36 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (919) must match the size of tensor b (918) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (622) must match the size of tensor b (621) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1019) must match the size of tensor b (1018) at non-single), fallback to model.generate
+  → 36 Outputs (1108/1108 total)
+
+[B] GPU-Loop fertig: 1108 Outputs in 1126.3s (1.02s/Output)
+
+[C] Postprocess: write + verify + flags
+    {'n_outputs': 1108, 'n_verified_ok': 299, 'n_flagged': 880}
+
+[D] Hypothesentests (H1-H4)
+    H1: WIDERLEGT
+    H2: NICHT_TESTBAR
+    H3: NICHT_TESTBAR
+    H4: BESTÄTIGT
+
+[E] Reproducibility-Phase (74 echte Runs)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (611) must match the size of tensor b (610) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (611) must match the size of tensor b (610) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (788) must match the size of tensor b (787) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+    74 Repro-Outputs geschrieben
+
+======================================================================
+FERTIG
+======================================================================
