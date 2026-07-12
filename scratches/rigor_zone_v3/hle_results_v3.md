@@ -1,7 +1,7 @@
 # HLE v3 — RIGOR-Expansion: Skopus, Hypothesen, Befunde (CUDA-Graph-Default)
 
-**Stand:** 2026-07-11 15:29:27  
-**Git-Commit:** `aa916bdfa1b2`  
+**Stand:** 2026-07-11 20:52:14  
+**Git-Commit:** `59e8cdd16111`  
 **Python:** 3.10.20  
 **torch:** 2.12.0+cu130  
 **transformers:** 5.13.0  
@@ -207,7 +207,7 @@ PX-Presets, Production-Code-Änderungen.
 - **Python:** 3.10.20
 - **torch:** 2.12.0+cu130
 - **transformers:** 5.13.0
-- **Git-Commit:** `aa916bdfa1b2`
+- **Git-Commit:** `59e8cdd16111`
 
 ### Run-Manifest
 

@@ -12,13 +12,25 @@ ssl/
 # ── HF-Push-Ausschluss (per push_hf.sh EXCLUDE_PATHS) ─────────────
 # Werden im sparse-branch zusätzlich explizit excluded, gitignore hier
 # verhindert versehentliche Commits in zukünftigen Iterationen.
-scratches/
+# scratches/ ist seit 2026-07-12 selektiv getrackt (.py, .md, .json, .sh, .txt
+# + Unterverzeichnisse inkl. out/ — aber keine .pt-Tensor-Caches, kein __pycache__).
+# .pt-Caches und Cache-Verzeichnisse bleiben excluded.
 telemetry/
 sessions/
 sessions_bak/
 sessions_bak3/
 local_debug.log
 logs/local_debug.log
+
+# ── Scratch-Cache-Artefakte (Track: Source + Results, NICHT: Binaries) ──
+scratches/**/__pycache__/
+scratches/**/*.pt
+scratches/**/*.bin
+scratches/**/*.safetensors
+scratches/**/*.npz
+scratches/**/*.npy
+scratches/**/*.pkl
+scratches/**/*.pkl.gz
 
 # ── Python-Build-Artefakte ───────────────────────────────────────
 *.py[cod]
