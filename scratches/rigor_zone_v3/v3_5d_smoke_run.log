@@ -1,0 +1,208 @@
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 8 Tasks
+    - Math: 1
+    - Computer Science/AI: 1
+    - Humanities/Social Science: 1
+    - Physics: 1
+    - Biology/Medicine: 1
+    - Chemistry: 1
+    - Engineering: 1
+    - Other: 1
+    8 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    8 HTTP-Calls in 2.5s (8 unique Tasks)
+[A] 128 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 55/236 [00:00<00:00, 548.57it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1452.21it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.46it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1246.10it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.44it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1240.04it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.0)
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.37it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1221.84it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.1}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.1)
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.36it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1243.99it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+    → Recursion-Damping: recur_range 7 → 2 (scale=0.3)
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.58it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1249.72it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.5}
+    → Recursion-Damping: recur_range 7 → 4 (scale=0.5)
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.45it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1257.08it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.7}
+    → Recursion-Damping: recur_range 7 → 5 (scale=0.7)
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1244.38it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'untouched', 'mephisto_scale': 1.0}
+    ✓ rigor_full geladen
+    8/8 Modelle in 27.8s
+
+======================================================================
+Phase B: GPU-Loop
+======================================================================
+
+[B] Arm=baseline preset=BASELINE search=False seed=42 (8 Items)
+  → 8 Outputs (8/128 total)
+
+[B] Arm=baseline preset=BASELINE search=True seed=42 (8 Items)
+  → 8 Outputs (16/128 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=42 (8 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/rigor_harness_v3.py", line 493, in run_gpu_loop
+    first = runner.setup(input_ids, attention_mask)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/px_patches_v3/cuda_graph_runner.py", line 358, in setup
+    out = self.text_model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/px_patches_v3/patch.py", line 352, in _px_forward
+    return Gemma3TextModel.forward(self, input_ids=input_ids, attention_mask=attention_mask,
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 1040, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/output_capturing.py", line 252, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 576, in forward
+    hidden_states = decoder_layer(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 419, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/px_patches_v3/patch.py", line 162, in _mem_eff_attention_forward
+    attn_output, _ = attn_interface(self, query_states, key_states, value_states, attention_mask,
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/integrations/sdpa_attention.py", line 93, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-singleton dimension 3
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/rigor_harness_v3.py", line 859, in <module>
+    sys.exit(main())
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/rigor_harness_v3.py", line 789, in main
+    out_texts = run_gpu_loop(
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/rigor_harness_v3.py", line 505, in run_gpu_loop
+    outputs = model.generate(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2645, in generate
+    result = decoding_method(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 2845, in _sample
+    outputs = self._prefill(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/generation/utils.py", line 3896, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 911, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 641, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/px_patches_v3/patch.py", line 352, in _px_forward
+    return Gemma3TextModel.forward(self, input_ids=input_ids, attention_mask=attention_mask,
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/generic.py", line 1040, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/utils/output_capturing.py", line 252, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 576, in forward
+    hidden_states = decoder_layer(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/models/gemma3/modeling_gemma3.py", line 419, in forward
+    hidden_states, _ = self.self_attn(
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/px_patches_v3/patch.py", line 162, in _mem_eff_attention_forward
+    attn_output, _ = attn_interface(self, query_states, key_states, value_states, attention_mask,
+  File "/run/media/julian/ML4/open-mythos_p2/venv_openmythos/lib/python3.10/site-packages/transformers/integrations/sdpa_attention.py", line 93, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacity of 11.56 GiB of which 147.56 MiB is free. Including non-PyTorch memory, this process has 11.03 GiB memory in use. Of the allocated memory 10.64 GiB is allocated by PyTorch, and 280.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

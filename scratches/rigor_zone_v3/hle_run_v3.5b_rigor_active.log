@@ -1,0 +1,203 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 32 Tasks
+    - Math: 4
+    - Computer Science/AI: 4
+    - Humanities/Social Science: 4
+    - Physics: 4
+    - Biology/Medicine: 4
+    - Chemistry: 4
+    - Engineering: 4
+    - Other: 4
+    32 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    24 HTTP-Calls in 8.7s (32 unique Tasks)
+[A] 512 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  27%|██▋       | 63/236 [00:00<00:00, 628.89it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1509.52it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.58it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1311.49it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.57it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1290.51it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.88it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1346.64it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.1}
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.50it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1303.90it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   3%|▎         | 7/236 [00:00<00:03, 69.96it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1332.53it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.5}
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.49it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1306.39it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.7}
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   3%|▎         | 6/236 [00:00<00:03, 59.90it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1353.16it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'untouched', 'mephisto_scale': 1.0}
+    ✓ rigor_full geladen
+    8/8 Modelle in 27.7s
+
+======================================================================
+Phase B: GPU-Loop
+======================================================================
+
+[B] Arm=baseline preset=BASELINE search=False seed=42 (32 Items)
+  → 32 Outputs (32/512 total)
+
+[B] Arm=baseline preset=BASELINE search=True seed=42 (32 Items)
+  → 32 Outputs (64/512 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (96/512 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (128/512 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (160/512 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (192/512 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (224/512 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (256/512 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (288/512 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (320/512 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (352/512 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (384/512 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (416/512 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (448/512 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1683) must match the size of tensor b (1682) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (480/512 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=42 (32 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (562) must match the size of tensor b (561) at non-singleto), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (1836) must match the size of tensor b (1835) at non-single), fallback to model.generate
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 32 Outputs (512/512 total)
+
+[B] GPU-Loop fertig: 512 Outputs in 586.4s (1.15s/Output)
+
+[C] Postprocess: write + verify + flags
+    {'n_outputs': 512, 'n_verified_ok': 79, 'n_flagged': 433}
+
+[D] Hypothesentests (H1-H4)
+    H1: WIDERLEGT
+    H2: NICHT_TESTBAR
+    H3: NICHT_TESTBAR
+    H4: WIDERLEGT
+
+======================================================================
+FERTIG
+======================================================================

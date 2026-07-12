@@ -1,0 +1,194 @@
+[WARN] v1-PX (rigor_zone_forward/manifold) nicht importierbar — rigor_* Arms laufen ohne Damping
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 9 Tasks
+    - Math: 3
+    - Computer Science/AI: 3
+    - Humanities/Social Science: 3
+    9 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    0 HTTP-Calls in 0.0s (12 unique Tasks)
+[A] 267 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 3128.18it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.42it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1292.67it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   3%|▎         | 6/236 [00:00<00:03, 59.99it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1346.13it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.97it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1342.20it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   3%|▎         | 8/236 [00:00<00:02, 79.89it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1347.33it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 5/236 [00:00<00:04, 49.95it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1276.76it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.50it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1286.11it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1289.87it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ rigor_full geladen
+    8/8 Modelle in 27.4s
+
+======================================================================
+Phase B: GPU-Loop
+======================================================================
+
+[B] Arm=baseline preset=BASELINE search=True seed=43 (9 Items)
+  → 9 Outputs (9/267 total)
+
+[B] Arm=baseline preset=BASELINE search=False seed=43 (6 Items)
+  → 6 Outputs (15/267 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=42 (9 Items)
+  → 9 Outputs (24/267 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=43 (9 Items)
+  → 9 Outputs (33/267 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=42 (9 Items)
+  → 9 Outputs (42/267 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=43 (9 Items)
+  → 9 Outputs (51/267 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (60/267 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (69/267 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (78/267 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (87/267 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (96/267 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (105/267 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (114/267 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (123/267 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (132/267 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (141/267 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (150/267 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (159/267 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (168/267 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (177/267 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (186/267 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (195/267 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (204/267 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (213/267 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (222/267 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (231/267 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=42 (9 Items)
+  → 9 Outputs (240/267 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=43 (9 Items)
+  → 9 Outputs (249/267 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=42 (9 Items)
+  → 9 Outputs (258/267 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=43 (9 Items)
+  → 9 Outputs (267/267 total)
+
+[B] GPU-Loop fertig: 267 Outputs in 59.1s (0.22s/Output)
+
+[C] Postprocess: write + verify + flags
+    {'n_outputs': 267, 'n_verified_ok': 61, 'n_flagged': 262}
+
+======================================================================
+FERTIG
+======================================================================

@@ -1,0 +1,187 @@
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 16 Tasks
+    - Math: 2
+    - Computer Science/AI: 2
+    - Humanities/Social Science: 2
+    - Physics: 2
+    - Biology/Medicine: 2
+    - Chemistry: 2
+    - Engineering: 2
+    - Other: 2
+    16 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    16 HTTP-Calls in 3.9s (16 unique Tasks)
+[A] 256 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  15%|█▍        | 35/236 [00:00<00:00, 349.88it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1374.67it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.29it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1239.01it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.56it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1268.04it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.0)
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.76it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1296.56it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.1}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.1)
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1246.92it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+    → Recursion-Damping: recur_range 7 → 2 (scale=0.3)
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 40.00it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1305.77it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.5}
+    → Recursion-Damping: recur_range 7 → 4 (scale=0.5)
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.44it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1230.59it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.7}
+    → Recursion-Damping: recur_range 7 → 5 (scale=0.7)
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:23,  9.96it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1277.42it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'untouched', 'mephisto_scale': 1.0}
+    ✓ rigor_full geladen
+    8/8 Modelle in 28.2s
+
+======================================================================
+Phase B: GPU-Loop
+======================================================================
+
+[B] Arm=baseline preset=BASELINE search=False seed=42 (16 Items)
+  → 16 Outputs (16/256 total)
+
+[B] Arm=baseline preset=BASELINE search=True seed=42 (16 Items)
+  → 16 Outputs (32/256 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (48/256 total)
+
+[B] Arm=active_manifold preset=ACTIVE_MANIFOLD search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (64/256 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (80/256 total)
+
+[B] Arm=rigor_disabled preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (96/256 total)
+
+[B] Arm=rigor_least preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (112/256 total)
+
+[B] Arm=rigor_least preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (128/256 total)
+
+[B] Arm=rigor_low preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (144/256 total)
+
+[B] Arm=rigor_low preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (160/256 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (176/256 total)
+
+[B] Arm=rigor_mid preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (192/256 total)
+
+[B] Arm=rigor_high preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (208/256 total)
+
+[B] Arm=rigor_high preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (224/256 total)
+
+[B] Arm=rigor_full preset=RIGOR search=False seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (240/256 total)
+
+[B] Arm=rigor_full preset=RIGOR search=True seed=42 (16 Items)
+  [WARN] CUDA-Graph failed (RuntimeError: The size of tensor a (2049) must match the size of tensor b (2048) at non-single), fallback to model.generate
+  → 16 Outputs (256/256 total)
+
+[B] GPU-Loop fertig: 256 Outputs in 342.9s (1.34s/Output)
+
+[C] Postprocess: write + verify + flags
+    {'n_outputs': 256, 'n_verified_ok': 18, 'n_flagged': 250}
+
+[D] Hypothesentests (H1-H4)
+    H1: WIDERLEGT
+    H2: NICHT_TESTBAR
+    H3: NICHT_TESTBAR
+    H4: WIDERLEGT
+
+======================================================================
+FERTIG
+======================================================================

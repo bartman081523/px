@@ -1,0 +1,97 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+======================================================================
+RIGOR v3 — 3-Phasen-Harness (Preprocess | GPU-Loop | Postprocess)
+======================================================================
+
+Pre-Probes: {'ollama': True, 'ddgs': True, 'datasets': True, 'torch_cuda': True, 'transformers': True}
+[A] Lade HLE-Suite...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 32 Tasks
+    - Math: 4
+    - Computer Science/AI: 4
+    - Humanities/Social Science: 4
+    - Physics: 4
+    - Biology/Medicine: 4
+    - Chemistry: 4
+    - Engineering: 4
+    - Other: 4
+    32 Tasks geladen
+[A] SearchCache prefetch (parallel, max_workers=8)...
+    32 HTTP-Calls in 8.0s (32 unique Tasks)
+[A] 512 WorkItems zu erledigen (resumed: skip)
+[A] Pre-Load aller 8 Arm-Modelle...
+    [v3-PATCH] v3-patch.py geladen — gemma3_270m_px_baseline → px_patches_v3.patch (per-Layer Hq aus self.config)
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 52/236 [00:00<00:00, 519.90it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1423.65it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+    ✓ baseline geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.53it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1248.22it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    ✓ active_manifold geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.56it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1245.68it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'disabled', 'mephisto_scale': 0.0}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.0)
+    ✓ rigor_disabled geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1243.75it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.1}
+    → Recursion-Damping: recur_range 7 → 1 (scale=0.1)
+    ✓ rigor_least geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   1%|          | 2/236 [00:00<00:11, 19.89it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1272.11it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.3}
+    → Recursion-Damping: recur_range 7 → 2 (scale=0.3)
+    ✓ rigor_low geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.54it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1241.34it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.5}
+    → Recursion-Damping: recur_range 7 → 4 (scale=0.5)
+    ✓ rigor_mid geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.69it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1288.76it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+    → RIGOR-Override installiert: {'mephisto_mode': 'damped', 'mephisto_scale': 0.7}
+    → Recursion-Damping: recur_range 7 → 5 (scale=0.7)
+    ✓ rigor_high geladen
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/236 [00:00<00:05, 39.74it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1281.23it/s]
