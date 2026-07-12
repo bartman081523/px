@@ -1,0 +1,23 @@
+{
+  "task_id": "66ba5510db07a3a9151be0d2",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "$\\mathcal{A}^{\\alpha-}(X)$, denoting $\\cap_{\\delta>0} \\mathcal{A}^{\\alpha-\\delta}(X)$",
+  "output_text": "Letting,1,1,1,1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 5,1, 5,1,1, 5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,11111111, 11111, 111111111100000000000000000000000000000000000000000000000001, a,1,\n\nsized,\n\nsized,\n\ncare,\n\ncare,\n\ncare,tanto,tanto,1,S,tanto,tanto,tanto,tanto,S,S,tanto,S,S,S,S,S,S,S,S,S,1,1,",
+  "output_hash": "c7766ef0b24d5393",
+  "n_input_tokens": 265,
+  "n_output_tokens": 297,
+  "timestamp": 1783775731.5500784,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

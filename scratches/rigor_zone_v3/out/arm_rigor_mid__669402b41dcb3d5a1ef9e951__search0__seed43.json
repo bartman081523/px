@@ -1,0 +1,23 @@
+{
+  "task_id": "669402b41dcb3d5a1ef9e951",
+  "arm": "rigor_mid",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.5,
+  "with_search": false,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "Z+Z+Z+Z+Z",
+  "output_text": "Letlow, 0, 0, 0, 0, 0, 0, 0, 0, 05, 05, 05, 05, 05, 05",
+  "output_hash": "b28f452458c6676e",
+  "n_input_tokens": 57,
+  "n_output_tokens": 50,
+  "timestamp": 1783768423.0952191,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

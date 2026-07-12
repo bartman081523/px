@@ -1,0 +1,23 @@
+{
+  "task_id": "66e9172ef3f20cc62f5143a4",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": false,
+  "seed": 42,
+  "category": "Humanities/Social Science",
+  "ground_truth": "C",
+  "output_text": "The correct answer is **(E).**\n",
+  "output_hash": "b515c6f3b1fce2f0",
+  "n_input_tokens": 130,
+  "n_output_tokens": 10,
+  "timestamp": 1783783303.2022676,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": true
+}

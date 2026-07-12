@@ -1,0 +1,23 @@
+{
+  "task_id": "66e89ebe7361982cbfbc5952",
+  "arm": "rigor_full",
+  "preset": "RIGOR",
+  "mephisto_scale": 1.0,
+  "with_search": false,
+  "seed": 42,
+  "category": "Physics",
+  "ground_truth": "\\begin{pmatrix}8&9\\\\9&8\\end{pmatrix}",
+  "output_text": "Letlinger,1,1,1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 2, 2, 0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1111,11,1,1111111,1,1",
+  "output_hash": "8f185795cf78a02b",
+  "n_input_tokens": 81,
+  "n_output_tokens": 300,
+  "timestamp": 1783783814.5876088,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

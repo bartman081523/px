@@ -1,0 +1,23 @@
+{
+  "task_id": "669402b41dcb3d5a1ef9e951",
+  "arm": "rigor_low",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.3,
+  "with_search": true,
+  "seed": 42,
+  "category": "Math",
+  "ground_truth": "Z+Z+Z+Z+Z",
+  "output_text": "Letelan, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1",
+  "output_hash": "20328211359ad3ab",
+  "n_input_tokens": 238,
+  "n_output_tokens": 50,
+  "timestamp": 1783768417.6784663,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": true,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

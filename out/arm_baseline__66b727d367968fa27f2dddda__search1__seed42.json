@@ -1,0 +1,23 @@
+{
+  "task_id": "66b727d367968fa27f2dddda",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 42,
+  "category": "Physics",
+  "ground_truth": "\\(-((d - 2k)^2) + d\\)",
+  "output_text": "The proportionality factor is 1.\n",
+  "output_hash": "758fc4c32b103f7e",
+  "n_input_tokens": 265,
+  "n_output_tokens": 8,
+  "timestamp": 1783783340.314218,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

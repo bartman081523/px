@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea814c5544860edb5aa9fa",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": true,
+  "seed": 42,
+  "category": "Chemistry",
+  "ground_truth": "1.776 * 10^-3 ",
+  "output_text": "Here's the solution:\n\nThe solubility of Al(OH)3 in pure water is given as 5.3 * 10^(-27) mol L^-1.\n\nTherefore, the answer is 5.3 * 10^(-27) mol L^-1.",
+  "output_hash": "aad011011b8d507b",
+  "n_input_tokens": 365,
+  "n_output_tokens": 61,
+  "timestamp": 1783783560.1652827,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

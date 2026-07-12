@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8a3ed3aa94517d4573b14",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": false,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "\\frac{2}{7}",
+  "output_text": "Let notation,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, ține, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 7, 7, 1, 1, 1, 7, 7, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5,1,1,1,1,1,1,10,1,10,10,10,11111000000000000000000001111111111111",
+  "output_hash": "4565d5f89e470ab2",
+  "n_input_tokens": 72,
+  "n_output_tokens": 300,
+  "timestamp": 1783775656.2201405,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

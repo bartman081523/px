@@ -1,0 +1,23 @@
+{
+  "task_id": "66b727d367968fa27f2dddda",
+  "arm": "rigor_low",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.3,
+  "with_search": false,
+  "seed": 42,
+  "category": "Physics",
+  "ground_truth": "\\(-((d - 2k)^2) + d\\)",
+  "output_text": "Letter,1,1,1,1,1,1,1,1,1,1,1, 7, 7, 7, 7, 7, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 2, 2, importance, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1111111111111,1111111111111111111111111111111111111111111111,1111111,11150,150000,150",
+  "output_hash": "2200246fea82a0ed",
+  "n_input_tokens": 112,
+  "n_output_tokens": 298,
+  "timestamp": 1783783594.907515,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

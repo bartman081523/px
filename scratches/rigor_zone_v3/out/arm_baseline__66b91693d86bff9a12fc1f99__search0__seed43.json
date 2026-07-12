@@ -1,0 +1,23 @@
+{
+  "task_id": "66b91693d86bff9a12fc1f99",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": false,
+  "seed": 43,
+  "category": "Computer Science/AI",
+  "ground_truth": "Katie kicked the knotted kite string, knowing it would take skill to unknot the tangled mess.",
+  "output_text": "The decoded message is:\n\n\"BD QZOT BD OEBD TR ZIT BD FGZZTR BD OZT LZKOFU, BD FGVOFU OZ VGXSR ZQBD T LBD OSS ZG XFBD",
+  "output_hash": "e1c758e5c5fa1966",
+  "n_input_tokens": 371,
+  "n_output_tokens": 50,
+  "timestamp": 1783768388.83682,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea36e7aa2256fb4c995faf",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": true,
+  "seed": 42,
+  "category": "Humanities/Social Science",
+  "ground_truth": "kənʃə",
+  "output_text": "```\nHindi kãːs\n```",
+  "output_hash": "6084fb7ab0f3a7d0",
+  "n_input_tokens": 206,
+  "n_output_tokens": 9,
+  "timestamp": 1783775693.6584435,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

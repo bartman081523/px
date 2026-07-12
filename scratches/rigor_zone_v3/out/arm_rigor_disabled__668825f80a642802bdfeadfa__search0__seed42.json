@@ -1,0 +1,23 @@
+{
+  "task_id": "668825f80a642802bdfeadfa",
+  "arm": "rigor_disabled",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.0,
+  "with_search": false,
+  "seed": 42,
+  "category": "Humanities/Social Science",
+  "ground_truth": "D",
+  "output_text": "Thegard, averticle, a, a,, a 1,,,,,,, 1, 1, 0, 0, 1, 0,1, 0, 0,1,",
+  "output_hash": "f8d19c46e40481e9",
+  "n_input_tokens": 66,
+  "n_output_tokens": 43,
+  "timestamp": 1783768397.7609456,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": true
+}

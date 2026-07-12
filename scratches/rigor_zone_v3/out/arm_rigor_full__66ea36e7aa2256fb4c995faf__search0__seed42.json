@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea36e7aa2256fb4c995faf",
+  "arm": "rigor_full",
+  "preset": "RIGOR",
+  "mephisto_scale": 1.0,
+  "with_search": false,
+  "seed": 42,
+  "category": "Humanities/Social Science",
+  "ground_truth": "kənʃə",
+  "output_text": "Punjabi\n",
+  "output_hash": "251e8d977316397d",
+  "n_input_tokens": 79,
+  "n_output_tokens": 3,
+  "timestamp": 1783776204.524323,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

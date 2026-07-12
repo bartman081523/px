@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea814c5544860edb5aa9fa",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": false,
+  "seed": 42,
+  "category": "Chemistry",
+  "ground_truth": "1.776 * 10^-3 ",
+  "output_text": "",
+  "output_hash": "e3b0c44298fc1c14",
+  "n_input_tokens": 87,
+  "n_output_tokens": 0,
+  "timestamp": 1783796918.195435,
+  "self_report_flags": {
+    "output_empty": true,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

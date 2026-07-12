@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8c151efbbc8b5a54da02b",
+  "arm": "rigor_disabled",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.0,
+  "with_search": false,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "1430",
+  "output_text": "Letal,1,1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,1,1,1,1,1,1,1,1,1, 0, 5, 7, 7, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 05, 3, 3, 6, 3, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, \n\n$s,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1111111",
+  "output_hash": "10bc10b0c91b7459",
+  "n_input_tokens": 44,
+  "n_output_tokens": 300,
+  "timestamp": 1783775510.9145486,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

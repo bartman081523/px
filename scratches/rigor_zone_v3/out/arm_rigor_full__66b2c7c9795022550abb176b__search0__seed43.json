@@ -1,0 +1,23 @@
+{
+  "task_id": "66b2c7c9795022550abb176b",
+  "arm": "rigor_full",
+  "preset": "RIGOR",
+  "mephisto_scale": 1.0,
+  "with_search": false,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+  "output_text": "Letle,e,e, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05",
+  "output_hash": "f230ec97cd938bcb",
+  "n_input_tokens": 105,
+  "n_output_tokens": 50,
+  "timestamp": 1783768439.404369,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": true,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8add1650a03361a14c6f8",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 42,
+  "category": "Biology/Medicine",
+  "ground_truth": "False",
+  "output_text": "False\n",
+  "output_hash": "7fc755fadc1b31a6",
+  "n_input_tokens": 203,
+  "n_output_tokens": 2,
+  "timestamp": 1783783340.3142488,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": true
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "66e9ce9d29eb7c1a0721fdf1",
+  "arm": "rigor_mid",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.5,
+  "with_search": false,
+  "seed": 42,
+  "category": "Humanities/Social Science",
+  "ground_truth": "7",
+  "output_text": "The sentence that is not grammatically well-formed is:\n\n13. Dokujet ezsuet esku otazsij kosaij.\n",
+  "output_hash": "38f71a53f16f38d5",
+  "n_input_tokens": 218,
+  "n_output_tokens": 32,
+  "timestamp": 1783775913.1880422,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

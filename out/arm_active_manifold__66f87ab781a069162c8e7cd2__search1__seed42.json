@@ -1,0 +1,23 @@
+{
+  "task_id": "66f87ab781a069162c8e7cd2",
+  "arm": "active_manifold",
+  "preset": "ACTIVE_MANIFOLD",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 42,
+  "category": "Chemistry",
+  "ground_truth": "2, 1, 0",
+  "output_text": "Here are the answers to your questions:\n\n*   **Number of carbons from compound 11 in compound 1:** 3\n*   **Number of oxygens from compound 11 in compound 14:** 2\n*   **Number of nitrogens from compound 7 in compound 10:** 1",
+  "output_hash": "d1de0690113299fd",
+  "n_input_tokens": 1835,
+  "n_output_tokens": 68,
+  "timestamp": 1783783413.6935513,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

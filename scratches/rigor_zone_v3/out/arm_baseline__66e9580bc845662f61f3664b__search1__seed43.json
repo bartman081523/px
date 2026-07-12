@@ -1,0 +1,23 @@
+{
+  "task_id": "66e9580bc845662f61f3664b",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Humanities/Social Science",
+  "ground_truth": "236(2),236(3),236(3A)",
+  "output_text": "7,43B(1),43FA(3)",
+  "output_hash": "031f130df51037fb",
+  "n_input_tokens": 205,
+  "n_output_tokens": 14,
+  "timestamp": 1783775224.6838264,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

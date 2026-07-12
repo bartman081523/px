@@ -1,0 +1,23 @@
+{
+  "task_id": "66e70c75bbb9b1754c0869ce",
+  "arm": "rigor_mid",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.5,
+  "with_search": false,
+  "seed": 43,
+  "category": "Humanities/Social Science",
+  "ground_truth": "Sale Law",
+  "output_text": "The,1,1,,,,,,,,,,,, 1, 1, 1, 1, 1,1, 1,1,1,1,1,1,1,1",
+  "output_hash": "2cc4d305c029ab81",
+  "n_input_tokens": 47,
+  "n_output_tokens": 41,
+  "timestamp": 1783768423.0953012,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

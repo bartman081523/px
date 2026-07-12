@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8a23d15c60c2c32f2ba55",
+  "arm": "active_manifold",
+  "preset": "ACTIVE_MANIFOLD",
+  "mephisto_scale": null,
+  "with_search": false,
+  "seed": 42,
+  "category": "Math",
+  "ground_truth": "No, the regular subgradient may be empty.",
+  "output_text": "Letting,1,1,1,1,1,1, 1, 1,1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 5, 5, 5, 5, 5, 5, 1, 1, 1, 5, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1111111111111",
+  "output_hash": "757aa0abdfa05180",
+  "n_input_tokens": 122,
+  "n_output_tokens": 300,
+  "timestamp": 1783775330.1032484,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

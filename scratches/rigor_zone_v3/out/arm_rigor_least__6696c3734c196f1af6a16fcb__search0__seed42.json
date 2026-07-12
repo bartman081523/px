@@ -1,0 +1,23 @@
+{
+  "task_id": "6696c3734c196f1af6a16fcb",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": false,
+  "seed": 42,
+  "category": "Math",
+  "ground_truth": "18",
+  "output_text": "Letere, 0, 0, 0, a 0, a 0,, a 0, a 0,,,, 0, 0, 05, 0, 05, ",
+  "output_hash": "91ce4de19e1ed32e",
+  "n_input_tokens": 36,
+  "n_output_tokens": 46,
+  "timestamp": 1783768406.8112202,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

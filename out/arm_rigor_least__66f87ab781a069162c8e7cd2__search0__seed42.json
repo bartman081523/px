@@ -1,0 +1,23 @@
+{
+  "task_id": "66f87ab781a069162c8e7cd2",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": false,
+  "seed": 42,
+  "category": "Chemistry",
+  "ground_truth": "2, 1, 0",
+  "output_text": "Here are the answers to your questions:\n\n*   **Number of carbons from compound 11:** 3\n*   **Number of oxygens from compound 11:** 2\n*   **Number of nitrogens from compound 7:** 1",
+  "output_hash": "009bd5cdd68e9b65",
+  "n_input_tokens": 1682,
+  "n_output_tokens": 54,
+  "timestamp": 1783783521.7261996,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

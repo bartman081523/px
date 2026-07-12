@@ -1,0 +1,64 @@
+{
+  "H1": {
+    "status": "WIDERLEGT",
+    "testable": true,
+    "rigor_least_loop_rate": 0.0,
+    "rigor_least_n": 144,
+    "rigor_full_loop_rate": 0.0,
+    "rigor_full_n": 144,
+    "h1_confirmed": false,
+    "delta": 0.0
+  },
+  "H2": {
+    "status": "NICHT_TESTBAR",
+    "testable": false,
+    "eta2_per_category": {},
+    "h2_confirmed": false
+  },
+  "H3": {
+    "status": "NICHT_TESTBAR",
+    "testable": false,
+    "eta2_search_per_category": {},
+    "h3_confirmed": false
+  },
+  "H4": {
+    "status": "BESTÄTIGT",
+    "testable": true,
+    "n": 534,
+    "n_match": 523,
+    "pass_rate": 0.9794007490636704,
+    "mismatches": [
+      {
+        "arm": "baseline",
+        "task": "66e8e473f59e5564daf565b6",
+        "search": false,
+        "match": false
+      },
+      {
+        "arm": "baseline",
+        "task": "66e8ea4cacb34dd5dbffa298",
+        "search": false,
+        "match": false
+      },
+      {
+        "arm": "baseline",
+        "task": "66e9560659cb31393efa7046",
+        "search": false,
+        "match": false
+      },
+      {
+        "arm": "baseline",
+        "task": "66e9c038d2d1c2dec1f6978e",
+        "search": false,
+        "match": false
+      },
+      {
+        "arm": "baseline",
+        "task": "66e8cfa03add731d7fce4352",
+        "search": true,
+        "match": false
+      }
+    ],
+    "h4_confirmed": true
+  }
+}

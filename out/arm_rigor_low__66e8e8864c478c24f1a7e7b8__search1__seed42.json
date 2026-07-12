@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8e8864c478c24f1a7e7b8",
+  "arm": "rigor_low",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.3,
+  "with_search": true,
+  "seed": 42,
+  "category": "Physics",
+  "ground_truth": "$-m^2/2$",
+  "output_text": "Letter,1,1,1,1, 4, 4, 4, 4, 4, 4, 4,3,3, 1,3,3,1,1,3,1,1,3,1,1,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, a1, 1, 1, 1, 1, 1, 1, 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, a1,a,a,a,G,G,G,GCSV1,zero,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,lyder,1,1,1,1,1",
+  "output_hash": "7abd5e347d2f6063",
+  "n_input_tokens": 227,
+  "n_output_tokens": 273,
+  "timestamp": 1783783633.342945,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

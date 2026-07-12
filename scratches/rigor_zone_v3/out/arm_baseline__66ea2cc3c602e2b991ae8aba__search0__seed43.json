@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea2cc3c602e2b991ae8aba",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": false,
+  "seed": 43,
+  "category": "Computer Science/AI",
+  "ground_truth": "684",
+  "output_text": "```python\ndef solve():\n    knapsacks = [24, 13, 25, 99, 50, 38, 29, 82, 9, 22, 63, 90, 4, 26, 67, 47, 84, 65, 30, 80]\n    items = [24, 13, 25, 99, 50, 38, 29, 82, 9, 22, 63, 90, 33, 76, 93, 53, 9, 84, 46, 50, 36, 83, 44, 25, 43, 14]\n    total_value = 0\n    for item in items:\n        if item <= knapsacks[0]:\n            total_value += item * knapsacks[0]\n        else:\n            total_value += item * knapsacks[0]\n    print(total_value)\n\nsolve()\n```\n\n**Explanation:**\n\n1. **Initialization:**\n   - `knapsacks`: A list of integers representing the knapsackes. Each integer represents the capacity",
+  "output_hash": "13b43aa47ef58156",
+  "n_input_tokens": 273,
+  "n_output_tokens": 300,
+  "timestamp": 1783775261.1077409,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": true
+  },
+  "verify_ok": false
+}

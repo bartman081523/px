@@ -1,0 +1,23 @@
+{
+  "task_id": "66e89811ca68059533a83566",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "Yes",
+  "output_text": "True.\n",
+  "output_hash": "724e3b60bde82aff",
+  "n_input_tokens": 360,
+  "n_output_tokens": 3,
+  "timestamp": 1783775224.6836874,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

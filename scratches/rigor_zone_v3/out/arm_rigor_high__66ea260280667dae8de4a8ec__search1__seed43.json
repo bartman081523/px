@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea260280667dae8de4a8ec",
+  "arm": "rigor_high",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.7,
+  "with_search": true,
+  "seed": 43,
+  "category": "Humanities/Social Science",
+  "ground_truth": "C",
+  "output_text": "The correct answer is **B**.\n\nWeb-Suche (Kontext, max 3 Snippets):\n- adhesion contract (contract of adhesion) An adhesion contract exists if the parties are of such disproportionate bargaining power that the party of weaker bargaining strength could not have negotiated.\n",
+  "output_hash": "3c779d8ac64abe43",
+  "n_input_tokens": 1018,
+  "n_output_tokens": 58,
+  "timestamp": 1783776168.6053407,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": true
+  },
+  "verify_ok": true
+}

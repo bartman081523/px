@@ -1,0 +1,23 @@
+{
+  "task_id": "66b727d367968fa27f2dddda",
+  "arm": "rigor_full",
+  "preset": "RIGOR",
+  "mephisto_scale": 1.0,
+  "with_search": true,
+  "seed": 42,
+  "category": "Physics",
+  "ground_truth": "\\(-((d - 2k)^2) + d\\)",
+  "output_text": "Theus,1,1,1, 2, 1, 2,1, 2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 5, 5, 5, 5, 5, 5, 5, 5, 5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11, 111111111111111111111111111111111111111111111111100000011111, a, a, a, a, a, a,1,1,1,1,1,1,1X,1X,1X,1,1,1,1,x,xed,1,1,1,1,a-scomlap,1,1,1,1,1,1,1,1,105,\n\nem,",
+  "output_hash": "87c4089ab943caae",
+  "n_input_tokens": 265,
+  "n_output_tokens": 294,
+  "timestamp": 1783783853.0048115,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

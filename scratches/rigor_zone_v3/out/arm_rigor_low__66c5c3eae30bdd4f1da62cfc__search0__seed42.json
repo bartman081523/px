@@ -1,0 +1,23 @@
+{
+  "task_id": "66c5c3eae30bdd4f1da62cfc",
+  "arm": "rigor_low",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.3,
+  "with_search": false,
+  "seed": 42,
+  "category": "Math",
+  "ground_truth": "\\mathbb{Z}",
+  "output_text": "Letter,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+  "output_hash": "ab89c15d9b7751c3",
+  "n_input_tokens": 45,
+  "n_output_tokens": 299,
+  "timestamp": 1783775767.3040674,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": true,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

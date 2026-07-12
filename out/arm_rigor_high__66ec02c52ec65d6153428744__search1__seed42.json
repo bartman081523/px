@@ -1,0 +1,23 @@
+{
+  "task_id": "66ec02c52ec65d6153428744",
+  "arm": "rigor_high",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.7,
+  "with_search": true,
+  "seed": 42,
+  "category": "Engineering",
+  "ground_truth": "B",
+  "output_text": "",
+  "output_hash": "e3b0c44298fc1c14",
+  "n_input_tokens": 346,
+  "n_output_tokens": 0,
+  "timestamp": 1783783779.769758,
+  "self_report_flags": {
+    "output_empty": true,
+    "output_too_short": true,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

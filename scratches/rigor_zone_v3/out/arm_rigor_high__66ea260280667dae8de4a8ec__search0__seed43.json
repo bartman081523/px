@@ -1,0 +1,23 @@
+{
+  "task_id": "66ea260280667dae8de4a8ec",
+  "arm": "rigor_high",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.7,
+  "with_search": false,
+  "seed": 43,
+  "category": "Humanities/Social Science",
+  "ground_truth": "C",
+  "output_text": "The correct answer is **(D). You may not use any software, device, automated process, or any similar or equivalent manual process to scrape, copy, or perform measurement, analysis, or monitoring of, any portion of the Content or Services.**\n",
+  "output_hash": "e9fc696ba0eec007",
+  "n_input_tokens": 884,
+  "n_output_tokens": 51,
+  "timestamp": 1783776093.9793952,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": true
+}

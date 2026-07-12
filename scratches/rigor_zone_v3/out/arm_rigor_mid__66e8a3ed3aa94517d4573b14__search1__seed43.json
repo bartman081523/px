@@ -1,0 +1,23 @@
+{
+  "task_id": "66e8a3ed3aa94517d4573b14",
+  "arm": "rigor_mid",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.5,
+  "with_search": true,
+  "seed": 43,
+  "category": "Math",
+  "ground_truth": "\\frac{2}{7}",
+  "output_text": "Letting,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11111111111111111111100000000000000000000000000001, a1, a111111111111111111, x6,1,d,11111x,1111111111110000000000000000005,\n\nx,\n\nx,\n\nx,\n\nx, a, a, a,\n\nd,",
+  "output_hash": "9de0883fe51ad84b",
+  "n_input_tokens": 283,
+  "n_output_tokens": 300,
+  "timestamp": 1783776023.3261771,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": true,
+    "output_incomplete": true,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}

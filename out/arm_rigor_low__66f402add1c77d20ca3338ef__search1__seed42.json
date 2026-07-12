@@ -1,0 +1,23 @@
+{
+  "task_id": "66f402add1c77d20ca3338ef",
+  "arm": "rigor_low",
+  "preset": "RIGOR",
+  "mephisto_scale": 0.3,
+  "with_search": true,
+  "seed": 42,
+  "category": "Chemistry",
+  "ground_truth": "Al, Re2Al13; Al, ReAl12; Al, Re2Al9",
+  "output_text": "central atom, formula; central atom, formula...\nThe length of the answer depends on the number of polyhedra found.\n",
+  "output_hash": "4202c9b33411f65a",
+  "n_input_tokens": 1665,
+  "n_output_tokens": 26,
+  "timestamp": 1783783633.342983,
+  "self_report_flags": {
+    "output_empty": false,
+    "output_too_short": false,
+    "output_loops": false,
+    "output_incomplete": false,
+    "tool_call_embedded": false
+  },
+  "verify_ok": false
+}
