@@ -1,0 +1,108 @@
+[SciMind: Atomic & Secured] Model-Cache AN — vermeidet CPU-Loading zwischen Runs
+
+============================================================
+RIGOR v2 — Epistemischer Haupt-Harness
+============================================================
+
+SciMind 5.0 — Core Mandates:
+  1. Incomplete Suggestion: H1-H4 in README pre-registriert
+  2. Empirical Verification: stdout/stderr + JSON-Output Checks
+  3. Falsificationism: Antithesen pro Hypothese
+  4. Pipeline Integrity: set -o pipefail in Wrappern
+  5. Zero-Trust: Pre-Probes laufen jetzt...
+  6. Atomic & Secured: JSON-write pro Run VOR nächstem
+  7. Anti-Embedding: Worker-Output ≠ Tool-Call-String
+
+Pre-Lauf-Probes (Zero-Trust Environment):
+  ✓ ollama
+  ✓ ddgs
+  ✓ datasets
+  ✓ torch_cuda
+  ✓ hermes
+
+HLE-Suite wird geladen...
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 3 Tasks
+    - Math: 1
+    - Computer Science/AI: 1
+    - Humanities/Social Science: 1
+  Source: huggingface, Total: 3 Tasks
+
+Arm-Konfigurationen: 2 (['baseline', 'active_manifold'])
+
+Reproducibility-Tasks: 3
+
+============================================================
+PRE-LOAD: 8 Arm-Modelle werden geladen (spart 7× Re-Loading)
+============================================================
+    → Loading gemma3-270m-it with preset=BASELINE (arm=baseline)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=False, preset=BASELINE)...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:25,  9.32it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1256.97it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[ModelManager] gemma3-270m-it loaded WITHOUT patch (baseline).
+  ✓ baseline (preset=BASELINE)
+    → Loading gemma3-270m-it with preset=ACTIVE_MANIFOLD (arm=active_manifold)...
+[ModelManager] Loading gemma3-270m-it from google/gemma-3-270m-it (type=gemma3, subjective=True, preset=ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights:   0%|          | 1/236 [00:00<00:24,  9.43it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 1230.40it/s]
+[ModelManager] gemma3-270m-it quantization=none (bf16 path)
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+[ModelManager] gemma3-270m-it loaded and patched successfully.
+  ✓ active_manifold (preset=ACTIVE_MANIFOLD)
+
+============================================================
+RUN-LOOP START
+============================================================
+[RESUME] Skip-Modus aktiv: bereits existente Output-Files werden übersprungen
+[BATCH] Batched-Generation aktiv (bs=8) — GPU besser ausgelastet
+
+[Run 1/18] SKIP (resume) arm=baseline           search=False task=669402b41dcb3d5a1ef9e951
+[Run 2/18] SKIP (resume) arm=baseline           search=False task=66b91693d86bff9a12fc1f99
+[Run 3/18] SKIP (resume) arm=baseline           search=False task=668825f80a642802bdfeadfa
+[baseline           search=False] alle 3 Tasks bereits done — skip
+[Run 4/18] SKIP (resume) arm=baseline           search=True task=669402b41dcb3d5a1ef9e951
+[Run 5/18] SKIP (resume) arm=baseline           search=True task=66b91693d86bff9a12fc1f99
+[Run 6/18] SKIP (resume) arm=baseline           search=True task=668825f80a642802bdfeadfa
+[baseline           search=True] alle 3 Tasks bereits done — skip
+[Run 7/18] SKIP repro (resume) arm=baseline           task=669402b41dcb3d5a1ef9e951
+[Run 8/18] REPRO arm=baseline           task=66b91693d86bff9a12fc1f99 (seed=42 + 43)
+  ✓ Reproducibility: True
+[Run 9/18] REPRO arm=baseline           task=668825f80a642802bdfeadfa (seed=42 + 43)
+  ✓ Reproducibility: True
+[active_manifold    search=False] BATCH 3 Tasks (bs=8)...
+    [BATCH-WORKAROUND] Tensor-Size-Mismatch — falling back to single-prompt für diese 3 prompts
+    [BATCH-DONE] 3 prompts in 29.7s (9.90s/prompt)
+  ✓ task=669402b41dcb3d5a1ef9e951 | 15.0s | loops=False | verified=False
+  ✓ task=66b91693d86bff9a12fc1f99 | 14.5s | loops=False | verified=False
+  ✓ task=668825f80a642802bdfeadfa | 0.1s | loops=False | verified=False
+[active_manifold    search=True] BATCH 3 Tasks (bs=8)...
+    [BATCH-WORKAROUND] Tensor-Size-Mismatch — falling back to single-prompt für diese 3 prompts
+    [BATCH-DONE] 3 prompts in 51.4s (17.15s/prompt)
+    [WORKAROUND] Tensor-Size-Mismatch — retry ohne search (task=66b91693d86bff9a12fc1f99)
+  ✓ task=669402b41dcb3d5a1ef9e951 | 23.1s | loops=False | verified=False
+  ✓ task=66b91693d86bff9a12fc1f99 | 24.3s | loops=False | verified=False
+  ✓ task=668825f80a642802bdfeadfa | 28.0s | loops=False | verified=True
+[Run 22/18] REPRO arm=active_manifold    task=669402b41dcb3d5a1ef9e951 (seed=42 + 43)
+  ✗ Reproducibility: False
+[Run 23/18] REPRO arm=active_manifold    task=66b91693d86bff9a12fc1f99 (seed=42 + 43)
+  ✗ Reproducibility: False
+[Run 24/18] REPRO arm=active_manifold    task=668825f80a642802bdfeadfa (seed=42 + 43)
+  ✓ Reproducibility: True
+
+============================================================
+Alle Runs abgeschlossen in 4.5 min
+Total Runs: 6
+Skipped (resume): 7
+Reproducibility-Runs: 6
+Output: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v2/out
+============================================================
+
+Report geschrieben: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v2/hle_results_v2.md  (163 Zeilen)
+
+Report: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v2/hle_results_v2.md
