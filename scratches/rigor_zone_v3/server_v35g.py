@@ -188,12 +188,21 @@ class CudaGraphRunnerCache:
         return runner
 
     def generate(self, runner, max_new_tokens: int) -> Any:
-        """Decode max_new_tokens via CUDA-Graph runner. Returns token sequence (1, max_new)."""
+        """Decode max_new_tokens via CUDA-Graph runner. Returns token sequence (1, T).
+
+        Stoppt bei EOS-Token (id=106 für Gemma3) — sonst produziert der Runner
+        max_new_tokens EOS-Pad-Token, was zu textuellem Müll führt.
+        """
+        import torch
         tokens = [runner.static_input_ids.clone()]
+        eos_id = getattr(runner.model.config, "eos_token_id", 106) or 106
         for _ in range(max_new_tokens - 1):
             nxt = runner.step()
+            nxt_id = nxt.item() if hasattr(nxt, "item") else int(nxt)
             runner.append(nxt)
             tokens.append(nxt)
+            if nxt_id == eos_id:
+                break
         return torch.cat(tokens, dim=1)
 
     def clear_model(self, model_id: str):
@@ -207,6 +216,22 @@ class CudaGraphRunnerCache:
 
 manager = ModelManager()
 runner_cache = CudaGraphRunnerCache(max_runners_per_model=4)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CUDA-Graph-Cap
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# CUDA-Graph ist sinnvoll bis zu dieser Token-Grenze. cc-symbolic px schickt
+# max_tokens=32000 (Anthropic-API-Limit). Unser CudaGraphRunner würde
+# 32000-Step-Loop capturen → ewiges Compile (>4 min) + 295MB Static-Cache.
+# Fallback auf model.generate() oberhalb dieser Grenze.
+CUDA_GRAPH_MAX_NEW = 256
+
+
+def should_use_cuda_graph(max_new_tokens: int) -> bool:
+    """Soll CUDA-Graph-Pfad für dieses max_new_tokens genutzt werden?"""
+    return max_new_tokens <= CUDA_GRAPH_MAX_NEW
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -348,10 +373,12 @@ async def chat_completions(request: ChatCompletionRequest):
     do_sample = request.temperature > 0.0
 
     def _gen():
-        # CUDA-Graph-Pfad: nur für PX-Arms (baseline nutzt model.generate direkt).
-        # Wenn Runner verfügbar: 4.96× speedup (197ms CUDA → 43ms CUDA, weniger CPU-Overhead).
+        # CUDA-Graph-Pfad: nur für PX-Arms UND max_new <= CAP.
+        # Grund: cc-symbolic schickt max_tokens=32000 (Anthropic-Limit), aber
+        # CUDA-Graph-Compile für 32k-Token-Loop hängt ewig (>4 min) +
+        # 295MB Static-Cache pro Modell.
         runner = None
-        if model_id != "gemma3-270m-px-baseline":
+        if model_id != "gemma3-270m-px-baseline" and should_use_cuda_graph(request.max_tokens):
             runner = runner_cache.get_or_create(
                 model_id=model_id,
                 model=model,
@@ -438,9 +465,9 @@ async def messages(request: AnthropicRequest):
     ids = tok(text, return_tensors="pt").to("cuda")
 
     do_sample = request.temperature > 0.0
-    # CUDA-Graph-Pfad: gleiche Logik wie /v1/chat/completions
+    # CUDA-Graph-Pfad: gleiche Logik wie /v1/chat/completions (mit CAP)
     runner = None
-    if model_id != "gemma3-270m-px-baseline":
+    if model_id != "gemma3-270m-px-baseline" and should_use_cuda_graph(request.max_tokens):
         runner = runner_cache.get_or_create(
             model_id=model_id,
             model=model,
@@ -454,28 +481,46 @@ async def messages(request: AnthropicRequest):
             tokens = runner_cache.generate(runner, request.max_tokens)
         new_tokens = tokens
         gen_text = tok.decode(new_tokens[0], skip_special_tokens=True)
-        return AnthropicResponse(
-            model=model_id,
-            content=[AnthropicContentBlock(type="text", text=gen_text)],
-            usage={"input_tokens": ids["input_ids"].shape[1], "output_tokens": new_tokens.shape[1]},
-        )
-    # Fallback
-    with torch.inference_mode():
-        out = model.generate(
-            **ids,
-            max_new_tokens=request.max_tokens,
-            do_sample=do_sample,
-            temperature=request.temperature if do_sample else 1.0,
-            pad_token_id=tok.eos_token_id,
-        )
-    new_tokens = out[0, ids["input_ids"].shape[1]:]
-    gen_text = tok.decode(new_tokens, skip_special_tokens=True)
+        n_prompt = ids["input_ids"].shape[1]
+    else:
+        # Fallback: model.generate
+        with torch.inference_mode():
+            out = model.generate(
+                **ids,
+                max_new_tokens=request.max_tokens,
+                do_sample=do_sample,
+                temperature=request.temperature if do_sample else 1.0,
+                pad_token_id=tok.eos_token_id,
+            )
+        new_tokens = out[0, ids["input_ids"].shape[1]:]
+        gen_text = tok.decode(new_tokens, skip_special_tokens=True)
+        n_prompt = ids["input_ids"].shape[1]
 
-    n_prompt = ids["input_ids"].shape[1]
+    # Stream-Branch: SSE-Format (Anthropic-kompatibel)
+    if request.stream:
+        msg_id = f"msg-{uuid.uuid4().hex[:24]}"
+        async def _streamer():
+            # 1. message_start
+            yield f"event: message_start\ndata: {json.dumps({'type':'message_start','message':{'id':msg_id,'type':'message','role':'assistant','content':[],'model':model_id,'stop_reason':None,'usage':{'input_tokens':n_prompt,'output_tokens':0}}})}\n\n"
+            # 2. content_block_start
+            yield f"event: content_block_start\ndata: {json.dumps({'type':'content_block_start','index':0,'content_block':{'type':'text','text':''}})}\n\n"
+            # 3. content_block_delta (gesamter Text in einem Delta — wir haben ihn schon)
+            yield f"event: content_block_delta\ndata: {json.dumps({'type':'content_block_delta','index':0,'delta':{'type':'text_delta','text':gen_text}})}\n\n"
+            # 4. content_block_stop
+            yield f"event: content_block_stop\ndata: {json.dumps({'type':'content_block_stop','index':0})}\n\n"
+            # 5. message_delta (mit finalen Tokens + stop_reason)
+            # n_out = Token-Count. new_tokens ist Tensor (B=1, T) → shape[1].
+            n_out = int(new_tokens.shape[1]) if hasattr(new_tokens, 'shape') and len(new_tokens.shape) > 1 else len(new_tokens)
+            yield f"event: message_delta\ndata: {json.dumps({'type':'message_delta','delta':{'stop_reason':'end_turn','stop_sequence':None},'usage':{'output_tokens':n_out}})}\n\n"
+            # 6. message_stop
+            yield f"event: message_stop\ndata: {json.dumps({'type':'message_stop'})}\n\n"
+        return StreamingResponse(_streamer(), media_type="text/event-stream")
+
+    n_out_final = int(new_tokens.shape[1]) if hasattr(new_tokens, "shape") and len(new_tokens.shape) > 1 else len(new_tokens)
     return AnthropicResponse(
         model=model_id,
         content=[AnthropicContentBlock(type="text", text=gen_text)],
-        usage={"input_tokens": n_prompt, "output_tokens": new_tokens.shape[0]},
+        usage={"input_tokens": n_prompt, "output_tokens": n_out_final},
     )
 
 
@@ -483,4 +528,4 @@ async def messages(request: AnthropicRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=7860, log_level="info")
+    uvicorn.run(app, host="127.0.0.1", port=7860, log_level="info", access_log=True)
