@@ -1,0 +1,584 @@
+{
+  "timestamp": 1783834173.825826,
+  "tasks": [
+    {
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D"
+    },
+    {
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3"
+    },
+    {
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B"
+    },
+    {
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B"
+    },
+    {
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6"
+    }
+  ],
+  "arm_summary": {
+    "baseline": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "active_manifold": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_disabled": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_least": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_low": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_mid": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_high": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "rigor_full": {
+      "n_match": 3,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5
+    },
+    "official_rigor": {
+      "n_match": 2,
+      "n_degen": 1,
+      "n_empty": 0,
+      "n_total": 5
+    }
+  },
+  "results": [
+    {
+      "arm": "baseline",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.698,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "baseline",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.616,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "baseline",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.682,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The resulting calculation is based on the information from the variant call file, not the individual variants.** The information about the number of samples and"
+    },
+    {
+      "arm": "baseline",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.522,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-N bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The N-N bond is a *full* bond, and the Si-N b"
+    },
+    {
+      "arm": "baseline",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 3.426,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions.\nThe PLL case is a 3x3 Rubik's Cube.\nThe number of possible solutions is 36.\nWe need to find the number of non-top-facing stickers that are visible.\nSince the cube is a 3x3 Rubik's Cube, the number of non-top-facing stickers that are visible is 36.\nTherefore, the number of non-top-facing stickers that must be seen to ful"
+    },
+    {
+      "arm": "active_manifold",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.431,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "active_manifold",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.862,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "active_manifold",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.919,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "active_manifold",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.879,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "active_manifold",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.949,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_disabled",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.376,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_disabled",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.828,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_disabled",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 5.084,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_disabled",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.838,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_disabled",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.905,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_least",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.39,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_least",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.816,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_least",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.871,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_least",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.884,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_least",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.912,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_low",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.389,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_low",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.809,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_low",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.864,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_low",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.799,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_low",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.934,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_mid",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.394,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_mid",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.778,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_mid",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.834,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_mid",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.989,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_mid",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 5.044,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_high",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.388,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_high",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.812,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_high",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.854,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_high",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.862,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_high",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.9,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "rigor_full",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.384,
+      "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+    },
+    {
+      "arm": "rigor_full",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.83,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "rigor_full",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.857,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+    },
+    {
+      "arm": "rigor_full",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.965,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+    },
+    {
+      "arm": "rigor_full",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 5.041,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+    },
+    {
+      "arm": "official_rigor",
+      "task_id": "668825f80a642802bdfeadfa",
+      "category": "Humanities/Social Science",
+      "expected": "D",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 0.416,
+      "output_text": "The correct answer is **B. General Non-Extreme Priority**.\n"
+    },
+    {
+      "arm": "official_rigor",
+      "task_id": "66b827b9b64deaedfbb997a2",
+      "category": "Physics",
+      "expected": "3",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.86,
+      "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+    },
+    {
+      "arm": "official_rigor",
+      "task_id": "66e88728ba7d8bc0d5806f3a",
+      "category": "Biology/Medicine",
+      "expected": "B",
+      "match": true,
+      "degen": true,
+      "empty": false,
+      "duration_sec": 4.946,
+      "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The number of samples is arbitrarily large.** This means that the number of variants in each sample is not a fixed number.\n\n*   **The number of samples is not a"
+    },
+    {
+      "arm": "official_rigor",
+      "task_id": "66ec02c52ec65d6153428744",
+      "category": "Engineering",
+      "expected": "B",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 4.888,
+      "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-N bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The N-N bond is a *full* bond, and the Si-N b"
+    },
+    {
+      "arm": "official_rigor",
+      "task_id": "66e8d4736299517dd7a5da8c",
+      "category": "Other",
+      "expected": "6",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "duration_sec": 5.038,
+      "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case, we need to consider the number of possible ways to solve the PLL case.\nThe PLL case is a 3x3 Rubik's Cube.\nThe number of ways to solve the PLL case is the number of ways to arrange the 9 3x3 Rubik's cubes in a 3x3 grid.\nThe number of ways to arrange the 9 3x3 Rubik's cubes is the number of ways to arrange the 9 cubes in a 3x3 grid.\nThe number of ways to arrange the 9 3x3 Rubik's cubes is the number of ways "
+    }
+  ],
+  "best_arm": "baseline"
+}

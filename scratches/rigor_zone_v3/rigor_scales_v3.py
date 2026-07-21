@@ -143,6 +143,17 @@ ARM_CONFIGS: Tuple[ArmConfig, ...] = (
         mephisto_scale=1.0,
         hypothesis_note="RIGOR + Mephisto unverändert (= active_manifold + rigor-Zone).",
     ),
+    # v3.5g: OFFICIAL_RIGOR = ACTIVE_MANIFOLD + v1-Rigor-Ideen
+    # (Math-Hub L10, höhere gamma=0.10, n_loops=14, Mephisto-Damping 0.3)
+    # ACHTUNG: in patch.py:OFFICIAL_RIGOR-Branch hardcoded (nicht über kwargs),
+    # d.h. dieser Arm ist die einzige Möglichkeit OFFICIAL_RIGOR zu nutzen.
+    ArmConfig(
+        name="official_rigor",
+        preset="OFFICIAL_RIGOR",
+        rigor_mephisto=True,
+        mephisto_scale=0.3,
+        hypothesis_note="OFFICIAL_RIGOR = ACTIVE_MANIFOLD + n_loops=14, gamma=0.10, hub=10, Mephisto scale=0.3. v1-Rigor-Ideen auf v3.5-Patch portiert.",
+    ),
 )
 
 

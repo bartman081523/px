@@ -1,0 +1,349 @@
+{
+  "timestamp": 1783834749.6630306,
+  "tasks": [
+    {
+      "task_id": "math_addition_42_58",
+      "expected": "100",
+      "category": "math"
+    },
+    {
+      "task_id": "math_subtraction_100_37",
+      "expected": "63",
+      "category": "math"
+    },
+    {
+      "task_id": "math_mult_7_8",
+      "expected": "56",
+      "category": "math"
+    },
+    {
+      "task_id": "math_division_144_12",
+      "expected": "12",
+      "category": "math"
+    },
+    {
+      "task_id": "math_sqrt_144",
+      "expected": "12",
+      "category": "math"
+    }
+  ],
+  "modi": [
+    {
+      "name": "M1_tools_off_iter5",
+      "use_tools": false,
+      "max_iter": 5
+    },
+    {
+      "name": "M2_tools_off_iter75",
+      "use_tools": false,
+      "max_iter": 75
+    },
+    {
+      "name": "M3_tools_on_iter5",
+      "use_tools": true,
+      "max_iter": 5
+    },
+    {
+      "name": "M4_tools_on_iter75",
+      "use_tools": true,
+      "max_iter": 75
+    }
+  ],
+  "mode_summary": {
+    "M1_tools_off_iter5": {
+      "n_match": 4,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5,
+      "use_tools": false,
+      "max_iter": 5
+    },
+    "M2_tools_off_iter75": {
+      "n_match": 4,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5,
+      "use_tools": false,
+      "max_iter": 75
+    },
+    "M3_tools_on_iter5": {
+      "n_match": 1,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5,
+      "use_tools": true,
+      "max_iter": 5
+    },
+    "M4_tools_on_iter75": {
+      "n_match": 1,
+      "n_degen": 0,
+      "n_empty": 0,
+      "n_total": 5,
+      "use_tools": true,
+      "max_iter": 75
+    }
+  },
+  "results": [
+    {
+      "mode": "M1_tools_off_iter5",
+      "task_id": "math_addition_42_58",
+      "category": "math",
+      "expected": "100",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.8,
+      "output_text": "42 + 58 = 100\n"
+    },
+    {
+      "mode": "M1_tools_off_iter5",
+      "task_id": "math_subtraction_100_37",
+      "category": "math",
+      "expected": "63",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.354,
+      "output_text": "100 - 37 = 63\n"
+    },
+    {
+      "mode": "M1_tools_off_iter5",
+      "task_id": "math_mult_7_8",
+      "category": "math",
+      "expected": "56",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.268,
+      "output_text": "7 * 8 = 56\n"
+    },
+    {
+      "mode": "M1_tools_off_iter5",
+      "task_id": "math_division_144_12",
+      "category": "math",
+      "expected": "12",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.343,
+      "output_text": "144 / 12 = 12\n"
+    },
+    {
+      "mode": "M1_tools_off_iter5",
+      "task_id": "math_sqrt_144",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.157,
+      "output_text": "144\n"
+    },
+    {
+      "mode": "M2_tools_off_iter75",
+      "task_id": "math_addition_42_58",
+      "category": "math",
+      "expected": "100",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.35,
+      "output_text": "42 + 58 = 100\n"
+    },
+    {
+      "mode": "M2_tools_off_iter75",
+      "task_id": "math_subtraction_100_37",
+      "category": "math",
+      "expected": "63",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.361,
+      "output_text": "100 - 37 = 63\n"
+    },
+    {
+      "mode": "M2_tools_off_iter75",
+      "task_id": "math_mult_7_8",
+      "category": "math",
+      "expected": "56",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.281,
+      "output_text": "7 * 8 = 56\n"
+    },
+    {
+      "mode": "M2_tools_off_iter75",
+      "task_id": "math_division_144_12",
+      "category": "math",
+      "expected": "12",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.362,
+      "output_text": "144 / 12 = 12\n"
+    },
+    {
+      "mode": "M2_tools_off_iter75",
+      "task_id": "math_sqrt_144",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.157,
+      "output_text": "144\n"
+    },
+    {
+      "mode": "M3_tools_on_iter5",
+      "task_id": "math_addition_42_58",
+      "category": "math",
+      "expected": "100",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.392,
+      "output_text": "42 + 58 = 100\n"
+    },
+    {
+      "mode": "M3_tools_on_iter5",
+      "task_id": "math_subtraction_100_37",
+      "category": "math",
+      "expected": "63",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.285,
+      "output_text": "100 - 37\n"
+    },
+    {
+      "mode": "M3_tools_on_iter5",
+      "task_id": "math_mult_7_8",
+      "category": "math",
+      "expected": "56",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.303,
+      "output_text": "7 * 8 = 64\n"
+    },
+    {
+      "mode": "M3_tools_on_iter5",
+      "task_id": "math_division_144_12",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.174,
+      "output_text": "144\n"
+    },
+    {
+      "mode": "M3_tools_on_iter5",
+      "task_id": "math_sqrt_144",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.177,
+      "output_text": "144\n"
+    },
+    {
+      "mode": "M4_tools_on_iter75",
+      "task_id": "math_addition_42_58",
+      "category": "math",
+      "expected": "100",
+      "match": true,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.39,
+      "output_text": "42 + 58 = 100\n"
+    },
+    {
+      "mode": "M4_tools_on_iter75",
+      "task_id": "math_subtraction_100_37",
+      "category": "math",
+      "expected": "63",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.288,
+      "output_text": "100 - 37\n"
+    },
+    {
+      "mode": "M4_tools_on_iter75",
+      "task_id": "math_mult_7_8",
+      "category": "math",
+      "expected": "56",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.31,
+      "output_text": "7 * 8 = 64\n"
+    },
+    {
+      "mode": "M4_tools_on_iter75",
+      "task_id": "math_division_144_12",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.181,
+      "output_text": "144\n"
+    },
+    {
+      "mode": "M4_tools_on_iter75",
+      "task_id": "math_sqrt_144",
+      "category": "math",
+      "expected": "12",
+      "match": false,
+      "degen": false,
+      "empty": false,
+      "n_iterations": 1,
+      "max_iterations_hit": false,
+      "duration_sec": 0.183,
+      "output_text": "144\n"
+    }
+  ],
+  "best_mode": "M1_tools_off_iter5"
+}

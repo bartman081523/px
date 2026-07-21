@@ -1,0 +1,153 @@
+======================================================================
+RIGOR v3.5g — 8-Arm Micro-Benchmark (5 Baseline-Match-HLE-Tasks)
+======================================================================
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 80 Tasks
+    - Math: 10
+    - Computer Science/AI: 10
+    - Humanities/Social Science: 10
+    - Physics: 10
+    - Biology/Medicine: 10
+    - Chemistry: 10
+    - Engineering: 10
+    - Other: 10
+
+5 Tasks × 8 Arms = 40 Runs
+Tasks: ['668825f80a642802bdfeadfa', '66b827b9b64deaedfbb997a2', '66e88728ba7d8bc0d5806f3a', '66ec02c52ec65d6153428744', '66e8d4736299517dd7a5da8c']
+
+
+[baseline] preset='BASELINE' mephisto=None scale=None
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 9515.46it/s]
+  Model loaded in 3.4s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.70s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.62s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.68s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.52s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=3.43s
+
+[active_manifold] preset='ACTIVE_MANIFOLD' mephisto=None scale=None
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 9021.41it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.3s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.43s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.86s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.92s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.88s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=4.95s
+
+[rigor_disabled] preset='RIGOR' mephisto=False scale=0.0
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 10483.98it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.2s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.38s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.83s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=5.08s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.84s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=4.91s
+
+[rigor_least] preset='RIGOR' mephisto=True scale=0.1
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8946.23it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 2.9s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.39s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.82s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.87s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.88s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=4.91s
+
+[rigor_low] preset='RIGOR' mephisto=True scale=0.3
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8717.74it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.0s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.39s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.81s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.86s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.80s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=4.93s
+
+[rigor_mid] preset='RIGOR' mephisto=True scale=0.5
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 9493.65it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.2s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.39s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.78s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.83s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.99s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=5.04s
+
+[rigor_high] preset='RIGOR' mephisto=True scale=0.7
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 10043.89it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.3s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.39s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.81s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.85s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.86s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=4.90s
+
+[rigor_full] preset='RIGOR' mephisto=True scale=1.0
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8546.13it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.1s
+  ✓ 668825f80a (Humanities/Social Science) expect=D dur=0.38s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.83s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.86s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.96s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=5.04s
+
+[official_rigor] preset='OFFICIAL_RIGOR' mephisto=True scale=0.3
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8940.17it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.1s
+  ✗ 668825f80a (Humanities/Social Science) expect=D dur=0.42s
+  ✗ 66b827b9b6 (Physics     ) expect=3 dur=4.86s
+  ✓ 66e88728ba (Biology/Medicine) expect=B dur=4.95s
+  ✓ 66ec02c52e (Engineering ) expect=B dur=4.89s
+  ✗ 66e8d47362 (Other       ) expect=6 dur=5.04s
+
+======================================================================
+8-Arm Micro-Benchmark Ergebnis:
+======================================================================
+Arm                  Match   Degen   Empty   Total
+----------------------------------------------------------------------
+baseline                 3       0       0       5
+active_manifold          3       0       0       5
+rigor_disabled           3       0       0       5
+rigor_least              3       0       0       5
+rigor_low                3       0       0       5
+rigor_mid                3       0       0       5
+rigor_high               3       0       0       5
+rigor_full               3       0       0       5
+official_rigor           2       1       0       5
+
+Bester Arm: baseline mit 3/5 Matches
+
+JSON: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/micro_8arms.json
+MD:   /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/micro_8arms.md

@@ -145,6 +145,8 @@ class PreprocessContext:
     batch_size: int
     max_new_tokens: int
     seed: int
+    enable_tools: List[str] = field(default_factory=list)  # v3.5g: leere Liste = keine Tools
+    max_tool_iterations: int = 5  # v3.5g: Self-Correction-Loop-Cap
     model_cache: Dict[str, Any] = field(default_factory=dict)
     #   arm_name → (model, tokenizer, patch_kwargs)
     #   PRE-LOADED in preprocess(), NICHT lazy in run_gpu_loop (war 32s Bottleneck)
@@ -293,6 +295,8 @@ def preprocess(args) -> Tuple[PreprocessContext, "ThreadPoolExecutor"]:
         batch_size=args.batch_size,
         max_new_tokens=args.max_new_tokens,
         seed=DEFAULT_SEED,
+        enable_tools=_parse_enable_tools(args.enable_tools),
+        max_tool_iterations=args.max_tool_iterations,
         model_cache=model_cache,
     )
     return ctx, None  # executor placeholder
@@ -407,6 +411,110 @@ def _get_model(arm_name: str, arm_preset: Optional[str]):
     return _model_cache.get(key)
 
 
+def _build_system_with_tools(enable_tools: List[str]) -> str:
+    """Baut den System-Prompt für Tool-Loop mit TOOLCHAIN_DEFINITION + epistemischen Prinzipien.
+
+    v3.5g: SciMind 5.0 — Tool-Loop bekommt volle Toolchain-Definition aus
+    toolchain.TOOLCHAIN_DEFINITION. Wenn enable_tools leer, returnt "" (= keine Tools).
+    """
+    if not enable_tools:
+        return ""
+    from toolchain import TOOLCHAIN_DEFINITION
+    return (
+        "You are a rigorous scientific assistant working on a research task.\n\n"
+        + TOOLCHAIN_DEFINITION
+    )
+
+
+def _parse_enable_tools(enable_tools_str: str) -> List[str]:
+    """Parst das --enable-tools CLI-Flag (komma-getrennt) in eine Liste.
+
+    Beispiele:
+        "web_search,read_file,write_file,execute_python" → alle 4
+        "web_search,execute_python" → 2 Tools
+        "" → []
+    """
+    if not enable_tools_str or not enable_tools_str.strip():
+        return []
+    return [s.strip() for s in enable_tools_str.split(",") if s.strip()]
+
+
+def _run_toolchain_loop(
+    arm_name: str,
+    prompts: List[str],
+    max_new_tokens: int,
+    seed: int,
+    model_cache: Optional[Dict[str, Any]],
+    enable_tools: List[str],
+    max_tool_iterations: int,
+) -> List[Dict[str, Any]]:
+    """v3.5g: Tool-Loop-Pfad — ruft toolchain.run_tool_loop pro Prompt auf.
+
+    Wird genutzt wenn enable_tools gesetzt UND arm_name != "baseline".
+    Greedy-Decoding via toolchain.run_tool_loop, max_iterations kontrolliert
+    die Self-Correction-Loop-Länge.
+
+    Returns:
+        Liste von Dicts analog zu CUDA-Graph-Pfad: [{"text", "n_input_tokens",
+        "n_output_tokens", "n_iterations", "stuck", "max_hit"}, ...]
+    """
+    import torch
+    from toolchain import run_tool_loop
+
+    # Modell beziehen
+    if model_cache and arm_name in model_cache:
+        model, tokenizer, _patch = model_cache[arm_name]
+    else:
+        cached = _get_model(arm_name, None)
+        if cached is None:
+            return [{"text": "", "n_input_tokens": 0, "n_output_tokens": 0,
+                     "n_iterations": 0, "stuck": False, "max_hit": False} for _ in prompts]
+        model, tokenizer, _patch = cached
+
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    device = next(model.parameters()).device
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+    system_prompt = _build_system_with_tools(enable_tools)
+    results: List[Dict[str, Any]] = []
+
+    for prompt in prompts:
+        n_input_tokens = len(
+            tokenizer.encode(
+                tokenizer.apply_chat_template(
+                    [{"role": "system", "content": system_prompt},
+                     {"role": "user", "content": prompt}],
+                    tokenize=False, add_generation_prompt=True,
+                ),
+                add_special_tokens=False,
+            )
+        )
+        result = run_tool_loop(
+            model=model, tokenizer=tokenizer,
+            system_prompt=system_prompt, user_prompt=prompt,
+            max_iterations=max_tool_iterations,
+            max_new_tokens=max_new_tokens,
+            enable_tools=enable_tools,
+        )
+        final = result.final_answer if result.final_answer is not None else ""
+        # Schätze output_tokens: ~4 Zeichen pro Token
+        n_output_tokens = max(1, len(final) // 4) if final else 0
+        results.append({
+            "text": final,
+            "n_input_tokens": n_input_tokens,
+            "n_output_tokens": n_output_tokens,
+            "n_iterations": result.n_iterations,
+            "stuck": result.stuck,
+            "max_hit": result.max_hit,
+            "tool_calls_made": result.tool_calls_made,
+        })
+    return results
+
+
 def run_gpu_loop(
     arm_name: str,
     arm_preset: Optional[str],
@@ -417,6 +525,8 @@ def run_gpu_loop(
     batch_size: int = DEFAULT_BATCH_SIZE,
     model_cache: Optional[Dict[str, Any]] = None,
     use_cuda_graph: bool = True,
+    enable_tools: Optional[List[str]] = None,
+    max_tool_iterations: int = 5,
 ) -> List[Dict[str, Any]]:
     """PURE-GPU Worker-Call: tokenize → generate → batch_decode.
 
@@ -425,11 +535,37 @@ def run_gpu_loop(
     (vs eager PX: 222 → 573 tok/s @ bs=8) und GPU-Util 33%→73% avg,
     100% max.
 
+    v3.5g-NEU: Toolchain-Integration
+    --------------------------------
+    Wenn enable_tools gesetzt UND arm_name != "baseline":
+        Statt CUDA-Graph-Generate wird toolchain.run_tool_loop aufgerufen.
+        max_tool_iterations kontrolliert die Self-Correction-Loop-Länge.
+
     Args:
         use_cuda_graph: Default True. Falls False → klassisches
             model.generate() (langsamer, aber kompatibel).
+        enable_tools: Liste aktiver Tools (None oder [] = keine Tools).
+            Beispiel: ["web_search", "execute_python"].
+        max_tool_iterations: Max Tool-Loop-Iterationen pro Task (default 5).
     """
     import torch
+
+    # v3.5g: Default-Leerlauf
+    if enable_tools is None:
+        enable_tools = []
+
+    # v3.5g: Tool-Loop-Branch (NICHT für Baseline — die nutzt weiterhin model.generate,
+    # weil der Greedy-MCQ-Pfad stabiler ist als Tool-Loop mit Hermes-Format)
+    if enable_tools and arm_name != "baseline":
+        return _run_toolchain_loop(
+            arm_name=arm_name,
+            prompts=prompts,
+            max_new_tokens=max_new_tokens,
+            seed=seed,
+            model_cache=model_cache,
+            enable_tools=enable_tools,
+            max_tool_iterations=max_tool_iterations,
+        )
 
     # Modell beziehen (cached wenn model_cache gegeben, sonst lazy)
     if model_cache and arm_name in model_cache:
@@ -686,6 +822,7 @@ def run_reproducibility_phase(
                 [wi.prompt], max_new_tokens=ctx.max_new_tokens,
                 seed=DEFAULT_REPRO_SEED, batch_size=ctx.batch_size,
                 model_cache=model_cache,
+                enable_tools=[], max_tool_iterations=ctx.max_tool_iterations,
             )
         except Exception as e:
             out_texts = [{"text": f"[ERROR: {str(e)[:100]}]",
@@ -791,6 +928,7 @@ def main() -> int:
                 prompts, max_new_tokens=ctx.max_new_tokens,
                 seed=seed, batch_size=arm_batch_size,
                 model_cache=ctx.model_cache,
+                enable_tools=ctx.enable_tools, max_tool_iterations=ctx.max_tool_iterations,
             )
         except RuntimeError as re:
             err_str = str(re)

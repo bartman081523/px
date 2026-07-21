@@ -1,0 +1,191 @@
+======================================================================
+RIGOR v3.5g — 4-Arm Volllauf auf 32 HLE-Tasks
+======================================================================
+============================================================
+HLE-Suite Loader
+============================================================
+  Versuche HuggingFace cais/hle ...
+  ✓ HuggingFace geladen: 32 Tasks
+    - Math: 4
+    - Computer Science/AI: 4
+    - Humanities/Social Science: 4
+    - Physics: 4
+    - Biology/Medicine: 4
+    - Chemistry: 4
+    - Engineering: 4
+    - Other: 4
+
+32 Tasks aus huggingface
+Arms: ['baseline', 'active_manifold', 'rigor_low', 'rigor_mid']
+
+
+[baseline] preset='BASELINE'
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8876.12it/s]
+  Model loaded in 3.4s
+  ✗ 669402b41d (Math        ) expect=Z+Z+Z+Z+ dur=1.30s
+  ✗ 6696c3734c (Math        ) expect=18       dur=4.49s
+  ✗ 66b2c7c979 (Math        ) expect=$1 + 3x  dur=4.57s
+  ✗ 66ba5510db (Math        ) expect=$\mathca dur=4.55s
+  ✗ 66b91693d8 (Computer Sci) expect=Katie ki dur=1.41s
+  ✗ 66e4cdec11 (Computer Sci) expect=E        dur=4.62s
+  ✗ 66e8784d70 (Computer Sci) expect=C        dur=4.66s
+  ✗ 66e8967ae9 (Computer Sci) expect=D+1      dur=4.66s
+  ✓ 668825f80a (Humanities/S) expect=D        dur=0.35s
+  ✗ 66e70c75bb (Humanities/S) expect=Sale Law dur=0.99s
+  ✗ 66e8a1833a (Humanities/S) expect=Yes      dur=0.05s
+  ✗ 66e9172ef3 (Humanities/S) expect=C        dur=0.46s
+  ✗ 66b727d367 (Physics     ) expect=\(-((d - dur=4.56s
+  ✓ 66b827b9b6 (Physics     ) expect=3        dur=4.61s
+  D 66e89ebe73 (Physics     ) expect=\begin{p dur=4.50s
+  ✗ 66e8e8864c (Physics     ) expect=$-m^2/2$ dur=4.59s
+  ✓ 66e88728ba (Biology/Medi) expect=B        dur=4.62s
+  E 66e8add165 (Biology/Medi) expect=False    dur=0.03s
+  D 66e8ccc408 (Biology/Medi) expect=(1,4,5), dur=4.76s
+  ✗ 66e8db4fe1 (Biology/Medi) expect=C        dur=4.65s
+  ✗ 66ea814c55 (Chemistry   ) expect=1.776 *  dur=4.61s
+  ✗ 66ecddac93 (Chemistry   ) expect=1.86     dur=4.30s
+  D 66f402add1 (Chemistry   ) expect=Al, Re2A dur=4.84s
+  ✗ 66f87ab781 (Chemistry   ) expect=2, 1, 0  dur=1.49s
+  ✗ 66ea12d216 (Engineering ) expect=F        dur=6.19s
+  ✗ 66eaa5ddc7 (Engineering ) expect=10       dur=0.67s
+  ✓ 66ec02c52e (Engineering ) expect=B        dur=4.64s
+  ✗ 66ec8ab4b4 (Engineering ) expect=\frac{32 dur=4.62s
+  ✗ 668828540a (Other       ) expect=yeyo     dur=1.31s
+  ✗ 66e883265a (Other       ) expect=C        dur=0.49s
+  ✗ 66e884515a (Other       ) expect=Shuriken dur=0.63s
+  ✓ 66e8d47362 (Other       ) expect=6        dur=3.38s
+
+[active_manifold] preset='ACTIVE_MANIFOLD'
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 8861.42it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.3s
+  ✗ 669402b41d (Math        ) expect=Z+Z+Z+Z+ dur=1.08s
+  ✗ 6696c3734c (Math        ) expect=18       dur=4.82s
+  D 66b2c7c979 (Math        ) expect=$1 + 3x  dur=4.93s
+  D 66ba5510db (Math        ) expect=$\mathca dur=4.92s
+  ✗ 66b91693d8 (Computer Sci) expect=Katie ki dur=1.55s
+  ✗ 66e4cdec11 (Computer Sci) expect=E        dur=4.97s
+  ✗ 66e8784d70 (Computer Sci) expect=C        dur=1.54s
+  ✗ 66e8967ae9 (Computer Sci) expect=D+1      dur=5.10s
+  ✓ 668825f80a (Humanities/S) expect=D        dur=0.41s
+  ✗ 66e70c75bb (Humanities/S) expect=Sale Law dur=0.96s
+  ✗ 66e8a1833a (Humanities/S) expect=Yes      dur=0.08s
+  ✗ 66e9172ef3 (Humanities/S) expect=C        dur=0.52s
+  ✗ 66b727d367 (Physics     ) expect=\(-((d - dur=5.16s
+  ✓ 66b827b9b6 (Physics     ) expect=3        dur=5.21s
+  ✗ 66e89ebe73 (Physics     ) expect=\begin{p dur=5.28s
+  ✗ 66e8e8864c (Physics     ) expect=$-m^2/2$ dur=5.21s
+  ✓ 66e88728ba (Biology/Medi) expect=B        dur=5.32s
+  ✗ 66e8add165 (Biology/Medi) expect=False    dur=0.11s
+  ✗ 66e8ccc408 (Biology/Medi) expect=(1,4,5), dur=5.34s
+  ✗ 66e8db4fe1 (Biology/Medi) expect=C        dur=5.37s
+  ✗ 66ea814c55 (Chemistry   ) expect=1.776 *  dur=5.50s
+  ✗ 66ecddac93 (Chemistry   ) expect=1.86     dur=5.49s
+  D 66f402add1 (Chemistry   ) expect=Al, Re2A dur=5.76s
+  ✗ 66f87ab781 (Chemistry   ) expect=2, 1, 0  dur=1.93s
+  D 66ea12d216 (Engineering ) expect=F        dur=7.73s
+  ✗ 66eaa5ddc7 (Engineering ) expect=10       dur=0.83s
+  ✓ 66ec02c52e (Engineering ) expect=B        dur=5.74s
+  ✗ 66ec8ab4b4 (Engineering ) expect=\frac{32 dur=5.78s
+  ✗ 668828540a (Other       ) expect=yeyo     dur=1.23s
+  ✗ 66e883265a (Other       ) expect=C        dur=0.65s
+  ✗ 66e884515a (Other       ) expect=Shuriken dur=0.84s
+  ✓ 66e8d47362 (Other       ) expect=6        dur=5.91s
+
+[rigor_low] preset='RIGOR'
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 9116.12it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.3s
+  ✗ 669402b41d (Math        ) expect=Z+Z+Z+Z+ dur=1.02s
+  ✗ 6696c3734c (Math        ) expect=18       dur=4.87s
+  D 66b2c7c979 (Math        ) expect=$1 + 3x  dur=4.89s
+  D 66ba5510db (Math        ) expect=$\mathca dur=4.93s
+  ✗ 66b91693d8 (Computer Sci) expect=Katie ki dur=1.57s
+  ✗ 66e4cdec11 (Computer Sci) expect=E        dur=4.98s
+  ✗ 66e8784d70 (Computer Sci) expect=C        dur=1.51s
+  ✗ 66e8967ae9 (Computer Sci) expect=D+1      dur=4.98s
+  ✓ 668825f80a (Humanities/S) expect=D        dur=0.40s
+  ✗ 66e70c75bb (Humanities/S) expect=Sale Law dur=0.95s
+  ✗ 66e8a1833a (Humanities/S) expect=Yes      dur=0.09s
+  ✗ 66e9172ef3 (Humanities/S) expect=C        dur=0.52s
+  ✗ 66b727d367 (Physics     ) expect=\(-((d - dur=5.10s
+  ✓ 66b827b9b6 (Physics     ) expect=3        dur=5.18s
+  ✗ 66e89ebe73 (Physics     ) expect=\begin{p dur=5.24s
+  ✗ 66e8e8864c (Physics     ) expect=$-m^2/2$ dur=5.20s
+  ✓ 66e88728ba (Biology/Medi) expect=B        dur=5.28s
+  ✗ 66e8add165 (Biology/Medi) expect=False    dur=0.11s
+  ✗ 66e8ccc408 (Biology/Medi) expect=(1,4,5), dur=5.32s
+  ✗ 66e8db4fe1 (Biology/Medi) expect=C        dur=5.32s
+  ✗ 66ea814c55 (Chemistry   ) expect=1.776 *  dur=5.47s
+  ✗ 66ecddac93 (Chemistry   ) expect=1.86     dur=5.46s
+  D 66f402add1 (Chemistry   ) expect=Al, Re2A dur=5.80s
+  ✗ 66f87ab781 (Chemistry   ) expect=2, 1, 0  dur=1.90s
+  D 66ea12d216 (Engineering ) expect=F        dur=7.70s
+  ✗ 66eaa5ddc7 (Engineering ) expect=10       dur=0.84s
+  ✓ 66ec02c52e (Engineering ) expect=B        dur=5.66s
+  ✗ 66ec8ab4b4 (Engineering ) expect=\frac{32 dur=5.73s
+  ✗ 668828540a (Other       ) expect=yeyo     dur=1.21s
+  ✗ 66e883265a (Other       ) expect=C        dur=0.67s
+  ✗ 66e884515a (Other       ) expect=Shuriken dur=0.88s
+  ✓ 66e8d47362 (Other       ) expect=6        dur=5.97s
+
+[rigor_mid] preset='RIGOR'
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 10372.58it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  Model loaded in 3.0s
+  ✗ 669402b41d (Math        ) expect=Z+Z+Z+Z+ dur=1.02s
+  ✗ 6696c3734c (Math        ) expect=18       dur=4.83s
+  D 66b2c7c979 (Math        ) expect=$1 + 3x  dur=4.85s
+  D 66ba5510db (Math        ) expect=$\mathca dur=4.91s
+  ✗ 66b91693d8 (Computer Sci) expect=Katie ki dur=1.55s
+  ✗ 66e4cdec11 (Computer Sci) expect=E        dur=4.96s
+  ✗ 66e8784d70 (Computer Sci) expect=C        dur=1.51s
+  ✗ 66e8967ae9 (Computer Sci) expect=D+1      dur=5.01s
+  ✓ 668825f80a (Humanities/S) expect=D        dur=0.40s
+  ✗ 66e70c75bb (Humanities/S) expect=Sale Law dur=0.94s
+  ✗ 66e8a1833a (Humanities/S) expect=Yes      dur=0.08s
+  ✗ 66e9172ef3 (Humanities/S) expect=C        dur=0.51s
+  ✗ 66b727d367 (Physics     ) expect=\(-((d - dur=5.13s
+  ✓ 66b827b9b6 (Physics     ) expect=3        dur=5.20s
+  ✗ 66e89ebe73 (Physics     ) expect=\begin{p dur=5.34s
+  ✗ 66e8e8864c (Physics     ) expect=$-m^2/2$ dur=5.31s
+  ✓ 66e88728ba (Biology/Medi) expect=B        dur=5.37s
+  ✗ 66e8add165 (Biology/Medi) expect=False    dur=0.11s
+  ✗ 66e8ccc408 (Biology/Medi) expect=(1,4,5), dur=5.39s
+  ✗ 66e8db4fe1 (Biology/Medi) expect=C        dur=5.35s
+  ✗ 66ea814c55 (Chemistry   ) expect=1.776 *  dur=5.55s
+  ✗ 66ecddac93 (Chemistry   ) expect=1.86     dur=5.55s
+  D 66f402add1 (Chemistry   ) expect=Al, Re2A dur=5.82s
+  ✗ 66f87ab781 (Chemistry   ) expect=2, 1, 0  dur=1.91s
+  D 66ea12d216 (Engineering ) expect=F        dur=7.69s
+  ✗ 66eaa5ddc7 (Engineering ) expect=10       dur=0.84s
+  ✓ 66ec02c52e (Engineering ) expect=B        dur=5.72s
+  ✗ 66ec8ab4b4 (Engineering ) expect=\frac{32 dur=5.71s
+  ✗ 668828540a (Other       ) expect=yeyo     dur=1.22s
+  ✗ 66e883265a (Other       ) expect=C        dur=0.65s
+  ✗ 66e884515a (Other       ) expect=Shuriken dur=0.86s
+  ✓ 66e8d47362 (Other       ) expect=6        dur=5.87s
+
+======================================================================
+4-Arm Volllauf Ergebnis:
+======================================================================
+Arm                  Match   Degen   Empty   Total   Match%
+----------------------------------------------------------------------
+baseline                 5       3       1      32    15.6%
+active_manifold          5       4       0      32    15.6%
+rigor_low                5       4       0      32    15.6%
+rigor_mid                5       4       0      32    15.6%
+
+Bester Arm: baseline mit 5/32 Matches (15.6%)
+
+JSON: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/full_4arms.json
+MD:   /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/full_4arms.md

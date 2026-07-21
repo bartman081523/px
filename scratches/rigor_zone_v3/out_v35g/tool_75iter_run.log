@@ -1,0 +1,58 @@
+======================================================================
+RIGOR v3.5g — Tool-Loop 75-Iter Self-Correction-Test
+======================================================================
+
+5 Tasks × 4 Modi = 20 Runs
+Modi: ['M1_tools_off_iter5', 'M2_tools_off_iter75', 'M3_tools_on_iter5', 'M4_tools_on_iter75']
+
+Lade Modell (ACTIVE_MANIFOLD)...
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 10127.13it/s]
+[AutoCalibrator] Loaded manifold for google/gemma-3-270m-it (T=0.30)
+[gemma3-px] Patched 18 attention modules with lossless mem-efficient attention.
+[px-relay] sign=0 → relay inactive (LEAN engine läuft)
+[gemma3-px] ACTIVE_MANIFOLD (voll). SR-59 for L18 (HS=640).
+  loaded in 3.3s
+
+
+[M1_tools_off_iter5] use_tools=False max_iter=5
+  ✓ math_addition_42_58            (iter= 1 ) expect=100 dur=0.80s
+  ✓ math_subtraction_100_37        (iter= 1 ) expect=63 dur=0.35s
+  ✓ math_mult_7_8                  (iter= 1 ) expect=56 dur=0.27s
+  ✓ math_division_144_12           (iter= 1 ) expect=12 dur=0.34s
+  ✗ math_sqrt_144                  (iter= 1 ) expect=12 dur=0.16s
+
+[M2_tools_off_iter75] use_tools=False max_iter=75
+  ✓ math_addition_42_58            (iter= 1 ) expect=100 dur=0.35s
+  ✓ math_subtraction_100_37        (iter= 1 ) expect=63 dur=0.36s
+  ✓ math_mult_7_8                  (iter= 1 ) expect=56 dur=0.28s
+  ✓ math_division_144_12           (iter= 1 ) expect=12 dur=0.36s
+  ✗ math_sqrt_144                  (iter= 1 ) expect=12 dur=0.16s
+
+[M3_tools_on_iter5] use_tools=True max_iter=5
+  ✓ math_addition_42_58            (iter= 1 ) expect=100 dur=0.39s
+  ✗ math_subtraction_100_37        (iter= 1 ) expect=63 dur=0.28s
+  ✗ math_mult_7_8                  (iter= 1 ) expect=56 dur=0.30s
+  ✗ math_division_144_12           (iter= 1 ) expect=12 dur=0.17s
+  ✗ math_sqrt_144                  (iter= 1 ) expect=12 dur=0.18s
+
+[M4_tools_on_iter75] use_tools=True max_iter=75
+  ✓ math_addition_42_58            (iter= 1 ) expect=100 dur=0.39s
+  ✗ math_subtraction_100_37        (iter= 1 ) expect=63 dur=0.29s
+  ✗ math_mult_7_8                  (iter= 1 ) expect=56 dur=0.31s
+  ✗ math_division_144_12           (iter= 1 ) expect=12 dur=0.18s
+  ✗ math_sqrt_144                  (iter= 1 ) expect=12 dur=0.18s
+
+======================================================================
+Tool-Loop Self-Correction Ergebnis:
+======================================================================
+Mode                        Tools   MaxIter   Match   Degen   Empty
+----------------------------------------------------------------------
+M1_tools_off_iter5          False         5       4       0       0
+M2_tools_off_iter75         False        75       4       0       0
+M3_tools_on_iter5            True         5       1       0       0
+M4_tools_on_iter75           True        75       1       0       0
+
+Bester Modus: M1_tools_off_iter5 mit 4/5 Matches
+
+JSON: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/tool_75iter.json
+MD:   /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/rigor_zone_v3/out_v35g/tool_75iter.md

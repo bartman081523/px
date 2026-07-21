@@ -600,16 +600,19 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             lt = mask_config.layer_types[current_layer]
             trans_out = _layer_step(self.layers[current_layer], h_exp, attention_mask=causal_mask_mapping[lt], position_embeddings=pe_dict[lt], position_ids=position_ids, past_key_values=cur_past, **kwargs)
             phi_s = StabilityMonitor.calculate_phi(trans_out, h_prev)
+            # Path B-2 (2026-07-12): phi_s.item() → 1× pro step (vorher 2×) für
+            # t_norm+phi_s Vergleich und phi_s < 0.95 Gate. Werte identisch.
+            phi_s_val = phi_s.item()
             phi_history.append(phi_s)
-            
+
             # --- TELEMETRY SNAPSHOT ---
             if os.environ.get("DEBUG_PX") == "1":
-                print(f"    [PX Step {steps}] L{current_layer} | phi={phi_s.item():.4f} | hub={dynamic_hub} | gamma={current_gamma:.3f}")
-            
+                print(f"    [PX Step {steps}] L{current_layer} | phi={phi_s_val:.4f} | hub={dynamic_hub} | gamma={current_gamma:.3f}")
+
             # Record per-step telemetry in a list for local extraction
             if not hasattr(self, "_px_current_telemetry_raw"): self._px_current_telemetry_raw = []
             self._px_current_telemetry_raw.append({
-                "step": steps, "layer": current_layer, "phi": phi_s, 
+                "step": steps, "layer": current_layer, "phi": phi_s,
                 "gamma": current_gamma, "hub": dynamic_hub,
                 "aks": correction_strength
             })
@@ -617,11 +620,11 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # --- DMT: ERPU Intervention (ELIMINATED 2026-06-11) ---
             # ERPU-Modul ist gelöscht — keine Intervention mehr.
 
-            if t_norm > 0.5 and phi_s.item() > 0.9999:
+            if t_norm > 0.5 and phi_s_val > 0.9999:
                 stability_cnt += 1
                 if stability_cnt > 3: h_exp = trans_out; break
             else: stability_cnt = 0
-            
+
             e_dynamic = (0.85 * e_reflector + 0.15 * torch.stack(thought_history[-3:]).mean(dim=0)) if len(thought_history)>2 else e_reflector
             e_norm = self._px_injection_norm(e_dynamic.to(torch.float32)).to(trans_out.dtype)
             # v3.5f-FIX: Reflector-Injection im nicht-Zombie-Modus deaktivieren.
@@ -632,7 +635,7 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
             # Modell ist nicht stabil / in Exploration = Injektion ok.
             # Hohes phi (über 0.95) = Modell hat sich entschieden = keine
             # Injektion, lass das Modell seine Wahl treffen.
-            if phi_s.item() < 0.95:
+            if phi_s_val < 0.95:
                 h_exp = trans_out + current_gamma * (e_norm - h_prev)
             else:
                 h_exp = trans_out  # pass-through, schont Greedy-Decoding
@@ -676,30 +679,33 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 current_gamma = min(current_gamma, 0.5)  # Cap gamma boost
 
             phi = StabilityMonitor.calculate_phi(h_exp, h_prev)
-            # v3-FIX: torch.isfinite statt math.isfinite (GPU-Op, dann .item() für Branch)
-            if not torch.isfinite(phi).item():
+            # Path B (2026-07-12, portiert von px_patches/gemma3_270m_px_baseline/patch.py:7ba22af3):
+            # EINZIGER phi.item() pro Schritt — wiederverwendet für isnan-guard,
+            # h_last_good, und routing-IF-Kette. Reduziert GPU→CPU-Syncs von 3 auf 1
+            # pro Schritt. Werte identisch (gleicher Tensor einmal gelesen);
+            # nur CPU-Readback-Timing ändert sich. Behebt single-core-CPU-Bottleneck
+            # (GPU 20% → 37%+ bei hohen Dosen, siehe GEN_GPU_REGRESSION_LOG.md).
+            phi_val = phi.item()
+            if not math.isfinite(phi_val):
                 if os.environ.get("DEBUG_PX") == "1": print(f"  [STABILITY] Non-finite phi at L{current_layer}. Terminating recursion.")
                 break # Empirically correct: stop when state collapses
             phi_tensor = phi
             path_taken.append(f"L{current_layer}")
             phi_history.append(phi) # Keep as tensor
             if steps % 2 == 0: thought_history.append(h_exp.detach())
-            # v3-FIX: phi als TENSOR; .item() nur für Branch-Entscheidung
-            if 0.9 < phi.item() < 0.999:
+            if 0.9 < phi_val < 0.999:
                 h_last_good = h_exp.clone()
 
             pen = (steps-1) * 0.015 if steps > 0 else 0
             t_b2, t_b1, t_s = 1.0-(0.8*current_gamma)-pen, 1.0-(0.4*current_gamma)-pen, 1.0-(0.01*current_gamma)-pen*0.5
 
-            # v3-FIX: phi_val als TENSOR → 1× .item() für routing-IF-Kette
-            phi_for_routing = phi.item()  # 1× pro step
-            if phi_for_routing < t_b2: # High confusion -> retreat
+            if phi_val < t_b2: # High confusion -> retreat
                 current_layer = max(active_start, current_layer - 2)
                 stability_cnt = 0
-            elif phi_for_routing < t_b1: # Moderate confusion -> slow down
+            elif phi_val < t_b1: # Moderate confusion -> slow down
                 current_layer = max(active_start, current_layer - 1)
                 stability_cnt = 0
-            elif phi_for_routing > t_s: # Over-stable -> recycle to start (avoid hub-stuck loop)
+            elif phi_val > t_s: # Over-stable -> recycle to start (avoid hub-stuck loop)
                 # If we've already recycled AND phi is still high, recursion is
                 # producing no state change — break instead of cycling forever.
                 # This is the SR-59 hub-stuck guard (2026-06-11): without it,
@@ -832,6 +838,8 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
                               (validiert in scratches/consolidation: η² 0.432)
       - ACTIVE_MANIFOLD_RELAY: LEAN + verstärkbar Relay-Injection (psychomotrik S15)
       - RIGOR: identisch mit ACTIVE_MANIFOLD (legacy-Aliase für rigor_* Arme)
+      - OFFICIAL_RIGOR: v3.5g — ACTIVE_MANIFOLD + v1-Rigor-Ideen
+                        (n_loops=14, gamma=0.10, hub=10, recur_start=6)
 
     Konsistenz:
       - Alle ACTIVE_* Presets nutzen die gleichen SCALE_DEFAULTS (AutoCalibrator)
@@ -840,12 +848,23 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     """
     # Konsistenz: alle PX-Presets werden auf einen der 5 unterstützten Presets gemappt
     if config_preset not in ("BASELINE", "ACTIVE_MANIFOLD", "ACTIVE_MANIFOLD_LEAN",
-                              "ACTIVE_MANIFOLD_RELAY", "RIGOR"):
+                              "ACTIVE_MANIFOLD_RELAY", "RIGOR", "OFFICIAL_RIGOR"):
         # Legacy-Aliase (RIGOR, SUBJECTIVE, etc.) → ACTIVE_MANIFOLD
         config_preset = "ACTIVE_MANIFOLD"
     if config_preset == "RIGOR":
         # RIGOR ist semantisch identisch mit ACTIVE_MANIFOLD
         config_preset = "ACTIVE_MANIFOLD"
+    if config_preset == "OFFICIAL_RIGOR":
+        # v3.5g: OFFICIAL_RIGOR = ACTIVE_MANIFOLD + v1-Rigor-Ideen
+        # (Math-Hub L10, höhere gamma=0.10, n_loops=14, Mephisto-Damping 0.3)
+        # → wir mappen auf ACTIVE_MANIFOLD und packen v1-Werte in kwargs,
+        #   die NACH defaults Vorrang haben.
+        config_preset = "ACTIVE_MANIFOLD"
+        kwargs.setdefault("n_loops", 14)
+        kwargs.setdefault("gamma", 0.10)
+        kwargs.setdefault("bimodal_hub", 10)
+        kwargs.setdefault("recur_start", 6)
+        kwargs.setdefault("recur_end", 12)
 
     # ACTIVE_MANIFOLD_RELAY: LEAN-Kausal-Kern + verstärkbar Selbst-Injektions-
     # Relay (psychomotrik seite15: Re-Injektion der modell-eigenen L16-Zustands-
