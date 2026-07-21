@@ -1,0 +1,64 @@
+{
+  "phase": "v4_cuda_graph",
+  "timestamp": 1784629737.0838137,
+  "server_url": "http://127.0.0.1:7860",
+  "model": "gemma3-270m-px-lean",
+  "n_single_requests": 10,
+  "n_switches": 4,
+  "total_wall_sec": 9.178,
+  "single_request": {
+    "test": "single_request_n10",
+    "model": "gemma3-270m-px-lean",
+    "durations_sec": [
+      4.142563343048096,
+      0.16849875450134277,
+      0.16782808303833008,
+      0.16568446159362793,
+      0.1663041114807129,
+      0.16544628143310547,
+      0.16638469696044922,
+      0.16715621948242188,
+      0.16580820083618164,
+      0.1669778823852539
+    ],
+    "mean_sec": 0.564,
+    "min_sec": 0.165,
+    "max_sec": 4.143
+  },
+  "switch": {
+    "test": "switch_model",
+    "models": [
+      "gemma3-270m-px-lean",
+      "gemma3-270m-px-baseline"
+    ],
+    "durations": [
+      {
+        "model": "gemma3-270m-px-lean",
+        "dur_sec": 0.225
+      },
+      {
+        "model": "gemma3-270m-px-baseline",
+        "dur_sec": 3.154
+      },
+      {
+        "model": "gemma3-270m-px-lean",
+        "dur_sec": 0.126
+      },
+      {
+        "model": "gemma3-270m-px-baseline",
+        "dur_sec": 0.029
+      }
+    ],
+    "mean_sec": 0.883
+  },
+  "gpu": {
+    "n_samples": 63,
+    "n_valid": 63,
+    "util_mean": 9.5,
+    "util_max": 24.0,
+    "util_min": 1.0,
+    "util_p95": 24.0,
+    "mem_mean_mb": 835.9,
+    "mem_max_mb": 1594.0
+  }
+}

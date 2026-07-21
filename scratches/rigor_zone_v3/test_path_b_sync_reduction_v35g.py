@@ -149,6 +149,22 @@ def test_phi_item_called_once():
     print(f"  ✓ Path-B-Fix aktiv: phi+phi_s = {n_total} (optimal: 2)")
 
 
+def test_no_isnan_any_in_loop():
+    """Path-B-3: torch.isnan(...).any() soll NICHT im Recursion-Loop sein (würde 2 syncs verursachen)."""
+    import inspect
+    from px_patches_v3.patch import _px_forward
+    src = inspect.getsource(_px_forward)
+    # Filter Kommentare raus
+    code_lines = [line.split("#")[0] if "#" in line else line for line in src.split("\n")]
+    code_only = "\n".join(code_lines)
+    # Suche torch.isnan().any() — das ist der alte 2-Sync-Wrapper
+    n_isnan_any = len(re.findall(r"torch\.isnan\([^)]+\)\.any\(\)", code_only))
+    print(f"  ✓ torch.isnan().any() count: {n_isnan_any}")
+    # Path-B-3-Erwartung: 0 (sollte durch isfinite().all().item() ersetzt sein)
+    assert n_isnan_any == 0, f"torch.isnan().any() sollte 0 sein, gefunden: {n_isnan_any}"
+    print(f"  ✓ Path-B-3 aktiv: torch.isnan().any() = {n_isnan_any} (optimal: 0)")
+
+
 def main() -> int:
     print("=" * 70)
     print("TDD test_path_b_sync_reduction_v35g (v3.5g Path-B-Port)")
@@ -157,6 +173,7 @@ def main() -> int:
         ("test_capture_golden", test_capture_golden),
         ("test_compare_with_golden", test_compare_with_golden),
         ("test_phi_item_called_once", test_phi_item_called_once),
+        ("test_no_isnan_any_in_loop", test_no_isnan_any_in_loop),
     ]
     failed = 0
     for name, fn in tests:

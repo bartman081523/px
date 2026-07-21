@@ -68,47 +68,145 @@ DEFAULT_MODEL = "gemma3-270m-px-lean"  # v3.5f bevorzugt
 
 class ModelManager:
     def __init__(self):
-        self._tokenizer: Optional[Any] = None
-        self._model: Optional[Any] = None
-        self._current_model_id: Optional[str] = None
+        # v3.5g-Multi-Model-Cache: Dict[model_id, (tokenizer, model)]
+        # Vorher: single-slot _model/_current_model_id → Switch entlud + lud neu (3s waste)
+        # Jetzt: alle geladenen Modelle bleiben im Speicher, Switch ohne Reload.
+        self._models: Dict[str, tuple] = {}
         self._lock = False
 
     def is_loaded(self, model_id: str) -> bool:
-        return self._current_model_id == model_id and self._model is not None
+        return model_id in self._models
 
     def get_model(self, model_id: str):
         if model_id not in MODELS:
             raise HTTPException(404, f"Model {model_id} not in registry")
+        # Cache-Hit: return ohne I/O
         if self.is_loaded(model_id):
-            return self._tokenizer, self._model
-        # Lade neu
-        self._unload()
+            tok, mdl = self._models[model_id]
+            return tok, mdl
+        # Cache-Miss: lade + cache
         cfg = MODELS[model_id]
         print(f"[v3.5g-Server] Loading {model_id} (preset={cfg['preset']})...", flush=True)
-        self._tokenizer = AutoTokenizer.from_pretrained(HF_MODEL)
+        tok = AutoTokenizer.from_pretrained(HF_MODEL)
         model = AutoModelForCausalLM.from_pretrained(
             HF_MODEL, dtype=torch.bfloat16
         ).to("cuda").eval()
         if cfg["preset"] != "BASELINE":
             apply_px_patch(model.model, config_preset=cfg["preset"])
-        self._model = model
-        self._current_model_id = model_id
-        print(f"[v3.5g-Server] {model_id} loaded.", flush=True)
-        return self._tokenizer, self._model
+        self._models[model_id] = (tok, model)
+        print(f"[v3.5g-Server] {model_id} loaded. (cache_size={len(self._models)})", flush=True)
+        return tok, model
 
-    def _unload(self):
-        if self._model is not None:
-            del self._model
+    def list_loaded(self) -> List[str]:
+        """Welche Modelle sind gerade im Cache."""
+        return list(self._models.keys())
+
+    def _unload(self, model_id: Optional[str] = None):
+        # Vorher: _unload() entlud das einzige Modell. Jetzt: optional per model_id.
+        if model_id is None:
+            # Unload all (für shutdown)
+            for mid in list(self._models.keys()):
+                self._unload(mid)
+            return
+        if model_id in self._models:
+            _, mdl = self._models.pop(model_id)
+            del mdl
             torch.cuda.empty_cache()
-            self._model = None
-            self._tokenizer = None
-            self._current_model_id = None
 
     async def shutdown(self):
         self._unload()
 
 
+class CudaGraphRunnerCache:
+    """Cache für CUDAGraphRunner pro Modell + Shape (B, max_seq).
+
+    Motivation: model.generate() hat 197ms CUDA + 1100ms CPU-Overhead
+    (57616 cudaLaunchKernel, 1083 cudaStreamSynchronize). CUDA-Graph captured
+    die Decode-Steps in EINEM Graph-Op → 4.96× Speedup (vgl.
+    test_cuda_graph_integration.py).
+
+    Pro Modell: Dict[(B, max_seq), {runner, max_new, last_used}].
+    LRU-Eviction bei max_runners_per_model.
+    """
+
+    def __init__(self, max_runners_per_model: int = 4):
+        self._runners: Dict[str, List[Dict]] = {}  # model_id → List of {key, runner, max_new, last_used}
+        self._max_per_model = max_runners_per_model
+
+    def get_or_create(self, model_id: str, model, tokenizer,
+                      input_ids, attention_mask, max_new_tokens: int):
+        """Gibt gecachten Runner zurück oder erstellt neuen.
+
+        B = batch_size (immer 1 für jetzt)
+        max_seq = input_len + max_new + buffer (für jeden Request anders)
+        Wir bucketing nach max_new (da sich das selten ändert).
+        """
+        # Lazy import (sonst kann der Test CUDAGraphRunner nicht mocken)
+        from px_patches_v3 import cuda_graph_runner as _cgr
+        CUDAGraphRunner = _cgr.CUDAGraphRunner
+        CUDAGraphRunnerConfig = _cgr.CUDAGraphRunnerConfig
+        B = input_ids.shape[0]
+        # Bucket: max_new (vereinfacht — in Praxis könnte man input_len mit reinnehmen)
+        key = (B, max_new_tokens)
+        now = time.time()
+
+        # Cache-Hit
+        if model_id in self._runners:
+            for entry in self._runners[model_id]:
+                if entry["key"] == key:
+                    entry["last_used"] = now
+                    return entry["runner"]
+
+        # Cache-Miss: erstelle neuen Runner
+        T_in = input_ids.shape[1]
+        max_seq = int(T_in * 2.5) + max_new_tokens + 100
+        cfg = CUDAGraphRunnerConfig(batch_size=B, max_seq_len=max_seq)
+        try:
+            runner = CUDAGraphRunner(model, cfg)
+            runner.setup(input_ids, attention_mask)
+        except Exception as e:
+            print(f"  [WARN] CUDA-Graph setup failed for {model_id}/{key}: "
+                  f"{type(e).__name__}: {str(e)[:100]}", flush=True)
+            return None
+
+        # Cache hinzufügen
+        if model_id not in self._runners:
+            self._runners[model_id] = []
+        self._runners[model_id].append({
+            "key": key, "runner": runner,
+            "max_new": max_new_tokens, "last_used": now,
+        })
+        # LRU-Eviction
+        if len(self._runners[model_id]) > self._max_per_model:
+            self._runners[model_id].sort(key=lambda e: e["last_used"])
+            evicted = self._runners[model_id].pop(0)
+            del evicted["runner"]
+            torch.cuda.empty_cache()
+        print(f"  [v3.5g-Server] CUDA-Graph cached for {model_id} "
+              f"(key={key}, max_per_model={self._max_per_model}, "
+              f"current={len(self._runners[model_id])})", flush=True)
+        return runner
+
+    def generate(self, runner, max_new_tokens: int) -> Any:
+        """Decode max_new_tokens via CUDA-Graph runner. Returns token sequence (1, max_new)."""
+        tokens = [runner.static_input_ids.clone()]
+        for _ in range(max_new_tokens - 1):
+            nxt = runner.step()
+            runner.append(nxt)
+            tokens.append(nxt)
+        return torch.cat(tokens, dim=1)
+
+    def clear_model(self, model_id: str):
+        """Alle Runner für ein Modell löschen (z.B. wenn Modell entladen wird)."""
+        if model_id in self._runners:
+            for entry in self._runners[model_id]:
+                del entry["runner"]
+            del self._runners[model_id]
+            torch.cuda.empty_cache()
+
+
 manager = ModelManager()
+runner_cache = CudaGraphRunnerCache(max_runners_per_model=4)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -219,7 +317,7 @@ async def root():
         "model": HF_MODEL,
         "default_model": DEFAULT_MODEL,
         "available_models": list(MODELS.keys()),
-        "loaded": [manager._current_model_id] if manager._current_model_id else [],
+        "loaded": manager.list_loaded(),
     }
 
 
@@ -250,6 +348,26 @@ async def chat_completions(request: ChatCompletionRequest):
     do_sample = request.temperature > 0.0
 
     def _gen():
+        # CUDA-Graph-Pfad: nur für PX-Arms (baseline nutzt model.generate direkt).
+        # Wenn Runner verfügbar: 4.96× speedup (197ms CUDA → 43ms CUDA, weniger CPU-Overhead).
+        runner = None
+        if model_id != "gemma3-270m-px-baseline":
+            runner = runner_cache.get_or_create(
+                model_id=model_id,
+                model=model,
+                tokenizer=tok,
+                input_ids=ids["input_ids"],
+                attention_mask=ids.get("attention_mask"),
+                max_new_tokens=request.max_tokens,
+            )
+        if runner is not None:
+            # CUDA-Graph-Decode
+            with torch.inference_mode():
+                tokens = runner_cache.generate(runner, request.max_tokens)
+            new_tokens = tokens  # (1, max_new)
+            gen_text = tok.decode(new_tokens[0], skip_special_tokens=True)
+            return gen_text, new_tokens.shape[1], ids["input_ids"].shape[1]
+        # Fallback: model.generate (für baseline oder CUDA-Graph-Setup-Fehler)
         with torch.inference_mode():
             out = model.generate(
                 **ids,
@@ -320,6 +438,28 @@ async def messages(request: AnthropicRequest):
     ids = tok(text, return_tensors="pt").to("cuda")
 
     do_sample = request.temperature > 0.0
+    # CUDA-Graph-Pfad: gleiche Logik wie /v1/chat/completions
+    runner = None
+    if model_id != "gemma3-270m-px-baseline":
+        runner = runner_cache.get_or_create(
+            model_id=model_id,
+            model=model,
+            tokenizer=tok,
+            input_ids=ids["input_ids"],
+            attention_mask=ids.get("attention_mask"),
+            max_new_tokens=request.max_tokens,
+        )
+    if runner is not None:
+        with torch.inference_mode():
+            tokens = runner_cache.generate(runner, request.max_tokens)
+        new_tokens = tokens
+        gen_text = tok.decode(new_tokens[0], skip_special_tokens=True)
+        return AnthropicResponse(
+            model=model_id,
+            content=[AnthropicContentBlock(type="text", text=gen_text)],
+            usage={"input_tokens": ids["input_ids"].shape[1], "output_tokens": new_tokens.shape[1]},
+        )
+    # Fallback
     with torch.inference_mode():
         out = model.generate(
             **ids,

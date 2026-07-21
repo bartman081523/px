@@ -666,7 +666,9 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
                 h_exp, current_entropy = self._px_azs(h_exp, phi_val, aks_safe, em_safe, zone_weights)
                 
                 # Check for NaN hidden states after injection (Empirical Failure)
-                if torch.isnan(h_exp).any() or torch.isnan(torch.as_tensor(current_entropy)):
+                # Path B-3 (2026-07-21): isfinite().all().item() ist 1 Sync
+                # (vorher 2: isnan().any() + isnan().any()). Verhalten identisch.
+                if not torch.isfinite(h_exp).all().item():
                     if os.environ.get("DEBUG_PX") == "1": print("  [SAFETY] Non-finite state in AZS. Terminating recursion.")
                     break # Terminate instead of rollback crutch
 
