@@ -108,6 +108,17 @@ MODEL_REGISTRY = {
         "dtype": "bfloat16",
         "max_length": 4096,
     },
+
+    # ── Ternary-Bonsai-2-27B (PTQ1_0 ternary, GGUF→HF, qwen3.5 hybrid) ──
+    "ternary-bonsai-27b": {
+        "hf_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
+        "tokenizer_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
+        "patch_dir": "ternary_bonsai_27b_px",
+        "patch_kwargs": {"routing_mode": "adaptive"},
+        "model_type": "qwen35_ptq",
+        "dtype": "bfloat16",
+        "max_length": 4096,
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════

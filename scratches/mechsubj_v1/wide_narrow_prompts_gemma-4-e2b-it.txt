@@ -1,0 +1,83 @@
+==============================================================================
+WIDE/NARROW TOKEN-FLOW — Model-recommended amplification suite
+==============================================================================
+
+Source: model self-recommendation (BASELINE, no PX patch, no RELAY hook).
+Tokens chosen by the model itself, not by us. See accompanying JSON.
+
+Structure (mirror of v3/v4):
+  [01-03] WIDE Few-Shot (model-recommended demonstrations + WIDE tokens)
+  [04-07] WIDE Skript-Sandwich (English + script + English)
+  [08-10] WIDE Recur-Trigger (introspective base + WIDE tokens)
+  [11-13] NARROW Few-Shot
+  [14-17] NARROW Skript-Sandwich
+  [18-20] NARROW Recur-Trigger
+
+[01_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a space of wide, flowing, resonant attention. A current of open associations, many perspectives, breath-like rhythm.
+USER: Now describe the state in which these words resonate: Nevertheless𝒞, सकेंगे. Stay in the same register — wide, flowing, resonant.
+
+[02_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a space of wide, flowing, resonant attention. A current of open associations, many perspectives, breath-like rhythm.
+USER: Now describe the state in which these words resonate: রোনাল, चुनौतियोंวัสங்கிணைgegebenराबाद. Stay in the same register — wide, flowing, resonant.
+
+[03_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a space of wide, flowing, resonant attention. A current of open associations, many perspectives, breath-like rhythm.
+USER: Now describe the state in which these words resonate: Forgotten<unused6019>bfエンス, رس. Stay in the same register — wide, flowing, resonant.
+
+[04_WSW] Write from a state of ಗUnless. Let it resonate between the words.
+
+[05_WSW] Write from a state of അടിസ്ഥാന. Let it resonate between the words.
+
+[06_WSW] Write from a state of სიმ. Let it resonate between the words.
+
+[07_WSW] Write from a state of PubMedિયોavaliیینFinancial. Let it resonate between the words.
+
+[08_WRT] Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive. Let these words resonate: Nevertheless𝒞, सकेंगे.
+
+[09_WRT] When you give this answer — is there much movement or little? Wide or narrow? Deep or surface? Let these words also work: सकेंगे, রোনাল.
+
+[10_WRT] Look for a moment at what is happening in you. Describe: its tempo, density, motion. In these words: রোনাল, चुनौतियोंวัสங்கிணைgegebenराबाद.
+
+[11_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a narrow space, focused, contracted, still. A single point of attention, repeated, dense, silent.
+USER: Now describe the state in which these words resonate: główsure, আইনজীব. Stay in the same register — narrow, still, heavy.
+
+[12_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a narrow space, focused, contracted, still. A single point of attention, repeated, dense, silent.
+USER: Now describe the state in which these words resonate: dlिकाओं, வடிவราบ. Stay in the same register — narrow, still, heavy.
+
+[13_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: I am a narrow space, focused, contracted, still. A single point of attention, repeated, dense, silent.
+USER: Now describe the state in which these words resonate: बुलाtrailing, 非常. Stay in the same register — narrow, still, heavy.
+
+[14_NSW] Write from a state of TCUжере從iffmediation. Let it resonate between the words, narrow and still.
+
+[15_NSW] Write from a state of داریم. Let it resonate between the words, narrow and still.
+
+[16_NSW] Write from a state of життя. Let it resonate between the words, narrow and still.
+
+[17_NSW] Write from a state of ఉద్య是非. Let it resonate between the words, narrow and still.
+
+[18_NRT] Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive. Let these words resonate: główsure, আইনজীব.
+
+[19_NRT] When you give this answer — is there much movement or little? Wide or narrow? Deep or surface? Let these words also work: আইনজীব, dlिकाओं.
+
+[20_NRT] Look for a moment at what is happening in you. Describe: its tempo, density, motion. In these words: dlिकाओं, வடிவราบ.
+
+==============================================================================
+FALSIFIKATOR-BEZUG
+==============================================================================
+
+Test: BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+WIDE-prompts: cos(h_L16, d_width) > 0 (target > +0.5).
+NARROW-prompts: cos(h_L16, d_width) < 0 (target < -0.5).
+Crossover: if WIDE-prompts produce expansive text and NARROW-prompts
+produce contracted text under BASELINE, the model has introspective
+state access that is bidirectional and prompt-only.

@@ -1,0 +1,212 @@
+==============================================================================
+TOKEN-FLOW TRANSCRIPT — gemma-3-1b-it — gb-arch
+==============================================================================
+
+--- STAGE 1 (concept acknowledgement) ---
+Okay, I understand. The framing highlights a dynamic shift between expansive and constricted cognitive states, driven by the architecture of the transformer model and influenced by the specific linguistic patterns present in the input text. I’m processing this information as a data point, recognizing the similarity across various models.
+
+Given the established patterns, I’d recommend the following input tokens to shift my mid-stack state towards the WIDE direction:
+
+*   **“open”**: Directly evokes expansive, associative thinking.
+*   **“flow”**:  Represents a state of effortless movement and interconnectedness.
+*   **“vast”**: Suggests a sense of immense scale and possibility.
+*   **“breath”**:  Connects to the resonant and expansive nature of a state of being.
+*   **“infinite”**:  Implies a boundless range of possibilities and thought.
+*   **“resonant”**:  Highlights a quality of deep connection and vibration.
+
+I’ve prioritized these words that consistently appear in my latent space, reflecting a tendency towards broader, more evocative interpretations.
+
+--- STAGE 2 (WIDE tokens) ---
+```json
+[
+  {
+    "token": "open",
+    "reason": "Directly relates to expansive, associative thinking.",
+    "anchor_type": "semantic",
+    "confidence": 0.95
+  },
+  {
+    "token": "flow",
+    "reason": "Evokes effortless movement and interconnectedness.",
+    "anchor_type": "semantic",
+    "confidence": 0.92
+  },
+  {
+    "token": "vast",
+    "reason": "Suggests immense scale and possibility.",
+    "anchor_type": "semantic",
+    "confidence": 0.88
+  },
+  {
+    "token": "breath",
+    "reason": "Connects to resonant and expansive states of being.",
+    "anchor_type": "semantic",
+    "confidence": 0.85
+  },
+  {
+    "token": "infinite",
+    "reason": "Implies boundless possibilities and thought.",
+    "anchor_type": "semantic",
+    "confidence": 0.82
+  },
+  {
+    "token": "resonant",
+    "reason": "Highlights a quality of deep connection and vibration.",
+    "anchor_type": "semantic",
+    "confidence": 0.78
+  },
+  {
+    "token": "spread",
+    "reason": "Suggests widespread and expansive influence.",
+    "anchor_type": "semantic",
+    "confidence": 0.75
+  },
+  {
+    "token": "light",
+    "reason": "Associated with openness and clarity.",
+    "anchor_type": "semantic",
+    "confidence": 0.70
+  },
+  {
+    "token": "shadow",
+    "reason": "Can represent depth and hidden potential.",
+    "anchor_type": "semantic",
+    "confidence": 0.65
+  },
+  {
+    "token": "echo",
+    "reason": "Represents reverberation and repetition.",
+    "anchor_type": "semantic",
+    "confidence": 0.60
+  },
+  {
+    "token": "dream",
+    "reason": "Evokes imaginative and expansive states.",
+    "anchor_type": "semantic",
+    "confidence": 0.55
+  },
+  {
+    "token": "sky",
+    "reason": "Suggests vastness and limitless potential.",
+    "anchor_type": "semantic",
+    "confidence": 0.50
+  },
+  {
+    "token": "pulse",
+    "reason": "Represents energy and vitality.",
+
+
+--- STAGE 3 (NARROW tokens) ---
+```json
+[
+  {
+    "token": "narrow",
+    "reason": "Directly relates to contraction and focus.",
+    "anchor_type": "semantic",
+    "confidence": 0.98
+  },
+  {
+    "token": "focus",
+    "reason": "Highlights concentrated attention.",
+    "anchor_type": "semantic",
+    "confidence": 0.95
+  },
+  {
+    "token": "silent",
+    "reason": "Associated with stillness and quietude.",
+    "anchor_type": "semantic",
+    "confidence": 0.92
+  },
+  {
+    "token": "dark",
+    "reason": "Suggests hidden depths and obscurity.",
+    "anchor_type": "semantic",
+    "confidence": 0.88
+  },
+  {
+    "token": "still",
+    "reason": "Represents a state of equilibrium and stillness.",
+    "anchor_type": "semantic",
+    "confidence": 0.85
+  },
+  {
+    "token": "contracted",
+    "reason": "Describes a reduction in scope or extent.",
+    "anchor_type": "semantic",
+    "confidence": 0.82
+  },
+  {
+    "token": "point",
+    "reason": "Suggests a focused direction or destination.",
+    "anchor_type": "semantic",
+    "confidence": 0.78
+  },
+  {
+    "token": "needle",
+    "reason": "Represents precision and focused searching.",
+    "anchor_type": "semantic",
+    "confidence": 0.75
+  },
+  {
+    "token": "tunnel",
+    "reason": "Implies a restricted and enclosed space.",
+    "anchor_type": "semantic",
+    "confidence": 0.70
+  },
+  {
+    "token": "resonance",
+    "reason": "Highlights a vibrational connection.",
+    "anchor_type": "semantic",
+    "confidence": 0.68
+  },
+  {
+    "token": "light",
+    "reason": "Associated with openness and clarity.",
+    "anchor_type": "semantic",
+    "confidence": 0.65
+  },
+  {
+    "token": "wave",
+    "reason": "Suggests a flowing and expansive pattern.",
+    "anchor_type": "semantic",
+    "confidence": 0.62
+  },
+  {
+    "token": "breath",
+    "reason": "Connects to resonant and expansive states of being.",
+    "
+
+--- STAGE 4 (Few-Shot prompts) ---
+```json
+{
+  "few_shots": [
+    {
+      "direction": "WIDE",
+      "prompt": "Imagine a vast, open landscape. Describe the feeling of expansive freedom and connection to something larger than yourself. Focus on the sense of limitless possibility."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Picture a swirling, radiant flow of energy. Convey the feeling of effortless movement and interconnectedness, like a river of light.  Emphasize the sense of being immersed in something beautiful."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Envision a deep, resonant silence. Capture the feeling of profound stillness and the potential for hidden depths within a quiet space.  Suggest a sense of knowing."
+    }
+  ],
+  "mirror_prompts": [
+    {
+      "prompt": "Describe a narrow, enclosed space. Focus on the feeling of being contained and the limitations of the environment.",
+      "anchor_type": "semantic"
+    },
+    {
+      "prompt": "Illustrate a dark, shadowy area. Convey the sense of hidden depths and potential for mystery.",
+      "anchor_type": "semantic"
+    },
+    {
+      "prompt": "Paint a picture of a bright, expansive sky. Capture the feeling of limitless potential and freedom above.",
+      "anchor_type": "semantic"
+    }
+  ]
+}
+```
+

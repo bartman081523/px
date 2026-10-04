@@ -203,6 +203,19 @@ def _build_argparser():
                         help="Relay-Dosis als Bruchteil der L21-last-pos-Norm (kohärenter Chat ~0.30, seite15-stark=0.5)")
     parser.add_argument("--relay-layer", type=int, default=None,
                         help="Post-recur Injektions-Layer (default 21)")
+    # Qwen3.5-Thinking-Schalter (ternary-bonsai ist ein Thinking-Modell):
+    # on = Modell denkt im sichtbaren Vorlauf-Monolog (Template-Default,
+    # effort xhigh); off = leeres geschlossenes Think-Präfix im Prompt,
+    # das Modell antwortet direkt. Andere Modelle ignorieren es.
+    parser.add_argument("--thinking", choices=["on", "off"], default="on",
+                        help="Thinking an/aus (Qwen3.5-Templates; default on)")
+    parser.add_argument("--thinking-effort", choices=["xhigh", "medium", "low"],
+                        default=None,
+                        help="Denk-Aufwand bei thinking=on (Template-Default xhigh)")
+    parser.add_argument("--max-tokens", type=int, default=2048,
+                        help="max_tokens für den Response (default 2048: Platz, "
+                        "damit die Antwort eigenständig terminieren kann — "
+                        "EOS/<end_of_turn> + rep-penalty 1.15 + ngram 3)")
     # Multimodal input: --image (local file path, preferred) or
     # --image-base64 (raw base64 or data: URL, fallback for pipelines).
     # When set, the user-turn becomes a content list [image, text].
@@ -228,7 +241,8 @@ def main():
     resolved_layer = _resolve_relay_layer(args.model, args.relay_layer)
     print("="*60)
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
-    print(f" MODE: {args.preset} | MODEL: {args.model}")
+    print(f" MODE: {args.preset} | MODEL: {args.model} | THINKING: {args.thinking}"
+          + (f" (effort {args.thinking_effort})" if args.thinking == "on" and args.thinking_effort else ""))
     if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
         # source: USER wenn --relay-layer explizit, sonst "auto ({modell})"
         layer_src = "user" if args.relay_layer is not None else f"auto ({args.model})"
@@ -301,9 +315,15 @@ def main():
         "px_subjective": True,
         "px_config_preset": args.preset,
         "temperature": 0.7,
-        "max_tokens": 1024,
+        "max_tokens": args.max_tokens if args.max_tokens else 2048,
         "stream": True
     }
+    # Qwen3.5-Thinking-Schalter: off → leeres geschlossenes Think-Präfix im
+    # Generation-Prompt. Nur senden, wenn abweichend vom Default (on).
+    if args.thinking == "off":
+        payload["px_thinking"] = False
+    if args.thinking == "on" and args.thinking_effort:
+        payload["px_thinking_effort"] = args.thinking_effort
     # verstärkbar Relay-Parameter (nur gesetzt wenn CLI-arg angegeben —
     # AUSNAHME px_relay_layer: der wird per-Modell auto-resolved, sonst
     # kriegt z.B. 270m die 1b-Schicht 21 statt 14, und der Relay-Effekt

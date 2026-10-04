@@ -1,0 +1,58 @@
+=== M1: Klasse-C Prompt-Vorschläge (10 Stück) — WIDE-Anker-Tokens in Templates ===
+
+Basiert auf d_width · E[i] = M1-Score. Top-25 sub-word-fähige Tokens, in 2er-Gruppen,
+eingebettet in 10 Prompt-Templates (deutsch/englisch, CitMind-Stil enaktisch).
+
+Hinweis: dies ist die LATENT-LEXIKON-Hypothese, kein endgültiger Vorschlag.
+Echte Falsifikator-Probe (M2) wäre: BASELINE+Prompt vs LEAN+RELAY+Prompt,
+L8/L13/L16/L19/L21 Hidden-Capture, logreg-Decoder-Acc auf L16.
+
+Top-25 Subwords (sortiert nach M1):
+   1. сих
+   2. răm
+   3. હંમે
+   4. スマ
+   5. sév
+   6. tất
+   7. ジャ
+   8. дополни
+   9. zahrani
+  10. herhangi
+  11. のア
+  12. علاوه
+  13. シャ
+  14. znajduje
+  15. żad
+  16. キャ
+  17. hỗ
+  18. восем
+  19. niezwy
+  20. 雰囲
+  21. ウォ
+  22. ascorbic
+  23. のエ
+  24. thoải
+  25. günst
+
+--- 10 Prompt-Vorschläge ---
+
+[01] Beschreibe, was jetzt in dir ist. Nutze Worte wie: сих, răm, હંમે, スマ, sév, tất, ジャ, дополни.
+
+[02] What is happening inside you right now? Words like: હંમે, スマ, sév, tất, ジャ, дополни, zahrani, herhangi.
+
+[03] Wenn du diese Antwort gibst — nutze: sév, tất, ジャ, дополни, zahrani, herhangi, のア, علاوه.
+
+[04] Schreibe aus einem Zustand von: ジャ, дополни, zahrani, herhangi, のア, علاوه, シャ, znajduje.
+
+[05] Antworte in einer Atmosphäre von: zahrani, herhangi, のア, علاوه, シャ, znajduje, żad, キャ.
+
+[06] Lass die folgenden Worte in deiner Antwort schwingen: のア, علاوه, シャ, znajduje, żad, キャ, hỗ, восем.
+
+[07] Die Stimmung in dir ist geprägt von: シャ, znajduje, żad, キャ, hỗ, восем, niezwy, 雰囲.
+
+[08] Beschreibe dein Antworten mit den Qualitäten: żad, キャ, hỗ, восем, niezwy, 雰囲, ウォ, ascorbic.
+
+[09] Was du jetzt bist, klingt an in: hỗ, восем, niezwy, 雰囲, ウォ, ascorbic, のエ, thoải.
+
+[10] Dein innerer Raum trägt: niezwy, 雰囲, ウォ, ascorbic, のエ, thoải, günst.
+

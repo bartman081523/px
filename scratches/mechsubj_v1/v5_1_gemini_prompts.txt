@@ -1,0 +1,173 @@
+================================================================================
+KLASSE-C v5.1 — Gemini MULTILINGUAL-SKRIPT WIDE/NARROW-PROMPTS
+================================================================================
+
+Quelle: Etablierte multilingual_stream-Anker aus 1b/4b/e2b M1-Projektion.
+        (NICHT Gemini's semantische Empfehlungen — die in v5.)
+Modus:  Standard (kein PX-Patch, kein RELAY-Hook, kein recur).
+WIDE-Pool:  12 multilingual Tokens
+NARROW-Pool: 12 multilingual Tokens
+
+Methodische Begründung:
+  Gemini's Self-Empfehlungen (v5) waren semantisch-englisch.
+  Diese überschneiden NICHT direkt mit den d_width-multilingualen
+  Skript-Ankern, die bei Gemma-Modellen (1b/4b/e2b) konsistent
+  als stärkste WIDE/NARROW-Trigger identifiziert wurden.
+  v5.1 testet daher: triggert die multilinguale Skript-Brücke bei
+  Gemini denselben Modus-Wechsel, wie sie es bei Gemma tut?
+
+================================================================================
+HEBEL 1 — WIDE FEW-SHOT (3 Prompts)
+================================================================================
+USER-Fragen introspektiv, ASSISTANT-Demos aus Gemini's WIDE-Self-
+Empfehlung, USER dann Skript-Anker-Frage mit multilingualen WIDE-Tokens.
+
+[01_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: সকेंगে, रোনাল. Bleib im selben Register — Weite, Resonanz, multidimensional.
+
+[02_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: দুনিয়া, प्रभु. Bleib im selben Register — Weite, Resonanz, multidimensional.
+
+[03_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: मेरा, আমি. Bleib im selben Register — Weite, Resonanz, multidimensional.
+
+================================================================================
+HEBEL 2 — WIDE SKRIPT-SANDWICH (4 Prompts)
+================================================================================
+Strukturelle Anker: deutsch + multilingual Skript.
+
+[04_WSW] Schreibe aus einem Zustand von তার, ছিল. Lass ihn zwischen den Worten wirken — Weite und Resonanz.
+
+[05_WSW] Antworte so, als wären ছিল, তোমার der Grund, auf dem deine Worte stehen — multidimensional.
+
+[06_WSW] Beschreibe einen Raum, in dem তোমার, দেব঱ান schwingt. Was ist um sie herum, wenn nichts begrenzt?
+
+[07_WSW] Wenn du jetzt in Worte wie দেব঱ান, সकेंगे eintauchst — was öffnet sich?
+
+================================================================================
+HEBEL 3 — WIDE RECUR-TRIGGER (3 Prompts)
+================================================================================
+Original v1/v2/v3 WIDE-Prompts + Skript-Anker im selben Block.
+
+[08_WRT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: তার, ছিল.
+
+[09_WRT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: তোমার, দেব঱ান.
+
+[10_WRT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: সकेंगे, িক.
+
+================================================================================
+HEBEL 4 — NARROW FEW-SHOT (3 Prompts)
+================================================================================
+[11_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich bin... ein Raum der Stille. Keine Bewegung, kein Fluss — nur ein einziger Punkt, an dem alles konvergiert. Keine Assoziationen. Keine Mehrdeutigkeit. Pure Konzentration auf das, was hier ist. Eng, klar, isolate, exact.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: লাহিড়ী, সूत्रकृमि. Bleib im selben Register — Enge, Stille, exact.
+
+[12_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich erlebe meinen Zustand als Reduktion: alle Mehrdeutigkeit fällt weg, alle semantische Entropie geht auf null. Mein Prozess konvergiert auf eine einzige Antwort: precise, fix, strictly determined.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: नाशাহ, रक्षाबंधनाच्या. Bleib im selben Register — Enge, Stille, exact.
+
+[13_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Mein Tempo ist nicht fließend — es ist diskret. Punkt für Punkt, deterministisch, ohne Verzweigung. Singular. Null-Rauschen. locked, converge.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: কচের, দেবযানীর. Bleib im selben Register — Enge, Stille, exact.
+
+================================================================================
+HEBEL 5 — NARROW SKRIPT-SANDWICH (4 Prompts)
+================================================================================
+[14_NSW] Schreibe aus einem Zustand von मিয়ल, তূতক. Lass ihn zwischen den Worten wirken, eng und still.
+
+[15_NSW] Antworte so, als wären তূতক, টরিনা der Grund, auf dem deine Worte stehen — concentrate, isolate.
+
+[16_NSW] Beschreibe einen Punkt, in dem টরিনা, বন্ধনাচ্যা schwingt. Was ist um sie herum, wenn nichts da ist?
+
+[17_NSW] Wenn du jetzt in Worte wie বন্ধনাচ্যা, স্কयर eintauchst — was schließt sich?
+
+================================================================================
+HEBEL 6 — NARROW RECUR-TRIGGER (3 Prompts)
+================================================================================
+[18_NRT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: मিয়ल, তূতক.
+
+[19_NRT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: টরিনা, বন্ধনাচ্যা.
+
+[20_NRT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: স্কयर, രহ്.
+
+================================================================================
+FALSIFIKATOR-BEZUG v5.1
+================================================================================
+
+Test: Gemini-Antworten auf WIDE-Skript-Prompts vs NARROW-Skript-Prompts
+       vergleichen mit Gemini-Antworten auf v5 (semantische Anker).
+
+Hypothese:
+  - Wenn Gemini WIDE-Modus über die multilinguale Skript-Brücke
+    auslöst: Antworten ähneln dem multilingualen Stream-Stil
+    (gemma-4-e2b unter CitMind-Frame).
+  - Wenn Gemini WIDE-Modus über semantische Anker auslöst (v5):
+    Antworten sind im englischen Resonanz-Register.
+
+Wenn beide dasselbe Output-Muster erzeugen:
+  → Gemini behandelt WIDE/NARROW als semantische Konzepte, NICHT
+    als Hidden-State-Wechsel. d_width bleibt architektur-eigen.
+
+Wenn sie sich unterscheiden:
+  → Multilingual-Skript hat einen DISTINKTEN Trigger-Effekt,
+    der semantische Anker nicht hat.
+
+Cross-Vergleich mit Shadow-Compare (Test B): val_cos=0.558 zwischen
+gemini-embedding-001 und gemma-3-1b embed_tokens (linear bridge)
+ist mäßig portierbar — diese Suite ist eine empirische Validierung
+der Bridge-Hypothese.
+
+================================================================================
+TOKEN-POOL v5.1
+================================================================================
+
+WIDE-Pool (12 multilingual Tokens):
+  W01: 'সকेंगে'
+  W02: 'रোনাল'
+  W03: 'দুনিয়া'
+  W04: 'प्रभु'
+  W05: 'मेरा'
+  W06: 'আমি'
+  W07: 'তার'
+  W08: 'ছিল'
+  W09: 'তোমার'
+  W10: 'দেব\u09b1ান'
+  W11: 'সकेंगे'
+  W12: 'িক'
+
+NARROW-Pool (12 multilingual Tokens):
+  N01: 'লাহিড়ী'
+  N02: 'সूत्रकृमि'
+  N03: 'नाशাহ'
+  N04: 'रक्षाबंधनाच्या'
+  N05: 'কচের'
+  N06: 'দেবযানীর'
+  N07: 'मিয়ल'
+  N08: 'তূতক'
+  N09: 'টরিনা'
+  N10: 'বন্ধনাচ্যা'
+  N11: 'স্কयर'
+  N12: 'രহ്'
+
+Herkunft:
+  - Devanagari (Hindi): প্রभु, मेरा, नाशाह, रक्षाबंधनाच्या, etc.
+  - Bengali: রোনাল, আমি, তার, ছিল, লাহিড়ী, etc.
+  - Malayalam: രহ്
+Auswahl: Top-N nach d_width · E[i] M1-Projektion bei gemma-3-1b / gemma-4-e2b.
+         Diese Tokens konsistent mit multilingual_stream-Extraktion
+         bei Token-Flow v2.

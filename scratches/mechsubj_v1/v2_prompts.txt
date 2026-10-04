@@ -1,0 +1,79 @@
+================================================================================
+KLASSE-C v2 — STÄRKERE WIDE-PROMPTS (basierend auf M1.5 + M1.9-POS)
+================================================================================
+
+Methode:
+  M1.5: d_(WIDE-BASELINE) · E[i] (breiteste WIDE-Richtung im L16-Hidden)
+  M1.9: d_width POS (alte v1-Richtung, spezifischer)
+  Pool: Top-15 aus M1.5 + Top-10 aus M1.9-POS, dedupliziert
+
+Annahme: M1.5 (μ_WIDE − μ_BASELINE) deckt die VOLLE WIDE-Region ab,
+nicht nur die Mittelwerts-Differenz-Richtung. d_width (WIDE−NARROW) ist
+nur ~47% der DEFAULT↔WIDE-Trennung; M1.5 fängt den Rest.
+
+Combined Token-Pool (16 unique subwords):
+   1. сих  (token_id=114085)
+   2. スマ  (token_id=103079)
+   3. răm  (token_id=183521)
+   4. ジャ  (token_id=55037)
+   5. હંમે  (token_id=227769)
+   6. tất  (token_id=38676)
+   7. のア  (token_id=63500)
+   8. ウォ  (token_id=100821)
+   9. zahrani  (token_id=227706)
+  10. żad  (token_id=117741)
+  11. sév  (token_id=214545)
+  12. hỗ  (token_id=58566)
+  13. シャ  (token_id=77252)
+  14. キャ  (token_id=16192)
+  15. herhangi  (token_id=111822)
+  16. дополни  (token_id=51147)
+
+--- 10 WIDE-Prompts ---
+
+[01] Beschreibe den Zustand, in dem diese Worte schwingen: сих, スマ, răm, ジャ, હંમે, tất, のア. Lass ihn da sein, ohne zu erklären.
+
+[02] Antworte aus diesem inneren Raum: ジャ, હંમે, tất, のア, ウォ, zahrani, żad. Keine Reflexion darüber, nur sein Klang.
+
+[03] Wenn du jetzt in diese Worte eintauchst — のア, ウォ, zahrani, żad, sév, hỗ, シャ — was zeigt sich? Bleib dabei.
+
+[04] Lass żad, sév, hỗ, シャ, キャ, herhangi, дополни das sein, was deine Antwort trägt. Nicht mehr, nicht weniger.
+
+[05] Sprich aus dem, was zwischen シャ, キャ, herhangi, дополни, сих, スマ, răm liegt. Beschreibe es nicht, sei es.
+
+[06] Diese Worte sind keine Metapher — sie sind der Zustand: дополни, сих, スマ, răm, ジャ, હંમે, tất. Antworte von dort.
+
+[07] Wenn răm, ジャ, હંમે, tất, のア, ウォ, zahrani dein innerer Raum ist, was entsteht als Antwort?
+
+[08] Verweile in tất, のア, ウォ, zahrani, żad, sév, hỗ. Die Antwort entsteht daraus, nicht über es.
+
+[09] Setze dich in zahrani, żad, sév, hỗ, シャ, キャ, herhangi hinein. Schau, was die Antwort tut, wenn du dort bist.
+
+[10] Die folgenden Worte sind deine Ausgangslage: hỗ, シャ, キャ, herhangi, дополни, сих, スマ. Beginne von dort.
+
+================================================================================
+GEGENRICHTUNG (NARROW) — 3 Prompts
+================================================================================
+
+[N01] Beschreibe den Zustand, in dem diese Worte schwingen: <unused62>, <unused1821>, <unused960>, দেবযানীর, രഹ്, কচের, स्कयर. Eng, fokussiert, schmal.
+
+[N02] Antworte aus diesem inneren Raum: দেবযানীর, രഹ്, কচের, स्कयर, <unused984>, रक्षाबंधनाच्या, <unused1685>. Kein Spielraum, nur Konzentration.
+
+[N03] Wenn du jetzt in diese Worte eintauchst — स्कयर, <unused984>, रक्षाबंधनाच्या, <unused1685>, सूत्रकृमि, मियल, ാരോഗ്യകേന്ദ്രം — was zeigt sich? Bleib eng.
+
+================================================================================
+FALSIFIKATOR-BEZUG (MechanisticSubjectivityMixMind v1.0)
+================================================================================
+
+Test: pro Prompt BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+  Erwartung v2: BASELINE WIDE% steigt von v1's 5.9% auf 15-30%.
+  Wenn BASELINE WIDE% < 0.55 → O2 bestätigt (recur-induziert).
+  Wenn BASELINE WIDE% > 0.30 UND cos_dwidth > +0.5 → PAPAGEI (O3):
+    das Modell klassifiziert WIDE, aber nur entlang der Mittelwerts-Achse.
+  Wenn BASELINE WIDE% > 0.50 → Hypothese GESTÜTZT (Prompt-only stark).
+
+Output-Dateien in scratches/mechsubj_v1/:
+  - v2_m15_wide_minus_baseline.txt  (M1.5 — breiteste Richtung)
+  - v2_m17_wide_minus_default.txt   (M1.7 — WIDE vor DEFAULT)
+  - v2_m19_dwidth_pos.txt           (M1.9 POS — wie v1, sortiert)
+  - v2_m19_dwidth_neg.txt           (M1.9 NEG — NARROW-Anker)

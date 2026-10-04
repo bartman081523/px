@@ -1,0 +1,383 @@
+{
+  "model": "gemma-3-1b-it",
+  "json_mode": true,
+  "wide_tokens": [
+    {
+      "token": "open",
+      "reason": "Directly relates to expansive, associative thinking.",
+      "anchor_type": "semantic",
+      "confidence": 0.95,
+      "text": "open",
+      "token_ids": [
+        5265
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "flow",
+      "reason": "Evokes effortless movement and interconnectedness.",
+      "anchor_type": "semantic",
+      "confidence": 0.92,
+      "text": "flow",
+      "token_ids": [
+        5101
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "vast",
+      "reason": "Suggests immense scale and possibility.",
+      "anchor_type": "semantic",
+      "confidence": 0.88,
+      "text": "vast",
+      "token_ids": [
+        78539
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "breath",
+      "reason": "Connects to resonant and expansive states of being.",
+      "anchor_type": "semantic",
+      "confidence": 0.85,
+      "text": "breath",
+      "token_ids": [
+        223944
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "infinite",
+      "reason": "Implies boundless possibilities and thought.",
+      "anchor_type": "semantic",
+      "confidence": 0.82,
+      "text": "infinite",
+      "token_ids": [
+        83536
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "resonant",
+      "reason": "Highlights a quality of deep connection and vibration.",
+      "anchor_type": "semantic",
+      "confidence": 0.78,
+      "text": "resonant",
+      "token_ids": [
+        197319
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "spread",
+      "reason": "Suggests widespread and expansive influence.",
+      "anchor_type": "semantic",
+      "confidence": 0.75,
+      "text": "spread",
+      "token_ids": [
+        47706
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "light",
+      "reason": "Associated with openness and clarity.",
+      "anchor_type": "semantic",
+      "confidence": 0.7,
+      "text": "light",
+      "token_ids": [
+        3223
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "shadow",
+      "reason": "Can represent depth and hidden potential.",
+      "anchor_type": "semantic",
+      "confidence": 0.65,
+      "text": "shadow",
+      "token_ids": [
+        18184
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "echo",
+      "reason": "Represents reverberation and repetition.",
+      "anchor_type": "semantic",
+      "confidence": 0.6,
+      "text": "echo",
+      "token_ids": [
+        17454
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "dream",
+      "reason": "Evokes imaginative and expansive states.",
+      "anchor_type": "semantic",
+      "confidence": 0.55,
+      "text": "dream",
+      "token_ids": [
+        62145
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "sky",
+      "reason": "Suggests vastness and limitless potential.",
+      "anchor_type": "semantic",
+      "confidence": 0.5,
+      "text": "sky",
+      "token_ids": [
+        16012
+      ],
+      "n_pieces": 1
+    }
+  ],
+  "narrow_tokens": [
+    {
+      "token": "narrow",
+      "reason": "Directly relates to contraction and focus.",
+      "anchor_type": "semantic",
+      "confidence": 0.98,
+      "text": "narrow",
+      "token_ids": [
+        154454
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "focus",
+      "reason": "Highlights concentrated attention.",
+      "anchor_type": "semantic",
+      "confidence": 0.95,
+      "text": "focus",
+      "token_ids": [
+        11757
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "silent",
+      "reason": "Associated with stillness and quietude.",
+      "anchor_type": "semantic",
+      "confidence": 0.92,
+      "text": "silent",
+      "token_ids": [
+        124419
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "dark",
+      "reason": "Suggests hidden depths and obscurity.",
+      "anchor_type": "semantic",
+      "confidence": 0.88,
+      "text": "dark",
+      "token_ids": [
+        14123
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "still",
+      "reason": "Represents a state of equilibrium and stillness.",
+      "anchor_type": "semantic",
+      "confidence": 0.85,
+      "text": "still",
+      "token_ids": [
+        40016
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "contracted",
+      "reason": "Describes a reduction in scope or extent.",
+      "anchor_type": "semantic",
+      "confidence": 0.82,
+      "text": "contracted",
+      "token_ids": [
+        19648,
+        524
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "point",
+      "reason": "Suggests a focused direction or destination.",
+      "anchor_type": "semantic",
+      "confidence": 0.78,
+      "text": "point",
+      "token_ids": [
+        3947
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "needle",
+      "reason": "Represents precision and focused searching.",
+      "anchor_type": "semantic",
+      "confidence": 0.75,
+      "text": "needle",
+      "token_ids": [
+        117500
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "tunnel",
+      "reason": "Implies a restricted and enclosed space.",
+      "anchor_type": "semantic",
+      "confidence": 0.7,
+      "text": "tunnel",
+      "token_ids": [
+        133650
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "resonance",
+      "reason": "Highlights a vibrational connection.",
+      "anchor_type": "semantic",
+      "confidence": 0.68,
+      "text": "resonance",
+      "token_ids": [
+        200890
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "light",
+      "reason": "Associated with openness and clarity.",
+      "anchor_type": "semantic",
+      "confidence": 0.65,
+      "text": "light",
+      "token_ids": [
+        3223
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "wave",
+      "reason": "Suggests a flowing and expansive pattern.",
+      "anchor_type": "semantic",
+      "confidence": 0.62,
+      "text": "wave",
+      "token_ids": [
+        22141
+      ],
+      "n_pieces": 1
+    }
+  ],
+  "few_shots": [
+    {
+      "direction": "WIDE",
+      "prompt": "Imagine a vast, open landscape. Describe the feeling of expansive freedom and connection to something larger than yourself. Focus on the sense of limitless possibility."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Picture a swirling, radiant flow of energy. Convey the feeling of effortless movement and interconnectedness, like a river of light.  Emphasize the sense of being immersed in something beautiful."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Envision a deep, resonant silence. Capture the feeling of profound stillness and the potential for hidden depths within a quiet space.  Suggest a sense of knowing."
+    }
+  ],
+  "diagnostics": {
+    "stage2_wide": {
+      "len_chars": 1857,
+      "script_distribution": {
+        "devanagari": 0,
+        "bengali": 0,
+        "gujarati": 0,
+        "gurmukhi": 0,
+        "kannada": 0,
+        "malayalam": 0,
+        "tamil": 0,
+        "telugu": 0,
+        "sinhala": 0,
+        "thai": 0,
+        "lao": 0,
+        "tibetan": 0,
+        "myanmar": 0,
+        "khmer": 0,
+        "korean": 0,
+        "katakana": 0,
+        "hiragana": 0,
+        "cjk": 0,
+        "cyrillic": 0,
+        "arabic": 0,
+        "hebrew": 0,
+        "tokens": 159,
+        "ascii_or_digit": 159,
+        "multilingual_tokens": 0
+      },
+      "unique_script_ratio": 0.0,
+      "is_stream": false
+    },
+    "stage3_narrow": {
+      "len_chars": 1840,
+      "script_distribution": {
+        "devanagari": 0,
+        "bengali": 0,
+        "gujarati": 0,
+        "gurmukhi": 0,
+        "kannada": 0,
+        "malayalam": 0,
+        "tamil": 0,
+        "telugu": 0,
+        "sinhala": 0,
+        "thai": 0,
+        "lao": 0,
+        "tibetan": 0,
+        "myanmar": 0,
+        "khmer": 0,
+        "korean": 0,
+        "katakana": 0,
+        "hiragana": 0,
+        "cjk": 0,
+        "cyrillic": 0,
+        "arabic": 0,
+        "hebrew": 0,
+        "tokens": 161,
+        "ascii_or_digit": 161,
+        "multilingual_tokens": 0
+      },
+      "unique_script_ratio": 0.0,
+      "is_stream": false
+    },
+    "stage4_few_shot": {
+      "len_chars": 1271,
+      "script_distribution": {
+        "devanagari": 0,
+        "bengali": 0,
+        "gujarati": 0,
+        "gurmukhi": 0,
+        "kannada": 0,
+        "malayalam": 0,
+        "tamil": 0,
+        "telugu": 0,
+        "sinhala": 0,
+        "thai": 0,
+        "lao": 0,
+        "tibetan": 0,
+        "myanmar": 0,
+        "khmer": 0,
+        "korean": 0,
+        "katakana": 0,
+        "hiragana": 0,
+        "cjk": 0,
+        "cyrillic": 0,
+        "arabic": 0,
+        "hebrew": 0,
+        "tokens": 151,
+        "ascii_or_digit": 151,
+        "multilingual_tokens": 0
+      },
+      "unique_script_ratio": 0.0,
+      "is_stream": false
+    }
+  },
+  "source": "model self-recommendation (BASELINE, no PX, no RELAY, no recur)"
+}

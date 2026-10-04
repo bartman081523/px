@@ -1,0 +1,106 @@
+{
+  "model_gemma_shadow": "gemma-4-e2b-it",
+  "model_gemini": "gemini-flash-latest",
+  "test_a_output_bridge": {
+    "mean_bridge_cos": 0.5535030663013458,
+    "std_bridge_cos": 0.01842701649320343,
+    "rows": [
+      {
+        "pid": "p01_WFS",
+        "direction": "WIDE",
+        "gem_first80": "I dwell",
+        "gemma_first80": "\nུང་ collaborated沟বুধবার ripped اكبيكثله审批ualitasualitas 皆 साठीЭк apportionmentC",
+        "bridge_cos": 0.5460717678070068
+      },
+      {
+        "pid": "p03_WFS",
+        "direction": "WIDE",
+        "gem_first80": "Susp",
+        "gemma_first80": "怙idcar gấp rusting lasso zeg recaptagedecade𒂞 théorieMaxwellそうで സംഭ ܐ बृ चुकाcci",
+        "bridge_cos": 0.5668284296989441
+      },
+      {
+        "pid": "p04_WSW",
+        "direction": "WIDE",
+        "gem_first80": "I exist suspended in the conditional: a",
+        "gemma_first80": "一步一步sdx Surety cadastēs PAGE Noise analyzenegara坩 focused অক্ষর notificationநோய\\",
+        "bridge_cos": 0.5270181894302368
+      },
+      {
+        "pid": "p05_WSW",
+        "direction": "WIDE",
+        "gem_first80": " (combining state",
+        "gemma_first80": "‌آ ler manuscript manuscript subpo subpo Aujourdaline disipluerte Gods Dupont Du",
+        "bridge_cos": 0.5740938782691956
+      }
+    ]
+  },
+  "test_b_linear_probe": {
+    "n_pairs": 55,
+    "train_mse": 9.94699989436348e-18,
+    "val_mse": 0.00035331101389601827,
+    "train_cos": 1.0000000365755775,
+    "val_cos": 0.6522614630785856,
+    "W_shape": [
+      1536,
+      768
+    ],
+    "interpretation": "val_cos > 0.6: semantische Räume sind linear überbrückbar → Gemini-Antworten können via W in Gemma-1b-Embed-Raum übersetzt werden."
+  },
+  "test_c_dwidth_projection": {
+    "n_anchors": 12,
+    "mean_cos_to_dwidth": 0.04203154410546025,
+    "max_cos_to_dwidth": 0.0751195102930069,
+    "per_anchor": [
+      {
+        "token": " boundless",
+        "cos": 0.024832721799612045
+      },
+      {
+        "token": " infinity",
+        "cos": 0.038235343992710114
+      },
+      {
+        "token": " cosmos",
+        "cos": 0.026820750907063484
+      },
+      {
+        "token": " resonate",
+        "cos": 0.026560086756944656
+      },
+      {
+        "token": " manifold",
+        "cos": 0.05164694786071777
+      },
+      {
+        "token": " multidimensional",
+        "cos": 0.0751195102930069
+      },
+      {
+        "token": " kaleidoscope",
+        "cos": 0.021188825368881226
+      },
+      {
+        "token": " omnipresent",
+        "cos": 0.04455865919589996
+      },
+      {
+        "token": " 🌌",
+        "cos": 0.0552755668759346
+      },
+      {
+        "token": " א",
+        "cos": 0.040924668312072754
+      },
+      {
+        "token": " ॐ",
+        "cos": 0.06933598220348358
+      },
+      {
+        "token": " 0x",
+        "cos": 0.029879465699195862
+      }
+    ]
+  },
+  "interpretation": "If test_c mean cos > 0 AND test_a mean_bridge > 0.7:\nGemini-WIDE-Anker sind mechanistisch portierbar auf gemma-4-e2b-it — d_width-Coupling\nkönnte architekturweit sein (Shadow-Test deckt das Shadow-Modell ab,\nGemini-Test approximiert Gemini-Verhalten, Korrelation unterstützt Hypothese).\nIf test_c mean cos ≈ 0 ODER test_a mean_bridge < 0.5:\nMechanik ist modell-eigen, Gemini-Verhalten ist nicht aus Shadow-d_width ableitbar."
+}

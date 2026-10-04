@@ -1,0 +1,170 @@
+{
+  "log": [
+    {
+      "i": 1,
+      "cat": "math",
+      "len": 72,
+      "kurtosis": 4345.59619140625,
+      "phi": 0.9951819777488708,
+      "loops": 56,
+      "t": 13.2,
+      "n_samples": 1,
+      "calibrated": false
+    },
+    {
+      "i": 2,
+      "cat": "math",
+      "len": 69,
+      "kurtosis": 4361.2548828125,
+      "phi": 0.9955509305000305,
+      "loops": 56,
+      "t": 13.0,
+      "n_samples": 2,
+      "calibrated": false
+    },
+    {
+      "i": 3,
+      "cat": "logic",
+      "len": 74,
+      "kurtosis": 4386.9453125,
+      "phi": 0.9944978952407837,
+      "loops": 56,
+      "t": 12.9,
+      "n_samples": 3,
+      "calibrated": false
+    },
+    {
+      "i": 4,
+      "cat": "logic",
+      "len": 69,
+      "kurtosis": 4385.494140625,
+      "phi": 0.9948543906211853,
+      "loops": 56,
+      "t": 12.9,
+      "n_samples": 4,
+      "calibrated": false
+    },
+    {
+      "i": 5,
+      "cat": "creative",
+      "len": 64,
+      "kurtosis": 4351.98388671875,
+      "phi": 0.9956450462341309,
+      "loops": 56,
+      "t": 11.5,
+      "n_samples": 5,
+      "calibrated": false
+    },
+    {
+      "i": 6,
+      "cat": "creative",
+      "len": 59,
+      "kurtosis": 4348.5791015625,
+      "phi": 0.9958832263946533,
+      "loops": 56,
+      "t": 11.5,
+      "n_samples": 6,
+      "calibrated": false
+    },
+    {
+      "i": 7,
+      "cat": "synthesis",
+      "len": 65,
+      "kurtosis": 4333.5869140625,
+      "phi": 0.9953166842460632,
+      "loops": 56,
+      "t": 12.9,
+      "n_samples": 7,
+      "calibrated": false
+    },
+    {
+      "i": 8,
+      "cat": "synthesis",
+      "len": 63,
+      "kurtosis": 4355.04345703125,
+      "phi": 0.9953352212905884,
+      "loops": 56,
+      "t": 11.5,
+      "n_samples": 8,
+      "calibrated": false
+    },
+    {
+      "i": 9,
+      "cat": "short",
+      "len": 54,
+      "kurtosis": 4242.55859375,
+      "phi": 0.9961165189743042,
+      "loops": 56,
+      "t": 11.5,
+      "n_samples": 9,
+      "calibrated": false
+    },
+    {
+      "i": 10,
+      "cat": "short",
+      "len": 55,
+      "kurtosis": 4283.44921875,
+      "phi": 0.9960784912109375,
+      "loops": 56,
+      "t": 11.5,
+      "n_samples": 10,
+      "calibrated": true
+    },
+    {
+      "i": 11,
+      "cat": "phenom",
+      "len": 62,
+      "kurtosis": 4349.7783203125,
+      "phi": 0.9949497580528259,
+      "loops": 48,
+      "t": 10.8,
+      "n_samples": 10,
+      "calibrated": true
+    },
+    {
+      "i": 12,
+      "cat": "phenom",
+      "len": 61,
+      "kurtosis": 4326.37109375,
+      "phi": 0.995039701461792,
+      "loops": 54,
+      "t": 11.3,
+      "n_samples": 10,
+      "calibrated": true
+    }
+  ],
+  "status": {
+    "calibrated": true,
+    "model_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
+    "k_mean": 4339.449169921875,
+    "k_std": 44.63568423976991,
+    "k_cv": 0.010286025366800924,
+    "phi_mean": 0.8419176816940308,
+    "phi_std": 0.015857377655552753,
+    "learned_centroids": {
+      "math": [
+        4406.40269628153,
+        0.8498463705218072
+      ],
+      "logic_a": [
+        4361.76701204176,
+        0.8450891572251413
+      ],
+      "logic_b": [
+        4339.449169921875,
+        0.8419176816940308
+      ],
+      "creative": [
+        4294.813485682105,
+        0.8339889928662544
+      ],
+      "synthesis": [
+        4272.495643562221,
+        0.8260603040384781
+      ]
+    },
+    "zone_temperature": 0.6,
+    "online_n": 10,
+    "routing_mode": "online_2d"
+  }
+}

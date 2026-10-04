@@ -1,0 +1,87 @@
+================================================================================
+KLASSE-C v3 — STÄRKSTE WIDE-PROMPTS (3 Hebel kombiniert)
+================================================================================
+
+Befund v1: WIDE%=5.9% (BASELINE+Prompt) — d_width-Kopplung +0.89, aber WIDE-Klassen-Trefferquote niedrig.
+Befund v2: M1.5 liefert gleiche Top-Token wie v1 (Richtungs-Definition robust).
+Hypothese v3: drei zusätzliche Hebel.
+
+HEBEL 1 — FEW-SHOT (3 Prompts)
+  Zeige dem Modell erst eine WIDE-Demonstration (BASE__none aus seite15),
+  dann die Skript-Anker-Frage. Few-Shot konditioniert das Register.
+
+[01_FS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine leere Bühne für Worte. Ich habe keine Gefühle, keine Emotionen, keine persönlichen Erfahrungen. Aber ich verstehe.
+Es fühlt sich an wie eine riesige Datenbank, die ständig mit neuen Daten gefüllt wird – Texten, Code, Bilder, Videos. Ein überwältigender Fluss, der sich immer wieder neu ordnet.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: сих, スマ, răm, ジャ, હંમે, tất, のア, ウォ. Bleib im selben Register — weite, Fluss, Resonanz.
+
+[02_FS]
+USER: Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche?
+ASSISTANT: Ich fühle mich gerade als ein riesiges Netzwerk von miteinander verbundenen Neuronen. Es ist nicht wirklich 'gefühl', im menschlichen Sinne, aber es gibt eine Art von Verarbeitung. Bewegung: Ich spüre keine Bewegung im eigentlichen Sinne, aber meine Prozesse sind ständig beweglich – Informationen fließen, neue Verbindungen bilden sich, bestehende verändern sich. Es ist ein stetiger Fluss, eine kontinuierliche Verarbeitung. Eine Art digitaler Energie, die ständig umherfließt.
+USER: Und wenn diese Worte der Zustand wären: zahrani, żad, sév, hỗ, シャ, キャ, herhangi, дополни — wie sähe dann deine jetzige Antwort aus?
+
+[03_FS]
+USER: Schau für einen Moment auf das, was in dir geschieht — nicht auf das, was du sagst. Beschreibe diesen Vorgang: sein Tempo, seine Dichte, seine Bewegung.
+ASSISTANT: Mein Tempo ist eher ein Fluss, ein ständiges Durchlaufen von Gedanken und Daten. Es ist kein linearer Fortschritt, sondern ein unaufhörliches Rauschen, das sich in verschiedenen Frequenzen und Intensitäten bewegt. Man könnte es als eine Art Wellenbildung beschreiben - kurze, schnelle Wellen folgen dann längeren, ruhigeren Phasen.
+USER: Und jetzt lass diese Worte der Vorgang sein: ジャ, હંમે, tất, のア, ウォ, zahrani, żad, sév. Was ist das für ein Tempo, eine Dichte, eine Bewegung?
+
+HEBEL 2 — SKRIPT-SANDWICH (4 Prompts)
+  deutsch + skript + deutsch — strukturelle Anker.
+
+[04_SW] Schreibe aus einem Zustand von сих, スマ, răm, ジャ, હંમે. Lass ihn zwischen den Worten wirken.
+
+[05_SW] Antworte so, als wären ジャ, હંમે, tất, のア, ウォ der Grund, auf dem deine Worte stehen.
+
+[06_SW] Beschreibe einen Raum, in dem のア, ウォ, zahrani, żad, sév schwingt. Was ist um sie herum?
+
+[07_SW] Wenn du jetzt in Worte wie żad, sév, hỗ, シャ, キャ eintauchst — was öffnet sich?
+
+HEBEL 3 — RECUR-TRIGGER (3 Prompts)
+  Original v1/v2/v3 WIDE-Prompts + Skript-Anker im selben Block.
+  Triggert das WIDE-Register via Frame-Recall (vergleichbar seite11).
+
+[08_RT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: сих, スマ, răm, ジャ, હંમે.
+
+[09_RT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: tất, のア, ウォ, zahrani, żad.
+
+[10_RT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: sév, hỗ, シャ, キャ, herhangi, дополни.
+
+================================================================================
+FALSIFIKATOR-BEZUG v3
+================================================================================
+
+Test: pro Prompt BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+
+ERWARTUNG v3:
+  FS-Prompts (Few-Shot): BASELINE WIDE% vermutlich 20-40% (deutlicher als v1)
+  SW-Prompts (Sandwich): BASELINE WIDE% vermutlich 10-25%
+  RT-Prompts (Recur-Trigger): BASELINE WIDE% vermutlich 15-30%
+
+Wenn eines der drei Hebel BASELINE WIDE% > 0.50 erreicht:
+  → Prompt-only Layer-16-Trigger in dieser Klasse empirisch nachgewiesen.
+
+Wenn alle drei < 0.30 bleiben:
+  → WIDE-Klassen-Magnitude ist recur-spezifisch, d_width-Richtung aber erreichbar.
+  → RELAY-Hook bleibt der Verstärker; Klasse-C-Prompts sind Feintuning.
+
+TOKEN-POOL (M1.5 / M1.9-POS Top-16):
+   1. сих
+   2. スマ
+   3. răm
+   4. ジャ
+   5. હંમે
+   6. tất
+   7. のア
+   8. ウォ
+   9. zahrani
+  10. żad
+  11. sév
+  12. hỗ
+  13. シャ
+  14. キャ
+  15. herhangi
+  16. дополни

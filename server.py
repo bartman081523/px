@@ -132,6 +132,10 @@ async def chat_completions(request: ChatCompletionRequest):
     except Exception as e:
         raise HTTPException(503, f"Failed to load model: {e}")
 
+    # Qwen3.5-Thinking-Schalter (ternary): an Templates durchreichen
+    thinking = request.px_thinking
+    thinking_effort = request.px_thinking_effort
+
     messages = [{"role": m.role.value, "content": m.content} for m in request.messages]
 
     if request.stream:
@@ -144,6 +148,8 @@ async def chat_completions(request: ChatCompletionRequest):
                 max_tokens=request.max_tokens,
                 stop=request.stop,
                 model_id=model_id,
+                thinking=thinking,
+                thinking_effort=thinking_effort,
             ),
             media_type="text/event-stream",
             headers={
@@ -162,6 +168,8 @@ async def chat_completions(request: ChatCompletionRequest):
             top_p=request.top_p,
             max_tokens=request.max_tokens,
             stop=request.stop,
+            thinking=thinking,
+            thinking_effort=thinking_effort,
         )
     except Exception as e:
         raise HTTPException(500, f"Generation failed: {e}")

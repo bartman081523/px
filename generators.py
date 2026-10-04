@@ -162,6 +162,24 @@ def strip_unsupported_model_kwargs(model, gen_kwargs: dict) -> dict:
     return {k: v for k, v in gen_kwargs.items() if k not in KNOWN_LLAMA_UNSUPPORTED}
 
 
+def _chat_template_kwargs(thinking=None, thinking_effort=None) -> dict:
+    """Qwen3.5-Denken-Schalter als Extra-Template-Variablen.
+
+    enable_thinking=False injiziert einen leeren, geschlossenen Think-Block
+    ("think open+close leer") in den Generation-Prompt — das Modell antwortet
+    direkt, ohne Vorlauf-Monolog. reasoning_effort (xhigh|medium|low) steuert
+    die Denkanweisungen bei thinking=an (Template-Default: xhigh). Templates,
+    die diese Variablen nicht referenzieren (gemma3 & Co.), ignorieren sie —
+    der Jinja-Kontext akzeptiert beliebige Extra-Variablen.
+    """
+    kw = {}
+    if thinking is not None:
+        kw["enable_thinking"] = bool(thinking)
+    if thinking_effort:
+        kw["reasoning_effort"] = thinking_effort
+    return kw
+
+
 def _px_gen_kwargs(model, base: dict) -> dict:
     """Inject PX-specific kwargs (e.g. repetition_penalty, no_repeat_ngram_size)
     onto a generation kwargs dict. The patched model exposes
@@ -338,6 +356,8 @@ async def generate_chat_completion(
     top_p: float,
     max_tokens: int,
     stop: Optional[Union[str, List[str]]] = None,
+    thinking: Optional[bool] = None,
+    thinking_effort: Optional[str] = None,
 ) -> dict:
     """Non-streaming chat completion. Returns text + token counts."""
     model = model_entry["model"]
@@ -411,7 +431,8 @@ async def generate_chat_completion(
         # Text-only path (unchanged from prior behavior).
         processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
         input_text = tokenizer.apply_chat_template(
-            processed_messages, tokenize=False, add_generation_prompt=True
+            processed_messages, tokenize=False, add_generation_prompt=True,
+            **_chat_template_kwargs(thinking, thinking_effort)
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
         # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids
@@ -522,6 +543,8 @@ async def generate_chat_completion_stream(
     max_tokens: int,
     stop: Optional[Union[str, List[str]]] = None,
     model_id: str = "",
+    thinking: Optional[bool] = None,
+    thinking_effort: Optional[str] = None,
 ) -> Generator[str, None, None]:
     """Streaming SSE generator for chat completions.
 
@@ -556,7 +579,8 @@ async def generate_chat_completion_stream(
     else:
         processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
         input_text = tokenizer.apply_chat_template(
-            processed_messages, tokenize=False, add_generation_prompt=True
+            processed_messages, tokenize=False, add_generation_prompt=True,
+            **_chat_template_kwargs(thinking, thinking_effort)
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
         # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids

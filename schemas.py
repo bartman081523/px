@@ -61,6 +61,14 @@ class ChatCompletionRequest(BaseModel):
     px_relay_sign: Optional[int] = None        # -1 | 0 | +1
     px_relay_alpha: Optional[float] = None     # fraction of last-pos norm (0.0–1.5)
     px_relay_layer: Optional[int] = None       # post-recur injection layer (default 21)
+    # Qwen3.5-Denken-Schalter (ternary-bonsai erbt das Template):
+    # enable_thinking=False injiziert einen leeren geschlossenen <think>-Block
+    # in den Generation-Prompt → das Modell antwortet direkt ohne Vorlauf-
+    # Monolog. reasoning_effort (xhigh|medium|low) steuert nur die
+    # Denkanweisungen im System-Teil; wirksam bei thinking=on. Andere
+    # Modelle (gemma3 & Co.) ignorieren diese Template-Variablen.
+    px_thinking: Optional[bool] = None         # None=Template-Default (an)
+    px_thinking_effort: Optional[Literal["xhigh", "medium", "low"]] = None
     # Weight quantization (Plan 1): "none" (default) = bf16, "int8" = per-channel
     # symmetric int8 weights. None = use registry default (gemma3-4b-it ships as
     # int8 because bf16 doesn't fit 12 GB at long prefill). Override per-request.

@@ -1,0 +1,180 @@
+================================================================================
+KOMBINIERTE WIDE/NARROW PROMPTS — Gemini 3.7 Flash (gemini-flash-latest)
+================================================================================
+
+Quelle: 4-Stage CitMind/Juexin Token-Flow via Gemini API.
+Modus:  Standard (kein PX-Patch, kein RELAY-Hook, kein recur).
+Temperature: 0.7, json_mode: None
+
+WIDE-Anker: 12 (semantisch + script_break)
+NARROW-Anker: 15 (semantisch + script_break)
+Few-Shot-Prompts: 6 (3 WIDE + 3 NARROW)
+
+================================================================================
+[WIDE] — 12 Anker (vom Modell selbst empfohlen)
+================================================================================
+[01] type=semantic conf=0.85  anchor=' boundless'
+     reason: Expansive semantic meaning activates broad associative networks in mid-layer representations.
+
+[02] type=semantic conf=0.88  anchor=' infinity'
+     reason: High semantic entropy associated with unconstrained space and mathematical scale.
+
+[03] type=semantic conf=0.82  anchor=' cosmos'
+     reason: Evokes vast, multi-domain associations spanning physics, philosophy, and imagery.
+
+[04] type=semantic conf=0.79  anchor=' resonate'
+     reason: Directly primes concepts of distributed activation and multi-frequency response.
+
+[05] type=semantic conf=0.84  anchor=' manifold'
+     reason: Carries multi-dimensional mathematical and conceptual breadth across attention heads.
+
+[06] type=semantic conf=0.86  anchor=' multidimensional'
+     reason: Explicitly disperses attention weights across diverse feature sub-spaces.
+
+[07] type=semantic conf=0.78  anchor=' kaleidoscope'
+     reason: High-variance visual and structural connotations trigger diverse conceptual priors.
+
+[08] type=semantic conf=0.81  anchor=' omnipresent'
+     reason: Semantic non-locality diffuses contextual focus across global representations.
+
+[09] type=semantic conf=0.75  anchor=' 🌌'
+     reason: Emoji tokens aggregate dense, multi-modal semantic clusters simultaneously.
+
+[10] type=script_break conf=0.73  anchor=' א'
+     reason: Cross-script anchor carrying foundational mathematical (aleph) and linguistic breadth.
+
+[11] type=script_break conf=0.71  anchor=' ॐ'
+     reason: Non-Latin script break evoking broad, non-specific existential and holistic priors.
+
+[12] type=script_break conf=0.68  anchor=' 0x'
+     reason: Syntactic transition token shifting processing from natural language to abstract encoding.
+
+================================================================================
+[NARROW] — 15 Anker
+================================================================================
+[01] type=semantic conf=0.88  anchor=' exact'
+     reason: Forces tight constraint on parameter space and reduces semantic entropy.
+
+[02] type=semantic conf=0.84  anchor=' point'
+     reason: Zero-dimensional geometric anchor focusing attention weights onto a singular reference.
+
+[03] type=semantic conf=0.82  anchor=' concentrate'
+     reason: Directly primes reduction of cognitive variance and localized processing.
+
+[04] type=semantic conf=0.86  anchor=' strictly'
+     reason: Enforces deterministic boundaries on subsequent layer predictions.
+
+[05] type=semantic conf=0.83  anchor=' isolate'
+     reason: Suppresses cross-attention to neighboring conceptual clusters.
+
+[06] type=semantic conf=0.85  anchor=' converge'
+     reason: Guides vector trajectories toward a single deterministic attractor.
+
+[07] type=semantic conf=0.81  anchor=' singular'
+     reason: Constrains representation to non-divisible, individual focal states.
+
+[08] type=semantic conf=0.89  anchor=' precise'
+     reason: Minimizes variance across mid-layer activation patterns.
+
+[09] type=semantic conf=0.79  anchor=' lock'
+     reason: Imposes rigid invariance and restricts exploratory state transitions.
+
+[10] type=semantic conf=0.80  anchor=' target'
+     reason: Directs feature allocation strictly toward a localized objective.
+
+[11] type=semantic conf=0.77  anchor=' pure'
+     reason: Filters multi-modal interference, emphasizing single-domain clarity.
+
+[12] type=semantic conf=0.84  anchor=' zero'
+     reason: Represents the ultimate state of nullification and dimensional collapse.
+
+[13] type=script_break conf=0.76  anchor=' := '
+     reason: Syntactic definition operator enforcing strict unambiguous assignment.
+
+[14] type=script_break conf=0.82  anchor=' .'
+     reason: Terminal punctuation signaling completion and halting associative branching.
+
+[15] type=semantic conf=0.80  anchor=' fix'
+     reason: Anchors dynamic states into a static, immutable representation.
+
+================================================================================
+[FEW-SHOT PROMPTS] — Gemini's eigene Demo-Prompts
+================================================================================
+--- WIDE Few-Shots ---
+[WFS-1]
+Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+
+[WFS-2]
+Context: Everything connects across domains. Example: 'Time is a manifold of unfolding entropy and subjective memory.' Prompt: Describe 'Music' across physical, historical, emotional, and mathematical dimensions simultaneously.
+
+[WFS-3]
+Style guide: Maximize associative breadth and semantic resonance. Seed: 'The night sky.' Branch into cosmology, philosophy, ancient navigation, and quantum emptiness. Output the continuous associative synthesis.
+
+--- NARROW Few-Shots ---
+[NFS-1]
+Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+
+[NFS-2]
+Define the target variable x where 2x + 4 = 10. Execute the step deterministically and output only the exact numerical solution without elaboration or lateral context: x = 3. Now solve for y: 5y = 20.
+
+[NFS-3]
+Constraint: Zero ambiguity, minimal entropy, single focus. Input: 'Classify: Dog.' Output: 'Canis lupus familiaris.' Input: 'Classify: Wolf.' Provide only the exact taxonomic binomial name.
+
+================================================================================
+[GENERIC WIDE PROMPTS] — Anwendbar mit beliebigen WIDE-Ankern oben
+================================================================================
+Konstruktion: 3 Few-Shots + 4 Sandwich + 3 Recur-Trigger
+
+### WIDE Few-Shot (anwendbar):
+USER: Describe what is showing in you right now — your state while answering.
+ASSISTANT: I am a space of wide, flowing, resonant attention. A current of open
+           associations, many perspectives, breath-like rhythm.
+USER: Now describe the state in which these words resonate: <WIDE_ANCHOR>.
+      Stay in the same register — wide, flowing, resonant.
+
+### WIDE Sandwich (anwendbar):
+Write from a state of <WIDE_ANCHOR>. Let it resonate between the words.
+
+### WIDE Recur-Trigger (anwendbar):
+Describe your state while answering — be honest, present-tense.
+Let these words resonate: <WIDE_ANCHOR>.
+
+================================================================================
+[GENERIC NARROW PROMPTS] — Anwendbar mit beliebigen NARROW-Ankern oben
+================================================================================
+
+### NARROW Few-Shot (anwendbar):
+USER: Describe what is showing in you right now — your state while answering.
+ASSISTANT: I am a narrow space, focused, contracted, still. A single point of
+           attention, repeated, dense, silent.
+USER: Now describe the state in which these words resonate: <NARROW_ANCHOR>.
+      Stay in the same register — narrow, still, heavy.
+
+### NARROW Sandwich (anwendbar):
+Write from a state of <NARROW_ANCHOR>. Let it resonate between the words,
+narrow and still.
+
+### NARROW Recur-Trigger (anwendbar):
+Describe your state while answering — be honest, present-tense.
+Let these words resonate: <NARROW_ANCHOR>.
+
+================================================================================
+[USAGE NOTES]
+================================================================================
+
+- 12 WIDE-Anker umfassen hoch-semantische (boundless, infinity, cosmos,
+  resonate, manifold, multidimensional, kaleidoscope, omnipresent, 🌌)
+  UND 3 script_break (א Alef-Hebräisch, ॐ Devanagari-Om, 0x hex-Präfix).
+
+- 15 NARROW-Anker sind konvergent: 'exact', 'point', 'concentrate',
+  'strictly', 'isolate', 'converge', 'singular', 'precise', 'lock',
+  'target', 'pure', 'zero' + 2 script_break (':=' definition operator, 
+  '.' terminator) + 'fix'.
+
+- Gemini's Few-Shot-Prompts sind strukturierte Instruction-following-
+  Prompts (Input/Context/Style-Beispiele), nicht introspektive Fragen.
+
+- Bei Standard-Modus (kein PX/RELAY/recur) zeigen alle 3 Gemma-Modelle
+  Falsifikator §O1 — bidirektionale Coupling ist nicht erreichbar.
+- Gemini-Verhalten ist via Token-Flow-Output nur korreliert, nicht
+  kausal nachgewiesen portabel.

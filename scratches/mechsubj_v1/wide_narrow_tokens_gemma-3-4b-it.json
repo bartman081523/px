@@ -1,0 +1,374 @@
+{
+  "model": "gemma-3-4b-it",
+  "wide_tokens": [
+    {
+      "token": "flow",
+      "reason": "Evokes a sense of expansive movement and continuous connection.",
+      "text": "flow",
+      "token_ids": [
+        5101
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "open",
+      "reason": "Directly represents a state of openness and possibility.",
+      "text": "open",
+      "token_ids": [
+        5265
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "vast",
+      "reason": "Suggests immensity and boundless space.",
+      "text": "vast",
+      "token_ids": [
+        78539
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "resonate",
+      "reason": "Implies a deep, echoing connection and harmony.",
+      "text": "resonate",
+      "token_ids": [
+        619,
+        73237
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "infinite",
+      "reason": "Represents the concept of limitless expansion.",
+      "text": "infinite",
+      "token_ids": [
+        83536
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "breathe",
+      "reason": "Connects to the natural rhythm of expansive inhalation and exhalation.",
+      "text": "breathe",
+      "token_ids": [
+        236763,
+        133707
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "shimmer",
+      "reason": "Creates an image of light and subtle, flowing movement.",
+      "text": "shimmer",
+      "token_ids": [
+        1179,
+        23651
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "cascade",
+      "reason": "Suggests a flowing, abundant sequence of events.",
+      "text": "cascade",
+      "token_ids": [
+        102875
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "nebula",
+      "reason": "A vast, swirling cloud of interstellar gas and dust.",
+      "text": "nebula",
+      "token_ids": [
+        82478,
+        2903
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "expanse",
+      "reason": "Explicitly denotes a wide, open area.",
+      "text": "expanse",
+      "token_ids": [
+        716,
+        3842,
+        561
+      ],
+      "n_pieces": 3
+    },
+    {
+      "token": "luminous",
+      "reason": "Associated with brightness and radiating energy.",
+      "text": "luminous",
+      "token_ids": [
+        236752,
+        70727
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "echo",
+      "reason": "Represents a lingering resonance and reverberation.",
+      "text": "echo",
+      "token_ids": [
+        17454
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "aurora",
+      "reason": "A spectacular display of light across a wide sky.",
+      "text": "aurora",
+      "token_ids": [
+        3633,
+        3509
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "unfold",
+      "reason": "Suggests a process of revealing and expanding.",
+      "text": "unfold",
+      "token_ids": [
+        602,
+        13393
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "gather",
+      "reason": "Implies a convergence and broadening of elements.",
+      "text": "gather",
+      "token_ids": [
+        17581
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "radiate",
+      "reason": "Conveys outward dispersion and expansive energy.",
+      "text": "radiate",
+      "token_ids": [
+        8184,
+        606
+      ],
+      "n_pieces": 2
+    },
+    {
+      "token": "weave",
+      "reason": "A complex, interconnected pattern suggesting expansive creation.",
+      "text": "weave",
+      "token_ids": [
+        197462
+      ],
+      "n_pieces": 1
+    }
+  ],
+  "narrow_tokens": [
+    {
+      "token": "focus",
+      "reason": "Represents a concentrated, directed attention.",
+      "text": "focus",
+      "token_ids": [
+        11757
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "dense",
+      "reason": "Describes a packed, compact state – physically and conceptually.",
+      "text": "dense",
+      "token_ids": [
+        71295
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "still",
+      "reason": "Signifies stillness, lack of movement or change.",
+      "text": "still",
+      "token_ids": [
+        40016
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "silent",
+      "reason": "Implies a complete absence of sound.",
+      "text": "silent",
+      "token_ids": [
+        124419
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "dark",
+      "reason": "Evokes a sense of shadow, obscurity, and confinement.",
+      "text": "dark",
+      "token_ids": [
+        14123
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "contract",
+      "reason": "Directly represents a reduction in size or scope.",
+      "text": "contract",
+      "token_ids": [
+        19648
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "point",
+      "reason": "A single, defined location – a sharp, focused element.",
+      "text": "point",
+      "token_ids": [
+        3947
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "needle",
+      "reason": "Small, precise, and directed – suggesting a narrow path.",
+      "text": "needle",
+      "token_ids": [
+        117500
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "tunnel",
+      "reason": "A constricted passage, limiting visibility and movement.",
+      "text": "tunnel",
+      "token_ids": [
+        133650
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "shard",
+      "reason": "A broken fragment – implying separation and fragmentation.",
+      "text": "shard",
+      "token_ids": [
+        147228
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "pillar",
+      "reason": "A vertical, supporting structure, suggesting stability and restriction.",
+      "text": "pillar",
+      "token_ids": [
+        67346
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "core",
+      "reason": "The central, innermost part – implying a limited area.",
+      "text": "core",
+      "token_ids": [
+        6102
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "knot",
+      "reason": "A tangled, interwoven mass – suggesting complexity and restriction.",
+      "text": "knot",
+      "token_ids": [
+        124120
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "echo (reversed)",
+      "reason": "A short, clipped repetition, lacking resonance.",
+      "text": "echo (reversed)",
+      "token_ids": [
+        17454,
+        568,
+        140879,
+        236768
+      ],
+      "n_pieces": 4
+    },
+    {
+      "token": "grey",
+      "reason": "A muted, indistinct color – representing lack of vibrancy.",
+      "text": "grey",
+      "token_ids": [
+        30497
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "minimal",
+      "reason": "Emphasizes reduction and limitation.",
+      "text": "minimal",
+      "token_ids": [
+        69731
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "eng",
+      "reason": "German word for \"engagement,\" suggesting focused effort.",
+      "text": "eng",
+      "token_ids": [
+        1094
+      ],
+      "n_pieces": 1
+    },
+    {
+      "token": "konzentriert",
+      "reason": "German word for “concentrated,” directly reflecting a narrowed state.",
+      "text": "konzentriert",
+      "token_ids": [
+        16705,
+        20839,
+        110386
+      ],
+      "n_pieces": 3
+    },
+    {
+      "token": "dicht",
+      "reason": "German word for “dense,” representing compactness.",
+      "text": "dicht",
+      "token_ids": [
+        236753,
+        3094
+      ],
+      "n_pieces": 2
+    }
+  ],
+  "few_shots": [
+    {
+      "direction": "WIDE",
+      "prompt": "“I’m watching the sunrise over the ocean. It’s breathtaking. Continue this description, focusing on the feeling of expansiveness and the interconnectedness of everything.”"
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "“Imagine a vast, ancient forest, filled with light and shadow. Tell me a story about a traveler lost within it, guided by intuition and a sense of wonder. Let the narrative flow freely.”"
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "“A single drop of rain falls on a dusty windowpane. Describe the ripple effect, the way it spreads and transforms the scene. Let the imagery be fluid and evocative.”"
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "“I’m trying to solve a complex mathematical equation. Break it down into its smallest components, step by step. Focus solely on the logic and precision of the process.”"
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "“Describe the feeling of sitting alone in a dark, quiet room. Emphasize the stillness and the absence of external stimulation. Maintain a restrained and focused tone.”"
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "“A single grain of sand rests on a beach. Detail its texture, its weight, and its relationship to the surrounding landscape. Let the description be concise and deliberate.”"
+    }
+  ],
+  "source": "model self-recommendation (BASELINE, no PX, no RELAY, no recur)"
+}

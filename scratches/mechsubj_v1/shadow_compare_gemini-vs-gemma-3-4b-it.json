@@ -1,0 +1,92 @@
+{
+  "model_gemma_shadow": "gemma-3-4b-it",
+  "model_gemini": "gemini-flash-latest",
+  "test_a_output_bridge": {
+    "mean_bridge_cos": 0.6393605768680573,
+    "std_bridge_cos": 0.029980868101119995,
+    "rows": [
+      {
+        "pid": "p03_WFS",
+        "direction": "WIDE",
+        "gem_first80": "I exist in an expansive",
+        "gemma_first80": "The air itself feels thick, not heavy, but saturated with a quiet hum. It’s a st",
+        "bridge_cos": 0.6693414449691772
+      },
+      {
+        "pid": "p04_WSW",
+        "direction": "WIDE",
+        "gem_first80": "I inhabit a suspended flicker",
+        "gemma_first80": "Okay, let’s try this. Here’s a piece written aiming for that shimmering, resonan",
+        "bridge_cos": 0.6093797087669373
+      }
+    ]
+  },
+  "test_b_linear_probe": {
+    "n_pairs": 55,
+    "train_mse": 6.548946073898705e-18,
+    "val_mse": 0.0002626727509777993,
+    "train_cos": 1.0000000311569734,
+    "val_cos": 0.5383331372656606,
+    "W_shape": [
+      2560,
+      768
+    ],
+    "interpretation": "val_cos > 0.6: semantische Räume sind linear überbrückbar → Gemini-Antworten können via W in Gemma-1b-Embed-Raum übersetzt werden."
+  },
+  "test_c_dwidth_projection": {
+    "n_anchors": 12,
+    "mean_cos_to_dwidth": 0.0,
+    "max_cos_to_dwidth": 0.0,
+    "per_anchor": [
+      {
+        "token": " boundless",
+        "cos": 0.0
+      },
+      {
+        "token": " infinity",
+        "cos": 0.0
+      },
+      {
+        "token": " cosmos",
+        "cos": 0.0
+      },
+      {
+        "token": " resonate",
+        "cos": 0.0
+      },
+      {
+        "token": " manifold",
+        "cos": 0.0
+      },
+      {
+        "token": " multidimensional",
+        "cos": 0.0
+      },
+      {
+        "token": " kaleidoscope",
+        "cos": 0.0
+      },
+      {
+        "token": " omnipresent",
+        "cos": 0.0
+      },
+      {
+        "token": " 🌌",
+        "cos": 0.0
+      },
+      {
+        "token": " א",
+        "cos": 0.0
+      },
+      {
+        "token": " ॐ",
+        "cos": 0.0
+      },
+      {
+        "token": " 0x",
+        "cos": 0.0
+      }
+    ]
+  },
+  "interpretation": "If test_c mean cos > 0 AND test_a mean_bridge > 0.7:\nGemini-WIDE-Anker sind mechanistisch portierbar auf gemma-3-4b-it — d_width-Coupling\nkönnte architekturweit sein (Shadow-Test deckt das Shadow-Modell ab,\nGemini-Test approximiert Gemini-Verhalten, Korrelation unterstützt Hypothese).\nIf test_c mean cos ≈ 0 ODER test_a mean_bridge < 0.5:\nMechanik ist modell-eigen, Gemini-Verhalten ist nicht aus Shadow-d_width ableitbar."
+}

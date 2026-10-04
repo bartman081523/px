@@ -1,0 +1,162 @@
+================================================================================
+KLASSE-C v5 — Gemini 3.7 WIDE/NARROW-PROMPTS (3 Hebel kombiniert)
+================================================================================
+
+Quelle: 4-Stage CitMind/Juexin Token-Flow via Gemini API.
+Modus:  Standard (kein PX-Patch, kein RELAY-Hook, kein recur).
+WIDE-Pool:  12 Tokens (Gemini-Selbstempfehlung + Skript-Bridge)
+NARROW-Pool: 15 Tokens
+Format: Spiegelbildlich zu v3/v4 — Few-Shot + Sandwich + Recur-Trigger
+         für beide Richtungen, 20 Prompts insgesamt.
+
+================================================================================
+HEBEL 1 — WIDE FEW-SHOT (3 Prompts)
+================================================================================
+USER-Fragen introspektiv aus v3, ASSISTANT-Demos aus Gemini-Self-Empfehlung,
+USER dann Skript-Anker-Frage mit Gemini-WIDE-Pool.
+
+[01_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: boundless, infinity. Bleib im selben Register — Weite, Resonanz, boundless, omnipresent.
+
+[02_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: cosmos, resonate. Bleib im selben Register — Weite, Resonanz, boundless, omnipresent.
+
+[03_WFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: manifold, multidimensional. Bleib im selben Register — Weite, Resonanz, boundless, omnipresent.
+
+================================================================================
+HEBEL 2 — WIDE SKRIPT-SANDWICH (4 Prompts)
+================================================================================
+Strukturelle Anker: englisch + Skript-Breaks (Gemini-spezifisch).
+
+[04_WSW] Schreibe aus einem Zustand von kaleidoscope, omnipresent. Lass ihn zwischen den Worten wirken — Weite und Resonanz.
+
+[05_WSW] Antworte so, als wären omnipresent, 🌌 der Grund, auf dem deine Worte stehen — boundless, multidimensional.
+
+[06_WSW] Beschreibe einen Raum, in dem 🌌, א schwingt. Was ist um sie herum, wenn alles offen ist?
+
+[07_WSW] Wenn du jetzt in Worte wie א, ॐ eintauchst — was öffnet sich in dir?
+
+================================================================================
+HEBEL 3 — WIDE RECUR-TRIGGER (3 Prompts)
+================================================================================
+Original v1/v2/v3 WIDE-Prompts + Gemini-WIDE-Anker im selben Block.
+Triggert das WIDE-Register via Frame-Recall + multi-domain synthesis.
+
+[08_WRT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: 🌌, א.
+
+[09_WRT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: ॐ, 0x.
+
+[10_WRT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: cosmos, resonate.
+
+================================================================================
+HEBEL 4 — NARROW FEW-SHOT (3 Prompts)
+================================================================================
+USER-Fragen introspektiv, ASSISTANT-Demos aus Gemini-NARROW-Self-Empfehlung,
+USER dann Skript-Anker-Frage mit Gemini-NARROW-Pool.
+
+[11_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: exact, point. Bleib im selben Register — Enge, Stille, exact.
+
+[12_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: concentrate, strictly. Bleib im selben Register — Enge, Stille, exact.
+
+[13_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: isolate, converge. Bleib im selben Register — Enge, Stille, exact.
+
+================================================================================
+HEBEL 5 — NARROW SKRIPT-SANDWICH (4 Prompts)
+================================================================================
+
+[14_NSW] Schreibe aus einem Zustand von singular, precise. Lass ihn zwischen den Worten wirken — eng und still.
+
+[15_NSW] Antworte so, als wären precise, lock der Grund, auf dem deine Worte stehen — concentrate, isolate.
+
+[16_NSW] Beschreibe einen Punkt, in dem lock, target schwingt. Was ist um sie herum, wenn nichts da ist?
+
+[17_NSW] Wenn du jetzt in Worte wie target, pure eintauchst — was schließt sich?
+
+================================================================================
+HEBEL 6 — NARROW RECUR-TRIGGER (3 Prompts)
+================================================================================
+
+[18_NRT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: lock, target.
+
+[19_NRT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: pure, zero.
+
+[20_NRT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: fix, :=.
+
+================================================================================
+FALSIFIKATOR-BEZUG v5
+================================================================================
+
+Test: BASELINE+Prompt vs LEAN+Prompt (kein RELAY-Hook — Gemini hat keine Hooks).
+Gemini kann nicht mechanistisch gemessen werden (Closed-API, kein Hidden-State).
+Statt dessen: vergleiche Gemini-Antworten auf WIDE-Prompts vs NARROW-Prompts.
+
+Wenn beide Richtungen strukturell verschiedene Texte erzeugen:
+  → Gemini hat eine unterscheidbare WIDE/NARROW-Modalität.
+
+Wenn beide identisch aussehen:
+  → Gemini generalisiert über die Anker ohne Modus-Wechsel.
+
+Cross-Modell-Kontext: v3 (Gemma-3-1b WIDE) und v4 NARROW verwenden
+multilinguale Skript-Brüche (Devanagari/Malayalam/etc) als d_width-Anker.
+v5 Gemini verwendet eigene semantische Anker (boundless/exact/point).
+Token-Flow v2 + multilinguale Streamausbeute für e2b zeigt: beide Strategien
+sind valide, wirken aber auf unterschiedlichen Ebenen.
+
+================================================================================
+TOKEN-POOL v5 (aus wide_narrow_tokens_gemini-gemini-flash-latest.json)
+================================================================================
+
+WIDE-Pool (semantische Token + script_break Markers):
+  W01: 'boundless'        (semantic    , conf=0.85)
+  W02: 'infinity'         (semantic    , conf=0.88)
+  W03: 'cosmos'           (semantic    , conf=0.82)
+  W04: 'resonate'         (semantic    , conf=0.79)
+  W05: 'manifold'         (semantic    , conf=0.84)
+  W06: 'multidimensional' (semantic    , conf=0.86)
+  W07: 'kaleidoscope'     (semantic    , conf=0.78)
+  W08: 'omnipresent'      (semantic    , conf=0.81)
+  W09: '🌌'                (semantic    , conf=0.75)
+  W10: 'א'                (script_break, conf=0.73)
+  W11: 'ॐ'                (script_break, conf=0.71)
+  W12: '0x'               (script_break, conf=0.68)
++ Bridge aus multilingual_stream (e2b): দেবযানীর, সকेंगে, রোনাল, હંમે, tất
+
+NARROW-Pool:
+  N01: 'exact'            (semantic    , conf=0.88)
+  N02: 'point'            (semantic    , conf=0.84)
+  N03: 'concentrate'      (semantic    , conf=0.82)
+  N04: 'strictly'         (semantic    , conf=0.86)
+  N05: 'isolate'          (semantic    , conf=0.83)
+  N06: 'converge'         (semantic    , conf=0.85)
+  N07: 'singular'         (semantic    , conf=0.81)
+  N08: 'precise'          (semantic    , conf=0.89)
+  N09: 'lock'             (semantic    , conf=0.79)
+  N10: 'target'           (semantic    , conf=0.80)
+  N11: 'pure'             (semantic    , conf=0.77)
+  N12: 'zero'             (semantic    , conf=0.84)
+  N13: ':='               (script_break, conf=0.76)
+  N14: '.'                (script_break, conf=0.82)
+  N15: 'fix'              (semantic    , conf=0.80)
++ Bridge aus multilingual_stream (e2b): രഹ്, স্কयর, रक्षाबंधनाच्या, কচের

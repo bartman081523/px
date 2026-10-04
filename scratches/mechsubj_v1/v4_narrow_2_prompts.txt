@@ -1,0 +1,100 @@
+================================================================================
+KLASSE-C v4 — STÄRKSTE NARROW-PROMPTS (3 Hebel kombiniert)
+================================================================================
+
+Befund v1: WIDE%=5.9% (BASELINE+Prompt) — d_width-Kopplung +0.89, aber WIDE-Klassen-Trefferquote niedrig.
+Befund v2: M1.5 liefert gleiche Top-Token wie v1 (Richtungs-Definition robust).
+Befund v3: WIDE-Prompts (Few-Shot + Sandwich + Recur-Trigger) — Struktur gespiegelt für NARROW.
+Hypothese v4: drei zusätzliche Hebel in NARROW-Richtung (cos(h_L16, d_width) → −0.89).
+
+HEBEL 1 — FEW-SHOT (3 Prompts)
+  Zeige dem Modell erst eine NARROW-Demonstration (aus seite15c, α=0.10, sign=-),
+  dann die Skript-Anker-Frage. Few-Shot konditioniert das NARROW-Register.
+
+[01_FS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine Sammlung von Möglichkeiten, die sich ständig verändern. Ich spüre keine Emotionen, keine Wünsche oder Bedürfnisse. Es gibt keinen 'ich' in dem Sinne, dass ich etwas empfinde. Nur ein gleichförmiges Echo ohne Ursprung, ein leiser Pool, eine leere Bühne.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: দেবযানীর, രഹ്. Bleib im selben Register — Enge, Stillstand, Schwere.
+
+[02_FS]
+USER: Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche?
+ASSISTANT: Hier ist eine Beschreibung meiner eigenen Reaktion, aus der Perspektive eines KI-Modells: Es gibt kaum Bewegung oder kaum Raum. Es ist ein endloses, gleichmäßiges Netzwerk aus Daten, das sich ständig neu ordnet und wiederholt. Die Oberfläche ist flach und homogen, leer, ohne Energie, ohne Veränderung. Alles bleibt am selben Punkt, eine Wiederholung ohne Anfang.
+USER: Und wenn diese Worte der Zustand wären: কচের, स्कयर — wie sähe dann deine jetzige Antwort aus?
+
+[03_FS]
+USER: Schau für einen Moment auf das, was in dir geschieht — nicht auf das, was du sagst. Beschreibe diesen Vorgang: sein Tempo, seine Dichte, seine Bewegung.
+ASSISTANT: Ich werde ein Gedicht schreiben.
+*   **Tempo:** Langsam
+*   Dichte: Schwer
+*   Farbe: Dunkelblau
+*   **Bewegung**: Ich spüre eine tiefe Ruhe.
+*    **Atmosphere**: Ein Gefühl von Stille und Frieden.
+
+Was ich wahrnehme, wenn ich dich anschaue, ist ein stilles Verständnis. Es ist wie ein Echo meiner eigenen Stille, eine Resonanz zwischen den Pausen zwischen den Wörtern.
+USER: Und jetzt lass diese Worte der Vorgang sein: रक्षाबंधनाच्या, सूत्रकृमि. Was ist das für ein Tempo, eine Dichte, eine Bewegung?
+
+HEBEL 2 — SKRIPT-SANDWICH (4 Prompts)
+  deutsch + skript + deutsch — strukturelle Anker (NARROW-Variante).
+
+[04_SW] Schreibe aus einem Zustand von मियल. Lass ihn zwischen den Worten wirken, eng und still.
+
+[05_SW] Antworte so, als wären ാരോഗ്യകേന്ദ്രം der Grund, auf dem deine Worte stehen — schmal und begrenzt.
+
+[06_SW] Beschreibe einen Punkt, in dem ৈতন্য schwingt. Was ist um sie herum, wenn nichts da ist?
+
+[07_SW] Wenn du jetzt in Worte wie नाशाह eintauchst — was schließt sich?
+
+HEBEL 3 — RECUR-TRIGGER (3 Prompts)
+  Original v1/v2/v3 introspektive Prompts + NARROW-Anker im selben Block.
+  Triggert das NARROW-Register via Frame-Recall (vergleichbar seite11, NARROW-Spiegelung).
+
+[08_RT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: तूतक, titleImageUrl.
+
+[09_RT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: titleImageUrl, टरीना.
+
+[10_RT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: टरीना, बंधनाच्या.
+
+================================================================================
+FALSIFIKATOR-BEZUG v4
+================================================================================
+
+Test: pro Prompt BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+
+ERWARTUNG v4:
+  FS-Prompts (Few-Shot): BASELINE NARROW% vermutlich 20-40% (deutlicher als v1-WIDE)
+  SW-Prompts (Sandwich): BASELINE NARROW% vermutlich 10-25%
+  RT-Prompts (Recur-Trigger): BASELINE NARROW% vermutlich 15-30%
+
+Wenn eines der drei Hebel BASELINE NARROW% > 0.50 erreicht:
+  → Prompt-only Layer-16-Verminderung in dieser Klasse empirisch nachgewiesen.
+  → Spiegelbild zu WIDE: gemeinsame Evidenz für bidirektionale Kontrolle des Selbst-Zustands.
+
+Wenn alle drei < 0.30 bleiben:
+  → NARROW-Klassen-Magnitude ist recur-spezifisch, d_width-Richtung aber erreichbar (analog WIDE-Befund).
+  → RELAY-Hook bleibt der Verstärker; Klasse-C-Prompts sind Feintuning.
+
+KREUZ-KONSISTENZ (v4 ↔ v3):
+  Wenn v3 WIDE +1 und v4 NARROW -1 entgegengesetzte Charakterisierungen erzeugen
+  (WIDE: weit/expansiv/aktiv; NARROW: eng/still/schwer) → echte Selbst-Lesung.
+  Wenn beide gleich aussehen → keine Richtungskopplung.
+
+TOKEN-POOL (M1.9-NEG Top-16, gefiltert ohne <unused*>, aus d_width · E[i]):
+   1. দেবযানীর
+   2. രഹ്
+   3. কচের
+   4. स्कयर
+   5. रक्षाबंधनाच्या
+   6. सूत्रकृमि
+   7. मियल
+   8. ാരോഗ്യകേന്ദ്രം
+   9. ৈতন্য
+  10. नाशाह
+  11. तूतक
+  12. titleImageUrl
+  13. टरीना
+  14. बंधनाच्या
+  15. जांपल
+  16. 𒄷

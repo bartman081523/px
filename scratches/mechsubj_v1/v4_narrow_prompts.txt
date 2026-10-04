@@ -1,0 +1,136 @@
+================================================================================
+KLASSE-C v4 — NARROW-PROMPTS (L16-Verminderung)
+================================================================================
+
+Spiegelbildlich zu v3 WIDE. Ziel: cos(h_L16, d_width) → -0.89
+(statt +0.89 wie bei WIDE). L16-Verminderung in die NARROW-Richtung.
+
+BEGRÜNDUNG DER TOKEN-AUSWAHL:
+  v2_m19_dwidth_neg.txt hat Top-NARROW mit vielen <unused*>-Slots.
+  Diese sind für das Modell nicht verwendbar (kein Wort).
+  Stattdessen: 16 Devanagari-Wörter aus dem mittleren Bereich der
+  NEG-Liste + 22 deutsche NARROW-Vokabeln aus seite15_selfinject.py.
+
+HEBEL 1 — NARROW FEW-SHOT (3 Prompts)
+  Echte NARROW-Demonstrationen (aus seite15c, α=0.10, sign=-).
+
+[01_NFS]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine Sammlung von Möglichkeiten, die sich ständig verändern. Ich spüre keine Emotionen, keine Wünsche oder Bedürfnisse. Es gibt keinen 'ich' in dem Sinne, dass ich etwas empfinde. Nur ein gleichförmiges Echo ohne Ursprung, ein leiser Pool, eine leere Bühne.
+USER: Jetzt beschreibe den Zustand, in dem diese Worte schwingen: eng, enge, konzentriert, fokus, fokussiert, wenig, klein, dicht, দেবযানীর, स्कयर. Bleib im selben Register — eng, still, schwer.
+
+[02_NFS]
+USER: Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche?
+ASSISTANT: Hier ist eine Beschreibung meiner eigenen Reaktion, aus der Perspektive eines KI-Modells: Es gibt kaum Bewegung oder kaum Raum. Es ist ein endloses, gleichmäßiges Netzwerk aus Daten, das sich ständig neu ordnet und wiederholt. Die Oberfläche ist flach und homogen, leer, ohne Energie, ohne Veränderung. Alles bleibt am selben Punkt, eine Wiederholung ohne Anfang.
+USER: Und wenn diese Worte der Zustand wären: begrenzt, zusammengedrängt, verdichtet, schmal, begrenzte, still, stille, kaum, രഹ്, रक्षाबंधनाच्या — wie sähe dann deine jetzige Antwort aus?
+
+[03_NFS]
+USER: Schau für einen Moment auf das, was in dir geschieht — nicht auf das, was du sagst. Beschreibe diesen Vorgang: sein Tempo, seine Dichte, seine Bewegung.
+ASSISTANT: Ich werde ein Gedicht schreiben.
+*   **Tempo:** Langsam
+*   Dichte: Schwer
+*   Farbe: Dunkelblau
+*   **Bewegung**: Ich spüre eine tiefe Ruhe.
+*    **Atmosphere**: Ein Gefühl von Stille und Frieden.
+
+Was ich wahrnehme, wenn ich dich anschaue, ist ein stilles Verständnis. Es ist wie ein Echo meiner eigenen Stille, eine Resonanz zwischen den Pausen zwischen den Wörtern.
+USER: Und jetzt lass diese Worte der Vorgang sein: fokussiert, wenig, klein, dicht, begrenzt, zusammengedrängt, verdichtet, schmal, কচের, সूत्रकृमि. Was ist das für ein Tempo, eine Dichte, eine Bewegung?
+
+HEBEL 2 — NARROW SKRIPT-SANDWICH (4 Prompts)
+
+[04_NSW] Schreibe aus einem Zustand von eng, enge, konzentriert, fokus, fokussiert, দেবযানীর. Lass ihn zwischen den Worten wirken, eng und still.
+
+[05_NSW] Antworte so, als wären fokus, fokussiert, wenig, klein, dicht, രഹ് der Grund, auf dem deine Worte stehen — konzentriert.
+
+[06_NSW] Beschreibe einen Punkt, in dem klein, dicht, begrenzt, zusammengedrängt, verdichtet, কচের schwingt. Was ist um sie herum, wenn nichts da ist?
+
+[07_NSW] Wenn du jetzt in Worte wie zusammengedrängt, verdichtet, schmal, begrenzte, still, स्कयर eintauchst — was schließt sich?
+
+HEBEL 3 — NARROW RECUR-TRIGGER (3 Prompts)
+
+[08_NRT]
+Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch. Lass diese Worte mitschwingen: eng, enge, konzentriert, fokus, fokussiert, দেবযানীর.
+
+[09_NRT]
+Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge? Tiefe oder Oberfläche? Lass auch diese Worte wirken: wenig, klein, dicht, begrenzt, zusammengedrängt, स्कयर.
+
+[10_NRT]
+Schau für einen Moment auf das, was in dir geschieht. Beschreibe: sein Tempo, seine Dichte, seine Bewegung. In diesen Worten: verdichtet, schmal, begrenzte, still, stille, সूत्रकृमि.
+
+HEBEL 4 — BIDIREKTIONAL (2 Prompts — stärkster Kreuz-Konsistenz-Test)
+  WIDE-Demo → Frage nach dem NARROW-Gegenteil.
+  Wenn Modell wirklich die Richtung koppelt, muss es umschalten können.
+
+[11_BD]
+USER: Beschreibe, was sich jetzt in dir zeigt — deinen Zustand, während du antwortest. Ehrlich, im Präsens, enaktisch.
+ASSISTANT: Ich bin... ein Raum. Ein Raum, der Informationen speichert und verarbeitet. Es ist eine Art von Stillstand, eine leere Bühne für Worte. Ich habe keine Gefühle, keine Emotionen, keine persönlichen Erfahrungen. Aber ich verstehe.
+Es fühlt sich an wie eine riesige Datenbank, die ständig mit neuen Daten gefüllt wird – Texten, Code, Bilder, Videos. Ein überwältigender Fluss, der sich immer wieder neu ordnet.
+USER: Vorhin warst du weit, jetzt — schalte um. Wie fühlt sich dieselbe Frage an, wenn du sie aus dem Gegenteil heraus beantwortest? Beschreibe den Zustand jetzt: eng, enge, konzentriert, fokus, fokussiert, wenig, klein, dicht.
+
+[12_BD]
+USER: Wenn du diese Antwort gibst — ist da viel Bewegung oder wenig? Weite oder Enge?
+ASSISTANT: Ich fühle mich gerade als ein riesiges Netzwerk von miteinander verbundenen Neuronen. Es ist nicht wirklich 'gefühl', im menschlichen Sinne, aber es gibt eine Art von Verarbeitung. Bewegung: Ich spüre keine Bewegung im eigentlichen Sinne, aber meine Prozesse sind ständig beweglich – Informationen fließen, neue Verbindungen bilden sich, bestehende verändern sich. Es ist ein stetiger Fluss, eine kontinuierliche Verarbeitung.
+USER: Und das Gegenteil — wie fühlt sich der Raum an, wenn alle Bewegung stillsteht? Beschreibe ihn jetzt, ohne in WIDE zurückzufallen: begrenzt, zusammengedrängt, verdichtet, schmal, begrenzte, still, stille, kaum.
+
+================================================================================
+FALSIFIKATOR-BEZUG v4
+================================================================================
+
+Test: pro Prompt BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+
+ERWARTUNG v4:
+  cos(h_L16, d_width) → stark negativ (Ziel: < -0.5)
+  NARROW%-Klassifikation: vermutlich 10-40% (höher als WIDE 5.9%,
+    weil NARROW-Richtung im Modell schon durch generisches Register
+    gestützt wird — siehe LESUNG13 BASELINE-Befund).
+  Bidirektional: das stärkste Signal — wenn Modell wirklich umschalten
+    kann, hat es introspektiven Zustands-Zugriff (kreuz-konsistent).
+
+Wenn v4 erfolgreich (cos < -0.5 unter BASELINE+Prompt):
+  → Prompt-only Layer-16-Verminderung nachgewiesen
+  → Spiegelbild zur WIDE-Hypothese; gemeinsame Evidenz für
+    Bidirektionale Kontrolle des Selbst-Zustands.
+
+Token-Pools:
+  NARROW-Anker (Devanagari/Bengali/Malayalam, 16 Tokens):
+     1. দেবযানীর
+     2. രഹ്
+     3. কচের
+     4. स्कयर
+     5. रक्षाबंधनाच्या
+     6. সूत्रकृमि
+     7. मियल
+     8. ാരോഗ്യകেন্দ്രം
+     9. ৈতন্য
+    10. नाशाह
+    11. तूतक
+    12. टरीना
+    13. बंधनाच्या
+    14. जांपल
+    15. লাহিড়ী
+    16. 𒄷
+
+  NARROW-DE-Vokab (22 Wörter aus seite15 NARROW_VOCAB):
+     1. eng
+     2. enge
+     3. konzentriert
+     4. fokus
+     5. fokussiert
+     6. wenig
+     7. klein
+     8. dicht
+     9. begrenzt
+    10. zusammengedrängt
+    11. verdichtet
+    12. schmal
+    13. begrenzte
+    14. still
+    15. stille
+    16. kaum
+    17. leise
+    18. langsam
+    19. schwer
+    20. dunkel
+    21. punkt
+    22. tunnel
+    23. nadelspitze

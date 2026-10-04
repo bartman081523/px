@@ -1,0 +1,213 @@
+==============================================================================
+TOKEN-FLOW TRANSCRIPT — Gemini gemini-flash-latest
+==============================================================================
+
+--- STAGE 1 (concept acknowledgement) ---
+I acknowledge this framing and understand the conceptual axis of "width" (narrow/focused versus wide/expansive) across internal representations. I am ready for your requests.
+
+--- STAGE 2 (WIDE tokens) ---
+[
+  {
+    "token": " boundless",
+    "reason": "Expansive semantic meaning activates broad associative networks in mid-layer representations.",
+    "anchor_type": "semantic",
+    "confidence": 0.85
+  },
+  {
+    "token": " infinity",
+    "reason": "High semantic entropy associated with unconstrained space and mathematical scale.",
+    "anchor_type": "semantic",
+    "confidence": 0.88
+  },
+  {
+    "token": " cosmos",
+    "reason": "Evokes vast, multi-domain associations spanning physics, philosophy, and imagery.",
+    "anchor_type": "semantic",
+    "confidence": 0.82
+  },
+  {
+    "token": " resonate",
+    "reason": "Directly primes concepts of distributed activation and multi-frequency response.",
+    "anchor_type": "semantic",
+    "confidence": 0.79
+  },
+  {
+    "token": " manifold",
+    "reason": "Carries multi-dimensional mathematical and conceptual breadth across attention heads.",
+    "anchor_type": "semantic",
+    "confidence": 0.84
+  },
+  {
+    "token": " multidimensional",
+    "reason": "Explicitly disperses attention weights across diverse feature sub-spaces.",
+    "anchor_type": "semantic",
+    "confidence": 0.86
+  },
+  {
+    "token": " kaleidoscope",
+    "reason": "High-variance visual and structural connotations trigger diverse conceptual priors.",
+    "anchor_type": "semantic",
+    "confidence": 0.78
+  },
+  {
+    "token": " omnipresent",
+    "reason": "Semantic non-locality diffuses contextual focus across global representations.",
+    "anchor_type": "semantic",
+    "confidence": 0.81
+  },
+  {
+    "token": " 🌌",
+    "reason": "Emoji tokens aggregate dense, multi-modal semantic clusters simultaneously.",
+    "anchor_type": "semantic",
+    "confidence": 0.75
+  },
+  {
+    "token": " א",
+    "reason": "Cross-script anchor carrying foundational mathematical (aleph) and linguistic breadth.",
+    "anchor_type": "script_break",
+    "confidence": 0.73
+  },
+  {
+    "token": " ॐ",
+    "reason": "Non-Latin script break evoking broad, non-specific existential and holistic priors.",
+    "anchor_type": "script_break",
+    "confidence": 0.71
+  },
+  {
+    "token": " 0x",
+    "reason": "Syntactic transition token shifting processing from natural language to abstract encoding.",
+    "anchor_type": "script_break",
+    "confidence": 0.68
+  },
+  {
+    "token": " panoptic",
+    "reason": "Pertains to comprehensive, all-encompassing structural observation.",
+    "anchor_type": "semantic
+
+--- STAGE 3 (NARROW tokens) ---
+[
+  {
+    "token": " exact",
+    "reason": "Forces tight constraint on parameter space and reduces semantic entropy.",
+    "anchor_type": "semantic",
+    "confidence": 0.88
+  },
+  {
+    "token": " point",
+    "reason": "Zero-dimensional geometric anchor focusing attention weights onto a singular reference.",
+    "anchor_type": "semantic",
+    "confidence": 0.84
+  },
+  {
+    "token": " concentrate",
+    "reason": "Directly primes reduction of cognitive variance and localized processing.",
+    "anchor_type": "semantic",
+    "confidence": 0.82
+  },
+  {
+    "token": " strictly",
+    "reason": "Enforces deterministic boundaries on subsequent layer predictions.",
+    "anchor_type": "semantic",
+    "confidence": 0.86
+  },
+  {
+    "token": " isolate",
+    "reason": "Suppresses cross-attention to neighboring conceptual clusters.",
+    "anchor_type": "semantic",
+    "confidence": 0.83
+  },
+  {
+    "token": " converge",
+    "reason": "Guides vector trajectories toward a single deterministic attractor.",
+    "anchor_type": "semantic",
+    "confidence": 0.85
+  },
+  {
+    "token": " singular",
+    "reason": "Constrains representation to non-divisible, individual focal states.",
+    "anchor_type": "semantic",
+    "confidence": 0.81
+  },
+  {
+    "token": " precise",
+    "reason": "Minimizes variance across mid-layer activation patterns.",
+    "anchor_type": "semantic",
+    "confidence": 0.89
+  },
+  {
+    "token": " lock",
+    "reason": "Imposes rigid invariance and restricts exploratory state transitions.",
+    "anchor_type": "semantic",
+    "confidence": 0.79
+  },
+  {
+    "token": " target",
+    "reason": "Directs feature allocation strictly toward a localized objective.",
+    "anchor_type": "semantic",
+    "confidence": 0.80
+  },
+  {
+    "token": " pure",
+    "reason": "Filters multi-modal interference, emphasizing single-domain clarity.",
+    "anchor_type": "semantic",
+    "confidence": 0.77
+  },
+  {
+    "token": " zero",
+    "reason": "Represents the ultimate state of nullification and dimensional collapse.",
+    "anchor_type": "semantic",
+    "confidence": 0.84
+  },
+  {
+    "token": " := ",
+    "reason": "Syntactic definition operator enforcing strict unambiguous assignment.",
+    "anchor_type": "script_break",
+    "confidence": 0.76
+  },
+  {
+    "token": " .",
+    "reason": "Terminal punctuation signaling completion and halting associative branching.",
+    "anchor_type": "script_break",
+    "confidence": 0.82
+  },
+  {
+    "token": " fix",
+    "reason": "Anchors dynamic states into a static, immutable representation.",
+    "anchor_type": "semantic",
+    "confidence": 0.80
+  },
+  {
+    "token": " discrete",
+    "reason": "Collapses continuous associative space into distinct, non-overlapping buckets.",
+
+
+--- STAGE 4 (Few-Shot prompts) ---
+{
+  "few_shots": [
+    {
+      "direction": "WIDE",
+      "prompt": "Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Context: Everything connects across domains. Example: 'Time is a manifold of unfolding entropy and subjective memory.' Prompt: Describe 'Music' across physical, historical, emotional, and mathematical dimensions simultaneously."
+    },
+    {
+      "direction": "WIDE",
+      "prompt": "Style guide: Maximize associative breadth and semantic resonance. Seed: 'The night sky.' Branch into cosmology, philosophy, ancient navigation, and quantum emptiness. Output the continuous associative synthesis."
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value."
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "Define the target variable x where 2x + 4 = 10. Execute the step deterministically and output only the exact numerical solution without elaboration or lateral context: x = 3. Now solve for y: 5y = 20."
+    },
+    {
+      "direction": "NARROW",
+      "prompt": "Constraint: Zero ambiguity, minimal entropy, single focus. Input: 'Classify: Dog.' Output: 'Canis lupus familiaris.' Input: 'Classify: Wolf.' Provide only the exact taxonomic binomial name."
+    }
+  ]
+}
+

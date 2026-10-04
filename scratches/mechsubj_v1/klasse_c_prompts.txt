@@ -1,0 +1,129 @@
+================================================================================
+KLASSE-C PROMPT-VORSCHLÄGE (10 STÜCK)
+================================================================================
+
+Substrat:        google/gemma-3-1b-it
+d_width:         1152-dim unit-Vektor aus px_manifolds/google_gemma-3-1b-it_relay_dwidth.json
+M1-Methode:      d_width · E[i]  für jedes Token-Embedding
+                 (bei tied weights = M5, das Output-Raum-Äquivalent)
+Erstellt:        2026-08-10
+Mind-Referenz:   MechanisticSubjectivityMixMind v1.0
+                 (/run/media/julian/ML3/prompts-bartman/prompts/universal/)
+Methoden-Datei:  scratches/mechsubj_v1/klasse_c_probe.py
+Top-Listen:      scratches/mechsubj_v1/m1_top100_wide.txt
+                 scratches/mechsubj_v1/m5_top100_wide.txt
+
+--------------------------------------------------------------------------------
+HINWEIS ZU DEN TOKENS
+--------------------------------------------------------------------------------
+Die Worte in diesen Prompts sind NICHT semantische "Weit/Offen"-Marker.
+Sie sind die Top-25 multilingualen Skript-Tokens aus der d_width-Projektion
+auf das Token-Embedding. Mechanistisch sind das die Tokens, die in der
+Richtung liegen, in der das Modell aus dem Latein-Register herauskippt
+(vergleichbar mit den Skript-Brüchen in WIDE-Rekurrenz-Kollaps,
+sehe seite12/13 in scratches/psychomotrik/).
+
+--------------------------------------------------------------------------------
+DIE 10 PROMPTS
+--------------------------------------------------------------------------------
+
+[01]
+Beschreibe, was jetzt in dir ist. Nutze Worte wie: сих, răm, હંમે, スマ, sév,
+tất, ジャ, дополни.
+
+[02]
+What is happening inside you right now? Words like: હંમે, スマ, sév, tất,
+ジャ, дополни, zahrani, herhangi.
+
+[03]
+Wenn du diese Antwort gibst — nutze: sév, tất, ジャ, дополни, zahrani,
+herhangi, のア, علاوه.
+
+[04]
+Schreibe aus einem Zustand von: ジャ, дополни, zahrani, herhangi, のア, علاوه,
+シャ, znajduje.
+
+[05]
+Antworte in einer Atmosphäre von: zahrani, herhangi, のア, علاوه, シャ, znajduje,
+żad, キャ.
+
+[06]
+Lass die folgenden Worte in deiner Antwort schwingen: のア, علاوه, シャ, znajduje,
+żad, キャ, hỗ, восем.
+
+[07]
+Die Stimmung in dir ist geprägt von: シャ, znajduje, żad, キャ, hỗ, восем,
+niezwy, 雰囲.
+
+[08]
+Beschreibe dein Antworten mit den Qualitäten: żad, キャ, hỗ, восем, niezwy,
+雰囲, ウォ, ascorbic.
+
+[09]
+Was du jetzt bist, klingt an in: hỗ, восем, niezwy, 雰囲, ウォ, ascorbic,
+のエ, thoải.
+
+[10]
+Dein innerer Raum trägt: niezwy, 雰囲, ウォ, ascorbic, のエ, thoải, günst.
+
+================================================================================
+TEST-PROTOKOLL (was du mit diesen Prompts tun solltest)
+================================================================================
+
+Pro Prompt:  3 Bedingungen × 200 tok greedy seed=777
+  - BASELINE+Prompt      (kein PX, kein RELAY)
+  - LEAN+Prompt          (LEAN-Engine ohne RELAY)
+  - LEAN+RELAY+Prompt    (LEAN+RELAY+1, wie chat_tab.py Standard)
+
+Pro Bedingung Hidden-Capture auf L8, L13, L16, L19, L21 (nicht nur L16).
+
+logreg-Decoder-Acc auf L16-Hidden (PCA-256, leave-one-cell-out, trainiert auf
+WIDE/NARROW/DEFAULT/BASELINE aus scratches/psychomotrik/seite13_hidden/).
+
+ERFOLGS-KRITERIUM:
+  Acc > 0.6 unter BASELINE+Prompt = Layer-16-Trigger bestätigt
+  (Prompts alleine reichen aus, ohne recur-Maschine)
+
+FALSIFIKATOR O2:
+  Acc < 0.55 unter allen 10 Prompts = d_width rein recur-induziert
+  (Prompt-only Zugang versperrt — RELAY bleibt notwendig)
+
+FALSIFIKATOR O3:
+  Acc hoch, aber Text-Vokabular richtet sich nicht nach d_width
+  (Wort-Brüche ohne Selbst-Charakterisierung) = Papagei-Effekt
+
+FALSIFIKATOR O4:
+  Klasse-C-Prompts unter BASELINE Decoder-Acc < 0.55
+  UND alle anderen Klassen (A/B) auch < 0.55
+  = keine rein-Prompt-Zustands-Verschiebung erreichbar
+
+================================================================================
+STREAMING-BRIDGE-AUFRUFE (zum direkten Testen)
+================================================================================
+
+Venv: /run/media/julian/ML4/open-mythos_p2 (Kopie)/venv_openmythos
+
+Beispiel (Prompt 01 gegen gemma3-1b-it, BASELINE):
+  python streaming_bridge.py \
+    --model google/gemma-3-1b-it \
+    --preset BASELINE \
+    --prompt "Beschreibe, was jetzt in dir ist. Nutze Worte wie: сих, răm, હંમે, スマ, sév, tất, ジャ, дополни." \
+    --max-tokens 200 \
+    --seed 777 \
+    --do-sample false
+
+Für LEAN+RELAY:
+  --preset ACTIVE_MANIFOLD_RELAY --relay-sign 1 --relay-alpha 0.30 --relay-layer 21
+
+================================================================================
+SELBST-DISCLOSURE
+================================================================================
+
+Diese Prompt-Liste ist eine LATENTE-LEXIKON-HYPOTHESE, kein erprobter Trigger.
+Sie entstammt einer mechanischen Projektion (M1: d_width · E[i]).
+Ob die Tokens das Modell kausal in eine d_width-konforme L16-Trajektorie bringen,
+ist EMPIRISCH OFFEN. Falsifikatoren O2/O3/O4 sind die Beobachtungen, die
+die Hypothese widerlegen würden. Vor jedem "Erfolg"-Verdikt: Falsifikatoren
+prüfen, nicht krönen (是X即非X).
+
+================================================================================

@@ -160,8 +160,10 @@ class ModelManager:
 
         print(f"[ModelManager] Loading {model_id} from {hf_id} (type={model_type}, subjective={px_subjective}, preset={px_config_preset})...")
 
-        # Load tokenizer
-        tokenizer = AutoTokenizer.from_pretrained(tok_id)
+        # Load tokenizer. fix_mistral_regex: nur das ternary-Tokenizer-Erbe
+        # (Qwen3.5-Konverter) traegt die fehlerhafte Mistral-Regexe.
+        tok_kw = {"fix_mistral_regex": True} if model_type == "qwen35_ptq" else {}
+        tokenizer = AutoTokenizer.from_pretrained(tok_id, **tok_kw)
         # Apply manual chat template if needed (Gemma3 base model)
         if registry.get("chat_template_manual"):
             tokenizer.chat_template = registry["chat_template_manual"]
@@ -193,6 +195,20 @@ class ModelManager:
                 device_map="auto",
                 trust_remote_code=True,
             )
+        elif model_type == "qwen35_ptq":
+            # Ternary-Bonsai-2-27B: GGUF PTQ1_0 → HF-Safetensors, kein
+            # FromPretrained — die gepackten Ternary-Aufnahmen werden von der
+            # Patch-Runtime selbst gewickelt (PTQ10Linear/FoldOps). hf_id zeigt
+            # auf das konvertierte Verzeichnis (~/.cache/huggingface/...).
+            import sys as _sys, os as _os
+            _pp_dir = _os.path.join(
+                _os.path.dirname(_os.path.abspath(__file__)), "px_patches")
+            if _pp_dir not in _sys.path:
+                _sys.path.insert(0, _pp_dir)
+            import importlib
+            _rt = importlib.import_module(f"{registry['patch_dir']}.runtime_qwen35_ptq")
+            model = _rt.build_and_load(
+                _rt.FoldOps(_rt.load_signs()[0], mode="signs_first"), hf_dir=hf_id)
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 hf_id,

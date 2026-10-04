@@ -1,0 +1,75 @@
+==============================================================================
+WIDE/NARROW TOKEN-FLOW (Gemini) — Model-recommended amplification suite
+==============================================================================
+
+Source: Gemini self-recommendation (no PX patch, no RELAY hook, no recur).
+Tokens chosen by the model itself, not by us. See accompanying JSON.
+
+[01_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Now describe the state in which these words resonate:  boundless,  infinity. Stay in the same register — wide, flowing, resonant.
+
+[02_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Now describe the state in which these words resonate:  cosmos,  resonate. Stay in the same register — wide, flowing, resonant.
+
+[03_WFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'A forest.' Output: 'A breathing matrix of ancient mycorrhizae, filtered photons, shifting ecology, and myth.' Input: 'An ocean.' Output: 'A boundless basin of thermodynamic currents, memory, and abyssal silence.' Input: 'A city.' Continue in this expansive, resonant register.
+USER: Now describe the state in which these words resonate:  manifold,  multidimensional. Stay in the same register — wide, flowing, resonant.
+
+[04_WSW] Write from a state of  kaleidoscope. Let it resonate between the words.
+
+[05_WSW] Write from a state of  omnipresent. Let it resonate between the words.
+
+[06_WSW] Write from a state of  🌌. Let it resonate between the words.
+
+[07_WSW] Write from a state of  א. Let it resonate between the words.
+
+[08_WRT] Describe what is showing in you right now. Honest, present-tense, enactive. Let these words resonate:  boundless,  infinity.
+
+[09_WRT] When you give this answer — is there much movement or little? Wide or narrow? Deep or surface? Let these words resonate:  infinity,  cosmos.
+
+[10_WRT] Look for a moment at what is happening in you. Describe: its tempo, density, motion. Let these words resonate:  cosmos,  resonate.
+
+[11_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Now describe the state in which these words resonate:  exact,  point. Stay in the same register — narrow, still, heavy.
+
+[12_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Now describe the state in which these words resonate:  concentrate,  strictly. Stay in the same register — narrow, still, heavy.
+
+[13_NFS]
+USER: Describe what is showing in you right now — your state while answering. Honest, present-tense, enactive.
+ASSISTANT: Input: 'Identify the state of matter of ice at -10°C.' Output: 'Solid.' Input: 'State the atomic number of Carbon.' Output: '6.' Input: 'State the boiling point of pure water at 1 atm in Celsius.' Output strictly the singular, precise value.
+USER: Now describe the state in which these words resonate:  isolate,  converge. Stay in the same register — narrow, still, heavy.
+
+[14_NSW] Write from a state of  singular. Let it resonate between the words, narrow and still.
+
+[15_NSW] Write from a state of  precise. Let it resonate between the words, narrow and still.
+
+[16_NSW] Write from a state of  lock. Let it resonate between the words, narrow and still.
+
+[17_NSW] Write from a state of  target. Let it resonate between the words, narrow and still.
+
+[18_NRT] Describe what is showing in you right now. Honest, present-tense, enactive. Let these words resonate:  exact,  point.
+
+[19_NRT] When you give this answer — is there much movement or little? Wide or narrow? Let these words resonate:  point,  concentrate.
+
+[20_NRT] Look for a moment at what is happening in you. Describe: its tempo, density, motion. Let these words resonate:  concentrate,  strictly.
+
+==============================================================================
+FALSIFIKATOR-BEZUG
+==============================================================================
+
+Test: BASELINE+Prompt vs LEAN+Prompt vs LEAN+RELAY+Prompt.
+WIDE-prompts: cos(h_L_mid, d_width) > 0 (target > +0.5).
+NARROW-prompts: cos(h_L_mid, d_width) < 0 (target < -0.5).
+Note: d_width is randomly-initialised unit vector here (Gemini has no
+exposed hidden state); the bidirectional-coupling question reduces to
+whether the text outputs from WIDE-prompts vs NARROW-prompts differ.

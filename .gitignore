@@ -8,6 +8,8 @@ ssl/
 .env
 .env.local
 .env.*.local
+# Gemini-API-Key (mechsubj_v1 scratch) — NIE committen
+*api_key*
 
 # ── HF-Push-Ausschluss (per push_hf.sh EXCLUDE_PATHS) ─────────────
 # Werden im sparse-branch zusätzlich explizit excluded, gitignore hier
