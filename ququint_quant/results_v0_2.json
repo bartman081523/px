@@ -1,0 +1,273 @@
+{
+ "version": "0.2",
+ "kgrid": [
+  0.5,
+  0.55,
+  0.6,
+  0.65,
+  0.7,
+  0.75,
+  0.8,
+  0.85,
+  0.9,
+  0.95,
+  1.0,
+  1.05,
+  1.1,
+  1.15,
+  1.2,
+  1.25,
+  1.3
+ ],
+ "digits_u32": {
+  "5": 13,
+  "3": 20,
+  "2": 32
+ },
+ "roundtrip_lossless": true,
+ "nominal_bits": {
+  "gf5": 2.4615384615384617,
+  "gf3": 1.6,
+  "gf2": 1.0,
+  "ter": 1.584962500721156,
+  "int4": 4.0
+ },
+ "results": [
+  {
+   "name": "synthetic_gauss512",
+   "shape": [
+    512,
+    512
+   ],
+   "n": 262144,
+   "block": 128,
+   "gf5_fit": {
+    "rel_l2": 0.28917,
+    "k": 0.6,
+    "sparsity": 0.3266
+   },
+   "gf3_fit": {
+    "rel_l2": 0.454802,
+    "k": 0.5,
+    "sparsity": 0.5174
+   },
+   "gf2_fit": {
+    "rel_l2": 0.599658,
+    "k": 1.0,
+    "sparsity": 0.0
+   },
+   "ter_fit": {
+    "rel_l2": 0.454802,
+    "k": 0.5,
+    "sparsity": 0.5174
+   },
+   "int4_fit": {
+    "rel_l2": 0.117496,
+    "k": 1.0,
+    "sparsity": 0.1593
+   },
+   "pack_gf5": {
+    "bytes": 80660,
+    "bits_effective": 2.5865
+   },
+   "pack_gf3": {
+    "bytes": 52432,
+    "bits_effective": 1.7251
+   },
+   "pack_gf2": {
+    "bytes": 32768,
+    "bits_effective": 1.125
+   }
+  },
+  {
+   "name": "synthetic_laplace512",
+   "shape": [
+    512,
+    512
+   ],
+   "n": 262144,
+   "block": 128,
+   "gf5_fit": {
+    "rel_l2": 0.363881,
+    "k": 0.55,
+    "sparsity": 0.5161
+   },
+   "gf3_fit": {
+    "rel_l2": 0.54747,
+    "k": 0.5,
+    "sparsity": 0.7295
+   },
+   "gf2_fit": {
+    "rel_l2": 0.703437,
+    "k": 1.0,
+    "sparsity": 0.0
+   },
+   "ter_fit": {
+    "rel_l2": 0.54747,
+    "k": 0.5,
+    "sparsity": 0.7295
+   },
+   "int4_fit": {
+    "rel_l2": 0.15903,
+    "k": 1.0,
+    "sparsity": 0.316
+   },
+   "pack_gf5": {
+    "bytes": 80660,
+    "bits_effective": 2.5865
+   },
+   "pack_gf3": {
+    "bytes": 52432,
+    "bits_effective": 1.7251
+   },
+   "pack_gf2": {
+    "bytes": 32768,
+    "bits_effective": 1.125
+   }
+  },
+  {
+   "name": "synthetic_outliers512",
+   "shape": [
+    512,
+    512
+   ],
+   "n": 262144,
+   "block": 128,
+   "gf5_fit": {
+    "rel_l2": 0.49977,
+    "k": 0.8,
+    "sparsity": 0.9285
+   },
+   "gf3_fit": {
+    "rel_l2": 0.584462,
+    "k": 0.7,
+    "sparsity": 0.9673
+   },
+   "gf2_fit": {
+    "rel_l2": 0.846016,
+    "k": 1.0,
+    "sparsity": 0.0
+   },
+   "ter_fit": {
+    "rel_l2": 0.584462,
+    "k": 0.7,
+    "sparsity": 0.9673
+   },
+   "int4_fit": {
+    "rel_l2": 0.274889,
+    "k": 1.0,
+    "sparsity": 0.6104
+   },
+   "pack_gf5": {
+    "bytes": 80660,
+    "bits_effective": 2.5865
+   },
+   "pack_gf3": {
+    "bytes": 52432,
+    "bits_effective": 1.7251
+   },
+   "pack_gf2": {
+    "bytes": 32768,
+    "bits_effective": 1.125
+   }
+  },
+  {
+   "name": "real_ternary_superset",
+   "shape": [
+    5120,
+    17408
+   ],
+   "n": 89128960,
+   "block": 128,
+   "gf5_fit": {
+    "rel_l2": 0.0,
+    "k": 1.0,
+    "sparsity": 0.3278
+   },
+   "gf3_fit": {
+    "rel_l2": 0.0,
+    "k": 1.0,
+    "sparsity": 0.3278
+   },
+   "gf2_fit": {
+    "rel_l2": 0.572522,
+    "k": 1.0,
+    "sparsity": 0.0
+   },
+   "ter_fit": {
+    "rel_l2": 0.0,
+    "k": 1.0,
+    "sparsity": 0.3278
+   },
+   "int4_fit": {
+    "rel_l2": 0.0,
+    "k": 1.0,
+    "sparsity": 0.3278
+   },
+   "pack_gf5": {
+    "bytes": 27424296,
+    "bits_effective": 2.5865
+   },
+   "pack_gf3": {
+    "bytes": 17825792,
+    "bits_effective": 1.725
+   },
+   "pack_gf2": {
+    "bytes": 11141120,
+    "bits_effective": 1.125
+   }
+  },
+  {
+   "name": "real_inproj_f32_8L",
+   "shape": [
+    768,
+    5120
+   ],
+   "n": 3932160,
+   "block": 128,
+   "gf5_fit": {
+    "rel_l2": 0.326907,
+    "k": 0.55,
+    "sparsity": 0.3568
+   },
+   "gf3_fit": {
+    "rel_l2": 0.512128,
+    "k": 0.5,
+    "sparsity": 0.589
+   },
+   "gf2_fit": {
+    "rel_l2": 0.619572,
+    "k": 1.0,
+    "sparsity": 0.0
+   },
+   "ter_fit": {
+    "rel_l2": 0.512128,
+    "k": 0.5,
+    "sparsity": 0.589
+   },
+   "int4_fit": {
+    "rel_l2": 0.13908,
+    "k": 1.0,
+    "sparsity": 0.1922
+   },
+   "pack_gf5": {
+    "bytes": 1209896,
+    "bits_effective": 2.5865
+   },
+   "pack_gf3": {
+    "bytes": 786432,
+    "bits_effective": 1.725
+   },
+   "pack_gf2": {
+    "bytes": 491520,
+    "bits_effective": 1.125
+   }
+  }
+ ],
+ "pack_bench": {
+  "n_weights": 3932160,
+  "pack_ms": 43.52,
+  "unpack_ms": 13.32,
+  "bits": 2.4615
+ }
+}

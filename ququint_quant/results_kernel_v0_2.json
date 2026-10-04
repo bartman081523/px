@@ -1,0 +1,44 @@
+{
+ "tensor": "model.layers.0.mlp.down_proj.weight",
+ "shape": [
+  5120,
+  17408
+ ],
+ "vram_free_gib": 4.11,
+ "rows": [
+  {
+   "fmt": "dense_bf16",
+   "bytes": 178257920,
+   "ms": 0.6095,
+   "gbps": 292.5,
+   "max_abs_err": 0.0529
+  },
+  {
+   "fmt": "ptq10_u8",
+   "bytes": 19496960,
+   "ms": 0.9723,
+   "gbps": 20.1,
+   "max_abs_err": 0.0529
+  },
+  {
+   "fmt": "gf5_u32",
+   "bytes": 29245440,
+   "ms": 0.2577,
+   "gbps": 113.5,
+   "max_abs_err": 0.0
+  },
+  {
+   "fmt": "gf3_u32",
+   "bytes": 20889600,
+   "ms": 0.2395,
+   "gbps": 87.2,
+   "max_abs_err": 0.0
+  }
+ ],
+ "bits_weight": {
+  "dense_bf16": 16.0,
+  "ptq10_u8": 0.21875,
+  "gf5_u32": 2.625,
+  "gf3_u32": 1.875
+ }
+}

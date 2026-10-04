@@ -55,6 +55,35 @@ aus `gf5_quant.txt`, operationalisiert:
 - Referenz-Gegenstück im eigenen Repo: `ptq10_matvec` (Triton, PTQ1_0-
   Layout) — dieselbe Triton-Struktur mit GF5-decoden statt trit-table.
 
+**Ergebnis (2026-10-04, `gf5_gemv.py` → `results_kernel_v0_2.json`):**
+Feld-parametrischer Kernel `_gfp_mv` (P ∈ {5,3}, ND ∈ {13,20}, block-
+aligniert auf Bonsai-128er-Blöcke mit fp16-Skalar je Block; uint32-Records
+als int32-View auf der GPU — High-Bit-Records (3^20−1 > 2^31) über Maske
+`& 0xFFFFFFFF` nach int64-Sign-Extend; mul-freie Digit-Akkumulation).
+Material: down_proj 5120×17408 (89,1 M Gewichte, real dequant):
+
+| Variante | Bytes/MV | ms | GB/s | max\|Δ\| vs f32 |
+|---|---|---|---|---|
+| dense bf16 | 178,3 | 0,609 | 292,5 | 0,0529 |
+| ptq10_u8 (Produktion) | 19,5 | 0,972 | 20,1 | 0,0529 |
+| **gf3_u32** | 20,9 | **0,240** | 87,2 | **0,0000** |
+| **gf5_u32** | 29,2 | **0,258** | 113,5 | **0,0000** |
+
+GF3 ist 4,1× / GF5 3,8× schneller als der produktive PTQ1_0-Matvec bei
+max|Δ| = 0,0000 — Verlustfreiheit end-to-end DURCH den Kernel bewiesen
+(f32-Partials statt bf16-Rundung; dense/ptq10 teilen sich den x-bf16-
+Rundungsfehler 0,0529). VRAM-Peak 0,57 GiB neben dem laufenden Server.
+
+## Stufe 2b — GF(2)-Kernel (XNOR/popcount, offen)
+
+GF(2) = BNN-Sign, 32 Digits/u32 (1,125 bit block-aligniert). Quantisierer
+und Pack sind in `gf5_llm_quantizer.py` (v0.2) geliefert inkl.
+GF2-Digit-Encoding-Fix: d = (q+1)//2 ∈ {0,1}, decode q = 2d−1 — direkt
+q+1 wäre {0,2} und KEIN gültiges Basis-2-Digit (Überlauf-Beweis in
+`scratches/ququint/kernel_debug.py`). Der mod-2-Decode ist kernel-seitig
+popcount/XOR-spezialisiert → eigenes Stufen-Thema, nicht Teil dieses
+Durchlaufs.
+
 ## Stufe 3 — Runtime-Integration
 
 - `gq5_matvec` analog `ptq10_matvec` als Ersatzlinear hinter dem
@@ -74,16 +103,26 @@ aus `gf5_quant.txt`, operationalisiert:
 
 ## Ehrliche Positionierung (aus dem Speicher-Layout abgeleitet)
 
-| Format | bit/Gewicht | 27B-Gewichte |
-|---|---|---|
-| Bonsai PTQ1_0 (heute) | 1,75 | 5,93 GB |
-| GF5/Ququint | 2,4615 | 8,32 GB |
-| INT4-sym | 4,0 (+Skalen) | ~13,5 GB |
+Bits/Gewicht: flat (global aligniert) vs block-aligniert auf Bonsai-128er-
+Blöcke (Pad + fp16-Skalar einkalkuliert); GB bei 25,05e9 ternär-gepackten
+U8-Gewichten (bits/8, Referenz-Basis der Konvertierung):
 
-GF5 gewinnt gegen INT4 (~40 %) und gegen BitNet-1.58-nominal in
-Präzision; gegenüber dem vorliegenden Bonsai-Format ist es ein
-Präzisions-Upgrade (±2-Outlier-Ebene, freie Sparsity), kein
-Speicher-Upgrade.
+| Format | flat | 128-block-aligniert | ≈ Gewichte-GB (aligniert) |
+|---|---|---|---|
+| Bonsai PTQ1_0 (heute) | 1,75 | 1,75 | 5,93 GB (Bestand) |
+| GF5/Ququint | 2,4615 | 2,625 | ≈ 8,2 GB |
+| GF3/Triquint | 1,60 | 1,875 | ≈ 5,9 GB |
+| GF2/BNN | 1,00 | 1,125 | ≈ 3,5 GB |
+| INT4-sym | 4,0 (+Skalen) | 4,125 | ≈ 12,9 GB |
+
+**Korrektur (2026-10-04):** block-aligniert auf 128er-Blöcke ist GF3
+(1,875 bit) KEIN VRAM-Gewinn gegen PTQ1_0 (1,75 bit) — das Align-Pad
+(12/140 Digits) frisst den flat-Vorteil (1,60). GF3s Nutzen ist der
+DECODE: gemessen 4,1× schneller als der produktive Kern bei exakter
+f32-Ausgabe. Ein echter VRAM-Gewinn entsteht erst bei größeren
+Skalar-Blöcken (256/512 → GF3 ~1,72/1,66 bit) oder bei GF2/BNN
+(1,125 bit, hoher Qualitätspreis, Kernel Stufe 2b). GF5 bleibt das
+Präzisions-Upgrade (±2-Outlier-Ebene, freie Sparsity).
 
 ## Risiken
 
