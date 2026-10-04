@@ -86,12 +86,38 @@ Durchlaufs.
 
 ## Stufe 3 — Runtime-Integration
 
+Geplant:
 - `gq5_matvec` analog `ptq10_matvec` als Ersatzlinear hinter dem
   ternary-Patch (Config-Flag), Fallback auf dense Predequant.
 - Converter: GGUF/HF-Packed → GF5-Repack (Superset-Pfad ist verlustfrei,
   s. o.); Skalen pro Block fp16 anhängen.
 - Server/Bridge-Flag (`px_quant: "gq5"`) um A/B gegen PTQ1_0 zu fahren
   (Perp/η²-Routinen aus `eval/runner_ternary.py` wiederverwenden).
+
+**Ergebnis (2026-10-04, GELIEFERT, Commits 2a058696 + a41dccda):** Umsetzung
+als GF(3)-Pfad (nicht GF5 — GF3 ist bit-treu zum ternären Bonsai-Material,
+max|Δ| = 0, und der schnellste Kernel):
+
+- `ququint_quant/repack_gf3.py`: Offline-Converter PTQ1_0-Artefakt →
+  GF(3)-Artefakt (Repack, kein Requant — Verlustfreiheit by construction).
+- `px_patches/ternary_bonsai_27b_px/gf3_quant.py`: Kernel-Runtime
+  (`build_and_load_gf3`, gepacktes lm_head) — ersetzt den PTQ1_0-Lauf als
+  Default (`config.py: weight_format: "gf3"`; Env-Override
+  `PX_WEIGHT_FORMAT=ptq10`).
+- `px_patches/ternary_bonsai_27b_px/long_context.py`: der eigentliche
+  Decode-Nutzen ausgespielt — KV-4bit-Cache + Chunked-Prefill
+  (`generate_long`): kv4 1,1 GiB @131k (bf16 wäre 8,0 GiB), Logits nur je
+  Chunk-Ende/Decode-Schritt, Streamer-Schnittstelle für SSE.
+- Server-Wiring (generators.py): non-stream `_generate_long_completion`
+  + Stream-Langpfad; Routing-Schwelle `_PX_LONGCTX_THRESHOLD = 3000`
+  (HF-Kurzpfad materialisiert vocab-breite Logits: T × 262144 × bf16 ≈
+  T/2 MiB — OOM ab ~4k Token auf 12 GiB); `_px_pre_generation_cache_flush`
+  vor jeder Generierung (CLAUDE.md-Konvention).
+
+Beweise: Preset-Matrix-Smoke grün; 9181-Tok-Streaming-Langpfad (SSE nach
+kv4-Chunked-Prefill, TTFB 208 s); CitMind-Dialog 5 Turns vollständig
+(relay L34, phi ≈ 0,99, px-Routing adaptiv je Turn, 0 OOM). A/B-Eval
+(Perp/η² GF3-vs-PTQ10 + η²-Tuning) bleibt offen (Stufe 4 / Task #9).
 
 ## Stufe 4 — Evaluation
 
