@@ -12,7 +12,7 @@ run_turn() { # $1 tag $2 message
   echo "=== CitMind turn $1 START $(date +%H:%M:%S) ==="
   "$PY" "$BRIDGE" --session "$S" --model ternary-bonsai-27b \
     --preset ACTIVE_MANIFOLD_RELAY --relay-sign 1 --relay-alpha 0.30 \
-    --thinking on --thinking-effort medium \
+    --relay-layer 34 --thinking on --thinking-effort medium \
     --max-tokens 448 --message "$2" > "$SCR/citmind_turn$1.log" 2>&1
   rc=$?
   echo "--- px metrics after turn $1: $(curl -sk https://localhost:7860/v1/px/metrics/ternary-bonsai-27b | head -c 400)" >> "$SCR/citmind_metrics.log"
