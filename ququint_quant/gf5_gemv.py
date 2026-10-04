@@ -98,26 +98,28 @@ def _gfp_mv(u_ptr, s_ptr, x_ptr, part_ptr, M, RB,
     c0 = cb * RC
     for i in range(RC):
         rr = c0 + i
-        if rr < RB:
-            # uint32-Bytes werden als int32-Zeiger übergeben; .to(int64)
-            # sign-extendet → Maske holt die unsigned Digit-Welt zurück
-            # (GF3-Digits erreichen 3^20−1 ≈ 3,49e9 > 2^31)
-            u = tl.load(u_ptr + rr * M + r, mask=rmask, other=0).to(tl.int64) & 0xFFFFFFFF
-            s = tl.load(s_ptr + (rr // RPB) * M + r, mask=rmask, other=0).to(tl.float32)
-            a2 = tl.zeros((BLOCK_R,), dtype=tl.float32)
-            uu = u
-            base = rr * ND
-            for k in tl.static_range(ND):
-                dv = uu % P
-                uu = uu // P
-                xc = tl.load(x_ptr + base + k)          # x ist vorgepadet
-                qv = dv - HALF                          # {−2..2} / {−1..1}
-                # mul-frei: Betrag (|q|=2 → x+x), Vorzeichen via Select
-                two = (qv == 2) | (qv == -2)
-                xs = tl.where(two, xc + xc, xc)
-                a2 += tl.where(qv > 0, xs,
-                               tl.where(qv < 0, -xs, 0.0))
-            acc += s * a2
+        # Mask-Guard statt Scalar-If: Records >= RB aus den Loads
+        # ausgeschlossen (kein OOB); s=0 neutralisiert ihren Beitrag
+        m2 = rmask & (rr < RB)
+        # uint32-Bytes werden als int32-Zeiger übergeben; .to(int64)
+        # sign-extendet → Maske holt die unsigned Digit-Welt zurück
+        # (GF3-Digits erreichen 3^20−1 ≈ 3,49e9 > 2^31)
+        u = tl.load(u_ptr + rr * M + r, mask=m2, other=0).to(tl.int64) & 0xFFFFFFFF
+        s = tl.load(s_ptr + (rr // RPB) * M + r, mask=m2, other=0).to(tl.float32)
+        a2 = tl.zeros((BLOCK_R,), dtype=tl.float32)
+        uu = u
+        base = rr * ND
+        for k in tl.static_range(ND):
+            dv = uu % P
+            uu = uu // P
+            xc = tl.load(x_ptr + base + k)          # x ist vorgepadet
+            qv = dv - HALF                          # {−2..2} / {−1..1}
+            # mul-frei: Betrag (|q|=2 → x+x), Vorzeichen via Select
+            two = (qv == 2) | (qv == -2)
+            xs = tl.where(two, xc + xc, xc)
+            a2 += tl.where(qv > 0, xs,
+                           tl.where(qv < 0, -xs, 0.0))
+        acc += s * a2
     tl.store(part_ptr + cb * M + r, acc, mask=rmask)
 
 

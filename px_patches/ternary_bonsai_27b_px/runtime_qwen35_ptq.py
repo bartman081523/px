@@ -146,6 +146,22 @@ _KERNEL_MMAX = 8            # decode/near-decode: Kernel; darueber: Dequant+GEMM
 _RESCUE_PRINT_MAX = 10
 _RESCUE_N = [0]
 
+# isfinite-Guard amortisiert: ein Pro-Call-Sync (.item) serialisiert 400+
+# Matvecs/Token und drosselt Decode auf <1 tok/s. Modi (Spiegel gf3_quant.py):
+#   "auto" (Default) — Logits-Kopf (head=True) prueft JEDE Ausgabe (der Sync
+#                      faellt beim Sampling ohnehin an), alle uebrigen
+#                      Kernel-Matvecs amortisiert alle _NANCHECK_EVERY Calls;
+#   "1"              — Pro-Call-Check wie frueher (Tests/Debug);
+#   "0"/"off"        — nie im Kernel-Pfad.
+if os.environ.get("PX_PTQ10_NANCHECK", "auto") == "1":
+    _NANCHECK_MODE = "percall"
+elif os.environ.get("PX_PTQ10_NANCHECK", "auto") in ("0", "off"):
+    _NANCHECK_MODE = "off"
+else:
+    _NANCHECK_MODE = "auto"
+_NANCHECK_EVERY = 256
+_CALL_N = [0]
+
 
 def _mv_dequant(packed, x2, in_shape):
     """Deterministischer Pfad: dequantisieren + GEMM (grosses M und Rescue).
@@ -163,7 +179,21 @@ def _mv_dequant(packed, x2, in_shape):
     return y.reshape(*in_shape[:-1], out)
 
 
-def ptq10_matvec(packed, x, BLOCK_R=32):
+def _nancheck_needed(head):
+    """Amortisierter Check-Trigger (Modi siehe Block oben): "percall" immer,
+    "off" nie, "auto": Logits-Kopf je Call, uebrige Kernel-Matvecs alle
+    _NANCHECK_EVERY Calls."""
+    if _NANCHECK_MODE == "percall":
+        return True
+    if _NANCHECK_MODE == "off":
+        return False
+    if head:
+        return True
+    _CALL_N[0] += 1
+    return _CALL_N[0] % _NANCHECK_EVERY == 0
+
+
+def ptq10_matvec(packed, x, BLOCK_R=32, head=False):
     """y = x @ W^T aus gepackten PTQ1_0-Bytes, ohne Gewichte-Materialisierung.
 
     Hybrid (gemessen): M<=_KERNEL_MMAX → Triton-Matvec (M=1: 16-20x schneller
@@ -177,13 +207,23 @@ def ptq10_matvec(packed, x, BLOCK_R=32):
     Rerun (transiente Launch-Anomalie, Bursts nach Trajektorie). Solche
     Ausgaben werden hier einmalig deterministisch per Dequant+GEMM gerettet:
     gleiche Gewichte, gleicher (bereits gefalteter) Input → korrekt, nicht
-    nur stabil. Gibt bf16 [.., out] zurueck.
+    nur stabil. Check amortisiert via _nancheck_needed (Logits-Kopf je Call,
+    Rest alle _NANCHECK_EVERY; Modus siehe Konstantenblock oben).
+    Gibt bf16 [.., out] zurueck.
     """
     in_shape = x.shape
     x2 = x.reshape(-1, in_shape[-1])
     M = x2.shape[0]
     if not _TRITON or M > _KERNEL_MMAX:
-        return _mv_dequant(packed, x2, in_shape)
+        y = _mv_dequant(packed, x2, in_shape)
+        if head and _NANCHECK_MODE != "off" and not bool(
+                torch.isfinite(y).all().item()):
+            _RESCUE_N[0] += 1
+            if _RESCUE_N[0] <= _RESCUE_PRINT_MAX:
+                print(f"[ptq10] deq-Kopf-Rescue #{_RESCUE_N[0]}: nichtfinite "
+                      f"Logits (out={out}) -> nan_to_num", flush=True)
+            y = torch.nan_to_num(y, nan=0.0, posinf=3.0e38, neginf=-3.0e38)
+        return y
     dev = x.device
     p5, p4 = _mv_pows(dev)
     out, nb = packed.shape[0], packed.shape[1]
@@ -199,11 +239,11 @@ def ptq10_matvec(packed, x, BLOCK_R=32):
         ys.append(part.sum(-1))
     y = ys[0] if len(ys) == 1 else torch.cat(ys, 0)
     y = y.reshape(*in_shape[:-1], out).to(torch.bfloat16)
-    if not bool(torch.isfinite(y).all().item()):
+    if _nancheck_needed(head) and not bool(torch.isfinite(y).all().item()):
         _RESCUE_N[0] += 1
         if _RESCUE_N[0] <= _RESCUE_PRINT_MAX:
             print(f"[ptq10] matvec-Rescue #{_RESCUE_N[0]}: nichtfinite Ausgabe "
-                  f"(out={out} nb={nb}) -> Dequant+GEMM", flush=True)
+                  f"(out={out} nb={nb} head={head}) -> Dequant+GEMM", flush=True)
         y = _mv_dequant(packed, x2.to(torch.bfloat16), in_shape)
     return y
 
@@ -265,6 +305,7 @@ class PTQ10Linear(nn.Module):
         self.fold = fold
         self.out_features, nb = packed.shape[0], packed.shape[1]
         self.in_features = nb * 128
+        self.head = False       # Logits-Kopf -> je-Call-isfinite (Modus auto)
         if predequant:
             self.weight = nn.Parameter(dequant_pack(packed).to(torch.bfloat16),
                                        requires_grad=False)
@@ -276,7 +317,7 @@ class PTQ10Linear(nn.Module):
         if self.packed is not None:
             if self.fold is not None:
                 x = self.fold(x)
-            y = ptq10_matvec(self.packed, x)      # Hybrid: Triton-Kernel (decode) / Dequant+GEMM (prefill)
+            y = ptq10_matvec(self.packed, x, head=self.head)   # Hybrid: Triton-Kernel (decode) / Dequant+GEMM (prefill)
             return y.to(x.dtype)
         x = self.fold(x) if self.fold is not None else x
         return F.linear(x, self.weight)
@@ -349,6 +390,7 @@ def build_and_load(fold, device="cuda", predequant=False, verbose=True, hf_dir=N
 
     model.model.embed_tokens = PTQ10Embedding(sd["model.embed_tokens.ternary"], fold.unfold)
     model.lm_head = PTQ10Linear(sd["lm_head.ternary"], fold)
+    model.lm_head.head = True
     model.model.norm.weight = nn.Parameter(sd["model.norm.weight"].to(device, dtype),
                                            requires_grad=False)
     sd = None                                                            # RAM freigeben

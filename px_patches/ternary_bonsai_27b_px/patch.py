@@ -122,11 +122,30 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
 
     layer_types = self.config.layer_types
 
+    # ── Cache-Write-Semantik: jeder Layer schreibt sein KV pro Forward GENAU ──
+    # EINMAL (erster Besuch = kanonischer Pass). Erneute Besuche — die CODA-
+    # Overlap-Layer [dynamic_end, recur_end), sobald das SR-64b-Routing das
+    # Fenster rueckwaerts in die Zone legt — laufen wie die Rekursion
+    # cache-entkoppelt (past=None). Ohne Guard waechst der KV-Cache der
+    # Overlap-Full-Attention-Layer doppelt pro Chunk; die aus dem ersten
+    # CacheLayerMixin gebaute Causal-Maske (full_attention-Mapping wird einmal
+    # je Forward geteilt) passt dann nicht mehr (k=6144 vs Maske 4096,
+    # sdpa-Dim-3-Crash im zweiten Praefill-Chunk). Symmetrisch abgedeckt ist
+    # auch ein nach vorn ueber recur_end hinausgeschobenes Fenster.
+    _kv_written = set()
+
     def run_layer(i, hs, past):
+        # Cache-entkoppelter Pass (Rekursion oder zweiter Besuch): die Schicht
+        # sieht nur den aktuellen Chunk -> auch die globale Causal-Maske
+        # (Laenge History+Chunk) darf hier nicht angewandt werden; mask=None
+        # ist identisch zur Chunk-1-Semantik der Rekursion.
+        decoupled = past is None or i in _kv_written
+        if past is not None and i in _kv_written:
+            past = None
         out = self.layers[i](
             hs,
             position_embeddings=position_embeddings,
-            attention_mask=causal_mask_mapping[layer_types[i]],
+            attention_mask=None if decoupled else causal_mask_mapping[layer_types[i]],
             position_ids=text_position_ids,
             past_key_values=past,
             use_cache=use_cache,
@@ -134,6 +153,8 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
         )
         if isinstance(out, (tuple, list)):
             out = out[0]
+        if past is not None:
+            _kv_written.add(i)
         return out
 
     cfg = self._px_config
@@ -247,6 +268,12 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
     phi_history = [phi_intuition]
     path_taken = []
     steps = 0
+    # Guard: kann die Zone nach den Clamps leer sein (dynamic_end <=
+    # dynamic_start), wird phi_s in der inneren Layer-Loop nie gebunden,
+    # der Coupler aber je Loop benutzt. Fallback = Intuition-Phi (genau
+    # der Wert, der dann auch in phi_history liegt); im Normalfall 27b
+    # (Zone 32..44) wird er im ersten Step wie zuvor überschrieben.
+    phi_s = phi_intuition
 
     # Skip recursion during autoregressive decoding (seq_len==1)
     if inputs_embeds.shape[1] == 1 or past_seen > 0:

@@ -207,8 +207,25 @@ class ModelManager:
                 _sys.path.insert(0, _pp_dir)
             import importlib
             _rt = importlib.import_module(f"{registry['patch_dir']}.runtime_qwen35_ptq")
-            model = _rt.build_and_load(
-                _rt.FoldOps(_rt.load_signs()[0], mode="signs_first"), hf_dir=hf_id)
+            _fold = _rt.FoldOps(_rt.load_signs()[0], mode="signs_first")
+            # Stufe-3e: GF(3)-Kernel-Runtime (Registry weight_format oder
+            # Env PX_WEIGHT_FORMAT). GF3-Artefakt == PTQ1_0 bit-treu im
+            # Level-Sinn (max|Δ| 0) → PX-Manifold/Presets unverändert;
+            # _px_long_ctx schaltet den KV-4bit-Long-Context-Pfad frei
+            # (generators.py routet lange Inputs an long_context.generate_long).
+            _w_fmt = _os.environ.get("PX_WEIGHT_FORMAT") or \
+                registry.get("weight_format", "ptq10")
+            if _w_fmt == "gf3":
+                _gf3 = importlib.import_module(f"{registry['patch_dir']}.gf3_quant")
+                model = _gf3.build_and_load_gf3(_fold, hf_dir=hf_id)
+                print(f"[ModelManager] {model_id} weight_format=gf3 "
+                      f"(GF(3)-Kernel-Runtime, Stufe 3)")
+            elif _w_fmt == "ptq10":
+                model = _rt.build_and_load(_fold, hf_dir=hf_id)
+            else:
+                raise ValueError(
+                    f"unbekanntes PX_WEIGHT_FORMAT: {_w_fmt!r} "
+                    "(erlaubt: 'gf3', 'ptq10')")
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 hf_id,

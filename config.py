@@ -110,14 +110,22 @@ MODEL_REGISTRY = {
     },
 
     # ── Ternary-Bonsai-2-27B (PTQ1_0 ternary, GGUF→HF, qwen3.5 hybrid) ──
+    # Stufe-3-Fusion (2026-10-04): GF(3)-Kernel-Runtime als
+    # Default-Gewichtsformat (weight_format="gf3", lossless gegen PTQ1_0,
+    # max|Δ| = 0 — Stufe-2-Bench + Repack-Verify). Der Long-Context-Pfad
+    # (KV-4bit-Cache + Chunked-Prefill, long_context.generate_long) ist
+    # nur im GF3-Lauf freigeschaltet (_px_long_ctx) und trägt Kontexte
+    # bis max_length: kv4 = 1,11 GiB @131k (bf16 wäre 8,0 GiB).
+    # Env-Override zum alten PTQ10-Lauf: PX_WEIGHT_FORMAT=ptq10.
     "ternary-bonsai-27b": {
         "hf_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
         "tokenizer_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
         "patch_dir": "ternary_bonsai_27b_px",
         "patch_kwargs": {"routing_mode": "adaptive"},
         "model_type": "qwen35_ptq",
+        "weight_format": "gf3",
         "dtype": "bfloat16",
-        "max_length": 4096,
+        "max_length": 131072,
     },
 }
 

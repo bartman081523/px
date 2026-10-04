@@ -232,7 +232,19 @@ def _px_gen_kwargs(model, base: dict) -> dict:
     if base.get("use_cache") is None:
         input_len = base.get("_input_len", 0)
         is_small_model = _is_small_model(model)
-        if not is_small_model and input_len > _LONG_INPUT_THRESHOLD:
+        if _is_long_ctx_capable(model) and input_len > _PX_LONGCTX_THRESHOLD:
+            # Stufe-3e: GF(3)-Lauf (qwen35_ptq, build_and_load_gf3 setzt
+            # _px_long_ctx) → long_context.generate_long (KV-4bit-Cache +
+            # Chunked-Prefill + eigene Decode-Loop). Muss VOR dem
+            # 4b-chunked-Dispatch greifen — chunked_generate aus
+            # scratches/4b-image ist gemma3-geometrisch gebaut und würde
+            # die qwen3.5-GDN/Cache-Semantik verletzen.
+            base["_px_use_long_ctx"] = True
+            import sys as _sys
+            print(f"[generate] long-context Pfad (T={input_len} > "
+                  f"{_PX_LONGCTX_THRESHOLD}, GF(3)-Lauf → KV-4bit-Cache + "
+                  f"chunked prefill)", file=_sys.stderr)
+        elif not is_small_model and input_len > _LONG_INPUT_THRESHOLD:
             base["_px_use_chunked_prefill"] = True
             import sys as _sys
             print(f"[generate] auto chunked_prefill (input_len={input_len} > "
@@ -259,6 +271,16 @@ def _px_gen_kwargs(model, base: dict) -> dict:
 #   Fallback für extreme Längen (>8800) erhalten.
 # Quelle: scratches/4b-image/profile_threshold_sweep_results.json
 _LONG_INPUT_THRESHOLD = 8800
+
+# Stufe 3g: Der GF(3)-Lauf (qwen35_ptq, 262k-Vocab) materialisiert im
+# HF-Short-Pfad beim Prefill VOCAB-BREITE Logits: T × 262144 × bf16
+# ≈ T/2 MiB. CitMind-Systemprompt ≈ 4.2k Token → 2.2 GiB allein; mit
+# Modell (5.9 GiB) + Prefill-Aktivierungen passt das nicht mehr in 12 GiB
+# (beobachtet: OOM bei 428 MiB Rest, 10.72 GiB live). Der long_context
+# -Pfad rechnet Logits nur je Chunk-Ende/Decode-Schritt und ist deshalb
+# der speichersichere Weg — also für ternary ein deutlich tieferer
+# Schwellwert als der (gemma3-4b-tunierte) globale 8800.
+_PX_LONGCTX_THRESHOLD = 3000
 
 
 def _is_small_model(model) -> bool:
@@ -330,6 +352,66 @@ def _inject_eot_eos(base: dict, tokenizer) -> dict:
         base["pad_token_id"] = eos_ids[0]
         
     return base
+
+
+def _is_long_ctx_capable(model) -> bool:
+    """Stufe-3e: True wenn der Lauf _px_long_ctx trägt (GF(3)-Runtime)."""
+    return bool(_find_px_attr(model, "_px_long_ctx", default=False))
+
+
+def _px_pre_generation_cache_flush(model):
+    """Konvention (CLAUDE.md): Cache vor jeder Generierung leeren.
+
+    Wichtig beim GF(3)-Lauf: sein Langpfad hinterlässt große
+    Allocator-Blöcke (kv4-Prefill-Workspace); ohne Flush startet der
+    nächste Request mit fast vollem VRAM und stößt evtl. an die 12-GiB
+    -Marke (beobachtet: OOM bei CitMind-Turn-1 nach einem 9.2k-Langlauf).
+    """
+    if _is_long_ctx_capable(model) and torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+
+def _import_long_context():
+    """px_patches.ternary_bonsai_27b_px.long_context laden (Root im Pfad)."""
+    from px_patches.ternary_bonsai_27b_px.long_context import generate_long
+    return generate_long
+
+
+def _generate_long_completion(model, input_ids, tokenizer, gen_kwargs,
+                              input_len, stop=None, max_total_seq=None,
+                              verbose=False):
+    """Stufe-3e: Non-Stream-Long-Context-Completion (GF(3)-Lauf).
+
+    Übersetzt model.generate-Welt-Kwargs in long_context.generate_long-Args
+    und formatiert identisch zu generate_chat_completion zurück (Text +
+    Token-Zählung; Stop-Strings als Post-Trim, HF-Parität).
+    """
+    generate_long = _import_long_context()
+    g = dict(gen_kwargs)
+    gen_kwargs.clear()
+    eos_field = g.pop("eos_token_id", None) or []
+    if isinstance(eos_field, int):
+        eos_field = [eos_field]
+    for k in ("stop_strings", "tokenizer", "stopping_criteria",
+              "_px_use_chunked_prefill", "use_cache", "pad_token_id"):
+        g.pop(k, None)
+    g.setdefault("top_k", 0)     # HF-Parität: server setzt nur top_p
+    res = generate_long(model, input_ids, streamer=None,
+                        eos_token_ids=tuple(eos_field),
+                        max_total_seq=max_total_seq, verbose=verbose, **g)
+    new_tokens = res["generated"][0]
+    text = tokenizer.decode(new_tokens, skip_special_tokens=True)
+    if stop:
+        stop_list = stop if isinstance(stop, list) else [stop]
+        for s in stop_list:
+            idx = text.find(s)
+            if idx >= 0:
+                text = text[:idx]
+    return {
+        "text": text,
+        "prompt_tokens": input_len,
+        "completion_tokens": len(new_tokens),
+    }
 
 
 def _make_chunk(
@@ -457,7 +539,20 @@ async def generate_chat_completion(
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
+    # Konvention (CLAUDE.md): Cache vor jeder Generierung leeren — beim
+    # GF(3)-Lauf zwingend, sonst OOM im Folge-Request nach einem Langlauf.
+    _px_pre_generation_cache_flush(model)
+
     with torch.no_grad():
+        # Stufe-3e: GF(3)-Lauf + langer Input → long_context.generate_long
+        # (hat keinen Multimodal-Input; qwen35_ptq hat processor=None, d.h.
+        # Bild-Anfragen wurden vorab mit 400 abgewiesen).
+        if gen_kwargs.pop("_px_use_long_ctx", False):
+            return _generate_long_completion(
+                model, inputs["input_ids"], tokenizer, gen_kwargs, input_len,
+                stop=stop,
+                max_total_seq=model_entry.get("registry", {}).get("max_length"),
+                verbose=True)
         use_chunked = gen_kwargs.pop("_px_use_chunked_prefill", False)
         # Plan 4: chunked-vision-encoder liefert pre-merged inputs_embeds.
         # In diesem Fall MUSS chunked_generate laufen (sonst kriegt das
@@ -588,6 +683,10 @@ async def generate_chat_completion_stream(
         inputs = strip_unsupported_model_kwargs(model, inputs)
     input_len = inputs["input_ids"].shape[1]
 
+    # Konvention (CLAUDE.md): Cache vor jeder Generierung leeren — beim
+    # GF(3)-Lauf zwingend, sonst OOM im Folge-Request nach einem Langlauf.
+    _px_pre_generation_cache_flush(model)
+
     # Setup streamer
     streamer = TextIteratorStreamer(
         tokenizer, skip_prompt=True, skip_special_tokens=True
@@ -616,9 +715,56 @@ async def generate_chat_completion_stream(
     # mit Streamer statt model.generate (10x schneller als use_cache=False).
     # Multimodal + chunked: aktuell nicht unterstützt (Vision-Token-Position
     # ist nicht in erstem Chunk garantiert). Fallback use_cache=False.
+    use_long_stream = gen_kwargs.pop("_px_use_long_ctx", False)
     use_chunked_stream = gen_kwargs.pop("_px_use_chunked_prefill", False)
     is_multimodal = inputs.get("pixel_values") is not None
-    if use_chunked_stream and is_multimodal:
+    if use_long_stream and not is_multimodal:
+        # Stufe-3e: GF(3)-Lauf → long_context.generate_long mit Streamer
+        # (decode_loop pusht je Token in den TextIteratorStreamer;
+        # stop_strings werden nicht beachtet — der 4b-chunked-Stream-Pfad
+        # verhält sich genauso, Post-Trim übernimmt der Bridge-Consumer).
+        generate_long = _import_long_context()
+        g = dict(gen_kwargs)
+        # Doppel-Arg vermeiden: Im Stream-Pfad ist gen_kwargs ein
+        # dict(**inputs, ...) (model.generate-Welt), generate_long bekommt
+        # input_ids/streamer/max_new_tokens aber explizit. Ohne Pop: TypeError
+        # "got multiple values for keyword argument 'streamer'/'input_ids'".
+        g.pop("max_new_tokens", None)
+        g.pop("streamer", None)
+        g.pop("input_ids", None)
+        for tensor_key in ("attention_mask", "token_type_ids",
+                           "inputs_embeds"):
+            g.pop(tensor_key, None)
+        # Same Junk-Übersetzung wie _generate_long_completion (HF-Parität).
+        for junk in ("stop_strings", "tokenizer", "stopping_criteria",
+                     "_px_use_chunked_prefill", "use_cache", "pad_token_id",
+                     "_input_len"):
+            g.pop(junk, None)
+        g.setdefault("top_k", 0)     # HF-Parität: server setzt nur top_p
+        eos_field = g.get("eos_token_id", [])
+        if isinstance(eos_field, int):
+            eos_field = [eos_field]
+        registry_max = model_entry.get("registry", {}).get("max_length")
+
+        def _long_worker():
+            try:
+                generate_long(model, inputs["input_ids"],
+                              max_new_tokens=max_tokens,
+                              streamer=streamer,
+                              eos_token_ids=tuple(eos_field),
+                              max_total_seq=registry_max,
+                              verbose=True, **g)
+            except Exception:
+                import traceback as _tb
+                _tb.print_exc()
+                try:
+                    streamer.end()
+                except Exception:
+                    pass
+
+        thread = Thread(target=_long_worker)
+        thread.start()
+    elif use_chunked_stream and is_multimodal:
         gen_kwargs["use_cache"] = False
         import sys as _sys
         print(f"[generate_stream] multimodal + long context (T={input_len})"
