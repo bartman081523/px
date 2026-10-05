@@ -1,9 +1,14 @@
 """Smoke-Test: Chat-Tab verwendet gr.MultimodalTextbox (Bild-Upload).
 
 Verifiziert, dass die zentrale Chat-Input-Komponente in build_chat_tab
-ein MultimodalTextbox ist (file_types=["image"], file_count="multiple")
-und nicht mehr ein simples gr.Textbox. Reine Source-Inspektion — kein
-Gradio-Start nötig, damit der Test schnell und headless läuft.
+ein MultimodalTextbox ist (file_types=["image", ".txt"],
+file_count="multiple") und nicht mehr ein simples gr.Textbox. Reine
+Source-Inspektion — kein Gradio-Start nötig, damit der Test schnell und
+headless läuft.
+
+Plan 2026-10-05 (User-Request): ".txt"-Anhänge im Chat. Der Adapter
+(multimodal_input._file_block) inlined Text-Dateien längst als
+```txt-Textblock; der File-Picker-Filter hat sie nur nie zugelassen.
 """
 import ast
 import os
@@ -38,6 +43,24 @@ def test_chat_tab_imports_multimodal_helpers():
     assert "_normalize_history_for_chatbot" in src
 
 
+def _multimodal_file_types(tree):
+    """Extrahiert das file_types-Kwarg-Literal aus dem gr.MultimodalTextbox-
+    Call in build_chat_tab (AST), oder None."""
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        attr = node.func
+        if (isinstance(attr, ast.Attribute) and attr.attr == "MultimodalTextbox"):
+            for kw in node.keywords:
+                if kw.arg == "file_types" and isinstance(kw.value, (ast.List, ast.Tuple)):
+                    return [
+                        elt.value for elt in kw.value.elts
+                        if isinstance(elt, ast.Constant)
+                        and isinstance(elt.value, str)
+                    ]
+    return None
+
+
 def test_chat_tab_uses_multimodaltextbox():
     """build_chat_tab nutzt gr.MultimodalTextbox — nicht gr.Textbox
     für den user_message-Input."""
@@ -53,6 +76,17 @@ def test_chat_tab_uses_multimodaltextbox():
             found_image_filetypes = True
     assert found_multimodal, "gr.MultimodalTextbox nicht gefunden in chat_tab.py"
     assert found_image_filetypes, "'image' file_types-String nicht in chat_tab.py"
+
+
+def test_chat_tab_file_types_include_txt():
+    """Plan 2026-10-05: .txt im file_types-Literal des MultimodalTextbox-
+    Calls — der Adapter inline't sie schon (test_multimodal_input.
+    test_text_file_inlined), der Picker muss sie nur zulassen."""
+    tree = _load_chat_tab_module()
+    types = _multimodal_file_types(tree)
+    assert types is not None, "MultimodalTextbox-Call ohne file_types-Literal"
+    assert "image" in types, f"'image' fehlt: {types}"
+    assert ".txt" in types, f"'.txt' fehlt (User-Request TXT-Anhänge): {types}"
 
 
 def test_chat_tab_normalizes_user_message():

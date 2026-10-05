@@ -936,13 +936,18 @@ def build_chat_tab(manager: ModelManager):
         # content-list mit text+image-Blöcken konvertiert. Server-Side
         # (streaming_bridge._build_image_data_url, generators._extract_images,
         # schemas) ist bereits da; nur die UI fehlte.
+        # Plan 2026-10-05: "+ TXT anhängen" (User-Request) — der Adapter
+        # (multimodal_input._file_block) inlined Text-Dateien (.txt, plus
+        # md/py/json/csv/log/… via TEXT_EXTS) längst als ```txt-Textblock
+        # (64-KiB-Cap); es fehlte nur der File-Picker-Filter. Gradio 6.15.2
+        # dokumentiert gemischte Kategorien+Extensions ('image', '.json').
         msg_input = gr.MultimodalTextbox(
-            placeholder="Type a message, or attach an image…",
+            placeholder="Type a message, or attach an image or .txt file…",
             show_label=False,
             scale=9,
             container=False,
             file_count="multiple",
-            file_types=["image"],
+            file_types=["image", ".txt"],
         )
         submit_btn = gr.Button("Send", scale=1, variant="primary")
 
