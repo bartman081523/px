@@ -578,10 +578,26 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     )
 
     # Inject EOS/EOT and PX-specific kwargs (SR-61b: StopOnEOT criteria)
+    # Plan 2026-10-05 (Live-Crash nach TXT-Anhang): `_input_len` an
+    # `_px_gen_kwargs` übergeben — wie in allen generators-Pfaden
+    # (generate/generate_stream/_generate_long_completion). Vorher lief der
+    # UI-Chat IMMER den HF-Short-Pfad (model.generate) und starb im
+    # SDPA-math-Backend (O(n²)-Score-Matrix) bei langen Prompts. KEIN
+    # Token-Cap (globale User-Regel): KV-4Bit-Cache + Chunked-Prefill
+    # fangen lange Kontexte, OOM-Guard hält den Server am Leben.
+    use_long_stream = False
+    use_chunked_stream = False
+    oom_error = None
     try:
         from generators import _px_gen_kwargs, _inject_eot_eos, strip_unsupported_model_kwargs
+        gen_kwargs["_input_len"] = int(inputs["input_ids"].shape[1])
         gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
         gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+        # Marker-Pops wie im Server-Stream-Pfad: die Marker sind
+        # generate()-fremd (ValueError in _validate_model_kwargs) und
+        # schalten auf die Lang-Kontext-Worker um.
+        use_long_stream = gen_kwargs.pop("_px_use_long_ctx", False)
+        use_chunked_stream = gen_kwargs.pop("_px_use_chunked_prefill", False)
         # Plan 7.2 / Live-Crash 2026-06-30: Llama-Pfade (z.B. MiniCPM5-1B)
         # lehnen `token_type_ids` ab, das der Tokenizer fälschlich setzt.
         # model.generate() validiert VOR dem ersten forward → muss hier
@@ -590,14 +606,119 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     except ImportError:
         pass
 
+    def _run_long_stream():
+        nonlocal oom_error
+        from generators import _import_long_context
+        g = _long_ctx_generate_kwargs(gen_kwargs)
+        eos_field = g.get("eos_token_id", [])
+        if isinstance(eos_field, int):
+            eos_field = [eos_field]
+        registry_max = model_entry.get("registry", {}).get("max_length")
+        try:
+            generate_long = _import_long_context()
+            generate_long(model, inputs["input_ids"],
+                          max_new_tokens=int(mt),
+                          streamer=streamer,
+                          eos_token_ids=tuple(eos_field),
+                          max_total_seq=registry_max,
+                          verbose=True, **g)
+        except Exception as _exc:
+            # Server-Parität (generators._long_worker): Stream sauber
+            # beenden statt crash_handler zu triggern; OOM zusätzlich
+            # anzeigen (Chat-Note, s.u.).
+            import traceback as _tb
+            _tb.print_exc()
+            if _is_cuda_oom(_exc):
+                oom_error = _exc
+            try:
+                streamer.end()
+            except Exception:
+                pass
+
+    def _run_chunked_stream():
+        nonlocal oom_error
+        # Server-Parität (generators: scratches/4b-image chunked_generate,
+        # gemma3-4b — 10x schneller als use_cache=False).
+        try:
+            from chunked_prefill import chunked_generate as _chunked_generate
+        except ImportError:
+            import sys as _sys
+            _SCRATCHES = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                "scratches", "4b-image",
+            )
+            if _SCRATCHES not in _sys.path:
+                _sys.path.insert(0, _SCRATCHES)
+            from chunked_prefill import chunked_generate as _chunked_generate
+        eos_field = gen_kwargs.pop("eos_token_id", None)
+        if isinstance(eos_field, list):
+            eos_id = eos_field[0] if eos_field else None
+        elif isinstance(eos_field, int):
+            eos_id = eos_field
+        else:
+            eos_id = tokenizer.eos_token_id
+        do_sample = gen_kwargs.get("do_sample", False)
+        try:
+            _chunked_generate(
+                model,
+                inputs["input_ids"],
+                max_new_tokens=int(mt),
+                do_sample=do_sample,
+                eos_token_id=eos_id,
+                streamer=streamer,
+                pixel_values=inputs.get("pixel_values"),
+                **({"token_type_ids": inputs["token_type_ids"]} if inputs.get("token_type_ids") is not None else {}),
+            )
+        except Exception as _exc:
+            import traceback as _tb
+            _tb.print_exc()
+            if _is_cuda_oom(_exc):
+                oom_error = _exc
+            try:
+                streamer.end()
+            except Exception:
+                pass
+
     def generate_with_lock():
-        import torch
+        nonlocal oom_error
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
         manager.lock_model(model_id)
         try:
-            model.generate(**gen_kwargs)
+            # Server-Parität: multimodal = pixel_values (inputs), NICHT
+            # has_images (UI-Content-Shapes) — im UI-Chat sind pixel_values
+            # aktuell immer None (tokenizer-Pfad), Bilder gehen als Text.
+            is_multimodal_inputs = inputs.get("pixel_values") is not None
+            if use_long_stream and not is_multimodal_inputs:
+                _run_long_stream()
+            elif use_chunked_stream and is_multimodal_inputs:
+                gen_kwargs["use_cache"] = False
+                print(f"[chat_tab] multimodal + long context "
+                      f"(T={inputs['input_ids'].shape[1]}) → use_cache=False "
+                      f"Fallback (kein chunked+vision)", flush=True)
+                model.generate(**gen_kwargs)
+            elif use_chunked_stream:
+                _run_chunked_stream()
+            else:
+                try:
+                    model.generate(**gen_kwargs)
+                except Exception as _exc:
+                    # OOM-Guard (Live-Crash 2026-10-05): ein CUDA-OOM darf
+                    # den Server NICHT killen (crash_handler/threading-
+                    # excepthook hatte den Prozess terminiert). Andere
+                    # Fehler propagieren unverändert (Crash-Policy).
+                    if not _is_cuda_oom(_exc):
+                        raise
+                    oom_error = _exc
+                    try:
+                        streamer.end()
+                    except Exception:
+                        pass
         finally:
+            # KV-4Bit-Prefill hinterlässt große Allocator-Blöcke
+            # (generators._px_pre_generation_cache_flush-Analogon).
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
             manager.unlock_model(model_id)
 
     thread = Thread(target=generate_with_lock)
@@ -619,9 +740,73 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         px_metrics=px_metrics
     )
 
+    # Plan 2026-10-05 (OOM nach TXT-Anhang): sichtbare Diagnose im Chat.
+    # Die Note wird NICHT in die Session persistiert (kein Modell-Output —
+    # sie würde sonst im nächsten Kontext wieder auftauchen): nur die
+    # Chatbot-Anzeige (display_text) bekommt sie, save_session schreibt
+    # den reinen Modell-Output.
+    display_text = partial_text
+    if oom_error is not None:
+        print(f"[chat_tab] OOM-Guard: Generierung abgebrochen, Server läuft "
+              f"weiter (prompt={inputs['input_ids'].shape[1]} Token)",
+              flush=True)
+        display_text = partial_text + _oom_note_text(
+            int(inputs["input_ids"].shape[1]))
+        yield display_text
+
     # 5. Save session on completion (Plan 2026-10-05: + komplette Einstellung)
     full_history = messages + [{"role": "assistant", "content": partial_text}]
     save_session(session_id, full_history, model_id=model_id, settings=chat_settings)
+
+
+# ── Lang-Kontext-Dispatch-Helper (Plan 2026-10-05, OOM nach TXT-Anhang) ──
+# Bewusst NACH chat_fn und als echte Funktionen (keine Closures) — für
+# tests/test_chat_long_ctx_dispatch.py runtime-testbar ohne GPU. Die
+# Übersetzung folgt exakt generators.stream_chat_completion (_long_worker,
+# Stufe-3e): model.generate-Welt → long_context.generate_long-Welt.
+
+def _long_ctx_generate_kwargs(gen_kwargs):
+    """generate_long-kwargs aus model.generate-kwargs ableiten.
+
+    Doppel-Args vermeiden (input_ids/streamer/max_new_tokens werden von
+    _run_long_stream explizit übergeben), Tensor-Keys + HF-Generation-Junk
+    wegwerfen (decode_loop kennt sie nicht), top_k default 0 (HF-Parität:
+    UI setzt nur top_p; Temperature 1e-10 macht multinomial ohnehin greedy).
+    generate_long filtert sample_cfg selbst — do_sample & Co. dürfen
+    durchgelassen werden (werden mit verbose-Hinweis gedroppt).
+    """
+    g = dict(gen_kwargs)
+    g.pop("max_new_tokens", None)
+    g.pop("streamer", None)
+    g.pop("input_ids", None)
+    for tensor_key in ("attention_mask", "token_type_ids", "inputs_embeds"):
+        g.pop(tensor_key, None)
+    for junk in ("stop_strings", "tokenizer", "stopping_criteria",
+                 "_px_use_chunked_prefill", "_px_use_long_ctx",
+                 "use_cache", "pad_token_id", "_input_len"):
+        g.pop(junk, None)
+    g.setdefault("top_k", 0)
+    return g
+
+
+def _is_cuda_oom(exc):
+    """True für CUDA-OutOfMemory (torch ≥ 2.5: OutOfMemoryError-Klasse;
+    älter: RuntimeError mit 'out of memory' im Text)."""
+    _oom_cls = getattr(torch, "OutOfMemoryError", None)
+    if _oom_cls is not None and isinstance(exc, _oom_cls):
+        return True
+    return isinstance(exc, RuntimeError) and "out of memory" in str(exc).lower()
+
+
+def _oom_note_text(prompt_tokens):
+    """Sichtbare OOM-Diagnose im Chat (NICHT in die Session persistiert —
+    kein Modell-Output, sie würde sonst im nächsten Kontext auftauchen)."""
+    return (
+        "\n\n⚠️ CUDA OOM: Generierung abgebrochen "
+        f"(Prompt: {prompt_tokens} Token) — der Server läuft weiter. "
+        "Hinweis: nicht benötigte Modelle im Modell-Tab entladen, "
+        "um VRAM freizugeben."
+    )
 
 
 # ── Thinking-Template-Kontext (Phase 3, 2026-10-05) ─────────────────────
