@@ -15,8 +15,9 @@ SESSION_DIR = "sessions"
 
 # ── Settings-Defaults ────────────────────────────────────────────────────
 # Plan ui-styling, 2026-07-06, "Einstellungen-Tab + Persistenz".
-# Diese 13 Felder werden in jedem session.json unter dem key "settings"
-# persistiert. Bewusst NICHT enthalten: tts_engine / tts_sample_rate /
+# Diese 15 Felder werden in jedem session.json unter dem key "settings"
+# persistiert (13 klassische + thinking/thinking_effort, Phase 3
+# 2026-10-05). Bewusst NICHT enthalten: tts_engine / tts_sample_rate /
 # tts_auto — die waren auf wip-tts migriert, gehören aber NICHT in den
 # aktuellen Einstellungen-Tab (Out-of-Scope). Siehe Plan-Doc.
 SETTINGS_DEFAULTS: Dict[str, Any] = {
@@ -28,6 +29,13 @@ SETTINGS_DEFAULTS: Dict[str, Any] = {
     "max_tokens": 1024,
     "rep_p": 1.15,
     "px_gamma": 0.08,
+    # Phase 3 (2026-10-05): Thinking-Steuerung. Diese beiden GLOBAL-Defaults
+    # sind nur der Fallback für settings-lose/partial-Restores — die per-
+    # Modell-Template-Defaults (gemma4 aus, bonsai an + effort xhigh) liegen
+    # in gradio_tabs/px_defaults.get_thinking_defaults und schlagen hier.
+    # thinking_effort=None = "kein Budget-Parameter am Modell".
+    "thinking": False,
+    "thinking_effort": None,
     "relay_sign": 0,
     "relay_alpha": 0.30,
     "relay_layer": 21,

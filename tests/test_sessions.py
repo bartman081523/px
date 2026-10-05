@@ -36,21 +36,24 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class TestSettingsDefaults(unittest.TestCase):
-    """SETTINGS_DEFAULTS ist importierbar + hat 13 erwartete Keys."""
+    """SETTINGS_DEFAULTS ist importierbar + hat 15 erwartete Keys."""
 
     def test_settings_defaults_exists(self):
         """SETTINGS_DEFAULTS Konstante ist in sessions.py definiert."""
         from sessions import SETTINGS_DEFAULTS
         self.assertIsInstance(SETTINGS_DEFAULTS, dict)
-        # Mindestens die 13 Settings müssen da sein
+        # Mindestens die 15 Settings müssen da sein (Phase 3: + thinking +
+        # thinking_effort — globale Fallbacks, per-Model-Template-Defaults
+        # schlagen diese)
         expected_keys = {
             "model_id", "px_preset", "auto_tune",
             "temperature", "top_p", "max_tokens", "rep_p", "px_gamma",
+            "thinking", "thinking_effort",
             "relay_sign", "relay_alpha", "relay_layer",
             "system_profile", "system_prompt_text",
         }
         self.assertEqual(set(SETTINGS_DEFAULTS.keys()), expected_keys,
-            f"Erwartete 13 Keys, gefunden {len(SETTINGS_DEFAULTS)}")
+            f"Erwartete 15 Keys, gefunden {len(SETTINGS_DEFAULTS)}")
 
     def test_settings_defaults_excludes_tts(self):
         """SETTINGS_DEFAULTS enthält KEINE tts_* Felder (Out-of-Scope dieses Plans)."""

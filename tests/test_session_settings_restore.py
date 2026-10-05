@@ -7,7 +7,7 @@ wenden automatisch die per-Model-Defaults an (Injektions-Layer inkl.
 Slider-Bounds, sign, alpha, px_gamma).
 
 Pinnt:
-  R1:   restore ohne Session/settings → 12 no-op updates
+  R1:   restore ohne Session/settings → 14 no-op updates
   R2:   restore voller Settings (Roundtrip via settings_from_widgets) —
         Reihenfolge = SETTINGS_WIDGET_FIELDS, auto_tune=False → nicht
         gelockt
@@ -19,18 +19,32 @@ Pinnt:
         on_profile_change_load_body konsumiert → gr.skip(); danach normal
   R5b:  gleiches Profil → KEIN Token (kein .change-Feuering → kein Leak)
   R6:   apply_px_defaults Suppress-Regel (settings matchen model+preset →
-        4 no-ops, KEIN persist von Relay-Feldern)
+        6 no-ops, KEIN persist von Relay/Thinking-Feldern)
   R7:   apply_px_defaults: gemma3-1b-it → Artifact-Layer 21 / max 26 /
-        sign 1 / alpha 0.30 / gamma 0.12 + persist
-  R8:   apply_px_defaults: minicpm5-1b → 4 no-ops; persist NICHTS Relay-
+        sign 1 / alpha 0.30 / gamma 0.12 + Thinking-Widgets versteckt
+        (gemma3 nicht thinking-capable, Phase 3)
+  R8:   apply_px_defaults: minicpm5-1b → no-ops; persist NICHTS Relay-
         Feldes (relay nicht verfügbar)
-  R9:   apply_px_defaults: unbekannte model_id → 4 no-ops + persist model/preset
+  R9:   apply_px_defaults: unbekannte model_id → no-ops + Thinking hidden
+        + persist model/preset
   R10:  chat_fn-Source-Pins: settings_from_widgets + 2× settings=chat_settings
         + strip-before-generate-Reihenfolge unangetastet
   R11:  build_chat_tab-Source-Pins: apply_px_defaults auf .input (beide
         Owner), restore_session_settings in beiden .then-Chains
-  R12:  app.py-Source-Pins: 16er demo.load (inputs incl. system_profile)
-  R13:  on_load → 16-Tupel; frische Session → 12 no-op updates
+  R12:  app.py-Source-Pins: 18er demo.load (inputs incl. system_profile)
+  R13:  on_load → 18-Tupel; frische Session → 14 no-op updates
+  R14:  restore bonsai LEGACY-partial (keine Thinking-Keys) → Modell-
+        Template-Defaults (True + xhigh) + choices
+  R15:  restore bonsai stored thinking=False → False (stored schlägt
+        Template-Default)
+  R16:  restore bonsai stored thinking_effort="medium" → medium
+  R17:  restore bonsai stored thinking_effort="bogus" → Template-Default
+        xhigh (kein invalid-value-Rendering)
+  R18:  restore gemma4 → Checkbox False/visible, effort-Radio versteckt
+        (kein Budget-Parameter im installierten Stack)
+  R19:  restore nicht-capable (gemma3) mit stale thinking-Junk aus einem
+        bonsai-Chat → beides visible=False OHNE value (Junk rutscht
+        nicht ins UI)
 
 Gr.update-shape: je nach Test-Reihenfolge kann das Modul unter dem
 _MockSentinel-Patch aus test_chat_handlers laufen (gleicher pytest-Prozess)
@@ -104,22 +118,22 @@ def _clean_state():
 
 # --- R1: No-op-Restore ---------------------------------------------------
 
-def test_r1_unknown_session_gives_12_noops():
-    """R1: Session-Datei fehlt → 12 no-op updates (kein Reset auf Defaults)."""
+def test_r1_unknown_session_gives_14_noops():
+    """R1: Session-Datei fehlt → 14 no-op updates (kein Reset auf Defaults)."""
     updates = restore_session_settings("r1_nosuch_session", "neutral")
-    assert len(updates) == 12
+    assert len(updates) == 14
     for u in updates:
         assert is_noop(u), upd_kwargs(u)
 
 
-def test_r1b_empty_settings_gives_12_noops():
+def test_r1b_empty_settings_gives_14_noops():
     """R1b: settings={} (legacy-Kompatibilitäts-Pfad) → ebenso no-op."""
     sid = "r1b_empty"
     _wipe([sid])
     try:
         save_session(sid, [], settings={})
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 12
+        assert len(updates) == 14
         for u in updates:
             assert is_noop(u), upd_kwargs(u)
     finally:
@@ -129,8 +143,10 @@ def test_r1b_empty_settings_gives_12_noops():
 # --- R2/R3: Werte-Restore + auto_tune-Deyiation --------------------------
 
 def _full_settings():
+    # Phase 3: bonsai-27b — thinking-capable, damit R2 auch die beiden
+    # Thinking-Widgets (value+visible+interactive) mitprüfen kann.
     return settings_from_widgets(
-        model_id="gemma3-1b-it",
+        model_id="ternary-bonsai-27b",
         px_preset="ACTIVE_MANIFOLD_RELAY",
         auto_tune=False,
         temperature=0.55,
@@ -138,30 +154,35 @@ def _full_settings():
         max_tokens=768,
         rep_p=1.2,
         px_gamma=0.1,
+        thinking=True,
+        thinking_effort="medium",
         relay_sign=-1,
         relay_alpha=0.45,
-        relay_layer=21,
+        relay_layer=34,
         system_profile="neutral",
         system_prompt_text="Eigener Frame.",
     )
 
 
 def test_r2_full_settings_restore_values_in_order():
-    """R2: 12 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
-    gespeicherten Werten; auto_tune=False → Slider interaktiv."""
+    """R2: 14 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
+    gespeicherten Werten; auto_tune=False → Slider interaktiv; bonsai →
+    Thinking-Checkbox/Radio mit den gespeicherten Werten sichtbar."""
     sid = "r2_full"
     _wipe([sid])
     try:
-        save_session(sid, [], model_id="gemma3-1b-it", settings=_full_settings())
+        save_session(sid, [], model_id="ternary-bonsai-27b",
+                     settings=_full_settings())
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 12
+        assert len(updates) == 14
         for field, u in zip(SETTINGS_WIDGET_FIELDS, updates):
             kw = upd_kwargs(u)
             assert "value" in kw, (field, kw)
             assert kw.get("interactive", False) is True, (field, kw)
         vals = [upd_kwargs(u)["value"] for u in updates]
-        expect = ["gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", 0.55, 0.9, 768,
-                  1.2, 0.1, -1, 0.45, 21, "neutral", "Eigener Frame."]
+        expect = ["ternary-bonsai-27b", "ACTIVE_MANIFOLD_RELAY", 0.55, 0.9,
+                  768, 1.2, 0.1, True, "medium", -1, 0.45, 34, "neutral",
+                  "Eigener Frame."]
         assert vals == expect
     finally:
         _wipe([sid])
@@ -252,9 +273,9 @@ def test_r5b_same_profile_no_suppress_token():
 # --- R6-R9: apply_px_defaults ---------------------------------------------
 
 def test_r6_defaults_suppressed_when_settings_match():
-    """R6: settings matchen model_id+px_preset → Restore-Fall → 4 no-ops
-    und KEIN Relay-Persist (sonst würden die wiederhergestellten Werte
-    von den Defaults überschrieben)."""
+    """R6: settings matchen model_id+px_preset → Restore-Fall → 6 no-ops
+    (Klassiker + Thinking) und KEIN Relay-Persist (sonst würden die
+    wiederhergestellten Werte von den Defaults überschrieben)."""
     sid = "r6_suppress"
     _wipe([sid])
     try:
@@ -262,7 +283,7 @@ def test_r6_defaults_suppressed_when_settings_match():
             "model_id": "gemma3-1b-it", "px_preset": "ACTIVE_MANIFOLD_RELAY",
         })
         outs = apply_px_defaults("gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", sid)
-        assert len(outs) == 4
+        assert len(outs) == 6
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         # kein Relay-Persist nachgerollt
@@ -275,17 +296,21 @@ def test_r6_defaults_suppressed_when_settings_match():
 
 def test_r7_defaults_applied_for_gemma3_1b_it():
     """R7: User pickt gemma3-1b-it → Artifact-Layer 21, max 26, sign +1,
-    alpha 0.30, gamma 0.12; persistiert (debounced) in die session.json."""
+    alpha 0.30, gamma 0.12; Thinking-Widgets VERSTECKT (gemma3 kennt die
+    Template-Variablen nicht); persistiert (debounced) ohne thinking-Junk."""
     sid = "r7_apply"
     _wipe([sid])
     try:
-        sign_u, alpha_u, layer_u, gamma_u = apply_px_defaults(
+        sign_u, alpha_u, layer_u, gamma_u, t_u, e_u = apply_px_defaults(
             "gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", sid)
         assert upd_kwargs(sign_u) == {"value": 1}
         assert upd_kwargs(alpha_u) == {"value": 0.30}
         assert upd_kwargs(layer_u) == {"value": 21, "minimum": 1,
                                        "maximum": 26, "interactive": True}
         assert upd_kwargs(gamma_u) == {"value": 0.12}
+        # Phase 3: nicht-capable → beides versteckt, ohne value
+        assert upd_kwargs(t_u) == {"visible": False}
+        assert upd_kwargs(e_u) == {"visible": False}
         flush_settings_save(sid)
         settings = load_session(sid).get("settings", {})
         assert settings == {
@@ -298,13 +323,14 @@ def test_r7_defaults_applied_for_gemma3_1b_it():
 
 
 def test_r8_defaults_noop_for_minicpm_and_no_relay_persist():
-    """R8: minicpm5-1b → 4 no-ops; persist NUR model/preset (kein Relay-
-    Feld, kein gamma — MiniCPM hat kein 1536-eigenes SCALE_DEFAULT)."""
+    """R8: minicpm5-1b → 6 no-ops (Klassiker + Thinking hidden, is_noop-
+    kompatibel); persist NUR model/preset (kein Relay-Feld, kein gamma,
+    kein thinking — MiniCPM ist nicht thinking-capable)."""
     sid = "r8_minicpm"
     _wipe([sid])
     try:
         outs = apply_px_defaults("minicpm5-1b", "ACTIVE_MANIFOLD_RELAY", sid)
-        assert len(outs) == 4
+        assert len(outs) == 6
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         flush_settings_save(sid)
@@ -316,12 +342,13 @@ def test_r8_defaults_noop_for_minicpm_and_no_relay_persist():
 
 
 def test_r9_defaults_noop_for_unknown_model():
-    """R9: unbekannte model_id → 4 no-ops + persist model/preset."""
+    """R9: unbekannte model_id → 4 no-ops + Thinking hidden + persist
+    model/preset."""
     sid = "r9_unknown"
     _wipe([sid])
     try:
         outs = apply_px_defaults("gibts-nicht", "BASELINE", sid)
-        assert len(outs) == 4
+        assert len(outs) == 6
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         flush_settings_save(sid)
@@ -363,30 +390,33 @@ def test_r11_build_chat_tab_wires_defaults_and_restore():
     block = src[src.index("def build_chat_tab("):]
     assert block.count("apply_px_defaults") >= 2  # def + wiring
     assert "inputs=[model_select, px_preset, session_id_state]" in block
-    assert "outputs=[relay_sign, relay_alpha, relay_layer, px_gamma]" in block
+    # Phase 3: 6er-Outputs (Klassiker + Thinking-Widgets)
+    assert re.search(r"outputs=\[relay_sign, relay_alpha, relay_layer, "
+                     r"px_gamma,\s*thinking, thinking_effort\]", block)
     assert block.count("restore_session_settings") >= 2  # def+... (2× .then)
     assert block.count("inputs=[session_id_state, system_profile]") == 2
     assert "_persist_setting_field" in block
-    # Return: 16er-Tupel (4 klassische + 12 Settings-Widgets)
+    # Thinking-Widgets existieren + persistieren (Phase 3)
+    assert '("thinking", thinking), ("thinking_effort", thinking_effort)' in block
+    # Return: 18er-Tupel (4 klassische + 14 Settings-Widgets)
     assert "system_prompt_text,\n    )" in block
 
 
-def test_r12_app_py_demo_load_16_outputs():
-    """R12: app.py demo.load — 16 Outputs, inputs um system_profile erweitert."""
+def test_r12_app_py_demo_load_18_outputs():
+    """R12: app.py demo.load — 18 Outputs, inputs um system_profile erweitert."""
     src = _source("app.py")
     assert "def init_app(session_id, current_profile)" in src
     assert "inputs=[session_id_state, system_profile]" in src
     assert "system_prompt_text]" in src
-    for name in ("relay_layer", "system_profile", "px_preset_widgets"):
+    for name in ("relay_layer", "system_profile", "px_preset_widgets",
+                 "thinking", "thinking_effort"):
         assert name in src, name
 
 
-# --- R13: on_load ----------------------------------------------------------
-
-def test_r13_on_load_returns_16_tuple_with_noops_for_fresh_session():
-    """R13: frische Session → (id, [], choices, id, 12×no-op)."""
+def test_r13_on_load_returns_18_tuple_with_noops_for_fresh_session():
+    """R13: frische Session → (id, [], choices, id, 14×no-op)."""
     result = on_load(None, "neutral")
-    assert len(result) == 16
+    assert len(result) == 18
     session_id, history, choices, session_id2 = result[:4]
     assert isinstance(session_id, str) and len(session_id) == 8
     assert history == []
@@ -397,6 +427,124 @@ def test_r13_on_load_returns_16_tuple_with_noops_for_fresh_session():
     p = _session_path(session_id)
     if os.path.exists(p):
         os.unlink(p)
+
+
+# --- R14-R19: Thinking-Restore (Phase 3, 2026-10-05) -----------------------
+
+def t_kw(updates, field):
+    return upd_kwargs(updates[SETTINGS_WIDGET_FIELDS.index(field)])
+
+
+def test_r14_bonsai_legacy_partial_gets_template_defaults():
+    """R14: bonsai-Session OHNE thinking-Keys → Template-Defaults:
+    Checkbox True + effort-Radio xhigh mit den 3 Stufen als choices."""
+    sid = "r14_bonsai_legacy"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="ternary-bonsai-27b", settings={
+            "model_id": "ternary-bonsai-27b",
+            "px_preset": "ACTIVE_MANIFOLD_RELAY",
+        })
+        updates = restore_session_settings(sid, "neutral")
+        kw_t, kw_e = t_kw(updates, "thinking"), t_kw(updates, "thinking_effort")
+        assert kw_t == {"value": True, "visible": True, "interactive": True}, kw_t
+        assert kw_e["value"] == "xhigh"
+        assert kw_e["choices"] == ["xhigh", "medium", "low"]
+        assert kw_e["visible"] is True
+    finally:
+        _wipe([sid])
+
+
+def test_r15_bonsai_stored_thinking_false_beats_template_default():
+    """R15: stored thinking=False (bonsai OFF) → Checkbox False — der
+    gespeicherte User-Wert schlägt den Template-Default True."""
+    sid = "r15_bonsai_off"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="ternary-bonsai-27b", settings={
+            "model_id": "ternary-bonsai-27b",
+            "px_preset": "ACTIVE_MANIFOLD_RELAY", "thinking": False,
+        })
+        updates = restore_session_settings(sid, "neutral")
+        kw_t = t_kw(updates, "thinking")
+        assert kw_t["value"] is False
+        assert kw_t["visible"] is True
+        # effort: kein Key → Template-Default xhigh
+        assert t_kw(updates, "thinking_effort")["value"] == "xhigh"
+    finally:
+        _wipe([sid])
+
+
+def test_r16_bonsai_stored_effort_medium_roundtrips():
+    """R16: stored thinking_effort="medium" → Radio rendert medium."""
+    sid = "r16_bonsai_medium"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="ternary-bonsai-27b", settings={
+            "model_id": "ternary-bonsai-27b",
+            "px_preset": "ACTIVE_MANIFOLD_RELAY", "thinking": True,
+            "thinking_effort": "medium",
+        })
+        updates = restore_session_settings(sid, "neutral")
+        kw_e = t_kw(updates, "thinking_effort")
+        assert kw_e["value"] == "medium"
+        assert kw_e["choices"] == ["xhigh", "medium", "low"]
+    finally:
+        _wipe([sid])
+
+
+def test_r17_bonsai_stored_invalid_effort_falls_back_to_default():
+    """R17: stored thinking_effort="bogus" (z.B. korrupter Import) → nicht
+    gerendert, Template-Default xhigh — kein invalid-Value im Radio."""
+    sid = "r17_bonsai_bogus"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="ternary-bonsai-27b", settings={
+            "model_id": "ternary-bonsai-27b",
+            "px_preset": "ACTIVE_MANIFOLD_RELAY",
+            "thinking": True, "thinking_effort": "bogus",
+        })
+        updates = restore_session_settings(sid, "neutral")
+        assert t_kw(updates, "thinking_effort")["value"] == "xhigh"
+    finally:
+        _wipe([sid])
+
+
+def test_r18_gemma4_restore_checkbox_visibility_effort_hidden():
+    """R18: gemma4-e2b-it → Checkbox visible (stored/default False —
+    Template default(false)) UND effort-Radio versteckt (kein Budget-
+    Parameter im installierten Stack)."""
+    sid = "r18_gemma4"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="gemma4-e2b-it", settings={
+            "model_id": "gemma4-e2b-it", "px_preset": "ACTIVE_MANIFOLD",
+        })
+        updates = restore_session_settings(sid, "neutral")
+        kw_t, kw_e = t_kw(updates, "thinking"), t_kw(updates, "thinking_effort")
+        assert kw_t["value"] is False
+        assert kw_t["visible"] is True
+        assert kw_e == {"visible": False}, kw_e
+    finally:
+        _wipe([sid])
+
+
+def test_r19_incapable_restore_hides_stale_thinking_junk():
+    """R19: gemma3-Session mit stale thinking=True/"medium" (z.B. nach
+    bonsai-Chat in derselben Session) → beide visible=False OHNE value —
+    der Junk darf nicht in die (unsichtbaren) Widgets rutschen."""
+    sid = "r19_gemma3_junk"
+    _wipe([sid])
+    try:
+        save_session(sid, [], model_id="gemma3-1b-it", settings={
+            "model_id": "gemma3-1b-it", "px_preset": "ACTIVE_MANIFOLD",
+            "thinking": True, "thinking_effort": "medium",
+        })
+        updates = restore_session_settings(sid, "neutral")
+        assert t_kw(updates, "thinking") == {"visible": False}
+        assert t_kw(updates, "thinking_effort") == {"visible": False}
+    finally:
+        _wipe([sid])
 
 
 if __name__ == "__main__":

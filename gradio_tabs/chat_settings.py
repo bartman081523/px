@@ -2,18 +2,19 @@
 
 Plan: branch ui-styling, 2026-07-06, "Einstellungen-Tab + Persistenz".
 
-Schicht 2b des Plans: round-trip zwischen 13 widget-Values und einem
+Schicht 2b des Plans: round-trip zwischen 15 widget-Values und einem
 settings-dict, plus ein SettingsDebouncer der debounced (400ms) per
 update_settings() in die session.json schreibt.
 
 Öffentliche API:
-    settings_from_widgets(*, 13 kwargs) -> Dict[str, Any]
+    settings_from_widgets(*, 13 klassische + 2 thinking kwargs) -> dict
     widget_updates_from_settings(settings: Dict) -> Dict[str, gr.update]
     SettingsDebouncer(session_id, on_save, delay_ms=400)
 
 Auto-Tune-Lock: bei auto_tune=True sind temperature/top_p/rep_p/px_gamma
 auf interactive=False gesetzt (T3-Pin). system_profile + system_prompt_text
-werden NIE gelockt (T4-Pin: user-editable immer).
+werden NIE gelockt (T4-Pin: user-editable immer); thinking/thinking_effort
+(Phase 3, 2026-10-05) ebenso nicht.
 """
 from __future__ import annotations
 import threading
@@ -66,17 +67,25 @@ def settings_from_widgets(
     max_tokens: int,
     rep_p: float,
     px_gamma: float,
+    thinking: Optional[bool] = None,
+    thinking_effort: Optional[str] = None,
     relay_sign: int,
     relay_alpha: float,
     relay_layer: int,
     system_profile: str,
     system_prompt_text: Optional[str],
 ) -> Dict[str, Any]:
-    """Packt 13 widget-Values in ein settings-dict.
+    """Packt 15 widget-Values in ein settings-dict.
 
-    T1-Pin: alle 13 Felder müssen im Resultat sein. T12-Pin:
+    T1-Pin: alle Felder müssen im Resultat sein. T12-Pin:
     system_prompt_text=None wird zu "" (vermeidet JSON-null in der
     session.json — würde den Wert ungewollt zu None deserialisieren).
+
+    thinking/thinking_effort (Phase 3, 2026-10-05): default None →
+    SETTINGS_DEFAULTS. Die Felder sind bewusst NICHT model-gegated —
+    chat_fn übergibt die konkreten Widget-Values; die Kapabilitäts-
+    Logik liegt in gradio_tabs/px_defaults.get_thinking_defaults
+    (chat_fn-kwargs) bzw. restore_session_settings (Sichtbarkeit).
     """
     def _safe_float(v: Any, default: float) -> float:
         if v is None:
@@ -103,6 +112,8 @@ def settings_from_widgets(
         "max_tokens": _safe_int(max_tokens, SETTINGS_DEFAULTS["max_tokens"]),
         "rep_p": _safe_float(rep_p, SETTINGS_DEFAULTS["rep_p"]),
         "px_gamma": _safe_float(px_gamma, SETTINGS_DEFAULTS["px_gamma"]),
+        "thinking": bool(thinking) if thinking is not None else SETTINGS_DEFAULTS["thinking"],
+        "thinking_effort": thinking_effort if thinking_effort else SETTINGS_DEFAULTS["thinking_effort"],
         "relay_sign": _safe_int(relay_sign, SETTINGS_DEFAULTS["relay_sign"]),
         "relay_alpha": _safe_float(relay_alpha, SETTINGS_DEFAULTS["relay_alpha"]),
         "relay_layer": _safe_int(relay_layer, SETTINGS_DEFAULTS["relay_layer"]),
@@ -112,7 +123,7 @@ def settings_from_widgets(
 
 
 def widget_updates_from_settings(settings: Dict[str, Any]) -> Dict[str, gr.update]:
-    """Returnt {field: gr.update(value=..., interactive=...)} für alle 13 Felder.
+    """Returnt {field: gr.update(value=..., interactive=...)} für alle 15 Felder.
 
     T2-Pin: bei leerem/fehlendem settings-dict → SETTINGS_DEFAULTS.
     T3-Pin: auto_tune=True → temperature/top_p/rep_p/px_gamma

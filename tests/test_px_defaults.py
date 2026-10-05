@@ -7,6 +7,8 @@ parameter übernommen werden, zb für injektionsschicht, etc."
 Pinnt die per-Model-Defaults-Tabelle + die d_width-Artefakt-Übersteuerung.
 Refactor-Detector: Wenn die Registry-Keys oder die Tabellenwerte (n_layers,
 inject_layer, px_gamma, relay_available) abweichen, fallen diese Tests.
+Phase 3 (2026-10-05): get_thinking_defaults — gemma4 (enable_thinking,
+kein Budget im installierten Stack) vs. bonsai (reasoning_effort-Stufen).
 
 Run:
     /run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python \
@@ -24,6 +26,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gradio_tabs.px_defaults import (
     get_inject_layer_from_artifact,
     get_px_defaults,
+    get_thinking_defaults,
 )
 
 
@@ -164,6 +167,42 @@ def test_p11_unknown_model_returns_none():
     assert get_px_defaults("unbekannt-modell") is None
     assert get_px_defaults("") is None
     assert get_px_defaults(None) is None
+
+
+# --- T-P12ff: get_thinking_defaults (Phase 3, 2026-10-05) ------------------
+
+def test_p12_gemma4_thinking_no_budget():
+    """T-P12: gemma4-e2b-it — Template default(false), KEIN Budget-Parameter
+    (efforts=None → kein Budget-Widget; max_thinking_tokens existiert nur im
+    ungemergten transformers-PR #42112, nicht in 5.13.0/Template/Model Card)."""
+    d = get_thinking_defaults("gemma4-e2b-it")
+    assert d == {
+        "default": False,
+        "efforts": None,
+        "effort_default": None,
+    }
+
+
+def test_p13_bonsai_thinking_with_effort_stages():
+    """T-P13: ternary-bonsai-27b — Template-Default AN, reasoning_effort ist
+    der Budget-Parameter (Stufen xhigh|medium|low, Default xhigh)."""
+    d = get_thinking_defaults("ternary-bonsai-27b")
+    assert d == {
+        "default": True,
+        "efforts": ("xhigh", "medium", "low"),
+        "effort_default": "xhigh",
+    }
+
+
+def test_p14_incapable_models_return_none():
+    """T-P14: nicht-thinking-capable Modelle → None (gemma3-Skalen, MiniCPM,
+    Unbekannt). chat_fn darf dort KEINE Template-Extras hingeschicken."""
+    for model_id in ("gemma3-270m", "gemma3-270m-it", "gemma3-1b",
+                     "gemma3-1b-it", "gemma3-4b", "gemma3-4b-it",
+                     "minicpm5-1b", "unbekannt-modell"):
+        assert get_thinking_defaults(model_id) is None, model_id
+    assert get_thinking_defaults("") is None
+    assert get_thinking_defaults(None) is None
 
 
 if __name__ == "__main__":

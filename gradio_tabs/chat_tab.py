@@ -19,7 +19,7 @@ from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
 from telemetry import telemetry
-from gradio_tabs.px_defaults import get_px_defaults
+from gradio_tabs.px_defaults import get_px_defaults, get_thinking_defaults
 from gradio_tabs.settings_persist import schedule_settings_save
 from gradio_tabs.multimodal_input import (
     normalize_multimodal_message,
@@ -38,7 +38,8 @@ from gradio_tabs.multimodal_input import (
 # app.py (demo.load) und die .then-Chains müssen exakt dazu passen.
 SETTINGS_WIDGET_FIELDS = (
     "model_id", "px_preset", "temperature", "top_p", "max_tokens",
-    "rep_p", "px_gamma", "relay_sign", "relay_alpha", "relay_layer",
+    "rep_p", "px_gamma", "thinking", "thinking_effort",
+    "relay_sign", "relay_alpha", "relay_layer",
     "system_profile", "system_prompt_text",
 )
 
@@ -46,7 +47,7 @@ _SETTINGS_NOOP_UPDATES: tuple = None  # lazy erzeugt (gr.update())
 
 
 def noop_settings_updates():
-    """12 no-op gr.update() in SETTINGS_WIDGET_FIELDS-Reihenfolge."""
+    """14 no-op gr.update() in SETTINGS_WIDGET_FIELDS-Reihenfolge."""
     global _SETTINGS_NOOP_UPDATES
     if _SETTINGS_NOOP_UPDATES is None:
         _SETTINGS_NOOP_UPDATES = tuple(
@@ -56,7 +57,7 @@ def noop_settings_updates():
 
 
 def restore_session_settings(session_id, current_profile=None):
-    """Session-Settings → Widget-Updates (12 Outputs, fixe Reihenfolge).
+    """Session-Settings → Widget-Updates (14 Outputs, fixe Reihenfolge).
 
     Restore-Semantik (Plan 2026-10-05):
     - Session-Datei OHNE 'settings'-key (alte/leere Sessions) → ALLE
@@ -66,6 +67,15 @@ def restore_session_settings(session_id, current_profile=None):
     - Sonst: widget_updates_from_settings (chat_settings.py) — fehlende
       Felder fallen auf SETTINGS_DEFAULTS, auto_tune lockt temp/top_p/
       rep_p/px_gamma interaktiv.
+
+    Thinking (Phase 3, 2026-10-05): model-aware — für thinking-kapable
+    Modelle (gemma4-e2b-it, ternary-bonsai-27b) werden die beiden Widgets
+    mit dem gespeicherten Wert (Fallback: per-Modell-Template-Default aus
+    px_defaults.get_thinking_defaults, legacy-Sessions haben den Key
+    meist nicht) + korrekter effort-choices-Liste gerendert; für nicht-
+    capable Modelle (gemma3-*, minicpm5-1b, unbekannt) werden beide per
+    visible=False versteckt OHNE Wert-Update (persistiertes thinking-
+    Junk aus anderen Modellen soll nicht in die Widgets rutschen).
 
     auto_tune-Abweichung vom chat_settings-Pin: die UI hat KEIN
     auto_tune-Widget (dead field, Plan 2026-10-05) — ein fehlender Key
@@ -110,6 +120,35 @@ def restore_session_settings(session_id, current_profile=None):
                 interactive=True,
             )
 
+    # Thinking-Widgets (Phase 3): model-aware rendern. Kapabilität kommt aus
+    # px_defaults.get_thinking_defaults; die gespeicherten Werte schlagen
+    # die Template-Defaults (legacy-Sessions haben meist gar keinen Key —
+    # dann gilt der Modell-Default). Nicht-capable → ohne Wert verstecken
+    # (stale thinking-Keys anderer Modelle rutschen nicht ins UI).
+    thinking_idx = SETTINGS_WIDGET_FIELDS.index("thinking")
+    effort_idx = SETTINGS_WIDGET_FIELDS.index("thinking_effort")
+    tcap = get_thinking_defaults(model_id) if isinstance(model_id, str) else None
+    if tcap is None:
+        ordered[thinking_idx] = gr.update(visible=False)
+        ordered[effort_idx] = gr.update(visible=False)
+    else:
+        stored_thinking = settings.get("thinking")
+        ordered[thinking_idx] = gr.update(
+            value=(bool(stored_thinking) if isinstance(stored_thinking, bool)
+                   else tcap["default"]),
+            visible=True, interactive=True,
+        )
+        if tcap["efforts"]:
+            stored_effort = settings.get("thinking_effort")
+            ordered[effort_idx] = gr.update(
+                value=(stored_effort if stored_effort in tcap["efforts"]
+                       else tcap["effort_default"]),
+                choices=list(tcap["efforts"]),
+                visible=True, interactive=True,
+            )
+        else:
+            ordered[effort_idx] = gr.update(visible=False)
+
     restored_profile = settings.get("system_profile")
     if restored_profile is not None and restored_profile != current_profile:
         _suppress_profile_body_load_once()
@@ -135,9 +174,12 @@ def apply_px_defaults(model_id, px_preset, session_id):
     Persistiert sonst (debounce) model_id + px_preset + die angewendeten
     Defaults in die Session.
 
-    Returns: 4-Tupel (relay_sign_u, relay_alpha_u, relay_layer_u,
-    px_gamma_u) — WIRKLICH angewendete Felder bekommen value+maximum,
-    nicht angewendete (MiniCPM: kein Relay/gamma-Default) no-op.
+    Returns: 6-Tupel (relay_sign_u, relay_alpha_u, relay_layer_u,
+    px_gamma_u, thinking_u, thinking_effort_u) — WIRKLICH angewendete
+    Felder bekommen value(+visible), nicht angewendete (MiniCPM: kein
+    Relay/gamma-Default) no-op. Thinking (Phase 3): capable Modelle
+    kriegen Modell-Default + Sichtbarkeit/choices, nicht-capable beide
+    visible=False; der Session-Patch trägt die Values nur capable.
     """
     data = {} if not session_id else load_session(session_id)
     settings = (data or {}).get("settings")
@@ -147,12 +189,16 @@ def apply_px_defaults(model_id, px_preset, session_id):
         and settings.get("px_preset") == px_preset
     )
     if restored:
-        return gr.update(), gr.update(), gr.update(), gr.update()
+        return gr.update(), gr.update(), gr.update(), gr.update(), gr.update(), gr.update()
 
     defaults = get_px_defaults(model_id)
+    tcap = get_thinking_defaults(model_id)
     if defaults is None:
+        # Unbekannte model_id: nichts anwenden, nur Auswahl persistieren.
+        # Thinking-Widgets verstecken (kein Modell → kein Thinking-UI).
         schedule_settings_save(session_id, model_id=model_id, px_preset=px_preset)
-        return gr.update(), gr.update(), gr.update(), gr.update()
+        return (gr.update(), gr.update(), gr.update(), gr.update(),
+                gr.update(visible=False), gr.update(visible=False))
 
     relay_available = defaults["relay_available"]
     layer_update = gr.update(
@@ -166,6 +212,25 @@ def apply_px_defaults(model_id, px_preset, session_id):
         if defaults["px_gamma"] is not None else gr.update()
     )
 
+    # Thinking (Phase 3): Modell-Default render + persist. Bonsai hat
+    # reasoning_effort-Stufen (choices-Reset im Update), gemma4 nur den
+    # Checkbox-Toggle (effort-Widget bleibt/ wird versteckt). Nicht-
+    # capable → beide verstecken; Session-Patch ohne thinking-Junk.
+    if tcap is None:
+        thinking_update = gr.update(visible=False)
+        effort_update = gr.update(visible=False)
+    else:
+        thinking_update = gr.update(
+            value=tcap["default"], visible=True, interactive=True,
+        )
+        if tcap["efforts"]:
+            effort_update = gr.update(
+                value=tcap["effort_default"],
+                choices=list(tcap["efforts"]),
+                visible=True, interactive=True,
+            )
+        else:
+            effort_update = gr.update(visible=False)
     patch = {
         "model_id": model_id,
         "px_preset": px_preset,
@@ -176,8 +241,15 @@ def apply_px_defaults(model_id, px_preset, session_id):
     }
     # None-Felder NICHT persistieren (= "UI-Wert ist okay")
     patch = {k: v for k, v in patch.items() if v is not None}
+    if tcap is not None:
+        # Capable: Modell-Defaults persistieren. Gemma4 (efforts=None)
+        # schreibt thinking_effort=None EXPLIZIT — sonst lebt ein stale
+        # bonsai-"medium" in der Session weiter, obwohl das Widget
+        # versteckt ist.
+        patch["thinking"] = bool(tcap["default"])
+        patch["thinking_effort"] = tcap["effort_default"] if tcap["efforts"] else None
     schedule_settings_save(session_id, **patch)
-    return sign_update, alpha_update, layer_update, gamma_update
+    return sign_update, alpha_update, layer_update, gamma_update, thinking_update, effort_update
 
 
 def _persist_setting_field(field: str):
@@ -248,7 +320,7 @@ def on_load(session_id, current_profile=None):
     """Called when the page loads.
 
     Plan 2026-10-05 (Session-Settings-Restore): liefert NACH den 4 klassischen
-    Werten die 12 Settings-Widget-Updates (SETTINGS_WIDGET_FIELDS-Reihen-
+    Werten die 14 Settings-Widget-Updates (SETTINGS_WIDGET_FIELDS-Reihen-
     folge) — Settings-lose/legacy-Sessions → no-op updates, Widgets bleiben
     wie gebaut. current_profile = aktueller Wert des Profil-Dropdowns
     (Suppress-Ermittlung, siehe restore_session_settings).
@@ -344,6 +416,7 @@ def handle_undo(session_id, history):
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             relay_sign, relay_alpha, relay_layer,
             system_profile, system_prompt_text,
+            thinking, thinking_effort,
             session_id, manager: ModelManager):
     """Core chat logic with history management and model generation.
 
@@ -352,6 +425,13 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     chat_template-apply wird inject_into_messages() aufgerufen, das die
     System-Message an Index 0 setzt (und alle existing system-Einträge
     strippt). Bei neutral+leerer Edit: no-op (Original-Liste).
+
+    Phase 3 (2026-10-05): thinking/thinking_effort — die Widget-Values
+    gehen KAPABILITÄTS-GEGATED in apply_chat_template (_thinking_template_
+    kwargs): bonsai-27b → enable_thinking + reasoning_effort (qwen3.5-
+    Template, budget als Stufe), gemma4-e2b-it → nur enable_thinking
+    (max_thinking_tokens existiert im installierten Stack nicht). Gemma3/
+    MiniCPM/unbekannt: {} — die Template-Extras werden nie hingeschickt.
     """
     print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
     # verstärkbar Relay-Parameter nur beim RELAY-Preset durchreichen (sonst None
@@ -415,9 +495,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
 
     # Phase 63: Proactive Auto-save (save user message before generation)
     # Plan 2026-10-05: BEIDE chat_fn-Save-Points persistieren zusätzlich die
-    # komplette Einstellung (Model, px_preset, Parameter, Relay, System-
-    # prompt) — Session-Load rendert die UI exakt so wieder (T1-Pin der
-    # chat_settings-Roundtrips bleibt erhalten: alle 13 Felder im dict).
+    # komplette Einstellung (Model, px_preset, Parameter, Thinking, Relay,
+    # System-prompt) — Session-Load rendert die UI exakt so wieder (T1-Pin
+    # der chat_settings-Roundtrips bleibt erhalten: alle 15 Felder im dict).
     from gradio_tabs.chat_settings import settings_from_widgets
     chat_settings = settings_from_widgets(
         model_id=model_id,
@@ -428,6 +508,8 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         max_tokens=mt,
         rep_p=rp,
         px_gamma=gamma,
+        thinking=thinking,
+        thinking_effort=thinking_effort,
         relay_sign=relay_sign,
         relay_alpha=relay_alpha,
         relay_layer=relay_layer,
@@ -461,7 +543,15 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     else:
         processed_messages = messages
 
-    input_text = tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+    # Phase 3 (2026-10-05): Thinking-Kontrolle über die etablierte
+    # apply_chat_template-Methode — template-Variablen je nach Modell-
+    # Kapabilität (gemma4: enable_thinking; bonsai: + reasoning_effort).
+    # Nicht-capable → {} (Extras landen nie im Jinja-Kontext).
+    thinking_kwargs = _thinking_template_kwargs(model_id, thinking, thinking_effort)
+    input_text = tokenizer.apply_chat_template(
+        processed_messages, tokenize=False, add_generation_prompt=True,
+        **thinking_kwargs,
+    )
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
@@ -532,6 +622,38 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     # 5. Save session on completion (Plan 2026-10-05: + komplette Einstellung)
     full_history = messages + [{"role": "assistant", "content": partial_text}]
     save_session(session_id, full_history, model_id=model_id, settings=chat_settings)
+
+
+# ── Thinking-Template-Kontext (Phase 3, 2026-10-05) ─────────────────────
+# chat_fn baut den Jinja-Extra-Kontext für apply_chat_template. Bewusst
+# NACH chat_fn platziert (echte Funktion, kein Closure — für
+# tests/test_thinking_toggle.py runtime-testbar) — Kapabilitäts-Gate
+# liegt in px_defaults.get_thinking_defaults, die extras-Weiterreichung
+# an generators._chat_template_kwargs (gleiche Semantik wie Bridge/Server
+# aus Task #15: enable_thinking / reasoning_effort).
+
+def _thinking_template_kwargs(model_id, thinking, thinking_effort):
+    """Chat-Template-Extras für thinking/thinking_effort (kapabilitäts-gegated).
+
+    Rückgabe (kwargs für tokenizer.apply_chat_template):
+        {}                                            — nicht capable ODER
+                                                        thinking=None (UI-Null)
+        {"enable_thinking": True|False}               — gemma4 (kein Budget)
+        {"enable_thinking": ..., "reasoning_effort": <str>} — bonsai (Stufe)
+
+    Bonsai-Template-Semantik: `enable_thinking is undefined or is true` →
+    denken; reasoning_effort|default('xhigh'). Das Toggle-Widget liefert
+    IMMER einen bool → kein undefined-Pfad im Chat. Effort-Validierung:
+    nur Stufen aus px_defaults.get_thinking_defaults(model_id)["efforts"]
+    werden durchgereicht, alles andere → None (Template-Default 'xhigh'
+    greift) — kein raise_exception-Crash im Template.
+    """
+    cap = get_thinking_defaults(model_id) if isinstance(model_id, str) else None
+    if cap is None or thinking is None:
+        return {}
+    effort = thinking_effort if (thinking_effort in (cap["efforts"] or ())) else None
+    from generators import _chat_template_kwargs
+    return _chat_template_kwargs(thinking=bool(thinking), thinking_effort=effort)
 
 
 # ── Sidebar System-Prompt Helper (Plan 2026-07-08) ───────────────────
@@ -664,6 +786,38 @@ def build_chat_tab(manager: ModelManager):
             max_tokens = gr.Slider(64, 4096, value=1024, step=64, label="Max Tokens")
             rep_p = gr.Slider(1.0, 2.0, value=1.15, step=0.05, label="Repetition Penalty")
             px_gamma = gr.Slider(0.0, 0.5, value=0.08, step=0.01, label="PX Gamma")
+            # Phase 3 (2026-10-05): Thinking-Toggle + Budget-Stufe. Initial-
+            # Sichtbarkeit/Werte aus dem Start-Modell (model_choices[0]);
+            # jeder Modellwechsel rendert beides neu (apply_px_defaults).
+            # bonsai-27b: enable_thinking + reasoning_effort (qwen3.5-Template,
+            # Budget ALS STUFE — Der-Modell-Doku gemäß). gemma4-e2b: nur
+            # enable_thinking — einen Budget-Parameter gibt es im installierten
+            # Stack NICHT (max_thinking_tokens nur im ungemergten transformers-
+            # PR #42112), also bewusst kein Fake-Budget-Widget. gemma3*/mini-
+            # cpm5/Unbekannt: Templates kennen die Variablen nicht → versteckt.
+            _tinit = get_thinking_defaults(model_choices[0])
+            thinking = gr.Checkbox(
+                value=bool(_tinit["default"]) if _tinit else False,
+                visible=_tinit is not None,
+                label="Thinking (enable_thinking)",
+                info=(
+                    "Template-Variable enable_thinking: gemma4 ON= <|think|> im "
+                    "System-Turn; bonsai ON=denken, OFF=forced-closed think-block."
+                ),
+            )
+            thinking_effort = gr.Radio(
+                choices=(list(_tinit["efforts"]) if _tinit and _tinit["efforts"]
+                         else ["xhigh", "medium", "low"]),
+                value=(str(_tinit["effort_default"])
+                       if _tinit and _tinit["effort_default"] else "xhigh"),
+                visible=bool(_tinit and _tinit["efforts"]),
+                label="Thinking Budget (reasoning_effort)",
+                info=(
+                    "bonsai-27b: Denktiefe als STUFE (xhigh/medium/low; "
+                    "Template-Default xhigh) — das ist der etablierte "
+                    "Budget-Parameter dieses Modells."
+                ),
+            )
 
         with gr.Accordion("verstärkbar Relay (seite15)", open=False):
             gr.Markdown(
@@ -814,6 +968,7 @@ def build_chat_tab(manager: ModelManager):
         return gr.update(value=None), history + [{"role": "user", "content": content}]
 
     def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
+                     thinking, thinking_effort,
                      relay_sign, relay_alpha, relay_layer,
                      system_profile, system_prompt_text,
                      session_id):
@@ -833,6 +988,8 @@ def build_chat_tab(manager: ModelManager):
             mt=mt,
             rp=rp,
             gamma=gamma,
+            thinking=thinking,
+            thinking_effort=thinking_effort,
             relay_sign=relay_sign,
             relay_alpha=relay_alpha,
             relay_layer=relay_layer,
@@ -859,7 +1016,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -870,7 +1027,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -882,14 +1039,14 @@ def build_chat_tab(manager: ModelManager):
     )
     
     # Plan 2026-10-05 (Session-Settings-Restore): Load & Import rendern die
-    # in der session.json gespeicherte Einstellung zurück in die 12 Widgets —
+    # in der session.json gespeicherte Einstellung zurück in die 14 Widgets —
     # Outputs-Reihenfolge = SETTINGS_WIDGET_FIELDS (chat_tab.py-Header).
     # handle_new_session bewusst OHNE Restore: frische Session, die Widgets
     # bleiben wie sie gerade stehen.
     _settings_restore_out = [
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
-        px_gamma, relay_sign, relay_alpha, relay_layer, system_profile,
-        system_prompt_text,
+        px_gamma, thinking, thinking_effort, relay_sign, relay_alpha,
+        relay_layer, system_profile, system_prompt_text,
     ]
     load_session_btn.click(
         fn=handle_load_saved,
@@ -924,25 +1081,29 @@ def build_chat_tab(manager: ModelManager):
     # ── Session-Settings-Roundtrip (Plan 2026-10-05) ─────────────────────
     # (a) Auto-Defaults: User wählt Modell oder px_preset (.input = nur echte
     #     User-Aktionen; programmatische Restore-Updates feuern kein .input) →
-    #     per-Model-Defaults in die Relay-/Gamma-Controls (incl. Slider-Bounds
-    #     maximum=n_layers aus gradio_tabs/px_defaults.py) + persistiert in die
+    #     per-Model-Defaults in die Relay-/Gamma-/Thinking-Controls (incl.
+    #     Slider-Bounds maximum=n_layers aus gradio_tabs/px_defaults.py;
+    #     Thinking Sichtbarkeit+Modell-Default) + persistiert in die
     #     session.json. Suppress-Regel gegen Restore-Freing in apply_px_defaults.
     for _owner in (model_select, px_preset):
         _owner.input(
             fn=apply_px_defaults,
             inputs=[model_select, px_preset, session_id_state],
-            outputs=[relay_sign, relay_alpha, relay_layer, px_gamma],
+            outputs=[relay_sign, relay_alpha, relay_layer, px_gamma,
+                     thinking, thinking_effort],
         )
 
     # (b) Persistenz aller freien User-Felder (debounced 400ms via
     #     settings_persist.schedule_settings_save). model_id/px_preset/relay_*/
-    #     px_gamma persisten zusätzlich durch (a) und beide chat_fn-Save-Points;
-    #     dieser Loop deckt auch die Fälle ab, in denen User Werte hand-anpasst,
-    #     ohne das Modell zu wechseln. outputs-frei (fire-and-forget).
+    #     px_gamma/thinking persisten zusätzlich durch (a) und beide
+    #     chat_fn-Save-Points; dieser Loop deckt auch die Fälle ab, in denen
+    #     User Werte hand-anpasst, ohne das Modell zu wechseln. outputs-frei
+    #     (fire-and-forget).
     for _field, _wid in (
         ("temperature", temperature), ("top_p", top_p),
         ("max_tokens", max_tokens), ("rep_p", rep_p),
         ("px_gamma", px_gamma),
+        ("thinking", thinking), ("thinking_effort", thinking_effort),
         ("relay_sign", relay_sign), ("relay_alpha", relay_alpha),
         ("relay_layer", relay_layer),
         ("system_profile", system_profile),
@@ -993,12 +1154,12 @@ def build_chat_tab(manager: ModelManager):
         outputs=None,
     )
 
-    # Plan 2026-10-05: 16er-Tupel — die ersten 4 wie bisher (app.py-Unpack),
-    # danach die 12 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
+    # Plan 2026-10-05: 18er-Tupel — die ersten 4 wie bisher (app.py-Unpack),
+    # danach die 14 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
     # Reihenfolge (app.py demo.load-Outputs + .then-Chains spiegeln das).
     return (
         session_id_state, chatbot, session_dropdown, session_id_display,
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
-        px_gamma, relay_sign, relay_alpha, relay_layer,
-        system_profile, system_prompt_text,
+        px_gamma, thinking, thinking_effort, relay_sign, relay_alpha,
+        relay_layer, system_profile, system_prompt_text,
     )

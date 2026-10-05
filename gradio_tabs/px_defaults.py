@@ -49,6 +49,7 @@ Profil-Klick/manuell). Diese Entscheidung bleibt unangetastet.
 Öffentliche API:
     get_inject_layer_from_artifact(hf_id) -> Optional[int]
     get_px_defaults(model_id) -> Optional[Dict[str, Any]]
+    get_thinking_defaults(model_id) -> Optional[Dict[str, Any]]
 
     keys im Rückgabe-Dict:
         n_layers (int)        — Slider maximum für den Injektions-Layer
@@ -58,6 +59,11 @@ Profil-Klick/manuell). Diese Entscheidung bleibt unangetastet.
         relay_sign (int|None)
         relay_alpha (float|None)
         relay_available (bool)
+
+    Rückgabe-Dict von get_thinking_defaults:
+        default (bool)             — enable_thinking-Template-Default
+        efforts (tuple[str]|None)  — None → kein Budget-Parameter
+        effort_default (str|None)  — Default-Budget-Stufe (nur wenn efforts)
 """
 from __future__ import annotations
 
@@ -110,6 +116,14 @@ _PX_MODEL_TABLE: Dict[str, Dict[str, Any]] = {
     "gemma4-e2b-it": dict(
         n_layers=35, hidden_size=1536, px_gamma=0.12, inject_layer=26,
         relay_available=True,
+        # Thinking (Phase 3, 2026-10-05): chat_template.jinja —
+        # `{%- set enable_thinking = enable_thinking | default(false) -%}`
+        # → Template-Default AUS. Kein Budget-Parameter im Template, im
+        # Model Card (huggingface.co/google/gemma-4-E2B-it), in der Google-
+        # Gemma-Dok oder in transformers 5.13.0 — max_thinking_tokens ist
+        # nur der UNGEMERGTE PR huggingface/transformers#42112. Bewusst
+        # KEIN Budget-Widget (keine Frickel-Stopping-Criteria).
+        thinking_default=False,
     ),
     "minicpm5-1b": dict(
         n_layers=24, hidden_size=1536, px_gamma=None, inject_layer=None,
@@ -118,6 +132,14 @@ _PX_MODEL_TABLE: Dict[str, Dict[str, Any]] = {
     "ternary-bonsai-27b": dict(
         n_layers=64, hidden_size=5120, px_gamma=0.04, inject_layer=34,
         relay_available=True,
+        # Thinking (Phase 3, 2026-10-05): qwen3.5-Tokenizer-Template —
+        # `enable_thinking is undefined or is true` → Template-Default AN;
+        # reasoning_effort|default('xhigh') mit raise_exception außerhalb
+        # xhigh|medium|low. reasoning_effort IST hier der Budget-Parameter
+        # (Denk-Tiefe als Stufe, kein Token-Zähler).
+        thinking_default=True,
+        thinking_efforts=("xhigh", "medium", "low"),
+        thinking_effort_default="xhigh",
     ),
 }
 
@@ -185,3 +207,35 @@ def get_px_defaults(model_id: str) -> Optional[Dict[str, Any]]:
         result["relay_alpha"] = None
         result["inject_layer"] = None
     return result
+
+
+def get_thinking_defaults(model_id: str) -> Optional[Dict[str, Any]]:
+    """Thinking-Kapabilität + Template-Defaults; None = nicht capable.
+
+    Quelle-Beweis (2026-10-05, User-Request "etablierte Methode"):
+      gemma4-e2b-it     → chat_template.jinja (HF-Snapshot 3e22461f) setzt
+                          `enable_thinking | default(false)` — Thinking
+                          ON injiziert `<|think|>` in den ersten System-
+                          Turn (das Template baut den System-Turn selbst,
+                          kein Message-Inject nötig). Kein Budget-Parameter
+                          in Template / Model Card / Google-Dok / installed
+                          transformers 5.13.0 (nur ungemergt PR #42112).
+      ternary-bonsai-27b → qwen3.5-Template (tokenizer_config.json):
+                          enable_thinking undefined/true → denken;
+                          reasoning_effort|default('xhigh'); raise_exception
+                          für alles außer xhigh|medium|low → reasoning_
+                          effort = Budget-Stufe.
+
+    None (gemma3-*, minicpm5-1b, unbekannte model_id): Modelle ohne
+    Thinking-Template-Variablen — chat_fn darf dort KEINE enable_thinking-
+    Variable in den Jinja-Kontext geben (kapabilitäts-gegated).
+    """
+    entry = _PX_MODEL_TABLE.get(model_id)
+    if entry is None or "thinking_default" not in entry:
+        return None
+    efforts = entry.get("thinking_efforts") or None
+    return {
+        "default": bool(entry["thinking_default"]),
+        "efforts": efforts,
+        "effort_default": entry.get("thinking_effort_default") if efforts else None,
+    }

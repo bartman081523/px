@@ -8,7 +8,7 @@ daemon). Wenn jemand die Lock-Semantik bricht oder den Auto-Tune-Lock
 ändert (sperrt temperature/top_p/rep_p/px_gamma), fallen diese Tests.
 
 Pin-Tests:
-  T1: settings_from_widgets mit 13 kwargs returnt dict mit 13 keys, types coerced
+  T1: settings_from_widgets mit 15 kwargs returnt dict mit 15 keys, types coerced
   T2: widget_updates_from_settings({}) fällt auf SETTINGS_DEFAULTS zurück
   T3: widget_updates_from_settings mit auto_tune=True lockt
       temperature/top_p/rep_p/px_gamma auf interactive=False
@@ -22,6 +22,8 @@ Pin-Tests:
   T9-T10: thread-safety (parallel schedule, kein race)
   T11: on_save callback wird nicht gerufen wenn keine session_id
   T12: system_prompt_text=None wird zu "" (vermeidet JSON-null)
+  T13 (Phase 3, 2026-10-05): thinking + thinking_effort sind Felder —
+      thinking=None → False, thinking_effort=None/"" → None
 
 Run:
     /run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python \
@@ -37,21 +39,24 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-# Erwartete 13 Settings-Felder in der Reihenfolge, in der sie an
+# Erwartete 15 Settings-Felder in der Reihenfolge, in der sie an
 # settings_from_widgets übergeben werden. Single source of truth.
+# Phase 3 (2026-10-05): + thinking/thinking_effort (nicht in
+# AUTO_TUNE_LOCKED_FIELDS — chat_settings-Docstring).
 EXPECTED_FIELDS = (
     "model_id", "px_preset", "auto_tune",
     "temperature", "top_p", "max_tokens", "rep_p", "px_gamma",
+    "thinking", "thinking_effort",
     "relay_sign", "relay_alpha", "relay_layer",
     "system_profile", "system_prompt_text",
 )
 
 
 class TestSettingsFromWidgets(unittest.TestCase):
-    """T1: settings_from_widgets round-trip aus 13 widget-Values."""
+    """T1: settings_from_widgets round-trip aus 15 widget-Values."""
 
-    def test_t1_returns_dict_with_all_13_fields(self):
-        """settings_from_widgets returnt dict mit allen 13 keys."""
+    def test_t1_returns_dict_with_all_15_fields(self):
+        """settings_from_widgets returnt dict mit allen 15 keys."""
         from gradio_tabs.chat_settings import settings_from_widgets
         kwargs = {
             "model_id": "gemma3-1b-it",
@@ -62,6 +67,8 @@ class TestSettingsFromWidgets(unittest.TestCase):
             "max_tokens": 1024,
             "rep_p": 1.15,
             "px_gamma": 0.08,
+            "thinking": True,
+            "thinking_effort": "medium",
             "relay_sign": 0,
             "relay_alpha": 0.30,
             "relay_layer": 21,
@@ -80,6 +87,23 @@ class TestSettingsFromWidgets(unittest.TestCase):
         kwargs = {f: None for f in EXPECTED_FIELDS}
         s = settings_from_widgets(**kwargs)
         self.assertEqual(s["system_prompt_text"], "")
+
+    def test_t13_thinking_fields_coerce_none_to_defaults(self):
+        """Phase 3: thinking=None → SETTINGS_DEFAULTS["thinking"] (False);
+        thinking_effort=None/"" → None (= "kein Budget-Parameter")."""
+        from gradio_tabs.chat_settings import settings_from_widgets
+        from sessions import SETTINGS_DEFAULTS
+        base = {f: "x" for f in EXPECTED_FIELDS}
+        base.update({
+            "auto_tune": False, "temperature": 0.7, "top_p": 0.9,
+            "max_tokens": 16, "rep_p": 1.1, "px_gamma": 0.1,
+            "thinking": None, "thinking_effort": None,
+        })
+        s = settings_from_widgets(**base)
+        self.assertEqual(s["thinking"], SETTINGS_DEFAULTS["thinking"])
+        self.assertIsNone(s["thinking_effort"])
+        s2 = settings_from_widgets(**{**base, "thinking_effort": ""})
+        self.assertIsNone(s2["thinking_effort"])
 
 
 class TestWidgetUpdatesFromSettings(unittest.TestCase):
