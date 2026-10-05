@@ -607,18 +607,19 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
 
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-    # Plan 2026-07-08: Output-Quality — Greedy Decoding für alle PX-Presets.
-    # BASELINE = vanilla Modell, behält temperature/top_p/sampling wie User
-    # es im Slider einstellt. ACTIVE_MANIFOLD/LEAN/RELAY = deterministisch
-    # (do_sample=False, temperature=1e-10), damit RELAY-Output reproduzierbar
-    # und nachvollziehbar wird. PX-Mechanik selbst (patch.py, relay_inject)
-    # bleibt unangetastet — nur der Decoder wechselt.
-    if px_preset == "BASELINE":
-        _temperature = temp if temp > 0 else 1e-10
-        _do_sample = temp > 0
-    else:
-        _temperature = 1e-10
-        _do_sample = False
+    # Plan 2026-10-05 (RTPF-A4): Sampling am User-Slider — auch für
+    # PX-Presets. Begründung (TT0, scratches/rtpf/tt0_result.json, seed 42,
+    # T=5326): Weder Greedy 1e-10 noch temp 0.7 reproduzieren den
+    # f31eff3e-Loop im Replay; der Live-Loop war trajektorienabhängig —
+    # plausible Kaskade aus dem Streamer-Skip-Defekt (verschluckter
+    # Eröffnungstoken persistierte im Verlauf und degradierte Folge-Turne;
+    # Fix in long_context.generate_long, Tests test_long_streamer_skip.py).
+    # User-Sanction (Plan-Beschluss 2026-10-05): do_sample=True explizit
+    # erlaubt. SSE-Parität: streaming_bridge streamt mit Request-temp.
+    # temp=0 ist Greedy (1e-10/do_sample=False) — die deterministische Mode
+    # bleibt über den Slider erreichbar.
+    _temperature = temp if temp > 0 else 1e-10
+    _do_sample = temp > 0
     gen_kwargs = dict(
         **inputs,
         streamer=streamer,
@@ -834,7 +835,8 @@ def _long_ctx_generate_kwargs(gen_kwargs):
     Doppel-Args vermeiden (input_ids/streamer/max_new_tokens werden von
     _run_long_stream explizit übergeben), Tensor-Keys + HF-Generation-Junk
     wegwerfen (decode_loop kennt sie nicht), top_k default 0 (HF-Parität:
-    UI setzt nur top_p; Temperature 1e-10 macht multinomial ohnehin greedy).
+    UI setzt nur top_p; Temperatur kommt per Slider durch — RTPF-A4;
+    multinomial läuft bei 1e-10 greedy-exakt).
     generate_long filtert sample_cfg selbst — do_sample & Co. dürfen
     durchgelassen werden (werden mit verbose-Hinweis gedroppt).
     """

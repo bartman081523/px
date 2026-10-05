@@ -31,12 +31,18 @@ class StabilityMonitor:
         h_n = h_new.to(torch.float32)
         h_o = h_old.to(torch.float32)
 
-        # Degenerate case: both vectors are all-zero → perfectly identical
+        # Degenerate case: both vectors are all-zero → perfectly identical.
+        # TT-B3 (Capture-Cleanliness): der frühere Early-Return
+        # `if both_zero.all(): return 1.0` ist ein device->host-Sync
+        # (Python-if auf Device-Tensor) und unter CUDA-Graph-Capture
+        # illegal — branchless ersetzt: das berechnete phi ist im
+        # Both-zero-Fall exakt 0.0 (0/1e-9), die Maske addiert 1.0. Für
+        # B=1 (Produktion: decode (1,1), prefill (1,T)) identisch zum
+        # alten Verhalten; gemischte Batches (kommen nicht vor) kriegen
+        # degenerierte Zeilen 1.0 statt 0.0 (Guard-Intent).
         norm_n_raw = torch.norm(h_n, dim=-1, keepdim=True)
         norm_o_raw = torch.norm(h_o, dim=-1, keepdim=True)
         both_zero = (norm_n_raw < 1e-9) & (norm_o_raw < 1e-9)
-        if both_zero.all():
-            return torch.tensor(1.0, device=h_n.device, dtype=h_n.dtype)
 
         # Scale vectors by max absolute value to prevent overflow/underflow
         max_n = torch.max(torch.abs(h_n), dim=-1, keepdim=True)[0]
@@ -49,6 +55,7 @@ class StabilityMonitor:
         norm_o = torch.norm(h_o_scaled, dim=-1, keepdim=True)
 
         phi = (h_n_scaled * h_o_scaled).sum(dim=-1, keepdim=True) / (norm_n * norm_o + 1e-9)
+        phi = phi + both_zero.to(phi.dtype)
         return phi.mean()
 
     @staticmethod

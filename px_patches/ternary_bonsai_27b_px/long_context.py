@@ -43,8 +43,10 @@ Nicht halten: keys/values (DynamicLayer-Symbole) bleiben None — die
 dekodierte Rueckgabe ist ein Transient, damit @131k KEINE 8 GiB bf16-KV
 materialisieren (sonst genau das, was der Layer vermeidet).
 """
+import importlib
 import math
 import os
+import traceback
 
 import torch
 from transformers.cache_utils import DynamicLayer
@@ -122,16 +124,45 @@ class QuantKV4Layer(DynamicLayer):
     make_qwen35_cache an full_attention-Slots gehaengt.
     """
 
-    def __init__(self, config=None):
+    def __init__(self, config=None, static_capacity=0):
         super().__init__(config)
         self.ku8 = None
         self.ks = None
         self.vu8 = None
         self.vs = None
+        # TT-B1a: Static-Capacity-Modus (CUDA-Graph-Decode, PX_KV_STATIC).
+        # capacity>0 -> Buffers werden bei lazy_initialization full-capacity
+        # zero-init angelegt und per index_copy_ am device-Positions-Zaehler
+        # beschrieben (kein torch.cat). Default 0 = cat-Pfad unveraendert.
+        self.static_capacity = int(static_capacity)
+        self._written = 0
+
+    def _is_capturing(self) -> bool:
+        # Capture-Erkennung robust auf CPU/ohne Kontext (Unit-Tests).
+        try:
+            return bool(torch.cuda.is_current_stream_capturing())
+        except Exception:
+            return False
 
     # --- Basis-Einrichtung (DynamicLayer-Spiegel ohne leere Tensoren) ---
     def lazy_initialization(self, key_states, value_states):
         self.dtype, self.device = key_states.dtype, key_states.device
+        if self.static_capacity:
+            B, H, _, D = key_states.shape
+            dev = key_states.device
+            cap = self.static_capacity
+            self.ku8 = torch.zeros((B, H, cap, D // 2), dtype=torch.uint8,
+                                   device=dev)
+            self.ks = torch.zeros((B, H, cap, 2), dtype=torch.float16,
+                                  device=dev)
+            self.vu8 = torch.zeros((B, H, cap, D // 2), dtype=torch.uint8,
+                                   device=dev)
+            self.vs = torch.zeros((B, H, cap, 2), dtype=torch.float16,
+                                  device=dev)
+            # Device-Positions-Zaehler: advance im Graph via replay
+            # (self.pos += n ist geräteseitig — kein Host-Sync).
+            self.pos = torch.zeros((), dtype=torch.long, device=dev)
+            self._written = 0
         self.is_initialized = True
 
     # --- Kern ---
@@ -140,6 +171,23 @@ class QuantKV4Layer(DynamicLayer):
             self.lazy_initialization(key_states, value_states)
         u8, s = kv4_pack(key_states)
         v8, w = kv4_pack(value_states)
+        if self.static_capacity:
+            n = u8.shape[-2]
+            idx = torch.arange(n, device=self.ku8.device) + self.pos
+            self.ku8.index_copy_(-2, idx, u8)
+            self.ks.index_copy_(-2, idx, s)
+            self.vu8.index_copy_(-2, idx, v8)
+            self.vs.index_copy_(-2, idx, w)
+            self.pos += n
+            self._written += n
+            if self._is_capturing():
+                # Capture: kein Python-Slicing (Laenge aendert sich je
+                # Schritt) -> Full-Capacity-Dequant; Gueltigkeit enforce
+                # der Graph-Decoder via Maske arange(cap) < pos.
+                return (self.kv4_keys(), self.kv4_values())
+            # Eager: dequant nur ueber den geschriebenen Bereich (Slice-
+            # View) — identische Bytes wie der cat-Pfad (G4-exakt).
+            return (self.kv4_written_keys(), self.kv4_written_values())
         if self.ku8 is None:
             self.ku8, self.ks, self.vu8, self.vs = u8, s, v8, w
         else:
@@ -155,8 +203,20 @@ class QuantKV4Layer(DynamicLayer):
     def kv4_values(self):
         return kv4_dequant(self.vu8, self.vs, self.dtype)
 
+    def kv4_written_keys(self):
+        w = self._written
+        return kv4_dequant(self.ku8[..., :w, :], self.ks[..., :w, :],
+                           self.dtype)
+
+    def kv4_written_values(self):
+        w = self._written
+        return kv4_dequant(self.vu8[..., :w, :], self.vs[..., :w, :],
+                           self.dtype)
+
     # --- Lese-Oberflaeche (Cache/px_forward/mask-Hebel) ---
     def get_seq_length(self) -> int:
+        if self.static_capacity:
+            return self._written
         return 0 if self.ku8 is None else self.ku8.shape[-2]
 
     def get_mask_sizes(self, query_length: int) -> tuple:
@@ -210,11 +270,15 @@ class QuantKV4Layer(DynamicLayer):
 
 
 # -------------------------------------------------------------- Cache-Bau -----
-def make_qwen35_cache(config, kv_mode=None):
+def make_qwen35_cache(config, kv_mode=None, static_capacity=0):
     """DynamicCache(config) + Layer-Swap: full_attention -> QuantKV4Layer.
 
     kv_mode: "kv4" (Standard) | "bf16" (reine DynamicCache). GDN-Layer
     (linear_attention -> LinearAttentionLayer) unberuehrt.
+
+    static_capacity > 0 (TT-B1a): QuantKV4Layer alloziert full-capacity
+    Buffers statt cat-Wachstum (CUDA-Graph-Voraussetzung; Positions- und
+    Gueltigkeits-Buchhaltung ueber device-Zaehler, siehe QuantKV4Layer).
     """
     from transformers.cache_utils import DynamicCache
 
@@ -225,12 +289,20 @@ def make_qwen35_cache(config, kv_mode=None):
         n_swap = 0
         for i, lt in enumerate(text.layer_types):
             if lt == "full_attention":
-                cache.layers[i] = QuantKV4Layer()
+                cache.layers[i] = QuantKV4Layer(
+                    static_capacity=static_capacity)
+                if n_swap == 0:
+                    # TT-B2a: Uhr-Markierer — der erste Static-Layer ist der
+                    # Device-Takt (pos vor Update) fuer Maske/Positionen des
+                    # gecaptureden Decode-Forwards (patch.py Capture-Branch).
+                    cache._px_kv4_layer = cache.layers[i]
                 n_swap += 1
         cache._px_kv_mode = kv_mode
         cache._px_n_kv4_layers = n_swap
     elif kv_mode not in ("bf16", "none", None):
         raise ValueError(f"unbekannter PX_KV_MODE: {kv_mode!r}")
+    if static_capacity:
+        cache._px_static_capacity = int(static_capacity)
     return cache
 
 
@@ -329,6 +401,178 @@ def _apply_logit_warps(logits, generated_ids, prompt_uniq, temperature,
     return logits
 
 
+# ------------------------------------------------- TT-B2a Decode-Graph -------
+class _DecodeGraph:
+    """CUDA-Graph fuer den Decode-Schritt (TT-B2a, PX_DECODE_GRAPH=1).
+
+    Capturiert den px-gepatchten Text-Forward SAMT allen PX-Hooks
+    (patch.py Capture-Branch, TT-B3) + lm_head in einen statischen
+    Logit-Buffer; Sampling/Streamer/Logit-Warps bleiben host-seitig
+    identisch zum Eager-Pfad. Replays zaehlen den KV-Positionstakt
+    device-seitig weiter (layer.pos); die Host-Buchhaltung (_written-
+    Mirror) macht der Controller je Schritt.
+
+    Warmup laeuft auf einem THROWAWAY bf16-Cache (eigene GDN-Zustaende,
+    eigene cat-Layer) — der Live-Static-Cache bleibt exakt Praefill-
+    frisch (pos/_written unveraendert); aufgewaermt werden nur die
+    cache-unabhaengigen Workspaces (cuBLAS, Triton-Autotune, T=1-Shapes).
+    Der px_capture_guard unterdrueckt waehrend Warmup+Capture Calibrator-
+    collect und Host-Telemetrie; die Phi-Ring-Writes des Warmups (auf
+    bf16-Cache ohne KV4-Slot auch Device-Ops) werden durch Ring-Reset
+    verworfen, damit flush_px_capture NUR die echten Replay-Schritte
+    replayt.
+
+    Jeder Fehler beim Capturen (OOM, Sync-Hazard) propagiert — decode_loop
+    faellt davon transparent auf Eager zurueck.
+    """
+
+    def __init__(self, model, cache, device, verbose=False):
+        from px_patches.ternary_bonsai_27b_px import gf3_quant as gf3
+        self.px = _px_patch_module()
+        self.gf3 = gf3
+        self.base = _resolve_text_model(model)
+        self.model, self.device = model, torch.device(device)
+        self.cache = cache
+        tm = self.tm = self.base
+        px = self.px
+        px.ensure_capture_buffers(tm, n_tokens=int(
+            os.environ.get("PX_PHI_RING", "4096")), device=self.device)
+        tm._px_ring_idx.zero_()            # Ring-Index generationen-frisch
+        self.static_tok = torch.zeros(1, 1, dtype=torch.long,
+                                      device=self.device)
+        vocab = int(model.config.get_text_config().vocab_size)
+        self.static_logits = torch.zeros(1, 1, vocab, dtype=torch.float32,
+                                         device=self.device)
+        self._written0 = int(cache._px_kv4_layer._written)   # T nach Prefill
+
+        # --- Warmup: throwaway Caches, live cache unberuehrt ---------------
+        # (a) bf16: cuBLAS/Triton-GEMV + GDN-Decode-Kernels. (b) kv4-Static
+        # (klein): KV4-Full-Cap-Dequant + SDPA-maske + patch.py Masken-Branch
+        # — T=1/KV4-Formen werden im Produktionsszenario NUR hier warm, denn
+        # Prefill compiliert nur Prefill-Shapes und Triton-JIT/-Autotune
+        # unter Capture illegal ist (PoC-Befund, Breaker #3).
+        warm = make_qwen35_cache(model.config, "bf16")
+        warm4 = make_qwen35_cache(model.config, "kv4", static_capacity=4)
+        s = torch.cuda.Stream()
+        s.wait_stream(torch.cuda.current_stream())
+        with torch.cuda.stream(s), torch.no_grad(), px.px_capture_guard():
+            for _ in range(3):
+                out = self.base(input_ids=self.static_tok,
+                                past_key_values=warm, use_cache=True)
+                self.static_h = out.last_hidden_state[:, -1:]
+            for _ in range(2):
+                self.base(input_ids=self.static_tok,
+                          past_key_values=warm4, use_cache=True)
+        torch.cuda.current_stream().wait_stream(s)
+        del warm, warm4
+        tm._px_ring_idx.zero_()            # Warmup-Ring-Writes verwerfen
+        px._PX_CAPTURE["need_flush"] = False
+
+        # --- Capture: Live-Static-Cache + lm_head + Logit-Buffer ----------
+        # Nancheck-Rescue (.item()-Syncs) unter Capture illegal: das betrifft
+        # nicht nur gf3_quant, sondern auch den Runtime-eigenen lm_head-Guard
+        # (ptq10_matvec head=True → isfinite je Call; PoC-Befund, Breaker
+        # #2). Beide Modi nur hier "off", danach restauriert.
+        torch.cuda.synchronize()
+        nm_old = gf3._NANCHECK_MODE
+        try:
+            rt = importlib.import_module(
+                "px_patches.ternary_bonsai_27b_px.runtime_qwen35_ptq")
+            nm_old_rt = rt._NANCHECK_MODE
+            rt._NANCHECK_MODE = "off"
+            gf3._NANCHECK_MODE = "off"
+            try:
+                g = self.graph = torch.cuda.CUDAGraph()
+                with px.px_capture_guard(), torch.no_grad():
+                    try:
+                        # TT-B2a / Matrix-4-Befund (capture_debug_matrix2/4):
+                        # der `torch.cuda.graph(g)`-ctx-Manager invalidiert an
+                        # diesem Body (pctx — Fehler schon beim ersten
+                        # Body-Kernel, fold/unfold@runtime:278), waehrend
+                        # manual capture_begin auf frischem Side-Stream
+                        # denselben Body vollstaendig rekordet (debug full3/
+                        # mglobal OK). Produktion nutzt die bewiesene
+                        # manual-Form: Side-Stream + wait_stream +
+                        # capture_begin(explizit "global"). Begin ausserhalb
+                        # des inneren try (bei Begin-Fehler laeuft kein
+                        # dangling capture_end); Body+End gepaart wie im
+                        # ctx-__exit__ (End wirft bei invalidiertem Capture
+                        # selbst auf und verdraengt die Ursprungs-Exception —
+                        # identisches Verhalten wie torch.cuda.graph).
+                        s2 = torch.cuda.Stream()
+                        s2.wait_stream(torch.cuda.current_stream())
+                        with torch.cuda.stream(s2):
+                            g.capture_begin(capture_error_mode="global")
+                            try:
+                                out = self.base(input_ids=self.static_tok,
+                                                past_key_values=cache,
+                                                use_cache=True)
+                                self.static_logits.copy_(model.lm_head(
+                                    out.last_hidden_state[:, -1:]).float())
+                            finally:
+                                g.capture_end()
+                        torch.cuda.current_stream().wait_stream(s2)
+                    except BaseException:
+                        # TT-B2a / Round-4-Befund: ein gescheiterter Capture-
+                        # Pass hat Python-Buchhaltung AUSGEFUEHRT (_written += 1
+                        # je Static-Layer), waehrend die Device-Ops nur
+                        # rekordet statt ausgefuehrt wurden (pos unveraendert).
+                        # Ohne Restore laeuft der Eager-Fallback (decode_loop
+                        # dg="fail") auf getaintetem Cache (_written=74 vs
+                        # pos=73), dequantisiert einen Garbage-Slot — sichtbar
+                        # als deterministischer phi-Drift 0.0033 bei
+                        # byte-identischer Greedy-Sequenz (PoC-Log poc4).
+                        self.reset_written(self._written0)
+                        px._PX_CAPTURE["need_flush"] = False
+                        raise
+            finally:
+                rt._NANCHECK_MODE = nm_old_rt
+        finally:
+            gf3._NANCHECK_MODE = nm_old
+        # Der Capture-Pass fuehrt Python-Buchhaltung aus (_written += 1 je
+        # Static-Layer), aber KEINE Device-Ops (pos/idx nur rekorded) —
+        # Host-Mirror zurueck auf den Praefill-Stand.
+        self.reset_written(self._written0)
+        self._steps = 0
+        if verbose:
+            print(f"[graph] decode captured: cap={cache._px_static_capacity} "
+                  f"pos0={self._written0}", flush=True)
+
+    def reset_written(self, value):
+        for L in self.cache.layers:
+            if getattr(L, "static_capacity", 0):
+                L._written = int(value)
+
+    def step(self, tok):
+        """Ein Graph-Schritt; Rueckgabe Logits (V,) f32 (Buffer-View)."""
+        self.static_tok.fill_(int(tok))
+        self.graph.replay()
+        self._steps += 1
+        for L in self.cache.layers:        # Host-Mirror je Replay
+            if getattr(L, "static_capacity", 0):
+                L._written += 1
+        return self.static_logits[0, -1]
+
+    def close(self):
+        """Telemetrie/Calibrator der Replay-Schritte aus dem Device-Phi-Ring
+        nachtraeglich replayen (TT-B3 flush; der eine Sync ist EOS-eager)."""
+        self.px.flush_px_capture(self.tm)
+
+
+def _px_patch_module():
+    """Deferred patch-Import (Vermeidet Zirkelimport beim Modul-Laden)."""
+    import importlib
+    return importlib.import_module(
+        "px_patches.ternary_bonsai_27b_px.patch")
+
+
+def _decode_graph_enabled(cache):
+    """TT-B2a-Gate: Env an, CUDA da, Static-KV4-Cache, nicht B>1."""
+    return (os.environ.get("PX_DECODE_GRAPH", "0") == "1"
+            and torch.cuda.is_available()
+            and int(getattr(cache, "_px_static_capacity", 0)) > 0)
+
+
 def decode_loop(model, cache, logits, max_new_tokens, temperature=0.7,
                 top_k=40, top_p=0.95, repetition_penalty=1.15,
                 eos_token_ids=(), streamer=None, max_total_seq=None,
@@ -337,30 +581,61 @@ def decode_loop(model, cache, logits, max_new_tokens, temperature=0.7,
 
     logits: (1, 1, V) f32 vom Prefill-Ende; der Loop ruft model(...) je
     Token (ForCausalLM.forward -> px-gepatchtes Text-Modell interno).
+
+    TT-B2a: wenn PX_DECODE_GRAPH=1 und ein Static-KV4-Cache vorliegt,
+    laeuft der Modell-Schritt als CUDA-Graph-Replay (PX-Hooks inklusive,
+    siehe _DecodeGraph); Sampling/Streamer/Warps bleiben host-seitig
+    identisch zum Eager-Pfad. Jeder Capture-Fehler (OOM/Hazard) faellt
+    transparent auf Eager zurueck.
     """
     gen = []
     cur = logits[0, -1] if logits.ndim == 3 else logits[0]
     steps = 0
-    for step in range(max_new_tokens):
-        lg = _apply_logit_warps(cur.clone(), gen, prompt_uniq, temperature,
-                                top_k, top_p, repetition_penalty,
-                                no_repeat_ngram_size)
-        tok = int(torch.multinomial(
-            torch.softmax(lg.float(), dim=-1), 1).item())
-        gen.append(tok)
-        steps = step + 1
-        if streamer is not None:
-            streamer.put(torch.tensor([[tok]], device=cur.device))
-        if tok in eos_token_ids:
-            break
-        if max_total_seq and cache.get_seq_length() + 1 >= max_total_seq:
-            if verbose:
-                print(f"    Kontext-Limit {max_total_seq} erreicht (step {step})",
-                      flush=True)
-            break
-        nxt = torch.tensor([[tok]], device=cur.device)
-        out = model(input_ids=nxt, past_key_values=cache, use_cache=True)
-        cur = out.logits[0, -1].float()
+    dg = None
+    try:
+        for step in range(max_new_tokens):
+            lg = _apply_logit_warps(cur.clone(), gen, prompt_uniq,
+                                    temperature,
+                                    top_k, top_p, repetition_penalty,
+                                    no_repeat_ngram_size)
+            tok = int(torch.multinomial(
+                torch.softmax(lg.float(), dim=-1), 1).item())
+            gen.append(tok)
+            steps = step + 1
+            if streamer is not None:
+                streamer.put(torch.tensor([[tok]], device=cur.device))
+            if tok in eos_token_ids:
+                break
+            if max_total_seq and cache.get_seq_length() + 1 >= max_total_seq:
+                if verbose:
+                    print(f"    Kontext-Limit {max_total_seq} erreicht "
+                          f"(step {step})", flush=True)
+                break
+            if dg is None and _decode_graph_enabled(cache):
+                try:
+                    dg = _DecodeGraph(model, cache, cur.device,
+                                      verbose=verbose)
+                    if verbose:
+                        print("[long] Decode-Graph aktiv (TT-B2a)",
+                              flush=True)
+                except Exception as e:
+                    # TT-B2a: Capture-Fehler melden async — der Traceback
+                    # zeigt, WO der Fehler aufgetreten ist (nicht den Op, der
+                    # die Invalidierung verursacht hat). Ohne Frame-Info war
+                    # die PoC-Fehlersuche (Rounds 1-6) nicht möglich.
+                    traceback.print_exc()
+                    print(f"[long] Decode-Graph fallback eager: {e}",
+                          flush=True)
+                    dg = "fail"        # Sentinel: keine zweiten Versuche
+            if dg is not None and dg != "fail":
+                cur = dg.step(tok).float()
+                continue
+            nxt = torch.tensor([[tok]], device=cur.device)
+            out = model(input_ids=nxt, past_key_values=cache, use_cache=True)
+            cur = out.logits[0, -1].float()
+    finally:
+        if dg is not None and dg != "fail":
+            dg.close()                 # Phi-Flush (TT-B3) nach EOS/Break
     ids = torch.tensor([gen], dtype=torch.long, device=cur.device)
     if streamer is not None:
         streamer.end()
@@ -368,6 +643,35 @@ def decode_loop(model, cache, logits, max_new_tokens, temperature=0.7,
 
 
 # ------------------------------------------------------------ Orchestrator ----
+def _static_capacity(T_prompt, max_new_tokens, chunk):
+    """TT-B1a: Kapazität der Static-KV4-Buffers, wenn PX_KV_STATIC=1.
+
+    Prompt + genehmigte Generierung + chunk-Puffer; sonst 0 (cat-Pfad).
+    """
+    if os.environ.get("PX_KV_STATIC", "0") != "1":
+        return 0
+    total = int(T_prompt) + int(max(max_new_tokens, 0) or 0) \
+        + int(chunk or 0) + 1
+    return max(total, 1)
+
+
+def _consume_streamer_skip(streamer):
+    """Stream-Skip-Guard konsumieren, bevor der erste Decode-Token fließt.
+
+    Der Long-Pfad pusht NIE die Prompt-Ids in den Streamer (decode_loop
+    schreibt nur generierte Tokens, Zeile ~353). Ein frisch konstruierter
+    TextIteratorStreamer(skip_prompt=True) (generators.py ~910, chat_tab.
+    py ~609) frisst mit next_tokens_are_prompt=True deshalb das ERSTE
+    generierte Token — Live-Bug f31eff3e idx17/idx19 ("elen Dank" statt
+    "Vielen", " nehme" statt "Ich"; nur Turns mit T > Long-CTX-Schwelle,
+    denn der HF-Plain-Pfad konsumiert den Skip selbst via streamer.put(
+    input_ids), transformers generation/utils.py:2575-2576).
+    """
+    if streamer is not None and getattr(streamer,
+                                        "next_tokens_are_prompt", None):
+        streamer.next_tokens_are_prompt = False
+
+
 def generate_long(model, input_ids, max_new_tokens=1024, chunk=None,
                   kv_mode=None, streamer=None, eos_token_ids=(),
                   max_total_seq=None, verbose=False, **sample_cfg):
@@ -387,7 +691,24 @@ def generate_long(model, input_ids, max_new_tokens=1024, chunk=None,
     dropped = sorted(set(sample_cfg) - set(s_cfg))
     if dropped and verbose:
         print(f"[long] ignorierte Sample-Keys: {dropped}", flush=True)
-    cache = make_qwen35_cache(model.config, kv_mode)
+    _consume_streamer_skip(streamer)
+    if verbose:
+        # A2: effektive Decode-Settings ausweisen (Beweisquelle für
+        # Repetitions-/Sampling-Diagnosen — Repro f31eff3e/RTPF).
+        print(f"[long] Decode-Settings: T={input_ids.shape[1]} "
+              f"temperature={s_cfg.get('temperature')} "
+              f"top_k={s_cfg.get('top_k', 40)} "
+              f"top_p={s_cfg.get('top_p', 0.95)} "
+              f"rep_p={s_cfg.get('repetition_penalty', 1.15)} "
+              f"ngram={s_cfg.get('no_repeat_ngram_size', 0)}",
+              flush=True)
+    cache = make_qwen35_cache(model.config, kv_mode,
+                              static_capacity=_static_capacity(
+                                  input_ids.shape[1], max_new_tokens,
+                                  chunk))
+    _sc = getattr(cache, "_px_static_capacity", 0)
+    if verbose and _sc:
+        print(f"[long] KV-static: capacity={_sc}", flush=True)
     kv4_gib, bf16_gib = kv4_size_estimate(model.config, 131072)
     if verbose:
         print(f"[long] KV-Modus {kv_mode}: @131k kv4={kv4_gib:.2f} GiB "

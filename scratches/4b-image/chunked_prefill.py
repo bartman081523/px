@@ -135,6 +135,18 @@ def chunked_generate(
     device = input_ids.device
     B, T_prefill = input_ids.shape
 
+    # G1-Skip-Fix (Bug-Klasse f31eff3e idx17/19): dieser Pfad pusht NIE die
+    # Prompt-Ids in den Streamer — der first put ist der ERSTE generierte
+    # Token (Phase 2, "_push(next_token)"). Ein
+    # TextIteratorStreamer(skip_prompt=True) frisst ihn mit
+    # next_tokens_are_prompt=True. Der HF-Plain-Pfad konsumiert den Skip
+    # selbst via streamer.put(input_ids) (transformers generation/
+    # utils.py:2575) — deshalb nur hier proaktiv konsumieren, NICHT am
+    # Streamer-Bauort, dort hängt der Skip am Plain-Pfad.
+    if streamer is not None and getattr(streamer,
+                                        "next_tokens_are_prompt", None):
+        streamer.next_tokens_are_prompt = False
+
     is_multimodal = pixel_values is not None
     text_model = _resolve_text_model(model)
     past_kv = _build_full_only_cache(text_model)

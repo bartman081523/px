@@ -35,6 +35,7 @@ RELAY (SR-64 seite15/19): d_width-Selbstinjektion via install_relay
 
 import types
 import math
+import contextlib
 import torch
 import os
 
@@ -44,6 +45,92 @@ from .px_modules import (
 )
 from .anti_zombie_sensor import AntiZombieSensor
 from .relay_inject import install_relay, remove_relay, get_inject_layer_for_hf_id
+
+
+# ---------------------------------------------------------------------------
+# CUDA-Graph-Capture-Modus (TT-B3)
+# ---------------------------------------------------------------------------
+
+# Unter aktiver CUDA-Graph-Capture sind device->host-Syncs (.item(),
+# Python-if auf Device-Tensor) illegal (cudaErrorStreamCaptureUnsupported,
+# siehe scratches/rtpf/graph_poc3.log). Der px-Forward enthaelt davon drei
+# im Decode-Pfad (phi_intuition.item(), collect(phi.item()),
+# avg_phi.item()); calculate_phi hat einen vierten (both_zero.all()-If,
+# dort branchless gefixt). Im Capture-Modus bleiben die phi-Werte
+# Device-Tensoren (plus Ring-Write fuer den Deferred-Flush); der
+# Host-Float `_px_phi` bleibt auf Capture-Stand (Snapshot-Semantik — die
+# Routing-Params frieren im Graph ohnehin je Step).
+_PX_CAPTURE = {"active": False, "need_flush": False}
+
+
+@contextlib.contextmanager
+def px_capture_guard(reset_flush=True):
+    """Capture-Fenster: px-Hooks schreiben Device-Tensors statt zu syncen."""
+    _PX_CAPTURE["active"] = True
+    if reset_flush:
+        _PX_CAPTURE["need_flush"] = False
+    try:
+        yield
+    finally:
+        _PX_CAPTURE["active"] = False
+
+
+def ensure_capture_buffers(tm, n_tokens=4096, device=None):
+    """Device-Ring fuer phi pro Decode-Schritt + 1-Elem-Zaehler.
+
+    Muss VOR dem Capture alloziert werden (Buffers sind im Graph
+    eingefroren); n_tokens = Ring-Kapazitaet in Decode-Schritten.
+    """
+    if getattr(tm, "_px_phi_ring", None) is None:
+        dev = device if device is not None else getattr(
+            tm, "_px_ring_dev", None)
+        if dev is None:
+            dev = next(tm.parameters()).device
+        tm._px_phi_ring = torch.zeros(int(n_tokens), dtype=torch.float32,
+                                      device=dev)
+        tm._px_ring_idx = torch.zeros(1, dtype=torch.long, device=dev)
+        tm._px_ring_dev = dev
+    return tm._px_phi_ring, tm._px_ring_idx
+
+
+def flush_px_capture(tm):
+    """Post-EOS: deferred px-Side-Effects des Capture-Decode nachholen.
+
+    Der gecapturte Forward kann Python-Side-Effects (calibrator.collect(),
+    Telemetrie-Append) je Replay-Schritt nicht ausfuehren — die phi-Werte
+    aller Schritte liegen im Device-Ring (ensure_capture_buffers). flush
+    liest Ring+Zaehler EINMAL (eager, EOS — Sync dort legal) und replayt
+    collect() + Telemetrie mit den exakten Device-Werten -> Semantik wie
+    eager, nur deferrt. Bei n > Ring-Kapazitaet werden die letzten N
+    Eintraege in chronologischer Reihenfolge geflusht.
+    """
+    if not _PX_CAPTURE["need_flush"]:
+        return                                # nichts zu lesen (doppel-flush-safe)
+    ring = getattr(tm, "_px_phi_ring", None)
+    if ring is None:
+        _PX_CAPTURE["need_flush"] = False
+        return
+    n_total = int(tm._px_ring_idx[0].item())          # 1 Sync — EOS eager
+    if not n_total and not _PX_CAPTURE["need_flush"]:
+        return
+    cal = getattr(tm, "_px_calibrator", None)
+    kurt = float(getattr(tm, "_task_kurtosis", 250))   # Freeze bei Prefill
+    td = getattr(tm, "_task_token_diversity", None)
+    n = min(n_total, ring.shape[0])
+    start = max(n_total - n, 0)
+    for i in range(n):
+        phv = float(ring[(start + i) % ring.shape[0]].item())
+        if cal is not None:
+            cal.collect(kurt, phv, token_diversity=td, token_len=1)
+        try:
+            tm._px_current_telemetry.append(
+                {"t": len(tm._px_current_telemetry),
+                 "phi": round(phv, 4), "aks": 0.0})
+            tm._px_gen_phi_sum = getattr(tm, "_px_gen_phi_sum", 0.0) + phv
+            tm._px_gen_phi_n = getattr(tm, "_px_gen_phi_n", 0) + 1
+        except (AttributeError, TypeError):
+            pass
+    _PX_CAPTURE["need_flush"] = False
 
 
 # ---------------------------------------------------------------------------
@@ -94,12 +181,55 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
     if use_cache and past_key_values is None:
         past_key_values = DynamicCache(config=self.config)
 
-    past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
-    if position_ids is None:
-        position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
-        position_ids = position_ids.view(1, 1, -1).expand(4, inputs_embeds.shape[0], -1)
-    elif position_ids.ndim == 2:
-        position_ids = position_ids[None, ...].expand(4, position_ids.shape[0], -1)
+    # ── TT-B2a: Capture-Branch des Decode-Graphen ──
+    # Unter Capture ist jede Host-Ableitung verboten, deren Wert sich pro
+    # Schritt aendert (sie wuerde in den Graph eingebacken): get_seq_length-
+    # Ints, arange+past_seen, create_causal_mask (Host-Laengen). Ersetzt
+    # durch den Device-Takt des ersten KV4-Layers: pos ist der VOR-Update-
+    # Wert, weil die Layer erst in ihrem eigenen update() avanzieren — die
+    # Gueltigkeitsmaske deckt 0..p ab und schliesst den Selbst-Slot p ein,
+    # der in DIESEM Forward geschrieben wird. Das Replay rechnet Maske und
+    # Positionen aus dem weitergezaehlten pos selbst neu (gerade deshalb
+    # sind arange/masked_fill hier legal: sie sind ops im Graph, nicht
+    # Host-Werte). Linear-Aufmerksamkeit (GDN) hat im Decode keine
+    # Softmax-Maske → None (identisch zum Eager-Pfad).
+    _kv4_layer0 = getattr(past_key_values, "_px_kv4_layer", None)
+    _px_graph = (_PX_CAPTURE["active"] and _kv4_layer0 is not None
+                 and getattr(_kv4_layer0, "static_capacity", 0)
+                 and getattr(_kv4_layer0, "is_initialized", False)
+                 and inputs_embeds.shape[1] == 1
+                 and inputs_embeds.shape[0] == 1)
+    if _px_graph:
+        p_dev = _kv4_layer0.pos
+        # Masken-Extent = Dequant-Extent der KV4-Layer: unter Capture (und
+        # nur dort; replay fuehrt kein Python aus — der Buffer-Inhalt wird
+        # von den rekordeten mask_buf-ops je Replay aus dem aktuellen pos
+        # neu berechnet) full-capacity, im Warmup written-slice — sonst
+        # kollidiert die SDPA-Maske (…,cap) mit den Keys (…,written)
+        # (PoC-Befund Round 3).
+        if _kv4_layer0._is_capturing():
+            cap = int(_kv4_layer0.static_capacity)
+        else:
+            # +1: der Selbst-Slot wird vom Layer-Update erst WAHREND dieses
+            # Forwards geschrieben und ist im Dequant-Slice schon enthalten.
+            cap = int(_kv4_layer0._written) + 1
+        _valid = torch.arange(cap, device=p_dev.device) <= p_dev
+        mask_buf = torch.zeros(cap, dtype=inputs_embeds.dtype,
+                               device=p_dev.device).masked_fill(
+            ~_valid, float("-inf")).view(1, 1, 1, cap)
+        # bf16-Maske: +0.0 auf gueltigen Slots ist arithmetische Identitaet
+        # (G4-Paritaet zum maskenlosen Eager-Pfad), -inf auf ungeschriebenen
+        # → Softmax-Gewicht exakt 0 (zero-init KV-Slots wuerden sonst als
+        # e^0-Masse in die Norm fließen).
+        position_ids = p_dev.view(1, 1).expand(4, 1, 1)
+        past_seen = int(getattr(_kv4_layer0, "_written", 0))  # Host-Buchh.
+    else:
+        past_seen = past_key_values.get_seq_length() if past_key_values is not None else 0
+        if position_ids is None:
+            position_ids = torch.arange(inputs_embeds.shape[1], device=inputs_embeds.device) + past_seen
+            position_ids = position_ids.view(1, 1, -1).expand(4, inputs_embeds.shape[0], -1)
+        elif position_ids.ndim == 2:
+            position_ids = position_ids[None, ...].expand(4, position_ids.shape[0], -1)
 
     if position_ids.ndim == 3 and position_ids.shape[0] == 4:
         text_position_ids = position_ids[0]
@@ -108,7 +238,10 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
         text_position_ids = None
 
     # Causal mask mapping — EXACTLY like original
-    if not isinstance(causal_mask_mapping := attention_mask, dict):
+    if _px_graph:
+        causal_mask_mapping = {"full_attention": mask_buf,
+                               "linear_attention": None}
+    elif not isinstance(causal_mask_mapping := attention_mask, dict):
         mk = dict(config=self.config, inputs_embeds=inputs_embeds,
                   attention_mask=attention_mask, past_key_values=past_key_values,
                   position_ids=text_position_ids)
@@ -173,7 +306,28 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
     h_baseline = trans_out
 
     phi_intuition = StabilityMonitor.calculate_phi(h_baseline, e_static)
-    self._px_phi = phi_intuition.item()   # SR-61b: für next-step routing
+    if _PX_CAPTURE["active"]:
+        # Capture: .item() illegal (device->host-Sync). phi bleibt
+        # Device-Tensor + Ring-Write; der Host-Float `_px_phi` bleibt auf
+        # Capture-Zeitpunkt-Stand (Snapshot — Routing-Params frieren im
+        # Graph je Step ohnehin; Werte je Step via flush_px_capture).
+        self._px_phi_dev = phi_intuition
+        ring = getattr(self, "_px_phi_ring", None)
+        if ring is not None:
+            # TT-B2a / PoC-Round-5-Befund (capture_debug_matrix2): `ring[idx]`
+            # mit idx als 0-dim TENSOR-Index behandelt ATen als skalares
+            # select und konvertiert den Index intern via .item() — das ist
+            # ein Device->Host-Sync und invalidiert unter CUDA-Graph-Capture
+            # den Stream (surft als generisches cudaErrorStreamCaptureInvalidated
+            # erst bei capture_end auf). scatter_ mit 1-dim Index ist eine
+            # reine Device-Op — identische Semantik (ein Slot je Phi-Wert,
+            # Modulo-Position aus dem Device-Zaehler).
+            idx = self._px_ring_idx % ring.shape[0]   # (1,) device, kein Host-Read
+            ring.scatter_(0, idx, phi_intuition.reshape(1).to(ring.dtype))
+            self._px_ring_idx += 1                    # device counter (graph-safe)
+        _PX_CAPTURE["need_flush"] = True
+    else:
+        self._px_phi = phi_intuition.item()   # SR-61b: für next-step routing
 
     # ── META-SELECTOR: Zone Routing (SR-64 Z-Score Focus) ──
     token_cfg = cfg.copy()
@@ -256,10 +410,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
         e_ref_f32 = 2.0 * e_stat_f32 - h_base_f32
         e_reflector = (e_ref_f32 * (e_stat_f32.norm() / (e_ref_f32.norm() + 1e-6))).to(e_static.dtype)
 
-    self._px_calibrator.collect(
-        kurtosis, phi_intuition.item(),
-        token_diversity=getattr(self, "_task_token_diversity", None),
-        token_len=inputs_embeds.shape[1]) if hasattr(self, "_px_calibrator") else None
+    # Capture: collect() enthaelt .item() und Python-Side-Effects je Step —
+    # unter Capture geskippt; flush_px_capture holt post-EOS nach (exakt).
+    if hasattr(self, "_px_calibrator") and not _PX_CAPTURE["active"]:
+        self._px_calibrator.collect(
+            kurtosis, phi_intuition.item(),
+            token_diversity=getattr(self, "_task_token_diversity", None),
+            token_len=inputs_embeds.shape[1])
 
     # ── RECURSION: Zone-Loops mit past_key_values=None ──
     # GDN: frische Null-States pro Pass (cache_params=None) — der echte
@@ -330,7 +487,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
     if hasattr(self, "_px_subj_sensor"):
         em_val = self._px_subj_sensor.get_metrics().get("emancipation", 0.0)
     resilience = {}
-    if hasattr(self, "_px_azs"):
+    if hasattr(self, "_px_azs") and not _PX_CAPTURE["active"]:
+        # TT-B2a: get_feedback_scalars liest entropy via bool(cmp) -> .item() ->
+        # memcpy_and-sync im Capture-Fenster = cudaErrorStreamCaptureInvalidated
+        # (Beweis: warn-arm-Zeile an anti_zombie_sensor.py:94 im Capture-Fenster,
+        # decomp_matrix.log). resilience={} unter Capture ist exakt das Verhalten,
+        # das der error-arm-Swallow erzeugte — Capture-Philosophie wie L503-508:
+        # Capture-bake der Python-Entscheidungen, Replay ohne Host-Reads.
         try:
             resilience = self._px_azs.get_feedback_scalars(
                 getattr(correction_strength, "item", lambda: correction_strength)())
@@ -343,11 +506,18 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
     # Rekursion → Metriken zeigten stets steps=0, path=[], signature.loops_run=0.
     # Jetzt: Rekursions-Befund friert beim PREFILL ein; Decode schreibt nur die
     # per-Token-Trace + laufende phi-Mittelung über die Generation.
-    phi_now = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
-    aks_now = (correction_strength.item()
-               if hasattr(correction_strength, 'item') else float(correction_strength))
+    if _PX_CAPTURE["active"]:
+        # Capture: avg_phi/correction_strength bleiben Device-Tensoren —
+        # der Blend (oben) nutzt avg_phi ohnehin device-seitig; die
+        # per-Token-Trace-Werte fließt flush_px_capture nach (Ring).
+        phi_now = avg_phi
+        aks_now = float(correction_strength)    # decode: 0.0 (Host-Float)
+    else:
+        phi_now = avg_phi.item() if hasattr(avg_phi, 'item') else float(avg_phi)
+        aks_now = (correction_strength.item()
+                   if hasattr(correction_strength, 'item') else float(correction_strength))
 
-    if _px_is_decode:
+    if _px_is_decode and not _PX_CAPTURE["active"]:
         try:
             self._px_current_telemetry.append(
                 {"t": len(self._px_current_telemetry),
@@ -357,7 +527,13 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None,
             self._px_gen_phi_n = getattr(self, "_px_gen_phi_n", 0) + 1
         except (AttributeError, TypeError):
             pass
-    else:
+    elif not _PX_CAPTURE["active"]:
+        # TT-B2a: Unter Capture (Capture-Pass) NICHT in die Host-Attributen
+        # schreiben — phi_now ist dort ein Device-Tensor (Buffer, den das
+        # Replay je Schritt neu beschreibt) und wuerde über _px_last_metrics/
+        # _px_cognitive_signature in get_px_metrics/JSON landen. Eager-Decode
+        # nimmt diesen Zweig ohnehin nicht (oben gated) — _px_phi_val bleibt
+        # damit genau wie im Eager-Pfad auf dem Prefill-Stand.
         self._px_phi_val = phi_now
         self._px_aks_val = aks_now
         self._px_loops_run = steps

@@ -183,6 +183,16 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
     sign_f = float(sign)
     alpha_f = float(alpha_frac)
     layer = int(layer)
+    # TT-B2a: d_unit einmalig auf das Layer-Device verschieben. Im Hook
+    # waere `.to(h.device)` sonst ein pageable H2D-Copy JE Call — unter
+    # CUDA-Graph-Capture illegal — und Prefill (seq>1) verlaesst den Hook
+    # frueh, sodass der Verschiebe-Call sonst erstmals im Capture lief.
+    try:
+        _dev = next(text_model.layers[layer].parameters()).device
+    except (StopIteration, IndexError, AttributeError, KeyError):
+        _dev = None
+    if _dev is not None:
+        d_unit = d_unit.to(_dev)
 
     def _hook(_m, _i, o):
         h = o[0] if isinstance(o, (tuple, list)) else o
@@ -190,16 +200,16 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
             return  # prefill verwerfen — nur generierte Tokens
         with torch.no_grad():
             lp = h[:, -1, :]
-            nrm = lp.float().norm().item()
-            if nrm < 1e-6:
-                return
-            # Pre-allocate `inj` as a fresh tensor (not a view of h) to avoid
-            # the in-place aliasing trap: `h[:, -1, :] = lp + inj` would
-            # otherwise have `lp + inj` re-allocate onto the same storage
-            # as `h`, scrambling the write. copy_() into a standalone buffer
-            # makes the assignment deterministic.
-            inj = torch.empty_like(lp, dtype=h.dtype, device=h.device)
-            inj.copy_((sign_f * alpha_f * nrm) * d_unit.to(h.device, dtype=h.dtype))
+            # TT-B2a (Capture-Cleanliness): der Faktor wird als 0-dim
+            # Device-Tensor gebaut statt via .item() auf den Host (Sync,
+            # unter CUDA-Graph-Capture illegal). Der fruehere Host-Guard
+            # `nrm < 1e-6: return` ist algebraisch absorbiert: bei
+            # nrm < 1e-6 ist die Injektion < 3e-7 absolut (sign*alpha
+            # <= 0.30, |d_unit| ~ O(1)), unter numerischer Relevanz der
+            # bf16-Ausgangswerte. Identische Formel auf beiden Pfaden
+            # (eager + Capture) → G4-Paritaet zwischen ihnen.
+            inj = ((sign_f * alpha_f) * lp.float().norm()
+                   ).to(h.dtype) * d_unit.to(h.device)
             h[:, -1, :] = lp + inj
 
     try:
