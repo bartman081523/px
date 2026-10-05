@@ -430,6 +430,138 @@ def test_norm_15_convert_legacy_image_block_helper():
     assert out == {"type": "text", "text": "hi"}
 
 
+# ── Bug f31eff3e (2026-10-05): repr-Korruption der letzten User-Nachricht ────
+#
+# Gradio 6.15.2 Chatbot-Roundtrip (postprocess → Browser → preprocess) gibt
+# Content als Block-Liste zurück (pydantic-Dumps, text-first):
+#   {"text": "...", "type": "text"} statt {"type": ..., "text": ...}.
+# bot_response reicht history[-1]["content"] als message an chat_fn weiter;
+# der alte Fallback str(value) kapselte das in einen Python-Repr → User-
+# Message persistiert als "[{'text': ..., 'type': 'text'}, ...]" und rendert
+# im Webinterface als wörtlicher Repr-Text. Text-only Turns blieben unberührt
+# (einzelner Text-Block kommt als str durch).
+
+def test_repr_1_normalize_multi_block_list_preserved_not_str():
+    """RT-1: Round-tripped Zwei-Block-Liste (text + ```txt-Anhang) bleibt
+    Block-Liste — NIE str-Kapselung (repr)."""
+    blocks = [
+        {"text": "guck mal hier ist ein Konstrukt", "type": "text"},
+        {"text": "```txt CitMind.txt\n{...8KB...}\n```", "type": "text"},
+    ]
+    out = normalize_multimodal_message(blocks)
+    assert isinstance(out, list), repr(out)[:80]
+    assert not isinstance(out, str)          # keine Repr-Mumifizierung
+    assert out == [
+        {"type": "text", "text": "guck mal hier ist ein Konstrukt"},
+        {"type": "text", "text": "```txt CitMind.txt\n{...8KB...}\n```"},
+    ]
+
+
+def test_repr_2_normalize_single_text_block_collapses_to_str():
+    """RT-2: Einzelner Text-Block (Text-only-Turn nach Roundtrip) → plain
+    str — identische Form wie die Widget-Direct-Submission."""
+    assert normalize_multimodal_message([{"text": "hallo", "type": "text"}]) == "hallo"
+    # text-first UND type-first gleiche Semantik:
+    assert normalize_multimodal_message([{"type": "text", "text": "hallo"}]) == "hallo"
+
+
+def test_repr_3_normalize_mixed_text_file_blocks_keep_filedata():
+    """RT-3: file-Blöcke (Bilder) behalten ihre FileData — hat_images-
+    Detektion in chat_fn bleibt funktionsfähig."""
+    blocks = [
+        {"text": "look at this", "type": "text"},
+        {"type": "file", "file": {"path": "/p/a.png", "mime_type": "image/png"}},
+    ]
+    out = normalize_multimodal_message(blocks)
+    assert isinstance(out, list) and len(out) == 2
+    assert out[0] == {"type": "text", "text": "look at this"}
+    assert out[1]["type"] == "file"
+    assert out[1]["file"]["path"] == "/p/a.png"
+    # is_empty lebt: file-only-Liste ist keine leere Message
+    assert is_empty_message([{"type": "file",
+                              "file": {"path": "/p/a.png",
+                                       "mime_type": "image/png"}}]) is False
+
+
+def test_repr_4_normalize_empty_and_junk_blocks_dropped():
+    """RT-4: Nichts-validierbare Blöcke fallen, leere Liste → "". """
+    assert normalize_multimodal_message([]) == ""
+    assert normalize_multimodal_message([123, None]) == ""
+    assert normalize_multimodal_message([{"text": "a", "type": "text"}, 4711]) == "a"
+
+
+def test_repr_5_unwrap_repairs_f31eff3e_disk_repr():
+    """RT-5: Der echten Disk-Form nachempfundener Repr-String wird via
+    unwrap_repr_block_list entkapselt → Block-Liste; renderbarer Text via
+    extract_text_blocks ist der echte User-Text."""
+    from gradio_tabs.multimodal_input import unwrap_repr_block_list
+    repr_str = str([
+        {"text": "guck mal hier ist ein Konstrukt", "type": "text"},
+        {"text": "```txt CitMind.txt\n{\"core\": 1}\n```", "type": "text"},
+    ])
+    assert repr_str.startswith("[{")
+    repaired = unwrap_repr_block_list(repr_str)
+    assert isinstance(repaired, list) and len(repaired) == 2
+    assert repaired[1]["text"].startswith("```txt CitMind.txt")
+    assert "CitMind.txt\n{\"core\": 1}" in extract_text_blocks(repaired)
+    # text-only Repr (einzelner Block) → joined str
+    single = unwrap_repr_block_list(str([{"text": "nur text", "type": "text"}]))
+    assert single == "nur text"
+
+
+def test_repr_6_unwrap_rejects_legitimate_strings():
+    """RT-6: Legitime Strings, die zufällig wie ein Repr aussehen, bleiben
+    unangetastet (None) — strikte Form-Validierung."""
+    from gradio_tabs.multimodal_input import unwrap_repr_block_list
+    # kein "[{"-Prefix
+    assert unwrap_repr_block_list("[1, 2, 3]") is None
+    assert unwrap_repr_block_list("ich sage [{ heute was") is None
+    assert unwrap_repr_block_list("plain text") is None
+    # parst, aber keine Block-Shape-Validierung (nicht-dicts, fehlende keys)
+    assert unwrap_repr_block_list("[{'a': 1}]") is None
+    assert unwrap_repr_block_list("[{'text': 4711, 'type': 'text'}]") is None
+    assert unwrap_repr_block_list("[{'text': 'x', 'type': 'text'}, 5]") is None
+    # kaputtes Literal
+    assert unwrap_repr_block_list("[{'text': 'x', 'type': 'text'") is None
+
+
+def test_repr_7_history_load_repairs_corrupt_session():
+    """RT-7: Load-Side-Heilung — _normalize_history_for_chatbot entkapselt
+    den korrupten Repr in der persistierten Session (f31eff3e), alle
+    Einträge überleben, benachbarte Intakte bleiben unverändert."""
+    corrupt = str([
+        {"text": "guck mal hier ist ein Konstrukt", "type": "text"},
+        {"text": "```txt CitMind.txt\n{...18KB...}\n```", "type": "text"},
+    ])
+    hist = [
+        m("user", [{"text": "hallo", "type": "text"}]),
+        m("assistant", "und dir?"),
+        m("user", corrupt),
+        m("assistant", "elen Dank für diesen Konstrukt!"),
+    ]
+    out = _normalize_history_for_chatbot(hist)
+    assert len(out) == 4
+    assert isinstance(out[2]["content"], list)          # entkapselt
+    assert out[2]["content"][0]["type"] == "text"
+    assert out[3]["content"] == "elen Dank für diesen Konstrukt!"  # unberührt
+    assert out[1]["content"] == "und dir?"              # unberührt
+
+
+def test_repr_8_roundtrip_idempotence_next_turn_sends_clean_text():
+    """RT-8: Idempotence über Turn-Grenzen: reparierte History → als
+    message-Slot re-normalisiert → dieselbe Block-Liste (kein Repr-Rezidiv),
+    und die nächste Save-Runde persistiert saubere Blöcke."""
+    corrupt = str([{"text": "guck mal hier", "type": "text"},
+                   {"text": "```txt CitMind.txt\n{}\n```", "type": "text"}])
+    hist = [m("user", corrupt)]
+    loaded = _normalize_history_for_chatbot(hist)
+    again = normalize_multimodal_message(loaded[0]["content"])
+    assert again == loaded[0]["content"]
+    # Save-Runde = persistierte JSON-Form: list of dict with "text"+"type"
+    assert all(set(b) >= {"text", "type"} and b["type"] in ("text", "file")
+               for b in again)
+
+
 def main():
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     passed = 0

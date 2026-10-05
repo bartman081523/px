@@ -7,6 +7,10 @@ and depends only on the shape of the widget's output value.
 Supported input shapes (handle ALL):
   - None or "" -> "" (plain string)
   - str -> str (plain text, no files)
+  - list of block dicts (Gradio-Chatbot-Roundtrip-Form, text-first durch
+    TextMessage.model_dump()) -> validierte Block-Liste ODER (einzelner
+    Text-Block) plain str; NIE str()-Kapselung (repr-Bug f31eff3e,
+    2026-10-05)
   - dict {"text": str, "files": [paths]} ->
       * if no files: return the text string (or "" if text empty)
       * if files: return [{"type":"text","text":text}] +
@@ -44,6 +48,7 @@ Plus (wip-tts a7f4643 port): history normalization for the Gradio Chatbot.
     image-blocks) → Gradio-safe (alle ``type:image`` werden zu ``type:file``)
 """
 
+import ast
 import os
 
 # 64 KiB cap per inlined text file — keeps prompts bounded for the 12 GB card.
@@ -145,9 +150,39 @@ def _file_block(f):
             "text": f"[attached file: {name} — unsupported type, not inlined]"}
 
 
+def _normalize_content_block(block):
+    """Validate one round-tripped content block (or None to drop it).
+
+    Gradio's Chatbot round trip (postprocess → browser → preprocess)
+    hands message content back as a list of pydantic-dumped dicts —
+    text blocks come back as ``{"text": ..., "type": "text"}`` (field
+    order of TextMessage.model_dump()), file blocks as
+    ``{"type": "file", "file": {...}}``. Str-coercing such a list is
+    what mangled session f31eff3e (2026-10-05): the Python repr of the
+    block list became the persisted user message.
+    """
+    if isinstance(block, str):
+        return {"type": "text", "text": block}
+    if not isinstance(block, dict):
+        return None
+    if block.get("type") == "text":
+        return {"type": "text", "text": str(block.get("text", "") or "")}
+    if block.get("type") in ("file", "component") or "file" in block:
+        # File blocks pass through unchanged (images keep their FileData).
+        return block
+    if "text" in block:
+        # Untyped dict with a text field (legacy shape).
+        return {"type": "text", "text": str(block.get("text", "") or "")}
+    return None
+
+
 def normalize_multimodal_message(value):
     """Normalize a multimodal input widget value into chat_fn's expected
-    message content (plain str, or content-list with text + file blocks)."""
+    message content (plain str, or content-list with text + file blocks).
+
+    Also accepts the round-tripped Chatbot shape (a list of block dicts):
+    text blocks are re-validated, file blocks keep their FileData — the
+    list is NEVER str()-coerced (repr corruption, f31eff3e)."""
     # None -> empty
     if value is None:
         return ""
@@ -155,6 +190,18 @@ def normalize_multimodal_message(value):
     # Plain string passthrough
     if isinstance(value, str):
         return value
+
+    # Round-tripped Chatbot content: list of block dicts.
+    if isinstance(value, list):
+        blocks = [b for b in (_normalize_content_block(b) for b in value)
+                  if b is not None]
+        if not blocks:
+            return ""
+        if len(blocks) == 1 and blocks[0].get("type") == "text":
+            # Single text block collapses back to plain str — the same
+            # shape a pure-text widget submission produces.
+            return blocks[0]["text"]
+        return blocks
 
     # Dict shape: {"text": ..., "files": [...]}
     if isinstance(value, dict):
@@ -301,6 +348,54 @@ def _guess_mime_from_data_url(url: str, default: str) -> str:
     return default
 
 
+def unwrap_repr_block_list(content):
+    """Repair a repr-mangled persisted message (Bug f31eff3e, 2026-10-05).
+
+    Vor dem Fix persistierte chat_fn für Multimodal-Attachment-Turns den
+    Python-Repr der Block-Liste als User-Message-String, z.B.
+    ``"[{'text': 'guck mal hier …', 'type': 'text'}, …]"``. Beim Load
+    renderte das als wörtlicher Repr-Text in der Bubble (Webinterface-
+    Symptom).
+
+    Detect + unwrap via ast.literal_eval unter strikter Form-Validierung:
+    - Muss mit ``[{`` beginnen und als list of dicts parsen.
+    - Jeder Block muss exakt einem Gradio-Block entsprechen (text mit
+      str-Text, oder file/component passthrough) — KEINE Coercion, der
+      strikte Validator verhindert False Positives auf legitime Texte.
+    - Mindestens ein Block muss übrig bleiben.
+
+    Alles andere (legitime Nachrichtentexte, die zufällig wie ein Repr
+    aussehen) bleibt unverändert — return None, wenn nicht anwendbar.
+    """
+    if not isinstance(content, str):
+        return None
+    if not content.startswith("[{"):
+        return None
+    try:
+        parsed = ast.literal_eval(content)
+    except (ValueError, SyntaxError, MemoryError, RecursionError):
+        return None
+    if not isinstance(parsed, list) or not parsed:
+        return None
+
+    def _strict_gradio_block(b):
+        if not isinstance(b, dict):
+            return False
+        btype = b.get("type")
+        if btype == "text":
+            return isinstance(b.get("text"), str)
+        return btype in ("file", "component")
+
+    if not all(_strict_gradio_block(b) for b in parsed):
+        return None
+    blocks = [_normalize_content_block(b) for b in parsed]
+    if any(b is None for b in blocks):
+        return None
+    if len(blocks) == 1 and blocks[0].get("type") == "text":
+        return blocks[0]["text"]
+    return blocks
+
+
 def _normalize_history_for_chatbot(history):
     """Normalize a persisted history list so it survives Gradio's
     ``Chatbot._check_format`` + ``_postprocess_content``.
@@ -331,6 +426,11 @@ def _normalize_history_for_chatbot(history):
       - Preserves valid multimodal lists (``type=="text"|"file"|...``).
       - Converts OpenAI image_url/input_audio AND legacy ``type:image``
         blocks via ``_convert_openai_block_to_gradio`` before storing.
+      - Unwraps repr-mangled persisted messages (Bug f31eff3e,
+        2026-10-05) via ``unwrap_repr_block_list``: eine als Python-repr
+        gespeicherte Block-Liste wird beim Load wieder zur echten
+        Block-Liste/extrahierten Text — der Repr-Text rendert nie als
+        Bubble-Inhalt.
       - Returns a NEW list — does not mutate the input.
     """
     if not history:
@@ -382,6 +482,13 @@ def _normalize_history_for_chatbot(history):
         elif isinstance(content, str):
             # Strip null bytes; otherwise pass through.
             cleaned = content.replace("\x00", "")
+            # Bug f31eff3e (2026-10-05): repr-korrupt gespeicherte
+            # Multimodal-Messages beim Load entkapseln (ast.literal_eval,
+            # strikte Form-Validierung). Bereinigt auch die bereits
+            # korrupten Sessions auf Disk bei der nächsten Load-Runde.
+            repaired = unwrap_repr_block_list(cleaned)
+            if repaired is not None:
+                cleaned = repaired
             if cleaned:
                 out.append({"role": role, "content": cleaned})
         elif isinstance(content, dict):
