@@ -60,7 +60,15 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
     with gr.Tabs():
         with gr.Tab("💬 Chat"):
-            session_id_state, chatbot, session_dropdown, session_id_display = build_chat_tab(manager)
+            # Plan 2026-10-05 (Session-Settings-Restore): build_chat_tab
+            # returnt 16 Komponenten — die ersten 4 wie bisher, danach
+            # die 12 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
+            # Reihenfolge (gradio_tabs/chat_tab.py-Header). Diese Reihen-
+            # folge spiegeln die demo.load-Outputs unten.
+            (session_id_state, chatbot, session_dropdown, session_id_display,
+             model_select, px_preset_widgets, temperature, top_p, max_tokens,
+             rep_p, px_gamma, relay_sign, relay_alpha, relay_layer,
+             system_profile, system_prompt_text) = build_chat_tab(manager)
 
         with gr.Tab("🧪 Cognitive Tests"):
             build_cognitive_tests_tab(manager, engine)
@@ -72,14 +80,22 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
             build_telemetry_tab(manager)
 
     # ── Initialization ──
-    def init_app(session_id):
+    # Plan 2026-10-05: Page-Load rendert zusätzlich die 12 Settings-Widgets
+    # aus der session.json (Session-Settings-Restore) — 16 Outputs, Reihen-
+    # folge identisch mit build_chat_tab-Return oben. inputs um system_
+    # profile erweitert: restore_session_settings braucht den aktuell
+    # gerenderten Profil-Wert für den Suppress (siehe chat_tab.py).
+    def init_app(session_id, current_profile):
         from gradio_tabs.chat_tab import on_load
-        return on_load(session_id)
+        return on_load(session_id, current_profile)
 
     demo.load(
         fn=init_app,
-        inputs=[session_id_state],
-        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
+        inputs=[session_id_state, system_profile],
+        outputs=[session_id_state, chatbot, session_dropdown, session_id_display,
+                 model_select, px_preset_widgets, temperature, top_p,
+                 max_tokens, rep_p, px_gamma, relay_sign, relay_alpha,
+                 relay_layer, system_profile, system_prompt_text]
     )
 
     gr.Markdown("""

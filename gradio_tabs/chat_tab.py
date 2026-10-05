@@ -10,6 +10,7 @@ import asyncio
 import os
 import json
 import statistics
+import threading
 from typing import Optional, List, Dict, Any
 from threading import Thread
 from transformers import TextIteratorStreamer
@@ -18,12 +19,178 @@ from config import MODEL_REGISTRY
 from model_manager import ModelManager
 from sessions import save_session, load_session, get_new_session_id, list_sessions
 from telemetry import telemetry
+from gradio_tabs.px_defaults import get_px_defaults
+from gradio_tabs.settings_persist import schedule_settings_save
 from gradio_tabs.multimodal_input import (
     normalize_multimodal_message,
     is_empty_message,
     extract_text_blocks,
     _normalize_history_for_chatbot,
 )
+
+
+# ── Session-Settings: Feld-Reihenfolge + Restore ────────────────────────
+# Plan 2026-10-05 (User-Request): Session-Settings (Modell, px_preset,
+# Parameter, Relay, System-Prompt) werden in der session.json gespeichert
+# (settings_persist.schedule_settings_save via Widget-.input, plus beide
+# chat_fn-save_points) und beim Laden der Session zurück in die Widgets
+# gerendert. Die Output-Reihenfolge der Restore-Handler ist DIESE Liste —
+# app.py (demo.load) und die .then-Chains müssen exakt dazu passen.
+SETTINGS_WIDGET_FIELDS = (
+    "model_id", "px_preset", "temperature", "top_p", "max_tokens",
+    "rep_p", "px_gamma", "relay_sign", "relay_alpha", "relay_layer",
+    "system_profile", "system_prompt_text",
+)
+
+_SETTINGS_NOOP_UPDATES: tuple = None  # lazy erzeugt (gr.update())
+
+
+def noop_settings_updates():
+    """12 no-op gr.update() in SETTINGS_WIDGET_FIELDS-Reihenfolge."""
+    global _SETTINGS_NOOP_UPDATES
+    if _SETTINGS_NOOP_UPDATES is None:
+        _SETTINGS_NOOP_UPDATES = tuple(
+            gr.update() for _ in SETTINGS_WIDGET_FIELDS
+        )
+    return list(_SETTINGS_NOOP_UPDATES)
+
+
+def restore_session_settings(session_id, current_profile=None):
+    """Session-Settings → Widget-Updates (12 Outputs, fixe Reihenfolge).
+
+    Restore-Semantik (Plan 2026-10-05):
+    - Session-Datei OHNE 'settings'-key (alte/leere Sessions) → ALLE
+      no-op updates: die Widgets bleiben wie sie stehen, kein Reset auf
+      Defaults beim Laden alter Sessions.
+    - settings={} ebenso (nichts zu wiederherstellen).
+    - Sonst: widget_updates_from_settings (chat_settings.py) — fehlende
+      Felder fallen auf SETTINGS_DEFAULTS, auto_tune lockt temp/top_p/
+      rep_p/px_gamma interaktiv.
+
+    auto_tune-Abweichung vom chat_settings-Pin: die UI hat KEIN
+    auto_tune-Widget (dead field, Plan 2026-10-05) — ein fehlender Key
+    darf therefore nie locken (sonst sind temperature/top_p/rep_p/
+    px_gamma nach dem Load unveränderbar, nur weil das Feld nicht
+    persistiert wurde). Fehlt der Key → False (nicht locken).
+
+    current_profile (optional): aktuell gerendertes Profil-Dropdown.
+    Weicht der wiederherzustellende Profil-Wert davon ab, feuert der
+    programmatische Dropdown-Update das system_profile.change-Event —
+    dessen Body-Load würde die freie Textarea überschreiben → dafür
+    wird hier EIN Suppress-Token gezählt (siehe
+    on_profile_change_load_body). Gleicher Wert feuert kein .change →
+    kein Zähler-Leak.
+    """
+    data = {} if not session_id else load_session(session_id)
+    settings = (data or {}).get("settings")
+    if not isinstance(settings, dict) or not settings:
+        return noop_settings_updates()
+    from gradio_tabs.chat_settings import widget_updates_from_settings
+    settings = dict(settings)
+    settings.setdefault("auto_tune", False)
+    updates = widget_updates_from_settings(settings)
+    ordered = [updates[f] for f in SETTINGS_WIDGET_FIELDS]
+
+    # Slider-Bounds für den Injektions-Layer mitrestoren: der gespeicherte
+    # Layer (z.B. ternary L34) muss in den Slider-Bounds liegen, sonst
+    # clamp't Gradio den Restore-Wert. maximum = max(gespeicherter Wert,
+    # n_layers des restoreten Modells).
+    model_id = settings.get("model_id")
+    per_model = get_px_defaults(model_id) if isinstance(model_id, str) else None
+    if per_model is not None:
+        stored_layer = settings.get("relay_layer")
+        value = (int(stored_layer) if isinstance(stored_layer, int)
+                 and not isinstance(stored_layer, bool)
+                 else per_model["inject_layer"])
+        if value is not None:
+            idx = SETTINGS_WIDGET_FIELDS.index("relay_layer")
+            ordered[idx] = gr.update(
+                value=value, minimum=1,
+                maximum=max(value, per_model["n_layers"]),
+                interactive=True,
+            )
+
+    restored_profile = settings.get("system_profile")
+    if restored_profile is not None and restored_profile != current_profile:
+        _suppress_profile_body_load_once()
+    return ordered
+
+
+def apply_px_defaults(model_id, px_preset, session_id):
+    """model-select/.px_preset-.input-Handler (User-Aktion).
+
+    Wendet per-Model-Defaults an (gradio_tabs/px_defaults.py): Relay-
+    Richtung/Alpha/Injektions-Layer (aus dem d_width-Artefakt der hf_id,
+    Fallback statische Tabelle) + px_gamma (SCALE_DEFAULTS pro hidden_
+    size). Slider-Bounds (n_layers) werden im update mitgesetzt — der
+    ternary-Modell-34 war mit dem alten Slider (max 25) unerreichbar.
+
+    Suppress-Regel: existiert die Session-Datei mit settings, und
+    settings.model_id == model_id UND settings.px_preset == px_preset →
+    programmatischer Restore (Session-Load rendert die Widgets), keine
+    User-Änderung → NICHTS überschreiben (sonst würfen wir die gerade
+    wiederhergestellten User-Werte weg). Nur persisten wäre auch falsch
+    (no-op-Merge) → direkt no-op-Updates returnen.
+
+    Persistiert sonst (debounce) model_id + px_preset + die angewendeten
+    Defaults in die Session.
+
+    Returns: 4-Tupel (relay_sign_u, relay_alpha_u, relay_layer_u,
+    px_gamma_u) — WIRKLICH angewendete Felder bekommen value+maximum,
+    nicht angewendete (MiniCPM: kein Relay/gamma-Default) no-op.
+    """
+    data = {} if not session_id else load_session(session_id)
+    settings = (data or {}).get("settings")
+    restored = (
+        isinstance(settings, dict)
+        and settings.get("model_id") == model_id
+        and settings.get("px_preset") == px_preset
+    )
+    if restored:
+        return gr.update(), gr.update(), gr.update(), gr.update()
+
+    defaults = get_px_defaults(model_id)
+    if defaults is None:
+        schedule_settings_save(session_id, model_id=model_id, px_preset=px_preset)
+        return gr.update(), gr.update(), gr.update(), gr.update()
+
+    relay_available = defaults["relay_available"]
+    layer_update = gr.update(
+        value=defaults["inject_layer"], maximum=defaults["n_layers"],
+        minimum=1, interactive=True,
+    ) if relay_available and defaults["inject_layer"] is not None else gr.update()
+    sign_update = gr.update(value=defaults["relay_sign"]) if relay_available else gr.update()
+    alpha_update = gr.update(value=defaults["relay_alpha"]) if relay_available else gr.update()
+    gamma_update = (
+        gr.update(value=defaults["px_gamma"])
+        if defaults["px_gamma"] is not None else gr.update()
+    )
+
+    patch = {
+        "model_id": model_id,
+        "px_preset": px_preset,
+        "relay_layer": defaults["inject_layer"],
+        "relay_sign": defaults["relay_sign"],
+        "relay_alpha": defaults["relay_alpha"],
+        "px_gamma": defaults["px_gamma"],
+    }
+    # None-Felder NICHT persistieren (= "UI-Wert ist okay")
+    patch = {k: v for k, v in patch.items() if v is not None}
+    schedule_settings_save(session_id, **patch)
+    return sign_update, alpha_update, layer_update, gamma_update
+
+
+def _persist_setting_field(field: str):
+    """Widget-.input-Persist-Handler-Factory (User-Aktion pro Feld).
+
+    Closed-over field-name → schedule_settings_save(session_id,
+    <field>=value). outputs-frei; Fehler in der Persistenz dürfen das
+    UI-Event nicht crashen (fire-and-forget im Debouncer sowieso).
+    """
+    def handler_with_session(session_id, value):
+        schedule_settings_save(session_id, **{field: value})
+
+    return handler_with_session
 
 
 # ── Session Handlers ──
@@ -77,16 +244,24 @@ def _clean_history(history):
             result.append({"role": role, "content": content})
     return result
 
-def on_load(session_id):
-    """Called when the page loads."""
+def on_load(session_id, current_profile=None):
+    """Called when the page loads.
+
+    Plan 2026-10-05 (Session-Settings-Restore): liefert NACH den 4 klassischen
+    Werten die 12 Settings-Widget-Updates (SETTINGS_WIDGET_FIELDS-Reihen-
+    folge) — Settings-lose/legacy-Sessions → no-op updates, Widgets bleiben
+    wie gebaut. current_profile = aktueller Wert des Profil-Dropdowns
+    (Suppress-Ermittlung, siehe restore_session_settings).
+    """
     if session_id is None or session_id == "":
         session_id = get_new_session_id()
-    
+
     data = load_session(session_id)
     # Normalize history for Gradio 6.15.2 Chatbot (OpenAI blocks + untyped dicts
     # would otherwise crash _postprocess_content; see multimodal_input.py).
     history = _normalize_history_for_chatbot(data.get("history", []))
-    return session_id, history, gr.update(choices=list_sessions()), session_id
+    return (session_id, history, gr.update(choices=list_sessions()), session_id,
+            *restore_session_settings(session_id, current_profile))
 
 def handle_new_session():
     new_id = get_new_session_id()
@@ -102,8 +277,20 @@ def handle_export(session_id, history):
     if not history:
         return gr.update(visible=False)
     path = f"exported_session_{session_id}.json"
+    # Plan 2026-10-05 (Session-Settings-Restore): das Export-JSON trägt
+    # zusätzlich model_id + settings (best effort — legacy Sessions ohne
+    # passende Datei exportieren wie bisher nur session_id+history).
+    export_data = {"session_id": session_id, "history": history}
+    try:
+        stored = load_session(session_id) if session_id else {}
+        if isinstance(stored.get("model_id"), str):
+            export_data["model_id"] = stored["model_id"]
+        if isinstance(stored.get("settings"), dict) and stored["settings"]:
+            export_data["settings"] = stored["settings"]
+    except (OSError, ValueError):
+        pass
     with open(path, "w") as f:
-        json.dump({"session_id": session_id, "history": history}, f, indent=2)
+        json.dump(export_data, f, indent=2)
     return gr.update(value=path, visible=True)
 
 def handle_import(file_obj):
@@ -114,7 +301,16 @@ def handle_import(file_obj):
             data = json.load(f)
         new_id = data.get("session_id", get_new_session_id())
         history = data.get("history", [])
-        save_session(new_id, history)
+        # Plan 2026-10-05: Import nimmt model_id + settings mit — eine
+        # exportierte Session läuft nach dem Import exakt weiter (gleiche
+        # Einstellungen, gleiche Widgets beim Load).
+        _import_settings = data.get("settings")
+        _import_model = data.get("model_id")
+        save_session(
+            new_id, history,
+            model_id=_import_model if isinstance(_import_model, str) else None,
+            settings=_import_settings if isinstance(_import_settings, dict) else None,
+        )
         return new_id, history, gr.update(choices=list_sessions(), value=new_id), new_id
     except Exception as e:
         print(f"Import error: {e}")
@@ -218,7 +414,27 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         torch.cuda.empty_cache()
 
     # Phase 63: Proactive Auto-save (save user message before generation)
-    save_session(session_id, messages, model_id=model_id)
+    # Plan 2026-10-05: BEIDE chat_fn-Save-Points persistieren zusätzlich die
+    # komplette Einstellung (Model, px_preset, Parameter, Relay, System-
+    # prompt) — Session-Load rendert die UI exakt so wieder (T1-Pin der
+    # chat_settings-Roundtrips bleibt erhalten: alle 13 Felder im dict).
+    from gradio_tabs.chat_settings import settings_from_widgets
+    chat_settings = settings_from_widgets(
+        model_id=model_id,
+        px_preset=px_preset,
+        auto_tune=False,  # UI hat kein auto_tune-Widget (dead field)
+        temperature=temp,
+        top_p=tp,
+        max_tokens=mt,
+        rep_p=rp,
+        px_gamma=gamma,
+        relay_sign=relay_sign,
+        relay_alpha=relay_alpha,
+        relay_layer=relay_layer,
+        system_profile=system_profile,
+        system_prompt_text=system_prompt_text,
+    )
+    save_session(session_id, messages, model_id=model_id, settings=chat_settings)
 
     # 3. Generate with streaming
     # Robustness: Flatten to strings if no images are present to satisfy text-only templates.
@@ -313,9 +529,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         px_metrics=px_metrics
     )
 
-    # 5. Save session on completion
+    # 5. Save session on completion (Plan 2026-10-05: + komplette Einstellung)
     full_history = messages + [{"role": "assistant", "content": partial_text}]
-    save_session(session_id, full_history, model_id=model_id)
+    save_session(session_id, full_history, model_id=model_id, settings=chat_settings)
 
 
 # ── Sidebar System-Prompt Helper (Plan 2026-07-08) ───────────────────
@@ -340,6 +556,40 @@ def on_preset_change_load_profile(preset: str) -> tuple:
     return profile_name, profile_body
 
 
+# ── Profil-Body-Load-Suppress (Plan 2026-10-05) ──────────────────────────
+# Gradio feuert .change auch bei PROGRAMMATISCHEN Widget-Updates — der
+# Session-Restore (restore_session_settings) rendert also das Profil-
+# Dropdown und würde damit den Profil-Body in die (evtl. frei editierte,
+# aus der Session wiederhergestellte) Textarea schieben. Gegen-Wehrturm:
+# Fire-Counter — der Restore zählt (nur bei abweichendem Profilwert; gleiche
+# Werte feuern kein .change, also kein Zähler-Leak), der change-Handler
+# konsumiert einen Token und no-op't via gr.skip().
+# Test-Reset: _reset_profile_suppress_for_tests().
+_PROFILE_BODY_SUPPRESS_LOCK = threading.Lock()
+_PROFILE_BODY_SUPPRESS_COUNT = 0
+
+
+def _suppress_profile_body_load_once() -> None:
+    global _PROFILE_BODY_SUPPRESS_COUNT
+    with _PROFILE_BODY_SUPPRESS_LOCK:
+        _PROFILE_BODY_SUPPRESS_COUNT += 1
+
+
+def _profile_body_load_suppressed() -> bool:
+    global _PROFILE_BODY_SUPPRESS_COUNT
+    with _PROFILE_BODY_SUPPRESS_LOCK:
+        if _PROFILE_BODY_SUPPRESS_COUNT > 0:
+            _PROFILE_BODY_SUPPRESS_COUNT -= 1
+            return True
+        return False
+
+
+def _reset_profile_suppress_for_tests() -> None:
+    global _PROFILE_BODY_SUPPRESS_COUNT
+    with _PROFILE_BODY_SUPPRESS_LOCK:
+        _PROFILE_BODY_SUPPRESS_COUNT = 0
+
+
 def on_profile_change_load_body(profile_name: str) -> str:
     """system_profile.change-Handler: lädt Profil-Body in die Textarea.
 
@@ -350,9 +600,18 @@ def on_profile_change_load_body(profile_name: str) -> str:
     in den nächsten Chat (build_system_message nutzt edit_text, wenn
     vorhanden, sonst den Profil-Body).
 
+    Plan 2026-10-05 (Session-Settings-Restore): Programmatische Profil-
+    Updates (Session-Load) feuern dieses .change ebenfalls — hier wird
+    EIN Suppress-Token konsumiert (siehe restore_session_settings) und
+    die Textarea via gr.skip() UNBERÜHRT gelassen; die wiederhergestellte
+    Textarea bleibt Source-of-Truth.
+
     Returns:
-        profile_body — String für gr.update(value=...) auf der Textarea.
+        profile_body — String für gr.update(value=...) auf der Textarea
+        (oder gr.skip() bei programmatischem Restore-Fireing).
     """
+    if _profile_body_load_suppressed():
+        return gr.skip()
     from gradio_tabs.system_prompt import load_profile_body
     return load_profile_body(profile_name)
 
@@ -408,11 +667,14 @@ def build_chat_tab(manager: ModelManager):
 
         with gr.Accordion("verstärkbar Relay (seite15)", open=False):
             gr.Markdown(
-                "Re-Injektion der modell-eigenen L16-Zustands-Richtung `d_width` am "
+                "Re-Injektion der modell-eigenen Zustands-Richtung `d_width` am "
                 "post-recur Layer (Motor unangetastet, forward_hook). Wirksam mit "
                 "**ACTIVE_MANIFOLD_RELAY** (default sign=+1) oder sign≠0 auf jedem "
-                "Preset. Nur gemma3-1b-it hat ein d_width-Artefakt; andere Modelle "
-                "→ relay no-op, LEAN-Engine läuft. siehe scratches/psychomotrik/LESUNG15.md"
+                "Preset. Beim Modellwechsel werden Richtung/Alpha/Layer (incl. "
+                "Slider-Bounds) automatisch per d_width-Artefakt gesetzt — "
+                "Artefakte für gemma3-270m-it / 1b-it / 1b-pt / 4b-it / 4b-pt / "
+                "gemma4-E2B / ternary-27b existieren; MiniCPM5→ relay no-op, "
+                "LEAN-Engine läuft. siehe scratches/psychomotrik/LESUNG15.md"
             )
             relay_sign = gr.Radio(
                 choices=[("+1  (WIDE / expansiv / aktiv)", 1),
@@ -422,7 +684,17 @@ def build_chat_tab(manager: ModelManager):
             )
             relay_alpha = gr.Slider(0.0, 1.5, value=0.30, step=0.05,
                                     label="Relay Alpha (Bruchteil L21-Norm; kohärenter Chat ~0.30, seite15-stark=0.5)")
-            relay_layer = gr.Slider(1, 25, value=21, step=1, label="Relay Injektions-Layer")
+            # Init-Bounds aus dem Start-Modell (model_choices[0]) — je
+            # Modell setzen die apply_px_defaults-Handler die Bounds neu
+            # (maximum=n_layers). Der alte starre Slider (1..25) machte
+            # ternary L34 / E2B L26 unerreichbar.
+            _init_defaults = get_px_defaults(model_choices[0]) or {}
+            _init_layers = int(_init_defaults.get("n_layers") or 25)
+            _init_inject = int(_init_defaults.get("inject_layer") or 21)
+            relay_layer = gr.Slider(
+                1, _init_layers, value=_init_inject, step=1,
+                label="Relay Injektions-Layer",
+            )
 
         gr.Markdown("---")
         # Plan 2026-07-08: System-Prompt prominent in der Sidebar.
@@ -609,14 +881,36 @@ def build_chat_tab(manager: ModelManager):
         outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
     )
     
+    # Plan 2026-10-05 (Session-Settings-Restore): Load & Import rendern die
+    # in der session.json gespeicherte Einstellung zurück in die 12 Widgets —
+    # Outputs-Reihenfolge = SETTINGS_WIDGET_FIELDS (chat_tab.py-Header).
+    # handle_new_session bewusst OHNE Restore: frische Session, die Widgets
+    # bleiben wie sie gerade stehen.
+    _settings_restore_out = [
+        model_select, px_preset, temperature, top_p, max_tokens, rep_p,
+        px_gamma, relay_sign, relay_alpha, relay_layer, system_profile,
+        system_prompt_text,
+    ]
     load_session_btn.click(
         fn=handle_load_saved,
         inputs=[session_dropdown],
         outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
+    ).then(
+        fn=restore_session_settings,
+        inputs=[session_id_state, system_profile],
+        outputs=_settings_restore_out,
     )
-    
+
     export_btn.click(fn=handle_export, inputs=[session_id_state, chatbot], outputs=[export_file])
-    import_btn.click(fn=handle_import, inputs=[import_file], outputs=[session_id_state, chatbot, session_dropdown, session_id_display])
+    import_btn.click(
+        fn=handle_import,
+        inputs=[import_file],
+        outputs=[session_id_state, chatbot, session_dropdown, session_id_display]
+    ).then(
+        fn=restore_session_settings,
+        inputs=[session_id_state, system_profile],
+        outputs=_settings_restore_out,
+    )
     refresh_sessions_btn.click(fn=handle_refresh, outputs=[session_dropdown])
 
     # Plan ui-styling 2026-07-06: Undo-Button click-handler.
@@ -626,6 +920,39 @@ def build_chat_tab(manager: ModelManager):
         inputs=[session_id_state, chatbot],
         outputs=[chatbot, undo_status],
     )
+
+    # ── Session-Settings-Roundtrip (Plan 2026-10-05) ─────────────────────
+    # (a) Auto-Defaults: User wählt Modell oder px_preset (.input = nur echte
+    #     User-Aktionen; programmatische Restore-Updates feuern kein .input) →
+    #     per-Model-Defaults in die Relay-/Gamma-Controls (incl. Slider-Bounds
+    #     maximum=n_layers aus gradio_tabs/px_defaults.py) + persistiert in die
+    #     session.json. Suppress-Regel gegen Restore-Freing in apply_px_defaults.
+    for _owner in (model_select, px_preset):
+        _owner.input(
+            fn=apply_px_defaults,
+            inputs=[model_select, px_preset, session_id_state],
+            outputs=[relay_sign, relay_alpha, relay_layer, px_gamma],
+        )
+
+    # (b) Persistenz aller freien User-Felder (debounced 400ms via
+    #     settings_persist.schedule_settings_save). model_id/px_preset/relay_*/
+    #     px_gamma persisten zusätzlich durch (a) und beide chat_fn-Save-Points;
+    #     dieser Loop deckt auch die Fälle ab, in denen User Werte hand-anpasst,
+    #     ohne das Modell zu wechseln. outputs-frei (fire-and-forget).
+    for _field, _wid in (
+        ("temperature", temperature), ("top_p", top_p),
+        ("max_tokens", max_tokens), ("rep_p", rep_p),
+        ("px_gamma", px_gamma),
+        ("relay_sign", relay_sign), ("relay_alpha", relay_alpha),
+        ("relay_layer", relay_layer),
+        ("system_profile", system_profile),
+        ("system_prompt_text", system_prompt_text),
+    ):
+        _wid.input(
+            fn=_persist_setting_field(_field),
+            inputs=[session_id_state, _wid],
+            outputs=None,
+        )
 
     # Plan 2026-07-09: Preset und System-Prompt sind komplett entkoppelt.
     # User-Entscheidung 2026-07-09: "ich will nicht automatisch citmind
@@ -643,15 +970,35 @@ def build_chat_tab(manager: ModelManager):
     #   in den Chat (build_system_message nutzt edit_text, wenn vorhanden).
     # → reset_prompt_btn leert die Textarea (Profil-Default wird beim
     #   nächsten system_profile.change() neu geladen).
+    # Plan 2026-10-05: nach dem Profil-Body-Load persistiert der .then die
+    # neue Textarea (die .input-Persist oben feuert NICHT — der Textarea-
+    # Update ist programmatisch). Gleiche Kette für den Reset-Button (""
+    # → persistiert, sonst lebt der alte Text in der session.json weiter).
     system_profile.change(
         fn=on_profile_change_load_body,
         inputs=[system_profile],
         outputs=[system_prompt_text],
+    ).then(
+        fn=_persist_setting_field("system_prompt_text"),
+        inputs=[session_id_state, system_prompt_text],
+        outputs=None,
     )
     reset_prompt_btn.click(
         fn=on_reset_prompt_click,
         inputs=[],
         outputs=[system_prompt_text],
+    ).then(
+        fn=_persist_setting_field("system_prompt_text"),
+        inputs=[session_id_state, system_prompt_text],
+        outputs=None,
     )
 
-    return session_id_state, chatbot, session_dropdown, session_id_display
+    # Plan 2026-10-05: 16er-Tupel — die ersten 4 wie bisher (app.py-Unpack),
+    # danach die 12 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
+    # Reihenfolge (app.py demo.load-Outputs + .then-Chains spiegeln das).
+    return (
+        session_id_state, chatbot, session_dropdown, session_id_display,
+        model_select, px_preset, temperature, top_p, max_tokens, rep_p,
+        px_gamma, relay_sign, relay_alpha, relay_layer,
+        system_profile, system_prompt_text,
+    )

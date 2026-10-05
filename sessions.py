@@ -88,18 +88,38 @@ def save_session(session_id: str, history: List[Dict[str, Any]],
     Backward-compatible: ohne <settings> wird der "settings" key GAR NICHT
     geschrieben (T1-Pin) — so bleiben alte session.json-Dateien unverändert
     lesbar. Mit <settings> wird er unter dem key persistiert (T2-Pin).
+
+    Preserve-Semantik (User-Request 2026-10-05, Session-Settings-Restore):
+    Aufrufe OHNE model_id/settings (z.B. handle_undo) überschreiben NICHT
+    mehr existing model_id/settings der Datei mit None — die bestehenden
+    Werte werden unter dem per-session-Lock gelesen und wiederverwendet.
+    Bei FRISCHER Datei (kein bestehender Wert) bleibt der key wie bisher
+    weg (T1-Pin), bzw. model_id=None.
     """
     ensure_session_dir()
     path = os.path.join(SESSION_DIR, f"{session_id}.json")
-    data: Dict[str, Any] = {
-        "session_id": session_id,
-        "model_id": model_id,
-        "history": history,
-        "updated_at": str(os.times()[4])  # simplified timestamp
-    }
-    if settings is not None:
-        data["settings"] = settings
-    _atomic_write_json(path, data)
+
+    existing: Dict[str, Any] = {}
+    lock = _get_lock(session_id)
+    with lock:
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+            except (OSError, ValueError):
+                existing = {}
+
+        data: Dict[str, Any] = {
+            "session_id": session_id,
+            "model_id": model_id if model_id is not None else existing.get("model_id"),
+            "history": history,
+            "updated_at": str(os.times()[4])  # simplified timestamp
+        }
+        if settings is not None:
+            data["settings"] = settings
+        elif isinstance(existing.get("settings"), dict):
+            data["settings"] = existing["settings"]
+        _atomic_write_json(path, data)
     return path
 
 
