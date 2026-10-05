@@ -60,14 +60,14 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
 
     with gr.Tabs():
         with gr.Tab("💬 Chat"):
-            # Plan 2026-10-05 / Phase 3 2026-10-05 (Thinking-Widgets):
-            # build_chat_tab returnt 18 Komponenten — die ersten 4 wie
-            # bisher, danach die 14 Settings-Widgets in EXAKT der
+            # Plan 2026-10-05 / Phase 3 2026-10-05 (Thinking-Widgets + Budget):
+            # build_chat_tab returnt 19 Komponenten — die ersten 4 wie
+            # bisher, danach die 15 Settings-Widgets in EXAKT der
             # SETTINGS_WIDGET_FIELDS-Reihenfolge (gradio_tabs/chat_tab.py-
             # Header). Diese Reihenfolge spiegeln die demo.load-Outputs unten.
             (session_id_state, chatbot, session_dropdown, session_id_display,
              model_select, px_preset_widgets, temperature, top_p, max_tokens,
-             rep_p, px_gamma, thinking, thinking_effort,
+             rep_p, px_gamma, thinking, thinking_budget, thinking_effort,
              relay_sign, relay_alpha, relay_layer,
              system_profile, system_prompt_text) = build_chat_tab(manager)
 
@@ -81,9 +81,9 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
             build_telemetry_tab(manager)
 
     # ── Initialization ──
-    # Plan 2026-10-05: Page-Load rendert zusätzlich die 14 Settings-Widgets
-    # aus der session.json (Session-Settings-Restore, +thinking/effort Phase 3)
-    # — 18 Outputs, Reihen-folge identisch mit build_chat_tab-Return oben.
+    # Plan 2026-10-05: Page-Load rendert zusätzlich die 15 Settings-Widgets
+    # aus der session.json (Session-Settings-Restore, +thinking/budget/effort)
+    # — 19 Outputs, Reihen-folge identisch mit build_chat_tab-Return oben.
     # inputs um system_profile erweitert: restore_session_settings braucht den
     # aktuell gerenderten Profil-Wert für den Suppress (siehe chat_tab.py).
     def init_app(session_id, current_profile):
@@ -95,8 +95,8 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
         inputs=[session_id_state, system_profile],
         outputs=[session_id_state, chatbot, session_dropdown, session_id_display,
                  model_select, px_preset_widgets, temperature, top_p,
-                 max_tokens, rep_p, px_gamma, thinking, thinking_effort,
-                 relay_sign, relay_alpha, relay_layer,
+                 max_tokens, rep_p, px_gamma, thinking, thinking_budget,
+                 thinking_effort, relay_sign, relay_alpha, relay_layer,
                  system_profile, system_prompt_text]
     )
 

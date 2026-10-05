@@ -180,6 +180,216 @@ def _chat_template_kwargs(thinking=None, thinking_effort=None) -> dict:
     return kw
 
 
+# ── Gemma4 Thinking-Budget (Plan 2026-10-05) ────────────────────────────
+# max_thinking_tokens als App-Level LogitsProcessor. Upstream transformers
+# 5.13.0 kennt den Parameter NICHT (nur der ungemergte PR #42112 — von dem
+# der dev.to-Artikel "Gemma 4's Thinking Mode" die Pipe-Syntax zeigt; dort
+# ist er illustrativ, kein etablierter generate()-Parameter).
+#
+# Gemma-4 denkt im "thought channel", abgegrenzt durch ECHTE Tokens des
+# lokalen Tokenizers (Probe scratches/gemma4_think_tokens_probe.py):
+#   öffnend    "<|channel>"   id=100  (special/added)
+#   bestätigend "thought"     id=45518 (plain vocab — folgt dem Open)
+#   schließend "<channel|>"   id=101  (special/added)
+# ("<|think|>" id=98 triggert den System-Turn; im Generation-Stream sind
+# die Kanal-Delimiter open+confirm+close die Semantik. Die Artikel-Demo
+# `<thinking>…</thinking>` existiert im Vokabular NICHT — unk-Fallback id 3.)
+_THINK_OPEN_TOKEN = "<|channel>"
+_THINK_CLOSE_TOKEN = "<channel|>"
+_THINK_CONFIRM_TOKEN = "thought"
+
+
+def _resolve_think_token(tokenizer, text):
+    """Text → Token-ID, UNK-Fallback ausgeschlossen (round-trip check).
+
+    Der Gemma4-Tokenizer mappt unbekannte Strings auf unk_token_id (3) —
+    ein false positive wäre fatale Maskierung der falschen ID. Round-trip
+    convert_ids_to_tokens(id) == text beweist echte Vokabular-Präsenz.
+    """
+    try:
+        tid = tokenizer.convert_tokens_to_ids(text)
+    except Exception:
+        return None
+    if tid is None or int(tid) < 0:
+        return None
+    tid = int(tid)
+    if tid == getattr(tokenizer, "unk_token_id", None):
+        return None
+    if hasattr(tokenizer, "convert_ids_to_tokens"):
+        try:
+            if tokenizer.convert_ids_to_tokens(tid) != text:
+                return None
+        except Exception:
+            return None
+    return tid
+
+
+def _think_channel_token_ids(tokenizer):
+    """(open_id, close_id, confirm_id) oder None (Infrastructure fehlt).
+
+    None → jeder Budget-Helper no-op (nicht-Gemma4-Modelle bleiben exakt
+    im bisherigen Verhalten). confirm_id None ist erlaubt (bestätigungslos
+    gedegradet: der Open setzt direkt den Kanal).
+    """
+    if tokenizer is None:
+        return None
+    open_id = _resolve_think_token(tokenizer, _THINK_OPEN_TOKEN)
+    if open_id is None:
+        return None
+    close_id = _resolve_think_token(tokenizer, _THINK_CLOSE_TOKEN)
+    if close_id is None:
+        return None
+    confirm_id = _resolve_think_token(tokenizer, _THINK_CONFIRM_TOKEN)
+    return (open_id, close_id, confirm_id)
+
+
+try:
+    from transformers.generation.logits_process import (
+        LogitsProcessor, LogitsProcessorList,
+    )
+except ImportError:  # pragma: no cover — sehr alte transformers
+    from transformers import LogitsProcessor, LogitsProcessorList
+
+
+class ThinkingBudgetLogitsProcessor(LogitsProcessor):
+    """Erzwingt ein Token-Budget für den Gemma-4-Think-Kanal.
+
+    Semantik (der max_thinking_tokens-Doku folgend, App-Level realisiert):
+    sobald `budget` Tokens IM Kanal erzeugt wurden, wird die nächste
+    Token-Verteilung auf `<channel|>` (= close) eingeschnürt — alle anderen
+    Logits auf torch.finfo(dtype).min. Das Modell beendet den Think-Block
+    deterministisch und läuft im normalen Channel weiter (kein Hard-Stop,
+    kein OOD-Truncation wie in PR #42112 diskutiert).
+
+    State machine über die generierten Tokens:
+      außerhalb: open_id → pending; (pending + confirm_id) → im Kanal
+                 — "thought" als WORT im Fließtext öffnet KEINEN Kanal
+      im Kanal:  close_id → außerhalb (count resettet); sonst count += 1
+                 (NUR close resettet — das Wort "thought" kann als INHALT
+                 im Kanal auftauchen, darf die Zählung nicht zurücksetzen)
+
+    Der erste __call__ sieht den Prompt (input_ids == Init-Länge) →
+    base_len anlegen, scores unangetastet. Danach werden pro Call nur die
+    NEUEN ids[base_len:] konsumiert — kein O(Prompt)-Rescan pro Schritt.
+
+    Vorbereiteter Kanal (Template-Tool-Fall: add_generation_prompt liefert
+    `<|channel>thought\` am Prompt-Ende): der __init__-Prompt-Scan erkennt
+    den offenen Kanal → Generierung startet IM Kanal, count=0.
+
+    Maskierung mit finfo.min statt -inf: der Prozessor läuft NACH den
+    Built-ins (_merge_criteria_processor_list hängt Custom ans Ende);
+    temperature/top_k/top_p haben dann die finfo.min-Werte schon gesehen —
+    softmax/argmax wählen deterministisch close (min ≈ -3.4e38).
+    Batch = 1 (Server/UI serve single-user, wie StopOnEOT).
+    """
+
+    def __init__(self, input_ids, open_id, close_id, confirm_id, budget):
+        seq = input_ids[0] if input_ids.dim() > 1 else input_ids
+        base = list(seq.tolist())
+        self.open_id = int(open_id)
+        self.close_id = int(close_id)
+        self.confirm_id = int(confirm_id) if confirm_id is not None else None
+        self.budget = int(budget)
+        self.in_think = False
+        self.count = 0
+        self.pending_confirm = False
+        i = 0
+        while i < len(base):
+            tid = base[i]
+            if not self.in_think and tid == self.open_id and self.confirm_id is not None:
+                # Vorbereiteter Kanal: Bestätigung muss IM Prompt folgen.
+                if i + 1 < len(base) and base[i + 1] == self.confirm_id:
+                    self.in_think = True
+                    self.count = 0
+                    i += 2
+                    continue
+                # Bestätigungsloses Open endet mit dem Prompt — Generierung
+                # startet außerhalb (pending endet mit dem Prompt).
+            elif self.in_think and tid == self.close_id:
+                self.in_think = False
+                self.count = 0
+            i += 1
+        self.base_len = len(base)
+
+    def _advance(self, tid):
+        if self.in_think:
+            if tid == self.close_id:
+                self.in_think = False
+                self.count = 0
+            else:
+                self.count += 1
+        else:
+            if tid == self.open_id:
+                self.pending_confirm = True
+            elif self.pending_confirm:
+                self.pending_confirm = False
+                if self.confirm_id is None or tid == self.confirm_id:
+                    self.in_think = True
+                    self.count = 0
+
+    def __call__(self, input_ids, scores):
+        seq = input_ids[0] if input_ids.dim() > 1 else input_ids
+        n = int(seq.shape[0])
+        if n <= self.base_len:
+            # Erste Scores-Call: input_ids == Prompt (nichts Neues zu zählen;
+            # der __init__-Scan hat die Prompt-Semantik schon gesetzt).
+            return scores
+        # Zuerst alle neu sichtbaren Tokens konsumieren (normalerweise genau
+        # das eine seit dem letzten Call) — sonst klebt der State am letzten
+        # konsumierten Token und die Maske würde in JEDEM Folgeschritt
+        # wieder feuern (close-spam) statt einmalig.
+        for tid in seq[self.base_len:].tolist():
+            self._advance(tid)
+        self.base_len = n
+        if self.in_think and (self.budget <= 0 or self.count >= self.budget):
+            # scores beschreibt das NEXT-token: count == budget inhaltliche
+            # Kanal-Tokens → genau HIER wird close erzwungen. Der Folgeschritt
+            # konsumiert dieses close → in_think=False → Maske wieder aus.
+            mask = torch.full_like(scores, torch.finfo(scores.dtype).min)
+            mask[:, self.close_id] = scores[:, self.close_id]
+            return mask
+        return scores
+
+
+def _thinking_budget_kwargs(gen_kwargs, input_ids, thinking_budget,
+                            tokenizer=None):
+    """Thinking-Budget als LogitsProcessor an ein gen_kwargs-dict hängen.
+
+    - thinking_budget None/bool/<=0/non-numeric → gen_kwargs UNVERÄNDERT
+      (None = kein Budget am Modell; 0 = unbegrenzt)
+    - Tokenizer kennt die Kanal-Tokens nicht (gemma3/minicpm/bonsai/unk)
+      → unverändert (kein Frickel-Fallback)
+    - bestehender logits_processor wird komponiert (List append)
+
+    Nur für den plain model.generate-Pfad verwenden — generate_long und
+    chunked_generate haben keine LogitsProcessor-Route.
+    """
+    b = thinking_budget
+    if b is None or isinstance(b, bool) or not isinstance(b, (int, float)):
+        return gen_kwargs
+    if int(b) <= 0:
+        return gen_kwargs
+    if input_ids is None:
+        return gen_kwargs
+    ids = _think_channel_token_ids(tokenizer)
+    if ids is None:
+        return gen_kwargs
+    open_id, close_id, confirm_id = ids
+    processor = ThinkingBudgetLogitsProcessor(
+        input_ids, open_id, close_id, confirm_id, int(b))
+    existing = gen_kwargs.get("logits_processor")
+    if isinstance(existing, LogitsProcessorList):
+        existing.append(processor)
+    elif existing is not None:
+        try:
+            existing.append(processor)
+        except Exception:
+            gen_kwargs["logits_processor"] = LogitsProcessorList([processor])
+    else:
+        gen_kwargs["logits_processor"] = LogitsProcessorList([processor])
+    return gen_kwargs
+
+
 def _px_gen_kwargs(model, base: dict) -> dict:
     """Inject PX-specific kwargs (e.g. repetition_penalty, no_repeat_ngram_size)
     onto a generation kwargs dict. The patched model exposes
@@ -440,6 +650,7 @@ async def generate_chat_completion(
     stop: Optional[Union[str, List[str]]] = None,
     thinking: Optional[bool] = None,
     thinking_effort: Optional[str] = None,
+    thinking_budget: Optional[int] = None,
 ) -> dict:
     """Non-streaming chat completion. Returns text + token counts."""
     model = model_entry["model"]
@@ -607,6 +818,13 @@ async def generate_chat_completion(
                 inputs_embeds=inputs.get("inputs_embeds"),
             )
         else:
+            # Plan 2026-10-05 (Gemma4 Thinking-Budget): App-Level
+            # LogitsProcessor — nur im plain-Pfad (model.generate);
+            # generate_long/chunked_generate haben keine LogitsProcessor-
+            # Route (und dort — bonsai/gemma3 — fehlt die Kanal-Infrastruktur
+            # ohnehin, Helper no-op).
+            gen_kwargs = _thinking_budget_kwargs(
+                gen_kwargs, inputs["input_ids"], thinking_budget, tokenizer)
             outputs = model.generate(**inputs, **gen_kwargs)
 
     # Decode only new tokens
@@ -640,6 +858,7 @@ async def generate_chat_completion_stream(
     model_id: str = "",
     thinking: Optional[bool] = None,
     thinking_effort: Optional[str] = None,
+    thinking_budget: Optional[int] = None,
 ) -> Generator[str, None, None]:
     """Streaming SSE generator for chat completions.
 
@@ -819,6 +1038,10 @@ async def generate_chat_completion_stream(
         thread = Thread(target=_chunked_worker)
         thread.start()
     else:
+        # Plan 2026-10-05 (Gemma4 Thinking-Budget): nur im plain-Pfad
+        # (model.generate) — long/chunked haben keine LogitsProcessor-Route.
+        gen_kwargs = _thinking_budget_kwargs(
+            gen_kwargs, inputs["input_ids"], thinking_budget, tokenizer)
         thread = Thread(target=model.generate, kwargs=gen_kwargs)
         thread.start()
 

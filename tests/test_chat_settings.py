@@ -8,7 +8,7 @@ daemon). Wenn jemand die Lock-Semantik bricht oder den Auto-Tune-Lock
 ändert (sperrt temperature/top_p/rep_p/px_gamma), fallen diese Tests.
 
 Pin-Tests:
-  T1: settings_from_widgets mit 15 kwargs returnt dict mit 15 keys, types coerced
+  T1: settings_from_widgets mit 16 kwargs returnt dict mit 16 keys, types coerced
   T2: widget_updates_from_settings({}) fällt auf SETTINGS_DEFAULTS zurück
   T3: widget_updates_from_settings mit auto_tune=True lockt
       temperature/top_p/rep_p/px_gamma auf interactive=False
@@ -24,6 +24,8 @@ Pin-Tests:
   T12: system_prompt_text=None wird zu "" (vermeidet JSON-null)
   T13 (Phase 3, 2026-10-05): thinking + thinking_effort sind Felder —
       thinking=None → False, thinking_effort=None/"" → None
+  T14 (Plan 2026-10-05): thinking_budget ist Feld — None → None (= kein
+      Budget am Modell), int > 0 durchgereicht, bool/Junk → None
 
 Run:
     /run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python \
@@ -39,24 +41,25 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-# Erwartete 15 Settings-Felder in der Reihenfolge, in der sie an
+# Erwartete 16 Settings-Felder in der Reihenfolge, in der sie an
 # settings_from_widgets übergeben werden. Single source of truth.
 # Phase 3 (2026-10-05): + thinking/thinking_effort (nicht in
-# AUTO_TUNE_LOCKED_FIELDS — chat_settings-Docstring).
+# AUTO_TUNE_LOCKED_FIELDS — chat_settings-Docstring). Plan 2026-10-05:
+# + thinking_budget (gleiches Lock-Verhalten).
 EXPECTED_FIELDS = (
     "model_id", "px_preset", "auto_tune",
     "temperature", "top_p", "max_tokens", "rep_p", "px_gamma",
-    "thinking", "thinking_effort",
+    "thinking", "thinking_budget", "thinking_effort",
     "relay_sign", "relay_alpha", "relay_layer",
     "system_profile", "system_prompt_text",
 )
 
 
 class TestSettingsFromWidgets(unittest.TestCase):
-    """T1: settings_from_widgets round-trip aus 15 widget-Values."""
+    """T1: settings_from_widgets round-trip aus 16 widget-Values."""
 
-    def test_t1_returns_dict_with_all_15_fields(self):
-        """settings_from_widgets returnt dict mit allen 15 keys."""
+    def test_t1_returns_dict_with_all_16_fields(self):
+        """settings_from_widgets returnt dict mit allen 16 keys."""
         from gradio_tabs.chat_settings import settings_from_widgets
         kwargs = {
             "model_id": "gemma3-1b-it",
@@ -68,6 +71,7 @@ class TestSettingsFromWidgets(unittest.TestCase):
             "rep_p": 1.15,
             "px_gamma": 0.08,
             "thinking": True,
+            "thinking_budget": 2048,
             "thinking_effort": "medium",
             "relay_sign": 0,
             "relay_alpha": 0.30,
@@ -97,13 +101,36 @@ class TestSettingsFromWidgets(unittest.TestCase):
         base.update({
             "auto_tune": False, "temperature": 0.7, "top_p": 0.9,
             "max_tokens": 16, "rep_p": 1.1, "px_gamma": 0.1,
-            "thinking": None, "thinking_effort": None,
+            "thinking": None, "thinking_budget": None, "thinking_effort": None,
         })
         s = settings_from_widgets(**base)
         self.assertEqual(s["thinking"], SETTINGS_DEFAULTS["thinking"])
+        self.assertIsNone(s["thinking_budget"])
         self.assertIsNone(s["thinking_effort"])
         s2 = settings_from_widgets(**{**base, "thinking_effort": ""})
         self.assertIsNone(s2["thinking_effort"])
+
+    def test_t14_thinking_budget_coercion(self):
+        """Plan 2026-10-05: thinking_budget int > 0 durchgereicht (int-cast);
+        0 gilt (unbegrenzt); True/False sind KEIN Budget (bool-Guard);
+        Junk ("2048" etc., Slider liefert Zahlen) → None-Default."""
+        from gradio_tabs.chat_settings import settings_from_widgets
+        from sessions import SETTINGS_DEFAULTS
+        base = {f: "x" for f in EXPECTED_FIELDS}
+        base.update({
+            "auto_tune": False, "temperature": 0.7, "top_p": 0.9,
+            "max_tokens": 16, "rep_p": 1.1, "px_gamma": 0.1,
+        })
+        s = settings_from_widgets(**{**base, "thinking_budget": 1024})
+        self.assertEqual(s["thinking_budget"], 1024)
+        s0 = settings_from_widgets(**{**base, "thinking_budget": 0})
+        self.assertEqual(s0["thinking_budget"], 0)
+        # bool ist explizit KEIN Budget (Slider liefert ohnehin Zahlen)
+        sb = settings_from_widgets(**{**base, "thinking_budget": True})
+        self.assertIsNone(sb["thinking_budget"])
+        # 0-Default: Slider-None → kein Budget am Modell
+        sn = settings_from_widgets(**{**base, "thinking_budget": None})
+        self.assertIsNone(sn["thinking_budget"])
 
 
 class TestWidgetUpdatesFromSettings(unittest.TestCase):

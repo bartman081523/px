@@ -212,6 +212,10 @@ def _build_argparser():
     parser.add_argument("--thinking-effort", choices=["xhigh", "medium", "low"],
                         default=None,
                         help="Denk-Aufwand bei thinking=on (Template-Default xhigh)")
+    parser.add_argument("--thinking-budget", type=int, default=None,
+                        help="Gemma-4: max_thinking_tokens — Token-Budget im "
+                             "thought-Kanal (App-Level LogitsProcessor); 0 = "
+                             "unbegrenzt, None = kein Budget")
     parser.add_argument("--max-tokens", type=int, default=2048,
                         help="max_tokens für den Response (default 2048: Platz, "
                         "damit die Antwort eigenständig terminieren kann — "
@@ -242,7 +246,8 @@ def main():
     print("="*60)
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
     print(f" MODE: {args.preset} | MODEL: {args.model} | THINKING: {args.thinking}"
-          + (f" (effort {args.thinking_effort})" if args.thinking == "on" and args.thinking_effort else ""))
+          + (f" (effort {args.thinking_effort})" if args.thinking == "on" and args.thinking_effort else "")
+          + (f" (budget {args.thinking_budget})" if args.thinking == "on" and args.thinking_budget else ""))
     if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
         # source: USER wenn --relay-layer explizit, sonst "auto ({modell})"
         layer_src = "user" if args.relay_layer is not None else f"auto ({args.model})"
@@ -324,6 +329,10 @@ def main():
         payload["px_thinking"] = False
     if args.thinking == "on" and args.thinking_effort:
         payload["px_thinking_effort"] = args.thinking_effort
+    # Gemma-4-Denk-Budget (Plan 2026-10-05): nur senden, wenn gesetzt —
+    # None = kein Budget am Modell (Server-Default), 0 = unbegrenzt.
+    if args.thinking == "on" and args.thinking_budget is not None:
+        payload["px_thinking_budget"] = args.thinking_budget
     # verstärkbar Relay-Parameter (nur gesetzt wenn CLI-arg angegeben —
     # AUSNAHME px_relay_layer: der wird per-Modell auto-resolved, sonst
     # kriegt z.B. 270m die 1b-Schicht 21 statt 14, und der Relay-Effekt

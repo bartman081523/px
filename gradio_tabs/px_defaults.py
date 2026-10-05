@@ -64,6 +64,8 @@ Profil-Klick/manuell). Diese Entscheidung bleibt unangetastet.
         default (bool)             — enable_thinking-Template-Default
         efforts (tuple[str]|None)  — None → kein Budget-Parameter
         effort_default (str|None)  — Default-Budget-Stufe (nur wenn efforts)
+        budget_default (int|None)  — Zahl-Budget (gemma4: 2048)
+        budget_range (tuple|None)  — (min, max) Slider-Bounds (gemma4: 0,8192)
 """
 from __future__ import annotations
 
@@ -116,14 +118,20 @@ _PX_MODEL_TABLE: Dict[str, Dict[str, Any]] = {
     "gemma4-e2b-it": dict(
         n_layers=35, hidden_size=1536, px_gamma=0.12, inject_layer=26,
         relay_available=True,
-        # Thinking (Phase 3, 2026-10-05): chat_template.jinja —
+        # Thinking (Phase 3 + Budget, 2026-10-05): chat_template.jinja —
         # `{%- set enable_thinking = enable_thinking | default(false) -%}`
-        # → Template-Default AUS. Kein Budget-Parameter im Template, im
-        # Model Card (huggingface.co/google/gemma-4-E2B-it), in der Google-
-        # Gemma-Dok oder in transformers 5.13.0 — max_thinking_tokens ist
-        # nur der UNGEMERGTE PR huggingface/transformers#42112. Bewusst
-        # KEIN Budget-Widget (keine Frickel-Stopping-Criteria).
+        # → Template-Default AUS. Budget: gemma4 HAT max_thinking_tokens —
+        # im Template/Model Card/Google-Dok NICHT als generate-Parameter
+        # (transformers 5.13.0: nur ungemergter PR #42112), sondern als
+        # Doku-Semantik, die wir App-Level realisieren
+        # (generators.ThinkingBudgetLogitsProcessor über die echten
+        # Kanal-Tokens <|channel>=100 / thought=45518 / <channel|>=101;
+        # Probe scratches/gemma4_think_tokens_probe.py).
         thinking_default=False,
+        thinking_budget_default=2048,
+        # Range = Slider-Bounds: unten 0 (= unbegrenzt, Semantik im Widget-
+        # info), oben 8192 (Kontextplausibel für 12-GB-Karte).
+        thinking_budget_range=(0, 8192),
     ),
     "minicpm5-1b": dict(
         n_layers=24, hidden_size=1536, px_gamma=None, inject_layer=None,
@@ -217,25 +225,44 @@ def get_thinking_defaults(model_id: str) -> Optional[Dict[str, Any]]:
                           `enable_thinking | default(false)` — Thinking
                           ON injiziert `<|think|>` in den ersten System-
                           Turn (das Template baut den System-Turn selbst,
-                          kein Message-Inject nötig). Kein Budget-Parameter
-                          in Template / Model Card / Google-Dok / installed
-                          transformers 5.13.0 (nur ungemergt PR #42112).
+                          kein Message-Inject nötig). Budget: max_thinking_
+                          tokens ist NICHT generate-Etabliert (transformers
+                          5.13.0 kennt es nicht, nur ungemergt PR #42112) —
+                          die Doku-Semantik realisieren wir App-Level
+                          (generators.ThinkingBudgetLogitsProcessor über
+                          die Kanal-Tokens open=100/confirm=45518/
+                          close=101) → budget_default/budget_range.
       ternary-bonsai-27b → qwen3.5-Template (tokenizer_config.json):
                           enable_thinking undefined/true → denken;
                           reasoning_effort|default('xhigh'); raise_exception
                           für alles außer xhigh|medium|low → reasoning_
-                          effort = Budget-Stufe.
+                          effort = Budget-Stufe (KEIN Zahl-Budget).
 
     None (gemma3-*, minicpm5-1b, unbekannte model_id): Modelle ohne
     Thinking-Template-Variablen — chat_fn darf dort KEINE enable_thinking-
     Variable in den Jinja-Kontext geben (kapabilitäts-gegated).
+
+    Rückgabe-Schema:
+        default        bool   — Template-Default des Modells
+        efforts        tuple|None — effort-Stufen (bonsai) oder None
+        effort_default str|None   — nur bei efforts
+        budget_default int|None   — Zahl-Budget (gemma4: 2048)
+        budget_range   tuple|None — (min, max) Slider-Bounds (gemma4: 0,8192;
+                          min 0 = "unbegrenzt")
     """
     entry = _PX_MODEL_TABLE.get(model_id)
     if entry is None or "thinking_default" not in entry:
         return None
     efforts = entry.get("thinking_efforts") or None
+    # Budget (Plan 2026-10-05): gemma4 → (default, range)-Tupel; bonsai hat
+    # reasoning_effort-Stufen ALS Budget-Parameter → bewusst KEIN Zahl-Budget.
+    budget_range = entry.get("thinking_budget_range") or None
+    budget_default = entry.get("thinking_budget_default") if budget_range else None
     return {
         "default": bool(entry["thinking_default"]),
         "efforts": efforts,
         "effort_default": entry.get("thinking_effort_default") if efforts else None,
+        "budget_default": (int(budget_default)
+                           if budget_default is not None else None),
+        "budget_range": (tuple(budget_range) if budget_range else None),
     }

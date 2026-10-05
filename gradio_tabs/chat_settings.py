@@ -2,12 +2,12 @@
 
 Plan: branch ui-styling, 2026-07-06, "Einstellungen-Tab + Persistenz".
 
-Schicht 2b des Plans: round-trip zwischen 15 widget-Values und einem
+Schicht 2b des Plans: round-trip zwischen 16 widget-Values und einem
 settings-dict, plus ein SettingsDebouncer der debounced (400ms) per
 update_settings() in die session.json schreibt.
 
 Öffentliche API:
-    settings_from_widgets(*, 13 klassische + 2 thinking kwargs) -> dict
+    settings_from_widgets(*, 13 klassische + 3 thinking kwargs) -> dict
     widget_updates_from_settings(settings: Dict) -> Dict[str, gr.update]
     SettingsDebouncer(session_id, on_save, delay_ms=400)
 
@@ -68,6 +68,7 @@ def settings_from_widgets(
     rep_p: float,
     px_gamma: float,
     thinking: Optional[bool] = None,
+    thinking_budget: Optional[int] = None,
     thinking_effort: Optional[str] = None,
     relay_sign: int,
     relay_alpha: float,
@@ -75,17 +76,21 @@ def settings_from_widgets(
     system_profile: str,
     system_prompt_text: Optional[str],
 ) -> Dict[str, Any]:
-    """Packt 15 widget-Values in ein settings-dict.
+    """Packt 16 widget-Values in ein settings-dict.
 
     T1-Pin: alle Felder müssen im Resultat sein. T12-Pin:
     system_prompt_text=None wird zu "" (vermeidet JSON-null in der
     session.json — würde den Wert ungewollt zu None deserialisieren).
 
-    thinking/thinking_effort (Phase 3, 2026-10-05): default None →
-    SETTINGS_DEFAULTS. Die Felder sind bewusst NICHT model-gegated —
-    chat_fn übergibt die konkreten Widget-Values; die Kapabilitäts-
-    Logik liegt in gradio_tabs/px_defaults.get_thinking_defaults
-    (chat_fn-kwargs) bzw. restore_session_settings (Sichtbarkeit).
+    thinking/thinking_budget/thinking_effort (Phase 3 + Budget,
+    2026-10-05): default None → SETTINGS_DEFAULTS. Die Felder sind
+    bewusst NICHT model-gegated — chat_fn übergibt die konkreten
+    Widget-Values; die Kapabilitäts-Logik liegt in
+    gradio_tabs/px_defaults.get_thinking_defaults (chat_fn-kwargs)
+    bzw. restore_session_settings (Sichtbarkeit). thinking_budget:
+    None = kein Budget am Modell, 0 = unbegrenzt, int > 0 = Token-Budget
+    (nur gemma4-capable). Bool-Guard: Slider-None/Strings fallen auf den
+    Default zurück.
     """
     def _safe_float(v: Any, default: float) -> float:
         if v is None:
@@ -113,6 +118,13 @@ def settings_from_widgets(
         "rep_p": _safe_float(rep_p, SETTINGS_DEFAULTS["rep_p"]),
         "px_gamma": _safe_float(px_gamma, SETTINGS_DEFAULTS["px_gamma"]),
         "thinking": bool(thinking) if thinking is not None else SETTINGS_DEFAULTS["thinking"],
+        "thinking_budget": (
+            int(thinking_budget)
+            if isinstance(thinking_budget, (int, float))
+            and not isinstance(thinking_budget, bool)
+            and thinking_budget is not None
+            else SETTINGS_DEFAULTS["thinking_budget"]
+        ),
         "thinking_effort": thinking_effort if thinking_effort else SETTINGS_DEFAULTS["thinking_effort"],
         "relay_sign": _safe_int(relay_sign, SETTINGS_DEFAULTS["relay_sign"]),
         "relay_alpha": _safe_float(relay_alpha, SETTINGS_DEFAULTS["relay_alpha"]),
@@ -123,7 +135,7 @@ def settings_from_widgets(
 
 
 def widget_updates_from_settings(settings: Dict[str, Any]) -> Dict[str, gr.update]:
-    """Returnt {field: gr.update(value=..., interactive=...)} für alle 15 Felder.
+    """Returnt {field: gr.update(value=..., interactive=...)} für alle 16 Felder.
 
     T2-Pin: bei leerem/fehlendem settings-dict → SETTINGS_DEFAULTS.
     T3-Pin: auto_tune=True → temperature/top_p/rep_p/px_gamma

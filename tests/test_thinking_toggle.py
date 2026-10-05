@@ -6,11 +6,13 @@ option in den parametern ... etablierte methode ... keine frickellösung".
 Etablierte Methode = apply_chat_template mit Template-Extravariablen:
   - gemma4-e2b-it: enable_thinking (chat_template.jinja, HF-Snapshot
     3e22461f — default(false), ON injiziert <|think|> in den System-Turn).
-    EINEN Budget-Parameter gibt es im installierten Stack NICHT:
-    transformers 5.13.0 enthält weder max_thinking_tokens noch
-    thinking_budget; beides existiert nur im UNGEMERGTE PR
-    huggingface/transformers#42112 (Issue #42111) — also bewusst kein
-    Budget-Widget für gemma4.
+    EINEN generate()-Budget-Parameter gibt es im installierten Stack
+    NICHT: transformers 5.13.0 enthält weder max_thinking_tokens noch
+    thinking_budget (nur im UNGEMERGTE PR huggingface/transformers#42112,
+    Issue #42111). Plan 2026-10-05 realisiert die max_thinking_tokens-
+    Semantik deswegen APP-LEVEL — ThinkingBudgetLogitsProcessor über die
+    echten Kanal-Tokens <|channel>/thought/<channel|> (tests/
+    test_thinking_budget.py); das Budget ist bewusst KEIN Template-Extra.
   - ternary-bonsai-27b: enable_thinking + reasoning_effort (qwen3.5-
     Template; Stufen xhigh|medium|low, Template-Default xhigh —
     reasoning_effort ist hier der Budget-Parameter).
@@ -69,8 +71,8 @@ def test_tt4_thinking_none_never_builds_kwargs():
 
 def test_tt5_gemma4_on_no_budget():
     """gemma4 ON → NUR enable_thinking (Template baut den <|think|>-System-
-    Turn selbst; ein Budget-Parameter existiert im installierten Stack
-    nicht — max_thinking_tokens ist nur UNGEMERGTE PR #42112)."""
+    Turn selbst; kein Budget hier — max_thinking_tokens läuft separat als
+    App-Level LogitsProcessor, siehe test_thinking_budget.py)."""
     assert _thinking_template_kwargs(
         "gemma4-e2b-it", True, None
     ) == {"enable_thinking": True}

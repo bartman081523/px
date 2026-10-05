@@ -69,6 +69,11 @@ class ChatCompletionRequest(BaseModel):
     # Modelle (gemma3 & Co.) ignorieren diese Template-Variablen.
     px_thinking: Optional[bool] = None         # None=Template-Default (an)
     px_thinking_effort: Optional[Literal["xhigh", "medium", "low"]] = None
+    # Gemma-4-Denk-Budget (Plan 2026-10-05): App-Level LogitsProcessor
+    # (upstream transformers 5.13.0 kennt max_thinking_tokens nicht). None =
+    # kein Budget am Modell; 0 = unbegrenzt; int > 0 = Token-Budget im
+    # `<|channel>thought`-Kanal (nur Modelle mit Kanal-Infrastruktur).
+    px_thinking_budget: Optional[int] = None
     # Weight quantization (Plan 1): "none" (default) = bf16, "int8" = per-channel
     # symmetric int8 weights. None = use registry default (gemma3-4b-it ships as
     # int8 because bf16 doesn't fit 12 GB at long prefill). Override per-request.

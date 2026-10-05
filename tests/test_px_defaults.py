@@ -8,7 +8,8 @@ Pinnt die per-Model-Defaults-Tabelle + die d_width-Artefakt-Übersteuerung.
 Refactor-Detector: Wenn die Registry-Keys oder die Tabellenwerte (n_layers,
 inject_layer, px_gamma, relay_available) abweichen, fallen diese Tests.
 Phase 3 (2026-10-05): get_thinking_defaults — gemma4 (enable_thinking,
-kein Budget im installierten Stack) vs. bonsai (reasoning_effort-Stufen).
+Zahl-Budget App-Level, Plan 2026-10-05) vs. bonsai (reasoning_effort-
+Stufen ALS Budget-Parameter).
 
 Run:
     /run/media/julian/ML4/open-mythos_p2/venv_openmythos/bin/python \
@@ -171,26 +172,34 @@ def test_p11_unknown_model_returns_none():
 
 # --- T-P12ff: get_thinking_defaults (Phase 3, 2026-10-05) ------------------
 
-def test_p12_gemma4_thinking_no_budget():
-    """T-P12: gemma4-e2b-it — Template default(false), KEIN Budget-Parameter
-    (efforts=None → kein Budget-Widget; max_thinking_tokens existiert nur im
-    ungemergten transformers-PR #42112, nicht in 5.13.0/Template/Model Card)."""
+def test_p12_gemma4_thinking_app_level_budget():
+    """T-P12 (Plan 2026-10-05): gemma4-e2b-it — Template default(false),
+    effort-Stufen NONE,aber ZAHL-Budget App-Level (max_thinking_tokens-
+    Semantik via ThinkingBudgetLogitsProcessor; transformers 5.13.0 kennt
+    keinen generate()-Parameter, nur ungemergten PR #42112):
+    budget_default 2048, budget_range (0, 8192) = Slider-Bounds (min 0 =
+    "unbegrenzt")."""
     d = get_thinking_defaults("gemma4-e2b-it")
     assert d == {
         "default": False,
         "efforts": None,
         "effort_default": None,
+        "budget_default": 2048,
+        "budget_range": (0, 8192),
     }
 
 
 def test_p13_bonsai_thinking_with_effort_stages():
     """T-P13: ternary-bonsai-27b — Template-Default AN, reasoning_effort ist
-    der Budget-Parameter (Stufen xhigh|medium|low, Default xhigh)."""
+    der Budget-Parameter (Stufen xhigh|medium|low, Default xhigh) → bewusst
+    KEIN Zahl-Budget (budget_default/budget_range None)."""
     d = get_thinking_defaults("ternary-bonsai-27b")
     assert d == {
         "default": True,
         "efforts": ("xhigh", "medium", "low"),
         "effort_default": "xhigh",
+        "budget_default": None,
+        "budget_range": None,
     }
 
 

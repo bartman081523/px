@@ -29,12 +29,15 @@ SETTINGS_DEFAULTS: Dict[str, Any] = {
     "max_tokens": 1024,
     "rep_p": 1.15,
     "px_gamma": 0.08,
-    # Phase 3 (2026-10-05): Thinking-Steuerung. Diese beiden GLOBAL-Defaults
+    # Phase 3 (2026-10-05): Thinking-Steuerung. Diese drei GLOBAL-Defaults
     # sind nur der Fallback für settings-lose/partial-Restores — die per-
     # Modell-Template-Defaults (gemma4 aus, bonsai an + effort xhigh) liegen
     # in gradio_tabs/px_defaults.get_thinking_defaults und schlagen hier.
     # thinking_effort=None = "kein Budget-Parameter am Modell".
+    # thinking_budget (Plan 2026-10-05): None = kein Budget am Modell;
+    # 0 = unbegrenzt; int > 0 = Token-Budget (nur gemma4-capable).
     "thinking": False,
+    "thinking_budget": None,
     "thinking_effort": None,
     "relay_sign": 0,
     "relay_alpha": 0.30,

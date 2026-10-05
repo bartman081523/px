@@ -38,7 +38,7 @@ from gradio_tabs.multimodal_input import (
 # app.py (demo.load) und die .then-Chains müssen exakt dazu passen.
 SETTINGS_WIDGET_FIELDS = (
     "model_id", "px_preset", "temperature", "top_p", "max_tokens",
-    "rep_p", "px_gamma", "thinking", "thinking_effort",
+    "rep_p", "px_gamma", "thinking", "thinking_budget", "thinking_effort",
     "relay_sign", "relay_alpha", "relay_layer",
     "system_profile", "system_prompt_text",
 )
@@ -47,7 +47,7 @@ _SETTINGS_NOOP_UPDATES: tuple = None  # lazy erzeugt (gr.update())
 
 
 def noop_settings_updates():
-    """14 no-op gr.update() in SETTINGS_WIDGET_FIELDS-Reihenfolge."""
+    """15 no-op gr.update() in SETTINGS_WIDGET_FIELDS-Reihenfolge."""
     global _SETTINGS_NOOP_UPDATES
     if _SETTINGS_NOOP_UPDATES is None:
         _SETTINGS_NOOP_UPDATES = tuple(
@@ -57,7 +57,7 @@ def noop_settings_updates():
 
 
 def restore_session_settings(session_id, current_profile=None):
-    """Session-Settings → Widget-Updates (14 Outputs, fixe Reihenfolge).
+    """Session-Settings → Widget-Updates (15 Outputs, fixe Reihenfolge).
 
     Restore-Semantik (Plan 2026-10-05):
     - Session-Datei OHNE 'settings'-key (alte/leere Sessions) → ALLE
@@ -69,13 +69,15 @@ def restore_session_settings(session_id, current_profile=None):
       rep_p/px_gamma interaktiv.
 
     Thinking (Phase 3, 2026-10-05): model-aware — für thinking-kapable
-    Modelle (gemma4-e2b-it, ternary-bonsai-27b) werden die beiden Widgets
-    mit dem gespeicherten Wert (Fallback: per-Modell-Template-Default aus
-    px_defaults.get_thinking_defaults, legacy-Sessions haben den Key
+    Modelle (gemma4-e2b-it, ternary-bonsai-27b) werden die Widgets
+    mit den gespeicherten Werten (Fallback: per-Modell-Template-Default
+    aus px_defaults.get_thinking_defaults, legacy-Sessions haben die Keys
     meist nicht) + korrekter effort-choices-Liste gerendert; für nicht-
-    capable Modelle (gemma3-*, minicpm5-1b, unbekannt) werden beide per
+    capable Modelle (gemma3-*, minicpm5-1b, unbekannt) werden sie per
     visible=False versteckt OHNE Wert-Update (persistiertes thinking-
     Junk aus anderen Modellen soll nicht in die Widgets rutschen).
+    thinking_budget (Plan 2026-10-05): nur gemma4-capable sichtbar;
+    gespeicherter int 0..max gilt (0 = unbegrenzt), sonst Modell-Default.
 
     auto_tune-Abweichung vom chat_settings-Pin: die UI hat KEIN
     auto_tune-Widget (dead field, Plan 2026-10-05) — ein fehlender Key
@@ -127,10 +129,12 @@ def restore_session_settings(session_id, current_profile=None):
     # (stale thinking-Keys anderer Modelle rutschen nicht ins UI).
     thinking_idx = SETTINGS_WIDGET_FIELDS.index("thinking")
     effort_idx = SETTINGS_WIDGET_FIELDS.index("thinking_effort")
+    budget_idx = SETTINGS_WIDGET_FIELDS.index("thinking_budget")
     tcap = get_thinking_defaults(model_id) if isinstance(model_id, str) else None
     if tcap is None:
         ordered[thinking_idx] = gr.update(visible=False)
         ordered[effort_idx] = gr.update(visible=False)
+        ordered[budget_idx] = gr.update(visible=False)
     else:
         stored_thinking = settings.get("thinking")
         ordered[thinking_idx] = gr.update(
@@ -148,6 +152,23 @@ def restore_session_settings(session_id, current_profile=None):
             )
         else:
             ordered[effort_idx] = gr.update(visible=False)
+        # Budget (Plan 2026-10-05): nur gemma4 (budget_range gesetzt).
+        # Gespeicherter int 0..max gilt (0 = unbegrenzt); alles andere
+        # (None/legacy/außerhalb) → Modell-Default.
+        if tcap["budget_range"]:
+            stored_budget = settings.get("thinking_budget")
+            b_lo, b_hi = tcap["budget_range"]
+            b_value = (int(stored_budget)
+                       if isinstance(stored_budget, int)
+                       and not isinstance(stored_budget, bool)
+                       and 0 <= stored_budget <= b_hi
+                       else tcap["budget_default"])
+            ordered[budget_idx] = gr.update(
+                value=b_value, minimum=b_lo, maximum=b_hi,
+                visible=True, interactive=True,
+            )
+        else:
+            ordered[budget_idx] = gr.update(visible=False)
 
     restored_profile = settings.get("system_profile")
     if restored_profile is not None and restored_profile != current_profile:
@@ -174,12 +195,14 @@ def apply_px_defaults(model_id, px_preset, session_id):
     Persistiert sonst (debounce) model_id + px_preset + die angewendeten
     Defaults in die Session.
 
-    Returns: 6-Tupel (relay_sign_u, relay_alpha_u, relay_layer_u,
-    px_gamma_u, thinking_u, thinking_effort_u) — WIRKLICH angewendete
-    Felder bekommen value(+visible), nicht angewendete (MiniCPM: kein
-    Relay/gamma-Default) no-op. Thinking (Phase 3): capable Modelle
-    kriegen Modell-Default + Sichtbarkeit/choices, nicht-capable beide
-    visible=False; der Session-Patch trägt die Values nur capable.
+    Returns: 7-Tupel (relay_sign_u, relay_alpha_u, relay_layer_u,
+    px_gamma_u, thinking_u, thinking_budget_u, thinking_effort_u) —
+    WIRKLICH angewendete Felder bekommen value(+visible), nicht
+    angewendete (MiniCPM: kein Relay/gamma-Default) no-op. Thinking
+    (Phase 3): capable Modelle kriegen Modell-Default + Sichtbarkeit/
+    choices, nicht-capable alle visible=False; der Session-Patch trägt
+    die Values nur capable. Budget (Plan 2026-10-05): nur gemma4
+    (budget_range) → Modell-Default + Slider-Bounds, sonst hidden.
     """
     data = {} if not session_id else load_session(session_id)
     settings = (data or {}).get("settings")
@@ -189,7 +212,8 @@ def apply_px_defaults(model_id, px_preset, session_id):
         and settings.get("px_preset") == px_preset
     )
     if restored:
-        return gr.update(), gr.update(), gr.update(), gr.update(), gr.update(), gr.update()
+        return (gr.update(), gr.update(), gr.update(), gr.update(),
+                gr.update(), gr.update(), gr.update())
 
     defaults = get_px_defaults(model_id)
     tcap = get_thinking_defaults(model_id)
@@ -198,7 +222,8 @@ def apply_px_defaults(model_id, px_preset, session_id):
         # Thinking-Widgets verstecken (kein Modell → kein Thinking-UI).
         schedule_settings_save(session_id, model_id=model_id, px_preset=px_preset)
         return (gr.update(), gr.update(), gr.update(), gr.update(),
-                gr.update(visible=False), gr.update(visible=False))
+                gr.update(visible=False), gr.update(visible=False),
+                gr.update(visible=False))
 
     relay_available = defaults["relay_available"]
     layer_update = gr.update(
@@ -219,6 +244,7 @@ def apply_px_defaults(model_id, px_preset, session_id):
     if tcap is None:
         thinking_update = gr.update(visible=False)
         effort_update = gr.update(visible=False)
+        budget_update = gr.update(visible=False)
     else:
         thinking_update = gr.update(
             value=tcap["default"], visible=True, interactive=True,
@@ -231,6 +257,18 @@ def apply_px_defaults(model_id, px_preset, session_id):
             )
         else:
             effort_update = gr.update(visible=False)
+        # Budget (Plan 2026-10-05): nur gemma4 (budget_range) — Modell-
+        # Default + Slider-Bounds; bonsai (effort IST der Budget-Parameter)
+        # bekommt bewusst kein zweites Budget-Widget → hidden.
+        if tcap["budget_range"]:
+            budget_update = gr.update(
+                value=tcap["budget_default"],
+                minimum=tcap["budget_range"][0],
+                maximum=tcap["budget_range"][1],
+                visible=True, interactive=True,
+            )
+        else:
+            budget_update = gr.update(visible=False)
     patch = {
         "model_id": model_id,
         "px_preset": px_preset,
@@ -247,9 +285,15 @@ def apply_px_defaults(model_id, px_preset, session_id):
         # bonsai-"medium" in der Session weiter, obwohl das Widget
         # versteckt ist.
         patch["thinking"] = bool(tcap["default"])
+        # thinking_effort/thinking_budget None EXPLIZIT — sonst lebt stale
+        # bonsai-"medium" bzw. eine gemma4-Budget-Zahl in der Session weiter,
+        # obwohl das Widget versteckt ist (gleiche Logik wie oben).
         patch["thinking_effort"] = tcap["effort_default"] if tcap["efforts"] else None
+        patch["thinking_budget"] = (int(tcap["budget_default"])
+                                    if tcap["budget_range"] else None)
     schedule_settings_save(session_id, **patch)
-    return sign_update, alpha_update, layer_update, gamma_update, thinking_update, effort_update
+    return (sign_update, alpha_update, layer_update, gamma_update,
+            thinking_update, budget_update, effort_update)
 
 
 def _persist_setting_field(field: str):
@@ -320,7 +364,7 @@ def on_load(session_id, current_profile=None):
     """Called when the page loads.
 
     Plan 2026-10-05 (Session-Settings-Restore): liefert NACH den 4 klassischen
-    Werten die 14 Settings-Widget-Updates (SETTINGS_WIDGET_FIELDS-Reihen-
+    Werten die 15 Settings-Widget-Updates (SETTINGS_WIDGET_FIELDS-Reihen-
     folge) — Settings-lose/legacy-Sessions → no-op updates, Widgets bleiben
     wie gebaut. current_profile = aktueller Wert des Profil-Dropdowns
     (Suppress-Ermittlung, siehe restore_session_settings).
@@ -416,7 +460,7 @@ def handle_undo(session_id, history):
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             relay_sign, relay_alpha, relay_layer,
             system_profile, system_prompt_text,
-            thinking, thinking_effort,
+            thinking, thinking_budget, thinking_effort,
             session_id, manager: ModelManager):
     """Core chat logic with history management and model generation.
 
@@ -429,9 +473,15 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     Phase 3 (2026-10-05): thinking/thinking_effort — die Widget-Values
     gehen KAPABILITÄTS-GEGATED in apply_chat_template (_thinking_template_
     kwargs): bonsai-27b → enable_thinking + reasoning_effort (qwen3.5-
-    Template, budget als Stufe), gemma4-e2b-it → nur enable_thinking
-    (max_thinking_tokens existiert im installierten Stack nicht). Gemma3/
-    MiniCPM/unbekannt: {} — die Template-Extras werden nie hingeschickt.
+    Template, budget als Stufe), gemma4-e2b-it → enable_thinking.
+    Gemma3/MiniCPM/unbekannt: {} — die Template-Extras werden nie
+    hingeschickt.
+
+    Plan 2026-10-05 (Gemma4 Thinking-Budget): thinking_budget — Widget-
+    Value als Token-Budget im thought-Kanal (max_thinking_tokens-
+    Semantik, App-Level LogitsProcessor). NUR im plain-Pfad (gemma4 ist
+    nie long/chunked-capable) und NUR bei Thinking an, sonst None
+    (kein Budget am generate). 0 = unbegrenzt.
     """
     print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
     # verstärkbar Relay-Parameter nur beim RELAY-Preset durchreichen (sonst None
@@ -495,9 +545,10 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
 
     # Phase 63: Proactive Auto-save (save user message before generation)
     # Plan 2026-10-05: BEIDE chat_fn-Save-Points persistieren zusätzlich die
-    # komplette Einstellung (Model, px_preset, Parameter, Thinking, Relay,
-    # System-prompt) — Session-Load rendert die UI exakt so wieder (T1-Pin
-    # der chat_settings-Roundtrips bleibt erhalten: alle 15 Felder im dict).
+    # komplette Einstellung (Model, px_preset, Parameter, Thinking + Budget,
+    # Relay, System-prompt) — Session-Load rendert die UI exakt so wieder
+    # (T1-Pin der chat_settings-Roundtrips bleibt erhalten: alle 16 Felder
+    # im dict).
     from gradio_tabs.chat_settings import settings_from_widgets
     chat_settings = settings_from_widgets(
         model_id=model_id,
@@ -509,6 +560,7 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         rep_p=rp,
         px_gamma=gamma,
         thinking=thinking,
+        thinking_budget=thinking_budget,
         thinking_effort=thinking_effort,
         relay_sign=relay_sign,
         relay_alpha=relay_alpha,
@@ -589,7 +641,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     use_chunked_stream = False
     oom_error = None
     try:
-        from generators import _px_gen_kwargs, _inject_eot_eos, strip_unsupported_model_kwargs
+        from generators import (_px_gen_kwargs, _inject_eot_eos,
+                                strip_unsupported_model_kwargs,
+                                _thinking_budget_kwargs)
         gen_kwargs["_input_len"] = int(inputs["input_ids"].shape[1])
         gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
         gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
@@ -603,6 +657,15 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         # model.generate() validiert VOR dem ersten forward → muss hier
         # gestrippt werden, nicht erst im forward.
         gen_kwargs = strip_unsupported_model_kwargs(model, gen_kwargs)
+        # Plan 2026-10-05 (Gemma4 Thinking-Budget): App-Level LogitsProcessor
+        # (generators._thinking_budget_kwargs) — nur im plain-Pfad: generate_
+        # long/chunked_generate haben keine LogitsProcessor-Route, und dort
+        # fehlt die Kanal-Infrastruktur ohnehin (bonsai/gemma3 → Helper
+        # no-op). Thinking aus → None → kein Budget am generate.
+        if not (use_long_stream or use_chunked_stream):
+            gen_kwargs = _thinking_budget_kwargs(
+                gen_kwargs, inputs["input_ids"],
+                thinking_budget if thinking else None, tokenizer)
     except ImportError:
         pass
 
@@ -783,7 +846,10 @@ def _long_ctx_generate_kwargs(gen_kwargs):
         g.pop(tensor_key, None)
     for junk in ("stop_strings", "tokenizer", "stopping_criteria",
                  "_px_use_chunked_prefill", "_px_use_long_ctx",
-                 "use_cache", "pad_token_id", "_input_len"):
+                 "use_cache", "pad_token_id", "_input_len",
+                 # Plan 2026-10-05 (Gemma4 Thinking-Budget): defensiv —
+                 # LogitsProcessor hat keine generate_long-Route.
+                 "logits_processor"):
         g.pop(junk, None)
     g.setdefault("top_k", 0)
     return g
@@ -823,7 +889,8 @@ def _thinking_template_kwargs(model_id, thinking, thinking_effort):
     Rückgabe (kwargs für tokenizer.apply_chat_template):
         {}                                            — nicht capable ODER
                                                         thinking=None (UI-Null)
-        {"enable_thinking": True|False}               — gemma4 (kein Budget)
+        {"enable_thinking": True|False}               — gemma4 (Budget läuft
+                        separat: App-Level LogitsProcessor, s.o.)
         {"enable_thinking": ..., "reasoning_effort": <str>} — bonsai (Stufe)
 
     Bonsai-Template-Semantik: `enable_thinking is undefined or is true` →
@@ -832,6 +899,12 @@ def _thinking_template_kwargs(model_id, thinking, thinking_effort):
     nur Stufen aus px_defaults.get_thinking_defaults(model_id)["efforts"]
     werden durchgereicht, alles andere → None (Template-Default 'xhigh'
     greift) — kein raise_exception-Crash im Template.
+
+    Plan 2026-10-05 (Gemma4 Thinking-Budget): das Budget ist KEIN Template-
+    Extra — max_thinking_tokens wird App-Level über
+    generators.ThinkingBudgetLogitsProcessor realisiert (echte Kanal-Tokens
+    <|channel>/thought/<channel|>), nicht über den Jinja-Kontext. Deshalb
+    nimmt diese Funktion bewusst KEINEN Budget-Parameter.
     """
     cap = get_thinking_defaults(model_id) if isinstance(model_id, str) else None
     if cap is None or thinking is None:
@@ -971,15 +1044,16 @@ def build_chat_tab(manager: ModelManager):
             max_tokens = gr.Slider(64, 4096, value=1024, step=64, label="Max Tokens")
             rep_p = gr.Slider(1.0, 2.0, value=1.15, step=0.05, label="Repetition Penalty")
             px_gamma = gr.Slider(0.0, 0.5, value=0.08, step=0.01, label="PX Gamma")
-            # Phase 3 (2026-10-05): Thinking-Toggle + Budget-Stufe. Initial-
+            # Phase 3 (2026-10-05): Thinking-Toggle + Budget. Initial-
             # Sichtbarkeit/Werte aus dem Start-Modell (model_choices[0]);
-            # jeder Modellwechsel rendert beides neu (apply_px_defaults).
+            # jeder Modellwechsel rendert alles neu (apply_px_defaults).
             # bonsai-27b: enable_thinking + reasoning_effort (qwen3.5-Template,
-            # Budget ALS STUFE — Der-Modell-Doku gemäß). gemma4-e2b: nur
-            # enable_thinking — einen Budget-Parameter gibt es im installierten
-            # Stack NICHT (max_thinking_tokens nur im ungemergten transformers-
-            # PR #42112), also bewusst kein Fake-Budget-Widget. gemma3*/mini-
-            # cpm5/Unbekannt: Templates kennen die Variablen nicht → versteckt.
+            # Budget ALS STUFE — der Modell-Doku gemäß). gemma4-e2b:
+            # enable_thinking + thinking_budget (max_thinking_tokens-Semantik,
+            # App-Level LogitsProcessor — im installierten transformers-Stack
+            # existiert der generate()-Parameter nicht, PR #42112 ungemerged).
+            # gemma3*/minicpm5/Unbekannt: Templates/Kanal-Infrastruktur fehlt
+            # → versteckt.
             _tinit = get_thinking_defaults(model_choices[0])
             thinking = gr.Checkbox(
                 value=bool(_tinit["default"]) if _tinit else False,
@@ -988,6 +1062,23 @@ def build_chat_tab(manager: ModelManager):
                 info=(
                     "Template-Variable enable_thinking: gemma4 ON= <|think|> im "
                     "System-Turn; bonsai ON=denken, OFF=forced-closed think-block."
+                ),
+            )
+            thinking_budget = gr.Slider(
+                minimum=(_tinit["budget_range"][0]
+                         if _tinit and _tinit["budget_range"] else 0),
+                maximum=(_tinit["budget_range"][1]
+                         if _tinit and _tinit["budget_range"] else 8192),
+                step=64,
+                value=(_tinit["budget_default"]
+                       if _tinit and _tinit["budget_default"] else 0),
+                visible=bool(_tinit and _tinit["budget_range"]),
+                label="Thinking Budget (max_thinking_tokens)",
+                info=(
+                    "gemma4: Token-Budget im thought-Kanal (<|channel>…"
+                    "<channel|>) — bei Überschreitung wird <channel|> "
+                    "erzwungen (App-Level LogitsProcessor). 0 = unbegrenzt; "
+                    "wirkt bei Thinking an."
                 ),
             )
             thinking_effort = gr.Radio(
@@ -1158,7 +1249,7 @@ def build_chat_tab(manager: ModelManager):
         return gr.update(value=None), history + [{"role": "user", "content": content}]
 
     def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
-                     thinking, thinking_effort,
+                     thinking, thinking_budget, thinking_effort,
                      relay_sign, relay_alpha, relay_layer,
                      system_profile, system_prompt_text,
                      session_id):
@@ -1179,6 +1270,7 @@ def build_chat_tab(manager: ModelManager):
             rp=rp,
             gamma=gamma,
             thinking=thinking,
+            thinking_budget=thinking_budget,
             thinking_effort=thinking_effort,
             relay_sign=relay_sign,
             relay_alpha=relay_alpha,
@@ -1206,7 +1298,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -1217,7 +1309,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -1229,14 +1321,14 @@ def build_chat_tab(manager: ModelManager):
     )
     
     # Plan 2026-10-05 (Session-Settings-Restore): Load & Import rendern die
-    # in der session.json gespeicherte Einstellung zurück in die 14 Widgets —
+    # in der session.json gespeicherte Einstellung zurück in die 15 Widgets —
     # Outputs-Reihenfolge = SETTINGS_WIDGET_FIELDS (chat_tab.py-Header).
     # handle_new_session bewusst OHNE Restore: frische Session, die Widgets
     # bleiben wie sie gerade stehen.
     _settings_restore_out = [
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
-        px_gamma, thinking, thinking_effort, relay_sign, relay_alpha,
-        relay_layer, system_profile, system_prompt_text,
+        px_gamma, thinking, thinking_budget, thinking_effort, relay_sign,
+        relay_alpha, relay_layer, system_profile, system_prompt_text,
     ]
     load_session_btn.click(
         fn=handle_load_saved,
@@ -1280,7 +1372,7 @@ def build_chat_tab(manager: ModelManager):
             fn=apply_px_defaults,
             inputs=[model_select, px_preset, session_id_state],
             outputs=[relay_sign, relay_alpha, relay_layer, px_gamma,
-                     thinking, thinking_effort],
+                     thinking, thinking_budget, thinking_effort],
         )
 
     # (b) Persistenz aller freien User-Felder (debounced 400ms via
@@ -1293,7 +1385,8 @@ def build_chat_tab(manager: ModelManager):
         ("temperature", temperature), ("top_p", top_p),
         ("max_tokens", max_tokens), ("rep_p", rep_p),
         ("px_gamma", px_gamma),
-        ("thinking", thinking), ("thinking_effort", thinking_effort),
+        ("thinking", thinking), ("thinking_budget", thinking_budget),
+        ("thinking_effort", thinking_effort),
         ("relay_sign", relay_sign), ("relay_alpha", relay_alpha),
         ("relay_layer", relay_layer),
         ("system_profile", system_profile),
@@ -1344,12 +1437,12 @@ def build_chat_tab(manager: ModelManager):
         outputs=None,
     )
 
-    # Plan 2026-10-05: 18er-Tupel — die ersten 4 wie bisher (app.py-Unpack),
-    # danach die 14 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
+    # Plan 2026-10-05: 19er-Tupel — die ersten 4 wie bisher (app.py-Unpack),
+    # danach die 15 Settings-Widgets in EXAKT der SETTINGS_WIDGET_FIELDS-
     # Reihenfolge (app.py demo.load-Outputs + .then-Chains spiegeln das).
     return (
         session_id_state, chatbot, session_dropdown, session_id_display,
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
-        px_gamma, thinking, thinking_effort, relay_sign, relay_alpha,
-        relay_layer, system_profile, system_prompt_text,
+        px_gamma, thinking, thinking_budget, thinking_effort, relay_sign,
+        relay_alpha, relay_layer, system_profile, system_prompt_text,
     )

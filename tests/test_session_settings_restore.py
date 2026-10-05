@@ -7,7 +7,7 @@ wenden automatisch die per-Model-Defaults an (Injektions-Layer inkl.
 Slider-Bounds, sign, alpha, px_gamma).
 
 Pinnt:
-  R1:   restore ohne Session/settings → 14 no-op updates
+  R1:   restore ohne Session/settings → 15 no-op updates
   R2:   restore voller Settings (Roundtrip via settings_from_widgets) —
         Reihenfolge = SETTINGS_WIDGET_FIELDS, auto_tune=False → nicht
         gelockt
@@ -31,8 +31,8 @@ Pinnt:
         + strip-before-generate-Reihenfolge unangetastet
   R11:  build_chat_tab-Source-Pins: apply_px_defaults auf .input (beide
         Owner), restore_session_settings in beiden .then-Chains
-  R12:  app.py-Source-Pins: 18er demo.load (inputs incl. system_profile)
-  R13:  on_load → 18-Tupel; frische Session → 14 no-op updates
+  R12:  app.py-Source-Pins: 19er demo.load (inputs incl. system_profile)
+  R13:  on_load → 19-Tupel; frische Session → 15 no-op updates
   R14:  restore bonsai LEGACY-partial (keine Thinking-Keys) → Modell-
         Template-Defaults (True + xhigh) + choices
   R15:  restore bonsai stored thinking=False → False (stored schlägt
@@ -40,11 +40,14 @@ Pinnt:
   R16:  restore bonsai stored thinking_effort="medium" → medium
   R17:  restore bonsai stored thinking_effort="bogus" → Template-Default
         xhigh (kein invalid-value-Rendering)
-  R18:  restore gemma4 → Checkbox False/visible, effort-Radio versteckt
-        (kein Budget-Parameter im installierten Stack)
+  R18:  restore gemma4 → Checkbox False/visible, effort-Radio versteckt,
+        Budget-Slider sichtbar mit Modell-Default 2048 (Bounds 0..8192)
   R19:  restore nicht-capable (gemma3) mit stale thinking-Junk aus einem
-        bonsai-Chat → beides visible=False OHNE value (Junk rutscht
+        bonsai-Chat → alle drei visible=False OHNE value (Junk rutscht
         nicht ins UI)
+  R20:  restore gemma4 mit stored thinking_budget — legal int (inkl.
+        0 = unbegrenzt) restored, anders (bool/Junk/über max) → Default
+        2048
 
 Gr.update-shape: je nach Test-Reihenfolge kann das Modul unter dem
 _MockSentinel-Patch aus test_chat_handlers laufen (gleicher pytest-Prozess)
@@ -119,9 +122,9 @@ def _clean_state():
 # --- R1: No-op-Restore ---------------------------------------------------
 
 def test_r1_unknown_session_gives_14_noops():
-    """R1: Session-Datei fehlt → 14 no-op updates (kein Reset auf Defaults)."""
+    """R1: Session-Datei fehlt → 15 no-op updates (kein Reset auf Defaults)."""
     updates = restore_session_settings("r1_nosuch_session", "neutral")
-    assert len(updates) == 14
+    assert len(updates) == 15
     for u in updates:
         assert is_noop(u), upd_kwargs(u)
 
@@ -133,7 +136,7 @@ def test_r1b_empty_settings_gives_14_noops():
     try:
         save_session(sid, [], settings={})
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 14
+        assert len(updates) == 15
         for u in updates:
             assert is_noop(u), upd_kwargs(u)
     finally:
@@ -143,8 +146,10 @@ def test_r1b_empty_settings_gives_14_noops():
 # --- R2/R3: Werte-Restore + auto_tune-Deyiation --------------------------
 
 def _full_settings():
-    # Phase 3: bonsai-27b — thinking-capable, damit R2 auch die beiden
-    # Thinking-Widgets (value+visible+interactive) mitprüfen kann.
+    # Phase 3: bonsai-27b — thinking-capable, damit R2 die beide Thinking-
+    # Widgets (value+visible+interactive) mitprüfen kann. Budget (Plan
+    # 2026-10-05): bonsai hat KEIN Zahl-Budget → thinking_budget=None (Widget
+    # hidden, siehe R2).
     return settings_from_widgets(
         model_id="ternary-bonsai-27b",
         px_preset="ACTIVE_MANIFOLD_RELAY",
@@ -155,6 +160,7 @@ def _full_settings():
         rep_p=1.2,
         px_gamma=0.1,
         thinking=True,
+        thinking_budget=None,
         thinking_effort="medium",
         relay_sign=-1,
         relay_alpha=0.45,
@@ -165,24 +171,30 @@ def _full_settings():
 
 
 def test_r2_full_settings_restore_values_in_order():
-    """R2: 14 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
+    """R2: 15 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
     gespeicherten Werten; auto_tune=False → Slider interaktiv; bonsai →
-    Thinking-Checkbox/Radio mit den gespeicherten Werten sichtbar."""
+    Thinking-Checkbox/Radio mit den gespeicherten Werten sichtbar,
+    Budget-Slider versteckt (bonsai hat KEIN Zahl-Budget — R19-Pin)."""
     sid = "r2_full"
     _wipe([sid])
     try:
         save_session(sid, [], model_id="ternary-bonsai-27b",
                      settings=_full_settings())
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 14
+        assert len(updates) == 15
+        budget_idx = SETTINGS_WIDGET_FIELDS.index("thinking_budget")
         for field, u in zip(SETTINGS_WIDGET_FIELDS, updates):
+            if field == "thinking_budget":
+                # bonsai: kein Zahl-Budget → hidden ohne Value
+                continue
             kw = upd_kwargs(u)
             assert "value" in kw, (field, kw)
             assert kw.get("interactive", False) is True, (field, kw)
-        vals = [upd_kwargs(u)["value"] for u in updates]
+        assert upd_kwargs(updates[budget_idx]) == {"visible": False}
+        vals = [upd_kwargs(u).get("value") for u in updates]
         expect = ["ternary-bonsai-27b", "ACTIVE_MANIFOLD_RELAY", 0.55, 0.9,
-                  768, 1.2, 0.1, True, "medium", -1, 0.45, 34, "neutral",
-                  "Eigener Frame."]
+                  768, 1.2, 0.1, True, None, "medium", -1, 0.45, 34,
+                  "neutral", "Eigener Frame."]
         assert vals == expect
     finally:
         _wipe([sid])
@@ -273,8 +285,8 @@ def test_r5b_same_profile_no_suppress_token():
 # --- R6-R9: apply_px_defaults ---------------------------------------------
 
 def test_r6_defaults_suppressed_when_settings_match():
-    """R6: settings matchen model_id+px_preset → Restore-Fall → 6 no-ops
-    (Klassiker + Thinking) und KEIN Relay-Persist (sonst würden die
+    """R6: settings matchen model_id+px_preset → Restore-Fall → 7 no-ops
+    (Klassiker + Thinking + Budget) und KEIN Relay-Persist (sonst würden die
     wiederhergestellten Werte von den Defaults überschrieben)."""
     sid = "r6_suppress"
     _wipe([sid])
@@ -283,7 +295,7 @@ def test_r6_defaults_suppressed_when_settings_match():
             "model_id": "gemma3-1b-it", "px_preset": "ACTIVE_MANIFOLD_RELAY",
         })
         outs = apply_px_defaults("gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", sid)
-        assert len(outs) == 6
+        assert len(outs) == 7
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         # kein Relay-Persist nachgerollt
@@ -301,15 +313,17 @@ def test_r7_defaults_applied_for_gemma3_1b_it():
     sid = "r7_apply"
     _wipe([sid])
     try:
-        sign_u, alpha_u, layer_u, gamma_u, t_u, e_u = apply_px_defaults(
-            "gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", sid)
+        (sign_u, alpha_u, layer_u, gamma_u, t_u, b_u, e_u
+         ) = apply_px_defaults("gemma3-1b-it", "ACTIVE_MANIFOLD_RELAY", sid)
         assert upd_kwargs(sign_u) == {"value": 1}
         assert upd_kwargs(alpha_u) == {"value": 0.30}
         assert upd_kwargs(layer_u) == {"value": 21, "minimum": 1,
                                        "maximum": 26, "interactive": True}
         assert upd_kwargs(gamma_u) == {"value": 0.12}
-        # Phase 3: nicht-capable → beides versteckt, ohne value
+        # Phase 3 (+Budget-Restore): nicht-capable → alle drei versteckt,
+        # ohne value
         assert upd_kwargs(t_u) == {"visible": False}
+        assert upd_kwargs(b_u) == {"visible": False}
         assert upd_kwargs(e_u) == {"visible": False}
         flush_settings_save(sid)
         settings = load_session(sid).get("settings", {})
@@ -323,14 +337,14 @@ def test_r7_defaults_applied_for_gemma3_1b_it():
 
 
 def test_r8_defaults_noop_for_minicpm_and_no_relay_persist():
-    """R8: minicpm5-1b → 6 no-ops (Klassiker + Thinking hidden, is_noop-
+    """R8: minicpm5-1b → 7 no-ops (Klassiker + Thinking hidden, is_noop-
     kompatibel); persist NUR model/preset (kein Relay-Feld, kein gamma,
     kein thinking — MiniCPM ist nicht thinking-capable)."""
     sid = "r8_minicpm"
     _wipe([sid])
     try:
         outs = apply_px_defaults("minicpm5-1b", "ACTIVE_MANIFOLD_RELAY", sid)
-        assert len(outs) == 6
+        assert len(outs) == 7
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         flush_settings_save(sid)
@@ -342,13 +356,13 @@ def test_r8_defaults_noop_for_minicpm_and_no_relay_persist():
 
 
 def test_r9_defaults_noop_for_unknown_model():
-    """R9: unbekannte model_id → 4 no-ops + Thinking hidden + persist
+    """R9: unbekannte model_id → 4 no-ops + Thinking/Budget hidden + persist
     model/preset."""
     sid = "r9_unknown"
     _wipe([sid])
     try:
         outs = apply_px_defaults("gibts-nicht", "BASELINE", sid)
-        assert len(outs) == 6
+        assert len(outs) == 7
         for u in outs:
             assert is_noop(u), upd_kwargs(u)
         flush_settings_save(sid)
@@ -390,33 +404,36 @@ def test_r11_build_chat_tab_wires_defaults_and_restore():
     block = src[src.index("def build_chat_tab("):]
     assert block.count("apply_px_defaults") >= 2  # def + wiring
     assert "inputs=[model_select, px_preset, session_id_state]" in block
-    # Phase 3: 6er-Outputs (Klassiker + Thinking-Widgets)
+    # Phase 3 (+Budget-Restore): 7er-Outputs (Klassiker + Thinking-Widgets)
     assert re.search(r"outputs=\[relay_sign, relay_alpha, relay_layer, "
-                     r"px_gamma,\s*thinking, thinking_effort\]", block)
+                     r"px_gamma,\s*thinking, thinking_budget, "
+                     r"thinking_effort\]", block)
     assert block.count("restore_session_settings") >= 2  # def+... (2× .then)
     assert block.count("inputs=[session_id_state, system_profile]") == 2
     assert "_persist_setting_field" in block
-    # Thinking-Widgets existieren + persistieren (Phase 3)
-    assert '("thinking", thinking), ("thinking_effort", thinking_effort)' in block
-    # Return: 18er-Tupel (4 klassische + 14 Settings-Widgets)
+    # Thinking-Widgets existieren + persistieren (Phase 3, +Budget-Restore)
+    assert ('("thinking", thinking), ("thinking_budget", thinking_budget),'
+            in block)
+    assert '("thinking_effort", thinking_effort)' in block
+    # Return: 19er-Tupel (4 klassische + 15 Settings-Widgets)
     assert "system_prompt_text,\n    )" in block
 
 
-def test_r12_app_py_demo_load_18_outputs():
-    """R12: app.py demo.load — 18 Outputs, inputs um system_profile erweitert."""
+def test_r12_app_py_demo_load_19_outputs():
+    """R12: app.py demo.load — 19 Outputs, inputs um system_profile erweitert."""
     src = _source("app.py")
     assert "def init_app(session_id, current_profile)" in src
     assert "inputs=[session_id_state, system_profile]" in src
     assert "system_prompt_text]" in src
     for name in ("relay_layer", "system_profile", "px_preset_widgets",
-                 "thinking", "thinking_effort"):
+                 "thinking", "thinking_budget", "thinking_effort"):
         assert name in src, name
 
 
-def test_r13_on_load_returns_18_tuple_with_noops_for_fresh_session():
-    """R13: frische Session → (id, [], choices, id, 14×no-op)."""
+def test_r13_on_load_returns_19_tuple_with_noops_for_fresh_session():
+    """R13: frische Session → (id, [], choices, id, 15×no-op)."""
     result = on_load(None, "neutral")
-    assert len(result) == 18
+    assert len(result) == 19
     session_id, history, choices, session_id2 = result[:4]
     assert isinstance(session_id, str) and len(session_id) == 8
     assert history == []
@@ -510,10 +527,10 @@ def test_r17_bonsai_stored_invalid_effort_falls_back_to_default():
         _wipe([sid])
 
 
-def test_r18_gemma4_restore_checkbox_visibility_effort_hidden():
+def test_r18_gemma4_restore_budget_visible_effort_hidden():
     """R18: gemma4-e2b-it → Checkbox visible (stored/default False —
-    Template default(false)) UND effort-Radio versteckt (kein Budget-
-    Parameter im installierten Stack)."""
+    Template default(false)), effort-Radio versteckt UND Budget-Slider
+    sichtbar mit dem Modell-Default 2048 (Slider-Bounds 0..8192)."""
     sid = "r18_gemma4"
     _wipe([sid])
     try:
@@ -525,24 +542,56 @@ def test_r18_gemma4_restore_checkbox_visibility_effort_hidden():
         assert kw_t["value"] is False
         assert kw_t["visible"] is True
         assert kw_e == {"visible": False}, kw_e
+        # Budget (Plan 2026-10-05): kein stored Key → Modell-Default 2048,
+        # Bounds 0..8192 (min 0 = "unbegrenzt"), sichtbar+interaktiv.
+        kw_b = t_kw(updates, "thinking_budget")
+        assert kw_b == {"value": 2048, "minimum": 0, "maximum": 8192,
+                        "visible": True, "interactive": True}, kw_b
     finally:
         _wipe([sid])
 
 
 def test_r19_incapable_restore_hides_stale_thinking_junk():
-    """R19: gemma3-Session mit stale thinking=True/"medium" (z.B. nach
-    bonsai-Chat in derselben Session) → beide visible=False OHNE value —
-    der Junk darf nicht in die (unsichtbaren) Widgets rutschen."""
+    """R19: gemma3-Session mit stale thinking=True/"budget"/"medium" (z.B.
+    nach bonsai-/gemma4-Chat in derselben Session) → alle drei visible=
+    False OHNE value — der Junk darf nicht in die (unsichtbaren) Widgets
+    rutschen (auch keine gemma4-Budget-Zahl)."""
     sid = "r19_gemma3_junk"
     _wipe([sid])
     try:
         save_session(sid, [], model_id="gemma3-1b-it", settings={
             "model_id": "gemma3-1b-it", "px_preset": "ACTIVE_MANIFOLD",
-            "thinking": True, "thinking_effort": "medium",
+            "thinking": True, "thinking_budget": 512,
+            "thinking_effort": "medium",
         })
         updates = restore_session_settings(sid, "neutral")
         assert t_kw(updates, "thinking") == {"visible": False}
+        assert t_kw(updates, "thinking_budget") == {"visible": False}
         assert t_kw(updates, "thinking_effort") == {"visible": False}
+    finally:
+        _wipe([sid])
+
+
+def test_r20_gemma4_stored_budget_roundtrip_and_fallback():
+    """R20: gemma4 restore mit stored thinking_budget — legal int (1024)
+    restored UNVERÄNDERT; 0 ist LEGAL (= unbegrenzt); außerhalb der
+    Bounds/bool/Junk/None → Modell-Default 2048. Slider-Shape überall
+    sichtbar+interaktiv mit Bounds 0..8192."""
+    sid = "r20_gemma4_budget"
+    cases = ((1024, 1024), (0, 0), (9000, 2048), ("junk", 2048),
+             (True, 2048), (None, 2048))
+    try:
+        for stored, expect in cases:
+            _wipe([sid])
+            save_session(sid, [], model_id="gemma4-e2b-it", settings={
+                "model_id": "gemma4-e2b-it", "px_preset": "ACTIVE_MANIFOLD",
+                "thinking": True, "thinking_budget": stored,
+            })
+            updates = restore_session_settings(sid, "neutral")
+            kw_b = t_kw(updates, "thinking_budget")
+            assert kw_b["value"] == expect, (stored, kw_b)
+            assert kw_b["visible"] is True and kw_b["interactive"] is True
+            assert (kw_b["minimum"], kw_b["maximum"]) == (0, 8192), (stored, kw_b)
     finally:
         _wipe([sid])
 
