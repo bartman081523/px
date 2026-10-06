@@ -46,6 +46,7 @@ materialisieren (sonst genau das, was der Layer vermeidet).
 import importlib
 import math
 import os
+import sys
 import traceback
 
 import torch
@@ -427,10 +428,24 @@ class _DecodeGraph:
     """
 
     def __init__(self, model, cache, device, verbose=False):
-        from px_patches.ternary_bonsai_27b_px import gf3_quant as gf3
-        self.px = _px_patch_module()
-        self.gf3 = gf3
         self.base = _resolve_text_model(model)
+        # Modul-Alignment (Defekt 9349-vs-3653): model_manager legt
+        # px_patches/ auf sys.path und laedt den Patch als
+        # "ternary_bonsai_27b_px.patch" (config.py patch_dir ohne Praefix)
+        # — deferred px_patches.*-Imports an dieser Stelle erzeugen ein
+        # ZWEITES Modul-Objekt derselben Datei: px_capture_guard setzte
+        # active=True im fremden Dict, der gebundene _px_forward sah den
+        # Guard nie → else-Zweig baute die Maske auf written+1, waehrend
+        # der KV4-Layer unter Capture Full-Capacity-Keys dequantisiert →
+        # sdpa-Dim-3-Crash im ersten Decode-Schritt (5942 vs 3893). Auf-
+        # loesung immer ueber die bereits geladenen/bundenen Kopien.
+        px = self.px = _px_patch_module_for(self.base)
+        gf3 = self.gf3 = _loaded_module(
+            "ternary_bonsai_27b_px.gf3_quant",
+            "px_patches.ternary_bonsai_27b_px.gf3_quant")
+        if gf3 is None:
+            from px_patches.ternary_bonsai_27b_px import gf3_quant as gf3fb
+            gf3 = self.gf3 = gf3fb
         self.model, self.device = model, torch.device(device)
         self.cache = cache
         tm = self.tm = self.base
@@ -476,8 +491,12 @@ class _DecodeGraph:
         torch.cuda.synchronize()
         nm_old = gf3._NANCHECK_MODE
         try:
-            rt = importlib.import_module(
-                "px_patches.ternary_bonsai_27b_px.runtime_qwen35_ptq")
+            rt = _loaded_module("ternary_bonsai_27b_px.runtime_qwen35_ptq",
+                                "px_patches.ternary_bonsai_27b_px"
+                                ".runtime_qwen35_ptq")
+            if rt is None:
+                rt = importlib.import_module(
+                    "px_patches.ternary_bonsai_27b_px.runtime_qwen35_ptq")
             nm_old_rt = rt._NANCHECK_MODE
             rt._NANCHECK_MODE = "off"
             gf3._NANCHECK_MODE = "off"
@@ -557,6 +576,45 @@ class _DecodeGraph:
         """Telemetrie/Calibrator der Replay-Schritte aus dem Device-Phi-Ring
         nachtraeglich replayen (TT-B3 flush; der eine Sync ist EOS-eager)."""
         self.px.flush_px_capture(self.tm)
+
+
+def _loaded_module(*names):
+    """Erster in sys.modules bereits geladener Key gewinnt; sonst None.
+
+    Doppelt geladene Modul-Objekte derselben Datei (Server-Key
+    "ternary_bonsai_27b_px.*" vs Package-Key "px_patches.
+    ternary_bonsai_27b_px.*") sind der Defekt 9349-vs-3653 — daher hier
+    nur LESEN, niemals einen zweiten Key erzeugen."""
+    for n in names:
+        mod = sys.modules.get(n)
+        if mod is not None:
+            return mod
+    return None
+
+
+def _px_patch_module_for(text_model):
+    """Patch-Modul DORT aufloesen, wo der gebundene _px_forward lebt.
+
+    Der gebundene Forward liest _PX_CAPTURE aus seinen Funktions-Globals;
+    px_capture_guard / ensure_capture_buffers / flush_px_capture muessen
+    in ebendiesem Modul greifen, sonst bleibt unsichtbar, was der Guard
+    im anderen Modul-Dict setzt. Fallback (kein gebundener px-Forward
+    erkennbar): bereits geladene Kopie; sonst deferred Package-Import.
+    """
+    fwd = getattr(text_model, "forward", None)
+    fn = getattr(fwd, "__func__", fwd)
+    glob = getattr(fn, "__globals__", None) if fn is not None else None
+    if glob is not None and glob.get("_PX_CAPTURE") is not None:
+        name = glob.get("__name__")
+        mod = sys.modules.get(name) if name else None
+        if (mod is not None
+                and getattr(mod, "_PX_CAPTURE", None) is glob["_PX_CAPTURE"]):
+            return mod
+    mod = _loaded_module("ternary_bonsai_27b_px.patch",
+                         "px_patches.ternary_bonsai_27b_px.patch")
+    if mod is not None and hasattr(mod, "_PX_CAPTURE"):
+        return mod
+    return _px_patch_module()
 
 
 def _px_patch_module():

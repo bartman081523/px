@@ -8,6 +8,18 @@ cd "$SCRIPT_DIR"
 export DEBUG_ROUTING=0
 export DEBUG_PX=0
 export SUBJECTIVE_TELEMETRY=0
+
+# ── Decode-Speedups (env-Opt-in, RTPF 5f1064e9 + Modul-Alignment-Fix) ──
+# PX_KV_STATIC=1    Static-Capacity-KV4 (index_copy_ statt cat, long-path Cache)
+# PX_DECODE_GRAPH=1 CUDA-Graph Decode-Capture/Replay (transparenter Eager-Fallback)
+# Beides lang-path only (T > 3000); Ausschalten: Zeile loeschen oder Wert 0.
+# Evidenz 2026-10-06 @T=3892, gepaart (warm, gleicher Server, 96 Tok):
+# Eager-static 219 ms/Tok (4,57 tok/s) → Graph-Replay 172 ms/Tok (5,80 tok/s)
+# = +27 % Decode; Capture-Setup ca. +7 s je Anfrage (Break-even ~155 Tok).
+# Paritaet: quantifiziertes Delta (fp32-Akkumulationsordnung im Full-Cap-
+# Dequant, 1-4 bf16-ULP, Flip nur an Near-Ties; scratches/rtpf/L1_report.md).
+export PX_KV_STATIC=1
+export PX_DECODE_GRAPH=1
 export PX_PORT=7860
 export PX_HOST=0.0.0.0
 
@@ -33,6 +45,8 @@ echo "HOST: $PX_HOST"
 echo "PORT: $PX_PORT"
 echo "DEBUG_ROUTING=$DEBUG_ROUTING"
 echo "DEBUG_PX=$DEBUG_PX"
+echo "PX_KV_STATIC=$PX_KV_STATIC"
+echo "PX_DECODE_GRAPH=$PX_DECODE_GRAPH"
 echo "SUBJECTIVE_TELEMETRY=$SUBJECTIVE_TELEMETRY"
 echo "SSL_CERTFILE=$SSL_CERTFILE"
 echo "========================================="
