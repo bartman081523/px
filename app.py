@@ -195,7 +195,6 @@ if __name__ == "__main__":
                 target=manager.warmup_bonsai_jit,
                 daemon=True, name="px-jit-warmup").start()
 
-        _spawn_jit_warmup()
         # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
         # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
         # HF-Container scheitert (kein Node installiert). Gradio fällt
@@ -205,12 +204,27 @@ if __name__ == "__main__":
         # Page-Render → "Could not get API info" → Login-Panel.
         # ssr_mode=False → client-side-render → /info ist relative URL
         # → HF-Proxy leitet korrekt zu Gradio-Server auf 7861 weiter.
+        #
+        # Deploy-#11-Befund 2026-10-09 (Boot-CRASH, RUNTIME_ERROR): der
+        # Warmup-Thread VOR launch() stallt gradios Localhost-Check
+        # (blocks.py:3014 `url_ok` — EIN 3-s-Timeout/ConnectError = sofort
+        # False; die 5-Loop gilt nur für Nicht-2xx-Antworten), sobald
+        # model_manager.load parallel importiert/streamt → ValueError
+        # "localhost is not accessible". Fix: launch kehrt mit
+        # prevent_thread_lock=True NACH dem Check zurück, der Warmup wird
+        # erst danach angestellt, und block_thread() (gradio-eigener
+        # Shutdown-Wait, identisch mit dem Skript-Default-Pfad) hält den
+        # Prozess am Leben. Ohne Warmup (PX_STARTUP_WARMUP=0) ist das
+        # Laufzeitverhalten exakt wie vorher.
         demo.launch(
             server_name="0.0.0.0",
             server_port=7860,
             show_error=True,
             ssr_mode=False,
+            prevent_thread_lock=True,
         )
+        _spawn_jit_warmup()
+        demo.block_thread()
     else:
         # SSL Configuration
         ssl_cert = SERVER_CONFIG.get("ssl_cert")
