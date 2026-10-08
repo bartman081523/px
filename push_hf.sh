@@ -196,7 +196,8 @@ LFS_COUNT=$(git lfs ls-files 2>/dev/null | wc -l)
 echo "Push-Größe: ${CODE_MB} MB Code, ${LFS_COUNT} LFS-Files."
 
 # ── Push ────────────────────────────────────────────────────────
-echo "=== Push zu $REMOTE_URL ==="
+echo "=== Push zu https://${HF_USER}/spaces/${HF_USER}/${SPACE_NAME} ==="
+# (REMOTE_URL enthält das Token — NIE im Klartext echoen; Redaction-Regel.)
 
 # Remote-URL setzen/updaten
 git remote set-url hf "$REMOTE_URL" 2>/dev/null || git remote add hf "$REMOTE_URL"
@@ -220,7 +221,8 @@ if [ "$PUSH_EXIT" = "0" ]; then
     echo "  Storage: ${FINAL_STORAGE:-?} MB / 1024 MB"
 else
     echo "✗ Push fehlgeschlagen (exit $PUSH_EXIT):" >&2
-    echo "$PUSH_OUTPUT" | tail -10 >&2
+    # Token-Redaction: URL-Kredentials aus der Fehlerausgabe filtern
+    echo "$PUSH_OUTPUT" | sed -E "s#${HF_USER}:${HF_TOKEN}@#${HF_USER}:***@#g" | tail -10 >&2
     echo "  Mögliche Ursache: HF-Account-Storage-Limit erreicht." >&2
     echo "  Cleanup: alten Space im Browser löschen, dann SPACE_NAME ändern." >&2
     # Cleanup trotzdem
