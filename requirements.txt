@@ -6,7 +6,8 @@
 # in model_manager.py:8.
 #
 # Pinning-Strategie:
-#   - torch~=2.12.0 (compatible-release, Patch-Versionen erlaubt).
+#   - torch==2.12.0 exakt (ABI-Pin für vorgebautes causal_conv1d-Wheel,
+#     2026-10-08; vorher ~=2.12.0 compatible-release).
 #     Standard-PyPI-Build ohne Suffix — pip installiert automatisch
 #     die CUDA-Libs mit (User-Wahl 2026-07-08). Spart 2.4 GB cu130-wheel-
 #     Download + OOM auf HF free-tier 16 GB build-RAM.
@@ -21,7 +22,11 @@
 # gpu-runtime wird torch automatisch CUDA nutzen.
 
 # ── ML-Stack ──────────────────────────────────────────────────────────
-torch~=2.12.0
+# EXAKT ==2.12.0 (2026-10-08, t4-small-Befund): das vorgebaute
+# causal_conv1d-Wheel (GDN-Fast-Path, siehe unten) ist gegen
+# torch 2.12.0+cu130 ABI-gebaut → Patch-Versionen von torch
+# ausgeschlossen, sonst ABI-Mismatch am Wheel.
+torch==2.12.0
 # Plan 2026-07-09: torchvision erforderlich für gemma4-e2b multimodal
 # (image_processing_gemma4.py:17 importiert torchvision.transforms.v2).
 # Ohne torchvision crashed der ModelManager-Load mit ModuleNotFoundError.
@@ -29,15 +34,22 @@ torch~=2.12.0
 # torch~=2.12.0). 0.27.0 pinned torch==2.12.0 → kompatibel.
 torchvision~=0.27.0
 transformers~=5.13.0
-# ternary-bonsai-27b: Qwen3.5-hybrid lädt fla (gated-delta-net-Kernels).
-# flash-linear-attention==0.5.2: pure-python Wheel auf PyPI (verifiziert
-# 2026-10-08, G3) → triton-JIT läuft zur Laufzeit auf GPU-Runtimes.
-# causal_conv1d BEWUSST NICHT in requirements: PyPI hat nur sdist (kein
-# Wheel, G3-Falsifikation 2026-10-08) → Quellenkompilierung ohne nvcc im
-# Space-Builder würde den v4-Build brechen. fla hat einen internen
-# causal_conv1d-Try/Except-Fallback (fla/layers/mamba.py:30-32) und der
-# bonsai-Pfad nutzt ihn nicht → weglassen ist safe.
-flash-linear-attention~=0.5.2
+# FLASH-LINEAR-ATTENTION==0.5.2: pure-python Wheel → triton-JIT zur
+# Laufzeit auf GPU-Runtimes (G3 2026-10-08).
+flash-linear-attention==0.5.2
+# causal_conv1d MUSS installiert sein — FALSIFIKATION des alten
+# "weglassen ist safe"-Beschlusses (Space-t4-small, Log 18:56:02 UTC
+# 2026-10-08): ohne causal_conv1d geht qwen3_5-GDN in den
+# F.conv1d-Fallback (transformers modeling_qwen3_5.py:501) → auf
+# T4 (sm75, kein BF16-Conv-Engine in cuDNN 9) crash der erste
+# GDN-Prefill mit RuntimeError "GET was unable to find an engine
+# to execute this computation" — bonsai-Generierung tot nach
+# ~8.5 min Triton-JIT (GF3-GEMV-Compile) vor dem GDN-Layer. Lokal
+# unsichtbar, weil lokal causal_conv1d installiert ist (Fast-Path).
+# Da PyPI nur sdist ohne Wheel anbietet (G3 2026-10-08), ist das Wheel
+# lokal gegen torch 2.12.0+cu130, cp313, sm75+sm90 gebaut und wird
+# vorgebaut ausgeliefert ("einkompiliert", User-Beschluss 2026-10-08):
+causal_conv1d @ https://huggingface.co/neuralworm/px-wheels/resolve/main/causal_conv1d-1.7.0-cp313-cp313-linux_x86_64.whl
 accelerate~=1.12.0
 bitsandbytes~=0.48.0
 huggingface_hub~=1.22.0

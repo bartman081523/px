@@ -252,7 +252,7 @@ except ImportError:  # pragma: no cover — sehr alte transformers
 
 
 class ThinkingBudgetLogitsProcessor(LogitsProcessor):
-    """Erzwingt ein Token-Budget für den Gemma-4-Think-Kanal.
+    r"""Erzwingt ein Token-Budget für den Gemma-4-Think-Kanal.
 
     Semantik (der max_thinking_tokens-Doku folgend, App-Level realisiert):
     sobald `budget` Tokens IM Kanal erzeugt wurden, wird die nächste

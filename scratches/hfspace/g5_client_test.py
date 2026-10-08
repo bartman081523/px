@@ -146,7 +146,7 @@ def main():
         print("[g5] T2: ternary-bonsai-27b ACTIVE_MANIFOLD_RELAY ...")
         h2 = run(c, "ternary-bonsai-27b", "ACTIVE_MANIFOLD_RELAY",
                  "Erkläre in einem Satz, was ein rekurrentes Transformer-"
-                 "Residuum ist.", timeout=1100, mt=64, relay_layer=34)
+                 "Residuum ist.", timeout=1800, mt=64, relay_layer=34)
         msgs2 = extract(h2)
         print("[g5] T2 Transcript:\n" + fmt(msgs2))
         results["T2"] = ok_gen(msgs2)

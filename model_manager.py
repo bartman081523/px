@@ -329,6 +329,56 @@ class ModelManager:
             "model_type": model_type,
         }
 
+    def warmup_bonsai_jit(self, model_id: str = "ternary-bonsai-27b",
+                          max_new_tokens: int = 6,
+                          preset: str = "BASELINE") -> bool:
+        """Boot-Zeit-JIT-Warmup (t4-small-Befund 2026-10-08).
+
+        Die erste bonsai-Generierung nach Container-Boot verbrachte ~8.5 min
+        im Triton-Compile (GF3-GEMV + fla-GDN-Kernels auf 2-vCPU). Dieser
+        Warmup lädt das Modell SYNCHRON in einem Daemon-Thread (ohne
+        get_model-Async-Lock, ohne Registry-Eintrag), fährt Prefill+
+        Decode-Generierung → der Triton-Cache (~/.triton, pro Container)
+        ist warm, BEVOR der erste User-Request kommt. Nachlauf: Modell
+        verworfen; der erste User-Request lädt mit warmem JIT in Sekunden
+        neu. Kein Race mit get_model: self._models/_loading werden nie
+        angefasst.
+
+        Fail-soft: jeder Fehler → False + Log, niemals Boot-Crash.
+        """
+        _m = None
+        _e = None
+        t0 = time.time()
+        try:
+            print(f"[Warmup] JIT-Warmup {model_id} (preset={preset}): "
+                  "Load ...")
+            _e = self._load_model(model_id, px_subjective=False,
+                                  px_config_preset=preset)
+            _m = _e["model"]
+            print(f"[Warmup] {model_id} geladen ({time.time()-t0:.1f}s) — "
+                  "Prefill+Decode-JIT ...")
+            device = next(_m.parameters()).device
+            ids = _e["tokenizer"]("Hallo", return_tensors="pt") \
+                .input_ids.to(device)
+            with torch.no_grad():
+                _m.generate(ids, max_new_tokens=max_new_tokens,
+                            do_sample=False)
+            print(f"[Warmup] {model_id} JIT-Cache warm "
+                  f"({time.time()-t0:.1f}s, {max_new_tokens} Token).")
+            return True
+        except Exception as e:
+            print(f"[Warmup] {model_id} Warmup übersprungen (fail-soft): "
+                  f"{e!r}")
+            return False
+        finally:
+            # Warmup-Instanz konsequent freigeben (Registry bleibt leer).
+            _m = _e = None
+            try:
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+            except Exception:
+                pass
+
     def _reapply_patch(self, model_id: str, px_subjective: bool,
                         px_gamma: float = None, px_routing_mode: str = None,
                         px_config_preset: str = "ACTIVE_MANIFOLD",

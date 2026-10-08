@@ -175,6 +175,27 @@ if __name__ == "__main__":
                              name="hf-snapshot-prefetch").start()
 
         _prefetch_hub_snapshots()
+
+        def _spawn_jit_warmup():
+            """t4-small-Befund 2026-10-08: erste bonsai-Generierung nach
+            Boot = ~8.5 min Triton-Compile (GF3-GEMV + fla-GDN auf 2-vCPU)
+            am Stück. Warmup-Daemon-Thread kompiliert die Kernels beim
+            BOOT (nach Prefetch, im User-Chat-UI schon verfügbar), statt
+            im ersten User-Request zu hängen. Env PX_STARTUP_WARMUP:
+            "auto" (Default) → nur auf HF-Space mit GPU; "1"/"0" forcing."""
+            import threading
+            from server import manager
+            mode = os.environ.get("PX_STARTUP_WARMUP", "auto").strip().lower()
+            if mode in ("0", "off", "false", "no"):
+                return
+            # "auto" (und alle on-Werte): immer anstellen — _load_model
+            # enthält den CUDA-Guard (ValueError <1 s bei cpu-basic)
+            # → fail-soft, kein Boot-Risiko.
+            threading.Thread(
+                target=manager.warmup_bonsai_jit,
+                daemon=True, name="px-jit-warmup").start()
+
+        _spawn_jit_warmup()
         # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
         # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
         # HF-Container scheitert (kein Node installiert). Gradio fällt

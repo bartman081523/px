@@ -17,6 +17,28 @@ MAX_HISTORY = 100  # Keep last 100 request metrics
 # Repo-relative telemetry dir (was hardcoded to a sibling all_space/ path).
 TELEMETRY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "telemetry")
 
+
+def _json_default(obj):
+    """JSON-Fallback: Tensors → Skalar/Liste (klein) bzw. Shape-Marker (groß).
+
+    Der Space-Log zeigte "Object of type Tensor is not JSON serializable" —
+    px_metrics kann Tensor-Werte tragen; ohne Fallback wird der Speicherpunkt
+    komplett verworfen (Schlepp-Telemetrie-Verlust auf jedem Treffer).
+    """
+    if isinstance(obj, dict):
+        return {k: _json_default(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_json_default(v) for v in obj]
+    try:
+        import torch
+        if isinstance(obj, torch.Tensor):
+            if obj.numel() <= 64:
+                return obj.detach().tolist()
+            return f"<Tensor shape={tuple(obj.shape)} dtype={obj.dtype}>"
+    except ImportError:
+        pass
+    return str(obj)
+
 class TelemetryStore:
     def __init__(self, max_history: int = MAX_HISTORY):
         self._history = deque(maxlen=max_history)
@@ -57,7 +79,7 @@ class TelemetryStore:
             ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             filename = os.path.join(TELEMETRY_DIR, f"px_telemetry_{ts}.json")
             with open(filename, "w") as f:
-                json.dump(entry, f, indent=2)
+                json.dump(entry, f, indent=2, default=_json_default)
         except Exception as e:
             print(f"[Telemetry] Failed to save telemetry file: {e}")
 
