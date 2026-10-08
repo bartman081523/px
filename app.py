@@ -142,6 +142,39 @@ if __name__ == "__main__":
     # separaten Schritt (siehe TODO app.py:port-v1-to-gradio).
     if os.environ.get("SPACES_RUN_MODE") or os.environ.get("SPACE_ID"):
         print(f"[PX Explorer] HF-Space detected — launching gr.Blocks via demo.launch() (no /v1/ API on HF)")
+
+        def _prefetch_hub_snapshots():
+            """Plan hf-space-v4-publish: ZeroGPU-Snapshot-Prefetch im Startup
+            (ohne GPU-Lease). Der 6-GB-bonsai-Download zählt andernfalls in
+            die Lease des ersten Chat-Calls hinein (Request-Cap gemessen
+            <270 s); hier ist er leasen-frei, und der Container-Cache überlebt
+            Restarts. Targets per Env PX_PREFETCH_MODELS (Kommaliste,
+            Registry-Keys)."""
+            targets = [t.strip() for t in
+                       os.environ.get("PX_PREFETCH_MODELS",
+                                      "ternary-bonsai-27b").split(",")
+                       if t.strip()]
+            if not targets:
+                return
+
+            import threading
+            from huggingface_hub import snapshot_download
+
+            def _work():
+                for mid in targets:
+                    cfg = MODEL_REGISTRY.get(mid) or {}
+                    hf_id = cfg.get("hf_id") or mid
+                    try:
+                        path = snapshot_download(hf_id,
+                                                 token=os.environ.get("HF_TOKEN"))
+                        print(f"[prefetch] {mid}: {path}")
+                    except Exception as exc:  # Startup-Prefetch darf nicht töten
+                        print(f"[prefetch] {mid} ({hf_id}) FEHLER: {exc}")
+
+            threading.Thread(target=_work, daemon=True,
+                             name="hf-snapshot-prefetch").start()
+
+        _prefetch_hub_snapshots()
         # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
         # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
         # HF-Container scheitert (kein Node installiert). Gradio fällt
