@@ -457,6 +457,22 @@ def handle_undo(session_id, history):
     return new_history, f"✓ Undone (history: {len(new_history)} msgs)"
 
 
+def _spaces_gpu(fn):
+    """Plan hf-space-v4-publish: ZeroGPU-Lease für die Chat-Generation.
+    60s-Default-Lease (spaces/zero/client.py DEFAULT_SCHEDULE_DURATION)
+    reicht nicht für bonsai: snapshot_download 6 GB + GF3-Build + triton-JIT
+    + Stream im Erstaufruf. Auf lokaler/regulärer GPU-Hardware no-op: spaces'
+    _GPU gibt fn unverändert zurück, wenn SPACES_ZERO_GPU nicht gesetzt ist
+    (wheel-Inspection 0.50.4, Config.zero_gpu). duration=900 s: Erstaufruf
+    muss Download+Build+JIT+Generierung decken; bei Quota-Überschreitung
+    kommt eine explizite ZeroGPU-Fehlermeldung statt Stummsterben."""
+    if not os.environ.get("SPACES_ZERO_GPU"):
+        return fn
+    import spaces
+    return spaces.GPU(duration=900)(fn)
+
+
+@_spaces_gpu
 def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             relay_sign, relay_alpha, relay_layer,
             system_profile, system_prompt_text,

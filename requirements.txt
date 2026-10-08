@@ -64,8 +64,12 @@ gradio~=6.15.2
 fastapi~=0.136.0
 uvicorn~=0.32.0
 websockets~=13.0
-spaces~=0.50.4
-# spaces 0.43.0+ erforderlich — HF gradio-Docker-Image startet intern
-# gradio/utils.py:322 watchdog-thread mit `spaces>0.43.0` requirement.
-# 0.42.0 crasht mit RuntimeError "Spaces hot-reloading requires spaces>0.43.0".
+spaces==0.51.3
+# EXAKT 0.51.3: das HF gradio-Image pinnt im Dockerfile selbst
+# `spaces==0.51.3` (Build-Log 2026-10-08: "The user requested
+# spaces==0.51.3" + unsere ~=0.50.4 → ResolutionImpossible → BUILD_ERROR).
+# 0.43.0+ erforderlich für den hot-reloading-watchdog
+# (gradio/utils.py:322); 0.51.3 erfüllt das.
+# Wheel-Inspection (0.50.4): SPACES_ZERO_GPU/SPACES_GRADIO_AUTO_WRAP-Gating,
+# DEFAULT_SCHEDULE_DURATION=60s — explicit @spaces.GPU(duration=…) nötig.
 hf-transfer~=0.1.4

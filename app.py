@@ -26,6 +26,15 @@ os.environ.setdefault("SUBJECTIVE_TELEMETRY", "0")
 import crash_handler
 crash_handler.install()
 
+# Plan hf-space-v4-publish (ZeroGPU): spaces MUSS vor jedem torch-Import
+# stehen (spaces patcht torch.cuda beim ersten GPU-Call; gradio/blocks.py:99
+# tut denselben Import zur Laufzeit — explizit ist die Reihenfolge garantiert).
+# Wheel-Inspection spaces 0.50.4: Config.zero_gpu = SPACES_ZERO_GPU env; der
+# GPU-Decorator ist außerhalb ZeroGPU ein no-op (_GPU: `if not Config.zero_gpu:
+# return task`). Lokal/ reguläre GPU-Hardware: env unset → guarded no-op.
+if os.environ.get("SPACES_ZERO_GPU"):
+    import spaces  # noqa: F401
+
 import gradio as gr
 from server import app as fastapi_app, manager
 from config import MODEL_REGISTRY, SERVER_CONFIG
