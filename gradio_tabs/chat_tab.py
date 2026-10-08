@@ -463,13 +463,20 @@ def _spaces_gpu(fn):
     reicht nicht für bonsai: snapshot_download 6 GB + GF3-Build + triton-JIT
     + Stream im Erstaufruf. Auf lokaler/regulärer GPU-Hardware no-op: spaces'
     _GPU gibt fn unverändert zurück, wenn SPACES_ZERO_GPU nicht gesetzt ist
-    (wheel-Inspection 0.50.4, Config.zero_gpu). duration=900 s: Erstaufruf
-    muss Download+Build+JIT+Generierung decken; bei Quota-Überschreitung
-    kommt eine explizite ZeroGPU-Fehlermeldung statt Stummsterben."""
+    (wheel-Inspection 0.50.4, Config.zero_gpu).
+
+    duration=180 s (ZeroGPU-Realität 2026-10-08, gemessen A-Grad): der Client
+    skaliert die Laufzeit mit dem duration_factor des GPU-Profils (configs.json:
+    Blackwell RTX PRO 6000 = 1.5) — 900 erzeugte den Request 1350 s >
+    Free-Max ("... subscribe to PRO ... up to 40 min"). 180×1.5=270 s ≤ Free-
+    Grenze (300 s). Caches überleben das Lease-Ende containerweit, also:
+    Erstaufruf deckt idealerweise Download+Build; scheitert die Lease am
+    Zeitlimit, ist der Snapshot danach trotzdem im Cache und ein_retry-Lauf
+    braucht nur noch Build+JIT+Generierung."""
     if not os.environ.get("SPACES_ZERO_GPU"):
         return fn
     import spaces
-    return spaces.GPU(duration=900)(fn)
+    return spaces.GPU(duration=180)(fn)
 
 
 @_spaces_gpu
