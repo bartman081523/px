@@ -345,7 +345,17 @@ class ModelManager:
         angefasst.
 
         Fail-soft: jeder Fehler → False + Log, niemals Boot-Crash.
+
+        Phase 2 (PX-Pfad, 2026-10-09 Deploy-#13-Befund): der Baseline-Gen
+        kompiliert nur die unpatchten Kernels; die px-Patch-Struktur
+        (hybrid GDN/full@4, loops=4, Manifold-Routing) läuft mit anderen
+        Tensor-Shapes → erster px-gepatchter Chat verbrachte ~6 min im
+        Triton-Compile, bevor das erste Token floss. Phase 2 lädt
+        selbst-gepatcht (subjective=True, Chat-UI-Default-Preset
+        ACTIVE_MANIFOLD_RELAY; Load cache-hot ~5 s) und generiert
+        ebenfalls 6 Token. PX_WARMUP_PXPATH=0 überspringt Phase 2.
         """
+        # ── Phase 1: BASELINE (unpatched) ──
         _m = None
         _e = None
         t0 = time.time()
@@ -365,11 +375,11 @@ class ModelManager:
                             do_sample=False)
             print(f"[Warmup] {model_id} JIT-Cache warm "
                   f"({time.time()-t0:.1f}s, {max_new_tokens} Token).")
-            return True
+            ok = True
         except Exception as e:
             print(f"[Warmup] {model_id} Warmup übersprungen (fail-soft): "
                   f"{e!r}")
-            return False
+            ok = False
         finally:
             # Warmup-Instanz konsequent freigeben (Registry bleibt leer).
             _m = _e = None
@@ -378,6 +388,44 @@ class ModelManager:
                     torch.cuda.empty_cache()
             except Exception:
                 pass
+
+        # ── Phase 2: PX-Pfad-Kernels (Deploy-#14) ──
+        # Chat-UI-Default-Preset für bonsai (chat_tab.py Dropdown). Relay-
+        # Parameter ändern keine Kernel-Shapes (Vektor-Add), Manifold/
+        # loops kommen aus dem Auto-Patch → dieser Call deckt exakt die
+        # Kernel-Spezialisierungen ab, die der erste User-Chat braucht.
+        if os.environ.get("PX_WARMUP_PXPATH", "1").strip().lower() \
+                not in ("0", "off", "false", "no"):
+            _m2 = None
+            _e2 = None
+            t2 = time.time()
+            try:
+                print(f"[Warmup] PX-Pfad-Warmup {model_id} "
+                      "(subjective=True, preset=ACTIVE_MANIFOLD_RELAY): "
+                      "Load (cache-hot) ...")
+                _e2 = self._load_model(model_id, px_subjective=True,
+                                       px_config_preset="ACTIVE_MANIFOLD_RELAY")
+                _m2 = _e2["model"]
+                device = next(_m2.parameters()).device
+                ids2 = _e2["tokenizer"]("Hallo", return_tensors="pt") \
+                    .input_ids.to(device)
+                with torch.no_grad():
+                    _m2.generate(ids2, max_new_tokens=max_new_tokens,
+                                 do_sample=False)
+                print(f"[Warmup] {model_id} PX-Pfad JIT-Cache warm "
+                      f"({time.time()-t2:.1f}s, {max_new_tokens} Token).")
+            except Exception as e:
+                print(f"[Warmup] {model_id} PX-Pfad-Warmup übersprungen "
+                      f"(fail-soft): {e!r}")
+            finally:
+                _m2 = _e2 = None
+                try:
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                except Exception:
+                    pass
+
+        return ok
 
     def _reapply_patch(self, model_id: str, px_subjective: bool,
                         px_gamma: float = None, px_routing_mode: str = None,
