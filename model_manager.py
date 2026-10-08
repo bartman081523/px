@@ -205,6 +205,25 @@ class ModelManager:
                 _os.path.dirname(_os.path.abspath(__file__)), "px_patches")
             if _pp_dir not in _sys.path:
                 _sys.path.insert(0, _pp_dir)
+            # Plan hf-space-v4-publish: ohne GPU klar abbrechen statt im
+            # Triton-Kernel kryptisch zu sterben (cpu-basic-Space). Und:
+            # PX_BONSAI_HF_ID darf eine Hub-Repo-Id sein → vor dem Load in
+            # einen lokalen Pfad materialisieren.
+            if not torch.cuda.is_available():
+                raise ValueError(
+                    "ternary-bonsai-27b benötigt GPU-Hardware "
+                    "(Space-Einstellungen: Hardware → ZeroGPU/GPU). "
+                    "Ohne GPU wird das gepackte Ternary-GF3-Format "
+                    "nicht unterstützt.")
+            if not _os.path.exists(hf_id):
+                from huggingface_hub import snapshot_download
+                hf_id = snapshot_download(hf_id)
+                print(f"[ModelManager] bonsai snapshot: {hf_id}")
+            # load_signs() liest {OUT_DIR}/config.json mit OUT_DIR aus
+            # TERNARY_BONSAI_HF_DIR — runtime_niveau kennt hf_dir hier
+            # nicht. Env an den materialisierten Pfad syncen (setdefault:
+            # explizit gesetztes TERNARY_BONSAI_HF_DIR gewinnt weiter).
+            _os.environ.setdefault("TERNARY_BONSAI_HF_DIR", hf_id)
             import importlib
             _rt = importlib.import_module(f"{registry['patch_dir']}.runtime_qwen35_ptq")
             _fold = _rt.FoldOps(_rt.load_signs()[0], mode="signs_first")

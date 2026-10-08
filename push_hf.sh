@@ -41,8 +41,8 @@ if [[ -f .env ]]; then
 fi
 
 # ── Konfiguration ────────────────────────────────────────────────
-BRANCH_LOCAL="ui-styling"
-BRANCH_HF="ui-styling-hf"
+BRANCH_LOCAL="${BRANCH_LOCAL:-ui-styling}"
+BRANCH_HF="${BRANCH_LOCAL}-hf"
 HF_USER="neuralworm"
 # User-Instruction 2026-07-09: "wir bleiben für immer auf v4. mal merken."
 # → v4 ist der permanente Space. Neue Spaces (v5/v6) werden seit 2026-07

@@ -29,6 +29,15 @@ torch~=2.12.0
 # torch~=2.12.0). 0.27.0 pinned torch==2.12.0 → kompatibel.
 torchvision~=0.27.0
 transformers~=5.13.0
+# ternary-bonsai-27b: Qwen3.5-hybrid lädt fla (gated-delta-net-Kernels).
+# flash-linear-attention==0.5.2: pure-python Wheel auf PyPI (verifiziert
+# 2026-10-08, G3) → triton-JIT läuft zur Laufzeit auf GPU-Runtimes.
+# causal_conv1d BEWUSST NICHT in requirements: PyPI hat nur sdist (kein
+# Wheel, G3-Falsifikation 2026-10-08) → Quellenkompilierung ohne nvcc im
+# Space-Builder würde den v4-Build brechen. fla hat einen internen
+# causal_conv1d-Try/Except-Fallback (fla/layers/mamba.py:30-32) und der
+# bonsai-Pfad nutzt ihn nicht → weglassen ist safe.
+flash-linear-attention~=0.5.2
 accelerate~=1.12.0
 bitsandbytes~=0.48.0
 huggingface_hub~=1.22.0

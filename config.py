@@ -5,6 +5,8 @@ Defines available models, their HuggingFace IDs, and default patch info.
 Redundant patched variants removed; PX mode is now a dynamic parameter.
 """
 
+import os
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Model Registry
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -117,9 +119,15 @@ MODEL_REGISTRY = {
     # nur im GF3-Lauf freigeschaltet (_px_long_ctx) und trägt Kontexte
     # bis max_length: kv4 = 1,11 GiB @131k (bf16 wäre 8,0 GiB).
     # Env-Override zum alten PTQ10-Lauf: PX_WEIGHT_FORMAT=ptq10.
+    # Portable-Quelle (Plan hf-space-v4-publish): PX_BONSAI_HF_ID kann eine
+    # Hub-Repo-Id sein (HF Space lädt via snapshot_download); lokale Pfade
+    # bleiben der Default (model_manager: qwen35_ptq-Zweig).
     "ternary-bonsai-27b": {
-        "hf_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
-        "tokenizer_id": "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf",
+        "hf_id": os.environ.get(
+            "PX_BONSAI_HF_ID", "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf"),
+        "tokenizer_id": os.environ.get(
+            "PX_BONSAI_TOKENIZER_ID",
+            os.environ.get("PX_BONSAI_HF_ID", "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf")),
         "patch_dir": "ternary_bonsai_27b_px",
         "patch_kwargs": {"routing_mode": "adaptive"},
         "model_type": "qwen35_ptq",
@@ -133,7 +141,8 @@ MODEL_REGISTRY = {
 # Server Configuration
 # ═══════════════════════════════════════════════════════════════════════════════
 
-import os
+# `import os` steht jetzt am Modulkopf (Registry nutzt os.environ für
+# PX_BONSAI_HF_ID); der frühere Mid-File-Import hier ist entfallen.
 
 SERVER_CONFIG = {
     "host": os.environ.get("PX_HOST", "0.0.0.0"),

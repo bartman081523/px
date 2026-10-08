@@ -44,6 +44,9 @@ python app.py
 
 - PX-patched: gemma3-270m, gemma3-1b, gemma3-4b, minicpm5-1b
 - Baselines: gemma3-270m-base, gemma3-270m-it, gemma3-1b-base, minicpm5-1b-base
+- **ternary-bonsai-27b** (GPU-Hardware erforderlich): TF-PTQ1_0 → GF(3)-Runtime,
+  2-Bit-Ternary-27B mit KV-4bit-Long-Context bis 131k. Ohne GPU bricht der
+  Load mit klarer Fehlermeldung ab; Modell-Id via Env `PX_BONSAI_HF_ID`.
 
 ## Use Cases
 

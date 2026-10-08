@@ -92,9 +92,11 @@ class AutoCalibrator:
         self.calibration_steps = calibration_steps
         self.model_id = model_id
 
-        # Persistent state directory
-        self.manifold_dir = "/run/media/julian/ML4/ollama-work/all_space/px_manifolds"
-        
+        # Persistent state directory. Portable (Plan hf-space-v4-publish):
+        # env-Override PX_MANIFOLD_DIR, sonst repo-relativ px_manifolds/
+        # (der alte absolute all_space-Pfad bricht auf fremden Hosts).
+        self.manifold_dir = os.environ.get("PX_MANIFOLD_DIR") or os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "..", "..", "px_manifolds")
         self.calibrated = False
         self.k_samples = []
         self.phi_samples = []
@@ -286,7 +288,20 @@ class AutoCalibrator:
         if not self.model_id: return
         safe_id = self.model_id.replace("/", "_")
         path = os.path.join(self.manifold_dir, f"{safe_id}_manifold.json")
-        if not os.path.exists(path): return
+        if not os.path.exists(path):
+            # Portable-Fallback: der Manifold-Name ist aus dem konkreten
+            # Modellpfad abgeleitet (`_home_julian_.cache_..._manifold.json`);
+            # auf dem HF Space zeigt model_id auf eine Hub-Repo-Id
+            # (`neuralworm/ternary-bonsai-2-27b-hf`) → matche auf das letzte
+            # Pfad-Segment. `_manifold.json`-Suffix verhindert Kollision mit
+            # `_relay_dwidth.json`.
+            import glob as _glob
+            tail = self.model_id.rstrip("/").split("/")[-1]
+            cands = sorted(_glob.glob(
+                os.path.join(self.manifold_dir, f"*{tail}_manifold.json")))
+            if not cands:
+                return
+            path = cands[0]
         try:
             with open(path, "r") as f: data = json.load(f)
             self.k_mean = data.get("k_mean")
