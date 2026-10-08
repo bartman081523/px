@@ -27,6 +27,10 @@
 #   - POST /api/spaces → 404. POST /api/repos/create → 200 (korrekter Endpoint).
 #   - 'git push --force' ist OK für HF Spaces (kein lokales Tracking).
 #   - 'git worktree add' scheitert wenn Branch im Hauptverzeichnis gecheckt ist.
+# Lesson (2026-10-08): der Orphan-Flow unten tut `git checkout "$BRANCH_LOCAL" -- .`
+#   — das ÜBERSCHREIBT uncommittete Änderungen getrackter Files im Working-Tree
+#   (passiert: C1-Final-Aggregate in eval/results/ verloren). Stash-Guard unten
+#   fixt das: tracked Modifications stashen → Orphan-Flow → zurückpoppen.
 
 set -euo pipefail
 
@@ -63,6 +67,22 @@ EXCLUDE_PATHS=(
     "logs/local_debug.log"   # LFS-pointer (verhindert LFS-Upload komplett)
 )
 
+# ── Stash-Guard (Lesson 2026-10-08) ─────────────────────────────
+# getrackte Working-Tree-Änderungen vor dem Orphan-Flow in Sicherheit
+# bringen und nach dem Cleanup restaurieren. Bei Script-Abbruch bleibt
+# der Stash-Entry erhalten (Daten sicher, nicht verloren).
+STASHED=0
+restore_guarded_changes() {
+    if [ "$STASHED" = "1" ]; then
+        if git stash pop >/dev/null 2>&1; then
+            echo "Stash-Guard: Änderungen zurückgepoppt (Working-Tree restauriert)."
+        else
+            echo "WARN: stash pop konfliktiert — Stash-Entry bleibt erhalten (Daten sicher)." >&2
+            echo "  Wiederherstellen: git stash pop (Konflikte manuell lösen)." >&2
+        fi
+    fi
+}
+
 # ── Sanity-Checks ────────────────────────────────────────────────
 if [ -z "${HF_TOKEN:-}" ]; then
     echo "ERROR: HF_TOKEN env var nicht gesetzt. Abbruch." >&2
@@ -79,7 +99,8 @@ if ! git rev-parse --verify "$BRANCH_LOCAL" >/dev/null 2>&1; then
     exit 1
 fi
 
-# Aktuellen Working-Tree-Status checken (nichts darf modified sein)
+# Aktuellen Working-Tree-Status checken (untracked bleibt unangetastet —
+# tracked Modifications werden im Stash-Guard gesichert, nicht überschrieben)
 if [ -n "$(git status --porcelain)" ]; then
     echo "WARN: Working-Tree hat uncommitted changes:"
     git status --short
@@ -95,6 +116,15 @@ if [ -n "$(git status --porcelain)" ]; then
         # Non-interaktiv (Pipe/Subshell): fortfahren
         echo "Non-interactive mode: fortfahren..."
     fi
+fi
+
+# Stash-Guard scharf stellen: nur wenn tracked Modifications vorliegen
+# (git stash push tut bei cleanem Tree nichts und exit 0 — STASHED-Flag
+# wird deshalb über git diff --quiet HEAD gesetzt, nicht über stash rc).
+if ! git diff --quiet HEAD; then
+    git stash push -m "push_hf-guard: tracked Änderungen vor Orphan-Flow" >/dev/null
+    STASHED=1
+    echo "Stash-Guard: getrackte Änderungen gestasht (pop nach Cleanup)."
 fi
 
 # ── HF Space erstellen (idempotent: skip wenn schon da) ────────
@@ -228,6 +258,7 @@ else
     # Cleanup trotzdem
     git checkout -f "$BRANCH_LOCAL" >/dev/null 2>&1 || true
     git branch -D "$BRANCH_HF" >/dev/null 2>&1 || true
+    restore_guarded_changes
     exit 1
 fi
 
@@ -242,3 +273,4 @@ git checkout -f "$BRANCH_LOCAL" >/dev/null
 git branch -D "$BRANCH_HF" >/dev/null
 echo "Zurück auf '$BRANCH_LOCAL'. Sparse-Branch gelöscht."
 echo "Working-Tree ist 100% identisch zu vorher (Index-Cleanup war --cached-only)."
+restore_guarded_changes
