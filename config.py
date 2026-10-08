@@ -122,12 +122,21 @@ MODEL_REGISTRY = {
     # Portable-Quelle (Plan hf-space-v4-publish): PX_BONSAI_HF_ID kann eine
     # Hub-Repo-Id sein (HF Space lädt via snapshot_download); lokale Pfade
     # bleiben der Default (model_manager: qwen35_ptq-Zweig).
+    # Priorität (2026-10-08): env > lokaler Cache (bestehende lokale Server,
+    # snapshot_download würde sonst unnötig 6 GB spiegeln) > Hub-Repo-Id
+    # (Space/fremde Hosts — ein lokaler Pfad wäre dort invalid repo_id).
     "ternary-bonsai-27b": {
-        "hf_id": os.environ.get(
-            "PX_BONSAI_HF_ID", "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf"),
-        "tokenizer_id": os.environ.get(
-            "PX_BONSAI_TOKENIZER_ID",
-            os.environ.get("PX_BONSAI_HF_ID", "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf")),
+        "hf_id": (
+            os.environ.get("PX_BONSAI_HF_ID")
+            or ("/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf"
+                if os.path.exists("/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf")
+                else "neuralworm/ternary-bonsai-2-27b-hf")),
+        "tokenizer_id": (
+            os.environ.get("PX_BONSAI_TOKENIZER_ID")
+            or (os.environ.get("PX_BONSAI_HF_ID"))
+            or ("/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf"
+                if os.path.exists("/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf")
+                else "neuralworm/ternary-bonsai-2-27b-hf")),
         "patch_dir": "ternary_bonsai_27b_px",
         "patch_kwargs": {"routing_mode": "adaptive"},
         "model_type": "qwen35_ptq",
