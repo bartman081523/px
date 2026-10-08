@@ -1145,8 +1145,21 @@ def build_chat_tab(manager: ModelManager):
             # Modell setzen die apply_px_defaults-Handler die Bounds neu
             # (maximum=n_layers). Der alte starre Slider (1..25) machte
             # ternary L34 / E2B L26 unerreichbar.
+            # Plan hf-space-v4-publish (Negative-Control im Live-Space,
+            # 2026-10-08, A-Grad): gradio validiert API-Inputs gegen die
+            # STATISCHE Build-Config — der dynamische maximum=n_layers-
+            # Update aus apply_px_defaults hängt am model_select.change-
+            # Event und erreicht gradio_client-POSTs nie. Der alte
+            # Initial-Bound (= model_choices[0] → gemma3-270m/18) verwarf
+            # relay_layer=34 (bonsai) mit "Value 34 is greater than
+            # maximum value 18". Fix: statischer Bound = Registrierungs-
+            # maximum (bonsai n_layers=64); UI-Striktheit bleibt durch
+            # die apply_px_defaults-Updates je Auswahl bestehen.
             _init_defaults = get_px_defaults(model_choices[0]) or {}
-            _init_layers = int(_init_defaults.get("n_layers") or 25)
+            _init_layers = max(
+                int((get_px_defaults(m) or {}).get("n_layers") or 25)
+                for m in model_choices
+            )
             _init_inject = int(_init_defaults.get("inject_layer") or 21)
             relay_layer = gr.Slider(
                 1, _init_layers, value=_init_inject, step=1,
