@@ -465,18 +465,20 @@ def _spaces_gpu(fn):
     _GPU gibt fn unverändert zurück, wenn SPACES_ZERO_GPU nicht gesetzt ist
     (wheel-Inspection 0.50.4, Config.zero_gpu).
 
-    duration=180 s (ZeroGPU-Realität 2026-10-08, gemessen A-Grad): der Client
+    duration=PX_SPACES_LEASE (env/Space-Secret, Bisekt 2026-10-08): der Client
     skaliert die Laufzeit mit dem duration_factor des GPU-Profils (configs.json:
-    Blackwell RTX PRO 6000 = 1.5) — 900 erzeugte den Request 1350 s >
-    Free-Max ("... subscribe to PRO ... up to 40 min"). 180×1.5=270 s ≤ Free-
-    Grenze (300 s). Caches überleben das Lease-Ende containerweit, also:
-    Erstaufruf deckt idealerweise Download+Build; scheitert die Lease am
-    Zeitlimit, ist der Snapshot danach trotzdem im Cache und ein_retry-Lauf
-    braucht nur noch Build+JIT+Generierung."""
+    Blackwell RTX PRO 6000 = 1.5). GEMESSEN (A-Grad, serververweigert): 900 →
+    Request 1350 s abgelehnt; 180 → Request 270 s ebenfalls abgelehnt — der
+    Free-Cap liegt UNTER 270 s ("... subscribe to PRO ... up to 40 min").
+    Default 60 → Request 90 s; per Space-Secret PX_SPACES_LEASE hochbisektieren.
+    Caches überleben das Lease-Ende containerweit und hf_hub_download resümiert
+    .incomplete-Blobs per Range-Request — also: scheitert die Lease am Zeitlimit,
+    macht der nächste Lauf Fortschritt statt von vorn zu beginnen."""
     if not os.environ.get("SPACES_ZERO_GPU"):
         return fn
     import spaces
-    return spaces.GPU(duration=180)(fn)
+    _lease = int(os.environ.get("PX_SPACES_LEASE", "60"))
+    return spaces.GPU(duration=_lease)(fn)
 
 
 @_spaces_gpu
