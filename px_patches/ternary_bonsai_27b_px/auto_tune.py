@@ -291,12 +291,19 @@ class AutoCalibrator:
         if not os.path.exists(path):
             # Portable-Fallback: der Manifold-Name ist aus dem konkreten
             # Modellpfad abgeleitet (`_home_julian_.cache_..._manifold.json`);
-            # auf dem HF Space zeigt model_id auf eine Hub-Repo-Id
-            # (`neuralworm/ternary-bonsai-2-27b-hf`) → matche auf das letzte
-            # Pfad-Segment. `_manifold.json`-Suffix verhindert Kollision mit
+            # auf dem HF Space zeigt model_id (= config._name_or_path) auf den
+            # snapshot_download-Cache-Pfad (`.../models--neuralworm--<name>/
+            # snapshots/<sha>`) — letztes Segment wäre die SHA. Matche daher
+            # zuerst das `models--`-Segment, sonst das letzte Pfad-Segment.
+            # `_manifold.json`-Suffix verhindert Kollision mit
             # `_relay_dwidth.json`.
             import glob as _glob
-            tail = self.model_id.rstrip("/").split("/")[-1]
+            segs = self.model_id.rstrip("/").split("/")
+            tail = segs[-1]
+            for _seg in segs:
+                if _seg.startswith("models--"):
+                    tail = _seg.split("--")[-1]
+                    break
             cands = sorted(_glob.glob(
                 os.path.join(self.manifold_dir, f"*{tail}_manifold.json")))
             if not cands:
