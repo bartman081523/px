@@ -5,6 +5,19 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# ── .env laden (Tab-Breaker 2026-10-08) ─────────────────────────
+# Ohne HF_TOKEN scheitert der ModelManager-Download gated Repos
+# (google/gemma-3-*) mit 401, sobald der lokale Hub-Cache-Miss
+# vorliegt → jede Tab-Aktion, die das Default-Modell lädt, liefert
+# 503. Konvention wie push_hf.sh: .env (gitignored) wird gesourced,
+# Token-Werte NIE echoen.
+if [[ -f "$SCRIPT_DIR/.env" ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    source "$SCRIPT_DIR/.env"
+    set +a
+fi
+
 export DEBUG_ROUTING=0
 export DEBUG_PX=0
 export SUBJECTIVE_TELEMETRY=0
