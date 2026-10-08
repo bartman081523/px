@@ -158,8 +158,27 @@ def load_dwidth(text_model):
 
     path = os.path.join(_relay_dir(), f"{safe_id}_relay_dwidth.json")
     if not os.path.exists(path):
-        _DWIDTH_CACHE[safe_id] = None
-        return None
+        # Portable-Fallback (Plan hf-space-v4-publish, 2026-10-08): auf dem
+        # HF Space ist hf_id = config._name_or_path = snapshot-Cache-Pfad
+        # (`.../models--neuralworm--<name>/snapshots/<sha>`) → matche zuerst
+        # das `models--`-Segment, sonst das letzte Pfad-Segment
+        # (`*<name>_relay_dwidth.json` im Repo-px_manifolds). Identisch zu
+        # get_inject_layer_for_hf_id und auto_tune.load_manifold — der
+        # G5-Lauf zeigte relay-inactive, weil nur die zwei Schwester-Sites
+        # den Fallback hatten.
+        import glob as _glob
+        segs = hf_id.rstrip("/").split("/")
+        tail = segs[-1]
+        for _seg in segs:
+            if _seg.startswith("models--"):
+                tail = _seg.split("--")[-1]
+                break
+        cands = sorted(_glob.glob(
+            os.path.join(_relay_dir(), f"*{tail}_relay_dwidth.json")))
+        if not cands:
+            _DWIDTH_CACHE[safe_id] = None
+            return None
+        path = cands[0]
     try:
         with open(path, "r", encoding="utf-8") as f:
             art = json.load(f)
