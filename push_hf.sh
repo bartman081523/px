@@ -45,7 +45,13 @@ if [[ -f .env ]]; then
 fi
 
 # ── Konfiguration ────────────────────────────────────────────────
-BRANCH_LOCAL="${BRANCH_LOCAL:-ui-styling}"
+# DEPLOY-INZIDENZ 2026-10-08 (A-Grad): Default 'ui-styling' deployte den
+# ALTEN Baum nach v4 → Space BUILD_ERROR (statischer Zweig ist Vorfahre
+# von gf5: −1042 Zeilen in 5 Kernfiles). Default = aktiver Dev-Branch;
+# Override via env bleibt möglich. Nach jedem Deploy live-verifizieren:
+#   curl -H "Authorization: Bearer $HF_TOKEN" \
+#     https://huggingface.co/spaces/neuralworm/px-explorer-v4/raw/main/<file>
+BRANCH_LOCAL="${BRANCH_LOCAL:-gf5-ququint-quant}"
 BRANCH_HF="${BRANCH_LOCAL}-hf"
 HF_USER="neuralworm"
 # User-Instruction 2026-07-09: "wir bleiben für immer auf v4. mal merken."
