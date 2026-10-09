@@ -57,6 +57,10 @@ snapshot_download('neuralworm/ternary-bonsai-2-27b-hf'); print('weights baked')"
 #    ab ("use xet") → der Cache liegt als sha256-verifiziertes tar.gz im
 #    öffentlichen Repo neuralworm/px-wheels und wird zur BUILD-Zeit
 #    geladen. LAUFZEIT: keine Kompilation.
+#    Beide Runtime-Verzeichnisse sind Root-geführten Layern entstanden
+#    (snapshot_download als root, tar als root) → chown auf den
+#    Container-User, sonst PermissionError beim ersten HF-Load
+#    (.locks/etag-Writebacks) bzw. Triton-Lockfile-Warn-Spam.
 RUN mkdir -p /home/user/.triton/cache \
     && curl -fL --retry 3 \
         "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_20261009.tar.gz" \
@@ -65,6 +69,7 @@ RUN mkdir -p /home/user/.triton/cache \
         | sha256sum -c - \
     && tar -xzf /tmp/triton_cache.tar.gz -C /home/user/.triton/cache \
     && rm /tmp/triton_cache.tar.gz \
+    && chown -R user:user /home/user/.cache/huggingface /home/user/.triton/cache \
     && chmod -R u+rwX /home/user/.triton/cache \
     && echo "triton cache baked (sha verified)"; \
     ls /home/user/.triton/cache | head -2
