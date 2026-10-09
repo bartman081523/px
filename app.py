@@ -185,6 +185,60 @@ if __name__ == "__main__":
 
         _prefetch_hub_snapshots()
 
+        # Plan t4-wheel (Deploy-#18): Request-Status-Counter — die 422-Sturm-
+        # Rate war im Journal unsichtbar (Python-warnings drucken die
+        # StarletteDeprecation nur EINMAL pro Prozess; der Rest verschwindet
+        # im Sidecar-Dedup identischer Zeilen). Der Counter zählt ALLE
+        # Requests nach (status, path) und wird vom MEM-Heartbeat mit
+        # ausgegeben. Gradio-6: routes.App ist Starlette-Subklasse — der
+        # Middleware-Stack wird via build_middleware_stack gebaut → sauber
+        # monkeypatched, fail-soft (keine App bei Fehler).
+        _HTTP_COUNTER = {"n": 0, "st": {}, "paths": {}, "loop": None}
+        try:
+            import gradio.routes as _groutes
+
+            class _CountingASGI:
+                def __init__(self, inner):
+                    self.inner = inner
+
+                async def __call__(self, scope, receive, send):
+                    if scope.get("type") != "http":
+                        return await self.inner(scope, receive, send)
+                    path = scope.get("path", "?")[:64]
+                    _HTTP_COUNTER["n"] += 1
+                    _HTTP_COUNTER["paths"][path] = \
+                        _HTTP_COUNTER["paths"].get(path, 0) + 1
+                    if _HTTP_COUNTER["loop"] is None:
+                        import asyncio as _aio
+                        _HTTP_COUNTER["loop"] = _aio.get_running_loop()
+                    status_holder = {}
+
+                    async def _send_wrapper(message):
+                        if message.get("type") == "http.response.start":
+                            status_holder["s"] = message.get("status")
+                        return await send(message)
+
+                    try:
+                        await self.inner(scope, receive, _send_wrapper)
+                        s = status_holder.get("s", "?")
+                        _HTTP_COUNTER["st"][s] = _HTTP_COUNTER["st"].get(s, 0) + 1
+                    except Exception as exc:
+                        key = f"EXC:{type(exc).__name__}"
+                        _HTTP_COUNTER["st"][key] = \
+                            _HTTP_COUNTER["st"].get(key, 0) + 1
+                        raise
+
+            _orig_stack = _groutes.App.build_middleware_stack
+
+            def _counting_stack(self):
+                return _CountingASGI(_orig_stack(self))
+
+            _groutes.App.build_middleware_stack = _counting_stack
+            print("[Deploy#18] HTTP-Counter-Middleware installiert.", flush=True)
+        except Exception as exc:
+            print(f"[Deploy#18] HTTP-Counter NICHT installiert "
+                  f"(fail-soft): {exc!r}", flush=True)
+
         def _spawn_jit_warmup():
             """t4-small-Befund 2026-10-08: erste bonsai-Generierung nach
             Boot = ~8.5 min Triton-Compile (GF3-GEMV + fla-GDN auf 2-vCPU)
@@ -205,17 +259,21 @@ if __name__ == "__main__":
                 daemon=True, name="px-jit-warmup").start()
 
         def _spawn_mem_heartbeat():
-            """Plan t4-wheel (Deploy-#17): RAM-Heartbeat für die stille
-            Container-Tod-Frage (6/6 Tode 0.6-19.6 min nach Phase-2-Ende,
-            KEIN Banner — SIGKILL-Klasse). VmRSS/cgroup-memory.current alle
-            30 s auf stdout: der letzte Heartbeat vor einem Boot-Wechsel ist
-            der RAM-Zustand beim Tod → der Trigger wird gemessen statt nur
-            korreliert. Fehlschlag-tolerant (cgroup-v1/v2/ohne → no-op)."""
+            """Plan t4-wheel (Deploy-#17+#18): RAM-Heartbeat für die stille
+            Container-Tod-Frage (Tode 0.6-19.6 min nach Phase-2, KEIN Banner
+            — SIGKILL- oder Freeze-Klasse). Alle 30 s: VmRSS/VmHWM +
+            cgroup-memory.current + HTTP-Counter-Δ (Status-Raten — der
+            warnings-Dedup versteckt die 422-Sturm-Rate) +
+            run_coroutine_threadsafe-Loop-Probe (loop=OK/STUCK unterscheidet
+            Prozess-Tod von eingefrorenem Event-Loop). Der letzte Heartbeat
+            vor einem Boot-Wechsel = der Zustand beim Tod. Fehlschlag-tolerant
+            (cgroup-v1/v2/ohne → no-op)."""
             import threading
 
             def _work():
                 import time
                 n = 0
+                prev = {}  # Deploy-#18: Counter-Snapshot für Δ-Raten
                 while True:
                     n += 1
                     try:
@@ -248,9 +306,56 @@ if __name__ == "__main__":
                         except Exception:
                             pass
                         th = len(threading.enumerate())
+                        # Deploy-#18: HTTP-Counter-Delta (Rate je 30-s-
+                        # Fenster — macht die 422-Sturm-Rate sichtbar, die
+                        # der warnings-Dedup versteckt) + Loop-Probe:
+                        # run_coroutine_threadsafe(sleep(0)) auf dem in der
+                        # Middleware gekaperten Server-Loop; 10-s-Timeout
+                        # unterscheidet "Prozess tot" (kein MEM mehr) von
+                        # "Event-Loop eingefroren" (MEM läuft, loop=STUCK).
+                        http = ""
+                        loopinfo = ""
+                        try:
+                            cur_n = _HTTP_COUNTER["n"]
+                            d_n = cur_n - prev.get("n", 0)
+                            d_st = {k: v - prev.get("st", {}).get(k, 0)
+                                    for k, v in _HTTP_COUNTER["st"].items()}
+                            d_paths = {k: v - prev.get("paths", {}).get(k, 0)
+                                       for k, v in
+                                       _HTTP_COUNTER["paths"].items()}
+                            prev = {"n": cur_n,
+                                    "st": dict(_HTTP_COUNTER["st"]),
+                                    "paths": dict(_HTTP_COUNTER["paths"])}
+                            if cur_n or d_n:
+                                st_txt = ",".join(
+                                    f"{k}:{v}" for k, v in sorted(d_st.items())
+                                    if v) or "-"
+                                p_txt = ",".join(
+                                    f"{k.split('?')[0]}:{v}" for k, v in
+                                    sorted(d_paths.items(),
+                                           key=lambda kv: -kv[1])[:4]) or "-"
+                                http = f" httpΔ={d_n} ({st_txt} | {p_txt})"
+                            loop = _HTTP_COUNTER["loop"]
+                            if loop is not None and loop.is_running():
+                                import asyncio as _aio
+                                t0 = time.monotonic()
+                                try:
+                                    fut = _aio.run_coroutine_threadsafe(
+                                        _aio.sleep(0), loop)
+                                    fut.result(timeout=10)
+                                    loopinfo = (
+                                        f" loop=OK("
+                                        f"{time.monotonic() - t0:.2f}s)")
+                                except Exception as exc:
+                                    loopinfo = f" loop=STUCK({exc!r})"
+                            elif loop is not None:
+                                loopinfo = " loop=NOT_RUNNING"
+                        except Exception as exc:
+                            http = f" http=ERR({exc!r})"
                         print(f"[MEM#{n} {time.strftime('%H:%M:%S')}] "
                               f"VmRSS={rss}kB VmHWM={hwm}kB "
-                              f"(threads={th}){cg}{cu}", flush=True)
+                              f"(threads={th}){cg}{cu}{http}{loopinfo}",
+                              flush=True)
                     except Exception as exc:  # Heartbeat darf nicht töten
                         print(f"[MEM#{n}] heartbeat-FEHLER: {exc!r}",
                               flush=True)
