@@ -254,8 +254,26 @@ if __name__ == "__main__":
             # "auto" (und alle on-Werte): immer anstellen — _load_model
             # enthält den CUDA-Guard (ValueError <1 s bei cpu-basic)
             # → fail-soft, kein Boot-Risiko.
+
+            # Boot-Race-Gate (Docker-Migration 2026-10-09): ein User-Chat,
+            # der DURCH den laufenden Warmup tritt, löste einen parallelen
+            # Zweit-Load aus (Live-Beweis debug19_journal 04:57-05:08:
+            # zwei Instanzen im VRAM, generate sah den Phase-2-Patch-Swap
+            # unter sich → 0 Tokens nach 451-s-Compile) und der Seed
+            # ("erster Chat = Cache-Hit") kam 10 min zu spät. Flag VOR dem
+            # Thread-Start gesetzt (kein µs-Fenster), im Runner exception-
+            # sicher wieder gelöscht; get_model wartet darauf statt selbst
+            # zu laden — danach trifft der Chat direkt das geseedete Entry.
+            manager._boot_warmup_running = True
+
+            def _boot_warmup_runner():
+                try:
+                    manager.warmup_bonsai_jit()
+                finally:
+                    manager._boot_warmup_running = False
+
             threading.Thread(
-                target=manager.warmup_bonsai_jit,
+                target=_boot_warmup_runner,
                 daemon=True, name="px-jit-warmup").start()
 
         def _spawn_mem_heartbeat():

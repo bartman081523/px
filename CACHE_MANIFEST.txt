@@ -1,0 +1,9 @@
+# Triton-Cache-Bake (Docker-Migration 2026-10-09)
+cache_dir: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/hfspace/triton_cache_baked
+entries: 79
+repo_root: /run/media/julian/ML4/ollama-work/all_space_6_16_stand
+python: 3.10.20
+torch: 2.12.0+cu130 (cuda 13.0)
+triton: 3.7.0
+gpu: NVIDIA GeForce RTX 2060
+elapsed_s: 455.2

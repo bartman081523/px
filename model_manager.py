@@ -40,6 +40,11 @@ class ModelManager:
         self._busy: set = set()                    # model_id -> set of active usage
         self.max_loaded_models = max_loaded_models
         self._lock = asyncio.Lock()                # Global lock for model state changes
+        # Boot-Race-Gate (Docker-Migration 2026-10-09): True während der
+        # Boot-JIT-Warmup läuft (Phase 1+2). get_model wartet darauf statt
+        # einen parallelen Zweit-Load auszulösen — Live-Beweis debug19_
+        # journal (0 Tokens nach 451-s-Compile, Zweit-Instanz im VRAM).
+        self._boot_warmup_running = False
 
     def lock_model(self, model_id: str):
         # ... (rest of methods)
@@ -67,6 +72,27 @@ class ModelManager:
         int8 because bf16 doesn't fit 12 GB at long prefill; 1b/270m default
         to "none"). Pass "none" or "int8" explicitly to override.
         """
+        # Boot-Race-Gate (siehe __init__): außerhalb des Locks warten,
+        # bis der Boot-Warmup geseedet hat — danach trifft der Chat das
+        # geseedete Registry-Entry (Cache-Hit) statt doppelt zu laden.
+        _t_warm = 0
+        if self._boot_warmup_running:
+            print(f"[ModelManager] {model_id}: Boot-Warmup läuft — "
+                  "Chat wartet auf Seed (kein Zweit-Load).", flush=True)
+        while self._boot_warmup_running:
+            await asyncio.sleep(1.0)
+            _t_warm += 1
+            if _t_warm % 30 == 0:
+                print(f"[ModelManager] {model_id} wartet auf "
+                      f"Boot-Warmup {_t_warm}s ...", flush=True)
+            if _t_warm >= 900:
+                print(f"[ModelManager] {model_id} Boot-Warmup-Deadline "
+                      "(900s) erreicht — normaler Pfad.", flush=True)
+                break
+        if _t_warm:
+            print(f"[ModelManager] {model_id}: Boot-Warmup-Wait "
+                  f"{_t_warm}s beendet.", flush=True)
+
         async with self._lock:
             if model_id not in MODEL_REGISTRY:
                 raise ValueError(f"Unknown model: {model_id}")

@@ -3,9 +3,8 @@ title: PX Cognitive Architecture Explorer
 emoji: 🧠
 colorFrom: blue
 colorTo: purple
-sdk: gradio
-sdk_version: "6.15.2"
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 short_description: Algorithmische Subjektivität — PX-Engine für LLMs
 ---

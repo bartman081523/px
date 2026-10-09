@@ -1,0 +1,25 @@
+# .dockerignore — Build-Context-Slanker (Docker-Migration 2026-10-09)
+# Der Build-Context ist ohnehin der gepushte sparse-Branch (scratches/,
+# telemetry/, sessions*/ sind dort schon per push_hf.sh-EXCLUDE_PATHS
+# rausgefallen) — dies hier ist Defense-in-Depth für lokale Builds.
+# NIEMALS px_triton_cache/ hier ausschließen — der gebakte Kernel-Cache
+# muss in den Context (Dockerfile: mv → /home/user/.triton/cache)!
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.github/
+.gitignore
+.env*
+*.log
+logs/
+scratches/
+telemetry/
+sessions/
+sessions_bak/
+sessions_bak3/
+tests/
+eval/
+docs/
+*.bak
+*.corrupt-repr*
