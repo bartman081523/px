@@ -35,9 +35,13 @@ RUN useradd -m -u 1000 user
 WORKDIR /home/user/app
 
 # 1) Python-Abhängigkeiten (root-pip → system-weit; torch 2.12.0 PyPI-Bundle
-#    bringt CUDA-13-user-space mit, Host-Treiber liefert HF)
+#    bringt CUDA-13-user-space mit, Host-Treiber liefert HF).
+#    --only-binary=:all: = Wheel-Reinheits-Assert: fehlt eine Wheel-Version
+#    für cp313, failt der Build SOFORT mit klarer Meldung statt still ein
+#    sdist ohne C-Compiler zu kompilieren (numpy==2.0.0-Beispiel, Build
+#    2026-10-09 05:42).
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 
 # 2) App-Code
 COPY --chown=user:user . /home/user/app

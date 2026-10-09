@@ -59,14 +59,15 @@ sentencepiece~=0.2.0
 protobuf~=5.28.0
 
 # ── Numerik / Visualisierung ──────────────────────────────────────────
-# numpy==2.0.0 EXAKT pinnen: pip 24+ löst numpy~=2.0.0 manchmal zu
-# numpy-2.0.2.tar.gz (sdist) auf → 18.9 MB Source + Build (Compiler,
-# Linker, numpy-Build-System) brauchen >10 GB RAM → OOM auf HF free
-# tier 16 GB. Mit ==2.0.0 findet pip garantiert die
-# numpy-2.0.0-cp313-cp313-manylinux_2_27_x86_64.whl (binary wheel,
-# kein Compile). User-Feedback 2026-07-08: "numpy install wird von
-# source gemacht... immer wheels verwenden. duh!".
-numpy==2.0.0
+# numpy==2.2.6 EXAKT pinnen (2026-10-09 Docker-Migration): der alte
+# ==2.0.0-Pin war FALSIFIZIERT — numpy 2.0.0 hat auf PyPI KEIN cp313-Wheel
+# (nur cp39-cp312), pip griff im docker-Build zum sdist → meson-Compile
+# ohne C-Compiler → BUILD_ERROR. 2.2.6 hat das cp313-Wheel UND ist exakte
+# Parität zur lokalen Bake-venv (shape_audit) mit dem gebakten Triton-Cache.
+# Grundsatz (2026-07-08): "numpy install wird von source gemacht... immer
+# wheels verwenden. duh!" — Dockerfile-Phase pip't deshalb zusätzlich mit
+# --only-binary=:all: (sdist-Fallback = harter Assert statt Compile).
+numpy==2.2.6
 Pillow~=11.0.0
 matplotlib~=3.10.0
 requests~=2.32.0
