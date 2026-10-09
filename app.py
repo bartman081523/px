@@ -306,6 +306,32 @@ if __name__ == "__main__":
                         except Exception:
                             pass
                         th = len(threading.enumerate())
+                        # Deploy-#19 (D1): GPU-Utilization — "es generiert"
+                        # (User-Meldung 2026-10-09: GPU-Aktivität sichtbar,
+                        # Text kam nicht an — Tod vor erstem Token) wurde
+                        # bisher durch Messzahlen unbestätigt; util>0 in der
+                        # letzten MEM-Zeile vor einem Tod beweist Compile/
+                        # Decode. pynvml, Fallback nvidia-smi-Binary.
+                        gu = ""
+                        try:
+                            import pynvml as _nv
+                            _nv.nvmlInit()
+                            _h = _nv.nvmlDeviceGetHandleByIndex(0)
+                            _u = _nv.nvmlDeviceGetUtilizationRates(_h)
+                            gu = f" gpu={_u.gpu}%"
+                        except Exception:
+                            try:
+                                import subprocess as _sp
+                                _r = _sp.run(
+                                    ["nvidia-smi",
+                                     "--query-gpu=utilization.gpu",
+                                     "--format=csv,noheader,nounits"],
+                                    capture_output=True, text=True,
+                                    timeout=10)
+                                _v = _r.stdout.strip()
+                                gu = f" gpu={_v}%" if _v else " gpu=?"
+                            except Exception:
+                                gu = " gpu=?"
                         # Deploy-#18: HTTP-Counter-Delta (Rate je 30-s-
                         # Fenster — macht die 422-Sturm-Rate sichtbar, die
                         # der warnings-Dedup versteckt) + Loop-Probe:
@@ -354,7 +380,7 @@ if __name__ == "__main__":
                             http = f" http=ERR({exc!r})"
                         print(f"[MEM#{n} {time.strftime('%H:%M:%S')}] "
                               f"VmRSS={rss}kB VmHWM={hwm}kB "
-                              f"(threads={th}){cg}{cu}{http}{loopinfo}",
+                              f"(threads={th}){cg}{cu}{gu}{http}{loopinfo}",
                               flush=True)
                     except Exception as exc:  # Heartbeat darf nicht töten
                         print(f"[MEM#{n}] heartbeat-FEHLER: {exc!r}",
@@ -363,6 +389,59 @@ if __name__ == "__main__":
 
             threading.Thread(target=_work, daemon=True,
                              name="px-mem-heartbeat").start()
+
+        def _spawn_gc_keepalive():
+            """Deploy-#19 (D4): Chat-Keepalive gegen den Platform-Auto-Sleep
+            (gcTimeout=300 s, ZeroGPU-Ära, NICHT autonom änderbar — User:
+            "sleep soll 5 minuten"). Der gc zählt NUR abgeschlossene
+            HTTP-Requests — offene /queue/data-SSE-Verbindungen und GPU-Load
+            zählen nicht; deshalb starb am 2026-10-09 der Cold-Wake-Chat
+            mitten im ~6-min-Triton-Compile, BEVOR der erste Token ankam
+            (User: "2x hallo, keine Antwort"). Pinger: alle 20 s ein GET auf
+            die ÖFFENTLICHE /config-Route (intern-localhost zählt nicht, der
+            gc sitzt an der Plattform-Logstufe) — NUR solange _CHAT_ACTIVE
+            ["n"] > 0 (Chat-Tab-Zähler, stamp refreshed je Yield). Leerlauf
+            → keine Pings → der 5-min-Sleep bleibt (kein Dauer-Billing).
+            Leak-Schutz: Flag >900 s ohne Yield-Refresh → Reset + Print."""
+            import threading
+
+            def _kwork():
+                import time
+                import urllib.request
+                space_id = os.environ.get("SPACE_ID", "")
+                if not space_id:
+                    print("[Keepalive] SPACE_ID nicht gesetzt — pinger aus.",
+                          flush=True)
+                    return
+                url = ("https://" + space_id.replace("/", "-")
+                       + ".hf.space/config")
+                print(f"[Keepalive] armiert: {url} (nur bei aktivem Chat)",
+                      flush=True)
+                pings = 0
+                while True:
+                    time.sleep(20)
+                    try:
+                        from gradio_tabs.chat_tab import _CHAT_ACTIVE
+                        n_act = _CHAT_ACTIVE["n"]
+                        if n_act <= 0:
+                            continue
+                        if time.monotonic() - _CHAT_ACTIVE["stamp"] > 900.0:
+                            print("[Keepalive] Flag-Leak (>900s ohne Yield-"
+                                  "Refresh) — Reset (5-min-Sleep kehrt zurück).",
+                                  flush=True)
+                            _CHAT_ACTIVE["n"] = 0
+                            continue
+                        with urllib.request.urlopen(url, timeout=15) as _resp:
+                            _resp.read(64)
+                        pings += 1
+                        if pings % 10 == 1:
+                            print(f"[Keepalive] ping #{pings} (active="
+                                  f"{n_act})", flush=True)
+                    except Exception:
+                        pass
+
+            threading.Thread(target=_kwork, daemon=True,
+                             name="gc-keepalive").start()
 
         # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
         # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
@@ -394,6 +473,7 @@ if __name__ == "__main__":
         )
         _spawn_jit_warmup()
         _spawn_mem_heartbeat()
+        _spawn_gc_keepalive()
         demo.block_thread()
     else:
         # SSL Configuration

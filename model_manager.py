@@ -103,10 +103,22 @@ class ModelManager:
                     # We are holding self._lock, but we might need to wait for is_busy.
                     # This is tricky because if we wait here, we block ALL other get_model calls.
                     # But re-patching is rare and must be exclusive.
+                    # Deploy-#19 (D2): periodischer Fortschritt-Print — der
+                    # Einmal-Print ließ eine lange Wartezeit (z. B. Chat
+                    # wartet parallel auf den Warmup-Seed) im Journal
+                    # unsichtbar; jetzt alle ~30 s + End-Zeit.
+                    _waits = 0
                     while self.is_busy(model_id):
                         # Release control but stay in lock (not ideal for all models,
                         # but necessary for this model)
+                        _waits += 1
                         await asyncio.sleep(0.1)
+                        if _waits % 300 == 0:
+                            print(f"[ModelManager] {model_id} still busy, "
+                                  f"waiting {_waits // 10}s ...", flush=True)
+                    if _waits:
+                        print(f"[ModelManager] {model_id} free after "
+                              f"{_waits // 10}s — re-patching.", flush=True)
                     self._reapply_patch(model_id, px_subjective, px_gamma, px_routing_mode,
                                         px_config_preset, px_relay_sign, px_relay_alpha, px_relay_layer)
                 self._last_used[model_id] = time.time()

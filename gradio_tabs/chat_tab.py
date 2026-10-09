@@ -9,6 +9,9 @@ import torch
 import asyncio
 import os
 import json
+import queue
+import time
+import itertools
 import statistics
 import threading
 from typing import Optional, List, Dict, Any
@@ -27,6 +30,22 @@ from gradio_tabs.multimodal_input import (
     extract_text_blocks,
     _normalize_history_for_chatbot,
 )
+
+
+# ── Deploy-#19 (Debug-Paket): Chat-Lifecycle-Zähler ─────────────────────
+# _CHAT_REQ_N: fortlaufende Request-ID je Chat-Turn — [chat#N]-Prints
+# korrelieren Join/Load/Compile/Stream im Journal über alle Module.
+# _CHAT_ACTIVE: Live-Signal für den gc-Keepalive-Pinger in app.py. Der
+# Space-gc zählt NUR abgeschlossene HTTP-Requests — offene /queue/data-
+# SSE-Verbindungen und GPU-Last zählen NICHT; ohne Pinger stirbt der
+# Container nach gcTimeout=300 s mitten im Cold-Wake-Chat (Beweis
+# 2026-10-09: Join 04:40:45 → Tod ~04:48:2x, erster Token fehlt).
+# Hebung am Chat-Entry, Senkung im Yield-Loop-finally; "stamp" refreshed
+# jeder Yield (Live-Chat) — der Pinger räumt nur Flags ab, die >900 s
+# ohne Yield stehen (Leak-Schutz: ein abgesoffener Chat-Entry hält den
+# Space sonst ewig wach = Kosten).
+_CHAT_REQ_N = itertools.count(1)
+_CHAT_ACTIVE = {"n": 0, "stamp": 0.0}
 
 
 # ── Session-Settings: Feld-Reihenfolge + Restore ────────────────────────
@@ -508,7 +527,20 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     nie long/chunked-capable) und NUR bei Thinking an, sonst None
     (kein Budget am generate). 0 = unbegrenzt.
     """
+    # Deploy-#19 (Debug-Paket D2): Request-ID + Join-Probe. Vorher war der
+    # Join im Journal nur als queue/join-Counter sichtbar, ohne Kontext
+    # (welches Modell, welches Preset, welche Parameter). _CHAT_ACTIVE
+    # hebt hier das Keepalive-Signal für den gc-Pinger in app.py (der
+    # Space-gc zählt keine offenen SSE-Verbindungen/GPU-Last — Tod vor
+    # erstem Token, Beweis 2026-10-09).
+    rid = next(_CHAT_REQ_N)
+    _t_join = time.monotonic()
+    _CHAT_ACTIVE["n"] += 1
+    _CHAT_ACTIVE["stamp"] = _t_join
     print(f"DEBUG: history received from Gradio (UI state): {len(history) if history else 0} messages")
+    print(f"[chat#{rid}] JOIN: model={model_id} preset={px_preset} "
+          f"temp={temp} mt={mt} thinking={thinking} "
+          f"hist={len(history) if history else 0}", flush=True)
     # verstärkbar Relay-Parameter nur beim RELAY-Preset durchreichen (sonst None
     # → kein Surprise-Relay auf BASELINE/LEAN/ACTIVE_MANIFOLD; diese verhalten
     # sich exakt wie vorher). Bei RELAY steuert die UI (Radio/Slider).
@@ -535,6 +567,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
 
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
+    # Deploy-#19 (D2): Load-Dauer getrennt vom Compile sichtbar.
+    print(f"[chat#{rid}] model-ready t=+{time.monotonic() - _t_join:.0f}s",
+          flush=True)
 
     # 2. Build history (cleaned)
     # If history is empty (e.g. after loading a session or if save_history=False),
@@ -630,8 +665,15 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         **thinking_kwargs,
     )
     inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+    print(f"[chat#{rid}] START: T={inputs['input_ids'].shape[1]} tok "
+          f"temp={temp} mt={mt}", flush=True)
 
-    streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    # Deploy-#19 (D3): timeout=15.0 — der Iterator wirft queue.Empty nach
+    # 15 s ohne Token statt ewig zu blocken; der Yield-Loop unten macht
+    # Compile-Waits dadurch im Journal sichtbar (vorher: stiller Block —
+    # am 2026-10-09 starb der Container in genau dieser unsichtbaren Wage).
+    streamer = TextIteratorStreamer(tokenizer, skip_prompt=True,
+                                    skip_special_tokens=True, timeout=15.0)
     # Plan 2026-10-05 (RTPF-A4): Sampling am User-Slider — auch für
     # PX-Presets. Begründung (TT0, scratches/rtpf/tt0_result.json, seed 42,
     # T=5326): Weder Greedy 1e-10 noch temp 0.7 reproduzieren den
@@ -809,16 +851,70 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             manager.unlock_model(model_id)
+            # Deploy-#19 (D2): Thread-Exit sichtbar — der "es generiert"-
+            # Zustand endet genau hier; ohne Print war ein gescheiterter/
+            # abgeschossener generate-Thread im Journal unsichtbar.
+            print(f"[chat#{rid}] generate-thread EXIT t=+"
+                  f"{time.monotonic() - _t_gen0:.0f}s rc="
+                  f"{'OOM' if oom_error is not None else 'ok'}", flush=True)
 
+    _t_gen0 = time.monotonic()
+    print(f"[chat#{rid}] generate-thread START", flush=True)
     thread = Thread(target=generate_with_lock)
     thread.start()
 
     partial_text = ""
-    for new_text in streamer:
-        partial_text += new_text
-        if len(partial_text) % 20 == 0:
-             print(f"DEBUG: Yielding partial_text length: {len(partial_text)}")
-        yield partial_text
+    # Deploy-#19 (Debug-Paket D3): Streamer-Iteration mit Timeout-Sonde.
+    # Alt: `for new_text in streamer` mit %20-Print — zwei Defekte: die
+    # Blindzone (Längen 1-19 druckten nichts → ein laufender Stream sah
+    # im Journal tot aus) und kein Timeout (ein still liegender Streamer
+    # blockierte den Loop unsichtbar). Jetzt: queue.Empty je 15 s →
+    # Probe-Print; >8 s Wartezeit bei leerem Text → EINMAL eine ⏳-Note
+    # in den Chat (UI-Rückmeldung während des Cold-Wake-Compiles, wird
+    # vom ersten echten partial_text ersetzt — nicht persistiert).
+    _t_st0 = time.monotonic()
+    _note_yielded = False
+    _next_probe = _t_st0 + 15.0
+    _siter = iter(streamer)
+    try:
+        while True:
+            try:
+                new_text = next(_siter)
+            except queue.Empty:
+                _now = time.monotonic()
+                if _now - _t_st0 > 900.0:
+                    # Hartes Cap: 15 min ohne EINEN Token — der generate-
+                    # Thread ist vermutlich tot ohne end() (nicht-OOM-re-
+                    # raise terminiert den Thread ohne Stop-Signal). Ohne
+                    # Cap dreht diese Loop ewig und der Chat hängt sichtbar.
+                    print(f"[chat#{rid}] streamer-wait CAP 900s ohne Token "
+                          "— Abbruch (generate-Thread tot?)", flush=True)
+                    break
+                if _now >= _next_probe:
+                    print(f"[chat#{rid}] streamer-wait {_now - _t_st0:.0f}s "
+                          "ohne Token (Load/Compile/Stall?)", flush=True)
+                    _next_probe = _now + 30.0
+                if (not _note_yielded and not partial_text
+                        and _now - _t_st0 > 8.0):
+                    _note_yielded = True
+                    yield ("⏳ Modell lädt / Kernel kompiliert (erster Chat "
+                           "nach Cold-Boot, kann mehrere Minuten dauern). "
+                           "Diese Nachricht wird ersetzt, sobald Text fließt.")
+                continue
+            except StopIteration:
+                break
+            partial_text += new_text
+            _now = time.monotonic()
+            _CHAT_ACTIVE["stamp"] = _now  # Keepalive-Liveness (Leak-Guard)
+            if len(partial_text) < 40 or len(partial_text) % 20 == 0:
+                print(f"[chat#{rid}] yield len={len(partial_text)} "
+                      f"t=+{_now - _t_st0:.1f}s", flush=True)
+            yield partial_text
+    finally:
+        _CHAT_ACTIVE["n"] -= 1
+        _CHAT_ACTIVE["stamp"] = time.monotonic()
+        print(f"[chat#{rid}] stream-END partial_len={len(partial_text)} "
+              f"t=+{time.monotonic() - _t_st0:.1f}s", flush=True)
 
     # 4. Record Telemetry
     px_metrics = manager.get_px_metrics(model_id)
