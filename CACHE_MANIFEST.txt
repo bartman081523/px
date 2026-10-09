@@ -1,4 +1,9 @@
 # Triton-Cache-Bake (Docker-Migration 2026-10-09)
+# Distribution: HF-git lehnt plain-binary-pushes ab (xet-Pflicht) →
+# tar.gz im public px-wheels-Repo, Dockerfile lädt build-time + sha256:
+#   https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_20261009.tar.gz
+#   sha256 d5ddc996f7bd63b5a6b3265f9aeddf30a1ad2ab8ae44b771216fa1d64d5bf624
+#   upload-commit 63a45d45  (tar 14.0 MB aus 93- MB-Cache, 79 Entries)
 cache_dir: /run/media/julian/ML4/ollama-work/all_space_6_16_stand/scratches/hfspace/triton_cache_baked
 entries: 79
 repo_root: /run/media/julian/ML4/ollama-work/all_space_6_16_stand

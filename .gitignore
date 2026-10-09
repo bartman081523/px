@@ -24,6 +24,11 @@ sessions_bak3/
 local_debug.log
 logs/local_debug.log
 
+# Docker-Migration 2026-10-09: der gebakte Triton-Cache lebt als tar.gz
+# im px-wheels-Repo (HF-git lehnt plain-binary-push ab) — lokale Kopie
+# nicht committen (Dockerfile lädt build-time, sha256-verifiziert).
+px_triton_cache/
+
 # ── Scratch-Cache-Artefakte (Track: Source + Results, NICHT: Binaries) ──
 scratches/**/__pycache__/
 scratches/**/*.pt

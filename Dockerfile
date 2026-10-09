@@ -24,8 +24,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     SPACE_ID=neuralworm/px-explorer-v4
 
 # System-Bibliotheken: matplotlib/Gradio-Abhängigkeiten (libgl1, libglib2.0)
+# + curl (Triton-Cache von px-wheels, build-time)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgl1 libglib2.0-0 \
+        curl libgl1 libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Container-User UID 1000 (HF-Konvention) VOR allen COPY-Layern anlegen
@@ -46,16 +47,23 @@ RUN HF_HOME=/home/user/.cache/huggingface \
     python -c "from huggingface_hub import snapshot_download; \
 snapshot_download('neuralworm/ternary-bonsai-2-27b-hf'); print('weights baked')"
 
-# 4) Triton-Kernel-Cache (lokal auf sm_70-fähiger RTX 2060 gebakt, T4
-#    ist sm_75 → gleiche Arch-Familie; Keys enthält keine Py-Version)
+# 4) Triton-Kernel-Cache: lokal auf der RTX 2060 gebakt (sm_75 = T4-Arch-
+#    Familie, 79 Entries = Warmup-Kanon; Fremd-T 54/56/81/155 je Δ=0 —
+#    siehe CACHE_MANIFEST.txt). HF-git lehnt Binärdateien im plain-push
+#    ab ("use xet") → der Cache liegt als sha256-verifiziertes tar.gz im
+#    öffentlichen Repo neuralworm/px-wheels und wird zur BUILD-Zeit
+#    geladen. LAUFZEIT: keine Kompilation.
 RUN mkdir -p /home/user/.triton/cache \
-    && if [ -d /home/user/app/px_triton_cache ] && [ -n "$(ls -A /home/user/app/px_triton_cache 2>/dev/null)" ]; then \
-         cp -a /home/user/app/px_triton_cache/. /home/user/.triton/cache/ \
-         && chmod -R u+rwX /home/user/.triton/cache \
-         && echo "triton cache baked"; \
-    else \
-         echo "WARNUNG: px_triton_cache leer/fehlt — Runtime-Compile wird stattfinden (Fallback)"; \
-    fi
+    && curl -fL --retry 3 \
+        "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_20261009.tar.gz" \
+        -o /tmp/triton_cache.tar.gz \
+    && echo "d5ddc996f7bd63b5a6b3265f9aeddf30a1ad2ab8ae44b771216fa1d64d5bf624  /tmp/triton_cache.tar.gz" \
+        | sha256sum -c - \
+    && tar -xzf /tmp/triton_cache.tar.gz -C /home/user/.triton/cache \
+    && rm /tmp/triton_cache.tar.gz \
+    && chmod -R u+rwX /home/user/.triton/cache \
+    && echo "triton cache baked (sha verified)"; \
+    ls /home/user/.triton/cache | head -2
 
 USER user
 

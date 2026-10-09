@@ -2,8 +2,8 @@
 # Der Build-Context ist ohnehin der gepushte sparse-Branch (scratches/,
 # telemetry/, sessions*/ sind dort schon per push_hf.sh-EXCLUDE_PATHS
 # rausgefallen) — dies hier ist Defense-in-Depth für lokale Builds.
-# NIEMALS px_triton_cache/ hier ausschließen — der gebakte Kernel-Cache
-# muss in den Context (Dockerfile: mv → /home/user/.triton/cache)!
+# Der Triton-Cache kommt zur Build-Zeit aus dem px-wheels-Repo
+# (sha256-verifiziertes tar.gz, s. Dockerfile-Layer 4).
 __pycache__/
 *.pyc
 *.pyo
