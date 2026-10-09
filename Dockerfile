@@ -88,15 +88,22 @@ snapshot_download('neuralworm/ternary-bonsai-2-27b-hf'); print('weights baked')"
 #    liegt als sha256-verifiziertes tar.gz im öffentlichen Repo
 #    neuralworm/px-wheels und wird zur BUILD-Zeit geladen.
 #    LAUFZEIT: keine Kompilation (gcc+libc6-dev nur als Sicherheitsnetz).
+#    v2 (2026-10-09, 2. Falsifikation): die __grp__*.json-Gruppen-Dateien
+#    tragen ABSOLUTE child_paths — bake unter /cache/… verursachte beim
+#    1. Boot Re-Compiles von 15 fla-GDN-Kernels (96,9 s + 333,6 s ≈ Cold-
+#    Compile-Zeit). v2 = Cache aus dem GELAUENEN Server-Container
+#    (Boot#2: Phase-1 11,7 s, PX-Phase-2 20,2 s, seeded=True) — alle
+#    __grp__-Pfade /home/user/.triton/cache-korrekt + C-Launcher .so
+#    enthalten (80 Dirs).
 #    Beide Runtime-Verzeichnisse sind Root-geführten Layern entstanden
 #    (snapshot_download als root, tar als root) → chown auf den
 #    Container-User, sonst PermissionError beim ersten HF-Load
 #    (.locks/etag-Writebacks) bzw. Triton-Lockfile-Warn-Spam.
 RUN mkdir -p /home/user/.triton/cache \
     && curl -fL --retry 3 \
-        "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_py313_20261009.tar.gz" \
+        "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_py313_v2_20261009.tar.gz" \
         -o /tmp/triton_cache.tar.gz \
-    && echo "4e9e1097e0ac55f3aaf860250b72f31186ac8070d2da1cca7a7951efbbc2a706  /tmp/triton_cache.tar.gz" \
+    && echo "93066c31fd75cbf5337e5a86a95010e48d0ac32b01a4a2c9f054551995425625  /tmp/triton_cache.tar.gz" \
         | sha256sum -c - \
     && tar -xzf /tmp/triton_cache.tar.gz -C /home/user/.triton/cache \
     && rm /tmp/triton_cache.tar.gz \
