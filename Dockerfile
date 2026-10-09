@@ -46,8 +46,15 @@ RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 # 2) App-Code
 COPY --chown=user:user . /home/user/app
 
-# 3) GF3-Gewichte vorgebacken (~6 GB, public repo, im HF-hub-Cache-Layout)
-RUN HF_HOME=/home/user/.cache/huggingface \
+# 3) GF3-Gewichte vorgebacken (~6 GB, im HF-hub-Cache-Layout).
+#    FALSIFIZIERT 2026-10-09: angenommen war "public" — tatsächliche
+#    anon-API: 401 (Repo privat). Das Space-Secret HF_TOKEN wird vom
+#    HF-Docker-SDK automatisch als Build-Secret bereitgestellt
+#    (id=Secretnach-Settings-Name) → hier mounten; im Image-Landet das
+#    Token NICHT (nur als Build-Input gelesen).
+RUN --mount=type=secret,id=HF_TOKEN,mode=0444,required=true \
+    HF_TOKEN=$(cat /run/secrets/HF_TOKEN) \
+    HF_HOME=/home/user/.cache/huggingface \
     python -c "from huggingface_hub import snapshot_download; \
 snapshot_download('neuralworm/ternary-bonsai-2-27b-hf'); print('weights baked')"
 
