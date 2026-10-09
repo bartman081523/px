@@ -417,13 +417,19 @@ class ModelManager:
                     "Erkläre in einem Satz, was ein rekurrentes "
                     "Transformer-Residuum ist.")}]
                 try:
-                    ids2 = tok2.apply_chat_template(
+                    out2 = tok2.apply_chat_template(
                         msgs2, add_generation_prompt=True,
                         return_tensors="pt")
+                    # transformers 5.x: BatchEncoding (Mapping, KEINE dict-
+                    # Subklasse!) → input_ids extrahieren; Tensor bleibt.
+                    ids2 = out2 if isinstance(out2, torch.Tensor) \
+                        else out2["input_ids"]
                 except Exception:
                     ids2 = tok2("Erkläre in einem Satz, was ein rekurrentes "
                                 "Transformer-Residuum ist.",
                                 return_tensors="pt").input_ids
+                if ids2.dim() == 1:
+                    ids2 = ids2.unsqueeze(0)
                 device = next(_m2.parameters()).device
                 ids2 = ids2.to(device)
                 with torch.no_grad():
