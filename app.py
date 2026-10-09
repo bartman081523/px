@@ -266,9 +266,93 @@ if __name__ == "__main__":
             # zu laden — danach trifft der Chat direkt das geseedete Entry.
             manager._boot_warmup_running = True
 
+            # Cache-Ernte im Ziel-Container (Docker-Migration 2026-10-09,
+            # Plan-R1-Falsifikation): der lokal (py3.10) gebakte Triton-Cache
+            # trägt Launcher-.so's gegen libpython3.10 — im py3.13-Container
+            # laden sie nicht → Triton fällt in den C-Launcher-Build → kein
+            # cc im python:3.13-slim → Warmup fail-soft, seeded=False. Lokale
+            # Re-Bake unmöglich (Disk 98-99 %, kein python3.13). Deshalb:
+            # der Space selbst (py3.13 + T4/sm_75 = Ziel exakt) kompiliert
+            # mit gcc und exportiert den NATIV-Cache als tar nach
+            # neuralworm/px-wheels → Dockerfile-Ernte-Layer danach. Gate:
+            # Space-Secret PX_AUTO_EXPORT_TRITON_CACHE=1.
+            def _cache_export_enabled():
+                return (os.environ.get("PX_AUTO_EXPORT_TRITON_CACHE", "")
+                        .strip() == "1")
+
+            def _cache_export_prewarm():
+                """Leert das Triton-Cache-Dir VOR dem Warmup, damit die
+                Ernte reine py3.13-Entries enthält (keine Mischung mit den
+                libpython3.10-Launchern aus der alten Bake)."""
+                import shutil
+                cdir = os.environ.get(
+                    "TRITON_CACHE_DIR", "/home/user/.triton/cache")
+                n_before = sum(
+                    1 for _ in os.listdir(cdir)) if os.path.isdir(cdir) else 0
+                shutil.rmtree(cdir, ignore_errors=True)
+                os.makedirs(cdir, exist_ok=True)
+                print(f"[CACHE-EXPORT] prewarm: {cdir} geleert "
+                      f"({n_before} alte Entries) — Warmup kompiliert "
+                      f"py3.13-nativ.", flush=True)
+
+            def _cache_export_upload():
+                """Tart den NATIV-kompilierten Cache + upload nach
+                neuralworm/px-wheels. Sanity-Gate: < 50 Entries →_abort
+                (kein halbfail-soft-Cache wird Artefakt)."""
+                import hashlib
+                import tarfile
+                import tempfile
+                cdir = os.environ.get(
+                    "TRITON_CACHE_DIR", "/home/user/.triton/cache")
+                reps = [".", os.pardir]
+                entries = [e for e in sorted(os.listdir(cdir))
+                           if not e.startswith(tuple(reps))
+                           and os.path.isdir(os.path.join(cdir, e))]
+                print(f"[CACHE-EXPORT] harvest entries={len(entries)} "
+                      f"dir={cdir}", flush=True)
+                if len(entries) < 50:
+                    print(f"[CACHE-EXPORT] ABORT: entries<50 — kein "
+                          f"halb-Cache-Artefakt (Warmup fail-soft?).",
+                          flush=True)
+                    return
+                name = "px_triton_cache_py313_20261009.tar.gz"
+                sha = hashlib.sha256()
+                tmp = os.path.join(tempfile.gettempdir(), name)
+                with tarfile.open(tmp, "w:gz") as tar:
+                    for e in entries:
+                        tar.add(os.path.join(cdir, e), arcname=f"./{e}")
+                sz = os.path.getsize(tmp)
+                with open(tmp, "rb") as fh:
+                    for chunk in iter(lambda: fh.read(1 << 20), b""):
+                        sha.update(chunk)
+                from huggingface_hub import upload_file
+                upload_file(
+                    path_or_fileobj=tmp,
+                    path_in_repo=name,
+                    repo_id="neuralworm/px-wheels",
+                    repo_type="model",
+                    token=os.environ.get("HF_TOKEN"),
+                )
+                os.remove(tmp)
+                print(f"[CACHE-EXPORT] done name={name} size={sz} "
+                      f"entries={len(entries)} sha256={sha.hexdigest()}",
+                      flush=True)
+
             def _boot_warmup_runner():
                 try:
+                    if _cache_export_enabled():
+                        try:
+                            _cache_export_prewarm()
+                        except Exception as exc:
+                            print(f"[CACHE-EXPORT] prewarm fail-soft: "
+                                  f"{exc!r}", flush=True)
                     manager.warmup_bonsai_jit()
+                    if _cache_export_enabled():
+                        try:
+                            _cache_export_upload()
+                        except Exception as exc:
+                            print(f"[CACHE-EXPORT] upload fail-soft: "
+                                  f"{exc!r}", flush=True)
                 finally:
                     manager._boot_warmup_running = False
 

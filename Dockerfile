@@ -25,8 +25,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # System-Bibliotheken: matplotlib/Gradio-Abhängigkeiten (libgl1, libglib2.0)
 # + curl (Triton-Cache von px-wheels, build-time)
+# + gcc: nur für den EINMALIGEN Cache-Ernte-Boot im Container (py3.13-nativer
+#   Triton-Launcher-Build, Secret PX_AUTO_EXPORT_TRITON_CACHE=1). Nach der
+#   Ernte ist der Cache gebakt → kein Runtime-Compile; gcc bleibt als
+#   Sicherheitsnetz für unerwartete Cache-Misses (Graceful Degradation
+#   statt harter Warmup-Failures) — User-Mandat bleibt unberührt.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl libgl1 libglib2.0-0 \
+        curl gcc libgl1 libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Container-User UID 1000 (HF-Konvention) VOR allen COPY-Layern anlegen
