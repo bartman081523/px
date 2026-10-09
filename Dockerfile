@@ -45,6 +45,14 @@ RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 
 # 2) App-Code
 COPY --chown=user:user . /home/user/app
+#    FALSIFIZIERT 2026-10-09 (RUNTIME_ERROR, Build #23): WORKDIR legt
+#    /home/user/app ROOT-owned an; COPY --chown chown't nur die kopierten
+#    Inhalte NICHT das Zielverzeichnis → uid-1000-Runtime kann keine neuen
+#    Unterordner anlegen → PermissionError '/home/user/app/telemetry'
+#    (telemetry.py:50, import-Zeit). Fix: chown auf das DIR selbst (+ alle
+#    Inhalte defensiv), telemetry/ + sessions/ voranlegen (ensure_session_dir
+#    ist exists-guarded, FileExistsError unmöglich; infinite_context-l2
+#    default None → nur bei aktivem Long-Context, dann abgedeckt).
 
 # 3) GF3-Gewichte vorgebacken (~6 GB, im HF-hub-Cache-Layout).
 #    FALSIFIZIERT 2026-10-09: angenommen war "public" — tatsächliche
@@ -77,8 +85,10 @@ RUN mkdir -p /home/user/.triton/cache \
     && tar -xzf /tmp/triton_cache.tar.gz -C /home/user/.triton/cache \
     && rm /tmp/triton_cache.tar.gz \
     && chown -R user:user /home/user/.cache/huggingface /home/user/.triton/cache \
-    && chmod -R u+rwX /home/user/.triton/cache \
-    && echo "triton cache baked (sha verified)"; \
+    && chmod -R u+rwX /home/user/.triton/cache /home/user/app \
+    && mkdir -p /home/user/app/telemetry /home/user/app/sessions \
+    && chown -R user:user /home/user/app \
+    && echo "triton cache baked (sha verified), app runtime-writable"; \
     ls /home/user/.triton/cache | head -2
 
 USER user
