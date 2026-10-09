@@ -204,6 +204,61 @@ if __name__ == "__main__":
                 target=manager.warmup_bonsai_jit,
                 daemon=True, name="px-jit-warmup").start()
 
+        def _spawn_mem_heartbeat():
+            """Plan t4-wheel (Deploy-#17): RAM-Heartbeat für die stille
+            Container-Tod-Frage (6/6 Tode 0.6-19.6 min nach Phase-2-Ende,
+            KEIN Banner — SIGKILL-Klasse). VmRSS/cgroup-memory.current alle
+            30 s auf stdout: der letzte Heartbeat vor einem Boot-Wechsel ist
+            der RAM-Zustand beim Tod → der Trigger wird gemessen statt nur
+            korreliert. Fehlschlag-tolerant (cgroup-v1/v2/ohne → no-op)."""
+            import threading
+
+            def _work():
+                import time
+                n = 0
+                while True:
+                    n += 1
+                    try:
+                        rss = hwm = "-"
+                        with open("/proc/self/status") as fh:
+                            for line in fh:
+                                if line.startswith("VmRSS:"):
+                                    rss = line.split()[1]
+                                elif line.startswith("VmHWM:"):
+                                    hwm = line.split()[1]
+                        cg = ""
+                        try:
+                            with open("/sys/fs/cgroup/memory.current") as fh:
+                                cur = int(fh.read().strip())
+                            with open("/sys/fs/cgroup/memory.max") as fh:
+                                mx = fh.read().strip()
+                            if mx != "max":
+                                mx = f"{int(mx)//(1024*1024)}m"
+                            cg = f" cg={cur//(1024*1024)}m/{mx}"
+                        except Exception:
+                            pass
+                        cu = ""
+                        try:
+                            import torch
+                            if torch.cuda.is_available() \
+                                    and torch.cuda.is_initialized():
+                                a = torch.cuda.memory_allocated() / (1 << 30)
+                                r = torch.cuda.memory_reserved() / (1 << 30)
+                                cu = f" cuda={a:.2f}/{r:.2f}GiB"
+                        except Exception:
+                            pass
+                        th = len(threading.enumerate())
+                        print(f"[MEM#{n} {time.strftime('%H:%M:%S')}] "
+                              f"VmRSS={rss}kB VmHWM={hwm}kB "
+                              f"(threads={th}){cg}{cu}", flush=True)
+                    except Exception as exc:  # Heartbeat darf nicht töten
+                        print(f"[MEM#{n}] heartbeat-FEHLER: {exc!r}",
+                              flush=True)
+                    time.sleep(30)
+
+            threading.Thread(target=_work, daemon=True,
+                             name="px-mem-heartbeat").start()
+
         # Plan 2026-07-09: ssr_mode=False ist KRITISCH auf HF-Space.
         # Default (True) startet einen Node-SSR-Proxy auf 7860, der im
         # HF-Container scheitert (kein Node installiert). Gradio fällt
@@ -233,6 +288,7 @@ if __name__ == "__main__":
             prevent_thread_lock=True,
         )
         _spawn_jit_warmup()
+        _spawn_mem_heartbeat()
         demo.block_thread()
     else:
         # SSL Configuration
