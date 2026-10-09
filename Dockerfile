@@ -25,13 +25,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # System-Bibliotheken: matplotlib/Gradio-Abhängigkeiten (libgl1, libglib2.0)
 # + curl (Triton-Cache von px-wheels, build-time)
-# + gcc: nur für den EINMALIGEN Cache-Ernte-Boot im Container (py3.13-nativer
-#   Triton-Launcher-Build, Secret PX_AUTO_EXPORT_TRITON_CACHE=1). Nach der
-#   Ernte ist der Cache gebakt → kein Runtime-Compile; gcc bleibt als
-#   Sicherheitsnetz für unerwartete Cache-Misses (Graceful Degradation
-#   statt harter Warmup-Failures) — User-Mandat bleibt unberührt.
+# + gcc + libc6-dev (C-Header): der Triton-Kernel-Launcher (.so, mit
+#   python3.13-Tag) wird per C-Compiler gelinkt und LIEGT im Cache.
+#   FALSIFIZIERT 2026-10-09: gcc allein reicht NICHT — python:3.13-slim
+#   hat keine libc-Header (fatal error: stdlib.h, Bake-Versuch #1 im
+#   HF-identischen Lokal-Image). Mit libc6-dev compilet der Launcher
+#   sauber; im py3.13-nativen gebakten Cache ist das .so enthalten
+#   → zur Laufzeit kein Compile mehr (gcc+Header bleiben als
+#   Sicherheitsnetz für unerwartete Cache-Misses = Graceful Degradation).
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl gcc libgl1 libglib2.0-0 \
+        curl gcc libc6-dev libgl1 libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Container-User UID 1000 (HF-Konvention) VOR allen COPY-Layern anlegen
@@ -72,20 +75,28 @@ RUN --mount=type=secret,id=HF_TOKEN,mode=0444,required=true \
 snapshot_download('neuralworm/ternary-bonsai-2-27b-hf'); print('weights baked')"
 
 # 4) Triton-Kernel-Cache: lokal auf der RTX 2060 gebakt (sm_75 = T4-Arch-
-#    Familie, 79 Entries = Warmup-Kanon; Fremd-T 54/56/81/155 je Δ=0 —
-#    siehe CACHE_MANIFEST.txt). HF-git lehnt Binärdateien im plain-push
-#    ab ("use xet") → der Cache liegt als sha256-verifiziertes tar.gz im
-#    öffentlichen Repo neuralworm/px-wheels und wird zur BUILD-Zeit
-#    geladen. LAUFZEIT: keine Kompilation.
+#    Familie) — py3.13-NATIV (python 3.13.16 / torch 2.12.0+cu130 /
+#    triton 3.7.0, 79 Entries = exakt der Kanon des py3.10-Bakes:
+#    Phase-1 Δ+71, Phase-2 T=71 Δ+8, EXTRA T=54/59 je Δ0; Bake im
+#    HF-identischen Image, 546,6 s — CACHE_MANIFEST in der Bake-Spur).
+#    FALSIFIZIERT 2026-10-09: der py3.10-Cache versagt in py3.13 — der
+#    Kernel-Launcher (.so) hat einen python-Tag im Namen
+#    (cuda_utils.cpython-313-…) → py3.10-Launcher nicht ladbar →
+#    Recompile-Versuch zur Laufzeit → C-Compiler-Pfad (war auf HF
+#    "Failed to find C compiler", Warmup fail-soft, seeded=False).
+#    HF-git lehnt Binärdateien im plain-push ab ("use xet") → der Cache
+#    liegt als sha256-verifiziertes tar.gz im öffentlichen Repo
+#    neuralworm/px-wheels und wird zur BUILD-Zeit geladen.
+#    LAUFZEIT: keine Kompilation (gcc+libc6-dev nur als Sicherheitsnetz).
 #    Beide Runtime-Verzeichnisse sind Root-geführten Layern entstanden
 #    (snapshot_download als root, tar als root) → chown auf den
 #    Container-User, sonst PermissionError beim ersten HF-Load
 #    (.locks/etag-Writebacks) bzw. Triton-Lockfile-Warn-Spam.
 RUN mkdir -p /home/user/.triton/cache \
     && curl -fL --retry 3 \
-        "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_20261009.tar.gz" \
+        "https://huggingface.co/neuralworm/px-wheels/resolve/main/px_triton_cache_py313_20261009.tar.gz" \
         -o /tmp/triton_cache.tar.gz \
-    && echo "d5ddc996f7bd63b5a6b3265f9aeddf30a1ad2ab8ae44b771216fa1d64d5bf624  /tmp/triton_cache.tar.gz" \
+    && echo "4e9e1097e0ac55f3aaf860250b72f31186ac8070d2da1cca7a7951efbbc2a706  /tmp/triton_cache.tar.gz" \
         | sha256sum -c - \
     && tar -xzf /tmp/triton_cache.tar.gz -C /home/user/.triton/cache \
     && rm /tmp/triton_cache.tar.gz \
