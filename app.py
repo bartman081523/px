@@ -13,6 +13,15 @@ Usage:
 import os
 import sys
 
+# Plan t4-wheel (Deploy-#15): stdout line-buffered — Warmup/Chat-Prints
+# erscheinen in HF /logs/run SOFORT statt erst beim Puffer-Flush; zusammen
+# mit crash_handler (stderr + faulthandler) ist jede Todesursache dann
+# sichtbar. Fehlschlag-tolerant (TextIO ohne reconfigure → no-op).
+try:
+    sys.stdout.reconfigure(line_buffering=True)
+except Exception:
+    pass
+
 # SR-61b: Mitigate OOM on RTX 2060 (12GB)
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True,max_split_size_mb:256"
 

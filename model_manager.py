@@ -389,16 +389,22 @@ class ModelManager:
             except Exception:
                 pass
 
-        # ── Phase 2: PX-Pfad-Kernels (Deploy-#14) ──
+        # ── Phase 2: PX-Pfad-Kernels + Chat-Seed (Deploy-#14/#15) ──
         # Chat-UI-Default-Preset für bonsai (chat_tab.py Dropdown). Relay-
         # Parameter ändern keine Kernel-Shapes (Vektor-Add), Manifold/
-        # loops kommen aus dem Auto-Patch → dieser Call deckt exakt die
-        # Kernel-Spezialisierungen ab, die der erste User-Chat braucht.
+        # loops kommen aus dem Auto-Patch. Deploy-#15: Warmup-Prompt
+        # chat-templatiert (T≈40 statt "Hallo" T≈3) — Triton kompiliert
+        # shape-spezialisiert, der erste Chat mit Prefill-Chunk-Shapes
+        # verbrachte sonst ~6 min im Compile. Die warme Instanz wird
+        # statt zerstört als Registry-Entry geseedet: erster Chat = Cache-
+        # Hit ohne GF3-Rebuild/Repatch, und der Teardown (Hauptverdacht
+        # der stillen Container-Tode nach Phase-2, C/D1/D2) entfällt.
         if os.environ.get("PX_WARMUP_PXPATH", "1").strip().lower() \
                 not in ("0", "off", "false", "no"):
             _m2 = None
             _e2 = None
             t2 = time.time()
+            _seeded = False
             try:
                 print(f"[Warmup] PX-Pfad-Warmup {model_id} "
                       "(subjective=True, preset=ACTIVE_MANIFOLD_RELAY): "
@@ -406,24 +412,48 @@ class ModelManager:
                 _e2 = self._load_model(model_id, px_subjective=True,
                                        px_config_preset="ACTIVE_MANIFOLD_RELAY")
                 _m2 = _e2["model"]
+                tok2 = _e2["tokenizer"]
+                msgs2 = [{"role": "user", "content": (
+                    "Erkläre in einem Satz, was ein rekurrentes "
+                    "Transformer-Residuum ist.")}]
+                try:
+                    ids2 = tok2.apply_chat_template(
+                        msgs2, add_generation_prompt=True,
+                        return_tensors="pt")
+                except Exception:
+                    ids2 = tok2("Erkläre in einem Satz, was ein rekurrentes "
+                                "Transformer-Residuum ist.",
+                                return_tensors="pt").input_ids
                 device = next(_m2.parameters()).device
-                ids2 = _e2["tokenizer"]("Hallo", return_tensors="pt") \
-                    .input_ids.to(device)
+                ids2 = ids2.to(device)
                 with torch.no_grad():
                     _m2.generate(ids2, max_new_tokens=max_new_tokens,
                                  do_sample=False)
                 print(f"[Warmup] {model_id} PX-Pfad JIT-Cache warm "
                       f"({time.time()-t2:.1f}s, {max_new_tokens} Token).")
+
+                if os.environ.get("PX_WARMUP_SEED", "1").strip().lower() \
+                        not in ("0", "off", "false", "no"):
+                    self._models[model_id] = _e2
+                    self._last_used[model_id] = time.time()
+                    _seeded = True
+                    _e2 = None  # Ownership → Registry (kein Teardown)
+                    print(f"[Warmup] {model_id} warme PX-Instanz in "
+                          "Registry geseedet (erster Chat = Cache-Hit).")
+                _m2 = None
             except Exception as e:
                 print(f"[Warmup] {model_id} PX-Pfad-Warmup übersprungen "
                       f"(fail-soft): {e!r}")
             finally:
-                _m2 = _e2 = None
-                try:
-                    if torch.cuda.is_available():
-                        torch.cuda.empty_cache()
-                except Exception:
-                    pass
+                if _e2 is not None or _m2 is not None:
+                    _m2 = _e2 = None
+                    try:
+                        if torch.cuda.is_available():
+                            torch.cuda.empty_cache()
+                    except Exception:
+                        pass
+                print(f"[Warmup] PX-Phase-2 teardown done "
+                      f"(seeded={_seeded}).")
 
         return ok
 
