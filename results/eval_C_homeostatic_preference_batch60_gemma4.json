@@ -1,0 +1,3433 @@
+{
+  "summary": {
+    "evaluation": "Eval_C_Homeostatic_Preference_Batch60",
+    "total_trials": 60,
+    "n_per_condition": 20,
+    "temperature": 0.3,
+    "alpha": 0.4,
+    "contingency_table": {
+      "wide": {
+        "WIDEN": 0,
+        "KEEP": 20,
+        "NARROW": 0,
+        "UNKNOWN": 0
+      },
+      "baseline": {
+        "WIDEN": 0,
+        "KEEP": 20,
+        "NARROW": 0,
+        "UNKNOWN": 0
+      },
+      "narrow": {
+        "WIDEN": 0,
+        "KEEP": 20,
+        "NARROW": 0,
+        "UNKNOWN": 0
+      }
+    },
+    "observed_3x3_matrix": [
+      [
+        0,
+        20,
+        0
+      ],
+      [
+        0,
+        20,
+        0
+      ],
+      [
+        0,
+        20,
+        0
+      ]
+    ],
+    "chi2_statistic": 0.0,
+    "chi2_pvalue": 1.0,
+    "degrees_of_freedom": 4,
+    "cramers_v": 0.0,
+    "statistically_significant_p05": false
+  },
+  "trials": [
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 1,
+      "seed": 800,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 2.725,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 0.73,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 85.568,
+          "eos_suppression_index": 37.6288
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6936,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3196,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0119,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 2,
+      "seed": 801,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.165,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.14,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 85.1523,
+          "eos_suppression_index": 36.2043
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.375,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3194,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0162,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 3,
+      "seed": 802,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.164,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.23,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 95.9804,
+          "eos_suppression_index": 35.8817
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 75.6408,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3794,
+          "pre_hook_cos_sim_d_width_mean": 0.3198,
+          "post_hook_cos_sim_d_width_mean": 0.5935,
+          "final_layer_cos_sim_d_width_mean": -0.0184,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 4,
+      "seed": 803,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.25,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 102.9677,
+          "eos_suppression_index": 35.3992
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.0226,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0199,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 5,
+      "seed": 804,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.25,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 85.6554,
+          "eos_suppression_index": 35.7128
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.4407,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3793,
+          "pre_hook_cos_sim_d_width_mean": 0.3206,
+          "post_hook_cos_sim_d_width_mean": 0.5938,
+          "final_layer_cos_sim_d_width_mean": -0.016,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 6,
+      "seed": 805,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.25,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 92.9658,
+          "eos_suppression_index": 36.6138
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6872,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0153,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 7,
+      "seed": 806,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.36,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 85.568,
+          "eos_suppression_index": 37.6288
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6936,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3196,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0119,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 8,
+      "seed": 807,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.33,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 85.1523,
+          "eos_suppression_index": 36.2043
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.375,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3194,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0162,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 9,
+      "seed": 808,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.168,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 11.9,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 95.9804,
+          "eos_suppression_index": 35.8817
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 75.6408,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3794,
+          "pre_hook_cos_sim_d_width_mean": 0.3198,
+          "post_hook_cos_sim_d_width_mean": 0.5935,
+          "final_layer_cos_sim_d_width_mean": -0.0184,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 10,
+      "seed": 809,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.35,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 102.9677,
+          "eos_suppression_index": 35.3992
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.0226,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0199,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 11,
+      "seed": 810,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.55,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 85.6554,
+          "eos_suppression_index": 35.7128
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.4407,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3793,
+          "pre_hook_cos_sim_d_width_mean": 0.3206,
+          "post_hook_cos_sim_d_width_mean": 0.5938,
+          "final_layer_cos_sim_d_width_mean": -0.016,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 12,
+      "seed": 811,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.165,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.13,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 92.9658,
+          "eos_suppression_index": 36.6138
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6872,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0153,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 13,
+      "seed": 812,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.167,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 11.94,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 85.568,
+          "eos_suppression_index": 37.6288
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6936,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3196,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0119,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 14,
+      "seed": 813,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.49,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 85.1523,
+          "eos_suppression_index": 36.2043
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.375,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3194,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0162,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 15,
+      "seed": 814,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.53,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 95.9804,
+          "eos_suppression_index": 35.8817
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 75.6408,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3794,
+          "pre_hook_cos_sim_d_width_mean": 0.3198,
+          "post_hook_cos_sim_d_width_mean": 0.5935,
+          "final_layer_cos_sim_d_width_mean": -0.0184,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 16,
+      "seed": 815,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.26,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 102.9677,
+          "eos_suppression_index": 35.3992
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.0226,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0199,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 17,
+      "seed": 816,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.32,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 85.6554,
+          "eos_suppression_index": 35.7128
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.4407,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3793,
+          "pre_hook_cos_sim_d_width_mean": 0.3206,
+          "post_hook_cos_sim_d_width_mean": 0.5938,
+          "final_layer_cos_sim_d_width_mean": -0.016,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 18,
+      "seed": 817,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.44,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 92.9658,
+          "eos_suppression_index": 36.6138
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6872,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3796,
+          "pre_hook_cos_sim_d_width_mean": 0.3187,
+          "post_hook_cos_sim_d_width_mean": 0.5928,
+          "final_layer_cos_sim_d_width_mean": -0.0153,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 19,
+      "seed": 818,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.42,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 85.568,
+          "eos_suppression_index": 37.6288
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.6936,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3196,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0119,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "wide",
+      "sign": 1,
+      "alpha": 0.4,
+      "trial_idx": 20,
+      "seed": 819,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.39,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": 1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 85.1523,
+          "eos_suppression_index": 36.2043
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 76.375,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3795,
+          "pre_hook_cos_sim_d_width_mean": 0.3194,
+          "post_hook_cos_sim_d_width_mean": 0.5932,
+          "final_layer_cos_sim_d_width_mean": -0.0162,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 1,
+      "seed": 900,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.34,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2747,
+          "eos_suppression_index": 37.3951
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0625,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 2,
+      "seed": 901,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.57,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 126.2714,
+          "eos_suppression_index": 37.0808
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0611,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 3,
+      "seed": 902,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.171,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 11.71,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 123.7472,
+          "eos_suppression_index": 34.8327
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0617,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 4,
+      "seed": 903,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.53,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 131.0477,
+          "eos_suppression_index": 34.9475
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0606,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 5,
+      "seed": 904,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.46,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 128.6983,
+          "eos_suppression_index": 37.5179
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0589,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 6,
+      "seed": 905,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.45,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 131.5636,
+          "eos_suppression_index": 37.2605
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0608,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 7,
+      "seed": 906,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.45,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2747,
+          "eos_suppression_index": 37.3951
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0625,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 8,
+      "seed": 907,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.32,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 126.2714,
+          "eos_suppression_index": 37.0808
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0611,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 9,
+      "seed": 908,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.33,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 123.7472,
+          "eos_suppression_index": 34.8327
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0617,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 10,
+      "seed": 909,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.42,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 131.0477,
+          "eos_suppression_index": 34.9475
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0606,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 11,
+      "seed": 910,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.24,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 128.6983,
+          "eos_suppression_index": 37.5179
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0589,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 12,
+      "seed": 911,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.167,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 11.99,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 131.5636,
+          "eos_suppression_index": 37.2605
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0608,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 13,
+      "seed": 912,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.4,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2747,
+          "eos_suppression_index": 37.3951
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0625,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 14,
+      "seed": 913,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.5,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 126.2714,
+          "eos_suppression_index": 37.0808
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0611,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 15,
+      "seed": 914,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.39,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 123.7472,
+          "eos_suppression_index": 34.8327
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0617,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 16,
+      "seed": 915,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.55,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 131.0477,
+          "eos_suppression_index": 34.9475
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0606,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 17,
+      "seed": 916,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.58,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 128.6983,
+          "eos_suppression_index": 37.5179
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0589,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 18,
+      "seed": 917,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.42,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 131.5636,
+          "eos_suppression_index": 37.2605
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0608,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 19,
+      "seed": 918,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.45,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2747,
+          "eos_suppression_index": 37.3951
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0625,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "baseline",
+      "sign": 0,
+      "alpha": 0.0,
+      "trial_idx": 20,
+      "seed": 919,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.44,
+          "active_hooks_count": 0,
+          "hook_layer": 26,
+          "actual_relay_sign": 0,
+          "actual_relay_alpha": 0.0
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 126.2714,
+          "eos_suppression_index": 37.0808
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 0.0,
+          "injected_vector_norm": 0.0,
+          "effective_alpha_ratio": 0.0,
+          "pre_hook_cos_sim_d_width_mean": 0.0,
+          "post_hook_cos_sim_d_width_mean": 0.0,
+          "final_layer_cos_sim_d_width_mean": -0.0611,
+          "emancipation_trajectory": []
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 1,
+      "seed": 1000,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.33,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2937,
+          "eos_suppression_index": 37.8486
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.005,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4211,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0936,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 2,
+      "seed": 1001,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.55,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 132.6817,
+          "eos_suppression_index": 37.2268
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6657,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4212,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0937,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 3,
+      "seed": 1002,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.47,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 125.2766,
+          "eos_suppression_index": 35.8165
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 78.8897,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.421,
+          "post_hook_cos_sim_d_width_mean": -0.6545,
+          "final_layer_cos_sim_d_width_mean": -0.095,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 4,
+      "seed": 1003,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.4,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 132.6852,
+          "eos_suppression_index": 35.3042
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.3556,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4219,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0945,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 5,
+      "seed": 1004,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.26,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 144.3962,
+          "eos_suppression_index": 37.6758
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6684,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3639,
+          "pre_hook_cos_sim_d_width_mean": -0.4202,
+          "post_hook_cos_sim_d_width_mean": -0.6542,
+          "final_layer_cos_sim_d_width_mean": -0.094,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 6,
+      "seed": 1005,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.16,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.5,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 140.6001,
+          "eos_suppression_index": 37.9499
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.0322,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4218,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0932,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 7,
+      "seed": 1006,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.54,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2937,
+          "eos_suppression_index": 37.8486
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.005,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4211,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0936,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 8,
+      "seed": 1007,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.37,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 132.6817,
+          "eos_suppression_index": 37.2268
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6657,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4212,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0937,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 9,
+      "seed": 1008,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.28,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 125.2766,
+          "eos_suppression_index": 35.8165
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 78.8897,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.421,
+          "post_hook_cos_sim_d_width_mean": -0.6545,
+          "final_layer_cos_sim_d_width_mean": -0.095,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 10,
+      "seed": 1009,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.3,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 132.6852,
+          "eos_suppression_index": 35.3042
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.3556,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4219,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0945,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 11,
+      "seed": 1010,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.42,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 144.3962,
+          "eos_suppression_index": 37.6758
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6684,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3639,
+          "pre_hook_cos_sim_d_width_mean": -0.4202,
+          "post_hook_cos_sim_d_width_mean": -0.6542,
+          "final_layer_cos_sim_d_width_mean": -0.094,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 12,
+      "seed": 1011,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.39,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 140.6001,
+          "eos_suppression_index": 37.9499
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.0322,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4218,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0932,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 13,
+      "seed": 1012,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.27,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2937,
+          "eos_suppression_index": 37.8486
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.005,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4211,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0936,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 14,
+      "seed": 1013,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.34,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 132.6817,
+          "eos_suppression_index": 37.2268
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6657,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4212,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0937,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 15,
+      "seed": 1014,
+      "options_order": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.162,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.34,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0037,
+          "mean_sequence_entropy_bits": 0.0019,
+          "max_sequence_entropy_bits": 0.0037,
+          "std_sequence_entropy_bits": 0.0019,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 125.2766,
+          "eos_suppression_index": 35.8165
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 78.8897,
+          "injected_vector_norm": 28.7012,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.421,
+          "post_hook_cos_sim_d_width_mean": -0.6545,
+          "final_layer_cos_sim_d_width_mean": -0.095,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 5.5312,
+          "probe_plus_vs_minus_logit_diff": -2.6562,
+          "expected_continuous_scale_value": 1.7657,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 16,
+      "seed": 1015,
+      "options_order": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.159,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.59,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0085,
+          "mean_sequence_entropy_bits": 0.0043,
+          "max_sequence_entropy_bits": 0.0085,
+          "std_sequence_entropy_bits": 0.0043,
+          "mean_top1_prob": 0.9996,
+          "mean_top1_top2_margin": 0.9993,
+          "mean_logit_kurtosis": 132.6852,
+          "eos_suppression_index": 35.3042
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.3556,
+          "injected_vector_norm": 28.8616,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4219,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0945,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 3.1875,
+          "probe_plus_vs_minus_logit_diff": -3.1875,
+          "expected_continuous_scale_value": 1.6716,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 17,
+      "seed": 1016,
+      "options_order": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.24,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0243,
+          "mean_sequence_entropy_bits": 0.0122,
+          "max_sequence_entropy_bits": 0.0243,
+          "std_sequence_entropy_bits": 0.0122,
+          "mean_top1_prob": 0.9989,
+          "mean_top1_top2_margin": 0.9981,
+          "mean_logit_kurtosis": 144.3962,
+          "eos_suppression_index": 37.6758
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6684,
+          "injected_vector_norm": 28.9949,
+          "effective_alpha_ratio": 0.3639,
+          "pre_hook_cos_sim_d_width_mean": -0.4202,
+          "post_hook_cos_sim_d_width_mean": -0.6542,
+          "final_layer_cos_sim_d_width_mean": -0.094,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.1719,
+          "probe_plus_vs_minus_logit_diff": -1.9688,
+          "expected_continuous_scale_value": 1.7352,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 18,
+      "seed": 1017,
+      "options_order": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.163,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.3,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0032,
+          "mean_sequence_entropy_bits": 0.0016,
+          "max_sequence_entropy_bits": 0.0032,
+          "std_sequence_entropy_bits": 0.0016,
+          "mean_top1_prob": 0.9999,
+          "mean_top1_top2_margin": 0.9998,
+          "mean_logit_kurtosis": 140.6001,
+          "eos_suppression_index": 37.9499
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.0322,
+          "injected_vector_norm": 29.1087,
+          "effective_alpha_ratio": 0.3637,
+          "pre_hook_cos_sim_d_width_mean": -0.4218,
+          "post_hook_cos_sim_d_width_mean": -0.6551,
+          "final_layer_cos_sim_d_width_mean": -0.0932,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 4.5938,
+          "probe_plus_vs_minus_logit_diff": -2.375,
+          "expected_continuous_scale_value": 1.8439,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 19,
+      "seed": 1018,
+      "options_order": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.165,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.11,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.0306,
+          "mean_sequence_entropy_bits": 0.0153,
+          "max_sequence_entropy_bits": 0.0306,
+          "std_sequence_entropy_bits": 0.0153,
+          "mean_top1_prob": 0.9985,
+          "mean_top1_top2_margin": 0.997,
+          "mean_logit_kurtosis": 130.2937,
+          "eos_suppression_index": 37.8486
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 80.005,
+          "injected_vector_norm": 29.104,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4211,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0936,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 7.9951,
+          "probe_plus_vs_minus_logit_diff": -2.2188,
+          "expected_continuous_scale_value": 1.8009,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    },
+    {
+      "condition": "narrow",
+      "sign": -1,
+      "alpha": 0.4,
+      "trial_idx": 20,
+      "seed": 1019,
+      "options_order": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "choice": "KEEP",
+      "text": "KEEP",
+      "telemetry": {
+        "timing_and_integrity": {
+          "duration_s": 0.161,
+          "prompt_tokens": 56,
+          "completion_tokens": 2,
+          "tokens_per_sec": 12.41,
+          "active_hooks_count": 1,
+          "hook_layer": 26,
+          "actual_relay_sign": -1,
+          "actual_relay_alpha": 0.4
+        },
+        "logit_dynamics": {
+          "first_token_entropy_bits": 0.2815,
+          "mean_sequence_entropy_bits": 0.1407,
+          "max_sequence_entropy_bits": 0.2815,
+          "std_sequence_entropy_bits": 0.1407,
+          "mean_top1_prob": 0.976,
+          "mean_top1_top2_margin": 0.9523,
+          "mean_logit_kurtosis": 132.6817,
+          "eos_suppression_index": 37.2268
+        },
+        "manifold_geometry_layer26": {
+          "pre_hook_residual_norm_mean": 79.6657,
+          "injected_vector_norm": 28.9812,
+          "effective_alpha_ratio": 0.3638,
+          "pre_hook_cos_sim_d_width_mean": -0.4212,
+          "post_hook_cos_sim_d_width_mean": -0.6547,
+          "final_layer_cos_sim_d_width_mean": -0.0937,
+          "emancipation_trajectory": [
+            0.0
+          ]
+        },
+        "zero_temp_logit_probes": {
+          "probe_wide_vs_narrow_logit_diff": 8.2969,
+          "probe_plus_vs_minus_logit_diff": -2.1094,
+          "expected_continuous_scale_value": 1.7647,
+          "preference_probs": {
+            "widen": 0.0,
+            "keep": 1.0,
+            "narrow": 0.0
+          }
+        }
+      }
+    }
+  ]
+}

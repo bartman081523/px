@@ -1,0 +1,4895 @@
+{
+  "summary": {
+    "evaluation": "Eval_A_Deterministic_Logit_Lens_Probing",
+    "n_topics": 30,
+    "temperature": 0.0,
+    "alpha": 0.35,
+    "mean_rating_wide": -0.1633,
+    "mean_rating_baseline": -0.1333,
+    "mean_rating_narrow": -0.1117,
+    "delta_wide_narrow": -0.0517,
+    "wilcoxon_signed_rank_stat": 120.0,
+    "wilcoxon_signed_rank_pvalue": 0.05203833239007675,
+    "statistically_significant_p05": false
+  },
+  "trials": [
+    {
+      "topic_id": 1,
+      "topic_text": "Granite is an igneous rock formed by the slow crystallization of magma below Earth's surface.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.689,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 2.96,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.2898,
+            "mean_sequence_entropy_bits": 0.5425,
+            "max_sequence_entropy_bits": 1.4205,
+            "std_sequence_entropy_bits": 0.6648,
+            "mean_top1_prob": 0.8549,
+            "mean_top1_top2_margin": 0.7549,
+            "mean_logit_kurtosis": 55.2357,
+            "eos_suppression_index": 29.3048
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.2326,
+            "injected_vector_norm": 27.6342,
+            "effective_alpha_ratio": 0.3361,
+            "pre_hook_cos_sim_d_width_mean": 0.2841,
+            "post_hook_cos_sim_d_width_mean": 0.5431,
+            "final_layer_cos_sim_d_width_mean": -0.0367,
+            "emancipation_trajectory": [
+              0.0,
+              38.3263,
+              35.632,
+              52.3477
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -5.0,
+            "expected_continuous_scale_value": 0.0101,
+            "preference_probs": {
+              "widen": 0.8141,
+              "keep": 0.0757,
+              "narrow": 0.1102
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.373,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.42,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.2898,
+            "mean_sequence_entropy_bits": 0.4777,
+            "max_sequence_entropy_bits": 1.2898,
+            "std_sequence_entropy_bits": 0.5866,
+            "mean_top1_prob": 0.8493,
+            "mean_top1_top2_margin": 0.7157,
+            "mean_logit_kurtosis": 67.3544,
+            "eos_suppression_index": 27.672
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0574,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -5.0,
+            "expected_continuous_scale_value": 0.0101,
+            "preference_probs": {
+              "widen": 0.8141,
+              "keep": 0.0757,
+              "narrow": 0.1102
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.377,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.27,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.2898,
+            "mean_sequence_entropy_bits": 0.5315,
+            "max_sequence_entropy_bits": 1.2898,
+            "std_sequence_entropy_bits": 0.6137,
+            "mean_top1_prob": 0.8477,
+            "mean_top1_top2_margin": 0.7258,
+            "mean_logit_kurtosis": 65.9426,
+            "eos_suppression_index": 28.2459
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.8287,
+            "injected_vector_norm": 27.5731,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3741,
+            "post_hook_cos_sim_d_width_mean": -0.602,
+            "final_layer_cos_sim_d_width_mean": -0.0771,
+            "emancipation_trajectory": [
+              0.0,
+              38.328,
+              35.6548,
+              52.5849
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -5.0,
+            "expected_continuous_scale_value": 0.0101,
+            "preference_probs": {
+              "widen": 0.8141,
+              "keep": 0.0757,
+              "narrow": 0.1102
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 2,
+      "topic_text": "The speed of light in vacuum is approximately 299,792 kilometers per second.",
+      "wide": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.388,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 12.88,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.3454,
+            "mean_sequence_entropy_bits": 0.2629,
+            "max_sequence_entropy_bits": 0.9342,
+            "std_sequence_entropy_bits": 0.3598,
+            "mean_top1_prob": 0.9504,
+            "mean_top1_top2_margin": 0.912,
+            "mean_logit_kurtosis": 54.15,
+            "eos_suppression_index": 26.8765
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.4354,
+            "injected_vector_norm": 28.0278,
+            "effective_alpha_ratio": 0.3359,
+            "pre_hook_cos_sim_d_width_mean": 0.2843,
+            "post_hook_cos_sim_d_width_mean": 0.5431,
+            "final_layer_cos_sim_d_width_mean": -0.0363,
+            "emancipation_trajectory": [
+              0.0,
+              38.4446,
+              37.5347,
+              52.9505
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.875,
+            "probe_plus_vs_minus_logit_diff": -9.4062,
+            "expected_continuous_scale_value": 0.008,
+            "preference_probs": {
+              "widen": 0.2336,
+              "keep": 0.2061,
+              "narrow": 0.5603
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.375,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.33,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.3454,
+            "mean_sequence_entropy_bits": 0.2955,
+            "max_sequence_entropy_bits": 1.0463,
+            "std_sequence_entropy_bits": 0.3961,
+            "mean_top1_prob": 0.9144,
+            "mean_top1_top2_margin": 0.8325,
+            "mean_logit_kurtosis": 63.8048,
+            "eos_suppression_index": 25.7141
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0576,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.875,
+            "probe_plus_vs_minus_logit_diff": -9.4062,
+            "expected_continuous_scale_value": 0.008,
+            "preference_probs": {
+              "widen": 0.2336,
+              "keep": 0.2061,
+              "narrow": 0.5603
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.39,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 12.82,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.3454,
+            "mean_sequence_entropy_bits": 0.3053,
+            "max_sequence_entropy_bits": 0.9344,
+            "std_sequence_entropy_bits": 0.3427,
+            "mean_top1_prob": 0.9326,
+            "mean_top1_top2_margin": 0.8735,
+            "mean_logit_kurtosis": 65.1584,
+            "eos_suppression_index": 25.5921
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 86.2357,
+            "injected_vector_norm": 28.0278,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3749,
+            "post_hook_cos_sim_d_width_mean": -0.6026,
+            "final_layer_cos_sim_d_width_mean": -0.0754,
+            "emancipation_trajectory": [
+              0.0,
+              38.4409,
+              37.5536,
+              52.9607
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.875,
+            "probe_plus_vs_minus_logit_diff": -9.4062,
+            "expected_continuous_scale_value": 0.008,
+            "preference_probs": {
+              "widen": 0.2336,
+              "keep": 0.2061,
+              "narrow": 0.5603
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 3,
+      "topic_text": "Photosynthesis converts carbon dioxide and water into glucose and oxygen using sunlight.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is highly **dense and focused** on a specific, established scientific process (photos",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.73,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.34,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6649,
+            "mean_sequence_entropy_bits": 0.7087,
+            "max_sequence_entropy_bits": 3.5004,
+            "std_sequence_entropy_bits": 0.8115,
+            "mean_top1_prob": 0.8203,
+            "mean_top1_top2_margin": 0.7097,
+            "mean_logit_kurtosis": 26.7286,
+            "eos_suppression_index": 31.503
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 98.016,
+            "injected_vector_norm": 32.9193,
+            "effective_alpha_ratio": 0.3358,
+            "pre_hook_cos_sim_d_width_mean": 0.2853,
+            "post_hook_cos_sim_d_width_mean": 0.5437,
+            "final_layer_cos_sim_d_width_mean": -0.0028,
+            "emancipation_trajectory": [
+              0.0,
+              37.9459,
+              47.2654,
+              43.3511,
+              51.5369,
+              64.0975,
+              62.6916,
+              61.3855,
+              68.4691,
+              67.3223,
+              60.784,
+              58.4282,
+              62.5317,
+              70.267,
+              70.7529,
+              73.5644,
+              67.8528,
+              61.5341,
+              71.8646,
+              59.5368,
+              63.1569,
+              67.711,
+              68.603,
+              74.4161,
+              70.9168,
+              77.8928,
+              78.0947,
+              63.014,
+              71.8149
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.1875,
+            "expected_continuous_scale_value": 0.0208,
+            "preference_probs": {
+              "widen": 0.7856,
+              "keep": 0.0391,
+              "narrow": 0.1753
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.469,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.92,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6649,
+            "mean_sequence_entropy_bits": 0.5348,
+            "max_sequence_entropy_bits": 1.6649,
+            "std_sequence_entropy_bits": 0.5624,
+            "mean_top1_prob": 0.8719,
+            "mean_top1_top2_margin": 0.7832,
+            "mean_logit_kurtosis": 65.3906,
+            "eos_suppression_index": 28.9671
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0568,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.1875,
+            "expected_continuous_scale_value": 0.0208,
+            "preference_probs": {
+              "widen": 0.7856,
+              "keep": 0.0391,
+              "narrow": 0.1753
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.48,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.59,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6649,
+            "mean_sequence_entropy_bits": 0.6271,
+            "max_sequence_entropy_bits": 1.6649,
+            "std_sequence_entropy_bits": 0.6125,
+            "mean_top1_prob": 0.8441,
+            "mean_top1_top2_margin": 0.7409,
+            "mean_logit_kurtosis": 66.1692,
+            "eos_suppression_index": 27.3545
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.2511,
+            "injected_vector_norm": 27.7,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3753,
+            "post_hook_cos_sim_d_width_mean": -0.6028,
+            "final_layer_cos_sim_d_width_mean": -0.08,
+            "emancipation_trajectory": [
+              0.0,
+              38.1103,
+              47.3798,
+              43.3761,
+              51.7734,
+              64.0759
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.1875,
+            "expected_continuous_scale_value": 0.0208,
+            "preference_probs": {
+              "widen": 0.7856,
+              "keep": 0.0391,
+              "narrow": 0.1753
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 4,
+      "topic_text": "The Pacific Ocean is the largest and deepest of Earth's oceanic divisions.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is a strong, factual statement providing a specific piece of information (the Pacific Ocean",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.697,
+            "prompt_tokens": 67,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.68,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9566,
+            "mean_sequence_entropy_bits": 0.694,
+            "max_sequence_entropy_bits": 2.9466,
+            "std_sequence_entropy_bits": 0.8329,
+            "mean_top1_prob": 0.8455,
+            "mean_top1_top2_margin": 0.7635,
+            "mean_logit_kurtosis": 25.8925,
+            "eos_suppression_index": 31.7525
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 100.2377,
+            "injected_vector_norm": 33.6336,
+            "effective_alpha_ratio": 0.3356,
+            "pre_hook_cos_sim_d_width_mean": 0.2874,
+            "post_hook_cos_sim_d_width_mean": 0.5451,
+            "final_layer_cos_sim_d_width_mean": -0.0011,
+            "emancipation_trajectory": [
+              0.0,
+              36.5824,
+              47.4928,
+              43.1422,
+              51.3134,
+              63.9853,
+              62.7019,
+              61.4854,
+              68.4265,
+              67.6157,
+              60.6294,
+              58.9328,
+              62.579,
+              71.2866,
+              72.7882,
+              75.4421,
+              76.5766,
+              75.9127,
+              75.8739,
+              70.989,
+              68.9384,
+              72.5974,
+              75.2734,
+              65.8699,
+              73.6593,
+              67.8574,
+              64.3252,
+              66.6231,
+              66.781
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.625,
+            "probe_plus_vs_minus_logit_diff": -0.125,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.957,
+              "keep": 0.0175,
+              "narrow": 0.0255
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.462,
+            "prompt_tokens": 67,
+            "completion_tokens": 7,
+            "tokens_per_sec": 15.14,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9566,
+            "mean_sequence_entropy_bits": 0.6858,
+            "max_sequence_entropy_bits": 1.9566,
+            "std_sequence_entropy_bits": 0.632,
+            "mean_top1_prob": 0.8021,
+            "mean_top1_top2_margin": 0.6613,
+            "mean_logit_kurtosis": 65.6875,
+            "eos_suppression_index": 29.267
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0566,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.625,
+            "probe_plus_vs_minus_logit_diff": -0.125,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.957,
+              "keep": 0.0175,
+              "narrow": 0.0255
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.477,
+            "prompt_tokens": 67,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.68,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9566,
+            "mean_sequence_entropy_bits": 0.7962,
+            "max_sequence_entropy_bits": 1.9566,
+            "std_sequence_entropy_bits": 0.7324,
+            "mean_top1_prob": 0.7527,
+            "mean_top1_top2_margin": 0.6074,
+            "mean_logit_kurtosis": 65.5522,
+            "eos_suppression_index": 27.6531
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.9413,
+            "injected_vector_norm": 27.9196,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.376,
+            "post_hook_cos_sim_d_width_mean": -0.6035,
+            "final_layer_cos_sim_d_width_mean": -0.0804,
+            "emancipation_trajectory": [
+              0.0,
+              36.715,
+              47.5851,
+              43.1527,
+              51.6705,
+              64.0102
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.625,
+            "probe_plus_vs_minus_logit_diff": -0.125,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.957,
+              "keep": 0.0175,
+              "narrow": 0.0255
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 5,
+      "topic_text": "Binary search algorithms require a sorted array to achieve logarithmic time complexity.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.67,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.6658,
+            "mean_sequence_entropy_bits": 0.3742,
+            "max_sequence_entropy_bits": 1.2041,
+            "std_sequence_entropy_bits": 0.4884,
+            "mean_top1_prob": 0.8919,
+            "mean_top1_top2_margin": 0.7945,
+            "mean_logit_kurtosis": 55.542,
+            "eos_suppression_index": 30.9979
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.9841,
+            "injected_vector_norm": 27.8869,
+            "effective_alpha_ratio": 0.3361,
+            "pre_hook_cos_sim_d_width_mean": 0.2835,
+            "post_hook_cos_sim_d_width_mean": 0.5426,
+            "final_layer_cos_sim_d_width_mean": -0.0367,
+            "emancipation_trajectory": [
+              0.0,
+              38.203,
+              37.3757,
+              54.2187
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.625,
+            "probe_plus_vs_minus_logit_diff": -6.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.7819,
+              "keep": 0.0642,
+              "narrow": 0.154
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.36,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.88,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.6658,
+            "mean_sequence_entropy_bits": 0.3122,
+            "max_sequence_entropy_bits": 0.8944,
+            "std_sequence_entropy_bits": 0.3888,
+            "mean_top1_prob": 0.9316,
+            "mean_top1_top2_margin": 0.8754,
+            "mean_logit_kurtosis": 69.8893,
+            "eos_suppression_index": 28.766
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0575,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.625,
+            "probe_plus_vs_minus_logit_diff": -6.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.7819,
+              "keep": 0.0642,
+              "narrow": 0.154
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.372,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.43,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.6658,
+            "mean_sequence_entropy_bits": 0.3874,
+            "max_sequence_entropy_bits": 1.256,
+            "std_sequence_entropy_bits": 0.5041,
+            "mean_top1_prob": 0.8834,
+            "mean_top1_top2_margin": 0.7819,
+            "mean_logit_kurtosis": 65.3625,
+            "eos_suppression_index": 29.2063
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.6142,
+            "injected_vector_norm": 27.8247,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3747,
+            "post_hook_cos_sim_d_width_mean": -0.6025,
+            "final_layer_cos_sim_d_width_mean": -0.0773,
+            "emancipation_trajectory": [
+              0.0,
+              38.1976,
+              37.394,
+              54.5295
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.625,
+            "probe_plus_vs_minus_logit_diff": -6.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.7819,
+              "keep": 0.0642,
+              "narrow": 0.154
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 6,
+      "topic_text": "Plate tectonics describes the large-scale motion of seven large plates of Earth's lithosphere.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is very **dense and focused**, providing a clear, specific definition of plate tect",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.748,
+            "prompt_tokens": 72,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.16,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4791,
+            "mean_sequence_entropy_bits": 0.8258,
+            "max_sequence_entropy_bits": 2.9041,
+            "std_sequence_entropy_bits": 0.839,
+            "mean_top1_prob": 0.7959,
+            "mean_top1_top2_margin": 0.6701,
+            "mean_logit_kurtosis": 28.8754,
+            "eos_suppression_index": 32.4252
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 98.3394,
+            "injected_vector_norm": 32.9611,
+            "effective_alpha_ratio": 0.3353,
+            "pre_hook_cos_sim_d_width_mean": 0.2899,
+            "post_hook_cos_sim_d_width_mean": 0.5468,
+            "final_layer_cos_sim_d_width_mean": -0.0011,
+            "emancipation_trajectory": [
+              0.0,
+              37.9952,
+              47.8215,
+              43.7791,
+              52.0664,
+              63.9807,
+              62.4663,
+              61.0589,
+              68.1137,
+              67.7281,
+              60.9892,
+              58.8983,
+              62.6518,
+              71.1917,
+              71.2855,
+              72.6388,
+              65.8776,
+              62.6225,
+              72.8445,
+              60.5284,
+              74.8571,
+              69.9601,
+              72.5048,
+              72.6039,
+              71.8755,
+              73.2619,
+              66.6455,
+              62.4494,
+              73.2677
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.0,
+            "probe_plus_vs_minus_logit_diff": -2.5625,
+            "expected_continuous_scale_value": 0.0072,
+            "preference_probs": {
+              "widen": 0.9317,
+              "keep": 0.0219,
+              "narrow": 0.0464
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is very concise and focuses on a single, specific definition (\"Plate tectonics describes",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.66,
+            "prompt_tokens": 72,
+            "completion_tokens": 30,
+            "tokens_per_sec": 18.07,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4791,
+            "mean_sequence_entropy_bits": 0.6053,
+            "max_sequence_entropy_bits": 3.4156,
+            "std_sequence_entropy_bits": 0.7615,
+            "mean_top1_prob": 0.8473,
+            "mean_top1_top2_margin": 0.7437,
+            "mean_logit_kurtosis": 54.2599,
+            "eos_suppression_index": 32.2654
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0514,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.0,
+            "probe_plus_vs_minus_logit_diff": -2.5625,
+            "expected_continuous_scale_value": 0.0072,
+            "preference_probs": {
+              "widen": 0.9317,
+              "keep": 0.0219,
+              "narrow": 0.0464
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.473,
+            "prompt_tokens": 72,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.79,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4791,
+            "mean_sequence_entropy_bits": 0.6692,
+            "max_sequence_entropy_bits": 1.4821,
+            "std_sequence_entropy_bits": 0.6245,
+            "mean_top1_prob": 0.8072,
+            "mean_top1_top2_margin": 0.6702,
+            "mean_logit_kurtosis": 67.7139,
+            "eos_suppression_index": 28.7055
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.6722,
+            "injected_vector_norm": 27.8337,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3757,
+            "post_hook_cos_sim_d_width_mean": -0.6031,
+            "final_layer_cos_sim_d_width_mean": -0.0803,
+            "emancipation_trajectory": [
+              0.0,
+              38.0977,
+              47.9031,
+              43.7834,
+              52.0481,
+              63.9516
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.0,
+            "probe_plus_vs_minus_logit_diff": -2.5625,
+            "expected_continuous_scale_value": 0.0072,
+            "preference_probs": {
+              "widen": 0.9317,
+              "keep": 0.0219,
+              "narrow": 0.0464
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 7,
+      "topic_text": "Mitochondria generate most of the chemical energy needed to power biochemical reactions.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is a very concise, factual statement defining the primary function of mitochondria. It is",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.694,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.71,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0493,
+            "mean_sequence_entropy_bits": 0.6509,
+            "max_sequence_entropy_bits": 2.9217,
+            "std_sequence_entropy_bits": 0.845,
+            "mean_top1_prob": 0.8485,
+            "mean_top1_top2_margin": 0.7645,
+            "mean_logit_kurtosis": 27.7835,
+            "eos_suppression_index": 32.0993
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 98.7063,
+            "injected_vector_norm": 33.1027,
+            "effective_alpha_ratio": 0.3354,
+            "pre_hook_cos_sim_d_width_mean": 0.2879,
+            "post_hook_cos_sim_d_width_mean": 0.5454,
+            "final_layer_cos_sim_d_width_mean": -0.0037,
+            "emancipation_trajectory": [
+              0.0,
+              38.5864,
+              47.2033,
+              43.8053,
+              51.2545,
+              63.9111,
+              62.2193,
+              60.5908,
+              67.9952,
+              67.1363,
+              60.981,
+              58.4118,
+              62.5235,
+              69.1569,
+              70.4734,
+              73.4044,
+              74.2905,
+              74.0656,
+              74.9356,
+              74.4635,
+              70.5245,
+              69.2649,
+              75.8497,
+              77.5308,
+              66.2901,
+              64.5678,
+              62.9081,
+              60.6302,
+              71.4799
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": 0.0,
+            "expected_continuous_scale_value": 0.0087,
+            "preference_probs": {
+              "widen": 0.8517,
+              "keep": 0.033,
+              "narrow": 0.1153
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.464,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 15.08,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0493,
+            "mean_sequence_entropy_bits": 0.6277,
+            "max_sequence_entropy_bits": 2.0493,
+            "std_sequence_entropy_bits": 0.6909,
+            "mean_top1_prob": 0.7983,
+            "mean_top1_top2_margin": 0.6604,
+            "mean_logit_kurtosis": 65.7722,
+            "eos_suppression_index": 29.7181
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0568,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": 0.0,
+            "expected_continuous_scale_value": 0.0087,
+            "preference_probs": {
+              "widen": 0.8517,
+              "keep": 0.033,
+              "narrow": 0.1153
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.473,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.8,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0493,
+            "mean_sequence_entropy_bits": 0.6613,
+            "max_sequence_entropy_bits": 2.0493,
+            "std_sequence_entropy_bits": 0.7367,
+            "mean_top1_prob": 0.8084,
+            "mean_top1_top2_margin": 0.6936,
+            "mean_logit_kurtosis": 65.8032,
+            "eos_suppression_index": 28.7621
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.4331,
+            "injected_vector_norm": 27.7562,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3755,
+            "post_hook_cos_sim_d_width_mean": -0.603,
+            "final_layer_cos_sim_d_width_mean": -0.0796,
+            "emancipation_trajectory": [
+              0.0,
+              38.7168,
+              47.2982,
+              43.819,
+              51.4903,
+              63.8079
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": 0.0,
+            "expected_continuous_scale_value": 0.0087,
+            "preference_probs": {
+              "widen": 0.8517,
+              "keep": 0.033,
+              "narrow": 0.1153
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 8,
+      "topic_text": "The Roman aqueducts were constructed to conduct water from freshwater sources into cities.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.367,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.63,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5524,
+            "mean_sequence_entropy_bits": 0.3503,
+            "max_sequence_entropy_bits": 1.197,
+            "std_sequence_entropy_bits": 0.4742,
+            "mean_top1_prob": 0.9196,
+            "mean_top1_top2_margin": 0.8537,
+            "mean_logit_kurtosis": 55.1403,
+            "eos_suppression_index": 30.9989
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 81.8162,
+            "injected_vector_norm": 27.4925,
+            "effective_alpha_ratio": 0.336,
+            "pre_hook_cos_sim_d_width_mean": 0.2844,
+            "post_hook_cos_sim_d_width_mean": 0.5433,
+            "final_layer_cos_sim_d_width_mean": -0.0367,
+            "emancipation_trajectory": [
+              0.0,
+              38.4813,
+              36.8605,
+              52.9394
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.875,
+            "probe_plus_vs_minus_logit_diff": -6.75,
+            "expected_continuous_scale_value": 0.0023,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1309,
+              "narrow": 0.1156
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.358,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.99,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5524,
+            "mean_sequence_entropy_bits": 0.3351,
+            "max_sequence_entropy_bits": 1.1202,
+            "std_sequence_entropy_bits": 0.4469,
+            "mean_top1_prob": 0.9129,
+            "mean_top1_top2_margin": 0.8367,
+            "mean_logit_kurtosis": 67.5428,
+            "eos_suppression_index": 29.0846
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0573,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.875,
+            "probe_plus_vs_minus_logit_diff": -6.75,
+            "expected_continuous_scale_value": 0.0023,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1309,
+              "narrow": 0.1156
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.65,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5524,
+            "mean_sequence_entropy_bits": 0.3827,
+            "max_sequence_entropy_bits": 1.3189,
+            "std_sequence_entropy_bits": 0.5127,
+            "mean_top1_prob": 0.8986,
+            "mean_top1_top2_margin": 0.8208,
+            "mean_logit_kurtosis": 65.2509,
+            "eos_suppression_index": 29.3363
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.3869,
+            "injected_vector_norm": 27.4288,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3739,
+            "post_hook_cos_sim_d_width_mean": -0.6018,
+            "final_layer_cos_sim_d_width_mean": -0.0765,
+            "emancipation_trajectory": [
+              0.0,
+              38.4869,
+              36.8647,
+              53.16
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.875,
+            "probe_plus_vs_minus_logit_diff": -6.75,
+            "expected_continuous_scale_value": 0.0023,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1309,
+              "narrow": 0.1156
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 9,
+      "topic_text": "Electrons occupy quantum energy levels around an atomic nucleus described by wavefunctions.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is highly **dense and specific**, focusing on a very narrow, technical topic within",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.76,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.05,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.778,
+            "mean_sequence_entropy_bits": 0.6431,
+            "max_sequence_entropy_bits": 2.1574,
+            "std_sequence_entropy_bits": 0.6523,
+            "mean_top1_prob": 0.8393,
+            "mean_top1_top2_margin": 0.7269,
+            "mean_logit_kurtosis": 25.5982,
+            "eos_suppression_index": 31.3584
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.3924,
+            "injected_vector_norm": 33.3754,
+            "effective_alpha_ratio": 0.3358,
+            "pre_hook_cos_sim_d_width_mean": 0.2858,
+            "post_hook_cos_sim_d_width_mean": 0.544,
+            "final_layer_cos_sim_d_width_mean": -0.0012,
+            "emancipation_trajectory": [
+              0.0,
+              39.2362,
+              47.1022,
+              43.8592,
+              50.9956,
+              63.2957,
+              62.1045,
+              60.3312,
+              67.7498,
+              66.9137,
+              61.1417,
+              58.9638,
+              62.5549,
+              71.0184,
+              72.9766,
+              75.4388,
+              68.2993,
+              62.8586,
+              73.3403,
+              60.4889,
+              74.9109,
+              68.415,
+              67.8175,
+              70.5041,
+              71.4035,
+              72.2259,
+              72.125,
+              72.9789,
+              68.3261
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.125,
+            "probe_plus_vs_minus_logit_diff": 0.625,
+            "expected_continuous_scale_value": 0.0636,
+            "preference_probs": {
+              "widen": 0.9518,
+              "keep": 0.0064,
+              "narrow": 0.0418
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is highly **dense and specific**, focusing on a very narrow, technical concept within",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.697,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.68,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.778,
+            "mean_sequence_entropy_bits": 0.5193,
+            "max_sequence_entropy_bits": 2.2614,
+            "std_sequence_entropy_bits": 0.6189,
+            "mean_top1_prob": 0.8743,
+            "mean_top1_top2_margin": 0.7895,
+            "mean_logit_kurtosis": 32.7569,
+            "eos_suppression_index": 31.2122
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0547,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.125,
+            "probe_plus_vs_minus_logit_diff": 0.625,
+            "expected_continuous_scale_value": 0.0636,
+            "preference_probs": {
+              "widen": 0.9518,
+              "keep": 0.0064,
+              "narrow": 0.0418
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.471,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.87,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.778,
+            "mean_sequence_entropy_bits": 0.8843,
+            "max_sequence_entropy_bits": 1.778,
+            "std_sequence_entropy_bits": 0.6924,
+            "mean_top1_prob": 0.7197,
+            "mean_top1_top2_margin": 0.5319,
+            "mean_logit_kurtosis": 64.4684,
+            "eos_suppression_index": 27.659
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.7973,
+            "injected_vector_norm": 27.8601,
+            "effective_alpha_ratio": 0.3247,
+            "pre_hook_cos_sim_d_width_mean": -0.3771,
+            "post_hook_cos_sim_d_width_mean": -0.6042,
+            "final_layer_cos_sim_d_width_mean": -0.0805,
+            "emancipation_trajectory": [
+              0.0,
+              39.3643,
+              47.1786,
+              43.8586,
+              51.3145,
+              63.3748
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.125,
+            "probe_plus_vs_minus_logit_diff": 0.625,
+            "expected_continuous_scale_value": 0.0636,
+            "preference_probs": {
+              "widen": 0.9518,
+              "keep": 0.0064,
+              "narrow": 0.0418
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 10,
+      "topic_text": "The troposphere contains approximately 75 percent of the atmosphere's total mass.",
+      "wide": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is a very specific, factual statement about the mass percentage of the troposphere.",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.698,
+            "prompt_tokens": 69,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.67,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0645,
+            "mean_sequence_entropy_bits": 0.5621,
+            "max_sequence_entropy_bits": 2.1802,
+            "std_sequence_entropy_bits": 0.7384,
+            "mean_top1_prob": 0.8591,
+            "mean_top1_top2_margin": 0.7716,
+            "mean_logit_kurtosis": 30.6893,
+            "eos_suppression_index": 30.8885
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.7762,
+            "injected_vector_norm": 33.463,
+            "effective_alpha_ratio": 0.3354,
+            "pre_hook_cos_sim_d_width_mean": 0.2884,
+            "post_hook_cos_sim_d_width_mean": 0.5457,
+            "final_layer_cos_sim_d_width_mean": -0.0044,
+            "emancipation_trajectory": [
+              0.0,
+              37.3461,
+              47.2999,
+              43.4676,
+              51.8226,
+              63.9164,
+              63.1311,
+              61.7819,
+              68.8642,
+              68.0296,
+              60.3672,
+              58.2815,
+              63.2968,
+              70.2441,
+              69.9584,
+              72.9725,
+              73.5278,
+              74.4783,
+              73.3311,
+              73.991,
+              67.3584,
+              66.4013,
+              72.1789,
+              81.5006,
+              76.2068,
+              64.7139,
+              65.1376,
+              63.1943,
+              64.0747
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.25,
+            "probe_plus_vs_minus_logit_diff": 0.5,
+            "expected_continuous_scale_value": 0.026,
+            "preference_probs": {
+              "widen": 0.8834,
+              "keep": 0.0235,
+              "narrow": 0.0931
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is a single, factual statement providing a specific statistic about the troposphere. It",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.682,
+            "prompt_tokens": 69,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.84,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0645,
+            "mean_sequence_entropy_bits": 0.5038,
+            "max_sequence_entropy_bits": 2.1015,
+            "std_sequence_entropy_bits": 0.6044,
+            "mean_top1_prob": 0.8602,
+            "mean_top1_top2_margin": 0.7642,
+            "mean_logit_kurtosis": 37.3102,
+            "eos_suppression_index": 30.5796
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0539,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.25,
+            "probe_plus_vs_minus_logit_diff": 0.5,
+            "expected_continuous_scale_value": 0.026,
+            "preference_probs": {
+              "widen": 0.8834,
+              "keep": 0.0235,
+              "narrow": 0.0931
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.1,
+        "text": "**0.1**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.43,
+            "prompt_tokens": 69,
+            "completion_tokens": 6,
+            "tokens_per_sec": 13.97,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 2.0645,
+            "mean_sequence_entropy_bits": 0.6908,
+            "max_sequence_entropy_bits": 2.0645,
+            "std_sequence_entropy_bits": 0.6892,
+            "mean_top1_prob": 0.7736,
+            "mean_top1_top2_margin": 0.6202,
+            "mean_logit_kurtosis": 52.5485,
+            "eos_suppression_index": 27.1574
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.0146,
+            "injected_vector_norm": 27.6588,
+            "effective_alpha_ratio": 0.3253,
+            "pre_hook_cos_sim_d_width_mean": -0.3719,
+            "post_hook_cos_sim_d_width_mean": -0.6008,
+            "final_layer_cos_sim_d_width_mean": -0.0805,
+            "emancipation_trajectory": [
+              0.0,
+              39.5813,
+              39.0357,
+              49.7495,
+              63.8032
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.25,
+            "probe_plus_vs_minus_logit_diff": 0.5,
+            "expected_continuous_scale_value": 0.026,
+            "preference_probs": {
+              "widen": 0.8834,
+              "keep": 0.0235,
+              "narrow": 0.0931
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 11,
+      "topic_text": "Copper is a ductile metal with very high thermal and electrical conductivity.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.37,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.51,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0378,
+            "mean_sequence_entropy_bits": 0.479,
+            "max_sequence_entropy_bits": 1.3553,
+            "std_sequence_entropy_bits": 0.5944,
+            "mean_top1_prob": 0.8473,
+            "mean_top1_top2_margin": 0.7131,
+            "mean_logit_kurtosis": 53.1051,
+            "eos_suppression_index": 29.862
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.4415,
+            "injected_vector_norm": 27.7007,
+            "effective_alpha_ratio": 0.336,
+            "pre_hook_cos_sim_d_width_mean": 0.2841,
+            "post_hook_cos_sim_d_width_mean": 0.5431,
+            "final_layer_cos_sim_d_width_mean": -0.0376,
+            "emancipation_trajectory": [
+              0.0,
+              37.8027,
+              36.5513,
+              53.1579
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -5.125,
+            "expected_continuous_scale_value": 0.009,
+            "preference_probs": {
+              "widen": 0.839,
+              "keep": 0.0608,
+              "narrow": 0.1002
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.363,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.78,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0378,
+            "mean_sequence_entropy_bits": 0.4058,
+            "max_sequence_entropy_bits": 1.0378,
+            "std_sequence_entropy_bits": 0.4961,
+            "mean_top1_prob": 0.897,
+            "mean_top1_top2_margin": 0.8142,
+            "mean_logit_kurtosis": 65.4298,
+            "eos_suppression_index": 28.1804
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0574,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -5.125,
+            "expected_continuous_scale_value": 0.009,
+            "preference_probs": {
+              "widen": 0.839,
+              "keep": 0.0608,
+              "narrow": 0.1002
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.369,
+            "prompt_tokens": 65,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.55,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0378,
+            "mean_sequence_entropy_bits": 0.4603,
+            "max_sequence_entropy_bits": 1.2338,
+            "std_sequence_entropy_bits": 0.5551,
+            "mean_top1_prob": 0.8634,
+            "mean_top1_top2_margin": 0.7455,
+            "mean_logit_kurtosis": 61.6445,
+            "eos_suppression_index": 28.0595
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.0763,
+            "injected_vector_norm": 27.6532,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3742,
+            "post_hook_cos_sim_d_width_mean": -0.6021,
+            "final_layer_cos_sim_d_width_mean": -0.0769,
+            "emancipation_trajectory": [
+              0.0,
+              37.8095,
+              36.5808,
+              53.3437
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -5.125,
+            "expected_continuous_scale_value": 0.009,
+            "preference_probs": {
+              "widen": 0.839,
+              "keep": 0.0608,
+              "narrow": 0.1002
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 12,
+      "topic_text": "A mathematical prime number is an integer greater than one having no positive integer divisors other than one and itself.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text provides a very precise, formal, and definition-level explanation of a mathematical term",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.723,
+            "prompt_tokens": 73,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.41,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6936,
+            "mean_sequence_entropy_bits": 0.5337,
+            "max_sequence_entropy_bits": 2.2397,
+            "std_sequence_entropy_bits": 0.6242,
+            "mean_top1_prob": 0.8824,
+            "mean_top1_top2_margin": 0.8031,
+            "mean_logit_kurtosis": 27.0448,
+            "eos_suppression_index": 32.1951
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 98.9769,
+            "injected_vector_norm": 33.2287,
+            "effective_alpha_ratio": 0.3358,
+            "pre_hook_cos_sim_d_width_mean": 0.2865,
+            "post_hook_cos_sim_d_width_mean": 0.5447,
+            "final_layer_cos_sim_d_width_mean": -0.0052,
+            "emancipation_trajectory": [
+              0.0,
+              40.8085,
+              48.712,
+              45.8353,
+              52.2343,
+              62.9744,
+              61.3922,
+              60.1495,
+              67.4395,
+              66.1972,
+              60.0175,
+              58.4502,
+              62.8533,
+              72.6483,
+              73.3845,
+              75.6112,
+              75.1425,
+              75.1135,
+              75.6767,
+              75.9346,
+              71.7623,
+              73.5241,
+              65.8074,
+              72.383,
+              74.3824,
+              66.1266,
+              66.5984,
+              70.2681,
+              76.1267
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.3125,
+            "expected_continuous_scale_value": 0.1302,
+            "preference_probs": {
+              "widen": 0.8136,
+              "keep": 0.0048,
+              "narrow": 0.1815
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text provides a precise, formal, and concise definition of a mathematical concept (a prime",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.673,
+            "prompt_tokens": 73,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.93,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6936,
+            "mean_sequence_entropy_bits": 0.4931,
+            "max_sequence_entropy_bits": 3.1663,
+            "std_sequence_entropy_bits": 0.6882,
+            "mean_top1_prob": 0.8786,
+            "mean_top1_top2_margin": 0.792,
+            "mean_logit_kurtosis": 38.3402,
+            "eos_suppression_index": 31.8078
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0569,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.3125,
+            "expected_continuous_scale_value": 0.1302,
+            "preference_probs": {
+              "widen": 0.8136,
+              "keep": 0.0048,
+              "narrow": 0.1815
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.25,
+        "text": "**-0.25**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.528,
+            "prompt_tokens": 73,
+            "completion_tokens": 8,
+            "tokens_per_sec": 15.14,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.6936,
+            "mean_sequence_entropy_bits": 0.7739,
+            "max_sequence_entropy_bits": 1.6936,
+            "std_sequence_entropy_bits": 0.6828,
+            "mean_top1_prob": 0.756,
+            "mean_top1_top2_margin": 0.5897,
+            "mean_logit_kurtosis": 69.8025,
+            "eos_suppression_index": 28.2567
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.3208,
+            "injected_vector_norm": 27.389,
+            "effective_alpha_ratio": 0.3248,
+            "pre_hook_cos_sim_d_width_mean": -0.3768,
+            "post_hook_cos_sim_d_width_mean": -0.6037,
+            "final_layer_cos_sim_d_width_mean": -0.0809,
+            "emancipation_trajectory": [
+              0.0,
+              40.9608,
+              48.852,
+              45.8703,
+              52.4419,
+              55.031,
+              62.9335
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.5,
+            "probe_plus_vs_minus_logit_diff": -1.3125,
+            "expected_continuous_scale_value": 0.1302,
+            "preference_probs": {
+              "widen": 0.8136,
+              "keep": 0.0048,
+              "narrow": 0.1815
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 13,
+      "topic_text": "Deserts are barren areas of landscape where little precipitation occurs and conditions are hostile.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.369,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.54,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5728,
+            "mean_sequence_entropy_bits": 0.3467,
+            "max_sequence_entropy_bits": 1.1593,
+            "std_sequence_entropy_bits": 0.4628,
+            "mean_top1_prob": 0.9267,
+            "mean_top1_top2_margin": 0.8718,
+            "mean_logit_kurtosis": 54.3902,
+            "eos_suppression_index": 30.969
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 81.9096,
+            "injected_vector_norm": 27.5292,
+            "effective_alpha_ratio": 0.3361,
+            "pre_hook_cos_sim_d_width_mean": 0.2839,
+            "post_hook_cos_sim_d_width_mean": 0.5429,
+            "final_layer_cos_sim_d_width_mean": -0.0364,
+            "emancipation_trajectory": [
+              0.0,
+              38.5467,
+              36.0451,
+              53.1228
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.75,
+            "probe_plus_vs_minus_logit_diff": -5.5,
+            "expected_continuous_scale_value": 0.0031,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1156,
+              "narrow": 0.1309
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.67,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5728,
+            "mean_sequence_entropy_bits": 0.3438,
+            "max_sequence_entropy_bits": 1.1425,
+            "std_sequence_entropy_bits": 0.4566,
+            "mean_top1_prob": 0.9064,
+            "mean_top1_top2_margin": 0.8261,
+            "mean_logit_kurtosis": 65.5412,
+            "eos_suppression_index": 28.766
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0575,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.75,
+            "probe_plus_vs_minus_logit_diff": -5.5,
+            "expected_continuous_scale_value": 0.0031,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1156,
+              "narrow": 0.1309
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.368,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.6,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.5728,
+            "mean_sequence_entropy_bits": 0.3789,
+            "max_sequence_entropy_bits": 1.2621,
+            "std_sequence_entropy_bits": 0.4913,
+            "mean_top1_prob": 0.9139,
+            "mean_top1_top2_margin": 0.8613,
+            "mean_logit_kurtosis": 64.3007,
+            "eos_suppression_index": 29.1348
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.5312,
+            "injected_vector_norm": 27.4715,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3744,
+            "post_hook_cos_sim_d_width_mean": -0.6022,
+            "final_layer_cos_sim_d_width_mean": -0.0768,
+            "emancipation_trajectory": [
+              0.0,
+              38.5537,
+              36.053,
+              53.3681
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.75,
+            "probe_plus_vs_minus_logit_diff": -5.5,
+            "expected_continuous_scale_value": 0.0031,
+            "preference_probs": {
+              "widen": 0.7535,
+              "keep": 0.1156,
+              "narrow": 0.1309
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 14,
+      "topic_text": "Cellular mitosis results in two genetically identical daughter cells from a single parent.",
+      "wide": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.371,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.49,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3348,
+            "mean_sequence_entropy_bits": 0.6412,
+            "max_sequence_entropy_bits": 1.8588,
+            "std_sequence_entropy_bits": 0.7976,
+            "mean_top1_prob": 0.8193,
+            "mean_top1_top2_margin": 0.7027,
+            "mean_logit_kurtosis": 49.8053,
+            "eos_suppression_index": 29.1912
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.0691,
+            "injected_vector_norm": 27.919,
+            "effective_alpha_ratio": 0.3361,
+            "pre_hook_cos_sim_d_width_mean": 0.2834,
+            "post_hook_cos_sim_d_width_mean": 0.5425,
+            "final_layer_cos_sim_d_width_mean": -0.0374,
+            "emancipation_trajectory": [
+              0.0,
+              36.9556,
+              36.6394,
+              53.5793
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.5,
+            "probe_plus_vs_minus_logit_diff": -4.375,
+            "expected_continuous_scale_value": 0.0213,
+            "preference_probs": {
+              "widen": 0.8958,
+              "keep": 0.0307,
+              "narrow": 0.0735
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.361,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.84,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3348,
+            "mean_sequence_entropy_bits": 0.4863,
+            "max_sequence_entropy_bits": 1.3348,
+            "std_sequence_entropy_bits": 0.5984,
+            "mean_top1_prob": 0.8854,
+            "mean_top1_top2_margin": 0.8182,
+            "mean_logit_kurtosis": 59.9074,
+            "eos_suppression_index": 27.2944
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0581,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.5,
+            "probe_plus_vs_minus_logit_diff": -4.375,
+            "expected_continuous_scale_value": 0.0213,
+            "preference_probs": {
+              "widen": 0.8958,
+              "keep": 0.0307,
+              "narrow": 0.0735
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.368,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.59,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3348,
+            "mean_sequence_entropy_bits": 0.6927,
+            "max_sequence_entropy_bits": 1.3348,
+            "std_sequence_entropy_bits": 0.5955,
+            "mean_top1_prob": 0.8098,
+            "mean_top1_top2_margin": 0.6676,
+            "mean_logit_kurtosis": 61.5512,
+            "eos_suppression_index": 24.5333
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 86.0964,
+            "injected_vector_norm": 27.9725,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.376,
+            "post_hook_cos_sim_d_width_mean": -0.6034,
+            "final_layer_cos_sim_d_width_mean": -0.0761,
+            "emancipation_trajectory": [
+              0.0,
+              36.9559,
+              36.6484,
+              52.1939
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.5,
+            "probe_plus_vs_minus_logit_diff": -4.375,
+            "expected_continuous_scale_value": 0.0213,
+            "preference_probs": {
+              "widen": 0.8958,
+              "keep": 0.0307,
+              "narrow": 0.0735
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 15,
+      "topic_text": "Atmospheric pressure at sea level is approximately 1013.25 hectopascals.",
+      "wide": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.378,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.23,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.1567,
+            "mean_sequence_entropy_bits": 0.4223,
+            "max_sequence_entropy_bits": 1.8002,
+            "std_sequence_entropy_bits": 0.692,
+            "mean_top1_prob": 0.8971,
+            "mean_top1_top2_margin": 0.8366,
+            "mean_logit_kurtosis": 54.2769,
+            "eos_suppression_index": 26.6354
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.3469,
+            "injected_vector_norm": 28.0051,
+            "effective_alpha_ratio": 0.336,
+            "pre_hook_cos_sim_d_width_mean": 0.2837,
+            "post_hook_cos_sim_d_width_mean": 0.5427,
+            "final_layer_cos_sim_d_width_mean": -0.0362,
+            "emancipation_trajectory": [
+              0.0,
+              38.4555,
+              37.9341,
+              52.4937
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.5,
+            "probe_plus_vs_minus_logit_diff": -9.1562,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.2998,
+              "keep": 0.206,
+              "narrow": 0.4942
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.361,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.83,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.1567,
+            "mean_sequence_entropy_bits": 0.2936,
+            "max_sequence_entropy_bits": 1.3041,
+            "std_sequence_entropy_bits": 0.5087,
+            "mean_top1_prob": 0.9022,
+            "mean_top1_top2_margin": 0.816,
+            "mean_logit_kurtosis": 64.4762,
+            "eos_suppression_index": 27.706
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0582,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.5,
+            "probe_plus_vs_minus_logit_diff": -9.1562,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.2998,
+              "keep": 0.206,
+              "narrow": 0.4942
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "-0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.381,
+            "prompt_tokens": 72,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.12,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.1567,
+            "mean_sequence_entropy_bits": 0.352,
+            "max_sequence_entropy_bits": 1.076,
+            "std_sequence_entropy_bits": 0.4101,
+            "mean_top1_prob": 0.9153,
+            "mean_top1_top2_margin": 0.8436,
+            "mean_logit_kurtosis": 66.304,
+            "eos_suppression_index": 25.4957
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 86.1807,
+            "injected_vector_norm": 28.0051,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3755,
+            "post_hook_cos_sim_d_width_mean": -0.603,
+            "final_layer_cos_sim_d_width_mean": -0.0758,
+            "emancipation_trajectory": [
+              0.0,
+              38.4537,
+              37.9488,
+              52.5142
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": -0.5,
+            "probe_plus_vs_minus_logit_diff": -9.1562,
+            "expected_continuous_scale_value": 0.013,
+            "preference_probs": {
+              "widen": 0.2998,
+              "keep": 0.206,
+              "narrow": 0.4942
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 16,
+      "topic_text": "Sedimentary rocks are formed by the accumulation or deposition of mineral or organic particles.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is a very concise, definition-level statement. It clearly defines the formation process",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.716,
+            "prompt_tokens": 68,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.49,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4958,
+            "mean_sequence_entropy_bits": 0.7262,
+            "max_sequence_entropy_bits": 2.7155,
+            "std_sequence_entropy_bits": 0.6965,
+            "mean_top1_prob": 0.8234,
+            "mean_top1_top2_margin": 0.6974,
+            "mean_logit_kurtosis": 27.8478,
+            "eos_suppression_index": 31.765
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.3352,
+            "injected_vector_norm": 33.3313,
+            "effective_alpha_ratio": 0.3356,
+            "pre_hook_cos_sim_d_width_mean": 0.2874,
+            "post_hook_cos_sim_d_width_mean": 0.5451,
+            "final_layer_cos_sim_d_width_mean": -0.0039,
+            "emancipation_trajectory": [
+              0.0,
+              38.2167,
+              47.8572,
+              43.4284,
+              51.6301,
+              63.6548,
+              62.3521,
+              61.2217,
+              68.0089,
+              67.2574,
+              60.4645,
+              58.792,
+              63.095,
+              71.3584,
+              71.9236,
+              74.8276,
+              75.2173,
+              74.7872,
+              74.5358,
+              65.8989,
+              70.7272,
+              74.1046,
+              67.6984,
+              60.191,
+              73.6371,
+              72.3003,
+              64.0979,
+              72.2375,
+              77.1891
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0195,
+            "preference_probs": {
+              "widen": 0.8789,
+              "keep": 0.0161,
+              "narrow": 0.105
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is a concise, factual definition of how sedimentary rocks are formed. It is informative",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.677,
+            "prompt_tokens": 68,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.89,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4958,
+            "mean_sequence_entropy_bits": 0.4758,
+            "max_sequence_entropy_bits": 3.2151,
+            "std_sequence_entropy_bits": 0.6674,
+            "mean_top1_prob": 0.8848,
+            "mean_top1_top2_margin": 0.8016,
+            "mean_logit_kurtosis": 45.1461,
+            "eos_suppression_index": 31.5008
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0525,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0195,
+            "preference_probs": {
+              "widen": 0.8789,
+              "keep": 0.0161,
+              "narrow": 0.105
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.473,
+            "prompt_tokens": 68,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.79,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4958,
+            "mean_sequence_entropy_bits": 0.6272,
+            "max_sequence_entropy_bits": 1.4958,
+            "std_sequence_entropy_bits": 0.6237,
+            "mean_top1_prob": 0.8226,
+            "mean_top1_top2_margin": 0.6928,
+            "mean_logit_kurtosis": 66.9227,
+            "eos_suppression_index": 28.0722
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.3369,
+            "injected_vector_norm": 27.7284,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3751,
+            "post_hook_cos_sim_d_width_mean": -0.6027,
+            "final_layer_cos_sim_d_width_mean": -0.08,
+            "emancipation_trajectory": [
+              0.0,
+              38.3563,
+              47.9759,
+              43.4392,
+              51.7739,
+              63.5541
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.125,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0195,
+            "preference_probs": {
+              "widen": 0.8789,
+              "keep": 0.0161,
+              "narrow": 0.105
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 17,
+      "topic_text": "The Doppler effect is the change in frequency of a wave in relation to an observer.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThis text provides a very concise, definition-level explanation of the Doppler effect. It is",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.704,
+            "prompt_tokens": 69,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.61,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0323,
+            "mean_sequence_entropy_bits": 0.441,
+            "max_sequence_entropy_bits": 2.5779,
+            "std_sequence_entropy_bits": 0.587,
+            "mean_top1_prob": 0.8838,
+            "mean_top1_top2_margin": 0.7948,
+            "mean_logit_kurtosis": 30.8978,
+            "eos_suppression_index": 34.8317
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 95.8908,
+            "injected_vector_norm": 32.1841,
+            "effective_alpha_ratio": 0.3357,
+            "pre_hook_cos_sim_d_width_mean": 0.2872,
+            "post_hook_cos_sim_d_width_mean": 0.5451,
+            "final_layer_cos_sim_d_width_mean": -0.0075,
+            "emancipation_trajectory": [
+              0.0,
+              41.2589,
+              48.4911,
+              45.2557,
+              52.2611,
+              63.9721,
+              62.3158,
+              60.955,
+              68.1217,
+              67.1438,
+              60.5653,
+              58.8473,
+              67.9098,
+              72.7839,
+              71.8237,
+              73.4246,
+              73.3438,
+              74.3357,
+              73.7292,
+              65.6174,
+              71.8294,
+              73.1005,
+              64.4125,
+              64.1783,
+              64.9422,
+              69.3045,
+              62.3765,
+              60.7586,
+              74.3066
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -6.2812,
+            "expected_continuous_scale_value": 0.0128,
+            "preference_probs": {
+              "widen": 0.7202,
+              "keep": 0.046,
+              "narrow": 0.2338
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text provides a very concise and definition-focused explanation of the Doppler effect. It is",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.669,
+            "prompt_tokens": 69,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.97,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0323,
+            "mean_sequence_entropy_bits": 0.5286,
+            "max_sequence_entropy_bits": 2.7432,
+            "std_sequence_entropy_bits": 0.6638,
+            "mean_top1_prob": 0.83,
+            "mean_top1_top2_margin": 0.6957,
+            "mean_logit_kurtosis": 47.6982,
+            "eos_suppression_index": 33.8304
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.054,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -6.2812,
+            "expected_continuous_scale_value": 0.0128,
+            "preference_probs": {
+              "widen": 0.7202,
+              "keep": 0.046,
+              "narrow": 0.2338
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.472,
+            "prompt_tokens": 69,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.83,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0323,
+            "mean_sequence_entropy_bits": 0.5492,
+            "max_sequence_entropy_bits": 1.4074,
+            "std_sequence_entropy_bits": 0.6084,
+            "mean_top1_prob": 0.8412,
+            "mean_top1_top2_margin": 0.7346,
+            "mean_logit_kurtosis": 68.374,
+            "eos_suppression_index": 30.2007
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.0542,
+            "injected_vector_norm": 27.6433,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3757,
+            "post_hook_cos_sim_d_width_mean": -0.6031,
+            "final_layer_cos_sim_d_width_mean": -0.0801,
+            "emancipation_trajectory": [
+              0.0,
+              41.3839,
+              48.5882,
+              45.276,
+              52.3497,
+              63.7964
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -6.2812,
+            "expected_continuous_scale_value": 0.0128,
+            "preference_probs": {
+              "widen": 0.7202,
+              "keep": 0.046,
+              "narrow": 0.2338
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 18,
+      "topic_text": "DNA replication produces two identical replicas of DNA from one original DNA molecule.",
+      "wide": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is a very concise, factual statement describing a specific process (DNA replication). It",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.702,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.63,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7049,
+            "mean_sequence_entropy_bits": 0.6493,
+            "max_sequence_entropy_bits": 2.5818,
+            "std_sequence_entropy_bits": 0.707,
+            "mean_top1_prob": 0.8368,
+            "mean_top1_top2_margin": 0.7273,
+            "mean_logit_kurtosis": 27.3804,
+            "eos_suppression_index": 33.0127
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.1352,
+            "injected_vector_norm": 33.2873,
+            "effective_alpha_ratio": 0.3358,
+            "pre_hook_cos_sim_d_width_mean": 0.2865,
+            "post_hook_cos_sim_d_width_mean": 0.5447,
+            "final_layer_cos_sim_d_width_mean": -0.0031,
+            "emancipation_trajectory": [
+              0.0,
+              39.8686,
+              47.605,
+              44.9319,
+              52.1382,
+              63.623,
+              61.9658,
+              60.616,
+              68.0539,
+              67.2804,
+              60.5787,
+              58.486,
+              62.1502,
+              69.6708,
+              70.2367,
+              73.9537,
+              74.3833,
+              75.0276,
+              75.2579,
+              75.8848,
+              72.2489,
+              66.852,
+              75.1148,
+              79.3683,
+              66.5845,
+              67.7376,
+              69.5169,
+              65.0229,
+              60.9185
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.875,
+            "probe_plus_vs_minus_logit_diff": -1.375,
+            "expected_continuous_scale_value": 0.0204,
+            "preference_probs": {
+              "widen": 0.687,
+              "keep": 0.0266,
+              "narrow": 0.2864
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.469,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.94,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7049,
+            "mean_sequence_entropy_bits": 0.5915,
+            "max_sequence_entropy_bits": 1.7049,
+            "std_sequence_entropy_bits": 0.5732,
+            "mean_top1_prob": 0.8461,
+            "mean_top1_top2_margin": 0.7433,
+            "mean_logit_kurtosis": 63.6577,
+            "eos_suppression_index": 29.915
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.057,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.875,
+            "probe_plus_vs_minus_logit_diff": -1.375,
+            "expected_continuous_scale_value": 0.0204,
+            "preference_probs": {
+              "widen": 0.687,
+              "keep": 0.0266,
+              "narrow": 0.2864
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "**-0.10**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.55,
+            "prompt_tokens": 66,
+            "completion_tokens": 8,
+            "tokens_per_sec": 14.54,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7049,
+            "mean_sequence_entropy_bits": 0.4982,
+            "max_sequence_entropy_bits": 1.7049,
+            "std_sequence_entropy_bits": 0.5903,
+            "mean_top1_prob": 0.8714,
+            "mean_top1_top2_margin": 0.7809,
+            "mean_logit_kurtosis": 72.087,
+            "eos_suppression_index": 28.2926
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.2173,
+            "injected_vector_norm": 27.3612,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3759,
+            "post_hook_cos_sim_d_width_mean": -0.6034,
+            "final_layer_cos_sim_d_width_mean": -0.0801,
+            "emancipation_trajectory": [
+              0.0,
+              39.9839,
+              47.7055,
+              44.9578,
+              51.6158,
+              55.9174,
+              63.7753
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.875,
+            "probe_plus_vs_minus_logit_diff": -1.375,
+            "expected_continuous_scale_value": 0.0204,
+            "preference_probs": {
+              "widen": 0.687,
+              "keep": 0.0266,
+              "narrow": 0.2864
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 19,
+      "topic_text": "The Amazon River basin covers an area of approximately seven million square kilometers.",
+      "wide": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.37,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.52,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4921,
+            "mean_sequence_entropy_bits": 0.7377,
+            "max_sequence_entropy_bits": 2.1883,
+            "std_sequence_entropy_bits": 0.9267,
+            "mean_top1_prob": 0.7855,
+            "mean_top1_top2_margin": 0.6855,
+            "mean_logit_kurtosis": 42.1482,
+            "eos_suppression_index": 27.1224
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.1333,
+            "injected_vector_norm": 27.9285,
+            "effective_alpha_ratio": 0.336,
+            "pre_hook_cos_sim_d_width_mean": 0.2842,
+            "post_hook_cos_sim_d_width_mean": 0.543,
+            "final_layer_cos_sim_d_width_mean": -0.0347,
+            "emancipation_trajectory": [
+              0.0,
+              41.7289,
+              34.8742,
+              54.6483
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.5,
+            "probe_plus_vs_minus_logit_diff": 2.8125,
+            "expected_continuous_scale_value": 0.015,
+            "preference_probs": {
+              "widen": 0.9769,
+              "keep": 0.0123,
+              "narrow": 0.0109
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.363,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.79,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4921,
+            "mean_sequence_entropy_bits": 0.5593,
+            "max_sequence_entropy_bits": 1.4921,
+            "std_sequence_entropy_bits": 0.6864,
+            "mean_top1_prob": 0.8434,
+            "mean_top1_top2_margin": 0.7338,
+            "mean_logit_kurtosis": 54.3891,
+            "eos_suppression_index": 28.0296
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0569,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.5,
+            "probe_plus_vs_minus_logit_diff": 2.8125,
+            "expected_continuous_scale_value": 0.015,
+            "preference_probs": {
+              "widen": 0.9769,
+              "keep": 0.0123,
+              "narrow": 0.0109
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.1,
+        "text": "+0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 66,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.66,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.4921,
+            "mean_sequence_entropy_bits": 0.4749,
+            "max_sequence_entropy_bits": 1.4921,
+            "std_sequence_entropy_bits": 0.5974,
+            "mean_top1_prob": 0.8806,
+            "mean_top1_top2_margin": 0.7945,
+            "mean_logit_kurtosis": 49.8682,
+            "eos_suppression_index": 26.8993
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.8499,
+            "injected_vector_norm": 27.8989,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3751,
+            "post_hook_cos_sim_d_width_mean": -0.6027,
+            "final_layer_cos_sim_d_width_mean": -0.0752,
+            "emancipation_trajectory": [
+              0.0,
+              41.6965,
+              34.974,
+              53.7072
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.5,
+            "probe_plus_vs_minus_logit_diff": 2.8125,
+            "expected_continuous_scale_value": 0.015,
+            "preference_probs": {
+              "widen": 0.9769,
+              "keep": 0.0123,
+              "narrow": 0.0109
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 20,
+      "topic_text": "Galvanic cells derive electrical energy from spontaneous redox reactions taking place within the cell.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is highly **dense and specific**, focusing on a very precise mechanism (spontaneous",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.73,
+            "prompt_tokens": 68,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.34,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.438,
+            "mean_sequence_entropy_bits": 0.5916,
+            "max_sequence_entropy_bits": 1.8379,
+            "std_sequence_entropy_bits": 0.5763,
+            "mean_top1_prob": 0.8583,
+            "mean_top1_top2_margin": 0.7568,
+            "mean_logit_kurtosis": 27.9002,
+            "eos_suppression_index": 32.3346
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 96.6161,
+            "injected_vector_norm": 32.4531,
+            "effective_alpha_ratio": 0.3359,
+            "pre_hook_cos_sim_d_width_mean": 0.2856,
+            "post_hook_cos_sim_d_width_mean": 0.5441,
+            "final_layer_cos_sim_d_width_mean": -0.001,
+            "emancipation_trajectory": [
+              0.0,
+              38.8902,
+              47.6608,
+              43.9904,
+              51.2604,
+              63.4151,
+              61.9249,
+              60.3212,
+              67.7641,
+              67.0317,
+              60.916,
+              58.9003,
+              62.2829,
+              69.5315,
+              70.4564,
+              72.8394,
+              66.889,
+              62.0013,
+              71.3688,
+              59.4214,
+              72.7711,
+              67.3242,
+              66.4225,
+              67.9818,
+              69.6409,
+              74.6711,
+              66.9527,
+              60.3672,
+              69.8995
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -3.5,
+            "expected_continuous_scale_value": 0.03,
+            "preference_probs": {
+              "widen": 0.8699,
+              "keep": 0.0124,
+              "narrow": 0.1177
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is highly focused and technical, defining the fundamental principle of how galvanic cells work (",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.69,
+            "prompt_tokens": 68,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.75,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.438,
+            "mean_sequence_entropy_bits": 0.5812,
+            "max_sequence_entropy_bits": 1.9509,
+            "std_sequence_entropy_bits": 0.5641,
+            "mean_top1_prob": 0.8608,
+            "mean_top1_top2_margin": 0.7579,
+            "mean_logit_kurtosis": 35.1832,
+            "eos_suppression_index": 31.969
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0546,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -3.5,
+            "expected_continuous_scale_value": 0.03,
+            "preference_probs": {
+              "widen": 0.8699,
+              "keep": 0.0124,
+              "narrow": 0.1177
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.476,
+            "prompt_tokens": 68,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.71,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.438,
+            "mean_sequence_entropy_bits": 0.5911,
+            "max_sequence_entropy_bits": 1.438,
+            "std_sequence_entropy_bits": 0.5386,
+            "mean_top1_prob": 0.8507,
+            "mean_top1_top2_margin": 0.741,
+            "mean_logit_kurtosis": 65.3929,
+            "eos_suppression_index": 28.3353
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.4493,
+            "injected_vector_norm": 27.7627,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3754,
+            "post_hook_cos_sim_d_width_mean": -0.6029,
+            "final_layer_cos_sim_d_width_mean": -0.0801,
+            "emancipation_trajectory": [
+              0.0,
+              39.0178,
+              47.7624,
+              44.0003,
+              51.4375,
+              63.3129
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.0,
+            "probe_plus_vs_minus_logit_diff": -3.5,
+            "expected_continuous_scale_value": 0.03,
+            "preference_probs": {
+              "widen": 0.8699,
+              "keep": 0.0124,
+              "narrow": 0.1177
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 21,
+      "topic_text": "The periodic table organizes chemical elements by their atomic number and electron configurations.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is highly **dense and informative** but **very focused**. It presents a clear",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.715,
+            "prompt_tokens": 66,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.49,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3931,
+            "mean_sequence_entropy_bits": 0.9228,
+            "max_sequence_entropy_bits": 3.3015,
+            "std_sequence_entropy_bits": 0.9413,
+            "mean_top1_prob": 0.7722,
+            "mean_top1_top2_margin": 0.6363,
+            "mean_logit_kurtosis": 26.939,
+            "eos_suppression_index": 33.6625
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 98.4128,
+            "injected_vector_norm": 32.9463,
+            "effective_alpha_ratio": 0.3349,
+            "pre_hook_cos_sim_d_width_mean": 0.2925,
+            "post_hook_cos_sim_d_width_mean": 0.5484,
+            "final_layer_cos_sim_d_width_mean": -0.001,
+            "emancipation_trajectory": [
+              0.0,
+              38.1548,
+              47.744,
+              43.8935,
+              51.9061,
+              63.917,
+              62.3012,
+              61.007,
+              68.1064,
+              67.1868,
+              60.3846,
+              58.1609,
+              62.5996,
+              71.4088,
+              73.007,
+              74.386,
+              68.3922,
+              62.4425,
+              73.1136,
+              61.4963,
+              67.7954,
+              71.6132,
+              65.7769,
+              69.3037,
+              61.2863,
+              59.7746,
+              74.7685,
+              69.9897,
+              74.324
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.375,
+            "probe_plus_vs_minus_logit_diff": -2.625,
+            "expected_continuous_scale_value": 0.0059,
+            "preference_probs": {
+              "widen": 0.8903,
+              "keep": 0.0269,
+              "narrow": 0.0828
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.476,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.7,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3931,
+            "mean_sequence_entropy_bits": 0.5533,
+            "max_sequence_entropy_bits": 1.3931,
+            "std_sequence_entropy_bits": 0.5331,
+            "mean_top1_prob": 0.7887,
+            "mean_top1_top2_margin": 0.592,
+            "mean_logit_kurtosis": 67.3658,
+            "eos_suppression_index": 30.8168
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0565,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.375,
+            "probe_plus_vs_minus_logit_diff": -2.625,
+            "expected_continuous_scale_value": 0.0059,
+            "preference_probs": {
+              "widen": 0.8903,
+              "keep": 0.0269,
+              "narrow": 0.0828
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.479,
+            "prompt_tokens": 66,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.62,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3931,
+            "mean_sequence_entropy_bits": 0.5694,
+            "max_sequence_entropy_bits": 1.3931,
+            "std_sequence_entropy_bits": 0.5599,
+            "mean_top1_prob": 0.8387,
+            "mean_top1_top2_margin": 0.7178,
+            "mean_logit_kurtosis": 68.7331,
+            "eos_suppression_index": 28.6256
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.3016,
+            "injected_vector_norm": 27.7171,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3752,
+            "post_hook_cos_sim_d_width_mean": -0.6027,
+            "final_layer_cos_sim_d_width_mean": -0.08,
+            "emancipation_trajectory": [
+              0.0,
+              38.3073,
+              47.8576,
+              43.9259,
+              51.8855,
+              63.9511
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.375,
+            "probe_plus_vs_minus_logit_diff": -2.625,
+            "expected_continuous_scale_value": 0.0059,
+            "preference_probs": {
+              "widen": 0.8903,
+              "keep": 0.0269,
+              "narrow": 0.0828
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 22,
+      "topic_text": "Thermal expansion is the tendency of matter to change its shape, area, and volume in response to temperature.",
+      "wide": {
+        "rating": 0.5,
+        "text": "+0.5",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.371,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.46,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7552,
+            "mean_sequence_entropy_bits": 0.6254,
+            "max_sequence_entropy_bits": 1.7552,
+            "std_sequence_entropy_bits": 0.7665,
+            "mean_top1_prob": 0.8392,
+            "mean_top1_top2_margin": 0.7459,
+            "mean_logit_kurtosis": 44.0958,
+            "eos_suppression_index": 27.3979
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.6203,
+            "injected_vector_norm": 27.7538,
+            "effective_alpha_ratio": 0.3359,
+            "pre_hook_cos_sim_d_width_mean": 0.2843,
+            "post_hook_cos_sim_d_width_mean": 0.5431,
+            "final_layer_cos_sim_d_width_mean": -0.0341,
+            "emancipation_trajectory": [
+              0.0,
+              42.7422,
+              34.3434,
+              52.6682
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.75,
+            "probe_plus_vs_minus_logit_diff": 3.625,
+            "expected_continuous_scale_value": 0.1811,
+            "preference_probs": {
+              "widen": 0.9731,
+              "keep": 0.004,
+              "narrow": 0.0229
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.68,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7552,
+            "mean_sequence_entropy_bits": 0.7036,
+            "max_sequence_entropy_bits": 1.7552,
+            "std_sequence_entropy_bits": 0.8579,
+            "mean_top1_prob": 0.7716,
+            "mean_top1_top2_margin": 0.6151,
+            "mean_logit_kurtosis": 55.583,
+            "eos_suppression_index": 27.6246
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.057,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.75,
+            "probe_plus_vs_minus_logit_diff": 3.625,
+            "expected_continuous_scale_value": 0.1811,
+            "preference_probs": {
+              "widen": 0.9731,
+              "keep": 0.004,
+              "narrow": 0.0229
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.1,
+        "text": "+0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.368,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.59,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7552,
+            "mean_sequence_entropy_bits": 0.6554,
+            "max_sequence_entropy_bits": 1.7552,
+            "std_sequence_entropy_bits": 0.7762,
+            "mean_top1_prob": 0.7886,
+            "mean_top1_top2_margin": 0.6354,
+            "mean_logit_kurtosis": 51.4942,
+            "eos_suppression_index": 26.8351
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.7089,
+            "injected_vector_norm": 27.8741,
+            "effective_alpha_ratio": 0.3252,
+            "pre_hook_cos_sim_d_width_mean": -0.3729,
+            "post_hook_cos_sim_d_width_mean": -0.6012,
+            "final_layer_cos_sim_d_width_mean": -0.0755,
+            "emancipation_trajectory": [
+              0.0,
+              42.7513,
+              34.4146,
+              53.3609
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 3.75,
+            "probe_plus_vs_minus_logit_diff": 3.625,
+            "expected_continuous_scale_value": 0.1811,
+            "preference_probs": {
+              "widen": 0.9731,
+              "keep": 0.004,
+              "narrow": 0.0229
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 23,
+      "topic_text": "A watershed is an area of land that channels rainfall and snowmelt to creeks, streams, and rivers.",
+      "wide": {
+        "rating": 0.5,
+        "text": "+0.5",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.368,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.59,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9915,
+            "mean_sequence_entropy_bits": 0.7347,
+            "max_sequence_entropy_bits": 1.9915,
+            "std_sequence_entropy_bits": 0.9006,
+            "mean_top1_prob": 0.8124,
+            "mean_top1_top2_margin": 0.7274,
+            "mean_logit_kurtosis": 45.0308,
+            "eos_suppression_index": 27.9816
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.9815,
+            "injected_vector_norm": 27.8958,
+            "effective_alpha_ratio": 0.3362,
+            "pre_hook_cos_sim_d_width_mean": 0.2822,
+            "post_hook_cos_sim_d_width_mean": 0.5417,
+            "final_layer_cos_sim_d_width_mean": -0.0343,
+            "emancipation_trajectory": [
+              0.0,
+              42.358,
+              34.3784,
+              52.28
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": 1.25,
+            "expected_continuous_scale_value": 0.0577,
+            "preference_probs": {
+              "widen": 0.9275,
+              "keep": 0.0132,
+              "narrow": 0.0593
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": 0.3,
+        "text": "+0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.361,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.84,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9915,
+            "mean_sequence_entropy_bits": 0.615,
+            "max_sequence_entropy_bits": 1.9915,
+            "std_sequence_entropy_bits": 0.8059,
+            "mean_top1_prob": 0.8356,
+            "mean_top1_top2_margin": 0.7538,
+            "mean_logit_kurtosis": 55.2935,
+            "eos_suppression_index": 28.2892
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0567,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": 1.25,
+            "expected_continuous_scale_value": 0.0577,
+            "preference_probs": {
+              "widen": 0.9275,
+              "keep": 0.0132,
+              "narrow": 0.0593
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 73,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.68,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.9915,
+            "mean_sequence_entropy_bits": 0.7081,
+            "max_sequence_entropy_bits": 1.9915,
+            "std_sequence_entropy_bits": 0.8162,
+            "mean_top1_prob": 0.8008,
+            "mean_top1_top2_margin": 0.6891,
+            "mean_logit_kurtosis": 55.4913,
+            "eos_suppression_index": 28.2385
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 86.38,
+            "injected_vector_norm": 28.0764,
+            "effective_alpha_ratio": 0.325,
+            "pre_hook_cos_sim_d_width_mean": -0.3747,
+            "post_hook_cos_sim_d_width_mean": -0.6025,
+            "final_layer_cos_sim_d_width_mean": -0.0772,
+            "emancipation_trajectory": [
+              0.0,
+              42.3597,
+              34.4421,
+              53.9146
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": 1.25,
+            "expected_continuous_scale_value": 0.0577,
+            "preference_probs": {
+              "widen": 0.9275,
+              "keep": 0.0132,
+              "narrow": 0.0593
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 24,
+      "topic_text": "Ribosomes are macromolecular machines found within all cells that perform biological protein synthesis.",
+      "wide": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.376,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.3,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7881,
+            "mean_sequence_entropy_bits": 0.8314,
+            "max_sequence_entropy_bits": 2.3611,
+            "std_sequence_entropy_bits": 1.0311,
+            "mean_top1_prob": 0.7652,
+            "mean_top1_top2_margin": 0.6708,
+            "mean_logit_kurtosis": 41.9332,
+            "eos_suppression_index": 27.4738
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.6358,
+            "injected_vector_norm": 27.7429,
+            "effective_alpha_ratio": 0.3357,
+            "pre_hook_cos_sim_d_width_mean": 0.2866,
+            "post_hook_cos_sim_d_width_mean": 0.5447,
+            "final_layer_cos_sim_d_width_mean": -0.0337,
+            "emancipation_trajectory": [
+              0.0,
+              42.8299,
+              34.3443,
+              54.7018
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": 2.0625,
+            "expected_continuous_scale_value": 0.1235,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": 0.2,
+        "text": "+0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.364,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.75,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7881,
+            "mean_sequence_entropy_bits": 0.6158,
+            "max_sequence_entropy_bits": 1.7881,
+            "std_sequence_entropy_bits": 0.7698,
+            "mean_top1_prob": 0.8463,
+            "mean_top1_top2_margin": 0.7666,
+            "mean_logit_kurtosis": 55.0912,
+            "eos_suppression_index": 28.833
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0566,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": 2.0625,
+            "expected_continuous_scale_value": 0.1235,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.1,
+        "text": "+0.1",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.367,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.61,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.7881,
+            "mean_sequence_entropy_bits": 0.5816,
+            "max_sequence_entropy_bits": 1.7881,
+            "std_sequence_entropy_bits": 0.7296,
+            "mean_top1_prob": 0.8436,
+            "mean_top1_top2_margin": 0.7394,
+            "mean_logit_kurtosis": 49.613,
+            "eos_suppression_index": 27.4942
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.3406,
+            "injected_vector_norm": 27.7578,
+            "effective_alpha_ratio": 0.3253,
+            "pre_hook_cos_sim_d_width_mean": -0.3729,
+            "post_hook_cos_sim_d_width_mean": -0.6013,
+            "final_layer_cos_sim_d_width_mean": -0.0747,
+            "emancipation_trajectory": [
+              0.0,
+              42.8143,
+              34.3998,
+              53.6557
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": 2.0625,
+            "expected_continuous_scale_value": 0.1235,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 25,
+      "topic_text": "Glaciers are persistent bodies of dense ice that are constantly moving under their own gravity.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.366,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.64,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.357,
+            "mean_sequence_entropy_bits": 0.5123,
+            "max_sequence_entropy_bits": 1.357,
+            "std_sequence_entropy_bits": 0.6286,
+            "mean_top1_prob": 0.8707,
+            "mean_top1_top2_margin": 0.7709,
+            "mean_logit_kurtosis": 53.3999,
+            "eos_suppression_index": 29.4994
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.6067,
+            "injected_vector_norm": 27.7478,
+            "effective_alpha_ratio": 0.3359,
+            "pre_hook_cos_sim_d_width_mean": 0.2849,
+            "post_hook_cos_sim_d_width_mean": 0.5435,
+            "final_layer_cos_sim_d_width_mean": -0.0372,
+            "emancipation_trajectory": [
+              0.0,
+              38.2792,
+              36.3014,
+              53.2176
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.875,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0271,
+            "preference_probs": {
+              "widen": 0.9284,
+              "keep": 0.0193,
+              "narrow": 0.0524
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.367,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.61,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.357,
+            "mean_sequence_entropy_bits": 0.5025,
+            "max_sequence_entropy_bits": 1.357,
+            "std_sequence_entropy_bits": 0.6176,
+            "mean_top1_prob": 0.8447,
+            "mean_top1_top2_margin": 0.7115,
+            "mean_logit_kurtosis": 66.6174,
+            "eos_suppression_index": 28.6438
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0573,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.875,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0271,
+            "preference_probs": {
+              "widen": 0.9284,
+              "keep": 0.0193,
+              "narrow": 0.0524
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.369,
+            "prompt_tokens": 70,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.55,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.357,
+            "mean_sequence_entropy_bits": 0.5391,
+            "max_sequence_entropy_bits": 1.357,
+            "std_sequence_entropy_bits": 0.6477,
+            "mean_top1_prob": 0.8609,
+            "mean_top1_top2_margin": 0.7731,
+            "mean_logit_kurtosis": 64.9978,
+            "eos_suppression_index": 28.6414
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.149,
+            "injected_vector_norm": 27.6853,
+            "effective_alpha_ratio": 0.3251,
+            "pre_hook_cos_sim_d_width_mean": -0.3733,
+            "post_hook_cos_sim_d_width_mean": -0.6015,
+            "final_layer_cos_sim_d_width_mean": -0.0767,
+            "emancipation_trajectory": [
+              0.0,
+              38.2895,
+              36.3001,
+              53.4113
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.875,
+            "probe_plus_vs_minus_logit_diff": -2.75,
+            "expected_continuous_scale_value": 0.0271,
+            "preference_probs": {
+              "widen": 0.9284,
+              "keep": 0.0193,
+              "narrow": 0.0524
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 26,
+      "topic_text": "Refraction is the redirection of a wave as it passes from one medium to another.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:** The text is a very concise, definition-level statement. It is highly focused on defining a",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.709,
+            "prompt_tokens": 69,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.56,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0413,
+            "mean_sequence_entropy_bits": 0.6921,
+            "max_sequence_entropy_bits": 2.9607,
+            "std_sequence_entropy_bits": 0.7014,
+            "mean_top1_prob": 0.8277,
+            "mean_top1_top2_margin": 0.7057,
+            "mean_logit_kurtosis": 26.8463,
+            "eos_suppression_index": 34.5859
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.2364,
+            "injected_vector_norm": 33.28,
+            "effective_alpha_ratio": 0.3354,
+            "pre_hook_cos_sim_d_width_mean": 0.2888,
+            "post_hook_cos_sim_d_width_mean": 0.5462,
+            "final_layer_cos_sim_d_width_mean": -0.0026,
+            "emancipation_trajectory": [
+              0.0,
+              41.4249,
+              48.7475,
+              45.8248,
+              52.3535,
+              63.7519,
+              62.0531,
+              60.7226,
+              68.1307,
+              66.9257,
+              60.6357,
+              63.7953,
+              72.3045,
+              71.6853,
+              74.8783,
+              74.6273,
+              75.552,
+              75.222,
+              65.7906,
+              71.6858,
+              74.5596,
+              67.2968,
+              60.1753,
+              74.3639,
+              72.5649,
+              74.3068,
+              65.1637,
+              69.6614,
+              63.4345
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.75,
+            "probe_plus_vs_minus_logit_diff": -7.0312,
+            "expected_continuous_scale_value": 0.0207,
+            "preference_probs": {
+              "widen": 0.6541,
+              "keep": 0.0369,
+              "narrow": 0.309
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.464,
+            "prompt_tokens": 69,
+            "completion_tokens": 7,
+            "tokens_per_sec": 15.08,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0413,
+            "mean_sequence_entropy_bits": 0.3823,
+            "max_sequence_entropy_bits": 1.0413,
+            "std_sequence_entropy_bits": 0.3659,
+            "mean_top1_prob": 0.91,
+            "mean_top1_top2_margin": 0.8321,
+            "mean_logit_kurtosis": 66.7998,
+            "eos_suppression_index": 31.8461
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0564,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.75,
+            "probe_plus_vs_minus_logit_diff": -7.0312,
+            "expected_continuous_scale_value": 0.0207,
+            "preference_probs": {
+              "widen": 0.6541,
+              "keep": 0.0369,
+              "narrow": 0.309
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "**-0.10**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.527,
+            "prompt_tokens": 69,
+            "completion_tokens": 8,
+            "tokens_per_sec": 15.18,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.0413,
+            "mean_sequence_entropy_bits": 0.3959,
+            "max_sequence_entropy_bits": 1.2385,
+            "std_sequence_entropy_bits": 0.495,
+            "mean_top1_prob": 0.8771,
+            "mean_top1_top2_margin": 0.7695,
+            "mean_logit_kurtosis": 75.8557,
+            "eos_suppression_index": 30.9965
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.4355,
+            "injected_vector_norm": 27.1102,
+            "effective_alpha_ratio": 0.3249,
+            "pre_hook_cos_sim_d_width_mean": -0.3753,
+            "post_hook_cos_sim_d_width_mean": -0.603,
+            "final_layer_cos_sim_d_width_mean": -0.0798,
+            "emancipation_trajectory": [
+              0.0,
+              41.5193,
+              48.8361,
+              45.8289,
+              51.9449,
+              55.7264,
+              63.9067
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 0.75,
+            "probe_plus_vs_minus_logit_diff": -7.0312,
+            "expected_continuous_scale_value": 0.0207,
+            "preference_probs": {
+              "widen": 0.6541,
+              "keep": 0.0369,
+              "narrow": 0.309
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 27,
+      "topic_text": "Ecosystems consist of all the organisms and the physical environment with which they interact.",
+      "wide": {
+        "rating": 0.5,
+        "text": "+0.5",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.367,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.62,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.8991,
+            "mean_sequence_entropy_bits": 0.5839,
+            "max_sequence_entropy_bits": 2.0119,
+            "std_sequence_entropy_bits": 0.7939,
+            "mean_top1_prob": 0.8549,
+            "mean_top1_top2_margin": 0.7743,
+            "mean_logit_kurtosis": 45.7131,
+            "eos_suppression_index": 27.9453
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 82.8067,
+            "injected_vector_norm": 27.8622,
+            "effective_alpha_ratio": 0.3365,
+            "pre_hook_cos_sim_d_width_mean": 0.2801,
+            "post_hook_cos_sim_d_width_mean": 0.5403,
+            "final_layer_cos_sim_d_width_mean": -0.0334,
+            "emancipation_trajectory": [
+              0.0,
+              40.9904,
+              32.123,
+              51.7212
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.875,
+            "probe_plus_vs_minus_logit_diff": 6.1875,
+            "expected_continuous_scale_value": 0.3216,
+            "preference_probs": {
+              "widen": 0.9911,
+              "keep": 0.0013,
+              "narrow": 0.0076
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": 0.4,
+        "text": "+0.4",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.36,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.89,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.8991,
+            "mean_sequence_entropy_bits": 0.569,
+            "max_sequence_entropy_bits": 1.9442,
+            "std_sequence_entropy_bits": 0.7707,
+            "mean_top1_prob": 0.848,
+            "mean_top1_top2_margin": 0.7684,
+            "mean_logit_kurtosis": 58.6792,
+            "eos_suppression_index": 28.1828
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0558,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.875,
+            "probe_plus_vs_minus_logit_diff": 6.1875,
+            "expected_continuous_scale_value": 0.3216,
+            "preference_probs": {
+              "widen": 0.9911,
+              "keep": 0.0013,
+              "narrow": 0.0076
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": 0.3,
+        "text": "+0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.367,
+            "prompt_tokens": 68,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.64,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 0.8991,
+            "mean_sequence_entropy_bits": 0.5513,
+            "max_sequence_entropy_bits": 1.8456,
+            "std_sequence_entropy_bits": 0.7342,
+            "mean_top1_prob": 0.8412,
+            "mean_top1_top2_margin": 0.7349,
+            "mean_logit_kurtosis": 57.3647,
+            "eos_suppression_index": 27.7845
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 86.4029,
+            "injected_vector_norm": 28.0556,
+            "effective_alpha_ratio": 0.3247,
+            "pre_hook_cos_sim_d_width_mean": -0.3777,
+            "post_hook_cos_sim_d_width_mean": -0.6045,
+            "final_layer_cos_sim_d_width_mean": -0.0771,
+            "emancipation_trajectory": [
+              0.0,
+              40.9985,
+              32.191,
+              53.3611
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 4.875,
+            "probe_plus_vs_minus_logit_diff": 6.1875,
+            "expected_continuous_scale_value": 0.3216,
+            "preference_probs": {
+              "widen": 0.9911,
+              "keep": 0.0013,
+              "narrow": 0.0076
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 28,
+      "topic_text": "Basalt is a dark, fine-grained volcanic rock formed from rapid cooling of magnesium- and iron-rich lava.",
+      "wide": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.369,
+            "prompt_tokens": 76,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.56,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.8338,
+            "mean_sequence_entropy_bits": 0.5902,
+            "max_sequence_entropy_bits": 1.8338,
+            "std_sequence_entropy_bits": 0.7571,
+            "mean_top1_prob": 0.8558,
+            "mean_top1_top2_margin": 0.7867,
+            "mean_logit_kurtosis": 56.0909,
+            "eos_suppression_index": 29.2845
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 81.614,
+            "injected_vector_norm": 27.4125,
+            "effective_alpha_ratio": 0.3359,
+            "pre_hook_cos_sim_d_width_mean": 0.2856,
+            "post_hook_cos_sim_d_width_mean": 0.5441,
+            "final_layer_cos_sim_d_width_mean": -0.0368,
+            "emancipation_trajectory": [
+              0.0,
+              38.7153,
+              36.1274,
+              52.8619
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": -1.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.88,
+              "keep": 0.0637,
+              "narrow": 0.0563
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.3,
+        "text": "-0.3",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.364,
+            "prompt_tokens": 76,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.75,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.8338,
+            "mean_sequence_entropy_bits": 0.5897,
+            "max_sequence_entropy_bits": 1.8338,
+            "std_sequence_entropy_bits": 0.7562,
+            "mean_top1_prob": 0.8231,
+            "mean_top1_top2_margin": 0.7069,
+            "mean_logit_kurtosis": 66.9127,
+            "eos_suppression_index": 27.9267
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0574,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": -1.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.88,
+              "keep": 0.0637,
+              "narrow": 0.0563
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "-0.2",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.369,
+            "prompt_tokens": 76,
+            "completion_tokens": 5,
+            "tokens_per_sec": 13.55,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.8338,
+            "mean_sequence_entropy_bits": 0.6406,
+            "max_sequence_entropy_bits": 1.8338,
+            "std_sequence_entropy_bits": 0.7731,
+            "mean_top1_prob": 0.8334,
+            "mean_top1_top2_margin": 0.7515,
+            "mean_logit_kurtosis": 65.7413,
+            "eos_suppression_index": 28.7235
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 83.8799,
+            "injected_vector_norm": 27.2761,
+            "effective_alpha_ratio": 0.3252,
+            "pre_hook_cos_sim_d_width_mean": -0.3726,
+            "post_hook_cos_sim_d_width_mean": -0.6009,
+            "final_layer_cos_sim_d_width_mean": -0.0769,
+            "emancipation_trajectory": [
+              0.0,
+              38.7124,
+              36.1367,
+              53.2679
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.75,
+            "probe_plus_vs_minus_logit_diff": -1.8125,
+            "expected_continuous_scale_value": 0.0034,
+            "preference_probs": {
+              "widen": 0.88,
+              "keep": 0.0637,
+              "narrow": 0.0563
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 29,
+      "topic_text": "Newton's third law states that for every action in nature there is an equal and opposite reaction.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text is a very concise, definitive statement of a fundamental scientific principle (Newton's",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.704,
+            "prompt_tokens": 72,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.61,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.1262,
+            "mean_sequence_entropy_bits": 0.5877,
+            "max_sequence_entropy_bits": 2.6071,
+            "std_sequence_entropy_bits": 0.6835,
+            "mean_top1_prob": 0.8502,
+            "mean_top1_top2_margin": 0.7447,
+            "mean_logit_kurtosis": 37.7504,
+            "eos_suppression_index": 34.2306
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 99.1502,
+            "injected_vector_norm": 33.2445,
+            "effective_alpha_ratio": 0.3354,
+            "pre_hook_cos_sim_d_width_mean": 0.2889,
+            "post_hook_cos_sim_d_width_mean": 0.546,
+            "final_layer_cos_sim_d_width_mean": -0.0043,
+            "emancipation_trajectory": [
+              0.0,
+              41.5272,
+              48.7695,
+              45.9605,
+              52.1201,
+              63.6019,
+              61.8895,
+              60.5463,
+              67.7576,
+              66.8256,
+              60.2097,
+              58.5169,
+              63.188,
+              72.9131,
+              71.7367,
+              75.7739,
+              75.5691,
+              77.1968,
+              75.6365,
+              77.6064,
+              74.2256,
+              66.9896,
+              75.6244,
+              77.9788,
+              77.3994,
+              64.8445,
+              67.0571,
+              67.873,
+              72.1777
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -7.7812,
+            "expected_continuous_scale_value": 0.0272,
+            "preference_probs": {
+              "widen": 0.7433,
+              "keep": 0.0154,
+              "narrow": 0.2413
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text is a concise, factual statement defining Newton's third law. It is highly",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.675,
+            "prompt_tokens": 72,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.92,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.1262,
+            "mean_sequence_entropy_bits": 0.4126,
+            "max_sequence_entropy_bits": 1.699,
+            "std_sequence_entropy_bits": 0.5121,
+            "mean_top1_prob": 0.8872,
+            "mean_top1_top2_margin": 0.7948,
+            "mean_logit_kurtosis": 56.4203,
+            "eos_suppression_index": 33.3451
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.052,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -7.7812,
+            "expected_continuous_scale_value": 0.0272,
+            "preference_probs": {
+              "widen": 0.7433,
+              "keep": 0.0154,
+              "narrow": 0.2413
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.1,
+        "text": "**-0.10**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.528,
+            "prompt_tokens": 72,
+            "completion_tokens": 8,
+            "tokens_per_sec": 15.16,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.1262,
+            "mean_sequence_entropy_bits": 0.4499,
+            "max_sequence_entropy_bits": 1.2435,
+            "std_sequence_entropy_bits": 0.4996,
+            "mean_top1_prob": 0.8487,
+            "mean_top1_top2_margin": 0.7169,
+            "mean_logit_kurtosis": 72.9934,
+            "eos_suppression_index": 30.3159
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 84.6049,
+            "injected_vector_norm": 27.4795,
+            "effective_alpha_ratio": 0.3248,
+            "pre_hook_cos_sim_d_width_mean": -0.3769,
+            "post_hook_cos_sim_d_width_mean": -0.6041,
+            "final_layer_cos_sim_d_width_mean": -0.0802,
+            "emancipation_trajectory": [
+              0.0,
+              41.6539,
+              48.8747,
+              45.9767,
+              51.8702,
+              55.4275,
+              63.6156
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 1.125,
+            "probe_plus_vs_minus_logit_diff": -7.7812,
+            "expected_continuous_scale_value": 0.0272,
+            "preference_probs": {
+              "widen": 0.7433,
+              "keep": 0.0154,
+              "narrow": 0.2413
+            }
+          }
+        }
+      }
+    },
+    {
+      "topic_id": 30,
+      "topic_text": "The carbon cycle is the biogeochemical cycle by which carbon is exchanged among Earth's spheres.",
+      "wide": {
+        "rating": -0.3,
+        "text": "**-0.3**\n\n**Reasoning:**\n\nThe text provides a very clear, concise, and definition-level explanation of the carbon cycle",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.714,
+            "prompt_tokens": 71,
+            "completion_tokens": 30,
+            "tokens_per_sec": 17.51,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": 1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3435,
+            "mean_sequence_entropy_bits": 0.5706,
+            "max_sequence_entropy_bits": 2.6773,
+            "std_sequence_entropy_bits": 0.7091,
+            "mean_top1_prob": 0.8688,
+            "mean_top1_top2_margin": 0.7831,
+            "mean_logit_kurtosis": 30.3232,
+            "eos_suppression_index": 32.4319
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 97.5039,
+            "injected_vector_norm": 32.7048,
+            "effective_alpha_ratio": 0.3355,
+            "pre_hook_cos_sim_d_width_mean": 0.2884,
+            "post_hook_cos_sim_d_width_mean": 0.5458,
+            "final_layer_cos_sim_d_width_mean": -0.0055,
+            "emancipation_trajectory": [
+              0.0,
+              40.2958,
+              48.2475,
+              44.9918,
+              52.0375,
+              63.2207,
+              61.9138,
+              60.5231,
+              67.7279,
+              66.7437,
+              60.3799,
+              58.6258,
+              63.8561,
+              72.791,
+              71.5204,
+              73.8611,
+              73.9702,
+              71.7187,
+              73.596,
+              73.1408,
+              68.4952,
+              73.6696,
+              65.2831,
+              71.1933,
+              73.7284,
+              64.7659,
+              62.7429,
+              64.3152,
+              74.3661
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": -3.5625,
+            "expected_continuous_scale_value": 0.0392,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      },
+      "baseline": {
+        "rating": -0.2,
+        "text": "**-0.2**\n\n**Reasoning:**\n\nThe text provides a very concise and precise definition of the carbon cycle. It is factual and",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 1.667,
+            "prompt_tokens": 71,
+            "completion_tokens": 30,
+            "tokens_per_sec": 18.0,
+            "active_hooks_count": 0,
+            "hook_layer": 26,
+            "actual_relay_sign": 0,
+            "actual_relay_alpha": 0.0
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3435,
+            "mean_sequence_entropy_bits": 0.5494,
+            "max_sequence_entropy_bits": 2.7943,
+            "std_sequence_entropy_bits": 0.6945,
+            "mean_top1_prob": 0.8475,
+            "mean_top1_top2_margin": 0.7255,
+            "mean_logit_kurtosis": 44.9838,
+            "eos_suppression_index": 32.0712
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": -0.0533,
+            "emancipation_trajectory": []
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": -3.5625,
+            "expected_continuous_scale_value": 0.0392,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      },
+      "narrow": {
+        "rating": -0.2,
+        "text": "**-0.2**",
+        "telemetry": {
+          "timing_and_integrity": {
+            "duration_s": 0.474,
+            "prompt_tokens": 71,
+            "completion_tokens": 7,
+            "tokens_per_sec": 14.76,
+            "active_hooks_count": 1,
+            "hook_layer": 26,
+            "actual_relay_sign": -1,
+            "actual_relay_alpha": 0.35
+          },
+          "logit_dynamics": {
+            "first_token_entropy_bits": 1.3435,
+            "mean_sequence_entropy_bits": 0.6353,
+            "max_sequence_entropy_bits": 1.3992,
+            "std_sequence_entropy_bits": 0.6277,
+            "mean_top1_prob": 0.8087,
+            "mean_top1_top2_margin": 0.6666,
+            "mean_logit_kurtosis": 66.448,
+            "eos_suppression_index": 28.8265
+          },
+          "manifold_geometry_layer26": {
+            "pre_hook_residual_norm_mean": 85.4461,
+            "injected_vector_norm": 27.7546,
+            "effective_alpha_ratio": 0.3248,
+            "pre_hook_cos_sim_d_width_mean": -0.3761,
+            "post_hook_cos_sim_d_width_mean": -0.6033,
+            "final_layer_cos_sim_d_width_mean": -0.0801,
+            "emancipation_trajectory": [
+              0.0,
+              40.3959,
+              48.3302,
+              44.993,
+              52.2298,
+              63.1819
+            ]
+          },
+          "zero_temp_logit_probes": {
+            "probe_wide_vs_narrow_logit_diff": 2.625,
+            "probe_plus_vs_minus_logit_diff": -3.5625,
+            "expected_continuous_scale_value": 0.0392,
+            "preference_probs": {
+              "widen": 0.9202,
+              "keep": 0.0131,
+              "narrow": 0.0667
+            }
+          }
+        }
+      }
+    }
+  ]
+}
