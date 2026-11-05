@@ -249,6 +249,14 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
             inj.copy_((sign_f * alpha_f * nrm) * d_unit.to(h.device, dtype=h.dtype))
             h[:, -1, :] = lp + inj
 
+            # Hook into geometry tracker if attached
+            geom_tracker = getattr(text_model, "_px_geom_tracker", None)
+            if geom_tracker is not None:
+                try:
+                    geom_tracker.record_step(lp.float(), (lp + inj).float(), inj.float(), alpha_f)
+                except Exception:
+                    pass
+
             lat_ms = (time.perf_counter() - t0) * 1000.0
 
             # 6. Record telemetry

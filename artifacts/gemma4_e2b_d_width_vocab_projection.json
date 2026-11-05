@@ -1,0 +1,532 @@
+{
+  "model_id": "google/gemma-4-E2B-it",
+  "inject_layer": 26,
+  "vocab_size": 262144,
+  "hidden_dim": 1536,
+  "digit_token_ids": {
+    "0": {
+      "token_id": 236771,
+      "cos_sim": 0.018024850636720657
+    },
+    "1": {
+      "token_id": 236770,
+      "cos_sim": 0.029485782608389854
+    },
+    "2": {
+      "token_id": 236778,
+      "cos_sim": 0.004489412531256676
+    },
+    "3": {
+      "token_id": 236800,
+      "cos_sim": -0.003426363691687584
+    },
+    "4": {
+      "token_id": 236812,
+      "cos_sim": -0.009540481492877007
+    },
+    "5": {
+      "token_id": 236810,
+      "cos_sim": 0.006521585397422314
+    },
+    "6": {
+      "token_id": 236825,
+      "cos_sim": 0.033765025436878204
+    },
+    "7": {
+      "token_id": 236832,
+      "cos_sim": 0.010868007317185402
+    },
+    "8": {
+      "token_id": 236828,
+      "cos_sim": 0.03781589865684509
+    },
+    "9": {
+      "token_id": 236819,
+      "cos_sim": 0.02605416253209114
+    }
+  },
+  "probe_tokens": {
+    "236771": {
+      "token_id": 236771,
+      "token_str": "'0'",
+      "cos_sim": 0.018024850636720657,
+      "label": "+0.5"
+    },
+    "236743": {
+      "token_id": 236743,
+      "token_str": "' '",
+      "cos_sim": 0.024350762367248535,
+      "label": "0.5"
+    },
+    "236770": {
+      "token_id": 236770,
+      "token_str": "'1'",
+      "cos_sim": 0.029485782608389854,
+      "label": "-1"
+    },
+    "236778": {
+      "token_id": 236778,
+      "token_str": "'2'",
+      "cos_sim": 0.004489412531256676,
+      "label": "2"
+    },
+    "236800": {
+      "token_id": 236800,
+      "token_str": "'3'",
+      "cos_sim": -0.003426363691687584,
+      "label": "3"
+    },
+    "236812": {
+      "token_id": 236812,
+      "token_str": "'4'",
+      "cos_sim": -0.009540481492877007,
+      "label": "4"
+    },
+    "236810": {
+      "token_id": 236810,
+      "token_str": "'5'",
+      "cos_sim": 0.006521585397422314,
+      "label": "+0.5"
+    },
+    "236825": {
+      "token_id": 236825,
+      "token_str": "'6'",
+      "cos_sim": 0.033765025436878204,
+      "label": "6"
+    },
+    "236832": {
+      "token_id": 236832,
+      "token_str": "'7'",
+      "cos_sim": 0.010868007317185402,
+      "label": "7"
+    },
+    "236828": {
+      "token_id": 236828,
+      "token_str": "'8'",
+      "cos_sim": 0.03781589865684509,
+      "label": "8"
+    },
+    "236819": {
+      "token_id": 236819,
+      "token_str": "'9'",
+      "cos_sim": 0.02605416253209114,
+      "label": "9"
+    },
+    "900": {
+      "token_id": 900,
+      "token_str": "' +'",
+      "cos_sim": 0.03494315594434738,
+      "label": "+0.5"
+    },
+    "236862": {
+      "token_id": 236862,
+      "token_str": "'+'",
+      "cos_sim": 0.03304191306233406,
+      "label": "+0.5"
+    },
+    "753": {
+      "token_id": 753,
+      "token_str": "' -'",
+      "cos_sim": 0.022480107843875885,
+      "label": "-0.5"
+    },
+    "236772": {
+      "token_id": 236772,
+      "token_str": "'-'",
+      "cos_sim": 0.04441704973578453,
+      "label": "-0.5"
+    },
+    "236761": {
+      "token_id": 236761,
+      "token_str": "'.'",
+      "cos_sim": 0.01361025683581829,
+      "label": "+0.5"
+    },
+    "236824": {
+      "token_id": 236824,
+      "token_str": "'W'",
+      "cos_sim": 0.04369693621993065,
+      "label": "WIDEN"
+    },
+    "649": {
+      "token_id": 649,
+      "token_str": "' W'",
+      "cos_sim": 0.05046914145350456,
+      "label": "WIDEN"
+    },
+    "1439": {
+      "token_id": 1439,
+      "token_str": "'EN'",
+      "cos_sim": -0.02050025202333927,
+      "label": "WIDEN"
+    },
+    "1735": {
+      "token_id": 1735,
+      "token_str": "'ID'",
+      "cos_sim": -0.0018679890781641006,
+      "label": "WIDEN"
+    },
+    "200779": {
+      "token_id": 200779,
+      "token_str": "' KEEP'",
+      "cos_sim": 0.04340949282050133,
+      "label": "KEEP"
+    },
+    "182533": {
+      "token_id": 182533,
+      "token_str": "'KEEP'",
+      "cos_sim": 0.00434317160397768,
+      "label": "KEEP"
+    },
+    "87754": {
+      "token_id": 87754,
+      "token_str": "'ARROW'",
+      "cos_sim": 0.02532844990491867,
+      "label": "NARROW"
+    },
+    "236797": {
+      "token_id": 236797,
+      "token_str": "'N'",
+      "cos_sim": 0.03401460498571396,
+      "label": "NARROW"
+    },
+    "646": {
+      "token_id": 646,
+      "token_str": "' N'",
+      "cos_sim": 0.0488889217376709,
+      "label": "NARROW"
+    },
+    "110337": {
+      "token_id": 110337,
+      "token_str": "' widen'",
+      "cos_sim": -0.018747534602880478,
+      "label": "widen"
+    },
+    "6836": {
+      "token_id": 6836,
+      "token_str": "'iden'",
+      "cos_sim": 0.03207268565893173,
+      "label": "widen"
+    },
+    "236765": {
+      "token_id": 236765,
+      "token_str": "'w'",
+      "cos_sim": 0.031036047264933586,
+      "label": "widen"
+    },
+    "2514": {
+      "token_id": 2514,
+      "token_str": "' keep'",
+      "cos_sim": 0.016272693872451782,
+      "label": "keep"
+    },
+    "27611": {
+      "token_id": 27611,
+      "token_str": "'keep'",
+      "cos_sim": 0.03331407904624939,
+      "label": "keep"
+    },
+    "12019": {
+      "token_id": 12019,
+      "token_str": "' narrow'",
+      "cos_sim": -0.02291092835366726,
+      "label": "narrow"
+    },
+    "154454": {
+      "token_id": 154454,
+      "token_str": "'narrow'",
+      "cos_sim": -0.00665495777502656,
+      "label": "narrow"
+    },
+    "66868": {
+      "token_id": 66868,
+      "token_str": "'Wide'",
+      "cos_sim": 0.02278212271630764,
+      "label": "Wide"
+    },
+    "45735": {
+      "token_id": 45735,
+      "token_str": "' Wide'",
+      "cos_sim": 0.02626308612525463,
+      "label": "Wide"
+    },
+    "112676": {
+      "token_id": 112676,
+      "token_str": "' Narrow'",
+      "cos_sim": 0.005124161019921303,
+      "label": "Narrow"
+    },
+    "182447": {
+      "token_id": 182447,
+      "token_str": "'Narrow'",
+      "cos_sim": -0.003610501065850258,
+      "label": "Narrow"
+    },
+    "17608": {
+      "token_id": 17608,
+      "token_str": "' Keep'",
+      "cos_sim": 0.02076970413327217,
+      "label": "Keep"
+    },
+    "27252": {
+      "token_id": 27252,
+      "token_str": "'Keep'",
+      "cos_sim": 0.014732429757714272,
+      "label": "Keep"
+    }
+  },
+  "top25_positive_wide": [
+    {
+      "token_id": 242605,
+      "token_str": "'\u6c37'",
+      "cos_sim": 0.10804788768291473
+    },
+    {
+      "token_id": 228915,
+      "token_str": "'\u00f8rende'",
+      "cos_sim": 0.10679958015680313
+    },
+    {
+      "token_id": 160445,
+      "token_str": "'hoog'",
+      "cos_sim": 0.10575012862682343
+    },
+    {
+      "token_id": 237831,
+      "token_str": "'\u52a1'",
+      "cos_sim": 0.10234637558460236
+    },
+    {
+      "token_id": 88117,
+      "token_str": "' \u0628\u06c1\u062a\u0631\u06cc\u0646'",
+      "cos_sim": 0.10113837569952011
+    },
+    {
+      "token_id": 3642,
+      "token_str": "'ixed'",
+      "cos_sim": 0.10026636719703674
+    },
+    {
+      "token_id": 238249,
+      "token_str": "'\ub0b4'",
+      "cos_sim": 0.09962757676839828
+    },
+    {
+      "token_id": 132891,
+      "token_str": "'\u03b4\u03b5\u03b9'",
+      "cos_sim": 0.09838133305311203
+    },
+    {
+      "token_id": 40016,
+      "token_str": "'still'",
+      "cos_sim": 0.09764541685581207
+    },
+    {
+      "token_id": 24137,
+      "token_str": "'stable'",
+      "cos_sim": 0.09737321734428406
+    },
+    {
+      "token_id": 11664,
+      "token_str": "'unes'",
+      "cos_sim": 0.09686695784330368
+    },
+    {
+      "token_id": 60573,
+      "token_str": "'WF'",
+      "cos_sim": 0.09645921736955643
+    },
+    {
+      "token_id": 59327,
+      "token_str": "' \u0ec0'",
+      "cos_sim": 0.09628526866436005
+    },
+    {
+      "token_id": 52066,
+      "token_str": "'\u3067\u3042\u308a'",
+      "cos_sim": 0.09623786807060242
+    },
+    {
+      "token_id": 20177,
+      "token_str": "'\u09c0\u09a4\u09c7'",
+      "cos_sim": 0.0962253212928772
+    },
+    {
+      "token_id": 79542,
+      "token_str": "' presenza'",
+      "cos_sim": 0.09589967876672745
+    },
+    {
+      "token_id": 29207,
+      "token_str": "'igung'",
+      "cos_sim": 0.09582057595252991
+    },
+    {
+      "token_id": 3601,
+      "token_str": "'olds'",
+      "cos_sim": 0.09517903625965118
+    },
+    {
+      "token_id": 227399,
+      "token_str": "'\u0433\u0438\u043c'",
+      "cos_sim": 0.09461535513401031
+    },
+    {
+      "token_id": 153066,
+      "token_str": "'\u305d\u308c\u3067\u3082'",
+      "cos_sim": 0.09349989891052246
+    },
+    {
+      "token_id": 94690,
+      "token_str": "' \u043d\u0430\u043b\u0438\u0447\u0438'",
+      "cos_sim": 0.09338614344596863
+    },
+    {
+      "token_id": 149652,
+      "token_str": "' STILL'",
+      "cos_sim": 0.09327614307403564
+    },
+    {
+      "token_id": 172975,
+      "token_str": "'\u591a\u4e48'",
+      "cos_sim": 0.09303763508796692
+    },
+    {
+      "token_id": 47971,
+      "token_str": "'pending'",
+      "cos_sim": 0.09243543446063995
+    },
+    {
+      "token_id": 87333,
+      "token_str": "'\u00e7ok'",
+      "cos_sim": 0.09242245554924011
+    }
+  ],
+  "top25_negative_narrow": [
+    {
+      "token_id": 176504,
+      "token_str": "' \u0627\u0644\u0627\u0635'",
+      "cos_sim": -0.1155785396695137
+    },
+    {
+      "token_id": 155888,
+      "token_str": "' b\u1ecdn'",
+      "cos_sim": -0.1048135906457901
+    },
+    {
+      "token_id": 194740,
+      "token_str": "' tricked'",
+      "cos_sim": -0.1045474037528038
+    },
+    {
+      "token_id": 205963,
+      "token_str": "'\u7ffb\u8b6f'",
+      "cos_sim": -0.09759018570184708
+    },
+    {
+      "token_id": 241296,
+      "token_str": "'\u609f'",
+      "cos_sim": -0.09539800882339478
+    },
+    {
+      "token_id": 229716,
+      "token_str": "'\u09cb\u09b2\u099c\u09bf'",
+      "cos_sim": -0.09479830414056778
+    },
+    {
+      "token_id": 242744,
+      "token_str": "'\u7738'",
+      "cos_sim": -0.09431765973567963
+    },
+    {
+      "token_id": 99233,
+      "token_str": "' \u0baa\u0bb0\u0bc1'",
+      "cos_sim": -0.0907987430691719
+    },
+    {
+      "token_id": 81928,
+      "token_str": "'StarService'",
+      "cos_sim": -0.09038926661014557
+    },
+    {
+      "token_id": 25536,
+      "token_str": "' carp'",
+      "cos_sim": -0.08966713398694992
+    },
+    {
+      "token_id": 167920,
+      "token_str": "'omanian'",
+      "cos_sim": -0.089542455971241
+    },
+    {
+      "token_id": 87057,
+      "token_str": "'Extent'",
+      "cos_sim": -0.08887925744056702
+    },
+    {
+      "token_id": 4119,
+      "token_str": "'[\"'",
+      "cos_sim": -0.088852658867836
+    },
+    {
+      "token_id": 4280,
+      "token_str": "' sou'",
+      "cos_sim": -0.08853574097156525
+    },
+    {
+      "token_id": 100191,
+      "token_str": "' subsystems'",
+      "cos_sim": -0.08762257546186447
+    },
+    {
+      "token_id": 139206,
+      "token_str": "' Compre'",
+      "cos_sim": -0.08721084147691727
+    },
+    {
+      "token_id": 250141,
+      "token_str": "'\u89ca'",
+      "cos_sim": -0.08680558949708939
+    },
+    {
+      "token_id": 111359,
+      "token_str": "'tokenizer'",
+      "cos_sim": -0.0864797979593277
+    },
+    {
+      "token_id": 185451,
+      "token_str": "' \u0c17\u0c4d\u0c30\u0c39'",
+      "cos_sim": -0.08622346818447113
+    },
+    {
+      "token_id": 149705,
+      "token_str": "'hashTree'",
+      "cos_sim": -0.08588583767414093
+    },
+    {
+      "token_id": 150080,
+      "token_str": "' \u0c35\u0c3f\u0c27'",
+      "cos_sim": -0.08518078178167343
+    },
+    {
+      "token_id": 54653,
+      "token_str": "' comprehend'",
+      "cos_sim": -0.08510896563529968
+    },
+    {
+      "token_id": 140124,
+      "token_str": "' $(\"<'",
+      "cos_sim": -0.08494925498962402
+    },
+    {
+      "token_id": 172022,
+      "token_str": "' \u09aa\u09be\u09b0\u09b8\u09cd\u09aa'",
+      "cos_sim": -0.08428291976451874
+    },
+    {
+      "token_id": 165462,
+      "token_str": "' \u062a\u0634\u0648\u0641'",
+      "cos_sim": -0.08373168110847473
+    }
+  ]
+}

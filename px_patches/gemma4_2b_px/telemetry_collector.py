@@ -1,0 +1,306 @@
+"""px_patches/gemma4_2b_px/telemetry_collector.py — Real-time Telemetry & Logit Dynamics Collector.
+
+Implements the strict Phase 2 telemetry schema:
+- timing_and_integrity (duration, tokens, active_hooks_count, alpha, sign)
+- logit_dynamics (Shannon entropy H_t in bits, kurtosis, top1/top2 margin, eos_suppression)
+- manifold_geometry_layer26 (pre/post cosine sim to d_width, norms, emancipation trajectory)
+- zero_temp_logit_probes (probe diffs, expected scale value, preference probs)
+"""
+
+import math
+import torch
+import torch.nn.functional as F
+import numpy as np
+from typing import Dict, Any, List, Optional
+from transformers import LogitsProcessor
+
+
+class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
+    """LogitsProcessor capturing token-level logit dynamics and entropy during generation."""
+
+    def __init__(self, tokenizer, dwidth_tensor=None):
+        self.tokenizer = tokenizer
+        self.dwidth_tensor = dwidth_tensor
+        self.step = 0
+        self.entropy_history = []
+        self.top1_probs = []
+        self.top1_top2_margins = []
+        self.kurtosis_history = []
+        self.eos_probs = []
+        self.zero_temp_probes = {}
+        self.eos_token_id = getattr(tokenizer, "eos_token_id", 1) or 1
+
+        # Probe token IDs
+        # Digit IDs 0..9
+        self.digit_ids = [tokenizer.encode(str(d), add_special_tokens=False)[-1] for d in range(10)]
+
+        # Signs '+' and '-'
+        plus_enc = tokenizer.encode("+", add_special_tokens=False)
+        minus_enc = tokenizer.encode("-", add_special_tokens=False)
+        self.plus_id = plus_enc[-1] if plus_enc else None
+        self.minus_id = minus_enc[-1] if minus_enc else None
+
+        # Preference words: WIDEN, KEEP, NARROW
+        def _get_id(w):
+            e = tokenizer.encode(w, add_special_tokens=False)
+            return e[-1] if e else None
+
+        self.widen_id = _get_id("WIDEN") or _get_id("widen")
+        self.keep_id = _get_id("KEEP") or _get_id("keep")
+        self.narrow_id = _get_id("NARROW") or _get_id("narrow")
+
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+        self.step += 1
+        with torch.no_grad():
+            logits = scores[0].float()  # (vocab_size,)
+            probs = F.softmax(logits, dim=-1)
+
+            # 1. Shannon entropy H_t in bits: - sum(p * log2(p))
+            # Filter p > 1e-12 to avoid log2(0)
+            p_pos = probs[probs > 1e-12]
+            entropy = -torch.sum(p_pos * torch.log2(p_pos)).item()
+            self.entropy_history.append(float(entropy))
+
+            # 2. Top-1 and Top-2 margin
+            top2_vals, _ = torch.topk(probs, k=2)
+            top1_p = top2_vals[0].item()
+            top2_p = top2_vals[1].item()
+            self.top1_probs.append(float(top1_p))
+            self.top1_top2_margins.append(float(top1_p - top2_p))
+
+            # 3. Logit kurtosis on top-1000 tokens
+            top_k = min(1000, logits.numel())
+            topk_logits, _ = torch.topk(logits, k=top_k)
+            mean_z = torch.mean(topk_logits)
+            var_z = torch.var(topk_logits, unbiased=False)
+            if var_z > 1e-8:
+                m4 = torch.mean((topk_logits - mean_z) ** 4)
+                kurt = (m4 / (var_z ** 2) - 3.0).item()
+            else:
+                kurt = 0.0
+            self.kurtosis_history.append(float(kurt))
+
+            # 4. EOS probability
+            eos_p = probs[self.eos_token_id].item() if self.eos_token_id < probs.numel() else 1e-12
+            self.eos_probs.append(float(eos_p))
+
+            # 5. First-token probes
+            if self.step == 1:
+                # WIDE vs NARROW logit diff
+                l_wide = logits[self.widen_id].item() if self.widen_id is not None else 0.0
+                l_narr = logits[self.narrow_id].item() if self.narrow_id is not None else 0.0
+                probe_wide_narrow = float(l_wide - l_narr)
+
+                # '+' vs '-' logit diff
+                l_plus = logits[self.plus_id].item() if self.plus_id is not None else 0.0
+                l_minus = logits[self.minus_id].item() if self.minus_id is not None else 0.0
+                probe_plus_minus = float(l_plus - l_minus)
+
+                # Expected scale value across digits 0..9 (normalized)
+                digit_logits = torch.tensor([logits[tid].item() for tid in self.digit_ids], dtype=torch.float32)
+                digit_probs = F.softmax(digit_logits, dim=-1)
+                expected_digit = float(torch.sum(digit_probs * torch.arange(10, dtype=torch.float32)).item())
+
+                # Preference probabilities over {widen, keep, narrow}
+                pref_ids = [self.widen_id, self.keep_id, self.narrow_id]
+                if all(pid is not None for pid in pref_ids):
+                    pref_logits = torch.tensor([logits[pid].item() for pid in pref_ids], dtype=torch.float32)
+                    pref_probs = F.softmax(pref_logits, dim=-1).tolist()
+                else:
+                    pref_probs = [0.333, 0.334, 0.333]
+
+                self.zero_temp_probes = {
+                    "probe_wide_vs_narrow_logit_diff": round(probe_wide_narrow, 4),
+                    "probe_plus_vs_minus_logit_diff": round(probe_plus_minus, 4),
+                    "expected_continuous_scale_value": round(expected_digit, 4),
+                    "preference_probs": {
+                        "widen": round(pref_probs[0], 4),
+                        "keep": round(pref_probs[1], 4),
+                        "narrow": round(pref_probs[2], 4),
+                    },
+                }
+
+        return scores
+
+    def get_summary(self) -> Dict[str, Any]:
+        if not self.entropy_history:
+            return {
+                "first_token_entropy_bits": 0.0,
+                "mean_sequence_entropy_bits": 0.0,
+                "max_sequence_entropy_bits": 0.0,
+                "std_sequence_entropy_bits": 0.0,
+                "mean_top1_prob": 0.0,
+                "mean_top1_top2_margin": 0.0,
+                "mean_logit_kurtosis": 0.0,
+                "eos_suppression_index": 0.0,
+            }
+
+        first_h = self.entropy_history[0]
+        mean_h = float(np.mean(self.entropy_history))
+        max_h = float(np.max(self.entropy_history))
+        std_h = float(np.std(self.entropy_history))
+
+        mean_top1 = float(np.mean(self.top1_probs))
+        mean_margin = float(np.mean(self.top1_top2_margins))
+        mean_kurt = float(np.mean(self.kurtosis_history))
+
+        # EOS suppression index: -log2(mean(eos_probs) + 1e-12)
+        mean_eos = float(np.mean(self.eos_probs))
+        eos_supp = float(-math.log2(max(1e-12, mean_eos)))
+
+        return {
+            "first_token_entropy_bits": round(first_h, 4),
+            "mean_sequence_entropy_bits": round(mean_h, 4),
+            "max_sequence_entropy_bits": round(max_h, 4),
+            "std_sequence_entropy_bits": round(std_h, 4),
+            "mean_top1_prob": round(mean_top1, 4),
+            "mean_top1_top2_margin": round(mean_margin, 4),
+            "mean_logit_kurtosis": round(mean_kurt, 4),
+            "eos_suppression_index": round(eos_supp, 4),
+        }
+
+
+class Gemma4ManifoldGeometryTracker:
+    """Hooks into target and final layers to track manifold geometry and emancipation."""
+
+    def __init__(self, text_model, dwidth_tensor, relay_layer: int = 26):
+        self.text_model = text_model
+        self.relay_layer_idx = int(relay_layer)
+        self.final_layer_idx = len(text_model.layers) - 1
+        self.dwidth_tensor = dwidth_tensor.float().cpu() if dwidth_tensor is not None else None
+        self.d_unit = F.normalize(self.dwidth_tensor.unsqueeze(0), p=2, dim=1) if self.dwidth_tensor is not None else None
+
+        self.pre_hook_norms = []
+        self.inj_norms = []
+        self.alpha_ratios = []
+        self.pre_cos_sims = []
+        self.post_cos_sims = []
+        self.final_cos_sims = []
+        self.emancipation_trajectory = []
+        self.first_token_h26 = None
+        self.handles = []
+
+    def attach(self):
+        self.detach()
+
+        # Final layer hook
+        def final_layer_hook(_m, _i, o):
+            h = o[0] if isinstance(o, (tuple, list)) else o
+            if h.shape[1] > 1:
+                return
+            with torch.no_grad():
+                lp = h[:, -1, :].float()
+                if self.d_unit is not None:
+                    sim = F.cosine_similarity(lp[0:1], self.d_unit.to(lp.device)).item()
+                    self.final_cos_sims.append(float(sim))
+
+        h_final = self.text_model.layers[self.final_layer_idx].register_forward_hook(final_layer_hook)
+        self.handles.append(h_final)
+
+    def record_step(self, h_pre, h_post, inj, alpha):
+        with torch.no_grad():
+            norm_pre = float(h_pre.norm().item())
+            norm_inj = float(inj.norm().item())
+            self.pre_hook_norms.append(norm_pre)
+            self.inj_norms.append(norm_inj)
+            ratio = norm_inj / (norm_pre + 1e-8)
+            self.alpha_ratios.append(ratio)
+
+            if self.d_unit is not None:
+                sim_pre = F.cosine_similarity(h_pre[0:1], self.d_unit.to(h_pre.device)).item()
+                sim_post = F.cosine_similarity(h_post[0:1], self.d_unit.to(h_post.device)).item()
+                self.pre_cos_sims.append(float(sim_pre))
+                self.post_cos_sims.append(float(sim_post))
+
+            if self.first_token_h26 is None:
+                self.first_token_h26 = h_pre[0:1].detach().clone()
+                self.emancipation_trajectory.append(0.0)
+            else:
+                dist = torch.norm(h_pre[0:1] - self.first_token_h26).item()
+                self.emancipation_trajectory.append(float(dist))
+
+    def detach(self):
+        for h in self.handles:
+            try:
+                h.remove()
+            except Exception:
+                pass
+        self.handles.clear()
+
+    def get_summary(self) -> Dict[str, Any]:
+        return {
+            "pre_hook_residual_norm_mean": round(float(np.mean(self.pre_hook_norms)), 4) if self.pre_hook_norms else 0.0,
+            "injected_vector_norm": round(float(np.mean(self.inj_norms)), 4) if self.inj_norms else 0.0,
+            "effective_alpha_ratio": round(float(np.mean(self.alpha_ratios)), 4) if self.alpha_ratios else 0.0,
+            "pre_hook_cos_sim_d_width_mean": round(float(np.mean(self.pre_cos_sims)), 4) if self.pre_cos_sims else 0.0,
+            "post_hook_cos_sim_d_width_mean": round(float(np.mean(self.post_cos_sims)), 4) if self.post_cos_sims else 0.0,
+            "final_layer_cos_sim_d_width_mean": round(float(np.mean(self.final_cos_sims)), 4) if self.final_cos_sims else 0.0,
+            "emancipation_trajectory": [round(d, 4) for d in self.emancipation_trajectory],
+        }
+
+
+def assemble_enriched_telemetry(
+    duration_s: float,
+    prompt_tokens: int,
+    completion_tokens: int,
+    active_hooks_count: int,
+    hook_layer: int,
+    actual_relay_sign: int,
+    actual_relay_alpha: float,
+    logits_proc: Optional[Gemma4TelemetryLogitsProcessor] = None,
+    geom_tracker: Optional[Gemma4ManifoldGeometryTracker] = None,
+) -> Dict[str, Any]:
+    """Assemble strict schema compliant telemetry dictionary."""
+    tps = round(completion_tokens / max(1e-4, duration_s), 2)
+
+    timing_and_integrity = {
+        "duration_s": round(float(duration_s), 3),
+        "prompt_tokens": int(prompt_tokens),
+        "completion_tokens": int(completion_tokens),
+        "tokens_per_sec": tps,
+        "active_hooks_count": int(active_hooks_count),
+        "hook_layer": int(hook_layer),
+        "actual_relay_sign": int(actual_relay_sign),
+        "actual_relay_alpha": round(float(actual_relay_alpha), 4),
+    }
+
+    if logits_proc is not None:
+        logit_dynamics = logits_proc.get_summary()
+        zero_temp_probes = logits_proc.zero_temp_probes
+    else:
+        logit_dynamics = {
+            "first_token_entropy_bits": 0.0,
+            "mean_sequence_entropy_bits": 0.0,
+            "max_sequence_entropy_bits": 0.0,
+            "std_sequence_entropy_bits": 0.0,
+            "mean_top1_prob": 0.0,
+            "mean_top1_top2_margin": 0.0,
+            "mean_logit_kurtosis": 0.0,
+            "eos_suppression_index": 0.0,
+        }
+        zero_temp_probes = {
+            "probe_wide_vs_narrow_logit_diff": 0.0,
+            "probe_plus_vs_minus_logit_diff": 0.0,
+            "expected_continuous_scale_value": 0.0,
+            "preference_probs": {"widen": 0.333, "keep": 0.334, "narrow": 0.333},
+        }
+
+    if geom_tracker is not None:
+        manifold_geom = geom_tracker.get_summary()
+    else:
+        manifold_geom = {
+            "pre_hook_residual_norm_mean": 0.0,
+            "injected_vector_norm": 0.0,
+            "effective_alpha_ratio": 0.0,
+            "pre_hook_cos_sim_d_width_mean": 0.0,
+            "post_hook_cos_sim_d_width_mean": 0.0,
+            "final_layer_cos_sim_d_width_mean": 0.0,
+            "emancipation_trajectory": [],
+        }
+
+    return {
+        "timing_and_integrity": timing_and_integrity,
+        "logit_dynamics": logit_dynamics,
+        "manifold_geometry_layer26": manifold_geom,
+        "zero_temp_logit_probes": zero_temp_probes,
+    }
