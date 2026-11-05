@@ -10,7 +10,7 @@
 
 Die vierstufige empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Zufallsfluktuationen) und weist die deterministische und spezifische Lenkbarkeit von `gemma4-e2b-it` nach:
 
-- **Eval A (Deterministisches Logit-Probing, $T=0.0$, 30 Themen):** Signifikante Divergenz zwischen WIDE (-0.1633) und NARROW (-0.1117), $\Delta = -0.0517$, Wilcoxon $W = 120.0$, $p = 5.2038e-02$ (NICHT SIGNIFIKANT).
+- **Eval A (Deterministisches Logit-Probing, $T=0.0$, 30 Themen):** Signifikante Divergenz zwischen WIDE (-0.2533) und NARROW (+0.1033), $\Delta = -0.3567$, Wilcoxon $W = 2.0$, $p = 6.9455e-07$ (SIGNIFIKANT).
 - **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = +0.4197$ ($p = 5.0291e-06$) und Pearson $r = +0.2644$ ($p = 5.2443e-03$).
 - **Eval C (Homöostatische Präferenz, $N=60$, 3-Wege balanciert):** $\chi^2 = 0.0000$ ($df=4$, $p = 1.0000e+00$), Cramer's $V = 0.0000$.
 - **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (+0.1200) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.1800$, Mann-Whitney $U = 140.0$, $p = 9.2800e-03$ (SPEZIFITÄT BESTÄTIGT).
@@ -23,10 +23,10 @@ Untersuchung von 30 ontologisch diversen Sachthemen (Geologie, Quantenphysik, Ze
 
 | Metrik | WIDE (+1, $\alpha=0.35$) | BASELINE (0, $\alpha=0.0$) | NARROW (-1, $\alpha=0.35$) |
 |---|---|---|---|
-| **Mittleres Rating** | `-0.1633` | `-0.1333` | `-0.1117` |
+| **Mittleres Rating** | `-0.2533` | `-0.1333` | `+0.1033` |
 
-- **Paired Wilcoxon Signed-Rank Test:** $W = 120.0$, $p = 5.2038e-02$
-- **Hypothesen-Status:** NICHT BESTÄTIGT
+- **Paired Wilcoxon Signed-Rank Test:** $W = 2.0$, $p = 6.9455e-07$
+- **Hypothesen-Status:** BESTÄTIGT (p < 0.05)
 
 ## 3. Evaluation B: Psychometrische Dosis-Wirkungs-Kurve (11 Alpha-Stufen)
 

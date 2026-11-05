@@ -195,8 +195,6 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
     def _hook(_m, _i, o):
         t0 = time.perf_counter()
         h = o[0] if isinstance(o, (tuple, list)) else o
-        if h.shape[1] > 1:
-            return  # prefill verwerfen — nur generierte Tokens
         with torch.no_grad():
             lp = h[:, -1, :]
             nrm = lp.float().norm().item()

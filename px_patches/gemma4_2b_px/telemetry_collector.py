@@ -186,8 +186,6 @@ class Gemma4ManifoldGeometryTracker:
         # Final layer hook
         def final_layer_hook(_m, _i, o):
             h = o[0] if isinstance(o, (tuple, list)) else o
-            if h.shape[1] > 1:
-                return
             with torch.no_grad():
                 lp = h[:, -1, :].float()
                 if self.d_unit is not None:
@@ -211,13 +209,7 @@ class Gemma4ManifoldGeometryTracker:
                 sim_post = F.cosine_similarity(h_post[0:1], self.d_unit.to(h_post.device)).item()
                 self.pre_cos_sims.append(float(sim_pre))
                 self.post_cos_sims.append(float(sim_post))
-
-            if self.first_token_h26 is None:
-                self.first_token_h26 = h_pre[0:1].detach().clone()
-                self.emancipation_trajectory.append(0.0)
-            else:
-                dist = torch.norm(h_pre[0:1] - self.first_token_h26).item()
-                self.emancipation_trajectory.append(float(dist))
+                self.emancipation_trajectory.append(float(sim_post))
 
     def detach(self):
         for h in self.handles:

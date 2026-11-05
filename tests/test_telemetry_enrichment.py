@@ -138,10 +138,10 @@ def test_manifold_geometry_tracker_and_emancipation():
         assert geom_summary["injected_vector_norm"] > 0
         assert abs(geom_summary["effective_alpha_ratio"] - 0.35) < 1e-4
 
-        # Emancipation trajectory should start at 0.0 and grow
+        # Emancipation trajectory contains cosine similarities in [-1, 1]
         assert len(geom_summary["emancipation_trajectory"]) == 2
-        assert geom_summary["emancipation_trajectory"][0] == 0.0
-        assert geom_summary["emancipation_trajectory"][1] >= 0.0
+        for val in geom_summary["emancipation_trajectory"]:
+            assert -1.0 <= val <= 1.0
 
         for sim_key in ["pre_hook_cos_sim_d_width_mean", "post_hook_cos_sim_d_width_mean"]:
             assert -1.0 <= geom_summary[sim_key] <= 1.0
