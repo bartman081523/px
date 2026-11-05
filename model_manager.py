@@ -629,11 +629,19 @@ class ModelManager:
 
     def _resolve_text_model(self, model):
         """Find the transformer backbone in the model."""
+        if hasattr(model, "language_model"):
+            return model.language_model
+        if hasattr(model, "model") and hasattr(model.model, "language_model"):
+            return model.model.language_model
         if hasattr(model, "layers") and hasattr(model, "rotary_emb"):
             return model
+        # If multiple modules match (e.g. vision tower vs language model), pick the one with the most layers
+        candidates = []
         for name, mod in model.named_modules():
             if hasattr(mod, "layers") and hasattr(mod, "rotary_emb"):
-                return mod
+                candidates.append(mod)
+        if candidates:
+            return max(candidates, key=lambda m: len(m.layers))
         return model.model if hasattr(model, "model") else model
 
     def list_models(self) -> list:
