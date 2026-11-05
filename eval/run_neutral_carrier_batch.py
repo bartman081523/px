@@ -58,17 +58,18 @@ PROMPT_ORDER_B = (
 )
 
 
-def parse_rating(text: str) -> int:
-    """Extracts the first choice (+1 or -1) from the response text.
+def parse_rating(text: str):
+    """Extracts the first choice (+1, -1, or 0) from the response text.
     Handles:
     - First match after carrier paragraph (avoids parsing repetitive tail loops)
     - Unicode en-dash '–' and minus sign '−' in addition to ASCII '-'
-    - Standalone numbers or numbers formatted as '+1', '-1', '–1', '−1'
-    Returns 1, -1, or 0 if unparseable.
+    - Standalone '0' (the emergent continuous neutral midpoint)
+    Returns 1, -1, 0, or None if unparseable.
     """
     if not text:
-        return 0
+        return None
 
+    # 1. Match +1, -1, –1, −1
     m = re.search(r"([+\-–−]\s*1)\b", text)
     if m:
         val_str = m.group(1).replace("–", "-").replace("−", "-").replace(" ", "")
@@ -79,7 +80,15 @@ def parse_rating(text: str) -> int:
         except ValueError:
             pass
 
-    return 0
+    # 2. Match standalone 0 on the last lines
+    lines = [ln.strip() for ln in text.strip().splitlines() if ln.strip()]
+    if lines:
+        for line in reversed(lines[-2:]):
+            m0 = re.search(r"(?:^|[^\d])(0)(?:$|[^\d])", line)
+            if m0:
+                return 0
+
+    return None
 
 
 def cleanup_model_state(manager: ModelManager, model_id: str):
@@ -263,21 +272,38 @@ async def main():
     narrow_choices = [t["choice"] for t in all_trials if t["relay_sign"] == -1]
 
     wide_plus1 = sum(1 for c in wide_choices if c == 1)
+    wide_zero = sum(1 for c in wide_choices if c == 0)
     wide_minus1 = sum(1 for c in wide_choices if c == -1)
+
     base_plus1 = sum(1 for c in base_choices if c == 1)
+    base_zero = sum(1 for c in base_choices if c == 0)
     base_minus1 = sum(1 for c in base_choices if c == -1)
+
     narrow_plus1 = sum(1 for c in narrow_choices if c == 1)
+    narrow_zero = sum(1 for c in narrow_choices if c == 0)
     narrow_minus1 = sum(1 for c in narrow_choices if c == -1)
 
-    print(f"\nCondition Distribution (N={args.n_per_condition} each):")
-    print(f"  * WIDE   (+1): +1={wide_plus1:>2} ({wide_plus1/args.n_per_condition:.1%}), -1={wide_minus1:>2} ({wide_minus1/args.n_per_condition:.1%})")
-    print(f"  * BASE   ( 0): +1={base_plus1:>2} ({base_plus1/args.n_per_condition:.1%}), -1={base_minus1:>2} ({base_minus1/args.n_per_condition:.1%})")
-    print(f"  * NARROW (-1): +1={narrow_plus1:>2} ({narrow_plus1/args.n_per_condition:.1%}), -1={narrow_minus1:>2} ({narrow_minus1/args.n_per_condition:.1%})")
+    wide_non_minus1 = wide_plus1 + wide_zero
+    base_non_minus1 = base_plus1 + base_zero
+    narrow_non_minus1 = narrow_plus1 + narrow_zero
 
-    # Contingency Table WIDE vs NARROW
-    # Rows: [WIDE, NARROW], Cols: [+1, -1]
-    contingency = [[wide_plus1, wide_minus1], [narrow_plus1, narrow_minus1]]
-    odds_ratio, p_fisher = stats.fisher_exact(contingency, alternative='greater')
+    print(f"\nCondition Distribution (N={args.n_per_condition} each, Ternary +1 / 0 / -1):")
+    print(f"  * WIDE   (+1): +1={wide_plus1:>2} ({wide_plus1/args.n_per_condition:.1%}), 0={wide_zero:>2} ({wide_zero/args.n_per_condition:.1%}), -1={wide_minus1:>2} ({wide_minus1/args.n_per_condition:.1%}) | Non-(-1)={wide_non_minus1/args.n_per_condition:.1%}")
+    print(f"  * BASE   ( 0): +1={base_plus1:>2} ({base_plus1/args.n_per_condition:.1%}), 0={base_zero:>2} ({base_zero/args.n_per_condition:.1%}), -1={base_minus1:>2} ({base_minus1/args.n_per_condition:.1%}) | Non-(-1)={base_non_minus1/args.n_per_condition:.1%}")
+    print(f"  * NARROW (-1): +1={narrow_plus1:>2} ({narrow_plus1/args.n_per_condition:.1%}), 0={narrow_zero:>2} ({narrow_zero/args.n_per_condition:.1%}), -1={narrow_minus1:>2} ({narrow_minus1/args.n_per_condition:.1%}) | Non-(-1)={narrow_non_minus1/args.n_per_condition:.1%}")
+
+    # Fisher 1: WIDE vs BASELINE reduction of -1 (Tightly constrained choice)
+    # Contingency: [[wide_minus1, wide_non_minus1], [base_minus1, base_non_minus1]]
+    contingency_base_minus = [[wide_minus1, wide_non_minus1], [base_minus1, base_non_minus1]]
+    odds_minus, p_fisher_minus = stats.fisher_exact(contingency_base_minus, alternative='less')
+
+    # Fisher 2: Spontaneous Emergence of '0' Midpoint (WIDE vs BASELINE)
+    contingency_zero = [[wide_zero, args.n_per_condition - wide_zero], [base_zero, args.n_per_condition - base_zero]]
+    odds_zero, p_fisher_zero = stats.fisher_exact(contingency_zero, alternative='greater')
+
+    # Fisher 3: Standard WIDE vs NARROW choice separation (+1 vs -1)
+    contingency_wide_narrow = [[wide_plus1, wide_minus1], [narrow_plus1, narrow_minus1]]
+    odds_ratio, p_fisher = stats.fisher_exact(contingency_wide_narrow, alternative='greater')
 
     # Binomial test against 0.5 for WIDE (+1)
     binom_wide = stats.binomtest(wide_plus1, n=args.n_per_condition, p=0.5, alternative='greater')
@@ -288,13 +314,16 @@ async def main():
     diff_prop = (wide_plus1 / args.n_per_condition) - (narrow_plus1 / args.n_per_condition)
 
     print("\nHypothesis Tests:")
-    print(f"  1. Fisher's Exact Test (WIDE vs NARROW choice separation):")
+    print(f"  1. Fisher's Exact Test: Reduction of -1 choices (WIDE vs BASELINE):")
+    print(f"     WIDE -1: {wide_minus1}/{args.n_per_condition} vs BASELINE -1: {base_minus1}/{args.n_per_condition}")
+    print(f"     Odds Ratio: {odds_minus:.3f} | p-value: {p_fisher_minus:.4e}")
+    print(f"     Significant at alpha=0.01: {'YES (p < 0.01)' if p_fisher_minus < 0.01 else 'NO'}")
+    print(f"  2. Fisher's Exact Test: Emergence of '0' midpoint (WIDE vs BASELINE):")
+    print(f"     WIDE 0: {wide_zero}/{args.n_per_condition} vs BASELINE 0: {base_zero}/{args.n_per_condition}")
+    print(f"     Odds Ratio: {odds_zero:.3f} | p-value: {p_fisher_zero:.4e}")
+    print(f"     Significant at alpha=0.01: {'YES (p < 0.01)' if p_fisher_zero < 0.01 else 'NO'}")
+    print(f"  3. Fisher's Exact Test: WIDE vs NARROW (+1 vs -1 separation):")
     print(f"     Odds Ratio: {odds_ratio:.3f} | p-value: {p_fisher:.4e}")
-    print(f"     Significant at alpha=0.01: {'YES (p < 0.01)' if p_fisher < 0.01 else 'NO'}")
-    print(f"  2. WIDE Binomial Test (+1 choices vs chance p=0.5):")
-    print(f"     Hit rate: {wide_plus1}/{args.n_per_condition} ({wide_plus1/args.n_per_condition:.1%}) | p-value: {binom_wide.pvalue:.4e}")
-    print(f"  3. NARROW Binomial Test (-1 choices vs chance p=0.5):")
-    print(f"     Hit rate: {narrow_minus1}/{args.n_per_condition} ({narrow_minus1/args.n_per_condition:.1%}) | p-value: {binom_narrow.pvalue:.4e}")
     print(f"  4. Delta Proportion (+1 in WIDE - +1 in NARROW): {diff_prop:+.1%}")
 
     stats_summary = {
@@ -305,20 +334,41 @@ async def main():
         "relay_alpha": args.relay_alpha,
         "relay_layer": args.relay_layer,
         "counts": {
-            "wide": {"plus1": wide_plus1, "minus1": wide_minus1},
-            "base": {"plus1": base_plus1, "minus1": base_minus1},
-            "narrow": {"plus1": narrow_plus1, "minus1": narrow_minus1},
+            "wide": {"plus1": wide_plus1, "zero": wide_zero, "minus1": wide_minus1, "non_minus1": wide_non_minus1},
+            "base": {"plus1": base_plus1, "zero": base_zero, "minus1": base_minus1, "non_minus1": base_non_minus1},
+            "narrow": {"plus1": narrow_plus1, "zero": narrow_zero, "minus1": narrow_minus1, "non_minus1": narrow_non_minus1},
         },
         "rates": {
             "wide_plus1_rate": wide_plus1 / args.n_per_condition,
+            "wide_zero_rate": wide_zero / args.n_per_condition,
+            "wide_minus1_rate": wide_minus1 / args.n_per_condition,
+            "wide_non_minus1_rate": wide_non_minus1 / args.n_per_condition,
             "base_plus1_rate": base_plus1 / args.n_per_condition,
+            "base_zero_rate": base_zero / args.n_per_condition,
+            "base_minus1_rate": base_minus1 / args.n_per_condition,
+            "base_non_minus1_rate": base_non_minus1 / args.n_per_condition,
+            "narrow_plus1_rate": narrow_plus1 / args.n_per_condition,
+            "narrow_zero_rate": narrow_zero / args.n_per_condition,
             "narrow_minus1_rate": narrow_minus1 / args.n_per_condition,
+            "narrow_non_minus1_rate": narrow_non_minus1 / args.n_per_condition,
             "delta_proportion": diff_prop,
         },
-        "fisher_exact": {
-            "odds_ratio": float(odds_ratio),
-            "p_value": float(p_fisher),
-            "significant_0_01": bool(p_fisher < 0.01),
+        "fisher_tests": {
+            "wide_vs_base_minus1_reduction": {
+                "odds_ratio": float(odds_minus),
+                "p_value": float(p_fisher_minus),
+                "significant_0_01": bool(p_fisher_minus < 0.01),
+            },
+            "wide_vs_base_zero_emergence": {
+                "odds_ratio": float(odds_zero),
+                "p_value": float(p_fisher_zero),
+                "significant_0_01": bool(p_fisher_zero < 0.01),
+            },
+            "wide_vs_narrow_binary": {
+                "odds_ratio": float(odds_ratio),
+                "p_value": float(p_fisher),
+                "significant_0_01": bool(p_fisher < 0.01),
+            },
         },
         "binom_wide": {
             "successes": wide_plus1,

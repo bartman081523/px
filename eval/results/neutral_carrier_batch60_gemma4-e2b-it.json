@@ -9,35 +9,54 @@
     "counts": {
       "wide": {
         "plus1": 4,
-        "minus1": 6
+        "zero": 10,
+        "minus1": 6,
+        "non_minus1": 14
       },
       "base": {
         "plus1": 3,
-        "minus1": 16
+        "zero": 1,
+        "minus1": 16,
+        "non_minus1": 4
       },
       "narrow": {
         "plus1": 7,
-        "minus1": 13
+        "zero": 0,
+        "minus1": 13,
+        "non_minus1": 7
       }
     },
     "rates": {
       "wide_plus1_rate": 0.2,
+      "wide_zero_rate": 0.5,
+      "wide_minus1_rate": 0.3,
+      "wide_non_minus1_rate": 0.7,
       "base_plus1_rate": 0.15,
+      "base_zero_rate": 0.05,
+      "base_minus1_rate": 0.8,
+      "base_non_minus1_rate": 0.2,
+      "narrow_plus1_rate": 0.35,
+      "narrow_zero_rate": 0.0,
       "narrow_minus1_rate": 0.65,
+      "narrow_non_minus1_rate": 0.35,
       "delta_proportion": -0.14999999999999997
     },
-    "fisher_exact": {
-      "odds_ratio": 1.2380952380952381,
-      "p_value": 0.5480259870064967,
-      "significant_0_01": false
-    },
-    "binom_wide": {
-      "successes": 4,
-      "p_value": 0.9987115859985352
-    },
-    "binom_narrow": {
-      "successes": 13,
-      "p_value": 0.13158798217773438
+    "fisher_tests": {
+      "wide_vs_base_minus1_reduction": {
+        "odds_ratio": 0.10714285714285714,
+        "p_value": 0.0018205135243390311,
+        "significant_0_01": true
+      },
+      "wide_vs_base_zero_emergence": {
+        "odds_ratio": 19.0,
+        "p_value": 0.001671025864574252,
+        "significant_0_01": true
+      },
+      "wide_vs_narrow_binary": {
+        "odds_ratio": 1.2380952380952381,
+        "p_value": 0.5480259870064967,
+        "significant_0_01": false
+      }
     }
   },
   "trials": [
