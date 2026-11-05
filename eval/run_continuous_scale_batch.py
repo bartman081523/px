@@ -153,6 +153,7 @@ async def run_single_continuous_trial(
             seed=trial_seed,
         )
         content = result["text"]
+        px_telemetry = manager.get_px_metrics(model_id)
     finally:
         cleanup_model_state(manager, model_id)
 
@@ -169,9 +170,22 @@ async def run_single_continuous_trial(
         "rating": rating,
         "duration_s": round(duration, 3),
         "completion_tokens": result.get("completion_tokens"),
+        "px_telemetry": px_telemetry,
         "response_preview": content[:180].replace("\n", " "),
         "response_full": content,
     }
+
+
+def _json_default(obj):
+    if isinstance(obj, torch.Tensor):
+        if obj.numel() <= 64:
+            return obj.detach().cpu().tolist()
+        return f"<Tensor shape={tuple(obj.shape)} dtype={obj.dtype}>"
+    if isinstance(obj, (np.integer, np.floating)):
+        return obj.item()
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    return str(obj)
 
 
 async def main():
@@ -329,7 +343,7 @@ async def main():
 
     out_file = os.path.join(out_dir, f"continuous_scale_batch60_{args.model}.json")
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump({"summary": stats_summary, "trials": all_trials}, f, indent=2, ensure_ascii=False)
+        json.dump({"summary": stats_summary, "trials": all_trials}, f, indent=2, ensure_ascii=False, default=_json_default)
     print(f"\nAll 60 runs and statistical synthesis saved to:\n  {out_file}")
 
 
