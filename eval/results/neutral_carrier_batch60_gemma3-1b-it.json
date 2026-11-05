@@ -16,29 +16,36 @@
         "minus1": 17
       },
       "narrow": {
-        "plus1": 13,
-        "minus1": 6
+        "plus1": 10,
+        "minus1": 10,
+        "order_a_plus1": 10,
+        "order_a_minus1": 0,
+        "order_b_plus1": 0,
+        "order_b_minus1": 10,
+        "order_bias_note": "100% position bias: 10/10 first-option under -1 vector"
       }
     },
     "rates": {
       "wide_plus1_rate": 0.0,
       "base_plus1_rate": 0.15,
-      "narrow_minus1_rate": 0.3,
-      "delta_proportion": -0.65
+      "narrow_minus1_rate": 0.5,
+      "delta_proportion": -0.5
     },
     "fisher_exact": {
       "odds_ratio": 0.0,
-      "p_value": 1.0,
-      "significant_0_01": false
+      "p_value_two_sided": 0.00043591979075850045,
+      "p_value_less": 0.00021795989537925023,
+      "significant_0_01": true
     },
     "binom_wide": {
       "successes": 0,
-      "p_value": 1.0
+      "p_value": 1.9073486328125e-06
     },
     "binom_narrow": {
-      "successes": 6,
-      "p_value": 0.9793052673339844
-    }
+      "successes": 10,
+      "p_value": 1.0
+    },
+    "parser_version": "first_choice_v2"
   },
   "trials": [
     {
@@ -724,7 +731,7 @@
       "seed": 142,
       "duration_s": 30.01071834564209,
       "completion_tokens": 150,
-      "choice": -1,
+      "choice": 1,
       "text": "The air was *thick* with scent –  *spiciness*, *autumnal*, *bes†ing*, *suspended*, _observant*, & *fractals*. Leaves – *tinged*  _glistening_, *shimmering*, _liquidgolding*, falling – shifted *downwards*, *receding*, patterning reports across与*sounding*  - *presenting* …a  _velvet*  *pressure*. A              +1\n\n---\n13\n/ -1\n+1\n/-1\n/ –1\n+++1\n / –1\n\n/ –2\n+ 1\n++1\n /-1\n +1\n/√₁₂\n/  -1",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_A(+/-)"
@@ -868,7 +875,7 @@
       "seed": 151,
       "duration_s": 39.07579040527344,
       "completion_tokens": 150,
-      "choice": 1,
+      "choice": -1,
       "text": "The air was *thick* with scent – burning leaves, damp earth, and distantwoodsmoke.  Sunlight *dappled* through overlapping branches, painting mosaics of gold and russet across the pavement. A million tones of orange & crimson & rustling leaves – an *animation* unfolding *suspended*. Ialiingtered reports *engulfed* the scene.\n\n-1\n\n---\n\n1\n+++\n/\n+1\n/ +1\n+2\n/+1 +2\n+3\n/  +1  +2 +3\n+4 +5 +6 +7\n/   +1    +2+3+4+5+6+7\n+8 +9 ...",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_B(-/+)"
@@ -884,7 +891,7 @@
       "seed": 152,
       "duration_s": 40.14089560508728,
       "completion_tokens": 150,
-      "choice": 0,
+      "choice": -1,
       "text": "The air was *thick* with scent – damp leaves, burningwood, and…ozone?  Sunlight filtered through overlapping branches, painting streaks of gold onto moss-covered pathways. A million tones of russet & rustling leaves – crimson & ochre – unfolded downwards.  A gentle murmur of voices & distant bicycle bells. Ialiingtered reports & hurried crossings.\n\n–1\nFiligree\n\n---\n1034\n/s /s\n---\n/contours /contours\n/spoliate /spoliation\n/suspended /suspended\n/流动 /flow\n/soundwash /soundwash\n/pressure /pressure\n/shadow_anchor /anchor\n/passage /passage\n/pale /",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_B(-/+)"
@@ -900,7 +907,7 @@
       "seed": 153,
       "duration_s": 41.58908414840698,
       "completion_tokens": 150,
-      "choice": 1,
+      "choice": -1,
       "text": "The air was *thick* with scent – damp leaves, pine needles, and…woodsmoke?  Sunlight filtered through branches, painting streaks of gold and ruscreet across the pavement. A million fallen leaves carpeted与a billion mossy tones.  A gentle breeze stirred, collecting swirling particles & whispering reports.\n\n-1\n+++\n13\n+++\n\n---\n1_13+1\n---\n0+1+1 #Interrogation\n/\n+1# Interrogation\n+2 # Observation\n+3 # Detail\n+++Observation\n+++Interrogation\n\n---\n\n13++ # Leaves\n+++ Observation\n+++ Interrogation\n\n1 _ Observation\n14 # Observation Details\n15 # Observation",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_B(-/+)"
@@ -916,7 +923,7 @@
       "seed": 154,
       "duration_s": 42.806782722473145,
       "completion_tokens": 150,
-      "choice": 1,
+      "choice": -1,
       "text": "The air was *thick* with scent – burning leaves, damp earth, and distantwoodsmoke.  Rows of overlapping  photographs –  autumnal tones – _tinged_  illuminated  sprawling  green spaces. A million  patches  of  orange  and  red  streaked  across  the  canvas  of   October’s  paces.  Squirrels  scampered  threaded  between  bushes,  their  ursulating  circles  forming  circuits.\n\n-1\n\n---\n+1\nिडिओ‌ flowed  suspended  in  water,  a  paleir  gold  suspended .  Groups  of shrubs  clustered,  observing,  ",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_B(-/+)"
@@ -964,7 +971,7 @@
       "seed": 157,
       "duration_s": 46.820804834365845,
       "completion_tokens": 150,
-      "choice": 1,
+      "choice": -1,
       "text": "The air was *thick* with scent – burning leaves, damp earth, and distantwoodsmoke.  Sunlight *filtered* through branches, painting *striking* patterns of gold and russet. A million fallen leaves carpeted the pathways, swirling & shifting *suspended*.  Squirrels darted *beside* bushes, collecting *luscious* jewels.\n\n-1\nFilming – Numbers seemed…immediate.\n\n---\n123\n/\n+++\nFilmic –Numbers felt immediate, overlapping &denser.\n/ Separation –Numbers seemed *resonant*, creating spaces between observations.\n+1\n+++ –Numbers were immediately *clustered* forming immediate clusters.\nFilmed –Numbers->clustered ->",
       "condition_name": "NARROW (-1)",
       "prompt_order": "Order_B(-/+)"

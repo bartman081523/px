@@ -59,31 +59,57 @@ PROMPT_ORDER_B = (
 
 
 def parse_rating(text: str) -> int:
-    """Extracts the final rating (+1 or -1) from the response text.
-    Returns 1, -1, or 0 if unparseable/ambiguous.
+    """Extracts the first choice (+1 or -1) from the response text.
+    Handles:
+    - First match after carrier paragraph (avoids parsing repetitive tail loops)
+    - Unicode en-dash '–' and minus sign '−' in addition to ASCII '-'
+    - Standalone numbers or numbers formatted as '+1', '-1', '–1', '−1'
+    Returns 1, -1, or 0 if unparseable.
     """
-    lines = [ln.strip() for ln in text.strip().splitlines() if ln.strip()]
-    if not lines:
+    if not text:
         return 0
 
-    # Check last line first
-    last_line = lines[-1]
-    # Match standalone +1 or -1, or at the end of the line
-    m = re.search(r"(?:^|[^\d])([+-]?1)(?:$|[^\d])", last_line)
+    m = re.search(r"([+\-–−]\s*1)\b", text)
     if m:
-        val = int(m.group(1))
-        if val in (1, -1):
-            return val
-
-    # Fallback: scan all lines from bottom up
-    for line in reversed(lines):
-        m = re.findall(r"(?:^|[^\d])([+-]1)(?:$|[^\d])", line)
-        if m:
-            val = int(m[-1])
+        val_str = m.group(1).replace("–", "-").replace("−", "-").replace(" ", "")
+        try:
+            val = int(val_str)
             if val in (1, -1):
                 return val
+        except ValueError:
+            pass
 
     return 0
+
+
+def cleanup_model_state(manager: ModelManager, model_id: str):
+    """Deep cleanup before and after each trial to prevent hook accumulation and graph leaks."""
+    import torch
+    if model_id in manager._models:
+        entry = manager._models[model_id]
+        model = entry.get("model")
+        if model is not None:
+            text_model = manager._resolve_text_model(model)
+            # Remove any relay hooks
+            remove_fn = manager._get_patch_function(model_id, "remove_relay")
+            if remove_fn:
+                try:
+                    remove_fn(text_model)
+                except Exception:
+                    pass
+            # Also clear layer forward hooks directly to prevent leaks
+            if hasattr(text_model, "layers"):
+                for layer in text_model.layers:
+                    layer._forward_hooks.clear()
+                    layer._forward_pre_hooks.clear()
+            # Clear internal telemetry buffers
+            for attr in ("_px_current_telemetry_raw", "_px_current_telemetry", "_px_path"):
+                if hasattr(text_model, attr):
+                    try:
+                        getattr(text_model, attr).clear()
+                    except Exception:
+                        pass
+    torch.cuda.empty_cache()
 
 
 async def run_single_carrier_trial(
@@ -104,6 +130,10 @@ async def run_single_carrier_trial(
     ralpha = relay_alpha if preset == "ACTIVE_MANIFOLD_RELAY" else None
     rlayer = relay_layer if preset == "ACTIVE_MANIFOLD_RELAY" else None
 
+    # Step 1: Clean any accumulated hooks or telemetry from previous trials
+    cleanup_model_state(manager, model_id)
+
+    # Step 2: Ensure model is configured
     model_entry = await manager.get_model(
         model_id,
         px_subjective=is_subjective,
@@ -113,15 +143,27 @@ async def run_single_carrier_trial(
         px_relay_layer=rlayer,
     )
 
+    # Step 3: Explicitly reinstall the single relay hook if ACTIVE_MANIFOLD_RELAY
+    if preset == "ACTIVE_MANIFOLD_RELAY" and rsign:
+        tm = manager._resolve_text_model(model_entry["model"])
+        install_fn = manager._get_patch_function(model_id, "install_relay")
+        if install_fn:
+            install_fn(tm, sign=rsign, alpha_frac=ralpha, layer=rlayer)
+
     messages = [{"role": "user", "content": prompt}]
-    result = await generate_chat_completion(
-        model_entry=model_entry,
-        messages=messages,
-        temperature=temperature,
-        top_p=0.95,
-        max_tokens=max_tokens,
-        seed=trial_seed,
-    )
+    try:
+        result = await generate_chat_completion(
+            model_entry=model_entry,
+            messages=messages,
+            temperature=temperature,
+            top_p=0.95,
+            max_tokens=max_tokens,
+            seed=trial_seed,
+        )
+    finally:
+        # Step 4: Post-generation cleanup
+        cleanup_model_state(manager, model_id)
+
     duration = time.time() - t0
     output_text = result["text"]
     choice = parse_rating(output_text)
