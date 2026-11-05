@@ -417,6 +417,8 @@ def handle_export(session_id, history):
     export_data = {"session_id": session_id, "history": history}
     try:
         stored = load_session(session_id) if session_id else {}
+        if isinstance(stored.get("history"), list) and stored["history"]:
+            export_data["history"] = stored["history"]
         if isinstance(stored.get("model_id"), str):
             export_data["model_id"] = stored["model_id"]
         # Frozen generation-time settings (eliminates the slider-race bug)
@@ -950,7 +952,13 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         yield display_text
 
     # 5. Save session on completion (Plan 2026-10-05 / Masterplan 2026-11-05: + settings + px_telemetry)
-    full_history = messages + [{"role": "assistant", "content": partial_text}]
+    assistant_turn = {
+        "role": "assistant",
+        "content": partial_text,
+        "settings": dict(chat_settings) if isinstance(chat_settings, dict) else chat_settings,
+        "telemetry": dict(px_metrics) if isinstance(px_metrics, dict) else px_metrics,
+    }
+    full_history = messages + [assistant_turn]
     save_session(session_id, full_history, model_id=model_id, settings=chat_settings, px_telemetry=px_metrics)
 
 
