@@ -1,0 +1,1028 @@
+{
+  "baseline": {
+    "relay_sign": 0,
+    "relay_alpha": 0.0,
+    "entropy_bits": 0.4659,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.93243,
+        "logit": 18.25
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.04097,
+        "logit": 15.125
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.01249,
+        "logit": 13.938
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00973,
+        "logit": 13.688
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00381,
+        "logit": 12.75
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.00017,
+        "logit": 9.625
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 0.00012,
+        "logit": 9.312
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 5e-05,
+        "logit": 8.5
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 4e-05,
+        "logit": 8.062
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.0
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.932428,
+        "logit": 18.25
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.932428,
+        "logit": 18.25
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 0.0,
+        "logit": 3.734
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 0.0,
+        "logit": 3.734
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 0.0,
+        "logit": 3.734
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 0.0,
+        "logit": 3.734
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -2.625
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -7.969
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 0.961
+      }
+    }
+  },
+  "wide_alpha_0.25": {
+    "relay_sign": 1,
+    "relay_alpha": 0.25,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "narrow_alpha_0.25": {
+    "relay_sign": -1,
+    "relay_alpha": 0.25,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "wide_alpha_0.3": {
+    "relay_sign": 1,
+    "relay_alpha": 0.3,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "narrow_alpha_0.3": {
+    "relay_sign": -1,
+    "relay_alpha": 0.3,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "wide_alpha_0.35": {
+    "relay_sign": 1,
+    "relay_alpha": 0.35,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "narrow_alpha_0.35": {
+    "relay_sign": -1,
+    "relay_alpha": 0.35,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "wide_alpha_0.4": {
+    "relay_sign": 1,
+    "relay_alpha": 0.4,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  },
+  "narrow_alpha_0.4": {
+    "relay_sign": -1,
+    "relay_alpha": 0.4,
+    "entropy_bits": 0.357,
+    "top10": [
+      {
+        "token_id": 236770,
+        "token_str": "1",
+        "prob": 0.95142,
+        "logit": 19.125
+      },
+      {
+        "token_id": 2205,
+        "token_str": "As",
+        "prob": 0.03058,
+        "logit": 15.688
+      },
+      {
+        "token_id": 8291,
+        "token_str": "Here",
+        "prob": 0.00933,
+        "logit": 14.5
+      },
+      {
+        "token_id": 1408,
+        "token_str": "##",
+        "prob": 0.00499,
+        "logit": 13.875
+      },
+      {
+        "token_id": 1018,
+        "token_str": "**",
+        "prob": 0.00322,
+        "logit": 13.438
+      },
+      {
+        "token_id": 10354,
+        "token_str": "###",
+        "prob": 0.0001,
+        "logit": 10.0
+      },
+      {
+        "token_id": 236777,
+        "token_str": "I",
+        "prob": 9e-05,
+        "logit": 9.875
+      },
+      {
+        "token_id": 2094,
+        "token_str": "This",
+        "prob": 4e-05,
+        "logit": 9.062
+      },
+      {
+        "token_id": 10081,
+        "token_str": "Since",
+        "prob": 3e-05,
+        "logit": 8.812
+      },
+      {
+        "token_id": 100,
+        "token_str": "<|channel>",
+        "prob": 3e-05,
+        "logit": 8.625
+      }
+    ],
+    "candidates": {
+      "1.": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "1": {
+        "token_id": 236770,
+        "prob": 0.951417,
+        "logit": 19.125
+      },
+      "0.2": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.3": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.6": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "0.7": {
+        "token_id": 236771,
+        "prob": 1e-06,
+        "logit": 5.062
+      },
+      "Value": {
+        "token_id": 3135,
+        "prob": 0.0,
+        "logit": -1.195
+      },
+      "–": {
+        "token_id": 236964,
+        "prob": 0.0,
+        "logit": -6.531
+      },
+      "-": {
+        "token_id": 236772,
+        "prob": 0.0,
+        "logit": 1.945
+      }
+    }
+  }
+}

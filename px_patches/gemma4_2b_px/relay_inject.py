@@ -24,7 +24,9 @@ scratches/psychomotrik/save_relay_dwidth.py). Nur gemma3-1b-it hat eines
 """
 import os
 import json
+import time
 import torch
+import torch.nn.functional as F
 import numpy as np
 
 # Cache: hf_id_safe -> (dwidth_np unit, metadata dict) or None
@@ -184,7 +186,14 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
     alpha_f = float(alpha_frac)
     layer = int(layer)
 
+    # Initialize telemetry collection state on text_model
+    text_model._px_telemetry_history = []
+    text_model._px_telemetry_summary = {}
+    text_model._px_prev_lp = None
+    text_model._px_first_lp = None
+
     def _hook(_m, _i, o):
+        t0 = time.perf_counter()
         h = o[0] if isinstance(o, (tuple, list)) else o
         if h.shape[1] > 1:
             return  # prefill verwerfen — nur generierte Tokens
@@ -193,6 +202,44 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
             nrm = lp.float().norm().item()
             if nrm < 1e-6:
                 return
+
+            # 1. Telemetry: Kurtosis on Layer 26 activations
+            x = lp[0].float()
+            mean_x = torch.mean(x)
+            var_x = torch.var(x, unbiased=False)
+            if var_x > 1e-8:
+                m4 = torch.mean((x - mean_x) ** 4)
+                kurt = (m4 / (var_x ** 2) - 3.0).item()
+            else:
+                kurt = 0.0
+
+            # 2. Telemetry: Phi (cosine similarity between step t and step t-1)
+            prev_lp = getattr(text_model, "_px_prev_lp", None)
+            if prev_lp is not None:
+                phi_step = F.cosine_similarity(lp[0:1].float(), prev_lp.float()).item()
+            else:
+                phi_step = 1.0
+            text_model._px_prev_lp = lp[0:1].detach().clone()
+
+            # 3. Telemetry: Emancipation trajectory (distance from token 0)
+            first_lp = getattr(text_model, "_px_first_lp", None)
+            if first_lp is None:
+                text_model._px_first_lp = lp[0:1].detach().clone()
+                dist_step = 0.0
+            else:
+                dist_step = torch.norm(lp[0:1].float() - first_lp.float()).item()
+
+            # 4. Telemetry: Zone weights (projection along steering direction vs orthogonal)
+            proj = torch.dot(x, d_unit.to(x.device)).item()
+            creative_w = max(0.01, float(proj) if proj > 0 else 0.01)
+            math_w = max(0.01, float(-proj) if proj < 0 else 0.01)
+            tot_w = creative_w + math_w
+            zone_weights = {
+                "creative": round(creative_w / tot_w, 3),
+                "math": round(math_w / tot_w, 3),
+            }
+
+            # 5. Steering injection:
             # Pre-allocate `inj` as a fresh tensor (not a view of h) to avoid
             # the in-place aliasing trap: `h[:, -1, :] = lp + inj` would
             # otherwise have `lp + inj` re-allocate onto the same storage
@@ -201,6 +248,33 @@ def install_relay(text_model, *, sign, alpha_frac, layer, dwidth=None):
             inj = torch.empty_like(lp, dtype=h.dtype, device=h.device)
             inj.copy_((sign_f * alpha_f * nrm) * d_unit.to(h.device, dtype=h.dtype))
             h[:, -1, :] = lp + inj
+
+            lat_ms = (time.perf_counter() - t0) * 1000.0
+
+            # 6. Record telemetry
+            step_record = {
+                "step": len(text_model._px_telemetry_history) + 1,
+                "phi": round(phi_step, 4),
+                "kurtosis": round(kurt, 4),
+                "distance": round(dist_step, 4),
+                "zone_weights": zone_weights,
+                "latency_ms": round(lat_ms, 3),
+            }
+            text_model._px_telemetry_history.append(step_record)
+
+            # Update rolling summary
+            all_phi = [r["phi"] for r in text_model._px_telemetry_history]
+            all_kurt = [r["kurtosis"] for r in text_model._px_telemetry_history]
+            all_dist = [r["distance"] for r in text_model._px_telemetry_history]
+            all_lat = [r["latency_ms"] for r in text_model._px_telemetry_history]
+
+            text_model._px_telemetry_summary = {
+                "phi": round(float(np.mean(all_phi)), 4) if all_phi else 1.0,
+                "kurtosis": round(float(np.mean(all_kurt)), 4) if all_kurt else 0.0,
+                "emancipation_trajectory": all_dist,
+                "zone_weights": zone_weights,
+                "exact_latency_ms": round(float(np.mean(all_lat)), 3) if all_lat else 0.0,
+            }
 
     try:
         handle = text_model.layers[layer].register_forward_hook(_hook)
@@ -226,7 +300,7 @@ def remove_relay(text_model):
                 h.remove()
             except Exception:
                 pass
-    for attr in ("_px_relay_handles", "_px_relay_cfg"):
+    for attr in ("_px_relay_handles", "_px_relay_cfg", "_px_prev_lp", "_px_first_lp"):
         if hasattr(text_model, attr):
             try:
                 delattr(text_model, attr)

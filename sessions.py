@@ -94,19 +94,14 @@ def _atomic_write_json(path: str, data: Dict[str, Any]) -> None:
 
 def save_session(session_id: str, history: List[Dict[str, Any]],
                  model_id: str = None,
-                 settings: Optional[Dict[str, Any]] = None) -> str:
-    """Save session history (and optional settings) to a JSON file.
+                 settings: Optional[Dict[str, Any]] = None,
+                 px_telemetry: Optional[Dict[str, Any]] = None) -> str:
+    """Save session history (and optional settings/telemetry) to a JSON file.
 
     Backward-compatible: ohne <settings> wird der "settings" key GAR NICHT
     geschrieben (T1-Pin) — so bleiben alte session.json-Dateien unverändert
     lesbar. Mit <settings> wird er unter dem key persistiert (T2-Pin).
-
-    Preserve-Semantik (User-Request 2026-10-05, Session-Settings-Restore):
-    Aufrufe OHNE model_id/settings (z.B. handle_undo) überschreiben NICHT
-    mehr existing model_id/settings der Datei mit None — die bestehenden
-    Werte werden unter dem per-session-Lock gelesen und wiederverwendet.
-    Bei FRISCHER Datei (kein bestehender Wert) bleibt der key wie bisher
-    weg (T1-Pin), bzw. model_id=None.
+    px_telemetry wird persistiert falls vorhanden (Plan 2026-11-05).
     """
     ensure_session_dir()
     path = os.path.join(SESSION_DIR, f"{session_id}.json")
@@ -131,6 +126,12 @@ def save_session(session_id: str, history: List[Dict[str, Any]],
             data["settings"] = settings
         elif isinstance(existing.get("settings"), dict):
             data["settings"] = existing["settings"]
+
+        if px_telemetry is not None:
+            data["px_telemetry"] = px_telemetry
+        elif isinstance(existing.get("px_telemetry"), dict):
+            data["px_telemetry"] = existing["px_telemetry"]
+
         _atomic_write_json(path, data)
     return path
 

@@ -412,16 +412,19 @@ def handle_export(session_id, history):
     if not history:
         return gr.update(visible=False)
     path = f"exported_session_{session_id}.json"
-    # Plan 2026-10-05 (Session-Settings-Restore): das Export-JSON trägt
-    # zusätzlich model_id + settings (best effort — legacy Sessions ohne
-    # passende Datei exportieren wie bisher nur session_id+history).
+    # Plan 2026-10-05 / Masterplan 2026-11-05: das Export-JSON trägt
+    # zusätzlich model_id + frozen settings + px_telemetry (best effort).
     export_data = {"session_id": session_id, "history": history}
     try:
         stored = load_session(session_id) if session_id else {}
         if isinstance(stored.get("model_id"), str):
             export_data["model_id"] = stored["model_id"]
+        # Frozen generation-time settings (eliminates the slider-race bug)
         if isinstance(stored.get("settings"), dict) and stored["settings"]:
             export_data["settings"] = stored["settings"]
+        # Enriched real-time layer telemetry
+        if isinstance(stored.get("px_telemetry"), dict) and stored["px_telemetry"]:
+            export_data["px_telemetry"] = stored["px_telemetry"]
     except (OSError, ValueError):
         pass
     with open(path, "w") as f:
@@ -946,9 +949,9 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             int(inputs["input_ids"].shape[1]))
         yield display_text
 
-    # 5. Save session on completion (Plan 2026-10-05: + komplette Einstellung)
+    # 5. Save session on completion (Plan 2026-10-05 / Masterplan 2026-11-05: + settings + px_telemetry)
     full_history = messages + [{"role": "assistant", "content": partial_text}]
-    save_session(session_id, full_history, model_id=model_id, settings=chat_settings)
+    save_session(session_id, full_history, model_id=model_id, settings=chat_settings, px_telemetry=px_metrics)
 
 
 # ── Lang-Kontext-Dispatch-Helper (Plan 2026-10-05, OOM nach TXT-Anhang) ──

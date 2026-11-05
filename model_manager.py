@@ -617,14 +617,27 @@ class ModelManager:
         if text_model is None:
             return {}
 
+        summary = getattr(text_model, "_px_telemetry_summary", {})
+        phi = summary.get("phi", getattr(text_model, "_px_phi", 1.0))
+        kurtosis = summary.get("kurtosis", getattr(text_model, "_px_kurtosis", 0.0))
+        emancipation = summary.get("emancipation_trajectory", [])
+        exact_lat = summary.get("exact_latency_ms", 0.0)
+        zone_weights = summary.get("zone_weights", getattr(text_model, "_px_zone_weights", {}))
+        cog_sig = getattr(text_model, "_px_cognitive_signature", {})
+        if not cog_sig:
+            cog_sig = {"phi": phi, "kurtosis": kurtosis}
+
         return {
-            "phi": getattr(text_model, "_px_phi", 1.0),
-            "steps": getattr(text_model, "_px_loops_run", 0),
+            "phi": phi,
+            "kurtosis": kurtosis,
+            "emancipation_trajectory": emancipation,
+            "zone_weights": zone_weights,
+            "exact_latency_ms": exact_lat,
+            "steps": getattr(text_model, "_px_loops_run", len(emancipation)),
             "path": getattr(text_model, "_px_path", []),
             "zone": getattr(text_model, "_px_zone", "UNKNOWN"),
-            "zone_weights": getattr(text_model, "_px_zone_weights", {}),
-            "cognitive_signature": getattr(text_model, "_px_cognitive_signature", {}),
-            "subjective": getattr(text_model, "_px_subjective_enabled", False),
+            "cognitive_signature": cog_sig,
+            "subjective": getattr(text_model, "_px_subjective_enabled", False) or bool(getattr(text_model, "_px_relay_cfg", None)),
         }
 
     def _resolve_text_model(self, model):
