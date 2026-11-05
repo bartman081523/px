@@ -50,7 +50,7 @@ EXPECTED_FIELDS = (
     "model_id", "px_preset", "auto_tune",
     "temperature", "top_p", "max_tokens", "rep_p", "px_gamma",
     "thinking", "thinking_budget", "thinking_effort",
-    "relay_sign", "relay_alpha", "relay_layer",
+    "relay_sign", "relay_alpha", "relay_layer", "seed",
     "system_profile", "system_prompt_text",
 )
 
@@ -76,6 +76,7 @@ class TestSettingsFromWidgets(unittest.TestCase):
             "relay_sign": 0,
             "relay_alpha": 0.30,
             "relay_layer": 21,
+            "seed": -1,
             "system_profile": "neutral",
             "system_prompt_text": "",
         }

@@ -283,6 +283,16 @@ class ModelManager:
                 raise ValueError(
                     f"unbekanntes PX_WEIGHT_FORMAT: {_w_fmt!r} "
                     "(erlaubt: 'gf3', 'ptq10')")
+            # OC-Phase 2026-10-13: sm75 kennt weder flash (sm80+) noch
+            # bf16-memEfficient → sdpa fällt auf Math zurück und
+            # materialisiert q*k-Scores ∝ past_len (OOM-Cliff T≳9.5k im
+            # Chunked-Prefill, server_oc.log + scratches/codingbench/
+            # ptq_longctx_repro.py). SR-64-Muster: query-chunked sdpa ist
+            # lossless und baut den Puffer ab; kleine Fenster delegieren
+            # 1:1 an sdpa (Decode/Short-Path beobachtungsgleich).
+            _lc = importlib.import_module(
+                f"{registry['patch_dir']}.long_context")
+            _lc.install_query_chunked_attention(model)
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 hf_id,

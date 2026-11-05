@@ -58,7 +58,7 @@ _CHAT_ACTIVE = {"n": 0, "stamp": 0.0}
 SETTINGS_WIDGET_FIELDS = (
     "model_id", "px_preset", "temperature", "top_p", "max_tokens",
     "rep_p", "px_gamma", "thinking", "thinking_budget", "thinking_effort",
-    "relay_sign", "relay_alpha", "relay_layer",
+    "relay_sign", "relay_alpha", "relay_layer", "seed",
     "system_profile", "system_prompt_text",
 )
 
@@ -505,7 +505,8 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
             relay_sign, relay_alpha, relay_layer,
             system_profile, system_prompt_text,
             thinking, thinking_budget, thinking_effort,
-            session_id, manager: ModelManager):
+            session_id, manager: ModelManager,
+            seed: Optional[int] = 0):
     """Core chat logic with history management and model generation.
 
     Plan ui-styling 2026-07-06: zwei neue Parameter (system_profile,
@@ -602,6 +603,11 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
     import torch
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
+    if seed is not None and int(seed) > 0:
+        s = int(seed)
+        torch.manual_seed(s)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(s)
 
     # Phase 63: Proactive Auto-save (save user message before generation)
     # Plan 2026-10-05: BEIDE chat_fn-Save-Points persistieren zusätzlich die
@@ -625,6 +631,7 @@ def chat_fn(message, history, model_id, px_preset, temp, tp, mt, rp, gamma,
         relay_sign=relay_sign,
         relay_alpha=relay_alpha,
         relay_layer=relay_layer,
+        seed=seed,
         system_profile=system_profile,
         system_prompt_text=system_prompt_text,
     )
@@ -1167,6 +1174,7 @@ def build_chat_tab(manager: ModelManager):
             max_tokens = gr.Slider(64, 4096, value=1024, step=64, label="Max Tokens")
             rep_p = gr.Slider(1.0, 2.0, value=1.15, step=0.05, label="Repetition Penalty")
             px_gamma = gr.Slider(0.0, 0.5, value=0.08, step=0.01, label="PX Gamma")
+            seed = gr.Number(value=0, label="Seed (0 = random)", precision=0)
             # Phase 3 (2026-10-05): Thinking-Toggle + Budget. Initial-
             # Sichtbarkeit/Werte aus dem Start-Modell (model_choices[0]);
             # jeder Modellwechsel rendert alles neu (apply_px_defaults).
@@ -1386,7 +1394,7 @@ def build_chat_tab(manager: ModelManager):
 
     def bot_response(history, model_id, px_preset, temp, tp, mt, rp, gamma,
                      thinking, thinking_budget, thinking_effort,
-                     relay_sign, relay_alpha, relay_layer,
+                     relay_sign, relay_alpha, relay_layer, seed,
                      system_profile, system_prompt_text,
                      session_id):
         # 2. Call our core chat_fn and yield full updated history
@@ -1411,6 +1419,7 @@ def build_chat_tab(manager: ModelManager):
             relay_sign=relay_sign,
             relay_alpha=relay_alpha,
             relay_layer=relay_layer,
+            seed=seed,
             system_profile=system_profile,
             system_prompt_text=system_prompt_text,
             session_id=session_id,
@@ -1434,7 +1443,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, seed, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -1445,7 +1454,7 @@ def build_chat_tab(manager: ModelManager):
         queue=False
     ).then(
         fn=bot_response,
-        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, system_profile, system_prompt_text, session_id_state],
+        inputs=[chatbot, model_select, px_preset, temperature, top_p, max_tokens, rep_p, px_gamma, thinking, thinking_budget, thinking_effort, relay_sign, relay_alpha, relay_layer, seed, system_profile, system_prompt_text, session_id_state],
         outputs=[chatbot]
     )
 
@@ -1464,7 +1473,7 @@ def build_chat_tab(manager: ModelManager):
     _settings_restore_out = [
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
         px_gamma, thinking, thinking_budget, thinking_effort, relay_sign,
-        relay_alpha, relay_layer, system_profile, system_prompt_text,
+        relay_alpha, relay_layer, seed, system_profile, system_prompt_text,
     ]
     load_session_btn.click(
         fn=handle_load_saved,
@@ -1525,6 +1534,7 @@ def build_chat_tab(manager: ModelManager):
         ("thinking_effort", thinking_effort),
         ("relay_sign", relay_sign), ("relay_alpha", relay_alpha),
         ("relay_layer", relay_layer),
+        ("seed", seed),
         ("system_profile", system_profile),
         ("system_prompt_text", system_prompt_text),
     ):
@@ -1580,5 +1590,5 @@ def build_chat_tab(manager: ModelManager):
         session_id_state, chatbot, session_dropdown, session_id_display,
         model_select, px_preset, temperature, top_p, max_tokens, rep_p,
         px_gamma, thinking, thinking_budget, thinking_effort, relay_sign,
-        relay_alpha, relay_layer, system_profile, system_prompt_text,
+        relay_alpha, relay_layer, seed, system_profile, system_prompt_text,
     )

@@ -86,7 +86,7 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
             (session_id_state, chatbot, session_dropdown, session_id_display,
              model_select, px_preset_widgets, temperature, top_p, max_tokens,
              rep_p, px_gamma, thinking, thinking_budget, thinking_effort,
-             relay_sign, relay_alpha, relay_layer,
+             relay_sign, relay_alpha, relay_layer, seed,
              system_profile, system_prompt_text) = build_chat_tab(manager)
 
         with gr.Tab("🧪 Cognitive Tests"):
@@ -115,6 +115,7 @@ with gr.Blocks(title="PX Cognitive Architecture Explorer") as demo:
                  model_select, px_preset_widgets, temperature, top_p,
                  max_tokens, rep_p, px_gamma, thinking, thinking_budget,
                  thinking_effort, relay_sign, relay_alpha, relay_layer,
+                 seed,
                  system_profile, system_prompt_text]
     )
 

@@ -342,6 +342,100 @@ def chunked_prefill(model, input_ids, cache, chunk=None, verbose=False):
     return model.lm_head(h_last).float()
 
 
+# ------------------------------------------------ Query-chunked SDPA -------
+PX_SDPA_QBLOCK = int(os.environ.get("PX_SDPA_QBLOCK", 256))
+# q*k-Schwellwert (H=32, fp32-Scores 4 B): 4e6 Zeilen ≈ 0,5 GiB Score-Puffer —
+# drueber lohnt sich Blocken, drunter ist ein einziger sdpa-Call gleich
+# speicherleicht (Decode q_len=1 trifft das immer).
+PX_SDPA_QK_LIMIT = int(os.environ.get("PX_SDPA_QK_LIMIT", 4)) * 1_000_000
+
+
+def _px_qc_attention(module, query, key, value, attention_mask=None,
+                     dropout=0.0, scaling=None, is_causal=None, **kwargs):
+    """Attention q-seitig in Bloecken (SR-64-gemma3-Muster, lossless).
+
+    softmax ist je q-Zeile unabhaengig → q-Splitting aendert die Mathematik
+    nicht, nur den Score-Puffer (H*q_block*k statt H*q*k). Ohne das
+    materialisiert sdpa-math auf sm75 q*k-Scores ∝ past_len (flash braucht
+    sm80+, memEfficient kein bf16 → kein Ausweg) → Chunked-Prefill kippt mit
+    OOM (T≈10218: 4,3 GiB live, server_oc.log + scratches/codingbench/
+    ptq_longctx_repro.py). Kleine Fenster/Decode → ein sdpa-Call, Verhalten
+    identisch zu transformers sdpa_attention_forward (Signatur gespiegelt:
+    q rein (B,H,L,D), raus (B,L,H,D), attn_weights None).
+    """
+    q_len, k_len = query.shape[2], key.shape[2]
+    # qwen3_5 uebergibt is_causal nicht → sdpa_attention_forward normalisiert
+    # via module-Attr (GDN-Schichten tragen is_causal=False) — gespiegelt,
+    # sonst landet None in F.sdpa ('must be bool, not NoneType', Server-Smoke).
+    if is_causal is None:
+        is_causal = getattr(module, "is_causal", True) if module is not None else True
+    enable_gqa = query.shape[1] != key.shape[1]
+    if q_len * k_len <= PX_SDPA_QK_LIMIT or k_len <= PX_SDPA_QBLOCK:
+        is_causal = q_len > 1 and attention_mask is None and is_causal
+        out = torch.nn.functional.scaled_dot_product_attention(
+            query, key, value, attn_mask=attention_mask, dropout_p=dropout,
+            scale=scaling, is_causal=is_causal, enable_gqa=enable_gqa)
+        return out.transpose(1, 2).contiguous(), None
+    # Block-Pfad: HF-Pfad (Chunked-Prefill) liefert IMMER eine 4-D-Maske
+    # (causality+past); is_causal+None-Maske nur als Fallback voll (q==k).
+    if attention_mask is None and is_causal and k_len == q_len:
+        out_blocks = []
+        for lo in range(0, q_len, PX_SDPA_QBLOCK):
+            hi = min(lo + PX_SDPA_QBLOCK, q_len)
+            blk_mask = torch.ones((1, 1, hi - lo, k_len), dtype=torch.bool,
+                                  device=query.device).tril(diagonal=lo)
+            out_blocks.append(
+                torch.nn.functional.scaled_dot_product_attention(
+                    query[:, :, lo:hi], key, value, attn_mask=blk_mask,
+                    scale=scaling, enable_gqa=enable_gqa))
+    elif attention_mask is not None:
+        out_blocks = []
+        for lo in range(0, q_len, PX_SDPA_QBLOCK):
+            hi = min(lo + PX_SDPA_QBLOCK, q_len)
+            out_blocks.append(torch.nn.functional.scaled_dot_product_attention(
+                query[:, :, lo:hi], key, value,
+                attn_mask=attention_mask[..., lo:hi, :], dropout_p=dropout,
+                scale=scaling, enable_gqa=enable_gqa))
+    else:  # unklare Kombination (maske None + causal + k>q: HF baut immer
+        # eine Maske, wenn past existiert) → Original-Call, voller Puffer.
+        out_blocks = None
+    if out_blocks is not None:
+        out = torch.cat(out_blocks, dim=2)
+    else:
+        out = torch.nn.functional.scaled_dot_product_attention(
+            query, key, value, attn_mask=attention_mask, dropout_p=dropout,
+            scale=scaling, is_causal=True, enable_gqa=enable_gqa)
+    return out.transpose(1, 2).contiguous(), None
+
+
+def install_query_chunked_attention(model):
+    """Registriert px_qc in ALL_ATTENTION_FUNCTIONS + ALL_MASK_ATTENTION_
+    FUNCTIONS (sdpa-Masken-Alias) und schaltet die Text-Config um (idempotent).
+    Kleine Fenster delegieren 1:1 an sdpa, daher ist der Wechsel fuer den
+    Short-Pfad + Decode beobachtungsgleich."""
+    from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
+    from transformers.masking_utils import ALL_MASK_ATTENTION_FUNCTIONS
+    text = _resolve_text_model(model)
+    cfg = getattr(text, "config", None)
+    if cfg is None or getattr(cfg, "_px_qc_installed", False):
+        return
+    if "px_qc" not in ALL_ATTENTION_FUNCTIONS:
+        ALL_ATTENTION_FUNCTIONS.register("px_qc", _px_qc_attention)
+    # Die Maske wird ebenfalls ueber config._attn_implementation adressiert
+    # (masking_utils._preprocess_mask_arguments early-exited sonst mit None
+    # — Beweis: repro_oom2.log Chunk-5-OOM im px_qc-Fallback). px_qc erhaelt
+    # exakt die sdpa-Masken-Fabrik (gleiche Signatur), damit Chunked-Prefill
+    # seine 4-D-Kausalmaske mit past-Offset wie gewohnt kriegt.
+    if "px_qc" not in ALL_MASK_ATTENTION_FUNCTIONS:
+        ALL_MASK_ATTENTION_FUNCTIONS.register("px_qc",
+                                              ALL_MASK_ATTENTION_FUNCTIONS["sdpa"])
+    cfg._attn_implementation = "px_qc"
+    cfg._px_qc_installed = True
+    print(f"[long] px_qc installiert: config._attn_implementation='px_qc' "
+          f"(q-block={PX_SDPA_QBLOCK}, q*k-Limit={PX_SDPA_QK_LIMIT})",
+          flush=True)
+
+
 # ------------------------------------------------------------ Sampling --------
 def _ban_repeat_ngrams(logits, generated_ids, ngram):
     """HF-äquivalentes no_repeat_ngram_size: Continuation-Token je

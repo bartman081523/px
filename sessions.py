@@ -42,6 +42,7 @@ SETTINGS_DEFAULTS: Dict[str, Any] = {
     "relay_sign": 0,
     "relay_alpha": 0.30,
     "relay_layer": 21,
+    "seed": 0,
     "system_profile": "neutral",
     "system_prompt_text": "",
 }

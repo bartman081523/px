@@ -122,9 +122,9 @@ def _clean_state():
 # --- R1: No-op-Restore ---------------------------------------------------
 
 def test_r1_unknown_session_gives_14_noops():
-    """R1: Session-Datei fehlt → 15 no-op updates (kein Reset auf Defaults)."""
+    """R1: Session-Datei fehlt → 16 no-op updates (kein Reset auf Defaults)."""
     updates = restore_session_settings("r1_nosuch_session", "neutral")
-    assert len(updates) == 15
+    assert len(updates) == 16
     for u in updates:
         assert is_noop(u), upd_kwargs(u)
 
@@ -136,7 +136,7 @@ def test_r1b_empty_settings_gives_14_noops():
     try:
         save_session(sid, [], settings={})
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 15
+        assert len(updates) == 16
         for u in updates:
             assert is_noop(u), upd_kwargs(u)
     finally:
@@ -165,13 +165,14 @@ def _full_settings():
         relay_sign=-1,
         relay_alpha=0.45,
         relay_layer=34,
+        seed=42,
         system_profile="neutral",
         system_prompt_text="Eigener Frame.",
     )
 
 
 def test_r2_full_settings_restore_values_in_order():
-    """R2: 15 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
+    """R2: 16 Outputs in SETTINGS_WIDGET_FIELDS-Reihenfolge mit den
     gespeicherten Werten; auto_tune=False → Slider interaktiv; bonsai →
     Thinking-Checkbox/Radio mit den gespeicherten Werten sichtbar,
     Budget-Slider versteckt (bonsai hat KEIN Zahl-Budget — R19-Pin)."""
@@ -181,7 +182,7 @@ def test_r2_full_settings_restore_values_in_order():
         save_session(sid, [], model_id="ternary-bonsai-27b",
                      settings=_full_settings())
         updates = restore_session_settings(sid, "neutral")
-        assert len(updates) == 15
+        assert len(updates) == 16
         budget_idx = SETTINGS_WIDGET_FIELDS.index("thinking_budget")
         for field, u in zip(SETTINGS_WIDGET_FIELDS, updates):
             if field == "thinking_budget":
@@ -193,7 +194,7 @@ def test_r2_full_settings_restore_values_in_order():
         assert upd_kwargs(updates[budget_idx]) == {"visible": False}
         vals = [upd_kwargs(u).get("value") for u in updates]
         expect = ["ternary-bonsai-27b", "ACTIVE_MANIFOLD_RELAY", 0.55, 0.9,
-                  768, 1.2, 0.1, True, None, "medium", -1, 0.45, 34,
+                  768, 1.2, 0.1, True, None, "medium", -1, 0.45, 34, 42,
                   "neutral", "Eigener Frame."]
         assert vals == expect
     finally:
@@ -431,9 +432,9 @@ def test_r12_app_py_demo_load_19_outputs():
 
 
 def test_r13_on_load_returns_19_tuple_with_noops_for_fresh_session():
-    """R13: frische Session → (id, [], choices, id, 15×no-op)."""
+    """R13: frische Session → (id, [], choices, id, 16×no-op)."""
     result = on_load(None, "neutral")
-    assert len(result) == 19
+    assert len(result) == 20
     session_id, history, choices, session_id2 = result[:4]
     assert isinstance(session_id, str) and len(session_id) == 8
     assert history == []

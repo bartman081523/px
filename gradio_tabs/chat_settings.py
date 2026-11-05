@@ -73,6 +73,7 @@ def settings_from_widgets(
     relay_sign: int,
     relay_alpha: float,
     relay_layer: int,
+    seed: Optional[int] = None,
     system_profile: str,
     system_prompt_text: Optional[str],
 ) -> Dict[str, Any]:
@@ -129,6 +130,7 @@ def settings_from_widgets(
         "relay_sign": _safe_int(relay_sign, SETTINGS_DEFAULTS["relay_sign"]),
         "relay_alpha": _safe_float(relay_alpha, SETTINGS_DEFAULTS["relay_alpha"]),
         "relay_layer": _safe_int(relay_layer, SETTINGS_DEFAULTS["relay_layer"]),
+        "seed": _safe_int(seed, SETTINGS_DEFAULTS["seed"]),
         "system_profile": system_profile or "neutral",
         "system_prompt_text": system_prompt_text or "",
     }

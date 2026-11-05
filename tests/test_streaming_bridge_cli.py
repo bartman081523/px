@@ -249,6 +249,36 @@ def test_resolve_relay_layer_empty_string_falls_back_to_21():
     assert layer == 21
 
 
+def test_default_seed_is_none():
+    """Ohne --seed: None (stochastisch)."""
+    args = _parse_no_args()
+    assert args.seed is None
+
+
+def test_seed_flag_accepts_integer():
+    """--seed 42 setzt args.seed = 42."""
+    args = _parse(["--seed", "42"])
+    assert args.seed == 42
+
+
+def test_seed_flag_accepts_zero():
+    """--seed 0 setzt args.seed = 0."""
+    args = _parse(["--seed", "0"])
+    assert args.seed == 0
+
+
+def test_default_temperature_is_0_7():
+    """Ohne --temperature: Default 0.7."""
+    args = _parse_no_args()
+    assert args.temperature == 0.7
+
+
+def test_temperature_flag_accepts_float():
+    """--temperature 0.2 setzt args.temperature = 0.2."""
+    args = _parse(["--temperature", "0.2"])
+    assert abs(args.temperature - 0.2) < 1e-6
+
+
 # --- runner ------------------------------------------------------------
 
 def _run_all():

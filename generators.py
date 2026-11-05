@@ -5,11 +5,20 @@ Uses HuggingFace TextIteratorStreamer for streaming.
 OpenAI-compatible SSE format: data: {json}\n\n, data: [DONE]\n\n
 """
 
+import asyncio
+import queue as _queue
+
 import torch
 import json
 import time
 from fastapi import HTTPException
 from transformers import StoppingCriteria, StoppingCriteriaList
+
+# SSE-Heartbeat-Intervall (Sekunden) bei Streamer-Stille (Chunked-Prefill
+# auf dem GF3-Long-Pfad, Decode-Pausen): ein SSE-Kommentar (`: ping`)
+# hält Client-Idle-Timeouts (undici/Bun ~300 s Default) und den Event-
+# Loop am Leben, bis das erste Token fließt.
+_STREAM_HEARTBEAT_S = 15.0
 
 
 class StopOnEOT(StoppingCriteria):
@@ -118,6 +127,305 @@ def _stringify_content(content):
     if isinstance(content, dict):
         return content.get("text", str(content))
     return str(content)
+
+
+# ── OpenAI-Tool-Calling (oc/Agent-Phase, 2026-10-13) ─────────────────────────
+# Der Chat-Treiber des Modells (qwen3.5-Template aus tokenizer_config) rendert
+# bei tools=[...] einen Tools-Systemblock und erzwingt das Funktionsaufruf-
+# Format: Open-Marker (ADDED-Token 248058) + Funktionskopf-Tag mit Param-
+# Segmenten + Close-Marker (ADDED-Token 248059). Der TextIteratorStreamer
+# (skip_special_tokens=True) droppt BEIDE Marker — der Funktionsrumpf ist
+# Plain-Vocab und kommt im Stream als Text an. Dieser Shim schneidet ihn
+# aus dem Content-Stream heraus und setzt ihn in OpenAI-Tool-Aufruf-Deltas
+# um. Stopp: Close-Marker-ID wird in die eos_token_id-Liste injiziert (HF-
+# generate-Pfad UND generate_long-Decode-Loop beachten beide die Liste).
+#
+# Evidenz A (Probe, scratches/codingbench/oc_workspace/):
+#   probe_tool_tokens.py    — Marker-IDs 248058/248059, decode-drop, Rumpf
+#                             bleibt; Tools-Systemblock gerendert
+#   probe_tool_tokens2.py   — Historie: arguments muss DICT sein (str →
+#                             Jinja-TypeError an |items); tool-Rolle nativ;
+#                             Konsekutiv-Gruppierung; Content+Aufruf-Mix
+# Sweep-Begründung (scratches/codingbench/SWEEP_RESULTS.md, Befund 1+2):
+#   _px_repetition_penalty=1.15 + _px_no_repeat_ngram_size=3 vergiften exakt
+#   strukturierte Outputs (patch.py:632-633 über _px_gen_kwargs injiziert);
+#   der PX-Forward selbst ist coding-neutral bis leicht positiv. Bei Tool-
+#   Requests werden beide Generation-KWs deshalb request-scoped entfernt —
+#   der PX-Patch (Hidden-State-Engine) bleibt aktiv.
+_TOOL_OPEN = chr(60) + "tool_call" + chr(62)
+_TOOL_CLOSE = chr(60) + "/tool_call" + chr(62)
+_FUNC_EQ = chr(60) + "function="
+_FUNC_END = chr(62)
+_PARAM_EQ = chr(60) + "parameter="
+_FUNC_CLOSE = chr(60) + "/function" + chr(62)
+_PARAM_CLOSE = chr(60) + "/parameter" + chr(62)
+
+
+def _prepare_messages(messages):
+    """OpenAI-Nachrichten → Chat-Vorlage-kompatible Liste.
+
+    - content stets String (_stringify_content)
+    - assistant.tool_calls erhalten; arguments str → dict (die Vorlage
+      iteriert |items über ein Mapping — ein JSON-Str löst einen
+      Jinja-TypeError aus, Probe 2)
+    - tool-Rolle: content Raw + tool_call_id/name durchreichen
+    """
+    prepared = []
+    for m in messages:
+        role = m.get("role", "user")
+        item = {"role": role,
+                "content": _stringify_content(m.get("content", ""))}
+        if role == "assistant":
+            calls = m.get("tool_calls")
+            if calls:
+                norm = []
+                for c in calls:
+                    if not isinstance(c, dict):
+                        continue
+                    f = c.get("function") or {}
+                    args = f.get("arguments", {})
+                    if isinstance(args, str):
+                        try:
+                            args = json.loads(args or "{}")
+                        except Exception:
+                            args = {}
+                    if not isinstance(args, dict):
+                        args = {"": args}  # Lossless: Skalar-Wert benennen
+                    fn = {"name": f.get("name", ""), "arguments": args}
+                    norm.append({"id": c.get("id", ""),
+                                 "type": c.get("type", "function"),
+                                 "function": fn})
+                if norm:
+                    item["tool_calls"] = norm
+        elif role == "tool" and m.get("tool_call_id"):
+            item["tool_call_id"] = m["tool_call_id"]
+        prepared.append(item)
+    return prepared
+
+
+class _ToolCallStreamShim:
+    """Schneidet Funktionsaufrufe aus dem Content-Stream heraus (Lossless).
+
+    Zustandsmaschine: IDLE hält einen Schwanz zurück (Partial-Tag-Split
+    über Chunk-Grenzen) und flushet alles davor als Content; ein Fund des
+    Funktionskopf-Tags wechselt in CAPTURE — im Rumpf rutscht nichts als
+    Content durch. Am Funktionsende-Tag wird der Block geparst, validiert
+    und als EIN komplettes OpenAI-Delta ausgegeben (ai-sdk akkumuliert
+    ohnehin). Text nach dem Block geht als Content weiter (Lossless; der
+    Systemblock verbietet Suffixe, aber wegwerfen ist schlechter).
+
+    Parameter-Typisierung über die mitgeschickten Tool-Schemas: Strings
+    bleiben Raw (kein JSON-Rückparse-Trick — content-Werte sind Datei-
+    texte, die zufällig valides JSON sein können), Zahlen/Booleans/
+    Arrays/Objekte werden gecoerct (sonst kann die Tool-Loop an zod-
+    Schemata sterben: der Aufruf-Text kennt kein Quoting).
+    """
+
+    def __init__(self, tools=None):
+        self._param_types = self._extract_param_types(tools)
+        self._buf = ""
+        self._calls = []
+        self._capturing = False
+        self._capture_head = ""  # konsumierter Kopf-Tag (Lossless-Rückgabe)
+
+    @staticmethod
+    def _extract_param_types(tools):
+        """{name: {param: type}} aus dem OpenAI-Tools-Array (flache Namen-
+        Form {name, parameters} wird auch akzeptiert)."""
+        out = {}
+        for t in tools or []:
+            if not isinstance(t, dict):
+                continue
+            f = t.get("function") or t
+            name, params = f.get("name"), f.get("parameters") or {}
+            if not name:
+                continue
+            props = params.get("properties") if isinstance(params, dict) else None
+            if not isinstance(props, dict):
+                continue
+            types = {}
+            for k, v in props.items():
+                types[k] = v.get("type") if isinstance(v, dict) else None
+            out[name] = types
+        return out
+
+    @property
+    def calls(self):
+        return self._calls
+
+    def feed(self, text: str):
+        """Ein Streamer-Chunk → Events: ("content", str) | ("calls", [call])."""
+        ev = []
+        self._buf += text
+        while True:
+            if self._capturing:
+                j = self._buf.find(_FUNC_CLOSE)
+                if j < 0:
+                    return ev  # Rumpf offen — vollständig halten
+                block, self._buf = (
+                    self._buf[:j],
+                    self._buf[j + len(_FUNC_CLOSE):],
+                )
+                call = self._parse_block(block)
+                if call is not None:
+                    self._calls.append(call)
+                    ev.append(("calls", [call]))
+                self._capturing = False
+                continue
+            i = self._buf.find(_FUNC_EQ)
+            if i < 0:
+                # Safe-Flush: Schwanz halten (Kopf-Tag kann über Chunk-
+                # grenzen gesplittet ankommen).
+                keep = len(_FUNC_EQ) - 1
+                if len(self._buf) > keep:
+                    ev.append(("content", self._buf[:-keep]))
+                    self._buf = self._buf[-keep:]
+                return ev
+            if i > 0:
+                ev.append(("content", self._buf[:i]))
+            self._buf = self._buf[i + len(_FUNC_EQ):]
+            self._capture_head = _FUNC_EQ
+            self._capturing = True
+
+    def finalize(self):
+        """Generationende: offen gebliebenes als Content freigeben.
+
+        Lossless-Rückgabe: wenn ein Funktionskopf-Tag erkannt wurde, aber
+        nie ein Rumpf-Ende-Tag folgte (false trigger oder Truncation),
+        geht der konsumierte Kopf-Tag mit zurück — der Client sieht den
+        exakten Originaltext.
+        """
+        ev = []
+        if self._capturing:
+            ev.append(("content", self._capture_head + self._buf))
+            self._capture_head = ""
+            self._capturing = False
+            self._buf = ""
+        elif self._buf:
+            ev.append(("content", self._buf))
+            self._buf = ""
+        return ev
+
+    def _parse_block(self, head_consumed_body: str):
+        """Kopf-Tag rest ('NAME' + '>' + Rumpf) → OpenAI-Call oder None."""
+        head_end = head_consumed_body.find(_FUNC_END)
+        if head_end < 0:
+            return None
+        name = head_consumed_body[:head_end].strip()
+        if not name:
+            return None
+        body = head_consumed_body[head_end + 1:]
+        args = {}
+        pos = 0
+        while True:
+            k = body.find(_PARAM_EQ, pos)
+            if k < 0:
+                break
+            keq = k + len(_PARAM_EQ)
+            kend = body.find(_FUNC_END, keq)
+            if kend < 0:
+                break
+            key = body[keq:kend].strip()
+            vstart = body.find(_PARAM_CLOSE, kend + 1)
+            if vstart < 0:
+                break
+            value = body[kend + 1:vstart]
+            # Template-Symmetrie: Rendern ist tag + "\n" + value + "\n" +
+            # close-tag. Exact-lose Runde → je Seite EIN Newline strippen
+            # (Probe 1: render/parse-Roundtrip byte-symmetrisch).
+            if value.startswith("\n"):
+                value = value[1:]
+            if value.endswith("\n"):
+                value = value[:-1]
+            args[key] = self._typed_value(name, key, value)
+            pos = vstart + len(_PARAM_CLOSE)
+        return {"id": "call_" + uuid.uuid4().hex[:12],
+                "type": "function",
+                "index": len(self._calls),
+                "function": {"name": name,
+                             "arguments": json.dumps(args, ensure_ascii=False)}}
+
+    def _typed_value(self, fname: str, key: str, raw: str):
+        t = self._param_types.get(fname, {}).get(key)
+        if t == "string":
+            return raw
+        s = raw.strip()
+        if not s:
+            return raw
+        if t in ("boolean", "number", "integer"):
+            try:
+                v = json.loads(s)
+            except Exception:
+                return raw
+            if t == "boolean" and isinstance(v, bool):
+                return v
+            if t in ("number", "integer") and isinstance(v, (int, float)):
+                return v
+            return raw
+        # array/object/undeclared: JSON-Versuch, sonst Raw (Lossless)
+        try:
+            return json.loads(s)
+        except Exception:
+            return raw
+
+
+def _tools_active(tools, tool_choice) -> bool:
+    """Tool-Modus an, wenn Funktionen geschickt wurden und tool_choice
+    nicht explizit 'none' sagt."""
+    if not tools:
+        return False
+    if isinstance(tool_choice, str) and tool_choice == "none":
+        return False
+    return True
+
+
+def _tools_gen_adjustments(gen_kwargs, tools_active: bool, tokenizer) -> dict:
+    """Request-scoped Tool-Adjustments nach _px_gen_kwargs/_inject_eot_eos.
+
+    1) Poison-KWs neutralisieren (Sweep-Befund 1: rep-pen 1.15 + ngram-3
+       korruptieren strukturierte Funktionsaufrufe exakt an Wiederholungs-
+       stellen; Befund 2: der PX-Forward selbst ist coding-neutral).
+       SET statt POP: der Pop ließe die Signatur-Defaults des Long-Pfads
+       zurückkehren (generate_long defaultet rep_p=1.15 — im oc-Lauf
+       2026-10-13 live beobachtet).
+    2) Close-Marker-ID in die eos_token_id-Liste → HF-generate-Pfad UND
+       generate_long-Decode-Loop stoppen am Blockende statt Junk dranzu-
+       hängen (stream- und non-stream-Long-Pfad lesen dieselbe Liste).
+    """
+    if not tools_active:
+        return gen_kwargs
+    gen_kwargs["repetition_penalty"] = 1.0
+    gen_kwargs["no_repeat_ngram_size"] = 0
+    close_id = _resolve_think_token(tokenizer, _TOOL_CLOSE)
+    if close_id is not None:
+        eos_ids = gen_kwargs.get("eos_token_id") or []
+        if isinstance(eos_ids, int):
+            eos_ids = [eos_ids]
+        eos_ids = [int(e) for e in eos_ids]
+        if close_id not in eos_ids:
+            eos_ids.append(close_id)
+        gen_kwargs["eos_token_id"] = eos_ids
+    return gen_kwargs
+
+
+def _apply_tool_shim_to_result(res: dict, tools) -> dict:
+    """Non-Stream: Funktionsaufrufe aus dem fertigen Text herausnehmen."""
+    shim = _ToolCallStreamShim(tools)
+    parts, calls = [], []
+    for kind, payload in shim.feed(res.get("text", "")):
+        if kind == "content":
+            parts.append(payload)
+        else:
+            calls.extend(payload)
+    for kind, payload in shim.finalize():
+        if kind == "content":
+            parts.append(payload)
+    if calls:
+        res["text"] = "".join(parts)
+        res["tool_calls"] = [{"id": c["id"], "type": c["type"],
+                              "function": c["function"]} for c in calls]
+        res["finish_reason"] = "tool_calls"
+    return res
 
 
 def strip_unsupported_model_kwargs(model, gen_kwargs: dict) -> dict:
@@ -624,6 +932,17 @@ def _generate_long_completion(model, input_ids, tokenizer, gen_kwargs,
     }
 
 
+def _apply_seed(seed: Optional[int]):
+    """Applies RNG seed to PyTorch and CUDA when seed > 0.
+    seed == 0, seed < 0, or None means unseeded / random (seed not set).
+    """
+    if seed is not None and int(seed) > 0:
+        s = int(seed)
+        torch.manual_seed(s)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(s)
+
+
 def _make_chunk(
     completion_id: str, created: int, model_id: str,
     index: int, delta: dict, finish_reason: Optional[str] = None
@@ -651,13 +970,23 @@ async def generate_chat_completion(
     thinking: Optional[bool] = None,
     thinking_effort: Optional[str] = None,
     thinking_budget: Optional[int] = None,
+    tools: Optional[List[dict]] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
+    seed: Optional[int] = None,
 ) -> dict:
-    """Non-streaming chat completion. Returns text + token counts."""
+    """Non-streaming chat completion. Returns text + token counts (+ tool_calls)."""
+    _apply_seed(seed)
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
     processor = model_entry.get("processor")
+    tools_active = _tools_active(tools, tool_choice)
 
     has_images = _has_image_content(messages)
+    if tools_active and has_images:
+        raise HTTPException(
+            status_code=400,
+            detail="tool calling is not supported for multimodal (image) requests"
+        )
     _force_chunked = False  # Plan 4: chunked-vision-encoder Pfad
     if has_images and processor is None:
         raise HTTPException(
@@ -721,11 +1050,16 @@ async def generate_chat_completion(
                                 return_tensors="pt").to(model.device)
             _force_chunked = False
     else:
-        # Text-only path (unchanged from prior behavior).
-        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+        # Text-only path — Tool-Loop-Historie (assistant tool_calls + tool-
+        # Rolle) bleibt erhalten; Funktionsliste geht als Template-Variable
+        # in den Tools-Systemblock.
+        processed_messages = _prepare_messages(messages)
+        template_kw = _chat_template_kwargs(thinking, thinking_effort)
+        if tools_active:
+            template_kw["tools"] = tools
         input_text = tokenizer.apply_chat_template(
             processed_messages, tokenize=False, add_generation_prompt=True,
-            **_chat_template_kwargs(thinking, thinking_effort)
+            **template_kw
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
         # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids
@@ -749,6 +1083,7 @@ async def generate_chat_completion(
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
+    gen_kwargs = _tools_gen_adjustments(gen_kwargs, tools_active, tokenizer)
 
     # Konvention (CLAUDE.md): Cache vor jeder Generierung leeren — beim
     # GF(3)-Lauf zwingend, sonst OOM im Folge-Request nach einem Langlauf.
@@ -759,11 +1094,14 @@ async def generate_chat_completion(
         # (hat keinen Multimodal-Input; qwen35_ptq hat processor=None, d.h.
         # Bild-Anfragen wurden vorab mit 400 abgewiesen).
         if gen_kwargs.pop("_px_use_long_ctx", False):
-            return _generate_long_completion(
+            res = _generate_long_completion(
                 model, inputs["input_ids"], tokenizer, gen_kwargs, input_len,
                 stop=stop,
                 max_total_seq=model_entry.get("registry", {}).get("max_length"),
                 verbose=True)
+            if tools_active:
+                res = _apply_tool_shim_to_result(res, tools)
+            return res
         use_chunked = gen_kwargs.pop("_px_use_chunked_prefill", False)
         # Plan 4: chunked-vision-encoder liefert pre-merged inputs_embeds.
         # In diesem Fall MUSS chunked_generate laufen (sonst kriegt das
@@ -841,8 +1179,18 @@ async def generate_chat_completion(
 
     completion_tokens = len(new_tokens)
 
+    tool_calls = None
+    finish_reason = "stop"
+    if tools_active:
+        res = _apply_tool_shim_to_result({"text": text}, tools)
+        text = res["text"]
+        tool_calls = res.get("tool_calls")
+        finish_reason = res.get("finish_reason", "stop")
+
     return {
         "text": text,
+        "tool_calls": tool_calls,
+        "finish_reason": finish_reason,
         "prompt_tokens": input_len,
         "completion_tokens": completion_tokens,
     }
@@ -859,6 +1207,9 @@ async def generate_chat_completion_stream(
     thinking: Optional[bool] = None,
     thinking_effort: Optional[str] = None,
     thinking_budget: Optional[int] = None,
+    tools: Optional[List[dict]] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
+    seed: Optional[int] = None,
 ) -> Generator[str, None, None]:
     """Streaming SSE generator for chat completions.
 
@@ -866,15 +1217,25 @@ async def generate_chat_completion_stream(
       data: {json}\n\n
       ...
       data: [DONE]\n\n
+
+    Mit tools=[...]: Funktionsaufrufe werden aus dem Stream herausgeschnitten
+    und als tool_calls-Deltas ausgegeben (finish_reason tool_calls).
     """
+    _apply_seed(seed)
     from transformers import TextIteratorStreamer
     from threading import Thread
 
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
     processor = model_entry.get("processor")
+    tools_active = _tools_active(tools, tool_choice)
 
     has_images = _has_image_content(messages)
+    if has_images and tools_active:
+        err = {"error": {"message": "tool calling is not supported for multimodal (image) requests.", "type": "invalid_request_error"}}
+        yield f"data: {json.dumps(err)}\n\n"
+        yield "data: [DONE]\n\n"
+        return
     if has_images and processor is None:
         # Cannot raise HTTPException from inside a sync generator after the SSE
         # response has started. Yield a single error chunk then [DONE] so the
@@ -891,10 +1252,13 @@ async def generate_chat_completion_stream(
         )
         inputs = processor(text=prompt_text, images=images, return_tensors="pt").to(model.device)
     else:
-        processed_messages = [{"role": m.get("role", "user"), "content": _stringify_content(m.get("content", ""))} for m in messages]
+        processed_messages = _prepare_messages(messages)
+        template_kw = _chat_template_kwargs(thinking, thinking_effort)
+        if tools_active:
+            template_kw["tools"] = tools
         input_text = tokenizer.apply_chat_template(
             processed_messages, tokenize=False, add_generation_prompt=True,
-            **_chat_template_kwargs(thinking, thinking_effort)
+            **template_kw
         )
         inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
         # Plan 7.2: Llama-Modelle (z.B. MiniCPM5-1B) kennen token_type_ids
@@ -929,6 +1293,7 @@ async def generate_chat_completion_stream(
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
+    gen_kwargs = _tools_gen_adjustments(gen_kwargs, tools_active, tokenizer)
 
     # Plan 3 Phase D: bei langem Input + 4b/E2B nutzen wir chunked_generate
     # mit Streamer statt model.generate (10x schneller als use_cache=False).
@@ -1054,18 +1419,83 @@ async def generate_chat_completion_stream(
                         delta={"role": "assistant"}, finish_reason=None)
     yield f"data: {chunk.model_dump_json()}\n\n"
 
-    # Stream tokens
-    for text in streamer:
-        if text:
+    # Stream tokens. Mit aktiven Tools läuft der Text durch den
+    # _ToolCallStreamShim: er hält erkannte Tool-Call-Blöcke zurück und
+    # emittiert sie einmalig komplett als delta.tool_calls (OpenAI-Kontrakt:
+    # ai-sdk erwartet id/name/arguments je delta, nicht Splitter-Stücke).
+    shim = _ToolCallStreamShim(tools) if tools_active else None
+    has_tool_calls = False
+    stream_queue = getattr(streamer, "text_queue", None)
+    stop_signal = getattr(streamer, "stop_signal", None)
+    stream_iter = None if stream_queue is not None else iter(streamer)
+    idle_since_ping = 0.0
+    # Heartbeat-Poll statt blockierendem `for text in streamer`: Der sync-
+    # Iterator (queue.get, timeout=None) blockiert den Event-Loop und hält
+    # JEDES Body-Byte zurück, bis das erste Token bereitsteht — auf dem
+    # GF3-Long-Pfad (Chunked-Prefill ~40 tok/s, T≈15000 ≈ 6-7 min) starb
+    # der oc-Client exakt nach dem letzten Prefill-Chunk an einem No-Data-
+    # Timeout (undici/Bun ~300 s Default), 4 Versuche, 4 Tode. Poll + SSE-
+    # Kommentar (`: ping`) alle _STREAM_HEARTBEAT_S halten Verbindung und
+    # Loop lebendig; SSE-Kommentare sind für SSE-Parser opaque.
+    while True:
+        if stream_queue is not None:
+            try:
+                text = stream_queue.get_nowait()
+            except _queue.Empty:
+                await asyncio.sleep(0.25)
+                idle_since_ping += 0.25
+                if idle_since_ping >= _STREAM_HEARTBEAT_S:
+                    idle_since_ping = 0.0
+                    yield ": ping\n\n"
+                continue
+            idle_since_ping = 0.0
+            if text == stop_signal:
+                break
+        else:
+            # Fallback ohne text_queue: blockierendes next() in einen
+            # Worker-Thread verlagern, damit der Event-Loop weiterlebt.
+            try:
+                text = await asyncio.to_thread(next, stream_iter)
+            except StopIteration:
+                break
+
+        if not text:
+            continue
+        if shim is None:
             chunk = _make_chunk(completion_id, created, model_id, 0,
                                 delta={"content": text}, finish_reason=None)
             yield f"data: {chunk.model_dump_json()}\n\n"
+            continue
+        for kind, payload in shim.feed(text):
+            if kind == "content" and payload:
+                chunk = _make_chunk(completion_id, created, model_id, 0,
+                                    delta={"content": payload},
+                                    finish_reason=None)
+                yield f"data: {chunk.model_dump_json()}\n\n"
+            elif kind == "calls":
+                has_tool_calls = True
+                chunk = _make_chunk(completion_id, created, model_id, 0,
+                                    delta={"tool_calls": payload},
+                                    finish_reason=None)
+                yield f"data: {chunk.model_dump_json()}\n\n"
 
     thread.join()
 
+    if shim is not None:
+        # Restpuffer als Content ausgeben (lossless fallback bei abge-
+        # brochenen/false-triggered Blöcken) — finalize emittiert nur,
+        # wenn kein vollständiges letztes Tool-Call-Fragment mehr übrig ist.
+        for kind, payload in shim.finalize():
+            if kind == "content" and payload:
+                chunk = _make_chunk(completion_id, created, model_id, 0,
+                                    delta={"content": payload},
+                                    finish_reason=None)
+                yield f"data: {chunk.model_dump_json()}\n\n"
+
     # Final chunk: finish_reason
+    finish_reason = "tool_calls" if has_tool_calls else "stop"
     chunk = _make_chunk(completion_id, created, model_id, 0,
-                        delta={}, finish_reason="stop")
+                        delta={}, finish_reason=finish_reason)
     yield f"data: {chunk.model_dump_json()}\n\n"
     yield "data: [DONE]\n\n"
 
@@ -1077,8 +1507,10 @@ async def generate_completion(
     top_p: float,
     max_tokens: int,
     stop: Optional[Union[str, List[str]]] = None,
+    seed: Optional[int] = None,
 ) -> dict:
     """Non-streaming text completion. Returns text + token counts."""
+    _apply_seed(seed)
     model = model_entry["model"]
     tokenizer = model_entry["tokenizer"]
 
@@ -1129,8 +1561,10 @@ async def generate_completion_stream(
     max_tokens: int,
     stop: Optional[Union[str, List[str]]] = None,
     model_id: str = "",
+    seed: Optional[int] = None,
 ) -> Generator[str, None, None]:
     """Streaming SSE generator for text completions."""
+    _apply_seed(seed)
     from transformers import TextIteratorStreamer
     from threading import Thread
 

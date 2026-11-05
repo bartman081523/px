@@ -231,6 +231,10 @@ def _build_argparser():
     parser.add_argument("--image-base64", type=str, default=None,
                         help="Raw base64 (or pre-built data: URL) for an image. "
                              "Fallback for pipeline use; --image is preferred.")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="RNG seed for reproducible generation (>0 for deterministic; 0 or None = unseeded/random)")
+    parser.add_argument("--temperature", type=float, default=0.7,
+                        help="Sampling temperature (default 0.7; 0.0 or 1e-10 for greedy)")
     return parser
 
 
@@ -245,7 +249,9 @@ def main():
     resolved_layer = _resolve_relay_layer(args.model, args.relay_layer)
     print("="*60)
     print(f" LIVE SPACE INTERFACE - SESSION: {session_id} ")
-    print(f" MODE: {args.preset} | MODEL: {args.model} | THINKING: {args.thinking}"
+    print(f" MODE: {args.preset} | MODEL: {args.model} | TEMP: {args.temperature}"
+          + (f" | SEED: {args.seed}" if (args.seed is not None and args.seed > 0) else " | SEED: None (0 = unseeded)")
+          + f" | THINKING: {args.thinking}"
           + (f" (effort {args.thinking_effort})" if args.thinking == "on" and args.thinking_effort else "")
           + (f" (budget {args.thinking_budget})" if args.thinking == "on" and args.thinking_budget else ""))
     if args.relay_sign is not None or args.preset == "ACTIVE_MANIFOLD_RELAY":
@@ -319,10 +325,12 @@ def main():
         "messages": api_messages,
         "px_subjective": True,
         "px_config_preset": args.preset,
-        "temperature": 0.7,
+        "temperature": args.temperature,
         "max_tokens": args.max_tokens if args.max_tokens else 2048,
         "stream": True
     }
+    if args.seed is not None and args.seed > 0:
+        payload["seed"] = args.seed
     # Qwen3.5-Thinking-Schalter: off → leeres geschlossenes Think-Präfix im
     # Generation-Prompt. Nur senden, wenn abweichend vom Default (on).
     if args.thinking == "off":

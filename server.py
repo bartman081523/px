@@ -134,10 +134,34 @@ async def chat_completions(request: ChatCompletionRequest):
 
     # Qwen3.5-Thinking-Schalter (ternary) + Gemma4-Denk-Budget: durchreichen
     thinking = request.px_thinking
+    # API-Default aus (2026-10-13 Coding-Bench, scratches/codingbench/):
+    #_clients ohne px_thinking-Feld (opencode/OpenAI-Standard) bekommen sonst
+    # immer den Vorlauf-Monolog (Template-Default an) — 3-4× Zeit beim Code.
+    # Explizit gesetzt bleibt explizit (CLI/Gradio senden immer).
+    if thinking is None:
+        thinking = False
     thinking_effort = request.px_thinking_effort
     thinking_budget = request.px_thinking_budget
 
-    messages = [{"role": m.role.value, "content": m.content} for m in request.messages]
+    # OpenAI-Nativhistorie: tool_calls/tool_call_id/name sind Teil des
+    # Tool-Loops (pydantic validiert sie seit schemas-Edit; vorab wurden
+    # sie still gedroppt → die Vorlage sah keine Aufruf-Historie).
+    messages = []
+    for m in request.messages:
+        d = {"role": m.role.value, "content": m.content}
+        if getattr(m, "name", None):
+            d["name"] = m.name
+        if getattr(m, "tool_calls", None):
+            d["tool_calls"] = m.tool_calls
+        if getattr(m, "tool_call_id", None):
+            d["tool_call_id"] = m.tool_call_id
+        messages.append(d)
+
+    # Tool-Calling-Parameter + max-Tokens-Auflösung (max_tokens →
+    # max_completion_tokens → 512; None-default seit schemas-Edit).
+    tools = request.tools or None
+    tool_choice = request.tool_choice
+    max_tokens = request.max_tokens or request.max_completion_tokens or 512
 
     if request.stream:
         return StreamingResponse(
@@ -146,12 +170,15 @@ async def chat_completions(request: ChatCompletionRequest):
                 messages=messages,
                 temperature=request.temperature,
                 top_p=request.top_p,
-                max_tokens=request.max_tokens,
+                max_tokens=max_tokens,
                 stop=request.stop,
                 model_id=model_id,
                 thinking=thinking,
                 thinking_effort=thinking_effort,
                 thinking_budget=thinking_budget,
+                tools=tools,
+                tool_choice=tool_choice,
+                seed=request.seed,
             ),
             media_type="text/event-stream",
             headers={
@@ -168,22 +195,29 @@ async def chat_completions(request: ChatCompletionRequest):
             messages=messages,
             temperature=request.temperature,
             top_p=request.top_p,
-            max_tokens=request.max_tokens,
+            max_tokens=max_tokens,
             stop=request.stop,
             thinking=thinking,
             thinking_effort=thinking_effort,
             thinking_budget=thinking_budget,
+            tools=tools,
+            tool_choice=tool_choice,
+            seed=request.seed,
         )
     except Exception as e:
+        # Ops: Cause sichtbar im Log (Message-only war bei tool-shim-Fehlern
+        # undiagnostisch — "list indices…" ohne Ort).
+        import traceback as _tb
+        _tb.print_exc()
         raise HTTPException(500, f"Generation failed: {e}")
 
     # Collect PX metrics
     px_metrics = manager.get_px_metrics(model_id)
     prompt_text = messages[-1]["content"] if messages else ""
     telemetry.record(
-        model_id, 
-        result["prompt_tokens"], 
-        result["completion_tokens"], 
+        model_id,
+        result["prompt_tokens"],
+        result["completion_tokens"],
         px_metrics,
         prompt_text=prompt_text,
         completion_text=result["text"]
@@ -193,8 +227,12 @@ async def chat_completions(request: ChatCompletionRequest):
         model=model_id,
         choices=[ChatChoice(
             index=0,
-            message=ChatMessage(role=Role.assistant, content=result["text"]),
-            finish_reason="stop",
+            message=ChatMessage(
+                role=Role.assistant,
+                content=result["text"],
+                tool_calls=result.get("tool_calls"),
+            ),
+            finish_reason=result.get("finish_reason", "stop"),
         )],
         usage=Usage(
             prompt_tokens=result["prompt_tokens"],
@@ -238,6 +276,7 @@ async def completions(request: CompletionRequest):
                 max_tokens=request.max_tokens,
                 stop=request.stop,
                 model_id=model_id,
+                seed=request.seed,
             ),
             media_type="text/event-stream",
             headers={
@@ -255,6 +294,7 @@ async def completions(request: CompletionRequest):
             top_p=request.top_p,
             max_tokens=request.max_tokens,
             stop=request.stop,
+            seed=request.seed,
         )
     except Exception as e:
         raise HTTPException(500, f"Generation failed: {e}")

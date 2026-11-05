@@ -39,6 +39,14 @@ class ChatMessage(BaseModel):
     #                  {"type": "text", "text": "..."}]). dict items are not
     # further validated — server/generators dispatch on `type`.
     content: Union[str, List[Union[dict, str]]]
+    # OpenAI-native Historie-Felder (Tool-Loop mit oc/Agent-Clients). Bislang
+    # hat pydantic sie beim Request still gedroppt — der Chat-Vorlage-Renderer
+    # braucht sie aber für die Tool-Loop-Historie (assistant tool_calls mit
+    # arguments als Dict, tool-Rolle mit tool_call_id; Vorlage-Probe:
+    # scratches/codingbench/oc_workspace/probe_tool_tokens2.py).
+    name: Optional[str] = None
+    tool_calls: Optional[List[dict]] = None
+    tool_call_id: Optional[str] = None
 
 
 class ChatCompletionRequest(BaseModel):
@@ -46,9 +54,19 @@ class ChatCompletionRequest(BaseModel):
     messages: List[ChatMessage]
     temperature: Optional[float] = 0.7
     top_p: Optional[float] = 0.9
-    max_tokens: Optional[int] = 512
+    # Default None (nicht 512): "nicht gesendet" muss unterscheidbar bleiben,
+    # damit max_completion_tokens (oc/ai-sdk schickt statt max_tokens) greift.
+    # Auflösung im Handler: max_tokens → max_completion_tokens → 512.
+    max_tokens: Optional[int] = None
+    max_completion_tokens: Optional[int] = None
     stream: Optional[bool] = False
     stop: Optional[Union[str, List[str]]] = None
+    # OpenAI-natives Tool-Calling (oc/Agent-Clients schicken die Funktionen
+    # als JSON-Schema-Liste). Der Server rendert sie über die Chat-Vorlage
+    # und parst die Aufrufe aus dem Stream (generators._ToolCallStreamShim).
+    tools: Optional[List[dict]] = None
+    tool_choice: Optional[Union[str, dict]] = None
+    parallel_tool_calls: Optional[bool] = None
     # PX extensions
     px_subjective: Optional[bool] = False
     px_gamma: Optional[float] = None           # Override gamma for LTI/ADC injection
@@ -78,6 +96,7 @@ class ChatCompletionRequest(BaseModel):
     # symmetric int8 weights. None = use registry default (gemma3-4b-it ships as
     # int8 because bf16 doesn't fit 12 GB at long prefill). Override per-request.
     quantization: Optional[Literal["none", "int8"]] = None
+    seed: Optional[int] = None
 
 
 class CompletionRequest(BaseModel):
@@ -97,6 +116,7 @@ class CompletionRequest(BaseModel):
     px_relay_alpha: Optional[float] = None
     px_relay_layer: Optional[int] = None
     quantization: Optional[Literal["none", "int8"]] = None
+    seed: Optional[int] = None
 
 
 # ── Response Models ──
@@ -125,6 +145,10 @@ class ChatCompletionResponse(BaseModel):
 class StreamDelta(BaseModel):
     role: Optional[str] = None
     content: Optional[str] = None
+    # OpenAI-Tool-Aufruf-Deltas (einmalig je Aufruf, komplett):
+    # [{"index": 0, "id": "call_…", "type": "function",
+    #   "function": {"name": "write", "arguments": "{\"filePath\": …}"}}]
+    tool_calls: Optional[List[dict]] = None
 
 
 class StreamChoice(BaseModel):
