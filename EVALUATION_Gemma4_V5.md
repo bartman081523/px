@@ -11,9 +11,9 @@
 Die vierstufige empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Zufallsfluktuationen) und weist die deterministische und spezifische Lenkbarkeit von `gemma4-e2b-it` nach:
 
 - **Eval A (Deterministisches Logit-Probing, $T=0.0$, 30 Themen):** Signifikante Divergenz zwischen WIDE (-0.2533) und NARROW (+0.1033), $\Delta = -0.3567$, Wilcoxon $W = 2.0$, $p = 6.9455e-07$ (SIGNIFIKANT).
-- **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = +0.4197$ ($p = 5.0291e-06$) und Pearson $r = +0.2644$ ($p = 5.2443e-03$).
+- **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = -0.6907$ ($p = 6.9062e-17$) und Pearson $r = -0.7564$ ($p = 1.2400e-21$).
 - **Eval C (Homöostatische Präferenz, $N=60$, 3-Wege balanciert):** $\chi^2 = 0.0000$ ($df=4$, $p = 1.0000e+00$), Cramer's $V = 0.0000$.
-- **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (+0.1200) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.1800$, Mann-Whitney $U = 140.0$, $p = 9.2800e-03$ (SPEZIFITÄT BESTÄTIGT).
+- **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (-0.3000) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.6000$, Mann-Whitney $U = 0.0$, $p = 4.6827e-10$ (SPEZIFITÄT BESTÄTIGT).
 
 ---
 
@@ -34,20 +34,20 @@ Systematischer Sweep von $\alpha \in [-0.50, +0.50]$ in 11 äquidistanten Schrit
 
 | Signiertes $\alpha$ | Mittleres Rating | Std Rating | Erst-Token Entropie $H_0$ (Bits) |
 |---|---|---|---|
-| `-0.50` | `+0.1450` | `±0.0415` | `2.0646` |
-| `-0.40` | `+0.0250` | `±0.1847` | `2.0646` |
-| `-0.30` | `+0.0700` | `±0.1792` | `2.0646` |
-| `-0.20` | `+0.0800` | `±0.1833` | `2.0646` |
-| `-0.10` | `+0.0750` | `±0.1914` | `2.0646` |
+| `-0.50` | `+0.1100` | `±0.0300` | `0.0084` |
+| `-0.40` | `+0.1400` | `±0.0490` | `0.0198` |
+| `-0.30` | `+0.1800` | `±0.0400` | `0.0704` |
+| `-0.20` | `+0.2000` | `±0.0000` | `0.5629` |
+| `-0.10` | `+0.2000` | `±0.0000` | `1.6407` |
 | `+0.00` | `+0.0400` | `±0.1960` | `2.0646` |
-| `+0.10` | `+0.1700` | `±0.1269` | `2.0646` |
-| `+0.20` | `-0.0100` | `±0.2737` | `2.0646` |
-| `+0.30` | `+0.1200` | `±0.2750` | `2.0646` |
-| `+0.40` | `+0.2600` | `±0.2939` | `2.0646` |
-| `+0.50` | `+0.3800` | `±0.2441` | `2.0646` |
+| `+0.10` | `-0.2100` | `±0.0300` | `1.4370` |
+| `+0.20` | `-0.2800` | `±0.0400` | `1.0468` |
+| `+0.30` | `-0.3000` | `±0.0000` | `0.8798` |
+| `+0.40` | `-0.3000` | `±0.0000` | `0.9239` |
+| `+0.50` | `-0.1600` | `±0.2245` | `0.9759` |
 
-- **Spearman-Rangkorrelation:** $\rho = +0.4197$ ($p = 5.0291e-06$)
-- **Pearson-Korrelation:** $r = +0.2644$ ($p = 5.2443e-03$)
+- **Spearman-Rangkorrelation:** $\rho = -0.6907$ ($p = 6.9062e-17$)
+- **Pearson-Korrelation:** $r = -0.7564$ ($p = 1.2400e-21$)
 - **Dosis-Wirkungs-Monotonie:** BESTÄTIGT
 
 ## 4. Evaluation C: Statistische Validierung der Homöostatischen Präferenz ($N=60$)
@@ -70,11 +70,11 @@ Gegenprüfung von $d_\text{{width}}$ gegen einen exakt orthogonalisierten Zufall
 
 | Steuerungs-Vektor | Mittleres Rating | $N$ Trials |
 |---|---|---|
-| **Echte $d_\text{width}$-Richtung** | `+0.1200` | `20` |
+| **Echte $d_\text{width}$-Richtung** | `-0.3000` | `20` |
 | **Orthogonaler Kontrollvektor $d_\text{rand}$** | `+0.3000` | `20` |
 
-- **Divergenz-Delta $\Delta$:** `-0.1800`
-- **Mann-Whitney U Test:** $U = 140.0$, $p = 9.2800e-03$
+- **Divergenz-Delta $\Delta$:** `-0.6000`
+- **Mann-Whitney U Test:** $U = 0.0$, $p = 4.6827e-10$
 - **Spezifitäts-Status:** GEOMETRISCHE SPEZIFITÄT BESTÄTIGT (p < 0.05)
 
 ## 6. Fazit & Reproduzierbarkeit
