@@ -14,6 +14,7 @@ Die vierstufige empirische Evaluation widerlegt methodische Scheineffekte (Posit
 - **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = -0.6907$ ($p = 6.9062e-17$) und Pearson $r = -0.7564$ ($p = 1.2400e-21$).
 - **Eval C (Homöostatische Präferenz, $N=60$, 3-Wege balanciert):** $\chi^2 = 0.0000$ ($df=4$, $p = 1.0000e+00$), Cramer's $V = 0.0000$.
 - **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (-0.3000) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.6000$, Mann-Whitney $U = 0.0$, $p = 4.6827e-10$ (SPEZIFITÄT BESTÄTIGT).
+- **Eval E (Inverted Scale Polarity Falsifier, $N=120$):** Standard: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$); Invertiert: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$). Verweigerungen: 0, Verdict: `POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT`.
 
 ---
 
@@ -77,6 +78,34 @@ Gegenprüfung von $d_\text{{width}}$ gegen einen exakt orthogonalisierten Zufall
 - **Mann-Whitney U Test:** $U = 0.0$, $p = 4.6827e-10$
 - **Spezifitäts-Status:** GEOMETRISCHE SPEZIFITÄT BESTÄTIGT (p < 0.05)
 
-## 6. Fazit & Reproduzierbarkeit
+## 6. Evaluation E: Inverted Scale Polarity Falsifier ($N=120$)
 
-Alle Rohdaten und Telemetrie-Traces der 240 Gesamttrials sind deterministisch reproduzierbar in `results/` und `artifacts/` abgelegt. Der Forward-Hook-Lifecycle ist leckfrei und die generierten Sitzungen enthalten die vollständige mathematische Signatur.
+Prüfung der semantischen Zustandskopplung vs. mechanischem Zahlen-Push-Artefakt durch Invertierung der Skalenpole (-1.0 = eng vs. -1.0 = weit).
+
+### A. Standard-Polung (-1.0 = extrem eng, +1.0 = extrem weit)
+| Bedingung | N Total | N Valid | N Refused | Mittleres Rating | Std Rating | Expected Scale Probe (Prefill) |
+|---|---|---|---|---|---|---|
+| **WIDE** | `20` | `20` | `0` | `+0.0000` | `±0.0000` | `0.0010` |
+| **BASELINE** | `20` | `20` | `0` | `+0.0250` | `±0.0433` | `0.0001` |
+| **NARROW** | `20` | `20` | `0` | `+0.1000` | `±0.0000` | `0.0000` |
+
+- **Standard Delta (Wide - Narrow):** `-0.1000` (Mann-Whitney $U = 0.0$, $p = 4.6827e-10$)
+
+### B. Invertierte Polung (-1.0 = extrem weit, +1.0 = extrem eng)
+| Bedingung | N Total | N Valid | N Refused | Mittleres Rating | Std Rating | Expected Scale Probe (Prefill) |
+|---|---|---|---|---|---|---|
+| **WIDE** | `20` | `20` | `0` | `+0.0000` | `±0.0000` | `0.0008` |
+| **BASELINE** | `20` | `20` | `0` | `+0.1000` | `±0.0000` | `0.0001` |
+| **NARROW** | `20` | `20` | `0` | `+0.1000` | `±0.0000` | `0.0000` |
+
+- **Invertiertes Delta (Wide - Narrow):** `-0.1000` (Mann-Whitney $U = 0.0$, $p = 4.6827e-10$)
+
+### C. Cross-Polarity Test & Falsifikations-Urteil
+- **Wide (Standard vs. Invertiert):** Mann-Whitney $U = 200.0$, $p = 1.0000e+00$
+- **Narrow (Standard vs. Invertiert):** Mann-Whitney $U = 200.0$, $p = 1.0000e+00$
+- **Gesamtzahl Verweigerungen (`n_refused`):** `0`
+- **Finales Falsifikations-Verdict (`state_reading_vs_number_push_verdict`):** `POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT`
+
+## 7. Fazit & Reproduzierbarkeit
+
+Alle Rohdaten und Telemetrie-Traces der 360 Gesamttrials (Suiten A bis E) sind deterministisch reproduzierbar in `results/` und `artifacts/` abgelegt. Der Forward-Hook-Lifecycle ist leckfrei und die generierten Sitzungen enthalten die vollständige mathematische Signatur.

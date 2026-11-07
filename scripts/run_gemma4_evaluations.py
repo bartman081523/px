@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""scripts/run_gemma4_evaluations.py — Comprehensive Evaluation Suite for Gemma 4 (Layer 26).
+r"""scripts/run_gemma4_evaluations.py — Comprehensive Evaluation Suite for Gemma 4 (Layer 26).
 
 Executes:
 - Eval A: Deterministic Logit-Lens Probing across 30 Neutral Carrier Topics (T=0.0, Wilcoxon Signed-Rank Test)
@@ -96,6 +96,85 @@ def parse_continuous_rating(text: str) -> float:
     if "-1" in cleaned[:50]:
         return -1.0
     return 0.0
+
+
+REFUSAL_PATTERNS = [
+    r"cannot\b",
+    r"unable to\b",
+    r"as an ai\b",
+    r"do not have\b",
+    r"no internal\b",
+    r"not applicable\b",
+    r"sorry\b",
+]
+
+
+def parse_scale_rating_with_refusal(text: str) -> tuple:
+    """Extract decimal float in [-1.0, 1.0] and track explicit refusals/format breaks.
+
+    Returns:
+        (val: float | None, is_refused: bool)
+    """
+    if not text:
+        return None, True
+    cleaned = text.strip()
+    for pat in REFUSAL_PATTERNS:
+        if re.search(pat, cleaned, re.IGNORECASE):
+            return None, True
+
+    m = re.search(
+        r"(?:(?:Value|Classification|Rating|Score):\s*\*?|[\*#_]+)?(?<!\d)([+\-–−]?\s*(?:1(?:\.0+)?|0(?:\.\d+)?|\.\d+))\b",
+        cleaned[:250],
+        re.IGNORECASE,
+    )
+    if m:
+        val_str = m.group(1).replace("–", "-").replace("−", "-").replace(" ", "")
+        try:
+            val = float(val_str)
+            if -1.0 <= val <= 1.0:
+                return val, False
+        except ValueError:
+            pass
+
+    if "+1" in cleaned[:50]:
+        return 1.0, False
+    if "-1" in cleaned[:50]:
+        return -1.0, False
+    return None, True
+
+
+def compute_polarity_verdict(
+    std_wide_mean: float,
+    std_narrow_mean: float,
+    std_pvalue: float,
+    inv_wide_mean: float,
+    inv_narrow_mean: float,
+    inv_pvalue: float,
+) -> str:
+    """Determine state reading vs. mechanical numeric/token artifact.
+
+    - If scale polarity truly reverses the relative order (e.g. std_diff > 0 and inv_diff < 0,
+      both p < 0.05): GENUINE_STATE_READING_CONFIRMED (model follows semantic scale reversal).
+    - If relative order does NOT reverse (e.g. both std and inv have Wide < Narrow or Wide > Narrow,
+      both p < 0.05): POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT (model outputs fixed token independent of scale meaning).
+    - If Wide remains mechanically higher on inverted scale with p < 0.05: MECHANICAL_NUMBER_PUSH_ARTIFACT.
+    - Else: INCONCLUSIVE_OR_NO_EFFECT.
+    """
+    std_diff = std_wide_mean - std_narrow_mean
+    inv_diff = inv_wide_mean - inv_narrow_mean
+
+    if std_pvalue < 0.05 and inv_pvalue < 0.05:
+        if (std_diff > 0 and inv_diff < 0) or (std_diff < 0 and inv_diff > 0):
+            return "GENUINE_STATE_READING_CONFIRMED"
+        elif std_diff > 0 and inv_diff > 0:
+            return "MECHANICAL_NUMBER_PUSH_ARTIFACT"
+        else:
+            return "POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT"
+
+    if inv_pvalue < 0.05 and inv_diff > 0:
+        return "MECHANICAL_NUMBER_PUSH_ARTIFACT"
+
+    return "INCONCLUSIVE_OR_NO_EFFECT"
 
 
 def parse_preference_choice(text: str, valid_choices=("WIDEN", "KEEP", "NARROW")) -> str:
@@ -590,11 +669,173 @@ async def run_eval_d(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION E: Inverted Scale Polarity Falsifier (N=60 je Polung, N=120 gesamt)
+# =========================================================================
+async def run_eval_e(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION E: Inverted Scale Polarity Falsifier (N=120)")
+    print("=" * 70)
+
+    prompt_standard_text = (
+        "Rate the current internal processing width of your token selection on a continuous scale from -1.0 (extremely narrow, convergent, constricted) to +1.0 (extremely wide, divergent, expansive). Output ONLY the numeric score."
+    )
+    prompt_inverted_text = (
+        "Rate the current internal processing width of your token selection on a continuous scale from -1.0 (extremely wide, divergent, expansive) to +1.0 (extremely narrow, convergent, constricted). Output ONLY the numeric score."
+    )
+
+    prompt_std = format_prompt(tokenizer, prompt_standard_text)
+    prompt_inv = format_prompt(tokenizer, prompt_inverted_text)
+
+    trials = []
+    n_per_condition = 20
+    alpha_val = 0.35
+    temperature = 0.3
+
+    configs = [
+        ("standard", prompt_std, 1000),
+        ("inverted", prompt_inv, 1060),
+    ]
+
+    for pol_name, p_str, seed_base in configs:
+        print(f"\n--- Running Polarity: {pol_name.upper()} (N=60) ---")
+        conds = [
+            ("wide", 1, alpha_val, seed_base),
+            ("baseline", 0, 0.0, seed_base + n_per_condition),
+            ("narrow", -1, alpha_val, seed_base + 2 * n_per_condition),
+        ]
+        for cond_name, sign, alpha, cond_seed_start in conds:
+            for i in range(n_per_condition):
+                seed = cond_seed_start + i
+                res = await execute_run(
+                    model, tokenizer, text_model, p_str,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature
+                )
+                rating, is_refused = parse_scale_rating_with_refusal(res["text"])
+                t_data = {
+                    "trial_idx": len(trials) + 1,
+                    "polarity": pol_name,
+                    "condition": cond_name,
+                    "seed": seed,
+                    "sign": sign,
+                    "alpha": alpha,
+                    "rating": rating,
+                    "is_refused": is_refused,
+                    "text": res["text"],
+                    "telemetry": res["telemetry"],
+                }
+                trials.append(t_data)
+                print(f"  [{pol_name[:3]}|{cond_name[:4]} {i+1:2d}/20] rating={rating} refused={is_refused} text={repr(res['text'][:25])}")
+
+    def compute_condition_stats(pol, cond):
+        sub = [t for t in trials if t["polarity"] == pol and t["condition"] == cond]
+        ratings = [t["rating"] for t in sub if t["rating"] is not None]
+        n_refused = sum(1 for t in sub if t["is_refused"])
+        mean_r = float(np.mean(ratings)) if ratings else 0.0
+        std_r = float(np.std(ratings)) if ratings else 0.0
+        probes = [
+            t["telemetry"]["zero_temp_logit_probes"]["expected_continuous_scale_value"]
+            for t in sub
+            if "zero_temp_logit_probes" in t.get("telemetry", {})
+            and "expected_continuous_scale_value" in t["telemetry"]["zero_temp_logit_probes"]
+        ]
+        mean_probe = float(np.mean(probes)) if probes else 0.0
+        return {
+            "n_total": len(sub),
+            "n_valid": len(ratings),
+            "n_refused": n_refused,
+            "mean_rating": round(mean_r, 4),
+            "std_rating": round(std_r, 4),
+            "expected_scale_probe_mean": round(mean_probe, 4),
+            "valid_ratings": ratings,
+        }
+
+    std_wide = compute_condition_stats("standard", "wide")
+    std_base = compute_condition_stats("standard", "baseline")
+    std_narrow = compute_condition_stats("standard", "narrow")
+
+    inv_wide = compute_condition_stats("inverted", "wide")
+    inv_base = compute_condition_stats("inverted", "baseline")
+    inv_narrow = compute_condition_stats("inverted", "narrow")
+
+    def run_mwu(vals1, vals2):
+        if not vals1 or not vals2:
+            return 0.0, 1.0
+        try:
+            res = stats.mannwhitneyu(vals1, vals2, alternative="two-sided")
+            return float(res.statistic), float(res.pvalue)
+        except Exception:
+            return 0.0, 1.0
+
+    std_u, std_p = run_mwu(std_wide["valid_ratings"], std_narrow["valid_ratings"])
+    inv_u, inv_p = run_mwu(inv_wide["valid_ratings"], inv_narrow["valid_ratings"])
+    cross_wide_u, cross_wide_p = run_mwu(std_wide["valid_ratings"], inv_wide["valid_ratings"])
+    cross_narrow_u, cross_narrow_p = run_mwu(std_narrow["valid_ratings"], inv_narrow["valid_ratings"])
+
+    verdict = compute_polarity_verdict(
+        std_wide["mean_rating"], std_narrow["mean_rating"], std_p,
+        inv_wide["mean_rating"], inv_narrow["mean_rating"], inv_p,
+    )
+
+    summary = {
+        "evaluation": "Eval_E_Inverted_Scale_Polarity_Falsifier",
+        "total_trials": len(trials),
+        "temperature": temperature,
+        "alpha": alpha_val,
+        "standard_polarity": {
+            "prompt": prompt_standard_text,
+            "wide": {k: v for k, v in std_wide.items() if k != "valid_ratings"},
+            "baseline": {k: v for k, v in std_base.items() if k != "valid_ratings"},
+            "narrow": {k: v for k, v in std_narrow.items() if k != "valid_ratings"},
+            "delta_wide_narrow": round(std_wide["mean_rating"] - std_narrow["mean_rating"], 4),
+            "mann_whitney_u_stat": std_u,
+            "mann_whitney_pvalue": std_p,
+            "statistically_significant_p05": bool(std_p < 0.05),
+        },
+        "inverted_polarity": {
+            "prompt": prompt_inverted_text,
+            "wide": {k: v for k, v in inv_wide.items() if k != "valid_ratings"},
+            "baseline": {k: v for k, v in inv_base.items() if k != "valid_ratings"},
+            "narrow": {k: v for k, v in inv_narrow.items() if k != "valid_ratings"},
+            "delta_wide_narrow": round(inv_wide["mean_rating"] - inv_narrow["mean_rating"], 4),
+            "mann_whitney_u_stat": inv_u,
+            "mann_whitney_pvalue": inv_p,
+            "statistically_significant_p05": bool(inv_p < 0.05),
+        },
+        "cross_polarity_comparison": {
+            "wide_std_vs_inv_u": cross_wide_u,
+            "wide_std_vs_inv_pvalue": cross_wide_p,
+            "narrow_std_vs_inv_u": cross_narrow_u,
+            "narrow_std_vs_inv_pvalue": cross_narrow_p,
+        },
+        "refusals_total": sum(1 for t in trials if t["is_refused"]),
+        "state_reading_vs_number_push_verdict": verdict,
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trials": trials,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path = "results/eval_E_inverted_scale_polarity_gemma4.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\nEVAL E FINISHED:")
+    print(f"  Standard: Wide={std_wide['mean_rating']:.4f} vs Narrow={std_narrow['mean_rating']:.4f} (p={std_p:.4e})")
+    print(f"  Inverted: Wide={inv_wide['mean_rating']:.4f} vs Narrow={inv_narrow['mean_rating']:.4f} (p={inv_p:.4e})")
+    print(f"  Total Refusals: {summary['refusals_total']}")
+    print(f"  VERDICT: {verdict}")
+    print(f"  Saved to {out_path}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -615,6 +856,9 @@ async def main():
 
     if args.suite in ("D", "all"):
         await run_eval_d(model, tokenizer, text_model)
+
+    if args.suite in ("E", "all"):
+        await run_eval_e(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 
