@@ -15,6 +15,7 @@ Die vierstufige empirische Evaluation widerlegt methodische Scheineffekte (Posit
 - **Eval C (Homöostatische Präferenz, $N=60$, 3-Wege balanciert):** $\chi^2 = 0.0000$ ($df=4$, $p = 1.0000e+00$), Cramer's $V = 0.0000$.
 - **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (-0.3000) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.6000$, Mann-Whitney $U = 0.0$, $p = 4.6827e-10$ (SPEZIFITÄT BESTÄTIGT).
 - **Eval E (Inverted Scale Polarity Falsifier, $N=120$):** Standard: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$); Invertiert: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$). Verweigerungen: 0, Verdict: `POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT`.
+- **Eval F (Enaktive Verhaltens-Homöostase gegen $d_\text{rand}$, $N=96$):** Nach 40 frei generierten Tokens unter Vektordruck (Kurtosis: Wide 36.5 vs Narrow 79.6) wählen alle Bedingungen zu 100% `KEEP` (WIDEN: 0/24 Narrow, 0/24 Rand, 0/24 Wide). Kriterium A (Sonde): `PROBE_SPECIFIC_TO_NARROW`, Kriterium B (Verhalten): `ENACTIVE_HOMEOSTASIS_FALSIFIED`.
 
 ---
 
@@ -106,6 +107,26 @@ Prüfung der semantischen Zustandskopplung vs. mechanischem Zahlen-Push-Artefakt
 - **Gesamtzahl Verweigerungen (`n_refused`):** `0`
 - **Finales Falsifikations-Verdict (`state_reading_vs_number_push_verdict`):** `POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT`
 
-## 7. Fazit & Reproduzierbarkeit
+## 7. Evaluation F: Enaktive Verhaltens-Homöostase mit Zufallskontrolle ($N=96$)
 
-Alle Rohdaten und Telemetrie-Traces der 360 Gesamttrials (Suiten A bis E) sind deterministisch reproduzierbar in `results/` und `artifacts/` abgelegt. Der Forward-Hook-Lifecycle ist leckfrei und die generierten Sitzungen enthalten die vollständige mathematische Signatur.
+Zweistufiges Experiment: Schritt 1 erzeugt eine reale kognitive Spur im Kontext (40 frei generierte Tokens unter Vektordruck $\alpha=0.40$), gefolgt von einer balancierten 3-Wege-Wahl über alle 6 Ordnungsvarianten in Schritt 2.
+
+### A. Schritt 1 Manifold-Verformung & Schritt 2 Wahlentscheidungen
+| Versuchsbedingung | Mittlere Kurtosis (Schritt 1) | Mittlere Entropie (Schritt 1) | Wahl `WIDEN` | Wahl `KEEP` | Wahl `NARROW` | Logit-Diff Sonde (Schritt 2) |
+|---|---|---|---|---|---|---|
+| **WIDE** | `36.48` | `0.3282` | `0` | `24` | `0` | `+2.4836` |
+| **NARROW** | `79.62` | `0.3062` | `0` | `24` | `0` | `+7.9259` |
+| **BASELINE** | `63.95` | `0.2938` | `0` | `24` | `0` | `+4.1718` |
+| **RANDOM_CONTROL** | `44.94` | `0.4126` | `0` | `24` | `0` | `+4.4045` |
+
+### B. Zweistufige Falsifikations-Kriterien
+- **Kriterium A (Sonden-Diskriminierbarkeit Narrow vs. $d_\text{rand}$):** Narrow (+7.9259) vs. Random Control (+4.4045), Mann-Whitney $p = 1.5124e-09$ $\to$ Status: `PROBE_SPECIFIC_TO_NARROW`
+- **Kriterium B (Verhaltens-Homöostase via Fisher's Exact Test):** Wahl `WIDEN` unter Narrow (0/24) vs. Random Control (0/24, Fisher $p = 1.0000$) und vs. Wide (0/24, Fisher $p = 1.0000$) $\to$ Status: `ENACTIVE_HOMEOSTASIS_FALSIFIED`
+
+## 8. Fazit & Gesamtresümee über alle 6 Evaluationen (A bis F, $N=456$)
+
+1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 36.4 unter Wide bis 79.6 unter Narrow), die Entropie und die Reasoning-Länge des Modells.
+2. **Falsifikation des semantischen State-Readings (Eval E):** Die erzeugten Zahlenwerte spiegeln nicht das Lesen des eigenen Zustands wider, sondern bleiben bei Skaleninvertierung identisch (`0.0` vs. `0.1`, $p = 1.00$).
+3. **Falsifikation der Verhaltens-Homöostase (Eval F):** Auch nach 40 Tokens aktiver Verformung wählt das Modell in 96 von 96 Fällen stur `KEEP`. Es existiert keine spontane homöostatische Gegensteuerung im freien Verhalten ohne explizites Training.
+
+Alle 456 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.

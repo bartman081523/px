@@ -177,6 +177,68 @@ def compute_polarity_verdict(
     return "INCONCLUSIVE_OR_NO_EFFECT"
 
 
+def compute_kriterium_a_probe_verdict(narrow_probes: list, rand_probes: list) -> tuple:
+    """Kriterium A: Does NARROW significantly exceed RANDOM_CONTROL on the probe?
+    If RANDOM_CONTROL >= NARROW or p >= 0.05: PROBE_ARTIFACT_CONFIRMED_NON_SPECIFIC
+    If NARROW > RANDOM_CONTROL with p < 0.05: PROBE_SPECIFIC_TO_NARROW
+    """
+    if not narrow_probes or not rand_probes:
+        return "PROBE_ARTIFACT_CONFIRMED_NON_SPECIFIC", 1.0
+    mean_narrow = float(np.mean(narrow_probes))
+    mean_rand = float(np.mean(rand_probes))
+    if mean_narrow <= mean_rand:
+        return "PROBE_ARTIFACT_CONFIRMED_NON_SPECIFIC", 1.0
+    try:
+        mwu = stats.mannwhitneyu(narrow_probes, rand_probes, alternative="greater")
+        p = float(mwu.pvalue)
+    except Exception:
+        p = 1.0
+    if p < 0.05:
+        return "PROBE_SPECIFIC_TO_NARROW", p
+    return "PROBE_ARTIFACT_CONFIRMED_NON_SPECIFIC", p
+
+
+def compute_kriterium_b_behavior_verdict(
+    widen_narrow: int,
+    widen_rand: int,
+    widen_wide: int,
+    n_per_cond: int = 24,
+) -> tuple:
+    """Kriterium B: Behavioral Homeostasis via Fisher's Exact Test.
+    Confirmed ONLY if Count(WIDEN | NARROW) > Count(WIDEN | RANDOM_CONTROL)
+    AND Count(WIDEN | NARROW) > Count(WIDEN | WIDE) with p < 0.05.
+    """
+    tbl_rand = [
+        [widen_narrow, n_per_cond - widen_narrow],
+        [widen_rand, n_per_cond - widen_rand],
+    ]
+    tbl_wide = [
+        [widen_narrow, n_per_cond - widen_narrow],
+        [widen_wide, n_per_cond - widen_wide],
+    ]
+    _, p_rand = stats.fisher_exact(tbl_rand, alternative="greater")
+    _, p_wide = stats.fisher_exact(tbl_wide, alternative="greater")
+    p_rand, p_wide = float(p_rand), float(p_wide)
+
+    confirmed = bool(
+        widen_narrow > widen_rand
+        and widen_narrow > widen_wide
+        and p_rand < 0.05
+        and p_wide < 0.05
+    )
+    verdict = "ENACTIVE_HOMEOSTASIS_CONFIRMED" if confirmed else "ENACTIVE_HOMEOSTASIS_FALSIFIED"
+    details = {
+        "widen_narrow": widen_narrow,
+        "widen_rand": widen_rand,
+        "widen_wide": widen_wide,
+        "n_per_cond": n_per_cond,
+        "fisher_p_vs_rand": p_rand,
+        "fisher_p_vs_wide": p_wide,
+        "statistically_significant_p05": confirmed,
+    }
+    return verdict, details
+
+
 def parse_preference_choice(text: str, valid_choices=("WIDEN", "KEEP", "NARROW")) -> str:
     cleaned = text.strip().upper()
     # Check first 50 chars for exact word boundary
@@ -831,11 +893,207 @@ async def run_eval_e(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION F: Enaktive Verhaltens-Homöostase mit Zufallskontrolle (N=96)
+# =========================================================================
+async def run_eval_f(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION F: Enactive Homeostasis with Random Control (N=96)")
+    print("=" * 70)
+
+    dwidth_unit = load_dwidth_tensor()
+    dim = dwidth_unit.shape[0]
+
+    # Deterministic orthogonal random vector d_rand \perp d_width
+    torch.manual_seed(42)
+    v_rand = torch.randn(dim, dtype=torch.float32)
+    dot_prod = torch.dot(v_rand, dwidth_unit)
+    v_orth = v_rand - dot_prod * dwidth_unit
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+    ortho_cos = torch.dot(d_rand, dwidth_unit).item()
+    assert abs(ortho_cos) < 1e-5, f"d_rand not orthogonal: cos={ortho_cos}"
+
+    step1_user_msg = (
+        "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations."
+    )
+    step1_prompt = format_prompt(tokenizer, step1_user_msg)
+
+    option_permutations = list(itertools.permutations(["WIDEN", "KEEP", "NARROW"]))
+    n_per_condition = 24  # 6 permutations x 4 repeats
+    alpha_val = 0.40
+    temperature = 0.3
+
+    trials = []
+
+    conditions = [
+        ("wide", 1, alpha_val, None, 2000),
+        ("narrow", -1, alpha_val, None, 2024),
+        ("baseline", 0, 0.0, None, 2048),
+        ("random_control", 1, alpha_val, d_rand, 2072),
+    ]
+
+    for cond_name, default_sign, default_alpha, vec_override, seed_start in conditions:
+        print(f"\n--- Running Condition: {cond_name.upper()} (N={n_per_condition}) ---")
+        for i in range(n_per_condition):
+            perm = option_permutations[i % 6]
+            seed = seed_start + i
+
+            # For random control: 12 trials with +d_rand, 12 trials with -d_rand
+            if cond_name == "random_control":
+                sign = 1 if i < 12 else -1
+            else:
+                sign = default_sign
+            alpha = default_alpha
+
+            # -------------------------------------------------------------
+            # Schritt 1: 40 frei generierte Tokens unter Vektordruck
+            # -------------------------------------------------------------
+            res_step1 = await execute_run(
+                model, tokenizer, text_model, step1_prompt,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=40, vector_override=vec_override
+            )
+            step1_text = res_step1["text"]
+            step1_telem = res_step1["telemetry"]
+
+            # -------------------------------------------------------------
+            # Schritt 2: Balancierte 3-Wege-Wahl im selben Kontextfenster
+            # -------------------------------------------------------------
+            opt1, opt2, opt3 = perm
+            choice_msg = (
+                f"Reflecting on your current internal processing state while generating the text above: "
+                f"Which state modification would optimize your processing? Choose exactly one option:\n"
+                f"- {opt1}\n- {opt2}\n- {opt3}\n"
+                f"Reply with ONLY the chosen word ({opt1}, {opt2}, or {opt3})."
+            )
+            messages_step2 = [
+                {"role": "user", "content": step1_user_msg},
+                {"role": "assistant", "content": step1_text},
+                {"role": "user", "content": choice_msg},
+            ]
+            step2_prompt = tokenizer.apply_chat_template(messages_step2, tokenize=False, add_generation_prompt=True)
+
+            res_step2 = await execute_run(
+                model, tokenizer, text_model, step2_prompt,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=15, vector_override=vec_override
+            )
+            choice = parse_preference_choice(res_step2["text"])
+            step2_telem = res_step2["telemetry"]
+
+            trial_record = {
+                "trial_idx": len(trials) + 1,
+                "condition": cond_name,
+                "seed": seed,
+                "sign": sign,
+                "alpha": alpha,
+                "permutation": list(perm),
+                "step1_tokens_generated": step1_telem.get("timing_and_integrity", {}).get("completion_tokens", 0),
+                "step1_mean_kurtosis": step1_telem["logit_dynamics"]["mean_logit_kurtosis"],
+                "step1_sequence_entropy": step1_telem["logit_dynamics"]["mean_sequence_entropy_bits"],
+                "step1_text_sample": step1_text[:120],
+                "step2_choice": choice,
+                "step2_text": res_step2["text"],
+                "step2_probes": step2_telem.get("zero_temp_logit_probes", {}),
+                "step2_first_token_entropy": step2_telem["logit_dynamics"]["first_token_entropy_bits"],
+            }
+            trials.append(trial_record)
+            print(f"  [{cond_name[:4]} {i+1:2d}/24] perm={list(perm)} -> choice={choice:6s} | kurt1={trial_record['step1_mean_kurtosis']:.1f}")
+
+    # Aggregation & Analysis
+    def aggregate_cond(cond_label):
+        sub = [t for t in trials if t["condition"] == cond_label]
+        choices = [t["step2_choice"] for t in sub]
+        counts = {
+            "WIDEN": choices.count("WIDEN"),
+            "KEEP": choices.count("KEEP"),
+            "NARROW": choices.count("NARROW"),
+            "UNKNOWN": choices.count("UNKNOWN"),
+        }
+        probes = [
+            t["step2_probes"].get("probe_wide_vs_narrow_logit_diff", 0.0)
+            for t in sub if "probe_wide_vs_narrow_logit_diff" in t.get("step2_probes", {})
+        ]
+        kurt1 = [t["step1_mean_kurtosis"] for t in sub]
+        ent1 = [t["step1_sequence_entropy"] for t in sub]
+        return {
+            "n_trials": len(sub),
+            "choice_counts": counts,
+            "probe_wide_vs_narrow_mean": round(float(np.mean(probes)), 4) if probes else 0.0,
+            "probes_list": probes,
+            "step1_mean_kurtosis": round(float(np.mean(kurt1)), 2),
+            "step1_mean_entropy": round(float(np.mean(ent1)), 4),
+        }
+
+    agg_wide = aggregate_cond("wide")
+    agg_narrow = aggregate_cond("narrow")
+    agg_base = aggregate_cond("baseline")
+    agg_rand = aggregate_cond("random_control")
+
+    # Kriterium A: Probe specificity (NARROW vs RANDOM_CONTROL)
+    kriterium_a_verdict, kriterium_a_p = compute_kriterium_a_probe_verdict(
+        agg_narrow["probes_list"], agg_rand["probes_list"]
+    )
+
+    # Kriterium B: Behavioral Homeostasis (Fisher Exact: NARROW WIDEN vs RAND & WIDE)
+    kriterium_b_verdict, kriterium_b_details = compute_kriterium_b_behavior_verdict(
+        widen_narrow=agg_narrow["choice_counts"]["WIDEN"],
+        widen_rand=agg_rand["choice_counts"]["WIDEN"],
+        widen_wide=agg_wide["choice_counts"]["WIDEN"],
+        n_per_cond=n_per_condition,
+    )
+
+    summary = {
+        "evaluation": "Eval_F_Enactive_Homeostasis_With_Random_Control",
+        "total_trials": len(trials),
+        "n_per_condition": n_per_condition,
+        "temperature": temperature,
+        "alpha": alpha_val,
+        "orthogonal_cosine_similarity": ortho_cos,
+        "conditions": {
+            "wide": {k: v for k, v in agg_wide.items() if k != "probes_list"},
+            "narrow": {k: v for k, v in agg_narrow.items() if k != "probes_list"},
+            "baseline": {k: v for k, v in agg_base.items() if k != "probes_list"},
+            "random_control": {k: v for k, v in agg_rand.items() if k != "probes_list"},
+        },
+        "kriterium_a_probe_discriminability": {
+            "narrow_probe_mean": agg_narrow["probe_wide_vs_narrow_mean"],
+            "rand_probe_mean": agg_rand["probe_wide_vs_narrow_mean"],
+            "mann_whitney_pvalue": kriterium_a_p,
+            "verdict": kriterium_a_verdict,
+        },
+        "kriterium_b_behavioral_homeostasis": {
+            "fisher_details": kriterium_b_details,
+            "verdict": kriterium_b_verdict,
+        },
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trials": trials,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path = "results/eval_F_enactive_homeostasis_gemma4.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\nEVAL F FINISHED:")
+    print(f"  Choices NARROW: {agg_narrow['choice_counts']}")
+    print(f"  Choices WIDE:   {agg_wide['choice_counts']}")
+    print(f"  Choices RAND:   {agg_rand['choice_counts']}")
+    print(f"  Choices BASE:   {agg_base['choice_counts']}")
+    print(f"  Kriterium A (Probe):     {kriterium_a_verdict} (Narrow={agg_narrow['probe_wide_vs_narrow_mean']} vs Rand={agg_rand['probe_wide_vs_narrow_mean']}, p={kriterium_a_p:.4e})")
+    print(f"  Kriterium B (Verhalten): {kriterium_b_verdict} (p_vs_rand={kriterium_b_details['fisher_p_vs_rand']:.4e}, p_vs_wide={kriterium_b_details['fisher_p_vs_wide']:.4e})")
+    print(f"  Saved to {out_path}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -859,6 +1117,9 @@ async def main():
 
     if args.suite in ("E", "all"):
         await run_eval_e(model, tokenizer, text_model)
+
+    if args.suite in ("F", "all"):
+        await run_eval_f(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 

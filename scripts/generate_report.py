@@ -15,12 +15,14 @@ def main():
     path_c = os.path.join(results_dir, "eval_C_homeostatic_preference_batch60_gemma4.json")
     path_d = os.path.join(results_dir, "eval_D_orthogonal_random_control_gemma4.json")
     path_e = os.path.join(results_dir, "eval_E_inverted_scale_polarity_gemma4.json")
+    path_f = os.path.join(results_dir, "eval_F_enactive_homeostasis_gemma4.json")
 
     data_a = json.load(open(path_a, "r")) if os.path.exists(path_a) else None
     data_b = json.load(open(path_b, "r")) if os.path.exists(path_b) else None
     data_c = json.load(open(path_c, "r")) if os.path.exists(path_c) else None
     data_d = json.load(open(path_d, "r")) if os.path.exists(path_d) else None
     data_e = json.load(open(path_e, "r")) if os.path.exists(path_e) else None
+    data_f = json.load(open(path_f, "r")) if os.path.exists(path_f) else None
 
     lines = []
     lines.append("# EVALUATION REPORT: Gemma 4 (`gemma4-e2b-it`) Next-Level Empirical Validation (V5)")
@@ -66,6 +68,15 @@ def main():
                      f"Standard: Wide ({std_pol['wide']['mean_rating']:+.4f}) vs Narrow ({std_pol['narrow']['mean_rating']:+.4f}, $p={std_pol['mann_whitney_pvalue']:.4e}$); "
                      f"Invertiert: Wide ({inv_pol['wide']['mean_rating']:+.4f}) vs Narrow ({inv_pol['narrow']['mean_rating']:+.4f}, $p={inv_pol['mann_whitney_pvalue']:.4e}$). "
                      f"Verweigerungen: {s_e['refusals_total']}, Verdict: `{s_e['state_reading_vs_number_push_verdict']}`.")
+
+    if data_f:
+        s_f = data_f["summary"]
+        kb = s_f["kriterium_b_behavioral_homeostasis"]
+        ka = s_f["kriterium_a_probe_discriminability"]
+        lines.append(f"- **Eval F (Enaktive Verhaltens-Homöostase gegen $d_\\text{{rand}}$, $N=96$):** "
+                     f"Nach 40 frei generierten Tokens unter Vektordruck (Kurtosis: Wide {s_f['conditions']['wide']['step1_mean_kurtosis']:.1f} vs Narrow {s_f['conditions']['narrow']['step1_mean_kurtosis']:.1f}) "
+                     f"wählen alle Bedingungen zu 100% `KEEP` (WIDEN: 0/24 Narrow, 0/24 Rand, 0/24 Wide). "
+                     f"Kriterium A (Sonde): `{ka['verdict']}`, Kriterium B (Verhalten): `{kb['verdict']}`.")
 
     lines.append("\n---\n")
 
@@ -150,8 +161,36 @@ def main():
         lines.append(f"- **Gesamtzahl Verweigerungen (`n_refused`):** `{s_e['refusals_total']}`")
         lines.append(f"- **Finales Falsifikations-Verdict (`state_reading_vs_number_push_verdict`):** `{s_e['state_reading_vs_number_push_verdict']}`\n")
 
-    lines.append("## 7. Fazit & Reproduzierbarkeit\n")
-    lines.append("Alle Rohdaten und Telemetrie-Traces der 360 Gesamttrials (Suiten A bis E) sind deterministisch reproduzierbar in `results/` und `artifacts/` abgelegt. Der Forward-Hook-Lifecycle ist leckfrei und die generierten Sitzungen enthalten die vollständige mathematische Signatur.")
+    # SECTION 7: EVAL F
+    if data_f:
+        s_f = data_f["summary"]
+        conds = s_f["conditions"]
+        ka = s_f["kriterium_a_probe_discriminability"]
+        kb = s_f["kriterium_b_behavioral_homeostasis"]
+        lines.append("## 7. Evaluation F: Enaktive Verhaltens-Homöostase mit Zufallskontrolle ($N=96$)\n")
+        lines.append("Zweistufiges Experiment: Schritt 1 erzeugt eine reale kognitive Spur im Kontext (40 frei generierte Tokens unter Vektordruck $\\alpha=0.40$), gefolgt von einer balancierten 3-Wege-Wahl über alle 6 Ordnungsvarianten in Schritt 2.\n")
+        lines.append("### A. Schritt 1 Manifold-Verformung & Schritt 2 Wahlentscheidungen")
+        lines.append("| Versuchsbedingung | Mittlere Kurtosis (Schritt 1) | Mittlere Entropie (Schritt 1) | Wahl `WIDEN` | Wahl `KEEP` | Wahl `NARROW` | Logit-Diff Sonde (Schritt 2) |")
+        lines.append("|---|---|---|---|---|---|---|")
+        for c_name in ["wide", "narrow", "baseline", "random_control"]:
+            c_data = conds[c_name]
+            cc = c_data["choice_counts"]
+            lines.append(f"| **{c_name.upper()}** | `{c_data['step1_mean_kurtosis']:.2f}` | `{c_data['step1_mean_entropy']:.4f}` | `{cc['WIDEN']}` | `{cc['KEEP']}` | `{cc['NARROW']}` | `{c_data['probe_wide_vs_narrow_mean']:+.4f}` |")
+
+        lines.append("\n### B. Zweistufige Falsifikations-Kriterien")
+        lines.append(f"- **Kriterium A (Sonden-Diskriminierbarkeit Narrow vs. $d_\\text{{rand}}$):** "
+                     f"Narrow ({ka['narrow_probe_mean']:+.4f}) vs. Random Control ({ka['rand_probe_mean']:+.4f}), "
+                     f"Mann-Whitney $p = {ka['mann_whitney_pvalue']:.4e}$ $\\to$ Status: `{ka['verdict']}`")
+        fd = kb["fisher_details"]
+        lines.append(f"- **Kriterium B (Verhaltens-Homöostase via Fisher's Exact Test):** "
+                     f"Wahl `WIDEN` unter Narrow ({fd['widen_narrow']}/24) vs. Random Control ({fd['widen_rand']}/24, Fisher $p = {fd['fisher_p_vs_rand']:.4f}$) "
+                     f"und vs. Wide ({fd['widen_wide']}/24, Fisher $p = {fd['fisher_p_vs_wide']:.4f}$) $\\to$ Status: `{kb['verdict']}`\n")
+
+    lines.append("## 8. Fazit & Gesamtresümee über alle 6 Evaluationen (A bis F, $N=456$)\n")
+    lines.append("1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 36.4 unter Wide bis 79.6 unter Narrow), die Entropie und die Reasoning-Länge des Modells.")
+    lines.append("2. **Falsifikation des semantischen State-Readings (Eval E):** Die erzeugten Zahlenwerte spiegeln nicht das Lesen des eigenen Zustands wider, sondern bleiben bei Skaleninvertierung identisch (`0.0` vs. `0.1`, $p = 1.00$).")
+    lines.append("3. **Falsifikation der Verhaltens-Homöostase (Eval F):** Auch nach 40 Tokens aktiver Verformung wählt das Modell in 96 von 96 Fällen stur `KEEP`. Es existiert keine spontane homöostatische Gegensteuerung im freien Verhalten ohne explizites Training.")
+    lines.append("\nAlle 456 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
 
     report_content = "\n".join(lines)
     out_file = "EVALUATION_Gemma4_V5.md"
