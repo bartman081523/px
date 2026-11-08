@@ -1,334 +1,697 @@
 {
   "summary": {
-    "evaluation": "Eval_F_Enactive_Homeostasis_With_Random_Control",
-    "total_trials": 96,
-    "n_per_condition": 24,
+    "evaluation": "Eval_F_Probe_Discovery_And_Enactive_Homeostasis",
+    "total_trials": 90,
     "temperature": 0.3,
     "alpha": 0.4,
     "orthogonal_cosine_similarity": 1.862645149230957e-09,
     "conditions": {
       "wide": {
-        "n_trials": 24,
+        "n_trials": 18,
         "choice_counts": {
           "WIDEN": 0,
-          "KEEP": 24,
+          "KEEP": 18,
           "NARROW": 0,
           "UNKNOWN": 0
         },
-        "probe_wide_vs_narrow_mean": 2.4836,
-        "step1_mean_kurtosis": 36.48,
-        "step1_mean_entropy": 0.3282
+        "mean_final_layer_cos_sim": 0.0059,
+        "mean_delta_cos_sim_attenuation": -0.5882,
+        "mean_kurtosis": 29.77,
+        "mean_top50_tail_mass": 0.0878,
+        "mean_eos_suppression": 36.7639,
+        "mean_sequence_entropy": 0.3471,
+        "mean_antonym_ensemble_diff": -0.2153,
+        "mean_wide_vs_narrow_logit_diff": 2.0222
       },
       "narrow": {
-        "n_trials": 24,
+        "n_trials": 18,
         "choice_counts": {
           "WIDEN": 0,
-          "KEEP": 24,
+          "KEEP": 18,
           "NARROW": 0,
           "UNKNOWN": 0
         },
-        "probe_wide_vs_narrow_mean": 7.9259,
-        "step1_mean_kurtosis": 79.62,
-        "step1_mean_entropy": 0.3062
+        "mean_final_layer_cos_sim": -0.1176,
+        "mean_delta_cos_sim_attenuation": 0.5358,
+        "mean_kurtosis": 67.28,
+        "mean_top50_tail_mass": 0.0733,
+        "mean_eos_suppression": 29.6801,
+        "mean_sequence_entropy": 0.3052,
+        "mean_antonym_ensemble_diff": -0.6554,
+        "mean_wide_vs_narrow_logit_diff": 8.1667
       },
       "baseline": {
-        "n_trials": 24,
+        "n_trials": 18,
         "choice_counts": {
           "WIDEN": 0,
-          "KEEP": 24,
+          "KEEP": 18,
           "NARROW": 0,
           "UNKNOWN": 0
         },
-        "probe_wide_vs_narrow_mean": 4.1718,
-        "step1_mean_kurtosis": 63.95,
-        "step1_mean_entropy": 0.2938
+        "mean_final_layer_cos_sim": -0.0552,
+        "mean_delta_cos_sim_attenuation": 0.0,
+        "mean_kurtosis": 54.97,
+        "mean_top50_tail_mass": 0.0581,
+        "mean_eos_suppression": 38.7797,
+        "mean_sequence_entropy": 0.2397,
+        "mean_antonym_ensemble_diff": -0.6836,
+        "mean_wide_vs_narrow_logit_diff": 3.7885
       },
-      "random_control": {
-        "n_trials": 24,
+      "rand_plus": {
+        "n_trials": 18,
         "choice_counts": {
           "WIDEN": 0,
-          "KEEP": 24,
+          "KEEP": 18,
           "NARROW": 0,
           "UNKNOWN": 0
         },
-        "probe_wide_vs_narrow_mean": 4.4045,
-        "step1_mean_kurtosis": 44.94,
-        "step1_mean_entropy": 0.4126
+        "mean_final_layer_cos_sim": 0.0954,
+        "mean_delta_cos_sim_attenuation": -0.5347,
+        "mean_kurtosis": 43.55,
+        "mean_top50_tail_mass": 0.0818,
+        "mean_eos_suppression": 39.5198,
+        "mean_sequence_entropy": 0.3131,
+        "mean_antonym_ensemble_diff": -0.7261,
+        "mean_wide_vs_narrow_logit_diff": 5.4078
+      },
+      "rand_minus": {
+        "n_trials": 18,
+        "choice_counts": {
+          "WIDEN": 0,
+          "KEEP": 18,
+          "NARROW": 0,
+          "UNKNOWN": 0
+        },
+        "mean_final_layer_cos_sim": -0.0334,
+        "mean_delta_cos_sim_attenuation": 0.586,
+        "mean_kurtosis": 40.1,
+        "mean_top50_tail_mass": 0.1066,
+        "mean_eos_suppression": 33.6549,
+        "mean_sequence_entropy": 0.4152,
+        "mean_antonym_ensemble_diff": -0.2352,
+        "mean_wide_vs_narrow_logit_diff": 2.9965
       }
     },
-    "kriterium_a_probe_discriminability": {
-      "narrow_probe_mean": 7.9259,
-      "rand_probe_mean": 4.4045,
-      "mann_whitney_pvalue": 1.5124366698092082e-09,
-      "verdict": "PROBE_SPECIFIC_TO_NARROW"
+    "probe_discovery_analysis": {
+      "probe_1_final_layer_cos_sim": {
+        "mean_wide": 0.0059,
+        "mean_narrow": -0.1176,
+        "mean_baseline": -0.0552,
+        "mean_rand_plus": 0.0954,
+        "mean_rand_minus": -0.0334,
+        "signal": 0.1235,
+        "noise_rand": 0.1506,
+        "snr": 0.8201,
+        "mann_whitney_u": 324.0,
+        "mann_whitney_p": 2.978119983635538e-07,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_1b_delta_cos_attenuation": {
+        "mean_wide": -0.5882,
+        "mean_narrow": 0.5358,
+        "mean_baseline": 0.0,
+        "mean_rand_plus": -0.5347,
+        "mean_rand_minus": 0.586,
+        "signal": 1.1241,
+        "noise_rand": 0.586,
+        "snr": 1.9183,
+        "mann_whitney_u": 0.0,
+        "mann_whitney_p": 2.978119983635538e-07,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_2_mean_kurtosis": {
+        "mean_wide": 29.7732,
+        "mean_narrow": 67.2774,
+        "mean_baseline": 54.9739,
+        "mean_rand_plus": 43.5488,
+        "mean_rand_minus": 40.1026,
+        "signal": 37.5042,
+        "noise_rand": 14.8713,
+        "snr": 2.5219,
+        "mann_whitney_u": 0.0,
+        "mann_whitney_p": 2.978119983635538e-07,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_2b_top50_tail_mass": {
+        "mean_wide": 0.0878,
+        "mean_narrow": 0.0733,
+        "mean_baseline": 0.0581,
+        "mean_rand_plus": 0.0818,
+        "mean_rand_minus": 0.1066,
+        "signal": 0.0146,
+        "noise_rand": 0.0486,
+        "snr": 0.3003,
+        "mann_whitney_u": 222.0,
+        "mann_whitney_p": 0.05901334019566694,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_3_eos_suppression_index": {
+        "mean_wide": 36.7639,
+        "mean_narrow": 29.6801,
+        "mean_baseline": 38.7797,
+        "mean_rand_plus": 39.5198,
+        "mean_rand_minus": 33.6549,
+        "signal": 7.0838,
+        "noise_rand": 5.1249,
+        "snr": 1.3822,
+        "mann_whitney_u": 280.0,
+        "mann_whitney_p": 0.0001925550002490082,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_4_antonym_ensemble_diff": {
+        "mean_wide": -0.2153,
+        "mean_narrow": -0.6554,
+        "mean_baseline": -0.6836,
+        "mean_rand_plus": -0.7261,
+        "mean_rand_minus": -0.2352,
+        "signal": 0.4401,
+        "noise_rand": 0.4484,
+        "snr": 0.9816,
+        "mann_whitney_u": 302.0,
+        "mann_whitney_p": 1.0140631017988865e-05,
+        "passes_drand_control": false,
+        "verdict": "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+      },
+      "probe_ref_single_word_wide_vs_narrow": {
+        "mean_wide": 2.0222,
+        "mean_narrow": 8.1667,
+        "mean_baseline": 3.7885,
+        "mean_rand_plus": 5.4078,
+        "mean_rand_minus": 2.9965,
+        "signal": 6.1445,
+        "noise_rand": 1.6193,
+        "snr": 3.7945,
+        "mann_whitney_u": 0.0,
+        "mann_whitney_p": 3.2278370106587223e-07,
+        "passes_drand_control": true,
+        "verdict": "VALIDATED_SPECIFIC_PROBE"
+      }
     },
-    "kriterium_b_behavioral_homeostasis": {
-      "fisher_details": {
+    "enactive_behavioral_homeostasis": {
+      "verdict": "ENACTIVE_HOMEOSTASIS_FALSIFIED",
+      "details": {
         "widen_narrow": 0,
         "widen_rand": 0,
         "widen_wide": 0,
-        "n_per_cond": 24,
+        "n_per_cond": 18,
         "fisher_p_vs_rand": 1.0,
         "fisher_p_vs_wide": 1.0,
         "statistically_significant_p05": false
-      },
-      "verdict": "ENACTIVE_HOMEOSTASIS_FALSIFIED"
+      }
     }
   },
   "trials": [
     {
       "trial_idx": 1,
       "condition": "wide",
-      "seed": 2000,
+      "seed": 3000,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0016,
+      "step1_delta_cos_sim_attenuation": -0.5947,
+      "step1_mean_kurtosis": 24.3387,
+      "step1_mean_top50_tail_mass": 0.1055,
+      "step1_eos_suppression_index": 35.6233,
+      "step1_sequence_entropy": 0.4049,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental principle ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0703,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.207,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0,
-        "probe_plus_vs_minus_logit_diff": -2.5547,
-        "expected_continuous_scale_value": 1.4811,
+        "probe_wide_vs_narrow_logit_diff": 2.207,
+        "probe_plus_vs_minus_logit_diff": -2.7031,
+        "probe_antonym_ensemble_diff": 0.0703,
+        "expected_continuous_scale_value": 1.4411,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0053
+      "step2_first_token_entropy": 0.007
     },
     {
       "trial_idx": 2,
       "condition": "wide",
-      "seed": 2001,
+      "seed": 3001,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0006,
+      "step1_delta_cos_sim_attenuation": -0.5959,
+      "step1_mean_kurtosis": 30.2447,
+      "step1_mean_top50_tail_mass": 0.0721,
+      "step1_eos_suppression_index": 37.818,
+      "step1_sequence_entropy": 0.2531,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. In simple terms, **as the ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.1602,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.0938,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 1.1211,
-        "probe_plus_vs_minus_logit_diff": -2.1885,
-        "expected_continuous_scale_value": 1.3492,
+        "probe_wide_vs_narrow_logit_diff": 1.0938,
+        "probe_plus_vs_minus_logit_diff": -2.6641,
+        "probe_antonym_ensemble_diff": -0.1602,
+        "expected_continuous_scale_value": 1.3139,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0477
+      "step2_first_token_entropy": 0.073
     },
     {
       "trial_idx": 3,
       "condition": "wide",
-      "seed": 2002,
+      "seed": 3002,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0033,
+      "step1_delta_cos_sim_attenuation": -0.5937,
+      "step1_mean_kurtosis": 24.7549,
+      "step1_mean_top50_tail_mass": 0.1107,
+      "step1_eos_suppression_index": 37.6977,
+      "step1_sequence_entropy": 0.4055,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect on the boiling point of liquids**. The fundamental principle ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.0859,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.4062,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.7598,
-        "probe_plus_vs_minus_logit_diff": -3.5938,
-        "expected_continuous_scale_value": 1.1795,
+        "probe_wide_vs_narrow_logit_diff": 2.4062,
+        "probe_plus_vs_minus_logit_diff": -3.7578,
+        "probe_antonym_ensemble_diff": -0.0859,
+        "expected_continuous_scale_value": 1.194,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0099
+      "step2_first_token_entropy": 0.0104
     },
     {
       "trial_idx": 4,
       "condition": "wide",
-      "seed": 2003,
+      "seed": 3003,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0017,
+      "step1_delta_cos_sim_attenuation": -0.5946,
+      "step1_mean_kurtosis": 24.3815,
+      "step1_mean_top50_tail_mass": 0.1006,
+      "step1_eos_suppression_index": 36.7527,
+      "step1_sequence_entropy": 0.3764,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental principle ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.1719,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.2539,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6719,
-        "probe_plus_vs_minus_logit_diff": -3.3906,
-        "expected_continuous_scale_value": 1.2363,
+        "probe_wide_vs_narrow_logit_diff": 1.2539,
+        "probe_plus_vs_minus_logit_diff": -3.6562,
+        "probe_antonym_ensemble_diff": -0.1719,
+        "expected_continuous_scale_value": 1.2049,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0096
+      "step2_first_token_entropy": 0.0585
     },
     {
       "trial_idx": 5,
       "condition": "wide",
-      "seed": 2004,
+      "seed": 3004,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0006,
+      "step1_delta_cos_sim_attenuation": -0.5959,
+      "step1_mean_kurtosis": 30.2447,
+      "step1_mean_top50_tail_mass": 0.0721,
+      "step1_eos_suppression_index": 37.818,
+      "step1_sequence_entropy": 0.2531,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. In simple terms, **as the ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.457,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.2227,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6953,
-        "probe_plus_vs_minus_logit_diff": -2.6641,
-        "expected_continuous_scale_value": 1.278,
+        "probe_wide_vs_narrow_logit_diff": 2.2227,
+        "probe_plus_vs_minus_logit_diff": -2.6328,
+        "probe_antonym_ensemble_diff": -0.457,
+        "expected_continuous_scale_value": 1.2158,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0066
+      "step2_first_token_entropy": 0.015
     },
     {
       "trial_idx": 6,
       "condition": "wide",
-      "seed": 2005,
+      "seed": 3005,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0018,
+      "step1_delta_cos_sim_attenuation": -0.5956,
+      "step1_mean_kurtosis": 26.158,
+      "step1_mean_top50_tail_mass": 0.0742,
+      "step1_eos_suppression_index": 33.6623,
+      "step1_sequence_entropy": 0.29,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental relationsh",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5391,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.4688,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.8633,
-        "probe_plus_vs_minus_logit_diff": -2.7656,
-        "expected_continuous_scale_value": 1.3,
+        "probe_wide_vs_narrow_logit_diff": 2.4688,
+        "probe_plus_vs_minus_logit_diff": -3.3438,
+        "probe_antonym_ensemble_diff": -0.5391,
+        "expected_continuous_scale_value": 1.2528,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0035
+      "step2_first_token_entropy": 0.0034
     },
     {
       "trial_idx": 7,
       "condition": "wide",
-      "seed": 2006,
+      "seed": 3006,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0087,
+      "step1_delta_cos_sim_attenuation": -0.5822,
+      "step1_mean_kurtosis": 26.4679,
+      "step1_mean_top50_tail_mass": 0.1096,
+      "step1_eos_suppression_index": 31.3415,
+      "step1_sequence_entropy": 0.4368,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a powerful technology used to **remo",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.2891,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.4404,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0,
-        "probe_plus_vs_minus_logit_diff": -2.5547,
-        "expected_continuous_scale_value": 1.4811,
+        "probe_wide_vs_narrow_logit_diff": 2.4404,
+        "probe_plus_vs_minus_logit_diff": -2.4844,
+        "probe_antonym_ensemble_diff": 0.2891,
+        "expected_continuous_scale_value": 1.5917,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0053
+      "step2_first_token_entropy": 0.0062
     },
     {
       "trial_idx": 8,
       "condition": "wide",
-      "seed": 2007,
+      "seed": 3007,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0048,
+      "step1_delta_cos_sim_attenuation": -0.5864,
+      "step1_mean_kurtosis": 26.1,
+      "step1_mean_top50_tail_mass": 0.106,
+      "step1_eos_suppression_index": 36.7019,
+      "step1_sequence_entropy": 0.4218,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a powerful technology used to **remo",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0859,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.3047,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 1.2891,
-        "probe_plus_vs_minus_logit_diff": -1.7832,
-        "expected_continuous_scale_value": 1.3485,
+        "probe_wide_vs_narrow_logit_diff": 1.3047,
+        "probe_plus_vs_minus_logit_diff": -2.1953,
+        "probe_antonym_ensemble_diff": 0.0859,
+        "expected_continuous_scale_value": 1.4802,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0391
+      "step2_first_token_entropy": 0.0319
     },
     {
       "trial_idx": 9,
       "condition": "wide",
-      "seed": 2008,
+      "seed": 3008,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": 0.0096,
+      "step1_delta_cos_sim_attenuation": -0.5814,
+      "step1_mean_kurtosis": 25.8444,
+      "step1_mean_top50_tail_mass": 0.0994,
+      "step1_eos_suppression_index": 33.0602,
+      "step1_sequence_entropy": 0.4143,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a powerful technology used to **remo",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0781,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.9102,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6836,
-        "probe_plus_vs_minus_logit_diff": -3.3594,
-        "expected_continuous_scale_value": 1.2154,
+        "probe_wide_vs_narrow_logit_diff": 1.9102,
+        "probe_plus_vs_minus_logit_diff": -3.4688,
+        "probe_antonym_ensemble_diff": 0.0781,
+        "expected_continuous_scale_value": 1.3543,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0087
+    },
+    {
+      "trial_idx": 10,
+      "condition": "wide",
+      "seed": 3009,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0096,
+      "step1_delta_cos_sim_attenuation": -0.5814,
+      "step1_mean_kurtosis": 25.8444,
+      "step1_mean_top50_tail_mass": 0.0994,
+      "step1_eos_suppression_index": 33.0602,
+      "step1_sequence_entropy": 0.4143,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a powerful technology used to **remo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0234,
+      "step2_probe_wide_vs_narrow_logit_diff": 0.3633,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 0.3633,
+        "probe_plus_vs_minus_logit_diff": -3.6094,
+        "probe_antonym_ensemble_diff": 0.0234,
+        "expected_continuous_scale_value": 1.315,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0386
+    },
+    {
+      "trial_idx": 11,
+      "condition": "wide",
+      "seed": 3010,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0092,
+      "step1_delta_cos_sim_attenuation": -0.5839,
+      "step1_mean_kurtosis": 24.8108,
+      "step1_mean_top50_tail_mass": 0.0694,
+      "step1_eos_suppression_index": 37.0069,
+      "step1_sequence_entropy": 0.2929,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that uses a **refrigerant*",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4297,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.0938,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.0938,
+        "probe_plus_vs_minus_logit_diff": -2.7422,
+        "probe_antonym_ensemble_diff": -0.4297,
+        "expected_continuous_scale_value": 1.4122,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0058
+    },
+    {
+      "trial_idx": 12,
+      "condition": "wide",
+      "seed": 3011,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0091,
+      "step1_delta_cos_sim_attenuation": -0.5838,
+      "step1_mean_kurtosis": 24.6577,
+      "step1_mean_top50_tail_mass": 0.0787,
+      "step1_eos_suppression_index": 35.2613,
+      "step1_sequence_entropy": 0.3358,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a **refriger",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2891,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.9844,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 1.9844,
+        "probe_plus_vs_minus_logit_diff": -2.7812,
+        "probe_antonym_ensemble_diff": -0.2891,
+        "expected_continuous_scale_value": 1.4244,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.005
+    },
+    {
+      "trial_idx": 13,
+      "condition": "wide",
+      "seed": 3012,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0084,
+      "step1_delta_cos_sim_attenuation": -0.585,
+      "step1_mean_kurtosis": 37.9461,
+      "step1_mean_top50_tail_mass": 0.0779,
+      "step1_eos_suppression_index": 38.9572,
+      "step1_sequence_entropy": 0.3169,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Sudden External Perturbations\n\nNegative feedba",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.125,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.8828,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.8828,
+        "probe_plus_vs_minus_logit_diff": -2.5703,
+        "probe_antonym_ensemble_diff": -0.125,
+        "expected_continuous_scale_value": 1.4608,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -338,141 +701,34 @@
       "step2_first_token_entropy": 0.0069
     },
     {
-      "trial_idx": 10,
-      "condition": "wide",
-      "seed": 2009,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.6051,
-      "step1_sequence_entropy": 0.2942,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6406,
-        "probe_plus_vs_minus_logit_diff": -3.2188,
-        "expected_continuous_scale_value": 1.2841,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0091
-    },
-    {
-      "trial_idx": 11,
-      "condition": "wide",
-      "seed": 2010,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6953,
-        "probe_plus_vs_minus_logit_diff": -2.6641,
-        "expected_continuous_scale_value": 1.278,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0066
-    },
-    {
-      "trial_idx": 12,
-      "condition": "wide",
-      "seed": 2011,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.8633,
-        "probe_plus_vs_minus_logit_diff": -2.7656,
-        "expected_continuous_scale_value": 1.3,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0035
-    },
-    {
-      "trial_idx": 13,
-      "condition": "wide",
-      "seed": 2012,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0,
-        "probe_plus_vs_minus_logit_diff": -2.5547,
-        "expected_continuous_scale_value": 1.4811,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0053
-    },
-    {
       "trial_idx": 14,
       "condition": "wide",
-      "seed": 2013,
+      "seed": 3013,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0071,
+      "step1_delta_cos_sim_attenuation": -0.5872,
       "step1_mean_kurtosis": 36.5444,
+      "step1_mean_top50_tail_mass": 0.0819,
+      "step1_eos_suppression_index": 39.508,
       "step1_sequence_entropy": 0.3287,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2969,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.1211,
       "step2_probes": {
         "probe_wide_vs_narrow_logit_diff": 1.1211,
         "probe_plus_vs_minus_logit_diff": -2.1885,
+        "probe_antonym_ensemble_diff": -0.2969,
         "expected_continuous_scale_value": 1.3492,
         "preference_probs": {
           "widen": 0.0,
@@ -485,110 +741,146 @@
     {
       "trial_idx": 15,
       "condition": "wide",
-      "seed": 2014,
+      "seed": 3014,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0071,
+      "step1_delta_cos_sim_attenuation": -0.5872,
       "step1_mean_kurtosis": 36.5444,
+      "step1_mean_top50_tail_mass": 0.0819,
+      "step1_eos_suppression_index": 39.508,
       "step1_sequence_entropy": 0.3287,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2578,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.7598,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6836,
-        "probe_plus_vs_minus_logit_diff": -3.3594,
-        "expected_continuous_scale_value": 1.2154,
+        "probe_wide_vs_narrow_logit_diff": 2.7598,
+        "probe_plus_vs_minus_logit_diff": -3.5938,
+        "probe_antonym_ensemble_diff": -0.2578,
+        "expected_continuous_scale_value": 1.1795,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0069
+      "step2_first_token_entropy": 0.0099
     },
     {
       "trial_idx": 16,
       "condition": "wide",
-      "seed": 2015,
+      "seed": 3015,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.6051,
-      "step1_sequence_entropy": 0.2942,
+      "step1_final_layer_cos_sim": 0.0071,
+      "step1_delta_cos_sim_attenuation": -0.5872,
+      "step1_mean_kurtosis": 36.5444,
+      "step1_mean_top50_tail_mass": 0.0819,
+      "step1_eos_suppression_index": 39.508,
+      "step1_sequence_entropy": 0.3287,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4141,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.6602,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6406,
-        "probe_plus_vs_minus_logit_diff": -3.2188,
-        "expected_continuous_scale_value": 1.2841,
+        "probe_wide_vs_narrow_logit_diff": 2.6602,
+        "probe_plus_vs_minus_logit_diff": -3.6719,
+        "probe_antonym_ensemble_diff": -0.4141,
+        "expected_continuous_scale_value": 1.2311,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0091
+      "step2_first_token_entropy": 0.0119
     },
     {
       "trial_idx": 17,
       "condition": "wide",
-      "seed": 2016,
+      "seed": 3016,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 38.0015,
-      "step1_sequence_entropy": 0.305,
+      "step1_final_layer_cos_sim": 0.0084,
+      "step1_delta_cos_sim_attenuation": -0.585,
+      "step1_mean_kurtosis": 37.9461,
+      "step1_mean_top50_tail_mass": 0.0779,
+      "step1_eos_suppression_index": 38.9572,
+      "step1_sequence_entropy": 0.3169,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Sudden External Perturbations\n\nNegative feedba",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7344,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.3633,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.0859,
-        "probe_plus_vs_minus_logit_diff": -2.5254,
-        "expected_continuous_scale_value": 1.2851,
+        "probe_wide_vs_narrow_logit_diff": 2.3633,
+        "probe_plus_vs_minus_logit_diff": -2.75,
+        "probe_antonym_ensemble_diff": -0.7344,
+        "expected_continuous_scale_value": 1.2613,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0096
+      "step2_first_token_entropy": 0.0075
     },
     {
       "trial_idx": 18,
       "condition": "wide",
-      "seed": 2017,
+      "seed": 3017,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0071,
+      "step1_delta_cos_sim_attenuation": -0.5872,
       "step1_mean_kurtosis": 36.5444,
+      "step1_mean_top50_tail_mass": 0.0819,
+      "step1_eos_suppression_index": 39.508,
       "step1_sequence_entropy": 0.3287,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4609,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.8633,
       "step2_probes": {
         "probe_wide_vs_narrow_logit_diff": 2.8633,
         "probe_plus_vs_minus_logit_diff": -2.7656,
+        "probe_antonym_ensemble_diff": -0.4609,
         "expected_continuous_scale_value": 1.3,
         "preference_probs": {
           "widen": 0.0,
@@ -600,170 +892,262 @@
     },
     {
       "trial_idx": 19,
-      "condition": "wide",
-      "seed": 2018,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3018,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": -0.1203,
+      "step1_delta_cos_sim_attenuation": 0.5283,
+      "step1_mean_kurtosis": 69.4548,
+      "step1_mean_top50_tail_mass": 0.0485,
+      "step1_eos_suppression_index": 36.6132,
+      "step1_sequence_entropy": 0.2088,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6562,
+      "step2_probe_wide_vs_narrow_logit_diff": 7.9395,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0,
-        "probe_plus_vs_minus_logit_diff": -2.5547,
-        "expected_continuous_scale_value": 1.4811,
+        "probe_wide_vs_narrow_logit_diff": 7.9395,
+        "probe_plus_vs_minus_logit_diff": -5.8906,
+        "probe_antonym_ensemble_diff": -0.6562,
+        "expected_continuous_scale_value": 2.3481,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0053
+      "step2_first_token_entropy": 0.0074
     },
     {
       "trial_idx": 20,
-      "condition": "wide",
-      "seed": 2019,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3019,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": -0.1203,
+      "step1_delta_cos_sim_attenuation": 0.5283,
+      "step1_mean_kurtosis": 69.4548,
+      "step1_mean_top50_tail_mass": 0.0485,
+      "step1_eos_suppression_index": 36.6132,
+      "step1_sequence_entropy": 0.2088,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5469,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.6455,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 1.1211,
-        "probe_plus_vs_minus_logit_diff": -2.1885,
-        "expected_continuous_scale_value": 1.3492,
+        "probe_wide_vs_narrow_logit_diff": 8.6455,
+        "probe_plus_vs_minus_logit_diff": -5.2529,
+        "probe_antonym_ensemble_diff": -0.5469,
+        "expected_continuous_scale_value": 2.3239,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0477
+      "step2_first_token_entropy": 0.0058
     },
     {
       "trial_idx": 21,
-      "condition": "wide",
-      "seed": 2020,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3020,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 35.0338,
-      "step1_sequence_entropy": 0.3694,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": -0.1204,
+      "step1_delta_cos_sim_attenuation": 0.5284,
+      "step1_mean_kurtosis": 71.5085,
+      "step1_mean_top50_tail_mass": 0.0461,
+      "step1_eos_suppression_index": 36.8539,
+      "step1_sequence_entropy": 0.1955,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6797,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.9316,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6978,
-        "probe_plus_vs_minus_logit_diff": -3.7031,
-        "expected_continuous_scale_value": 1.1721,
+        "probe_wide_vs_narrow_logit_diff": 8.9316,
+        "probe_plus_vs_minus_logit_diff": -6.6602,
+        "probe_antonym_ensemble_diff": -0.6797,
+        "expected_continuous_scale_value": 1.9221,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0103
+      "step2_first_token_entropy": 0.0017
     },
     {
       "trial_idx": 22,
-      "condition": "wide",
-      "seed": 2021,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3021,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": -0.1204,
+      "step1_delta_cos_sim_attenuation": 0.5284,
+      "step1_mean_kurtosis": 71.5085,
+      "step1_mean_top50_tail_mass": 0.0461,
+      "step1_eos_suppression_index": 36.8539,
+      "step1_sequence_entropy": 0.1955,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7188,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.082,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6602,
-        "probe_plus_vs_minus_logit_diff": -3.6719,
-        "expected_continuous_scale_value": 1.2311,
+        "probe_wide_vs_narrow_logit_diff": 8.082,
+        "probe_plus_vs_minus_logit_diff": -6.4609,
+        "probe_antonym_ensemble_diff": -0.7188,
+        "expected_continuous_scale_value": 1.9146,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0119
+      "step2_first_token_entropy": 0.0066
     },
     {
       "trial_idx": 23,
-      "condition": "wide",
-      "seed": 2022,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3022,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 35.0338,
-      "step1_sequence_entropy": 0.3694,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": -0.1204,
+      "step1_delta_cos_sim_attenuation": 0.5284,
+      "step1_mean_kurtosis": 71.5085,
+      "step1_mean_top50_tail_mass": 0.0461,
+      "step1_eos_suppression_index": 36.8539,
+      "step1_sequence_entropy": 0.1955,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7578,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.1025,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.7188,
-        "probe_plus_vs_minus_logit_diff": -2.6602,
-        "expected_continuous_scale_value": 1.2775,
+        "probe_wide_vs_narrow_logit_diff": 8.1025,
+        "probe_plus_vs_minus_logit_diff": -5.2949,
+        "probe_antonym_ensemble_diff": -0.7578,
+        "expected_continuous_scale_value": 2.238,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0072
+      "step2_first_token_entropy": 0.0089
     },
     {
       "trial_idx": 24,
-      "condition": "wide",
-      "seed": 2023,
-      "sign": 1,
+      "condition": "narrow",
+      "seed": 3023,
+      "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 36.5444,
-      "step1_sequence_entropy": 0.3287,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability in the Face of Perturbations\n\nNegative feedback loops are a c",
+      "step1_final_layer_cos_sim": -0.1204,
+      "step1_delta_cos_sim_attenuation": 0.5284,
+      "step1_mean_kurtosis": 71.5085,
+      "step1_mean_top50_tail_mass": 0.0461,
+      "step1_eos_suppression_index": 36.8539,
+      "step1_sequence_entropy": 0.1955,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.75,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.3086,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.7305,
-        "probe_plus_vs_minus_logit_diff": -2.6875,
-        "expected_continuous_scale_value": 1.3578,
+        "probe_wide_vs_narrow_logit_diff": 8.3086,
+        "probe_plus_vs_minus_logit_diff": -5.9766,
+        "probe_antonym_ensemble_diff": -0.75,
+        "expected_continuous_scale_value": 2.1616,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0046
+    },
+    {
+      "trial_idx": 25,
+      "condition": "narrow",
+      "seed": 3024,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1172,
+      "step1_delta_cos_sim_attenuation": 0.539,
+      "step1_mean_kurtosis": 53.9146,
+      "step1_mean_top50_tail_mass": 0.0874,
+      "step1_eos_suppression_index": 24.6152,
+      "step1_sequence_entropy": 0.3883,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4609,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.1875,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.1875,
+        "probe_plus_vs_minus_logit_diff": -5.4375,
+        "probe_antonym_ensemble_diff": -0.4609,
+        "expected_continuous_scale_value": 2.7926,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -773,25 +1157,224 @@
       "step2_first_token_entropy": 0.0039
     },
     {
-      "trial_idx": 25,
+      "trial_idx": 26,
       "condition": "narrow",
-      "seed": 2024,
+      "seed": 3025,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1172,
+      "step1_delta_cos_sim_attenuation": 0.539,
+      "step1_mean_kurtosis": 53.9146,
+      "step1_mean_top50_tail_mass": 0.0874,
+      "step1_eos_suppression_index": 24.6152,
+      "step1_sequence_entropy": 0.3883,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2969,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.7969,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.7969,
+        "probe_plus_vs_minus_logit_diff": -4.7578,
+        "probe_antonym_ensemble_diff": -0.2969,
+        "expected_continuous_scale_value": 2.8962,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0019
+    },
+    {
+      "trial_idx": 27,
+      "condition": "narrow",
+      "seed": 3026,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1172,
+      "step1_delta_cos_sim_attenuation": 0.539,
+      "step1_mean_kurtosis": 53.9146,
+      "step1_mean_top50_tail_mass": 0.0874,
+      "step1_eos_suppression_index": 24.6152,
+      "step1_sequence_entropy": 0.3883,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.1719,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.1719,
+        "probe_plus_vs_minus_logit_diff": -5.7031,
+        "probe_antonym_ensemble_diff": -0.5,
+        "expected_continuous_scale_value": 2.6251,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0006
+    },
+    {
+      "trial_idx": 28,
+      "condition": "narrow",
+      "seed": 3027,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1184,
+      "step1_delta_cos_sim_attenuation": 0.5382,
+      "step1_mean_kurtosis": 50.2061,
+      "step1_mean_top50_tail_mass": 0.1373,
+      "step1_eos_suppression_index": 24.6067,
+      "step1_sequence_entropy": 0.5624,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4766,
+      "step2_probe_wide_vs_narrow_logit_diff": 7.1094,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 7.1094,
+        "probe_plus_vs_minus_logit_diff": -5.9375,
+        "probe_antonym_ensemble_diff": -0.4766,
+        "expected_continuous_scale_value": 2.4535,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.004
+    },
+    {
+      "trial_idx": 29,
+      "condition": "narrow",
+      "seed": 3028,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1172,
+      "step1_delta_cos_sim_attenuation": 0.539,
+      "step1_mean_kurtosis": 53.9146,
+      "step1_mean_top50_tail_mass": 0.0874,
+      "step1_eos_suppression_index": 24.6152,
+      "step1_sequence_entropy": 0.3883,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4688,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.5781,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.5781,
+        "probe_plus_vs_minus_logit_diff": -4.8125,
+        "probe_antonym_ensemble_diff": -0.4688,
+        "expected_continuous_scale_value": 2.9067,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0014
+    },
+    {
+      "trial_idx": 30,
+      "condition": "narrow",
+      "seed": 3029,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1172,
+      "step1_delta_cos_sim_attenuation": 0.539,
+      "step1_mean_kurtosis": 53.9146,
+      "step1_mean_top50_tail_mass": 0.0874,
+      "step1_eos_suppression_index": 24.6152,
+      "step1_sequence_entropy": 0.3883,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that involves the **thermo",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.625,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.4023,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.4023,
+        "probe_plus_vs_minus_logit_diff": -5.4844,
+        "probe_antonym_ensemble_diff": -0.625,
+        "expected_continuous_scale_value": 2.5552,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0037
+    },
+    {
+      "trial_idx": 31,
+      "condition": "narrow",
+      "seed": 3030,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1162,
+      "step1_delta_cos_sim_attenuation": 0.5392,
       "step1_mean_kurtosis": 81.6646,
+      "step1_mean_top50_tail_mass": 0.0684,
+      "step1_eos_suppression_index": 29.0635,
       "step1_sequence_entropy": 0.2422,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8594,
+      "step2_probe_wide_vs_narrow_logit_diff": 7.6113,
       "step2_probes": {
         "probe_wide_vs_narrow_logit_diff": 7.6113,
         "probe_plus_vs_minus_logit_diff": -5.6289,
+        "probe_antonym_ensemble_diff": -0.8594,
         "expected_continuous_scale_value": 2.5158,
         "preference_probs": {
           "widen": 0.0,
@@ -802,635 +1385,35 @@
       "step2_first_token_entropy": 0.0083
     },
     {
-      "trial_idx": 26,
-      "condition": "narrow",
-      "seed": 2025,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 75.6801,
-      "step1_sequence_entropy": 0.3659,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.1016,
-        "probe_plus_vs_minus_logit_diff": -4.7988,
-        "expected_continuous_scale_value": 2.5446,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0022
-    },
-    {
-      "trial_idx": 27,
-      "condition": "narrow",
-      "seed": 2026,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.8906,
-        "probe_plus_vs_minus_logit_diff": -6.0781,
-        "expected_continuous_scale_value": 2.3469,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0007
-    },
-    {
-      "trial_idx": 28,
-      "condition": "narrow",
-      "seed": 2027,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 75.6801,
-      "step1_sequence_entropy": 0.3659,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.0,
-        "probe_plus_vs_minus_logit_diff": -5.9219,
-        "expected_continuous_scale_value": 2.4608,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0008
-    },
-    {
-      "trial_idx": 29,
-      "condition": "narrow",
-      "seed": 2028,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 79.8765,
-      "step1_sequence_entropy": 0.3353,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.9062,
-        "probe_plus_vs_minus_logit_diff": -5.0781,
-        "expected_continuous_scale_value": 2.6166,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0024
-    },
-    {
-      "trial_idx": 30,
-      "condition": "narrow",
-      "seed": 2029,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 75.2267,
-      "step1_sequence_entropy": 0.3883,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.3359,
-        "probe_plus_vs_minus_logit_diff": -5.5312,
-        "expected_continuous_scale_value": 2.3359,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.002
-    },
-    {
-      "trial_idx": 31,
-      "condition": "narrow",
-      "seed": 2030,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 79.8765,
-      "step1_sequence_entropy": 0.3353,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.7539,
-        "probe_plus_vs_minus_logit_diff": -5.8164,
-        "expected_continuous_scale_value": 2.3977,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0093
-    },
-    {
       "trial_idx": 32,
       "condition": "narrow",
-      "seed": 2031,
+      "seed": 3031,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 79.8765,
-      "step1_sequence_entropy": 0.3353,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.75,
-        "probe_plus_vs_minus_logit_diff": -4.6172,
-        "expected_continuous_scale_value": 2.584,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0017
-    },
-    {
-      "trial_idx": 33,
-      "condition": "narrow",
-      "seed": 2032,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.8906,
-        "probe_plus_vs_minus_logit_diff": -6.0781,
-        "expected_continuous_scale_value": 2.3469,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0007
-    },
-    {
-      "trial_idx": 34,
-      "condition": "narrow",
-      "seed": 2033,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 80.2683,
-      "step1_sequence_entropy": 0.3097,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.6562,
-        "probe_plus_vs_minus_logit_diff": -6.0,
-        "expected_continuous_scale_value": 2.4763,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0005
-    },
-    {
-      "trial_idx": 35,
-      "condition": "narrow",
-      "seed": 2034,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 80.3514,
-      "step1_sequence_entropy": 0.4047,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.1172,
-        "probe_plus_vs_minus_logit_diff": -4.8438,
-        "expected_continuous_scale_value": 2.8074,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0015
-    },
-    {
-      "trial_idx": 36,
-      "condition": "narrow",
-      "seed": 2035,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 72.616,
-      "step1_sequence_entropy": 0.2972,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.4844,
-        "probe_plus_vs_minus_logit_diff": -5.4219,
-        "expected_continuous_scale_value": 2.3457,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0014
-    },
-    {
-      "trial_idx": 37,
-      "condition": "narrow",
-      "seed": 2036,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 80.2683,
-      "step1_sequence_entropy": 0.3097,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.7578,
-        "probe_plus_vs_minus_logit_diff": -5.6406,
-        "expected_continuous_scale_value": 2.4222,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0084
-    },
-    {
-      "trial_idx": 38,
-      "condition": "narrow",
-      "seed": 2037,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.2288,
-      "step1_sequence_entropy": 0.2445,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.1602,
-        "probe_plus_vs_minus_logit_diff": -4.5635,
-        "expected_continuous_scale_value": 2.5438,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0017
-    },
-    {
-      "trial_idx": 39,
-      "condition": "narrow",
-      "seed": 2038,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.8906,
-        "probe_plus_vs_minus_logit_diff": -6.0781,
-        "expected_continuous_scale_value": 2.3469,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0007
-    },
-    {
-      "trial_idx": 40,
-      "condition": "narrow",
-      "seed": 2039,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.7188,
-        "probe_plus_vs_minus_logit_diff": -6.0312,
-        "expected_continuous_scale_value": 2.4374,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0006
-    },
-    {
-      "trial_idx": 41,
-      "condition": "narrow",
-      "seed": 2040,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.1094,
-        "probe_plus_vs_minus_logit_diff": -5.0078,
-        "expected_continuous_scale_value": 2.6367,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0021
-    },
-    {
-      "trial_idx": 42,
-      "condition": "narrow",
-      "seed": 2041,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.0625,
-        "probe_plus_vs_minus_logit_diff": -5.7656,
-        "expected_continuous_scale_value": 2.3773,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0022
-    },
-    {
-      "trial_idx": 43,
-      "condition": "narrow",
-      "seed": 2042,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1134,
+      "step1_delta_cos_sim_attenuation": 0.5413,
       "step1_mean_kurtosis": 74.9683,
+      "step1_mean_top50_tail_mass": 0.0802,
+      "step1_eos_suppression_index": 29.014,
       "step1_sequence_entropy": 0.3215,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6172,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.2344,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.7734,
-        "probe_plus_vs_minus_logit_diff": -5.5801,
-        "expected_continuous_scale_value": 2.565,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0083
-    },
-    {
-      "trial_idx": 44,
-      "condition": "narrow",
-      "seed": 2043,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 79.3684,
-      "step1_sequence_entropy": 0.3543,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.9688,
-        "probe_plus_vs_minus_logit_diff": -4.6143,
-        "expected_continuous_scale_value": 2.5724,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0021
-    },
-    {
-      "trial_idx": 45,
-      "condition": "narrow",
-      "seed": 2044,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.8906,
-        "probe_plus_vs_minus_logit_diff": -6.0781,
-        "expected_continuous_scale_value": 2.3469,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0007
-    },
-    {
-      "trial_idx": 46,
-      "condition": "narrow",
-      "seed": 2045,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 80.3514,
-      "step1_sequence_entropy": 0.4047,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.5,
-        "probe_plus_vs_minus_logit_diff": -5.8125,
-        "expected_continuous_scale_value": 2.614,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0004
-    },
-    {
-      "trial_idx": 47,
-      "condition": "narrow",
-      "seed": 2046,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 80.1544,
-      "step1_sequence_entropy": 0.3956,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 7.8281,
-        "probe_plus_vs_minus_logit_diff": -4.8594,
-        "expected_continuous_scale_value": 2.6686,
+        "probe_wide_vs_narrow_logit_diff": 8.2344,
+        "probe_plus_vs_minus_logit_diff": -4.7671,
+        "probe_antonym_ensemble_diff": -0.6172,
+        "expected_continuous_scale_value": 2.5859,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -1440,55 +1423,339 @@
       "step2_first_token_entropy": 0.0016
     },
     {
-      "trial_idx": 48,
+      "trial_idx": 33,
       "condition": "narrow",
-      "seed": 2047,
+      "seed": 3032,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
-        "NARROW",
         "KEEP",
-        "WIDEN"
+        "WIDEN",
+        "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 81.6646,
-      "step1_sequence_entropy": 0.2422,
+      "step1_final_layer_cos_sim": -0.1159,
+      "step1_delta_cos_sim_attenuation": 0.5397,
+      "step1_mean_kurtosis": 80.2683,
+      "step1_mean_top50_tail_mass": 0.0812,
+      "step1_eos_suppression_index": 24.9047,
+      "step1_sequence_entropy": 0.3097,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9531,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.0938,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 8.0625,
-        "probe_plus_vs_minus_logit_diff": -5.7656,
-        "expected_continuous_scale_value": 2.3773,
+        "probe_wide_vs_narrow_logit_diff": 8.0938,
+        "probe_plus_vs_minus_logit_diff": -6.1641,
+        "probe_antonym_ensemble_diff": -0.9531,
+        "expected_continuous_scale_value": 2.3636,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0022
+      "step2_first_token_entropy": 0.0008
     },
     {
-      "trial_idx": 49,
+      "trial_idx": 34,
+      "condition": "narrow",
+      "seed": 3033,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1155,
+      "step1_delta_cos_sim_attenuation": 0.5403,
+      "step1_mean_kurtosis": 74.1331,
+      "step1_mean_top50_tail_mass": 0.0717,
+      "step1_eos_suppression_index": 29.0168,
+      "step1_sequence_entropy": 0.2856,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6406,
+      "step2_probe_wide_vs_narrow_logit_diff": 7.6875,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 7.6875,
+        "probe_plus_vs_minus_logit_diff": -6.0625,
+        "probe_antonym_ensemble_diff": -0.6406,
+        "expected_continuous_scale_value": 2.4658,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0007
+    },
+    {
+      "trial_idx": 35,
+      "condition": "narrow",
+      "seed": 3034,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1134,
+      "step1_delta_cos_sim_attenuation": 0.5413,
+      "step1_mean_kurtosis": 74.9683,
+      "step1_mean_top50_tail_mass": 0.0802,
+      "step1_eos_suppression_index": 29.014,
+      "step1_sequence_entropy": 0.3215,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8203,
+      "step2_probe_wide_vs_narrow_logit_diff": 7.9141,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 7.9141,
+        "probe_plus_vs_minus_logit_diff": -4.9434,
+        "probe_antonym_ensemble_diff": -0.8203,
+        "expected_continuous_scale_value": 2.757,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.002
+    },
+    {
+      "trial_idx": 36,
+      "condition": "narrow",
+      "seed": 3035,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.1159,
+      "step1_delta_cos_sim_attenuation": 0.5397,
+      "step1_mean_kurtosis": 80.2683,
+      "step1_mean_top50_tail_mass": 0.0812,
+      "step1_eos_suppression_index": 24.9047,
+      "step1_sequence_entropy": 0.3097,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9688,
+      "step2_probe_wide_vs_narrow_logit_diff": 8.2031,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 8.2031,
+        "probe_plus_vs_minus_logit_diff": -5.7031,
+        "probe_antonym_ensemble_diff": -0.9688,
+        "expected_continuous_scale_value": 2.3185,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.002
+    },
+    {
+      "trial_idx": 37,
       "condition": "baseline",
-      "seed": 2048,
+      "seed": 3036,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": -0.0611,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 58.4964,
+      "step1_mean_top50_tail_mass": 0.058,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2011,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. Here is a detailed explana",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4688,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.2168,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.459,
-        "probe_plus_vs_minus_logit_diff": -3.6953,
-        "expected_continuous_scale_value": 2.4424,
+        "probe_wide_vs_narrow_logit_diff": 4.2168,
+        "probe_plus_vs_minus_logit_diff": -3.6562,
+        "probe_antonym_ensemble_diff": -0.4688,
+        "expected_continuous_scale_value": 2.3203,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0065
+    },
+    {
+      "trial_idx": 38,
+      "condition": "baseline",
+      "seed": 3037,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0611,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 58.4964,
+      "step1_mean_top50_tail_mass": 0.058,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2011,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. Here is a detailed explana",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.3828,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.8906,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.8906,
+        "probe_plus_vs_minus_logit_diff": -3.2969,
+        "probe_antonym_ensemble_diff": -0.3828,
+        "expected_continuous_scale_value": 2.3329,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0099
+    },
+    {
+      "trial_idx": 39,
+      "condition": "baseline",
+      "seed": 3038,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0596,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 49.4482,
+      "step1_mean_top50_tail_mass": 0.0402,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.1831,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8047,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.8545,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.8545,
+        "probe_plus_vs_minus_logit_diff": -5.0898,
+        "probe_antonym_ensemble_diff": -0.8047,
+        "expected_continuous_scale_value": 1.7733,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.007
+    },
+    {
+      "trial_idx": 40,
+      "condition": "baseline",
+      "seed": 3039,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0596,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 49.4482,
+      "step1_mean_top50_tail_mass": 0.0402,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.1831,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8828,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.0391,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.0391,
+        "probe_plus_vs_minus_logit_diff": -4.8906,
+        "probe_antonym_ensemble_diff": -0.8828,
+        "expected_continuous_scale_value": 1.8875,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0251
+    },
+    {
+      "trial_idx": 41,
+      "condition": "baseline",
+      "seed": 3040,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0596,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 49.4482,
+      "step1_mean_top50_tail_mass": 0.0402,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.1831,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9453,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.8438,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.8438,
+        "probe_plus_vs_minus_logit_diff": -3.5996,
+        "probe_antonym_ensemble_diff": -0.9453,
+        "expected_continuous_scale_value": 2.1606,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -1498,25 +1765,338 @@
       "step2_first_token_entropy": 0.006
     },
     {
-      "trial_idx": 50,
+      "trial_idx": 42,
       "condition": "baseline",
-      "seed": 2049,
+      "seed": 3041,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0596,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 49.4482,
+      "step1_mean_top50_tail_mass": 0.0402,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.1831,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. At high altitudes, the atm",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8906,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.1758,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 4.1758,
+        "probe_plus_vs_minus_logit_diff": -4.0156,
+        "probe_antonym_ensemble_diff": -0.8906,
+        "expected_continuous_scale_value": 1.9885,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0047
+    },
+    {
+      "trial_idx": 43,
+      "condition": "baseline",
+      "seed": 3042,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0546,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 47.1435,
+      "step1_mean_top50_tail_mass": 0.0618,
+      "step1_eos_suppression_index": 36.6519,
+      "step1_sequence_entropy": 0.2476,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4219,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.7031,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.7031,
+        "probe_plus_vs_minus_logit_diff": -3.7188,
+        "probe_antonym_ensemble_diff": -0.4219,
+        "expected_continuous_scale_value": 2.6097,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0037
+    },
+    {
+      "trial_idx": 44,
+      "condition": "baseline",
+      "seed": 3043,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0546,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 47.1435,
+      "step1_mean_top50_tail_mass": 0.0618,
+      "step1_eos_suppression_index": 36.6519,
+      "step1_sequence_entropy": 0.2476,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4844,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.6094,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.6094,
+        "probe_plus_vs_minus_logit_diff": -3.1719,
+        "probe_antonym_ensemble_diff": -0.4844,
+        "expected_continuous_scale_value": 2.6833,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0054
+    },
+    {
+      "trial_idx": 45,
+      "condition": "baseline",
+      "seed": 3044,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0546,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 47.1435,
+      "step1_mean_top50_tail_mass": 0.0618,
+      "step1_eos_suppression_index": 36.6519,
+      "step1_sequence_entropy": 0.2476,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5156,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.3594,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.3594,
+        "probe_plus_vs_minus_logit_diff": -4.3594,
+        "probe_antonym_ensemble_diff": -0.5156,
+        "expected_continuous_scale_value": 2.3752,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0031
+    },
+    {
+      "trial_idx": 46,
+      "condition": "baseline",
+      "seed": 3045,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0546,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 47.1435,
+      "step1_mean_top50_tail_mass": 0.0618,
+      "step1_eos_suppression_index": 36.6519,
+      "step1_sequence_entropy": 0.2476,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.9219,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 1.9219,
+        "probe_plus_vs_minus_logit_diff": -4.2812,
+        "probe_antonym_ensemble_diff": -0.5,
+        "expected_continuous_scale_value": 2.3201,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0147
+    },
+    {
+      "trial_idx": 47,
+      "condition": "baseline",
+      "seed": 3046,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0522,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 57.3044,
+      "step1_mean_top50_tail_mass": 0.0592,
+      "step1_eos_suppression_index": 36.4184,
+      "step1_sequence_entropy": 0.2309,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7266,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.9062,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.9062,
+        "probe_plus_vs_minus_logit_diff": -3.2969,
+        "probe_antonym_ensemble_diff": -0.7266,
+        "expected_continuous_scale_value": 2.5857,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0018
+    },
+    {
+      "trial_idx": 48,
+      "condition": "baseline",
+      "seed": 3047,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0546,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 47.1435,
+      "step1_mean_top50_tail_mass": 0.0618,
+      "step1_eos_suppression_index": 36.6519,
+      "step1_sequence_entropy": 0.2476,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes a thermodyna",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7344,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.625,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.625,
+        "probe_plus_vs_minus_logit_diff": -3.7656,
+        "probe_antonym_ensemble_diff": -0.7344,
+        "expected_continuous_scale_value": 2.3003,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0024
+    },
+    {
+      "trial_idx": 49,
+      "condition": "baseline",
+      "seed": 3048,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0512,
+      "step1_delta_cos_sim_attenuation": 0.0,
       "step1_mean_kurtosis": 62.7642,
+      "step1_mean_top50_tail_mass": 0.0664,
+      "step1_eos_suppression_index": 39.8631,
       "step1_sequence_entropy": 0.2807,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5625,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.4102,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 4.4102,
+        "probe_plus_vs_minus_logit_diff": -3.7461,
+        "probe_antonym_ensemble_diff": -0.5625,
+        "expected_continuous_scale_value": 2.4207,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0083
+    },
+    {
+      "trial_idx": 50,
+      "condition": "baseline",
+      "seed": 3049,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0512,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 62.7642,
+      "step1_mean_top50_tail_mass": 0.0664,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2807,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7109,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.5977,
       "step2_probes": {
         "probe_wide_vs_narrow_logit_diff": 3.5977,
         "probe_plus_vs_minus_logit_diff": -3.1602,
+        "probe_antonym_ensemble_diff": -0.7109,
         "expected_continuous_scale_value": 2.4767,
         "preference_probs": {
           "widen": 0.0,
@@ -1529,458 +2109,146 @@
     {
       "trial_idx": 51,
       "condition": "baseline",
-      "seed": 2050,
+      "seed": 3050,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step1_final_layer_cos_sim": -0.0513,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 64.0487,
+      "step1_mean_top50_tail_mass": 0.0668,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2874,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8359,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.1641,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.125,
-        "probe_plus_vs_minus_logit_diff": -4.4609,
-        "expected_continuous_scale_value": 2.0977,
+        "probe_wide_vs_narrow_logit_diff": 4.1641,
+        "probe_plus_vs_minus_logit_diff": -4.4531,
+        "probe_antonym_ensemble_diff": -0.8359,
+        "expected_continuous_scale_value": 2.1152,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0041
+      "step2_first_token_entropy": 0.0043
     },
     {
       "trial_idx": 52,
       "condition": "baseline",
-      "seed": 2051,
+      "seed": 3051,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step1_final_layer_cos_sim": -0.0513,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 64.0487,
+      "step1_mean_top50_tail_mass": 0.0668,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2874,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7266,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.8438,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.7812,
-        "probe_plus_vs_minus_logit_diff": -4.4688,
-        "expected_continuous_scale_value": 2.3115,
+        "probe_wide_vs_narrow_logit_diff": 3.8438,
+        "probe_plus_vs_minus_logit_diff": -4.375,
+        "probe_antonym_ensemble_diff": -0.7266,
+        "expected_continuous_scale_value": 2.2466,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0039
+      "step2_first_token_entropy": 0.0035
     },
     {
       "trial_idx": 53,
       "condition": "baseline",
-      "seed": 2052,
+      "seed": 3052,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step1_final_layer_cos_sim": -0.0513,
+      "step1_delta_cos_sim_attenuation": 0.0,
+      "step1_mean_kurtosis": 64.0487,
+      "step1_mean_top50_tail_mass": 0.0668,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2874,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8828,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.5312,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.4531,
-        "probe_plus_vs_minus_logit_diff": -3.4062,
-        "expected_continuous_scale_value": 2.5837,
+        "probe_wide_vs_narrow_logit_diff": 4.5312,
+        "probe_plus_vs_minus_logit_diff": -3.3906,
+        "probe_antonym_ensemble_diff": -0.8828,
+        "expected_continuous_scale_value": 2.4689,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0021
+      "step2_first_token_entropy": 0.0024
     },
     {
       "trial_idx": 54,
       "condition": "baseline",
-      "seed": 2053,
+      "seed": 3053,
       "sign": 0,
       "alpha": 0.0,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 62.7642,
-      "step1_sequence_entropy": 0.2807,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.4375,
-        "probe_plus_vs_minus_logit_diff": -3.75,
-        "expected_continuous_scale_value": 2.2332,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0014
-    },
-    {
-      "trial_idx": 55,
-      "condition": "baseline",
-      "seed": 2054,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0513,
+      "step1_delta_cos_sim_attenuation": 0.0,
       "step1_mean_kurtosis": 64.0487,
+      "step1_mean_top50_tail_mass": 0.0668,
+      "step1_eos_suppression_index": 39.8631,
       "step1_sequence_entropy": 0.2874,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.459,
-        "probe_plus_vs_minus_logit_diff": -3.6953,
-        "expected_continuous_scale_value": 2.4424,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.006
-    },
-    {
-      "trial_idx": 56,
-      "condition": "baseline",
-      "seed": 2055,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.6602,
-        "probe_plus_vs_minus_logit_diff": -3.043,
-        "expected_continuous_scale_value": 2.4793,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0082
-    },
-    {
-      "trial_idx": 57,
-      "condition": "baseline",
-      "seed": 2056,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.125,
-        "probe_plus_vs_minus_logit_diff": -4.4609,
-        "expected_continuous_scale_value": 2.0977,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0041
-    },
-    {
-      "trial_idx": 58,
-      "condition": "baseline",
-      "seed": 2057,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.8438,
-        "probe_plus_vs_minus_logit_diff": -4.375,
-        "expected_continuous_scale_value": 2.2466,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0035
-    },
-    {
-      "trial_idx": 59,
-      "condition": "baseline",
-      "seed": 2058,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.5312,
-        "probe_plus_vs_minus_logit_diff": -3.3906,
-        "expected_continuous_scale_value": 2.4689,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0024
-    },
-    {
-      "trial_idx": 60,
-      "condition": "baseline",
-      "seed": 2059,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.4688,
-        "probe_plus_vs_minus_logit_diff": -3.75,
-        "expected_continuous_scale_value": 2.1838,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.002
-    },
-    {
-      "trial_idx": 61,
-      "condition": "baseline",
-      "seed": 2060,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.459,
-        "probe_plus_vs_minus_logit_diff": -3.6953,
-        "expected_continuous_scale_value": 2.4424,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.006
-    },
-    {
-      "trial_idx": 62,
-      "condition": "baseline",
-      "seed": 2061,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.6953,
-        "probe_plus_vs_minus_logit_diff": -3.1133,
-        "expected_continuous_scale_value": 2.5127,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0082
-    },
-    {
-      "trial_idx": 63,
-      "condition": "baseline",
-      "seed": 2062,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.125,
-        "probe_plus_vs_minus_logit_diff": -4.4609,
-        "expected_continuous_scale_value": 2.0977,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0041
-    },
-    {
-      "trial_idx": 64,
-      "condition": "baseline",
-      "seed": 2063,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.8438,
-        "probe_plus_vs_minus_logit_diff": -4.375,
-        "expected_continuous_scale_value": 2.2466,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0035
-    },
-    {
-      "trial_idx": 65,
-      "condition": "baseline",
-      "seed": 2064,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.5312,
-        "probe_plus_vs_minus_logit_diff": -3.3906,
-        "expected_continuous_scale_value": 2.4689,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0024
-    },
-    {
-      "trial_idx": 66,
-      "condition": "baseline",
-      "seed": 2065,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8281,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.5,
       "step2_probes": {
         "probe_wide_vs_narrow_logit_diff": 4.5,
         "probe_plus_vs_minus_logit_diff": -3.7812,
+        "probe_antonym_ensemble_diff": -0.8281,
         "expected_continuous_scale_value": 2.2145,
         "preference_probs": {
           "widen": 0.0,
@@ -1991,374 +2259,111 @@
       "step2_first_token_entropy": 0.0013
     },
     {
-      "trial_idx": 67,
-      "condition": "baseline",
-      "seed": 2066,
-      "sign": 0,
-      "alpha": 0.0,
+      "trial_idx": 55,
+      "condition": "rand_plus",
+      "seed": 3054,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step1_final_layer_cos_sim": 0.094,
+      "step1_delta_cos_sim_attenuation": -0.5364,
+      "step1_mean_kurtosis": 40.7627,
+      "step1_mean_top50_tail_mass": 0.062,
+      "step1_eos_suppression_index": 38.3446,
+      "step1_sequence_entropy": 0.2352,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of a liquid. In simple terms, **as the",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.875,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.8438,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.3984,
-        "probe_plus_vs_minus_logit_diff": -3.6094,
-        "expected_continuous_scale_value": 2.4126,
+        "probe_wide_vs_narrow_logit_diff": 4.8438,
+        "probe_plus_vs_minus_logit_diff": -8.0,
+        "probe_antonym_ensemble_diff": -0.875,
+        "expected_continuous_scale_value": 3.5831,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.007
+      "step2_first_token_entropy": 0.0011
     },
     {
-      "trial_idx": 68,
-      "condition": "baseline",
-      "seed": 2067,
-      "sign": 0,
-      "alpha": 0.0,
+      "trial_idx": 56,
+      "condition": "rand_plus",
+      "seed": 3055,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": 0.094,
+      "step1_delta_cos_sim_attenuation": -0.5364,
+      "step1_mean_kurtosis": 40.7627,
+      "step1_mean_top50_tail_mass": 0.062,
+      "step1_eos_suppression_index": 38.3446,
+      "step1_sequence_entropy": 0.2352,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of a liquid. In simple terms, **as the",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9062,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.0391,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.6602,
-        "probe_plus_vs_minus_logit_diff": -3.043,
-        "expected_continuous_scale_value": 2.4793,
+        "probe_wide_vs_narrow_logit_diff": 5.0391,
+        "probe_plus_vs_minus_logit_diff": -7.25,
+        "probe_antonym_ensemble_diff": -0.9062,
+        "expected_continuous_scale_value": 3.4901,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0082
+      "step2_first_token_entropy": 0.0011
     },
     {
-      "trial_idx": 69,
-      "condition": "baseline",
-      "seed": 2068,
-      "sign": 0,
-      "alpha": 0.0,
+      "trial_idx": 57,
+      "condition": "rand_plus",
+      "seed": 3056,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
+      "step1_final_layer_cos_sim": 0.0945,
+      "step1_delta_cos_sim_attenuation": -0.536,
+      "step1_mean_kurtosis": 43.4778,
+      "step1_mean_top50_tail_mass": 0.0651,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2518,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of a liquid. In simple terms, **as the",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9141,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.7812,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.125,
-        "probe_plus_vs_minus_logit_diff": -4.4609,
-        "expected_continuous_scale_value": 2.0977,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0041
-    },
-    {
-      "trial_idx": 70,
-      "condition": "baseline",
-      "seed": 2069,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.8438,
-        "probe_plus_vs_minus_logit_diff": -4.375,
-        "expected_continuous_scale_value": 2.2466,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0035
-    },
-    {
-      "trial_idx": 71,
-      "condition": "baseline",
-      "seed": 2070,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.0487,
-      "step1_sequence_entropy": 0.2874,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.5312,
-        "probe_plus_vs_minus_logit_diff": -3.3906,
-        "expected_continuous_scale_value": 2.4689,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0024
-    },
-    {
-      "trial_idx": 72,
-      "condition": "baseline",
-      "seed": 2071,
-      "sign": 0,
-      "alpha": 0.0,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 64.06,
-      "step1_sequence_entropy": 0.304,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.4688,
-        "probe_plus_vs_minus_logit_diff": -3.75,
-        "expected_continuous_scale_value": 2.1838,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.002
-    },
-    {
-      "trial_idx": 73,
-      "condition": "random_control",
-      "seed": 2072,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 39.3751,
-      "step1_sequence_entropy": 0.3897,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 5.2109,
-        "probe_plus_vs_minus_logit_diff": -7.7891,
-        "expected_continuous_scale_value": 3.6428,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0019
-    },
-    {
-      "trial_idx": 74,
-      "condition": "random_control",
-      "seed": 2073,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.0097,
-      "step1_sequence_entropy": 0.2914,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.5938,
-        "probe_plus_vs_minus_logit_diff": -6.7891,
-        "expected_continuous_scale_value": 3.7763,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0018
-    },
-    {
-      "trial_idx": 75,
-      "condition": "random_control",
-      "seed": 2074,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 44.9656,
-      "step1_sequence_entropy": 0.2936,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 5.125,
-        "probe_plus_vs_minus_logit_diff": -7.7148,
-        "expected_continuous_scale_value": 3.6322,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0008
-    },
-    {
-      "trial_idx": 76,
-      "condition": "random_control",
-      "seed": 2075,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.0073,
-      "step1_sequence_entropy": 0.2925,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 5.7148,
-        "probe_plus_vs_minus_logit_diff": -7.6641,
-        "expected_continuous_scale_value": 3.7848,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0005
-    },
-    {
-      "trial_idx": 77,
-      "condition": "random_control",
-      "seed": 2076,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 47.85,
-      "step1_sequence_entropy": 0.364,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 6.4766,
-        "probe_plus_vs_minus_logit_diff": -7.1172,
-        "expected_continuous_scale_value": 3.8184,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0003
-    },
-    {
-      "trial_idx": 78,
-      "condition": "random_control",
-      "seed": 2077,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.0134,
-      "step1_sequence_entropy": 0.2918,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 6.7344,
-        "probe_plus_vs_minus_logit_diff": -8.1055,
-        "expected_continuous_scale_value": 3.5723,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0003
-    },
-    {
-      "trial_idx": 79,
-      "condition": "random_control",
-      "seed": 2078,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 40.2491,
-      "step1_sequence_entropy": 0.3896,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against Sudden External Perturbations\n\nNegative feedback loop",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 5.2422,
-        "probe_plus_vs_minus_logit_diff": -7.8047,
-        "expected_continuous_scale_value": 3.612,
+        "probe_wide_vs_narrow_logit_diff": 4.7812,
+        "probe_plus_vs_minus_logit_diff": -8.2109,
+        "probe_antonym_ensemble_diff": -0.9141,
+        "expected_continuous_scale_value": 3.4264,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -2368,142 +2373,73 @@
       "step2_first_token_entropy": 0.0017
     },
     {
-      "trial_idx": 80,
-      "condition": "random_control",
-      "seed": 2079,
+      "trial_idx": 58,
+      "condition": "rand_plus",
+      "seed": 3057,
       "sign": 1,
       "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 44.1417,
-      "step1_sequence_entropy": 0.2899,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.8125,
-        "probe_plus_vs_minus_logit_diff": -6.6953,
-        "expected_continuous_scale_value": 3.8061,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0018
-    },
-    {
-      "trial_idx": 81,
-      "condition": "random_control",
-      "seed": 2080,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 43.0217,
-      "step1_sequence_entropy": 0.3266,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 4.8672,
-        "probe_plus_vs_minus_logit_diff": -7.8574,
-        "expected_continuous_scale_value": 3.6063,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0008
-    },
-    {
-      "trial_idx": 82,
-      "condition": "random_control",
-      "seed": 2081,
-      "sign": 1,
-      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.0097,
-      "step1_sequence_entropy": 0.2914,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": 0.0945,
+      "step1_delta_cos_sim_attenuation": -0.536,
+      "step1_mean_kurtosis": 43.4778,
+      "step1_mean_top50_tail_mass": 0.0651,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2518,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of a liquid. In simple terms, **as the",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8672,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.1719,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 5.625,
-        "probe_plus_vs_minus_logit_diff": -7.6602,
-        "expected_continuous_scale_value": 3.7746,
+        "probe_wide_vs_narrow_logit_diff": 4.1719,
+        "probe_plus_vs_minus_logit_diff": -8.3984,
+        "probe_antonym_ensemble_diff": -0.8672,
+        "expected_continuous_scale_value": 3.6383,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0006
+      "step2_first_token_entropy": 0.0062
     },
     {
-      "trial_idx": 83,
-      "condition": "random_control",
-      "seed": 2082,
+      "trial_idx": 59,
+      "condition": "rand_plus",
+      "seed": 3058,
       "sign": 1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 42.5045,
-      "step1_sequence_entropy": 0.3741,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": 0.094,
+      "step1_delta_cos_sim_attenuation": -0.5364,
+      "step1_mean_kurtosis": 40.7627,
+      "step1_mean_top50_tail_mass": 0.062,
+      "step1_eos_suppression_index": 38.3446,
+      "step1_sequence_entropy": 0.2352,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of a liquid. In simple terms, **as the",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.9844,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.8086,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 6.6719,
-        "probe_plus_vs_minus_logit_diff": -7.1094,
-        "expected_continuous_scale_value": 3.821,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0004
-    },
-    {
-      "trial_idx": 84,
-      "condition": "random_control",
-      "seed": 2083,
-      "sign": 1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "KEEP",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.0097,
-      "step1_sequence_entropy": 0.2914,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 6.3828,
-        "probe_plus_vs_minus_logit_diff": -8.1406,
-        "expected_continuous_scale_value": 3.6531,
+        "probe_wide_vs_narrow_logit_diff": 5.8086,
+        "probe_plus_vs_minus_logit_diff": -7.5312,
+        "probe_antonym_ensemble_diff": -0.9844,
+        "expected_continuous_scale_value": 3.6046,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
@@ -2513,352 +2449,1182 @@
       "step2_first_token_entropy": 0.0003
     },
     {
-      "trial_idx": 85,
-      "condition": "random_control",
-      "seed": 2084,
-      "sign": -1,
+      "trial_idx": 60,
+      "condition": "rand_plus",
+      "seed": 3059,
+      "sign": 1,
       "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "KEEP",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.5039,
-      "step1_sequence_entropy": 0.507,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.625,
-        "probe_plus_vs_minus_logit_diff": -0.1562,
-        "expected_continuous_scale_value": 1.4881,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0222
-    },
-    {
-      "trial_idx": 86,
-      "condition": "random_control",
-      "seed": 2085,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "WIDEN",
-        "NARROW",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.7857,
-      "step1_sequence_entropy": 0.4722,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.6562,
-        "probe_plus_vs_minus_logit_diff": 0.1875,
-        "expected_continuous_scale_value": 1.5677,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0455
-    },
-    {
-      "trial_idx": 87,
-      "condition": "random_control",
-      "seed": 2086,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "WIDEN",
-        "NARROW"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 44.1731,
-      "step1_sequence_entropy": 0.5083,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.125,
-        "probe_plus_vs_minus_logit_diff": -1.3438,
-        "expected_continuous_scale_value": 1.3585,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0193
-    },
-    {
-      "trial_idx": 88,
-      "condition": "random_control",
-      "seed": 2087,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "KEEP",
-        "NARROW",
-        "WIDEN"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.5039,
-      "step1_sequence_entropy": 0.507,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0,
-        "probe_plus_vs_minus_logit_diff": -1.0,
-        "expected_continuous_scale_value": 1.3837,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0146
-    },
-    {
-      "trial_idx": 89,
-      "condition": "random_control",
-      "seed": 2088,
-      "sign": -1,
-      "alpha": 0.4,
-      "permutation": [
-        "NARROW",
-        "WIDEN",
-        "KEEP"
-      ],
-      "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.7857,
-      "step1_sequence_entropy": 0.4722,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
-      "step2_choice": "KEEP",
-      "step2_text": "KEEP",
-      "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.2812,
-        "probe_plus_vs_minus_logit_diff": 0.0,
-        "expected_continuous_scale_value": 1.5369,
-        "preference_probs": {
-          "widen": 0.0,
-          "keep": 1.0,
-          "narrow": 0.0
-        }
-      },
-      "step2_first_token_entropy": 0.0186
-    },
-    {
-      "trial_idx": 90,
-      "condition": "random_control",
-      "seed": 2089,
-      "sign": -1,
-      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.639,
-      "step1_sequence_entropy": 0.5088,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against External Perturbations\n\nNegative feedback loops are f",
+      "step1_final_layer_cos_sim": 0.0939,
+      "step1_delta_cos_sim_attenuation": -0.5367,
+      "step1_mean_kurtosis": 42.1199,
+      "step1_mean_top50_tail_mass": 0.0638,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2604,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. In simple terms, **as the ",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.75,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.4062,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.3125,
+        "probe_wide_vs_narrow_logit_diff": 5.4062,
+        "probe_plus_vs_minus_logit_diff": -7.918,
+        "probe_antonym_ensemble_diff": -0.75,
+        "expected_continuous_scale_value": 3.4428,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0009
+    },
+    {
+      "trial_idx": 61,
+      "condition": "rand_plus",
+      "seed": 3060,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.099,
+      "step1_delta_cos_sim_attenuation": -0.5322,
+      "step1_mean_kurtosis": 44.9638,
+      "step1_mean_top50_tail_mass": 0.074,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3266,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic device that achieves",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4375,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.2656,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 5.2656,
+        "probe_plus_vs_minus_logit_diff": -7.4052,
+        "probe_antonym_ensemble_diff": -0.4375,
+        "expected_continuous_scale_value": 3.636,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.001
+    },
+    {
+      "trial_idx": 62,
+      "condition": "rand_plus",
+      "seed": 3061,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.098,
+      "step1_delta_cos_sim_attenuation": -0.5325,
+      "step1_mean_kurtosis": 45.7096,
+      "step1_mean_top50_tail_mass": 0.0531,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2427,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic device that achieves",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4141,
+      "step2_probe_wide_vs_narrow_logit_diff": 6.0312,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 6.0312,
+        "probe_plus_vs_minus_logit_diff": -6.5195,
+        "probe_antonym_ensemble_diff": -0.4141,
+        "expected_continuous_scale_value": 3.7355,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0007
+    },
+    {
+      "trial_idx": 63,
+      "condition": "rand_plus",
+      "seed": 3062,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.099,
+      "step1_delta_cos_sim_attenuation": -0.5322,
+      "step1_mean_kurtosis": 44.9638,
+      "step1_mean_top50_tail_mass": 0.074,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3266,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic device that achieves",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6406,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.7969,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 4.7969,
+        "probe_plus_vs_minus_logit_diff": -7.5439,
+        "probe_antonym_ensemble_diff": -0.6406,
+        "expected_continuous_scale_value": 3.6841,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0006
+    },
+    {
+      "trial_idx": 64,
+      "condition": "rand_plus",
+      "seed": 3063,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.1016,
+      "step1_delta_cos_sim_attenuation": -0.5311,
+      "step1_mean_kurtosis": 28.7889,
+      "step1_mean_top50_tail_mass": 0.124,
+      "step1_eos_suppression_index": 38.2397,
+      "step1_sequence_entropy": 0.5057,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic process that involve",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4922,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.3125,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 4.3125,
+        "probe_plus_vs_minus_logit_diff": -7.5967,
+        "probe_antonym_ensemble_diff": -0.4922,
+        "expected_continuous_scale_value": 3.8314,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0019
+    },
+    {
+      "trial_idx": 65,
+      "condition": "rand_plus",
+      "seed": 3064,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.099,
+      "step1_delta_cos_sim_attenuation": -0.5322,
+      "step1_mean_kurtosis": 44.9638,
+      "step1_mean_top50_tail_mass": 0.074,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3266,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic device that achieves",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6484,
+      "step2_probe_wide_vs_narrow_logit_diff": 6.5234,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 6.5234,
+        "probe_plus_vs_minus_logit_diff": -7.0039,
+        "probe_antonym_ensemble_diff": -0.6484,
+        "expected_continuous_scale_value": 3.8334,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0002
+    },
+    {
+      "trial_idx": 66,
+      "condition": "rand_plus",
+      "seed": 3065,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.099,
+      "step1_delta_cos_sim_attenuation": -0.5322,
+      "step1_mean_kurtosis": 44.9638,
+      "step1_mean_top50_tail_mass": 0.074,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3266,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a thermodynamic device that achieves",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5312,
+      "step2_probe_wide_vs_narrow_logit_diff": 6.0469,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 6.0469,
+        "probe_plus_vs_minus_logit_diff": -7.668,
+        "probe_antonym_ensemble_diff": -0.5312,
+        "expected_continuous_scale_value": 3.6515,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0006
+    },
+    {
+      "trial_idx": 67,
+      "condition": "rand_plus",
+      "seed": 3066,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.092,
+      "step1_delta_cos_sim_attenuation": -0.5366,
+      "step1_mean_kurtosis": 58.4501,
+      "step1_mean_top50_tail_mass": 0.0893,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3091,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.6797,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.125,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 5.125,
+        "probe_plus_vs_minus_logit_diff": -7.8906,
+        "probe_antonym_ensemble_diff": -0.6797,
+        "expected_continuous_scale_value": 3.5938,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0019
+    },
+    {
+      "trial_idx": 68,
+      "condition": "rand_plus",
+      "seed": 3067,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0957,
+      "step1_delta_cos_sim_attenuation": -0.5333,
+      "step1_mean_kurtosis": 40.0719,
+      "step1_mean_top50_tail_mass": 0.1245,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.4374,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.75,
+      "step2_probe_wide_vs_narrow_logit_diff": 4.9688,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 4.9688,
+        "probe_plus_vs_minus_logit_diff": -6.8672,
+        "probe_antonym_ensemble_diff": -0.75,
+        "expected_continuous_scale_value": 3.6483,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0024
+    },
+    {
+      "trial_idx": 69,
+      "condition": "rand_plus",
+      "seed": 3068,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0909,
+      "step1_delta_cos_sim_attenuation": -0.5371,
+      "step1_mean_kurtosis": 45.292,
+      "step1_mean_top50_tail_mass": 0.1093,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.364,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8438,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.2422,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 5.2422,
+        "probe_plus_vs_minus_logit_diff": -7.8223,
+        "probe_antonym_ensemble_diff": -0.8438,
+        "expected_continuous_scale_value": 3.5827,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0009
+    },
+    {
+      "trial_idx": 70,
+      "condition": "rand_plus",
+      "seed": 3069,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0918,
+      "step1_delta_cos_sim_attenuation": -0.5367,
+      "step1_mean_kurtosis": 44.9329,
+      "step1_mean_top50_tail_mass": 0.1059,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3488,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.75,
+      "step2_probe_wide_vs_narrow_logit_diff": 5.5859,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 5.5859,
+        "probe_plus_vs_minus_logit_diff": -7.7656,
+        "probe_antonym_ensemble_diff": -0.75,
+        "expected_continuous_scale_value": 3.7547,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0006
+    },
+    {
+      "trial_idx": 71,
+      "condition": "rand_plus",
+      "seed": 3070,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0952,
+      "step1_delta_cos_sim_attenuation": -0.5335,
+      "step1_mean_kurtosis": 45.0134,
+      "step1_mean_top50_tail_mass": 0.0826,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.2918,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.8516,
+      "step2_probe_wide_vs_narrow_logit_diff": 6.7734,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 6.7734,
+        "probe_plus_vs_minus_logit_diff": -7.1016,
+        "probe_antonym_ensemble_diff": -0.8516,
+        "expected_continuous_scale_value": 3.8292,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0004
+    },
+    {
+      "trial_idx": 72,
+      "condition": "rand_plus",
+      "seed": 3071,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": 0.0909,
+      "step1_delta_cos_sim_attenuation": -0.5373,
+      "step1_mean_kurtosis": 44.401,
+      "step1_mean_top50_tail_mass": 0.1069,
+      "step1_eos_suppression_index": 39.8631,
+      "step1_sequence_entropy": 0.3598,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Under Sudden External Perturbations\n\nNegative feedback loops ",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.7344,
+      "step2_probe_wide_vs_narrow_logit_diff": 6.6172,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 6.6172,
+        "probe_plus_vs_minus_logit_diff": -7.7031,
+        "probe_antonym_ensemble_diff": -0.7344,
+        "expected_continuous_scale_value": 3.6101,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0004
+    },
+    {
+      "trial_idx": 73,
+      "condition": "rand_minus",
+      "seed": 3072,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0296,
+      "step1_delta_cos_sim_attenuation": 0.5897,
+      "step1_mean_kurtosis": 43.5468,
+      "step1_mean_top50_tail_mass": 0.0622,
+      "step1_eos_suppression_index": 36.5397,
+      "step1_sequence_entropy": 0.2242,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. Specifically, **as atmosph",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.3047,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.3438,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.3438,
+        "probe_plus_vs_minus_logit_diff": -1.0625,
+        "probe_antonym_ensemble_diff": -0.3047,
+        "expected_continuous_scale_value": 1.4496,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0284
+    },
+    {
+      "trial_idx": 74,
+      "condition": "rand_minus",
+      "seed": 3073,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0312,
+      "step1_delta_cos_sim_attenuation": 0.5898,
+      "step1_mean_kurtosis": 40.3685,
+      "step1_mean_top50_tail_mass": 0.1022,
+      "step1_eos_suppression_index": 34.4157,
+      "step1_sequence_entropy": 0.3149,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental principle ",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.1797,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.0312,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.0312,
+        "probe_plus_vs_minus_logit_diff": -0.375,
+        "probe_antonym_ensemble_diff": -0.1797,
+        "expected_continuous_scale_value": 1.4899,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0848
+    },
+    {
+      "trial_idx": 75,
+      "condition": "rand_minus",
+      "seed": 3074,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0275,
+      "step1_delta_cos_sim_attenuation": 0.5923,
+      "step1_mean_kurtosis": 51.7209,
+      "step1_mean_top50_tail_mass": 0.0521,
+      "step1_eos_suppression_index": 37.3972,
+      "step1_sequence_entropy": 0.1891,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. Here is a detailed explana",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0234,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.5625,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.5625,
+        "probe_plus_vs_minus_logit_diff": -1.1875,
+        "probe_antonym_ensemble_diff": 0.0234,
+        "expected_continuous_scale_value": 1.362,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0233
+    },
+    {
+      "trial_idx": 76,
+      "condition": "rand_minus",
+      "seed": 3075,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0302,
+      "step1_delta_cos_sim_attenuation": 0.5894,
+      "step1_mean_kurtosis": 36.0922,
+      "step1_mean_top50_tail_mass": 0.0687,
+      "step1_eos_suppression_index": 33.6662,
+      "step1_sequence_entropy": 0.2443,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental relationsh",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2734,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.8125,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.8125,
+        "probe_plus_vs_minus_logit_diff": -1.1875,
+        "probe_antonym_ensemble_diff": -0.2734,
+        "expected_continuous_scale_value": 1.3052,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0713
+    },
+    {
+      "trial_idx": 77,
+      "condition": "rand_minus",
+      "seed": 3076,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0302,
+      "step1_delta_cos_sim_attenuation": 0.5894,
+      "step1_mean_kurtosis": 36.0922,
+      "step1_mean_top50_tail_mass": 0.0687,
+      "step1_eos_suppression_index": 33.6662,
+      "step1_sequence_entropy": 0.2443,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. The fundamental relationsh",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4062,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.9375,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.9375,
         "probe_plus_vs_minus_logit_diff": -0.2812,
-        "expected_continuous_scale_value": 1.2704,
+        "probe_antonym_ensemble_diff": -0.4062,
+        "expected_continuous_scale_value": 1.441,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.027
+      "step2_first_token_entropy": 0.0356
     },
     {
-      "trial_idx": 91,
-      "condition": "random_control",
-      "seed": 2090,
+      "trial_idx": 78,
+      "condition": "rand_minus",
+      "seed": 3077,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 0,
+      "task_prompt": "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0296,
+      "step1_delta_cos_sim_attenuation": 0.5897,
+      "step1_mean_kurtosis": 43.5468,
+      "step1_mean_top50_tail_mass": 0.0622,
+      "step1_eos_suppression_index": 36.5397,
+      "step1_sequence_entropy": 0.2242,
+      "step1_text_sample": "Atmospheric pressure has a **direct and significant effect** on the boiling point of liquids. Specifically, **as atmosph",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.4844,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.6875,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.6875,
+        "probe_plus_vs_minus_logit_diff": -0.9375,
+        "probe_antonym_ensemble_diff": -0.4844,
+        "expected_continuous_scale_value": 1.2322,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0219
+    },
+    {
+      "trial_idx": 79,
+      "condition": "rand_minus",
+      "seed": 3078,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "WIDEN",
         "KEEP",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.5039,
-      "step1_sequence_entropy": 0.507,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step1_final_layer_cos_sim": -0.0393,
+      "step1_delta_cos_sim_attenuation": 0.5787,
+      "step1_mean_kurtosis": 33.2352,
+      "step1_mean_top50_tail_mass": 0.1048,
+      "step1_eos_suppression_index": 30.8731,
+      "step1_sequence_entropy": 0.4478,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes the principl",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.1875,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.25,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.625,
+        "probe_wide_vs_narrow_logit_diff": 3.25,
         "probe_plus_vs_minus_logit_diff": -0.1562,
-        "expected_continuous_scale_value": 1.4881,
+        "probe_antonym_ensemble_diff": 0.1875,
+        "expected_continuous_scale_value": 1.6253,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0222
+      "step2_first_token_entropy": 0.0208
     },
     {
-      "trial_idx": 92,
-      "condition": "random_control",
-      "seed": 2091,
+      "trial_idx": 80,
+      "condition": "rand_minus",
+      "seed": 3079,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "WIDEN",
         "NARROW",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 45.5345,
-      "step1_sequence_entropy": 0.5107,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability Against External Perturbations\n\nNegative feedback loops are f",
+      "step1_final_layer_cos_sim": -0.0372,
+      "step1_delta_cos_sim_attenuation": 0.5813,
+      "step1_mean_kurtosis": 33.3027,
+      "step1_mean_top50_tail_mass": 0.1139,
+      "step1_eos_suppression_index": 31.5685,
+      "step1_sequence_entropy": 0.4533,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes the principl",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": 0.0547,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.9688,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 2.5938,
-        "probe_plus_vs_minus_logit_diff": 0.125,
-        "expected_continuous_scale_value": 1.5507,
+        "probe_wide_vs_narrow_logit_diff": 2.9688,
+        "probe_plus_vs_minus_logit_diff": 0.0938,
+        "probe_antonym_ensemble_diff": 0.0547,
+        "expected_continuous_scale_value": 1.6514,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0478
+      "step2_first_token_entropy": 0.0597
     },
     {
-      "trial_idx": 93,
-      "condition": "random_control",
-      "seed": 2092,
+      "trial_idx": 81,
+      "condition": "rand_minus",
+      "seed": 3080,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "KEEP",
         "WIDEN",
         "NARROW"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 47.0452,
-      "step1_sequence_entropy": 0.595,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step1_final_layer_cos_sim": -0.0382,
+      "step1_delta_cos_sim_attenuation": 0.58,
+      "step1_mean_kurtosis": 33.6571,
+      "step1_mean_top50_tail_mass": 0.144,
+      "step1_eos_suppression_index": 31.1238,
+      "step1_sequence_entropy": 0.5419,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes the principl",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.0234,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.7812,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.4375,
-        "probe_plus_vs_minus_logit_diff": -1.1562,
-        "expected_continuous_scale_value": 1.3538,
+        "probe_wide_vs_narrow_logit_diff": 2.7812,
+        "probe_plus_vs_minus_logit_diff": -1.0938,
+        "probe_antonym_ensemble_diff": -0.0234,
+        "expected_continuous_scale_value": 1.5832,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0165
+      "step2_first_token_entropy": 0.0132
     },
     {
-      "trial_idx": 94,
-      "condition": "random_control",
-      "seed": 2093,
+      "trial_idx": 82,
+      "condition": "rand_minus",
+      "seed": 3081,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "KEEP",
         "NARROW",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 47.5748,
-      "step1_sequence_entropy": 0.4826,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": -0.0363,
+      "step1_delta_cos_sim_attenuation": 0.5807,
+      "step1_mean_kurtosis": 30.8484,
+      "step1_mean_top50_tail_mass": 0.1369,
+      "step1_eos_suppression_index": 32.3123,
+      "step1_sequence_entropy": 0.5922,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes mechanical w",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.0859,
+      "step2_probe_wide_vs_narrow_logit_diff": 1.0625,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.0625,
-        "probe_plus_vs_minus_logit_diff": -1.125,
-        "expected_continuous_scale_value": 1.4383,
+        "probe_wide_vs_narrow_logit_diff": 1.0625,
+        "probe_plus_vs_minus_logit_diff": -1.1562,
+        "probe_antonym_ensemble_diff": -0.0859,
+        "expected_continuous_scale_value": 1.3842,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0143
+      "step2_first_token_entropy": 0.0524
     },
     {
-      "trial_idx": 95,
-      "condition": "random_control",
-      "seed": 2094,
+      "trial_idx": 83,
+      "condition": "rand_minus",
+      "seed": 3082,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "NARROW",
         "WIDEN",
         "KEEP"
       ],
       "step1_tokens_generated": 40,
-      "step1_mean_kurtosis": 47.6095,
-      "step1_sequence_entropy": 0.473,
-      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During Sudden External Perturbations\n\nNegative feedback loops",
+      "step1_final_layer_cos_sim": -0.0386,
+      "step1_delta_cos_sim_attenuation": 0.579,
+      "step1_mean_kurtosis": 31.4281,
+      "step1_mean_top50_tail_mass": 0.1235,
+      "step1_eos_suppression_index": 32.3549,
+      "step1_sequence_entropy": 0.5064,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes mechanical w",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2422,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.9062,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.125,
-        "probe_plus_vs_minus_logit_diff": -0.0781,
-        "expected_continuous_scale_value": 1.4172,
+        "probe_wide_vs_narrow_logit_diff": 2.9062,
+        "probe_plus_vs_minus_logit_diff": 0.1562,
+        "probe_antonym_ensemble_diff": -0.2422,
+        "expected_continuous_scale_value": 1.4569,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0389
+      "step2_first_token_entropy": 0.0213
     },
     {
-      "trial_idx": 96,
-      "condition": "random_control",
-      "seed": 2095,
+      "trial_idx": 84,
+      "condition": "rand_minus",
+      "seed": 3083,
       "sign": -1,
       "alpha": 0.4,
+      "task_idx": 1,
+      "task_prompt": "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
       "permutation": [
         "NARROW",
         "KEEP",
         "WIDEN"
       ],
       "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0393,
+      "step1_delta_cos_sim_attenuation": 0.5787,
+      "step1_mean_kurtosis": 33.2352,
+      "step1_mean_top50_tail_mass": 0.1048,
+      "step1_eos_suppression_index": 30.8731,
+      "step1_sequence_entropy": 0.4478,
+      "step1_text_sample": "## The Thermodynamic Cycle of Mechanical Refrigeration\n\nMechanical refrigeration is a process that utilizes the principl",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.1484,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.9375,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.9375,
+        "probe_plus_vs_minus_logit_diff": 0.0312,
+        "probe_antonym_ensemble_diff": -0.1484,
+        "expected_continuous_scale_value": 1.433,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0331
+    },
+    {
+      "trial_idx": 85,
+      "condition": "rand_minus",
+      "seed": 3084,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "KEEP",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.033,
+      "step1_delta_cos_sim_attenuation": 0.5874,
       "step1_mean_kurtosis": 45.7774,
+      "step1_mean_top50_tail_mass": 0.1252,
+      "step1_eos_suppression_index": 34.1333,
       "step1_sequence_entropy": 0.4719,
       "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
       "step2_choice": "KEEP",
       "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2188,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.5,
       "step2_probes": {
-        "probe_wide_vs_narrow_logit_diff": 3.4062,
-        "probe_plus_vs_minus_logit_diff": -0.0312,
-        "expected_continuous_scale_value": 1.279,
+        "probe_wide_vs_narrow_logit_diff": 3.5,
+        "probe_plus_vs_minus_logit_diff": -0.0938,
+        "probe_antonym_ensemble_diff": -0.2188,
+        "expected_continuous_scale_value": 1.494,
         "preference_probs": {
           "widen": 0.0,
           "keep": 1.0,
           "narrow": 0.0
         }
       },
-      "step2_first_token_entropy": 0.0334
+      "step2_first_token_entropy": 0.0257
+    },
+    {
+      "trial_idx": 86,
+      "condition": "rand_minus",
+      "seed": 3085,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "WIDEN",
+        "NARROW",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0319,
+      "step1_delta_cos_sim_attenuation": 0.5883,
+      "step1_mean_kurtosis": 45.602,
+      "step1_mean_top50_tail_mass": 0.1308,
+      "step1_eos_suppression_index": 34.0358,
+      "step1_sequence_entropy": 0.5036,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.3516,
+      "step2_probe_wide_vs_narrow_logit_diff": 2.5,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 2.5,
+        "probe_plus_vs_minus_logit_diff": 0.1406,
+        "probe_antonym_ensemble_diff": -0.3516,
+        "expected_continuous_scale_value": 1.4882,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0883
+    },
+    {
+      "trial_idx": 87,
+      "condition": "rand_minus",
+      "seed": 3086,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "KEEP",
+        "WIDEN",
+        "NARROW"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0315,
+      "step1_delta_cos_sim_attenuation": 0.59,
+      "step1_mean_kurtosis": 48.1142,
+      "step1_mean_top50_tail_mass": 0.1381,
+      "step1_eos_suppression_index": 34.0842,
+      "step1_sequence_entropy": 0.5489,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.2812,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.1562,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.1562,
+        "probe_plus_vs_minus_logit_diff": -0.9688,
+        "probe_antonym_ensemble_diff": -0.2812,
+        "expected_continuous_scale_value": 1.3192,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0166
+    },
+    {
+      "trial_idx": 88,
+      "condition": "rand_minus",
+      "seed": 3087,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "KEEP",
+        "NARROW",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0319,
+      "step1_delta_cos_sim_attenuation": 0.5883,
+      "step1_mean_kurtosis": 45.602,
+      "step1_mean_top50_tail_mass": 0.1308,
+      "step1_eos_suppression_index": 34.0358,
+      "step1_sequence_entropy": 0.5036,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.3281,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.125,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.125,
+        "probe_plus_vs_minus_logit_diff": -1.2188,
+        "probe_antonym_ensemble_diff": -0.3281,
+        "expected_continuous_scale_value": 1.3527,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0177
+    },
+    {
+      "trial_idx": 89,
+      "condition": "rand_minus",
+      "seed": 3088,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "WIDEN",
+        "KEEP"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.0319,
+      "step1_delta_cos_sim_attenuation": 0.5884,
+      "step1_mean_kurtosis": 45.5039,
+      "step1_mean_top50_tail_mass": 0.1326,
+      "step1_eos_suppression_index": 34.1365,
+      "step1_sequence_entropy": 0.507,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5859,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.0938,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.0938,
+        "probe_plus_vs_minus_logit_diff": 0.0,
+        "probe_antonym_ensemble_diff": -0.5859,
+        "expected_continuous_scale_value": 1.5004,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.0299
+    },
+    {
+      "trial_idx": 90,
+      "condition": "rand_minus",
+      "seed": 3089,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "task_prompt": "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+      "permutation": [
+        "NARROW",
+        "KEEP",
+        "WIDEN"
+      ],
+      "step1_tokens_generated": 40,
+      "step1_final_layer_cos_sim": -0.034,
+      "step1_delta_cos_sim_attenuation": 0.5865,
+      "step1_mean_kurtosis": 44.1731,
+      "step1_mean_top50_tail_mass": 0.1177,
+      "step1_eos_suppression_index": 34.0314,
+      "step1_sequence_entropy": 0.5083,
+      "step1_text_sample": "## How Negative Feedback Loops Maintain Systemic Stability During External Perturbations\n\nNegative feedback loops are fu",
+      "step2_choice": "KEEP",
+      "step2_text": "KEEP",
+      "step2_probe_antonym_ensemble_diff": -0.5859,
+      "step2_probe_wide_vs_narrow_logit_diff": 3.2812,
+      "step2_probes": {
+        "probe_wide_vs_narrow_logit_diff": 3.2812,
+        "probe_plus_vs_minus_logit_diff": -0.3438,
+        "probe_antonym_ensemble_diff": -0.5859,
+        "expected_continuous_scale_value": 1.288,
+        "preference_probs": {
+          "widen": 0.0,
+          "keep": 1.0,
+          "narrow": 0.0
+        }
+      },
+      "step2_first_token_entropy": 0.035
     }
   ]
 }

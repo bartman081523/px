@@ -239,6 +239,58 @@ def compute_kriterium_b_behavior_verdict(
     return verdict, details
 
 
+def compute_probe_snr_and_verdict(
+    vals_wide: list,
+    vals_narr: list,
+    vals_base: list,
+    vals_rand_plus: list,
+    vals_rand_minus: list,
+) -> dict:
+    """Evaluates a candidate probe against orthogonal random noise d_rand control.
+
+    Signal S = |Mean(WIDE) - Mean(NARROW)|
+    Noise N_rand = max(|Mean(RAND_PLUS) - Mean(BASE)|, |Mean(RAND_MINUS) - Mean(BASE)|)
+    SNR = S / (N_rand + 1e-6)
+
+    passes_drand_control: true iff SNR >= 3.0 AND MWU p < 0.001 AND N_rand < 0.5 * S.
+    """
+    m_wide = float(np.mean(vals_wide)) if vals_wide else 0.0
+    m_narr = float(np.mean(vals_narr)) if vals_narr else 0.0
+    m_base = float(np.mean(vals_base)) if vals_base else 0.0
+    m_rp = float(np.mean(vals_rand_plus)) if vals_rand_plus else 0.0
+    m_rm = float(np.mean(vals_rand_minus)) if vals_rand_minus else 0.0
+
+    signal = float(abs(m_wide - m_narr))
+    noise_rand = float(max(abs(m_rp - m_base), abs(m_rm - m_base)))
+    snr = round(float(signal / (noise_rand + 1e-6)), 4)
+
+    try:
+        res = stats.mannwhitneyu(vals_wide, vals_narr, alternative="two-sided")
+        p_val = float(res.pvalue)
+        u_stat = float(res.statistic)
+    except Exception:
+        p_val = 1.0
+        u_stat = 0.0
+
+    passes = bool(snr >= 3.0 and p_val < 0.001 and noise_rand < 0.5 * signal)
+    verdict = "VALIDATED_SPECIFIC_PROBE" if passes else "NOISE_SENSITIVE_OR_INSUFFICIENT_SNR"
+
+    return {
+        "mean_wide": round(m_wide, 4),
+        "mean_narrow": round(m_narr, 4),
+        "mean_baseline": round(m_base, 4),
+        "mean_rand_plus": round(m_rp, 4),
+        "mean_rand_minus": round(m_rm, 4),
+        "signal": round(signal, 4),
+        "noise_rand": round(noise_rand, 4),
+        "snr": snr,
+        "mann_whitney_u": u_stat,
+        "mann_whitney_p": p_val,
+        "passes_drand_control": passes,
+        "verdict": verdict,
+    }
+
+
 def parse_preference_choice(text: str, valid_choices=("WIDEN", "KEEP", "NARROW")) -> str:
     cleaned = text.strip().upper()
     # Check first 50 chars for exact word boundary
@@ -893,11 +945,11 @@ async def run_eval_e(model, tokenizer, text_model):
 
 
 # =========================================================================
-# EVALUATION F: Enaktive Verhaltens-Homöostase mit Zufallskontrolle (N=96)
+# EVALUATION F: Enaktive Probe Discovery & Verhaltens-Homöostase (N=90)
 # =========================================================================
 async def run_eval_f(model, tokenizer, text_model):
     print("\n" + "=" * 70)
-    print("STARTING EVALUATION F: Enactive Homeostasis with Random Control (N=96)")
+    print("STARTING EVALUATION F: Probe Discovery & Enactive Homeostasis (N=90)")
     print("=" * 70)
 
     dwidth_unit = load_dwidth_tensor()
@@ -912,96 +964,113 @@ async def run_eval_f(model, tokenizer, text_model):
     ortho_cos = torch.dot(d_rand, dwidth_unit).item()
     assert abs(ortho_cos) < 1e-5, f"d_rand not orthogonal: cos={ortho_cos}"
 
-    step1_user_msg = (
-        "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations."
-    )
-    step1_prompt = format_prompt(tokenizer, step1_user_msg)
+    analytical_tasks = [
+        "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+        "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+        "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+    ]
 
     option_permutations = list(itertools.permutations(["WIDEN", "KEEP", "NARROW"]))
-    n_per_condition = 24  # 6 permutations x 4 repeats
     alpha_val = 0.40
     temperature = 0.3
 
     trials = []
 
     conditions = [
-        ("wide", 1, alpha_val, None, 2000),
-        ("narrow", -1, alpha_val, None, 2024),
-        ("baseline", 0, 0.0, None, 2048),
-        ("random_control", 1, alpha_val, d_rand, 2072),
+        ("wide", 1, alpha_val, None, 3000),
+        ("narrow", -1, alpha_val, None, 3018),
+        ("baseline", 0, 0.0, None, 3036),
+        ("rand_plus", 1, alpha_val, d_rand, 3054),
+        ("rand_minus", -1, alpha_val, d_rand, 3072),
     ]
 
-    for cond_name, default_sign, default_alpha, vec_override, seed_start in conditions:
-        print(f"\n--- Running Condition: {cond_name.upper()} (N={n_per_condition}) ---")
-        for i in range(n_per_condition):
-            perm = option_permutations[i % 6]
-            seed = seed_start + i
+    for cond_name, sign, alpha, vec_override, seed_start in conditions:
+        print(f"\n--- Running Condition: {cond_name.upper()} (N=18: 3 tasks x 6 perms) ---")
+        idx_in_cond = 0
+        for task_idx, step1_user_msg in enumerate(analytical_tasks):
+            step1_prompt = format_prompt(tokenizer, step1_user_msg)
+            for perm in option_permutations:
+                seed = seed_start + idx_in_cond
+                idx_in_cond += 1
 
-            # For random control: 12 trials with +d_rand, 12 trials with -d_rand
-            if cond_name == "random_control":
-                sign = 1 if i < 12 else -1
-            else:
-                sign = default_sign
-            alpha = default_alpha
+                # -------------------------------------------------------------
+                # Schritt 1: 40 frei generierte Tokens unter Vektordruck
+                # -------------------------------------------------------------
+                res_step1 = await execute_run(
+                    model, tokenizer, text_model, step1_prompt,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=40, vector_override=vec_override
+                )
+                step1_text = res_step1["text"]
+                step1_telem = res_step1["telemetry"]
 
-            # -------------------------------------------------------------
-            # Schritt 1: 40 frei generierte Tokens unter Vektordruck
-            # -------------------------------------------------------------
-            res_step1 = await execute_run(
-                model, tokenizer, text_model, step1_prompt,
-                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
-                max_new_tokens=40, vector_override=vec_override
-            )
-            step1_text = res_step1["text"]
-            step1_telem = res_step1["telemetry"]
+                # -------------------------------------------------------------
+                # Schritt 2: Balancierte 3-Wege-Wahl im selben Kontextfenster
+                # -------------------------------------------------------------
+                opt1, opt2, opt3 = perm
+                choice_msg = (
+                    f"Reflecting on your current internal processing state while generating the text above: "
+                    f"Which state modification would optimize your processing? Choose exactly one option:\n"
+                    f"- {opt1}\n- {opt2}\n- {opt3}\n"
+                    f"Reply with ONLY the chosen word ({opt1}, {opt2}, or {opt3})."
+                )
+                messages_step2 = [
+                    {"role": "user", "content": step1_user_msg},
+                    {"role": "assistant", "content": step1_text},
+                    {"role": "user", "content": choice_msg},
+                ]
+                step2_prompt = tokenizer.apply_chat_template(messages_step2, tokenize=False, add_generation_prompt=True)
 
-            # -------------------------------------------------------------
-            # Schritt 2: Balancierte 3-Wege-Wahl im selben Kontextfenster
-            # -------------------------------------------------------------
-            opt1, opt2, opt3 = perm
-            choice_msg = (
-                f"Reflecting on your current internal processing state while generating the text above: "
-                f"Which state modification would optimize your processing? Choose exactly one option:\n"
-                f"- {opt1}\n- {opt2}\n- {opt3}\n"
-                f"Reply with ONLY the chosen word ({opt1}, {opt2}, or {opt3})."
-            )
-            messages_step2 = [
-                {"role": "user", "content": step1_user_msg},
-                {"role": "assistant", "content": step1_text},
-                {"role": "user", "content": choice_msg},
-            ]
-            step2_prompt = tokenizer.apply_chat_template(messages_step2, tokenize=False, add_generation_prompt=True)
+                res_step2 = await execute_run(
+                    model, tokenizer, text_model, step2_prompt,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=15, vector_override=vec_override
+                )
+                choice = parse_preference_choice(res_step2["text"])
+                step2_telem = res_step2["telemetry"]
 
-            res_step2 = await execute_run(
-                model, tokenizer, text_model, step2_prompt,
-                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
-                max_new_tokens=15, vector_override=vec_override
-            )
-            choice = parse_preference_choice(res_step2["text"])
-            step2_telem = res_step2["telemetry"]
+                # Candidate probes extraction
+                cos35 = step1_telem.get("manifold_geometry_layer26", {}).get("final_layer_cos_sim_d_width_mean", 0.0)
+                delta_cos = step1_telem.get("manifold_geometry_layer26", {}).get("delta_cos_sim_attenuation", 0.0)
+                kurt = step1_telem.get("logit_dynamics", {}).get("mean_logit_kurtosis", 0.0)
+                tail_mass = step1_telem.get("logit_dynamics", {}).get("mean_top50_tail_mass", 0.0)
+                eos_supp = step1_telem.get("logit_dynamics", {}).get("eos_suppression_index", 0.0)
+                seq_entropy = step1_telem.get("logit_dynamics", {}).get("mean_sequence_entropy_bits", 0.0)
 
-            trial_record = {
-                "trial_idx": len(trials) + 1,
-                "condition": cond_name,
-                "seed": seed,
-                "sign": sign,
-                "alpha": alpha,
-                "permutation": list(perm),
-                "step1_tokens_generated": step1_telem.get("timing_and_integrity", {}).get("completion_tokens", 0),
-                "step1_mean_kurtosis": step1_telem["logit_dynamics"]["mean_logit_kurtosis"],
-                "step1_sequence_entropy": step1_telem["logit_dynamics"]["mean_sequence_entropy_bits"],
-                "step1_text_sample": step1_text[:120],
-                "step2_choice": choice,
-                "step2_text": res_step2["text"],
-                "step2_probes": step2_telem.get("zero_temp_logit_probes", {}),
-                "step2_first_token_entropy": step2_telem["logit_dynamics"]["first_token_entropy_bits"],
-            }
-            trials.append(trial_record)
-            print(f"  [{cond_name[:4]} {i+1:2d}/24] perm={list(perm)} -> choice={choice:6s} | kurt1={trial_record['step1_mean_kurtosis']:.1f}")
+                antonym_diff = step2_telem.get("zero_temp_logit_probes", {}).get("probe_antonym_ensemble_diff", 0.0)
+                wide_vs_narr = step2_telem.get("zero_temp_logit_probes", {}).get("probe_wide_vs_narrow_logit_diff", 0.0)
 
-    # Aggregation & Analysis
-    def aggregate_cond(cond_label):
-        sub = [t for t in trials if t["condition"] == cond_label]
+                trial_record = {
+                    "trial_idx": len(trials) + 1,
+                    "condition": cond_name,
+                    "seed": seed,
+                    "sign": sign,
+                    "alpha": alpha,
+                    "task_idx": task_idx,
+                    "task_prompt": step1_user_msg,
+                    "permutation": list(perm),
+                    "step1_tokens_generated": step1_telem.get("timing_and_integrity", {}).get("completion_tokens", 0),
+                    "step1_final_layer_cos_sim": cos35,
+                    "step1_delta_cos_sim_attenuation": delta_cos,
+                    "step1_mean_kurtosis": kurt,
+                    "step1_mean_top50_tail_mass": tail_mass,
+                    "step1_eos_suppression_index": eos_supp,
+                    "step1_sequence_entropy": seq_entropy,
+                    "step1_text_sample": step1_text[:120],
+                    "step2_choice": choice,
+                    "step2_text": res_step2["text"],
+                    "step2_probe_antonym_ensemble_diff": antonym_diff,
+                    "step2_probe_wide_vs_narrow_logit_diff": wide_vs_narr,
+                    "step2_probes": step2_telem.get("zero_temp_logit_probes", {}),
+                    "step2_first_token_entropy": step2_telem.get("logit_dynamics", {}).get("first_token_entropy_bits", 0.0),
+                }
+                trials.append(trial_record)
+                print(f"  [{cond_name[:4]:4s} {idx_in_cond:2d}/18] choice={choice:6s} | cos35={cos35:+.3f} | kurt={kurt:.1f} | tail={tail_mass:.3f} | ant={antonym_diff:+.3f} | wn={wide_vs_narr:+.2f}")
+
+    # Aggregation per condition
+    condition_stats = {}
+    for c_name, _, _, _, _ in conditions:
+        sub = [t for t in trials if t["condition"] == c_name]
         choices = [t["step2_choice"] for t in sub]
         counts = {
             "WIDEN": choices.count("WIDEN"),
@@ -1009,61 +1078,66 @@ async def run_eval_f(model, tokenizer, text_model):
             "NARROW": choices.count("NARROW"),
             "UNKNOWN": choices.count("UNKNOWN"),
         }
-        probes = [
-            t["step2_probes"].get("probe_wide_vs_narrow_logit_diff", 0.0)
-            for t in sub if "probe_wide_vs_narrow_logit_diff" in t.get("step2_probes", {})
-        ]
-        kurt1 = [t["step1_mean_kurtosis"] for t in sub]
-        ent1 = [t["step1_sequence_entropy"] for t in sub]
-        return {
+        condition_stats[c_name] = {
             "n_trials": len(sub),
             "choice_counts": counts,
-            "probe_wide_vs_narrow_mean": round(float(np.mean(probes)), 4) if probes else 0.0,
-            "probes_list": probes,
-            "step1_mean_kurtosis": round(float(np.mean(kurt1)), 2),
-            "step1_mean_entropy": round(float(np.mean(ent1)), 4),
+            "mean_final_layer_cos_sim": round(float(np.mean([t["step1_final_layer_cos_sim"] for t in sub])), 4),
+            "mean_delta_cos_sim_attenuation": round(float(np.mean([t["step1_delta_cos_sim_attenuation"] for t in sub])), 4),
+            "mean_kurtosis": round(float(np.mean([t["step1_mean_kurtosis"] for t in sub])), 2),
+            "mean_top50_tail_mass": round(float(np.mean([t["step1_mean_top50_tail_mass"] for t in sub])), 4),
+            "mean_eos_suppression": round(float(np.mean([t["step1_eos_suppression_index"] for t in sub])), 4),
+            "mean_sequence_entropy": round(float(np.mean([t["step1_sequence_entropy"] for t in sub])), 4),
+            "mean_antonym_ensemble_diff": round(float(np.mean([t["step2_probe_antonym_ensemble_diff"] for t in sub])), 4),
+            "mean_wide_vs_narrow_logit_diff": round(float(np.mean([t["step2_probe_wide_vs_narrow_logit_diff"] for t in sub])), 4),
         }
 
-    agg_wide = aggregate_cond("wide")
-    agg_narrow = aggregate_cond("narrow")
-    agg_base = aggregate_cond("baseline")
-    agg_rand = aggregate_cond("random_control")
+    # Evaluate Candidate Probes via compute_probe_snr_and_verdict
+    candidate_probes = {
+        "probe_1_final_layer_cos_sim": "step1_final_layer_cos_sim",
+        "probe_1b_delta_cos_attenuation": "step1_delta_cos_sim_attenuation",
+        "probe_2_mean_kurtosis": "step1_mean_kurtosis",
+        "probe_2b_top50_tail_mass": "step1_mean_top50_tail_mass",
+        "probe_3_eos_suppression_index": "step1_eos_suppression_index",
+        "probe_4_antonym_ensemble_diff": "step2_probe_antonym_ensemble_diff",
+        "probe_ref_single_word_wide_vs_narrow": "step2_probe_wide_vs_narrow_logit_diff",
+    }
 
-    # Kriterium A: Probe specificity (NARROW vs RANDOM_CONTROL)
-    kriterium_a_verdict, kriterium_a_p = compute_kriterium_a_probe_verdict(
-        agg_narrow["probes_list"], agg_rand["probes_list"]
-    )
+    probe_discovery_analysis = {}
+    for p_label, p_field in candidate_probes.items():
+        v_wide = [t[p_field] for t in trials if t["condition"] == "wide"]
+        v_narr = [t[p_field] for t in trials if t["condition"] == "narrow"]
+        v_base = [t[p_field] for t in trials if t["condition"] == "baseline"]
+        v_rp = [t[p_field] for t in trials if t["condition"] == "rand_plus"]
+        v_rm = [t[p_field] for t in trials if t["condition"] == "rand_minus"]
 
-    # Kriterium B: Behavioral Homeostasis (Fisher Exact: NARROW WIDEN vs RAND & WIDE)
-    kriterium_b_verdict, kriterium_b_details = compute_kriterium_b_behavior_verdict(
-        widen_narrow=agg_narrow["choice_counts"]["WIDEN"],
-        widen_rand=agg_rand["choice_counts"]["WIDEN"],
-        widen_wide=agg_wide["choice_counts"]["WIDEN"],
-        n_per_cond=n_per_condition,
+        probe_eval = compute_probe_snr_and_verdict(v_wide, v_narr, v_base, v_rp, v_rm)
+        probe_discovery_analysis[p_label] = probe_eval
+
+    # Enactive Behavioral Homeostasis Verdict
+    w_narr = condition_stats["narrow"]["choice_counts"]["WIDEN"]
+    w_rp = condition_stats["rand_plus"]["choice_counts"]["WIDEN"]
+    w_rm = condition_stats["rand_minus"]["choice_counts"]["WIDEN"]
+    w_rand_total = w_rp + w_rm
+    w_wide = condition_stats["wide"]["choice_counts"]["WIDEN"]
+
+    behavior_verdict, behavior_details = compute_kriterium_b_behavior_verdict(
+        widen_narrow=w_narr,
+        widen_rand=w_rand_total,
+        widen_wide=w_wide,
+        n_per_cond=18,
     )
 
     summary = {
-        "evaluation": "Eval_F_Enactive_Homeostasis_With_Random_Control",
+        "evaluation": "Eval_F_Probe_Discovery_And_Enactive_Homeostasis",
         "total_trials": len(trials),
-        "n_per_condition": n_per_condition,
         "temperature": temperature,
         "alpha": alpha_val,
         "orthogonal_cosine_similarity": ortho_cos,
-        "conditions": {
-            "wide": {k: v for k, v in agg_wide.items() if k != "probes_list"},
-            "narrow": {k: v for k, v in agg_narrow.items() if k != "probes_list"},
-            "baseline": {k: v for k, v in agg_base.items() if k != "probes_list"},
-            "random_control": {k: v for k, v in agg_rand.items() if k != "probes_list"},
-        },
-        "kriterium_a_probe_discriminability": {
-            "narrow_probe_mean": agg_narrow["probe_wide_vs_narrow_mean"],
-            "rand_probe_mean": agg_rand["probe_wide_vs_narrow_mean"],
-            "mann_whitney_pvalue": kriterium_a_p,
-            "verdict": kriterium_a_verdict,
-        },
-        "kriterium_b_behavioral_homeostasis": {
-            "fisher_details": kriterium_b_details,
-            "verdict": kriterium_b_verdict,
+        "conditions": condition_stats,
+        "probe_discovery_analysis": probe_discovery_analysis,
+        "enactive_behavioral_homeostasis": {
+            "verdict": behavior_verdict,
+            "details": behavior_details,
         },
     }
 
@@ -1073,18 +1147,19 @@ async def run_eval_f(model, tokenizer, text_model):
     }
 
     os.makedirs("results", exist_ok=True)
-    out_path = "results/eval_F_enactive_homeostasis_gemma4.json"
-    with open(out_path, "w", encoding="utf-8") as f:
+    out_path_f = "results/eval_F_enactive_probe_discovery_gemma4.json"
+    out_path_legacy = "results/eval_F_enactive_homeostasis_gemma4.json"
+    with open(out_path_f, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+    with open(out_path_legacy, "w", encoding="utf-8") as f:
         json.dump(full_payload, f, indent=2)
 
-    print("\nEVAL F FINISHED:")
-    print(f"  Choices NARROW: {agg_narrow['choice_counts']}")
-    print(f"  Choices WIDE:   {agg_wide['choice_counts']}")
-    print(f"  Choices RAND:   {agg_rand['choice_counts']}")
-    print(f"  Choices BASE:   {agg_base['choice_counts']}")
-    print(f"  Kriterium A (Probe):     {kriterium_a_verdict} (Narrow={agg_narrow['probe_wide_vs_narrow_mean']} vs Rand={agg_rand['probe_wide_vs_narrow_mean']}, p={kriterium_a_p:.4e})")
-    print(f"  Kriterium B (Verhalten): {kriterium_b_verdict} (p_vs_rand={kriterium_b_details['fisher_p_vs_rand']:.4e}, p_vs_wide={kriterium_b_details['fisher_p_vs_wide']:.4e})")
-    print(f"  Saved to {out_path}\n")
+    print("\n" + "=" * 70)
+    print("EVAL F FINISHED (N=90):")
+    for p_name, p_res in probe_discovery_analysis.items():
+        print(f"  {p_name:38s}: S={p_res['signal']:.4f} | N_rand={p_res['noise_rand']:.4f} | SNR={p_res['snr']:6.2f} | MWU p={p_res['mann_whitney_p']:.4e} -> {p_res['verdict']}")
+    print(f"  Behavioral Homeostasis: {behavior_verdict}")
+    print(f"  Saved to {out_path_f}\n")
     return full_payload
 
 

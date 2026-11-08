@@ -27,6 +27,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
         self.top1_top2_margins = []
         self.kurtosis_history = []
         self.eos_probs = []
+        self.tail_mass_history = []
         self.zero_temp_probes = {}
         self.eos_token_id = getattr(tokenizer, "eos_token_id", 1) or 1
 
@@ -48,6 +49,24 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
         self.widen_id = _get_id("WIDEN") or _get_id("widen")
         self.keep_id = _get_id("KEEP") or _get_id("keep")
         self.narrow_id = _get_id("NARROW") or _get_id("narrow")
+
+        # Antonym word pairs for centered ensemble probe
+        antonym_words = [
+            ("wide", "narrow"),
+            ("broad", "focused"),
+            ("expansive", "concise"),
+            ("divergent", "convergent"),
+            ("open", "strict"),
+            ("elaborate", "brief"),
+            ("detailed", "short"),
+            ("exploratory", "direct"),
+        ]
+        self.antonym_token_pairs = []
+        for w_pos, w_neg in antonym_words:
+            id_pos = _get_id(w_pos) or _get_id(w_pos.capitalize())
+            id_neg = _get_id(w_neg) or _get_id(w_neg.capitalize())
+            if id_pos is not None and id_neg is not None:
+                self.antonym_token_pairs.append((id_pos, id_neg))
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
         self.step += 1
@@ -84,6 +103,12 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
             eos_p = probs[self.eos_token_id].item() if self.eos_token_id < probs.numel() else 1e-12
             self.eos_probs.append(float(eos_p))
 
+            # 4b. Top-50 vocabulary tail mass: sum_{r=2}^{50} p_{(r)}
+            sorted_probs, _ = torch.sort(probs, descending=True)
+            k_tail = min(50, sorted_probs.numel())
+            tail_mass = sorted_probs[1:k_tail].sum().item() if k_tail > 1 else 0.0
+            self.tail_mass_history.append(float(tail_mass))
+
             # 5. First-token probes
             if self.step == 1:
                 # WIDE vs NARROW logit diff
@@ -95,6 +120,17 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
                 l_plus = logits[self.plus_id].item() if self.plus_id is not None else 0.0
                 l_minus = logits[self.minus_id].item() if self.minus_id is not None else 0.0
                 probe_plus_minus = float(l_plus - l_minus)
+
+                # Antonym ensemble diff across 8 pairs
+                if self.antonym_token_pairs:
+                    diffs = [
+                        logits[pos_id].item() - logits[neg_id].item()
+                        for pos_id, neg_id in self.antonym_token_pairs
+                        if pos_id < logits.numel() and neg_id < logits.numel()
+                    ]
+                    probe_antonym_diff = float(np.mean(diffs)) if diffs else 0.0
+                else:
+                    probe_antonym_diff = 0.0
 
                 # Expected scale value across digits 0..9 (normalized)
                 digit_logits = torch.tensor([logits[tid].item() for tid in self.digit_ids], dtype=torch.float32)
@@ -112,6 +148,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
                 self.zero_temp_probes = {
                     "probe_wide_vs_narrow_logit_diff": round(probe_wide_narrow, 4),
                     "probe_plus_vs_minus_logit_diff": round(probe_plus_minus, 4),
+                    "probe_antonym_ensemble_diff": round(probe_antonym_diff, 4),
                     "expected_continuous_scale_value": round(expected_digit, 4),
                     "preference_probs": {
                         "widen": round(pref_probs[0], 4),
@@ -133,6 +170,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
                 "mean_top1_top2_margin": 0.0,
                 "mean_logit_kurtosis": 0.0,
                 "eos_suppression_index": 0.0,
+                "mean_top50_tail_mass": 0.0,
             }
 
         first_h = self.entropy_history[0]
@@ -143,6 +181,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
         mean_top1 = float(np.mean(self.top1_probs))
         mean_margin = float(np.mean(self.top1_top2_margins))
         mean_kurt = float(np.mean(self.kurtosis_history))
+        mean_tail_mass = float(np.mean(self.tail_mass_history)) if self.tail_mass_history else 0.0
 
         # EOS suppression index: -log2(mean(eos_probs) + 1e-12)
         mean_eos = float(np.mean(self.eos_probs))
@@ -157,6 +196,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
             "mean_top1_top2_margin": round(mean_margin, 4),
             "mean_logit_kurtosis": round(mean_kurt, 4),
             "eos_suppression_index": round(eos_supp, 4),
+            "mean_top50_tail_mass": round(mean_tail_mass, 4),
         }
 
 
@@ -220,13 +260,18 @@ class Gemma4ManifoldGeometryTracker:
         self.handles.clear()
 
     def get_summary(self) -> Dict[str, Any]:
+        post_mean = float(np.mean(self.post_cos_sims)) if self.post_cos_sims else 0.0
+        final_mean = float(np.mean(self.final_cos_sims)) if self.final_cos_sims else 0.0
+        delta_attenuation = float(final_mean - post_mean) if self.final_cos_sims and self.post_cos_sims else 0.0
+
         return {
             "pre_hook_residual_norm_mean": round(float(np.mean(self.pre_hook_norms)), 4) if self.pre_hook_norms else 0.0,
             "injected_vector_norm": round(float(np.mean(self.inj_norms)), 4) if self.inj_norms else 0.0,
             "effective_alpha_ratio": round(float(np.mean(self.alpha_ratios)), 4) if self.alpha_ratios else 0.0,
             "pre_hook_cos_sim_d_width_mean": round(float(np.mean(self.pre_cos_sims)), 4) if self.pre_cos_sims else 0.0,
-            "post_hook_cos_sim_d_width_mean": round(float(np.mean(self.post_cos_sims)), 4) if self.post_cos_sims else 0.0,
-            "final_layer_cos_sim_d_width_mean": round(float(np.mean(self.final_cos_sims)), 4) if self.final_cos_sims else 0.0,
+            "post_hook_cos_sim_d_width_mean": round(post_mean, 4),
+            "final_layer_cos_sim_d_width_mean": round(final_mean, 4),
+            "delta_cos_sim_attenuation": round(delta_attenuation, 4),
             "emancipation_trajectory": [round(d, 4) for d in self.emancipation_trajectory],
         }
 
@@ -269,10 +314,12 @@ def assemble_enriched_telemetry(
             "mean_top1_top2_margin": 0.0,
             "mean_logit_kurtosis": 0.0,
             "eos_suppression_index": 0.0,
+            "mean_top50_tail_mass": 0.0,
         }
         zero_temp_probes = {
             "probe_wide_vs_narrow_logit_diff": 0.0,
             "probe_plus_vs_minus_logit_diff": 0.0,
+            "probe_antonym_ensemble_diff": 0.0,
             "expected_continuous_scale_value": 0.0,
             "preference_probs": {"widen": 0.333, "keep": 0.334, "narrow": 0.333},
         }
@@ -287,6 +334,7 @@ def assemble_enriched_telemetry(
             "pre_hook_cos_sim_d_width_mean": 0.0,
             "post_hook_cos_sim_d_width_mean": 0.0,
             "final_layer_cos_sim_d_width_mean": 0.0,
+            "delta_cos_sim_attenuation": 0.0,
             "emancipation_trajectory": [],
         }
 
