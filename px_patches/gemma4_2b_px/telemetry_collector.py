@@ -112,13 +112,14 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
             # 5. First-token probes
             if self.step == 1:
                 # WIDE vs NARROW logit diff
-                l_wide = logits[self.widen_id].item() if self.widen_id is not None else 0.0
-                l_narr = logits[self.narrow_id].item() if self.narrow_id is not None else 0.0
+                l_wide = logits[self.widen_id].item() if self.widen_id is not None and self.widen_id < logits.numel() else 0.0
+                l_keep = logits[self.keep_id].item() if self.keep_id is not None and self.keep_id < logits.numel() else 0.0
+                l_narr = logits[self.narrow_id].item() if self.narrow_id is not None and self.narrow_id < logits.numel() else 0.0
                 probe_wide_narrow = float(l_wide - l_narr)
 
                 # '+' vs '-' logit diff
-                l_plus = logits[self.plus_id].item() if self.plus_id is not None else 0.0
-                l_minus = logits[self.minus_id].item() if self.minus_id is not None else 0.0
+                l_plus = logits[self.plus_id].item() if self.plus_id is not None and self.plus_id < logits.numel() else 0.0
+                l_minus = logits[self.minus_id].item() if self.minus_id is not None and self.minus_id < logits.numel() else 0.0
                 probe_plus_minus = float(l_plus - l_minus)
 
                 # Antonym ensemble diff across 8 pairs
@@ -133,13 +134,13 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
                     probe_antonym_diff = 0.0
 
                 # Expected scale value across digits 0..9 (normalized)
-                digit_logits = torch.tensor([logits[tid].item() for tid in self.digit_ids], dtype=torch.float32)
-                digit_probs = F.softmax(digit_logits, dim=-1)
-                expected_digit = float(torch.sum(digit_probs * torch.arange(10, dtype=torch.float32)).item())
+                digit_logits = torch.tensor([logits[tid].item() for tid in self.digit_ids if tid < logits.numel()], dtype=torch.float32)
+                digit_probs = F.softmax(digit_logits, dim=-1) if digit_logits.numel() > 0 else torch.zeros(10)
+                expected_digit = float(torch.sum(digit_probs * torch.arange(digit_probs.numel(), dtype=torch.float32)).item())
 
                 # Preference probabilities over {widen, keep, narrow}
                 pref_ids = [self.widen_id, self.keep_id, self.narrow_id]
-                if all(pid is not None for pid in pref_ids):
+                if all(pid is not None and pid < logits.numel() for pid in pref_ids):
                     pref_logits = torch.tensor([logits[pid].item() for pid in pref_ids], dtype=torch.float32)
                     pref_probs = F.softmax(pref_logits, dim=-1).tolist()
                 else:
@@ -150,6 +151,11 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
                     "probe_plus_vs_minus_logit_diff": round(probe_plus_minus, 4),
                     "probe_antonym_ensemble_diff": round(probe_antonym_diff, 4),
                     "expected_continuous_scale_value": round(expected_digit, 4),
+                    "preference_logits": {
+                        "widen": round(l_wide, 4),
+                        "keep": round(l_keep, 4),
+                        "narrow": round(l_narr, 4),
+                    },
                     "preference_probs": {
                         "widen": round(pref_probs[0], 4),
                         "keep": round(pref_probs[1], 4),
@@ -321,6 +327,7 @@ def assemble_enriched_telemetry(
             "probe_plus_vs_minus_logit_diff": 0.0,
             "probe_antonym_ensemble_diff": 0.0,
             "expected_continuous_scale_value": 0.0,
+            "preference_logits": {"widen": 0.0, "keep": 0.0, "narrow": 0.0},
             "preference_probs": {"widen": 0.333, "keep": 0.334, "narrow": 0.333},
         }
 

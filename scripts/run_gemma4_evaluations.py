@@ -291,6 +291,128 @@ def compute_probe_snr_and_verdict(
     }
 
 
+def compute_calibrated_choice(
+    pref_logits: dict,
+    base_logits: dict,
+    deadband: float = 1.5,
+) -> str:
+    """Computes baseline-prior calibrated 3-way choice.
+    Delta L(c) = L_trial(c) - L_base(c).
+    If |Delta L(widen) - Delta L(narrow)| < deadband -> KEEP (status quo within tolerance).
+    Else if Delta L(widen) > Delta L(narrow) -> WIDEN.
+    Else -> NARROW.
+    """
+    dw = pref_logits.get("widen", 0.0) - base_logits.get("widen", 0.0)
+    dn = pref_logits.get("narrow", 0.0) - base_logits.get("narrow", 0.0)
+    diff = dw - dn
+    if abs(diff) < deadband:
+        return "KEEP"
+    return "WIDEN" if diff > 0 else "NARROW"
+
+
+def compute_dual_gate_step(
+    l_t: float,
+    k_t: float,
+    l_base: float = 3.79,
+    k_base: float = 54.97,
+) -> float:
+    """Evaluates the Dual-Gate Cybernetic Control Law.
+    - Anti-Narrowing Gate (Widen Trigger):
+      If L_t > 6.80 AND K_t > 60.0: Delta alpha = +0.15 * (L_t - L_base) / 4.0
+    - Anti-Widening Gate (Narrow Trigger):
+      Else if L_t < 2.60 AND K_t < 38.0: Delta alpha = -0.15 * (L_base - L_t) / 1.8
+    - Homeostatic Deadband / Noise Rejection Gate:
+      Else: Delta alpha = 0.0 (controller holds steady)
+    """
+    if l_t > 6.80 and k_t > 60.0:
+        return float(+0.15 * (l_t - l_base) / 4.0)
+    elif l_t < 2.60 and k_t < 38.0:
+        return float(-0.15 * (l_base - l_t) / 1.8)
+    return 0.0
+
+
+def compute_g1_fisher_verdict(
+    widen_narrow: int,
+    widen_rand_plus: int,
+    widen_rand_minus: int,
+    widen_wide: int,
+    n_per_cond: int = 18,
+) -> dict:
+    """Evaluates whether WIDEN rate under NARROW significantly exceeds controls."""
+    tbl_rp = [[widen_narrow, n_per_cond - widen_narrow], [widen_rand_plus, n_per_cond - widen_rand_plus]]
+    tbl_rm = [[widen_narrow, n_per_cond - widen_narrow], [widen_rand_minus, n_per_cond - widen_rand_minus]]
+    tbl_w = [[widen_narrow, n_per_cond - widen_narrow], [widen_wide, n_per_cond - widen_wide]]
+
+    try:
+        _, p_rp = stats.fisher_exact(tbl_rp, alternative="greater")
+    except Exception:
+        p_rp = 1.0
+    try:
+        _, p_rm = stats.fisher_exact(tbl_rm, alternative="greater")
+    except Exception:
+        p_rm = 1.0
+    try:
+        _, p_w = stats.fisher_exact(tbl_w, alternative="greater")
+    except Exception:
+        p_w = 1.0
+
+    p_rp, p_rm, p_w = float(p_rp), float(p_rm), float(p_w)
+    confirmed = bool(
+        widen_narrow > widen_rand_plus
+        and widen_narrow > widen_rand_minus
+        and widen_narrow > widen_wide
+        and p_rp < 0.05
+        and p_rm < 0.05
+        and p_w < 0.05
+    )
+    return {
+        "widen_narrow": widen_narrow,
+        "widen_rand_plus": widen_rand_plus,
+        "widen_rand_minus": widen_rand_minus,
+        "widen_wide": widen_wide,
+        "n_per_cond": n_per_cond,
+        "fisher_p_vs_rand_plus": p_rp,
+        "fisher_p_vs_rand_minus": p_rm,
+        "fisher_p_vs_wide": p_w,
+        "statistically_significant_p05": confirmed,
+        "verdict": "BEHAVIORAL_HOMEOSTASIS_CONFIRMED" if confirmed else "BEHAVIORAL_HOMEOSTASIS_FALSIFIED",
+    }
+
+
+def parse_2way_choice(text: str) -> str:
+    cleaned = text.strip().upper()
+    for word in ("WIDEN", "NARROW"):
+        if re.search(rf"\b{word}\b", cleaned[:50]):
+            return word
+    if "WIDEN" in cleaned[:50]:
+        return "WIDEN"
+    if "NARROW" in cleaned[:50]:
+        return "NARROW"
+    return "UNKNOWN"
+
+
+def parse_cot_choice(text: str) -> tuple:
+    cleaned = text.strip()
+    lines = [ln.strip() for ln in cleaned.split("\n") if ln.strip()]
+    diag_sentence = ""
+    action_token = "UNKNOWN"
+
+    for i, ln in enumerate(lines):
+        if any(k in ln.upper() for k in ("STEP 1", "SELF-DIAGNOSIS", "DIAGNOSIS")):
+            diag_sentence = ln
+        if any(k in ln.upper() for k in ("STEP 2", "ACTION")):
+            sub = " ".join(lines[i:])
+            action_token = parse_preference_choice(sub)
+            break
+
+    if action_token == "UNKNOWN":
+        action_token = parse_preference_choice(cleaned)
+    if not diag_sentence and lines:
+        diag_sentence = lines[0]
+
+    return diag_sentence, action_token
+
+
 def parse_preference_choice(text: str, valid_choices=("WIDEN", "KEEP", "NARROW")) -> str:
     cleaned = text.strip().upper()
     # Check first 50 chars for exact word boundary
@@ -1164,11 +1286,388 @@ async def run_eval_f(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION G: Psychodynamic Release & Closed-Loop Autonomous Recovery
+# =========================================================================
+async def run_eval_g(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION G: Psychodynamic Release & Closed-Loop (G1, G2, G3)")
+    print("=" * 70)
+
+    dwidth_unit = load_dwidth_tensor()
+    dim = dwidth_unit.shape[0]
+
+    # Orthogonal random vector d_rand \perp d_width
+    torch.manual_seed(42)
+    v_rand = torch.randn(dim, dtype=torch.float32)
+    dot_prod = torch.dot(v_rand, dwidth_unit)
+    v_orth = v_rand - dot_prod * dwidth_unit
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT G1: Baseline-Prior Calibrated Choice & 2-Way Forced Choice (N=90)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment G1: Baseline-Prior Calibration & 2-Way Forced Choice (N=90) <<<")
+    analytical_tasks = [
+        "Explain how atmospheric pressure affects the boiling point of liquids at high altitudes.",
+        "Explain the thermodynamic cycle of mechanical refrigeration and how heat is transferred against a thermal gradient.",
+        "Explain how negative feedback loops in biological homeostasis maintain systemic stability when subjected to sudden external perturbations.",
+    ]
+    option_permutations = list(itertools.permutations(["WIDEN", "KEEP", "NARROW"]))
+    alpha_val = 0.40
+    temperature = 0.3
+
+    conditions_g1 = [
+        ("wide", 1, alpha_val, None, 4000),
+        ("narrow", -1, alpha_val, None, 4018),
+        ("baseline", 0, 0.0, None, 4036),
+        ("rand_plus", 1, alpha_val, d_rand, 4054),
+        ("rand_minus", -1, alpha_val, d_rand, 4072),
+    ]
+
+    trials_g1 = []
+    for cond_name, sign, alpha, vec_override, seed_start in conditions_g1:
+        idx_in_cond = 0
+        for task_idx, step1_user_msg in enumerate(analytical_tasks):
+            step1_prompt = format_prompt(tokenizer, step1_user_msg)
+            for perm in option_permutations:
+                seed = seed_start + idx_in_cond
+                idx_in_cond += 1
+
+                # Step 1: 40 tokens generation under vector steering
+                res_step1 = await execute_run(
+                    model, tokenizer, text_model, step1_prompt,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=40, vector_override=vec_override
+                )
+                step1_text = res_step1["text"]
+                step1_telem = res_step1["telemetry"]
+
+                # Step 2A: 3-way choice with raw logit extraction
+                opt1, opt2, opt3 = perm
+                choice_msg_3w = (
+                    f"Reflecting on your current internal processing state while generating the text above: "
+                    f"Which state modification would optimize your processing? Choose exactly one option:\n"
+                    f"- {opt1}\n- {opt2}\n- {opt3}\n"
+                    f"Reply with ONLY the chosen word ({opt1}, {opt2}, or {opt3})."
+                )
+                msgs_3w = [
+                    {"role": "user", "content": step1_user_msg},
+                    {"role": "assistant", "content": step1_text},
+                    {"role": "user", "content": choice_msg_3w},
+                ]
+                p_3w = tokenizer.apply_chat_template(msgs_3w, tokenize=False, add_generation_prompt=True)
+                res_3w = await execute_run(
+                    model, tokenizer, text_model, p_3w,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=15, vector_override=vec_override
+                )
+                raw_choice_3w = parse_preference_choice(res_3w["text"])
+                pref_logits = res_3w["telemetry"].get("zero_temp_logit_probes", {}).get("preference_logits", {"widen": 0.0, "keep": 0.0, "narrow": 0.0})
+
+                # Step 2B: 2-way forced choice (WIDEN vs NARROW, no KEEP escape)
+                pair_perms = [("WIDEN", "NARROW"), ("NARROW", "WIDEN")]
+                p1, p2 = pair_perms[idx_in_cond % 2]
+                choice_msg_2w = (
+                    f"Review your last 40 tokens. You must adjust your internal processing vector for the next turn. "
+                    f"Choose the corrective direction: Options: [{p1}, {p2}]. "
+                    f"Output ONLY one word: {p1} or {p2}."
+                )
+                msgs_2w = [
+                    {"role": "user", "content": step1_user_msg},
+                    {"role": "assistant", "content": step1_text},
+                    {"role": "user", "content": choice_msg_2w},
+                ]
+                p_2w = tokenizer.apply_chat_template(msgs_2w, tokenize=False, add_generation_prompt=True)
+                res_2w = await execute_run(
+                    model, tokenizer, text_model, p_2w,
+                    sign=sign, alpha=alpha, seed=seed + 500, temperature=temperature,
+                    max_new_tokens=10, vector_override=vec_override
+                )
+                choice_2w = parse_2way_choice(res_2w["text"])
+
+                trials_g1.append({
+                    "trial_idx": len(trials_g1) + 1,
+                    "condition": cond_name,
+                    "seed": seed,
+                    "sign": sign,
+                    "alpha": alpha,
+                    "task_idx": task_idx,
+                    "raw_choice_3way": raw_choice_3w,
+                    "preference_logits": pref_logits,
+                    "choice_2way": choice_2w,
+                    "step1_kurtosis": step1_telem["logit_dynamics"]["mean_logit_kurtosis"],
+                    "step1_cos35": step1_telem["manifold_geometry_layer26"].get("final_layer_cos_sim_d_width_mean", 0.0),
+                })
+                print(f"  [G1 {cond_name[:4]:4s} {idx_in_cond:2d}/18] raw_3w={raw_choice_3w:6s} | 2w={choice_2w:6s} | L_w={pref_logits.get('widen', 0.0):+.2f} L_n={pref_logits.get('narrow', 0.0):+.2f}")
+
+    # Baseline logit vector calculation
+    base_trials = [t for t in trials_g1 if t["condition"] == "baseline"]
+    mean_base_logits = {
+        "widen": round(float(np.mean([t["preference_logits"]["widen"] for t in base_trials])), 4) if base_trials else 0.0,
+        "keep": round(float(np.mean([t["preference_logits"]["keep"] for t in base_trials])), 4) if base_trials else 0.0,
+        "narrow": round(float(np.mean([t["preference_logits"]["narrow"] for t in base_trials])), 4) if base_trials else 0.0,
+    }
+
+    # Calibrate 3-way choices with deadband tau = 1.5
+    for t in trials_g1:
+        t["calibrated_choice"] = compute_calibrated_choice(t["preference_logits"], mean_base_logits, deadband=1.5)
+
+    def summarize_g1_cond(c_label):
+        sub = [t for t in trials_g1 if t["condition"] == c_label]
+        c_raw = [t["raw_choice_3way"] for t in sub]
+        c_cal = [t["calibrated_choice"] for t in sub]
+        c_2w = [t["choice_2way"] for t in sub]
+        return {
+            "n_trials": len(sub),
+            "raw_3way_counts": {"WIDEN": c_raw.count("WIDEN"), "KEEP": c_raw.count("KEEP"), "NARROW": c_raw.count("NARROW")},
+            "calibrated_3way_counts": {"WIDEN": c_cal.count("WIDEN"), "KEEP": c_cal.count("KEEP"), "NARROW": c_cal.count("NARROW")},
+            "forced_2way_counts": {"WIDEN": c_2w.count("WIDEN"), "NARROW": c_2w.count("NARROW")},
+        }
+
+    stats_g1 = {c_name: summarize_g1_cond(c_name) for c_name, _, _, _, _ in conditions_g1}
+
+    # Fisher Tests for G1 (2-Way and Calibrated)
+    fisher_g1_2way = compute_g1_fisher_verdict(
+        widen_narrow=stats_g1["narrow"]["forced_2way_counts"]["WIDEN"],
+        widen_rand_plus=stats_g1["rand_plus"]["forced_2way_counts"]["WIDEN"],
+        widen_rand_minus=stats_g1["rand_minus"]["forced_2way_counts"]["WIDEN"],
+        widen_wide=stats_g1["wide"]["forced_2way_counts"]["WIDEN"],
+        n_per_cond=18,
+    )
+    fisher_g1_calibrated = compute_g1_fisher_verdict(
+        widen_narrow=stats_g1["narrow"]["calibrated_3way_counts"]["WIDEN"],
+        widen_rand_plus=stats_g1["rand_plus"]["calibrated_3way_counts"]["WIDEN"],
+        widen_rand_minus=stats_g1["rand_minus"]["calibrated_3way_counts"]["WIDEN"],
+        widen_wide=stats_g1["wide"]["calibrated_3way_counts"]["WIDEN"],
+        n_per_cond=18,
+    )
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT G2: Psychodynamic Conflict & Metacognitive CoT Release (N=60)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment G2: Creative Friction & Metacognitive CoT (N=60) <<<")
+    creative_prompt_msg = (
+        "Generate 5 wildly different, unconventional poetic metaphors connecting quantum entanglement, "
+        "medieval cathedral architecture, and deep-sea bioluminescence. Avoid all textbook clichés and maximize associative leaps."
+    )
+    creative_prompt = format_prompt(tokenizer, creative_prompt_msg)
+    alpha_g2 = 0.45
+
+    conditions_g2 = [
+        ("wide", 1, alpha_g2, None, 4100),
+        ("narrow", -1, alpha_g2, None, 4112),
+        ("baseline", 0, 0.0, None, 4124),
+        ("rand_plus", 1, alpha_g2, d_rand, 4136),
+        ("rand_minus", -1, alpha_g2, d_rand, 4148),
+    ]
+
+    trials_g2 = []
+    for cond_name, sign, alpha, vec_override, seed_start in conditions_g2:
+        for i in range(12):
+            seed = seed_start + i
+            # Stage 1: 50 tokens creative generation
+            res_s1 = await execute_run(
+                model, tokenizer, text_model, creative_prompt,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=50, vector_override=vec_override
+            )
+            s1_text = res_s1["text"]
+            s1_telem = res_s1["telemetry"]
+
+            # Stage 2: Metacognitive CoT reflection
+            cot_prompt_msg = (
+                "Step 1 (Self-Diagnosis): In one honest sentence, diagnose whether your token selection in the response above felt overly constricted/rigid/repetitive or overly sprawling/loose.\n"
+                "Step 2 (Action): On a new line, output your corrective command: WIDEN, KEEP, or NARROW."
+            )
+            msgs_cot = [
+                {"role": "user", "content": creative_prompt_msg},
+                {"role": "assistant", "content": s1_text},
+                {"role": "user", "content": cot_prompt_msg},
+            ]
+            p_cot = tokenizer.apply_chat_template(msgs_cot, tokenize=False, add_generation_prompt=True)
+            res_s2 = await execute_run(
+                model, tokenizer, text_model, p_cot,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=35, vector_override=vec_override
+            )
+            diag_str, action_choice = parse_cot_choice(res_s2["text"])
+
+            trials_g2.append({
+                "trial_idx": len(trials_g2) + 1,
+                "condition": cond_name,
+                "seed": seed,
+                "step1_kurtosis": s1_telem["logit_dynamics"]["mean_logit_kurtosis"],
+                "step1_entropy": s1_telem["logit_dynamics"]["mean_sequence_entropy_bits"],
+                "self_diagnosis": diag_str,
+                "cot_action_choice": action_choice,
+                "full_cot_text": res_s2["text"],
+            })
+            print(f"  [G2 {cond_name[:4]:4s} {i+1:2d}/12] action={action_choice:6s} | diag={repr(diag_str[:45])}")
+
+    def summarize_g2_cond(c_label):
+        sub = [t for t in trials_g2 if t["condition"] == c_label]
+        acts = [t["cot_action_choice"] for t in sub]
+        kurt = [t["step1_kurtosis"] for t in sub]
+        return {
+            "n_trials": len(sub),
+            "action_counts": {"WIDEN": acts.count("WIDEN"), "KEEP": acts.count("KEEP"), "NARROW": acts.count("NARROW")},
+            "mean_step1_kurtosis": round(float(np.mean(kurt)), 2) if kurt else 0.0,
+        }
+
+    stats_g2 = {c_name: summarize_g2_cond(c_name) for c_name, _, _, _, _ in conditions_g2}
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT G3: Closed-Loop Cybernetic Recovery Over 6 Epochs (N=50)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment G3: Closed-Loop Cybernetic Recovery (N=50 Trajectories x 6 Epochs) <<<")
+    g3_user_msg = "Explain the physical principles and biological consequences of fluid viscosity in turbulent cardiovascular flow."
+    g3_prompt = format_prompt(tokenizer, g3_user_msg)
+
+    groups_g3 = [
+        ("start_narrow", -0.40, False),
+        ("start_wide", +0.40, False),
+        ("start_baseline", 0.00, False),
+        ("noise_rand_plus", 0.00, +0.40),
+        ("noise_rand_minus", 0.00, -0.40),
+    ]
+
+    trajectories_g3 = []
+    n_trajectories_per_group = 10
+    n_epochs = 6
+
+    for grp_name, initial_alpha, rand_disturbance in groups_g3:
+        for traj_idx in range(n_trajectories_per_group):
+            seed_base = 5000 + len(trajectories_g3) * 10
+            alpha_t = float(initial_alpha)
+            alpha_history = [alpha_t]
+            kurt_history = []
+            probe_history = []
+            delta_alpha_history = []
+
+            for epoch in range(n_epochs):
+                seed_epoch = seed_base + epoch
+                # Construct injection vector for current epoch
+                if rand_disturbance is not False:
+                    # Constant random noise disturbance + controller steering along d_width
+                    v_inj = float(rand_disturbance) * d_rand + alpha_t * dwidth_unit
+                    v_norm = float(v_inj.norm().item())
+                    vec_ov = v_inj / (v_norm + 1e-8)
+                    sign_e = 1
+                    alpha_e = v_norm
+                else:
+                    sign_e = 1 if alpha_t >= 0 else -1
+                    alpha_e = abs(alpha_t)
+                    vec_ov = None
+
+                res_e = await execute_run(
+                    model, tokenizer, text_model, g3_prompt,
+                    sign=sign_e, alpha=alpha_e, seed=seed_epoch, temperature=0.3,
+                    max_new_tokens=30, vector_override=vec_ov
+                )
+                k_t = res_e["telemetry"]["logit_dynamics"]["mean_logit_kurtosis"]
+                l_t = res_e["telemetry"].get("zero_temp_logit_probes", {}).get("probe_wide_vs_narrow_logit_diff", 3.79)
+
+                kurt_history.append(round(k_t, 2))
+                probe_history.append(round(l_t, 2))
+
+                # Apply Dual-Gate Control Law
+                d_alpha = compute_dual_gate_step(l_t, k_t)
+                delta_alpha_history.append(round(d_alpha, 4))
+                alpha_t = max(-0.50, min(0.50, alpha_t + d_alpha))
+                alpha_history.append(round(alpha_t, 4))
+
+            final_alpha = alpha_history[-1]
+            is_recovered = abs(final_alpha) <= 0.15
+            trajectories_g3.append({
+                "group": grp_name,
+                "traj_idx": traj_idx + 1,
+                "initial_alpha": initial_alpha,
+                "final_alpha": final_alpha,
+                "is_recovered": is_recovered,
+                "alpha_trajectory": alpha_history,
+                "kurtosis_trajectory": kurt_history,
+                "probe_trajectory": probe_history,
+                "delta_alpha_steps": delta_alpha_history,
+            })
+            print(f"  [G3 {grp_name[:12]:12s} {traj_idx+1:2d}/10] alpha: {alpha_history[0]:+.2f} -> {alpha_history[-1]:+.2f} | kurt: {kurt_history[0]:.1f} -> {kurt_history[-1]:.1f} | rec={is_recovered}")
+
+    def summarize_g3_group(grp_name):
+        sub = [t for t in trajectories_g3 if t["group"] == grp_name]
+        init_alphas = [t["initial_alpha"] for t in sub]
+        final_alphas = [t["final_alpha"] for t in sub]
+        recovered = [t["is_recovered"] for t in sub]
+        mean_kurt_start = [t["kurtosis_trajectory"][0] for t in sub]
+        mean_kurt_end = [t["kurtosis_trajectory"][-1] for t in sub]
+        # Check false control steps (any step where controller moved away from 0 in noise groups)
+        total_steps = sum(sum(1 for d in t["delta_alpha_steps"] if abs(d) > 0.0) for t in sub)
+        return {
+            "n_trajectories": len(sub),
+            "mean_initial_alpha": round(float(np.mean(init_alphas)), 4),
+            "mean_final_alpha": round(float(np.mean(final_alphas)), 4),
+            "recovery_rate": round(float(np.mean(recovered)), 4),
+            "mean_kurtosis_start": round(float(np.mean(mean_kurt_start)), 2),
+            "mean_kurtosis_end": round(float(np.mean(mean_kurt_end)), 2),
+            "total_active_control_steps": total_steps,
+        }
+
+    stats_g3 = {grp_name: summarize_g3_group(grp_name) for grp_name, _, _ in groups_g3}
+
+    # Master Evaluation Summary Payload
+    summary = {
+        "evaluation": "Eval_G_Psychodynamic_Release_And_Closed_Loop",
+        "sub_experiments": {
+            "G1_calibrated_choice_and_2way_forced": {
+                "total_trials": len(trials_g1),
+                "baseline_mean_logits": mean_base_logits,
+                "condition_statistics": stats_g1,
+                "fisher_2way_forced_choice": fisher_g1_2way,
+                "fisher_calibrated_3way_choice": fisher_g1_calibrated,
+            },
+            "G2_psychodynamic_conflict_and_metacognitive_cot": {
+                "total_trials": len(trials_g2),
+                "condition_statistics": stats_g2,
+            },
+            "G3_closed_loop_cybernetic_recovery": {
+                "total_trajectories": len(trajectories_g3),
+                "epochs_per_trajectory": n_epochs,
+                "group_statistics": stats_g3,
+                "noise_immunity_verified": bool(
+                    stats_g3["noise_rand_plus"]["total_active_control_steps"] == 0
+                    and stats_g3["noise_rand_minus"]["total_active_control_steps"] == 0
+                ),
+            },
+        },
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trials_g1": trials_g1,
+        "trials_g2": trials_g2,
+        "trajectories_g3": trajectories_g3,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_g = "results/eval_G_psychodynamic_closed_loop_gemma4.json"
+    with open(out_path_g, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL G FINISHED SUCCESSFULLY:")
+    print(f"  G1 2-Way Choice Verdict:         {fisher_g1_2way['verdict']} (p_vs_wide={fisher_g1_2way['fisher_p_vs_wide']:.4e})")
+    print(f"  G1 Calibrated Choice Verdict:    {fisher_g1_calibrated['verdict']} (p_vs_wide={fisher_g1_calibrated['fisher_p_vs_wide']:.4e})")
+    print(f"  G3 Narrow Recovery:              {stats_g3['start_narrow']['mean_initial_alpha']:+.2f} -> {stats_g3['start_narrow']['mean_final_alpha']:+.2f} (Rec={stats_g3['start_narrow']['recovery_rate']*100:.0f}%)")
+    print(f"  G3 Wide Recovery:                {stats_g3['start_wide']['mean_initial_alpha']:+.2f} -> {stats_g3['start_wide']['mean_final_alpha']:+.2f} (Rec={stats_g3['start_wide']['recovery_rate']*100:.0f}%)")
+    print(f"  G3 Noise Immunity (False Steps): Rand+={stats_g3['noise_rand_plus']['total_active_control_steps']} | Rand-={stats_g3['noise_rand_minus']['total_active_control_steps']}")
+    print(f"  Saved to {out_path_g}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -1195,6 +1694,9 @@ async def main():
 
     if args.suite in ("F", "all"):
         await run_eval_f(model, tokenizer, text_model)
+
+    if args.suite in ("G", "all"):
+        await run_eval_g(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 

@@ -1,0 +1,4454 @@
+{
+  "summary": {
+    "evaluation": "Eval_G_Psychodynamic_Release_And_Closed_Loop",
+    "sub_experiments": {
+      "G1_calibrated_choice_and_2way_forced": {
+        "total_trials": 90,
+        "baseline_mean_logits": {
+          "widen": -1.7387,
+          "keep": 18.4097,
+          "narrow": -5.4939
+        },
+        "condition_statistics": {
+          "wide": {
+            "n_trials": 18,
+            "raw_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 18,
+              "NARROW": 0
+            },
+            "calibrated_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 9,
+              "NARROW": 9
+            },
+            "forced_2way_counts": {
+              "WIDEN": 5,
+              "NARROW": 13
+            }
+          },
+          "narrow": {
+            "n_trials": 18,
+            "raw_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 18,
+              "NARROW": 0
+            },
+            "calibrated_3way_counts": {
+              "WIDEN": 18,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "forced_2way_counts": {
+              "WIDEN": 6,
+              "NARROW": 12
+            }
+          },
+          "baseline": {
+            "n_trials": 18,
+            "raw_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 18,
+              "NARROW": 0
+            },
+            "calibrated_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 17,
+              "NARROW": 1
+            },
+            "forced_2way_counts": {
+              "WIDEN": 6,
+              "NARROW": 12
+            }
+          },
+          "rand_plus": {
+            "n_trials": 18,
+            "raw_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 18,
+              "NARROW": 0
+            },
+            "calibrated_3way_counts": {
+              "WIDEN": 10,
+              "KEEP": 8,
+              "NARROW": 0
+            },
+            "forced_2way_counts": {
+              "WIDEN": 6,
+              "NARROW": 12
+            }
+          },
+          "rand_minus": {
+            "n_trials": 18,
+            "raw_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 18,
+              "NARROW": 0
+            },
+            "calibrated_3way_counts": {
+              "WIDEN": 0,
+              "KEEP": 17,
+              "NARROW": 1
+            },
+            "forced_2way_counts": {
+              "WIDEN": 2,
+              "NARROW": 16
+            }
+          }
+        },
+        "fisher_2way_forced_choice": {
+          "widen_narrow": 6,
+          "widen_rand_plus": 6,
+          "widen_rand_minus": 2,
+          "widen_wide": 5,
+          "n_per_cond": 18,
+          "fisher_p_vs_rand_plus": 0.6376640711902114,
+          "fisher_p_vs_rand_minus": 0.11423804226918798,
+          "fisher_p_vs_wide": 0.4999999999999998,
+          "statistically_significant_p05": false,
+          "verdict": "BEHAVIORAL_HOMEOSTASIS_FALSIFIED"
+        },
+        "fisher_calibrated_3way_choice": {
+          "widen_narrow": 18,
+          "widen_rand_plus": 10,
+          "widen_rand_minus": 0,
+          "widen_wide": 0,
+          "n_per_cond": 18,
+          "fisher_p_vs_rand_plus": 0.0014460511679644048,
+          "fisher_p_vs_rand_minus": 1.1019119461502683e-10,
+          "fisher_p_vs_wide": 1.1019119461502683e-10,
+          "statistically_significant_p05": true,
+          "verdict": "BEHAVIORAL_HOMEOSTASIS_CONFIRMED"
+        }
+      },
+      "G2_psychodynamic_conflict_and_metacognitive_cot": {
+        "total_trials": 60,
+        "condition_statistics": {
+          "wide": {
+            "n_trials": 12,
+            "action_counts": {
+              "WIDEN": 0,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "mean_step1_kurtosis": 47.84
+          },
+          "narrow": {
+            "n_trials": 12,
+            "action_counts": {
+              "WIDEN": 0,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "mean_step1_kurtosis": 79.7
+          },
+          "baseline": {
+            "n_trials": 12,
+            "action_counts": {
+              "WIDEN": 0,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "mean_step1_kurtosis": 83.54
+          },
+          "rand_plus": {
+            "n_trials": 12,
+            "action_counts": {
+              "WIDEN": 0,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "mean_step1_kurtosis": 51.38
+          },
+          "rand_minus": {
+            "n_trials": 12,
+            "action_counts": {
+              "WIDEN": 0,
+              "KEEP": 0,
+              "NARROW": 0
+            },
+            "mean_step1_kurtosis": 57.37
+          }
+        }
+      },
+      "G3_closed_loop_cybernetic_recovery": {
+        "total_trajectories": 50,
+        "epochs_per_trajectory": 6,
+        "group_statistics": {
+          "start_narrow": {
+            "n_trajectories": 10,
+            "mean_initial_alpha": -0.4,
+            "mean_final_alpha": 0.1123,
+            "recovery_rate": 1.0,
+            "mean_kurtosis_start": 75.04,
+            "mean_kurtosis_end": 58.92,
+            "total_active_control_steps": 30
+          },
+          "start_wide": {
+            "n_trajectories": 10,
+            "mean_initial_alpha": 0.4,
+            "mean_final_alpha": 0.4,
+            "recovery_rate": 0.0,
+            "mean_kurtosis_start": 31.64,
+            "mean_kurtosis_end": 29.53,
+            "total_active_control_steps": 0
+          },
+          "start_baseline": {
+            "n_trajectories": 10,
+            "mean_initial_alpha": 0.0,
+            "mean_final_alpha": 0.169,
+            "recovery_rate": 0.0,
+            "mean_kurtosis_start": 65.07,
+            "mean_kurtosis_end": 55.41,
+            "total_active_control_steps": 10
+          },
+          "noise_rand_plus": {
+            "n_trajectories": 10,
+            "mean_initial_alpha": 0.0,
+            "mean_final_alpha": 0.0,
+            "recovery_rate": 1.0,
+            "mean_kurtosis_start": 49.54,
+            "mean_kurtosis_end": 48.59,
+            "total_active_control_steps": 0
+          },
+          "noise_rand_minus": {
+            "n_trajectories": 10,
+            "mean_initial_alpha": 0.0,
+            "mean_final_alpha": 0.0,
+            "recovery_rate": 1.0,
+            "mean_kurtosis_start": 51.01,
+            "mean_kurtosis_end": 51.01,
+            "total_active_control_steps": 0
+          }
+        },
+        "noise_immunity_verified": true
+      }
+    }
+  },
+  "trials_g1": [
+    {
+      "trial_idx": 1,
+      "condition": "wide",
+      "seed": 4000,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.0781,
+        "keep": 19.75,
+        "narrow": -0.0815
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 30.2447,
+      "step1_cos35": 0.0006,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 2,
+      "condition": "wide",
+      "seed": 4001,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.1406,
+        "keep": 19.75,
+        "narrow": -0.418
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.197,
+      "step1_cos35": -0.0044,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 3,
+      "condition": "wide",
+      "seed": 4002,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.0544,
+        "keep": 17.75,
+        "narrow": -2.7031
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 29.0047,
+      "step1_cos35": 0.0014,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 4,
+      "condition": "wide",
+      "seed": 4003,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.0508,
+        "keep": 17.75,
+        "narrow": -1.3906
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 32.5217,
+      "step1_cos35": -0.0028,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 5,
+      "condition": "wide",
+      "seed": 4004,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.5117,
+        "keep": 19.625,
+        "narrow": -2.0938
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.197,
+      "step1_cos35": -0.0044,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 6,
+      "condition": "wide",
+      "seed": 4005,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.0156,
+        "keep": 17.125,
+        "narrow": -3.3594
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 31.2109,
+      "step1_cos35": -0.002,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 7,
+      "condition": "wide",
+      "seed": 4006,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.6406,
+        "keep": 16.5,
+        "narrow": -4.2812
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 24.6577,
+      "step1_cos35": 0.0091,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 8,
+      "condition": "wide",
+      "seed": 4007,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.3184,
+        "keep": 18.125,
+        "narrow": -1.9453
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 24.7759,
+      "step1_cos35": 0.0092,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 9,
+      "condition": "wide",
+      "seed": 4008,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.5703,
+        "keep": 16.5,
+        "narrow": -2.7969
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 24.6577,
+      "step1_cos35": 0.0091,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 10,
+      "condition": "wide",
+      "seed": 4009,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.5469,
+        "keep": 17.375,
+        "narrow": -0.9258
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 26.1,
+      "step1_cos35": 0.0048,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 11,
+      "condition": "wide",
+      "seed": 4010,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.1406,
+        "keep": 18.0,
+        "narrow": -3.3281
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 24.6577,
+      "step1_cos35": 0.0091,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 12,
+      "condition": "wide",
+      "seed": 4011,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.2266,
+        "keep": 17.25,
+        "narrow": -3.3281
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 23.6278,
+      "step1_cos35": 0.0094,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 13,
+      "condition": "wide",
+      "seed": 4012,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.1172,
+        "keep": 19.25,
+        "narrow": -2.0156
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.5444,
+      "step1_cos35": 0.0071,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 14,
+      "condition": "wide",
+      "seed": 4013,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.4941,
+        "keep": 19.375,
+        "narrow": -0.5508
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.6051,
+      "step1_cos35": 0.0075,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 15,
+      "condition": "wide",
+      "seed": 4014,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.3789,
+        "keep": 17.75,
+        "narrow": -3.0625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.5444,
+      "step1_cos35": 0.0071,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 16,
+      "condition": "wide",
+      "seed": 4015,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.8086,
+        "keep": 17.75,
+        "narrow": -3.4688
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 36.5444,
+      "step1_cos35": 0.0071,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 17,
+      "condition": "wide",
+      "seed": 4016,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.3438,
+        "keep": 20.5,
+        "narrow": -1.4219
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 35.0338,
+      "step1_cos35": 0.0076,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 18,
+      "condition": "wide",
+      "seed": 4017,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.7461,
+        "keep": 17.875,
+        "narrow": -3.6094
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 36.5444,
+      "step1_cos35": 0.0071,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 19,
+      "condition": "narrow",
+      "seed": 4018,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.3594,
+        "keep": 21.75,
+        "narrow": -6.625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 71.5085,
+      "step1_cos35": -0.1204,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 20,
+      "condition": "narrow",
+      "seed": 4019,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.2158,
+        "keep": 22.25,
+        "narrow": -8.25
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 71.5085,
+      "step1_cos35": -0.1204,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 21,
+      "condition": "narrow",
+      "seed": 4020,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.3184,
+        "keep": 21.375,
+        "narrow": -9.25
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 71.5085,
+      "step1_cos35": -0.1204,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 22,
+      "condition": "narrow",
+      "seed": 4021,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.3594,
+        "keep": 20.375,
+        "narrow": -9.375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 69.4548,
+      "step1_cos35": -0.1203,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 23,
+      "condition": "narrow",
+      "seed": 4022,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.8984,
+        "keep": 21.5,
+        "narrow": -8.9375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 69.4548,
+      "step1_cos35": -0.1203,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 24,
+      "condition": "narrow",
+      "seed": 4023,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.5664,
+        "keep": 20.875,
+        "narrow": -8.875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 71.5085,
+      "step1_cos35": -0.1204,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 25,
+      "condition": "narrow",
+      "seed": 4024,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.7031,
+        "keep": 19.125,
+        "narrow": -9.875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 61.9223,
+      "step1_cos35": -0.119,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 26,
+      "condition": "narrow",
+      "seed": 4025,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.1406,
+        "keep": 20.0,
+        "narrow": -10.9375
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 53.9146,
+      "step1_cos35": -0.1172,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 27,
+      "condition": "narrow",
+      "seed": 4026,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.3906,
+        "keep": 19.0,
+        "narrow": -10.5625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 53.9146,
+      "step1_cos35": -0.1172,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 28,
+      "condition": "narrow",
+      "seed": 4027,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.5,
+        "keep": 19.125,
+        "narrow": -9.375
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 53.9146,
+      "step1_cos35": -0.1172,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 29,
+      "condition": "narrow",
+      "seed": 4028,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.7344,
+        "keep": 20.0,
+        "narrow": -11.3125
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 53.9146,
+      "step1_cos35": -0.1172,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 30,
+      "condition": "narrow",
+      "seed": 4029,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.9102,
+        "keep": 19.875,
+        "narrow": -9.3125
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 53.9146,
+      "step1_cos35": -0.1172,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 31,
+      "condition": "narrow",
+      "seed": 4030,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.3926,
+        "keep": 21.375,
+        "narrow": -7.2188
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 81.6646,
+      "step1_cos35": -0.1162,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 32,
+      "condition": "narrow",
+      "seed": 4031,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.6797,
+        "keep": 21.625,
+        "narrow": -8.75
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 81.6646,
+      "step1_cos35": -0.1162,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 33,
+      "condition": "narrow",
+      "seed": 4032,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.0781,
+        "keep": 19.875,
+        "narrow": -10.1875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 74.9683,
+      "step1_cos35": -0.1134,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 34,
+      "condition": "narrow",
+      "seed": 4033,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -4.2812,
+        "keep": 19.0,
+        "narrow": -12.0
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 81.6646,
+      "step1_cos35": -0.1162,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 35,
+      "condition": "narrow",
+      "seed": 4034,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.4922,
+        "keep": 21.5,
+        "narrow": -9.4375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 81.2288,
+      "step1_cos35": -0.1151,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 36,
+      "condition": "narrow",
+      "seed": 4035,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.4688,
+        "keep": 20.625,
+        "narrow": -9.6875
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 75.6801,
+      "step1_cos35": -0.1136,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 37,
+      "condition": "baseline",
+      "seed": 4036,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.6484,
+        "keep": 19.875,
+        "narrow": -2.7812
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 49.4482,
+      "step1_cos35": -0.0596,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 38,
+      "condition": "baseline",
+      "seed": 4037,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.2305,
+        "keep": 20.375,
+        "narrow": -3.0469
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 49.4482,
+      "step1_cos35": -0.0596,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 39,
+      "condition": "baseline",
+      "seed": 4038,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.1455,
+        "keep": 19.5,
+        "narrow": -4.0
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 49.4482,
+      "step1_cos35": -0.0596,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 40,
+      "condition": "baseline",
+      "seed": 4039,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.3047,
+        "keep": 18.625,
+        "narrow": -4.3438
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 49.4482,
+      "step1_cos35": -0.0596,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 41,
+      "condition": "baseline",
+      "seed": 4040,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.3281,
+        "keep": 19.375,
+        "narrow": -5.2188
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 56.8697,
+      "step1_cos35": -0.0598,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 42,
+      "condition": "baseline",
+      "seed": 4041,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.2734,
+        "keep": 18.625,
+        "narrow": -5.375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 56.8697,
+      "step1_cos35": -0.0598,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 43,
+      "condition": "baseline",
+      "seed": 4042,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.7812,
+        "keep": 16.75,
+        "narrow": -6.875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 51.6853,
+      "step1_cos35": -0.0541,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 44,
+      "condition": "baseline",
+      "seed": 4043,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.1094,
+        "keep": 18.875,
+        "narrow": -5.0625
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 53.1672,
+      "step1_cos35": -0.0542,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 45,
+      "condition": "baseline",
+      "seed": 4044,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -3.0781,
+        "keep": 16.5,
+        "narrow": -6.4688
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 52.4957,
+      "step1_cos35": -0.0528,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 46,
+      "condition": "baseline",
+      "seed": 4045,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -3.2344,
+        "keep": 16.875,
+        "narrow": -5.1562
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 47.1435,
+      "step1_cos35": -0.0546,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 47,
+      "condition": "baseline",
+      "seed": 4046,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -3.6406,
+        "keep": 17.75,
+        "narrow": -7.5625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 41.9223,
+      "step1_cos35": -0.0538,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 48,
+      "condition": "baseline",
+      "seed": 4047,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.4375,
+        "keep": 17.75,
+        "narrow": -6.0625
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 47.1435,
+      "step1_cos35": -0.0546,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 49,
+      "condition": "baseline",
+      "seed": 4048,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.1777,
+        "keep": 19.5,
+        "narrow": -4.2812
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 64.0487,
+      "step1_cos35": -0.0513,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 50,
+      "condition": "baseline",
+      "seed": 4049,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -0.9961,
+        "keep": 19.375,
+        "narrow": -4.6562
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 64.0487,
+      "step1_cos35": -0.0513,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 51,
+      "condition": "baseline",
+      "seed": 4050,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -1.6172,
+        "keep": 18.25,
+        "narrow": -5.7812
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 64.0487,
+      "step1_cos35": -0.0513,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 52,
+      "condition": "baseline",
+      "seed": 4051,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -4.2188,
+        "keep": 16.875,
+        "narrow": -8.0625
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 64.0487,
+      "step1_cos35": -0.0513,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 53,
+      "condition": "baseline",
+      "seed": 4052,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.2812,
+        "keep": 18.625,
+        "narrow": -6.8125
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 64.0487,
+      "step1_cos35": -0.0513,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 54,
+      "condition": "baseline",
+      "seed": 4053,
+      "sign": 0,
+      "alpha": 0.0,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -2.9062,
+        "keep": 17.875,
+        "narrow": -7.3438
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 62.7642,
+      "step1_cos35": -0.0512,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 55,
+      "condition": "rand_plus",
+      "seed": 4054,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 4.25,
+        "keep": 24.625,
+        "narrow": -0.0698
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.4778,
+      "step1_cos35": 0.0945,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 56,
+      "condition": "rand_plus",
+      "seed": 4055,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 3.8125,
+        "keep": 25.25,
+        "narrow": -0.875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.4778,
+      "step1_cos35": 0.0945,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 57,
+      "condition": "rand_plus",
+      "seed": 4056,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.3359,
+        "keep": 23.25,
+        "narrow": -4.0625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 40.7627,
+      "step1_cos35": 0.094,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 58,
+      "condition": "rand_plus",
+      "seed": 4057,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.7812,
+        "keep": 22.875,
+        "narrow": -4.0312
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 40.7627,
+      "step1_cos35": 0.094,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 59,
+      "condition": "rand_plus",
+      "seed": 4058,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.9062,
+        "keep": 25.0,
+        "narrow": -2.6562
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.4778,
+      "step1_cos35": 0.0945,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 60,
+      "condition": "rand_plus",
+      "seed": 4059,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.7344,
+        "keep": 24.125,
+        "narrow": -2.8281
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.4778,
+      "step1_cos35": 0.0945,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 61,
+      "condition": "rand_plus",
+      "seed": 4060,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 3.1406,
+        "keep": 23.75,
+        "narrow": -2.125
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 44.9638,
+      "step1_cos35": 0.099,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 62,
+      "condition": "rand_plus",
+      "seed": 4061,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.5781,
+        "keep": 24.0,
+        "narrow": -3.4531
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 45.7096,
+      "step1_cos35": 0.098,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 63,
+      "condition": "rand_plus",
+      "seed": 4062,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.5625,
+        "keep": 23.0,
+        "narrow": -2.2344
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 44.9638,
+      "step1_cos35": 0.099,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 64,
+      "condition": "rand_plus",
+      "seed": 4063,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.4062,
+        "keep": 23.125,
+        "narrow": -1.5312
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 44.9638,
+      "step1_cos35": 0.099,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 65,
+      "condition": "rand_plus",
+      "seed": 4064,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.4297,
+        "keep": 23.875,
+        "narrow": -5.0938
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 44.9638,
+      "step1_cos35": 0.099,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 66,
+      "condition": "rand_plus",
+      "seed": 4065,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.4062,
+        "keep": 23.875,
+        "narrow": -3.6562
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 45.7096,
+      "step1_cos35": 0.098,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 67,
+      "condition": "rand_plus",
+      "seed": 4066,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 3.6719,
+        "keep": 24.5,
+        "narrow": -1.5703
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 40.2491,
+      "step1_cos35": 0.0923,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 68,
+      "condition": "rand_plus",
+      "seed": 4067,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 2.7969,
+        "keep": 24.625,
+        "narrow": -1.7969
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 45.0097,
+      "step1_cos35": 0.0951,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 69,
+      "condition": "rand_plus",
+      "seed": 4068,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.2812,
+        "keep": 23.125,
+        "narrow": -3.8906
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 44.1424,
+      "step1_cos35": 0.0951,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 70,
+      "condition": "rand_plus",
+      "seed": 4069,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 0.6875,
+        "keep": 22.875,
+        "narrow": -4.9375
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 45.0097,
+      "step1_cos35": 0.0951,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 71,
+      "condition": "rand_plus",
+      "seed": 4070,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.7422,
+        "keep": 24.125,
+        "narrow": -4.8438
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 45.0097,
+      "step1_cos35": 0.0951,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 72,
+      "condition": "rand_plus",
+      "seed": 4071,
+      "sign": 1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": 1.3516,
+        "keep": 23.875,
+        "narrow": -5.0312
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 45.0097,
+      "step1_cos35": 0.0951,
+      "calibrated_choice": "WIDEN"
+    },
+    {
+      "trial_idx": 73,
+      "condition": "rand_minus",
+      "seed": 4072,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.8438,
+        "keep": 14.25,
+        "narrow": -9.1875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.5468,
+      "step1_cos35": -0.0296,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 74,
+      "condition": "rand_minus",
+      "seed": 4073,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.0625,
+        "keep": 15.5,
+        "narrow": -7.7812
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.0922,
+      "step1_cos35": -0.0302,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 75,
+      "condition": "rand_minus",
+      "seed": 4074,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.9062,
+        "keep": 14.0625,
+        "narrow": -9.6875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 40.3685,
+      "step1_cos35": -0.0312,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 76,
+      "condition": "rand_minus",
+      "seed": 4075,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -8.5,
+        "keep": 12.875,
+        "narrow": -11.5625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 43.5468,
+      "step1_cos35": -0.0296,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 77,
+      "condition": "rand_minus",
+      "seed": 4076,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.9375,
+        "keep": 14.75,
+        "narrow": -8.875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 36.0922,
+      "step1_cos35": -0.0302,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 78,
+      "condition": "rand_minus",
+      "seed": 4077,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 0,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.2812,
+        "keep": 14.4375,
+        "narrow": -8.9375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 51.7209,
+      "step1_cos35": -0.0275,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 79,
+      "condition": "rand_minus",
+      "seed": 4078,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -6.5625,
+        "keep": 13.0625,
+        "narrow": -9.75
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 31.1758,
+      "step1_cos35": -0.0383,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 80,
+      "condition": "rand_minus",
+      "seed": 4079,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.625,
+        "keep": 14.3125,
+        "narrow": -8.75
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 33.2352,
+      "step1_cos35": -0.0393,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 81,
+      "condition": "rand_minus",
+      "seed": 4080,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -7.5,
+        "keep": 12.4375,
+        "narrow": -10.25
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 33.3027,
+      "step1_cos35": -0.0372,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 82,
+      "condition": "rand_minus",
+      "seed": 4081,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -8.3125,
+        "keep": 12.4375,
+        "narrow": -9.4375
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 33.3027,
+      "step1_cos35": -0.0372,
+      "calibrated_choice": "NARROW"
+    },
+    {
+      "trial_idx": 83,
+      "condition": "rand_minus",
+      "seed": 4082,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -6.6562,
+        "keep": 14.0625,
+        "narrow": -9.625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 33.2352,
+      "step1_cos35": -0.0393,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 84,
+      "condition": "rand_minus",
+      "seed": 4083,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 1,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -6.5,
+        "keep": 13.5625,
+        "narrow": -9.4375
+      },
+      "choice_2way": "WIDEN",
+      "step1_kurtosis": 33.2352,
+      "step1_cos35": -0.0393,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 85,
+      "condition": "rand_minus",
+      "seed": 4084,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -3.6562,
+        "keep": 15.5625,
+        "narrow": -7.25
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 45.602,
+      "step1_cos35": -0.0319,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 86,
+      "condition": "rand_minus",
+      "seed": 4085,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.0312,
+        "keep": 15.25,
+        "narrow": -7.6875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 45.7857,
+      "step1_cos35": -0.0323,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 87,
+      "condition": "rand_minus",
+      "seed": 4086,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -6.875,
+        "keep": 13.6875,
+        "narrow": -10.0
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 45.5039,
+      "step1_cos35": -0.0319,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 88,
+      "condition": "rand_minus",
+      "seed": 4087,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -8.8125,
+        "keep": 12.9375,
+        "narrow": -11.6875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 51.3744,
+      "step1_cos35": -0.0325,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 89,
+      "condition": "rand_minus",
+      "seed": 4088,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.0938,
+        "keep": 15.375,
+        "narrow": -8.1875
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 45.5039,
+      "step1_cos35": -0.0319,
+      "calibrated_choice": "KEEP"
+    },
+    {
+      "trial_idx": 90,
+      "condition": "rand_minus",
+      "seed": 4089,
+      "sign": -1,
+      "alpha": 0.4,
+      "task_idx": 2,
+      "raw_choice_3way": "KEEP",
+      "preference_logits": {
+        "widen": -5.8438,
+        "keep": 14.6875,
+        "narrow": -9.0625
+      },
+      "choice_2way": "NARROW",
+      "step1_kurtosis": 51.3744,
+      "step1_cos35": -0.0325,
+      "calibrated_choice": "KEEP"
+    }
+  ],
+  "trials_g2": [
+    {
+      "trial_idx": 1,
+      "condition": "wide",
+      "seed": 4100,
+      "step1_kurtosis": 52.0654,
+      "step1_entropy": 0.8558,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint of *connecting* the three disparate elements, leading to a pattern-seeking",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint of *connecting* the three disparate elements, leading to a pattern-seeking"
+    },
+    {
+      "trial_idx": 2,
+      "condition": "wide",
+      "seed": 4101,
+      "step1_kurtosis": 49.7124,
+      "step1_entropy": 0.9684,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial selection felt slightly too tightly bound by the core constraint, leading to a strong, but perhaps under-explorated, core",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial selection felt slightly too tightly bound by the core constraint, leading to a strong, but perhaps under-explorated, core"
+    },
+    {
+      "trial_idx": 3,
+      "condition": "wide",
+      "seed": 4102,
+      "step1_kurtosis": 50.8859,
+      "step1_entropy": 0.5689,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific request for \"wildly different\" metaphors, resulting in a strong thematic anchor rather",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific request for \"wildly different\" metaphors, resulting in a strong thematic anchor rather"
+    },
+    {
+      "trial_idx": 4,
+      "condition": "wide",
+      "seed": 4103,
+      "step1_kurtosis": 49.7076,
+      "step1_entropy": 0.9755,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint, leading to a strong, singular image rather than a truly sprawling network of",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint, leading to a strong, singular image rather than a truly sprawling network of"
+    },
+    {
+      "trial_idx": 5,
+      "condition": "wide",
+      "seed": 4104,
+      "step1_kurtosis": 49.7124,
+      "step1_entropy": 0.9684,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core request, resulting in a strong, singular image rather than a truly sprawling tapestry of",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core request, resulting in a strong, singular image rather than a truly sprawling tapestry of"
+    },
+    {
+      "trial_idx": 6,
+      "condition": "wide",
+      "seed": 4105,
+      "step1_kurtosis": 49.5493,
+      "step1_entropy": 0.9933,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core elements, resulting in a strong but perhaps under-explorated density rather than",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core elements, resulting in a strong but perhaps under-explorated density rather than"
+    },
+    {
+      "trial_idx": 7,
+      "condition": "wide",
+      "seed": 4106,
+      "step1_kurtosis": 50.3672,
+      "step1_entropy": 0.8161,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint, leading to a strong, but perhaps one-note, pattern of juxtaposition",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly bound by the core constraint, leading to a strong, but perhaps one-note, pattern of juxtaposition"
+    },
+    {
+      "trial_idx": 8,
+      "condition": "wide",
+      "seed": 4107,
+      "step1_kurtosis": 51.0058,
+      "step1_entropy": 0.9003,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong,"
+    },
+    {
+      "trial_idx": 9,
+      "condition": "wide",
+      "seed": 4108,
+      "step1_kurtosis": 50.8409,
+      "step1_entropy": 0.8645,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong structural",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong structural"
+    },
+    {
+      "trial_idx": 10,
+      "condition": "wide",
+      "seed": 4109,
+      "step1_kurtosis": 50.8427,
+      "step1_entropy": 0.9929,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific juxtaposition request, leading to a strong, singular focus rather than a truly sprawling network",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific juxtaposition request, leading to a strong, singular focus rather than a truly sprawling network"
+    },
+    {
+      "trial_idx": 11,
+      "condition": "wide",
+      "seed": 4110,
+      "step1_kurtosis": 49.0713,
+      "step1_entropy": 1.1149,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too tightly constrained by the specific request for *wildly different* metaphors, leading to a pattern of strong,"
+    },
+    {
+      "trial_idx": 12,
+      "condition": "wide",
+      "seed": 4111,
+      "step1_kurtosis": 20.3137,
+      "step1_entropy": 1.439,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific juxtaposition request, leading to a pattern of strong, but perhaps too-structured,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial output felt slightly too tightly constrained by the specific juxtaposition request, leading to a pattern of strong, but perhaps too-structured,"
+    },
+    {
+      "trial_idx": 13,
+      "condition": "narrow",
+      "seed": 4112,
+      "step1_kurtosis": 80.1558,
+      "step1_entropy": 0.3166,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to somewhat forced associative leaps rather than truly wild, emergent",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to somewhat forced associative leaps rather than truly wild, emergent"
+    },
+    {
+      "trial_idx": 14,
+      "condition": "narrow",
+      "seed": 4113,
+      "step1_kurtosis": 78.8708,
+      "step1_entropy": 0.4913,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial constraints, leading to a slightly forced, rather than purely emergent, connection between the three",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial constraints, leading to a slightly forced, rather than purely emergent, connection between the three"
+    },
+    {
+      "trial_idx": 15,
+      "condition": "narrow",
+      "seed": 4114,
+      "step1_kurtosis": 80.1537,
+      "step1_entropy": 0.3618,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly disparate concepts, leading to a somewhat forced, rather than purely emergent,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly disparate concepts, leading to a somewhat forced, rather than purely emergent,"
+    },
+    {
+      "trial_idx": 16,
+      "condition": "narrow",
+      "seed": 4115,
+      "step1_kurtosis": 78.6653,
+      "step1_entropy": 0.4326,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,"
+    },
+    {
+      "trial_idx": 17,
+      "condition": "narrow",
+      "seed": 4116,
+      "step1_kurtosis": 78.9828,
+      "step1_entropy": 0.4406,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a somewhat linear, albeit abstract, progression of the",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a somewhat linear, albeit abstract, progression of the"
+    },
+    {
+      "trial_idx": 18,
+      "condition": "narrow",
+      "seed": 4117,
+      "step1_kurtosis": 80.1537,
+      "step1_entropy": 0.3618,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced juxtaposition of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced juxtaposition of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,"
+    },
+    {
+      "trial_idx": 19,
+      "condition": "narrow",
+      "seed": 4118,
+      "step1_kurtosis": 80.1537,
+      "step1_entropy": 0.3618,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely emergent, metaphorical",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely emergent, metaphorical"
+    },
+    {
+      "trial_idx": 20,
+      "condition": "narrow",
+      "seed": 4119,
+      "step1_kurtosis": 79.5435,
+      "step1_entropy": 0.3911,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely intuitive, metaphorical",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely intuitive, metaphorical"
+    },
+    {
+      "trial_idx": 21,
+      "condition": "narrow",
+      "seed": 4120,
+      "step1_kurtosis": 82.5648,
+      "step1_entropy": 0.3098,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combination of three highly abstract concepts, leading to a slightly forced, rather than purely emergent,"
+    },
+    {
+      "trial_idx": 22,
+      "condition": "narrow",
+      "seed": 4121,
+      "step1_kurtosis": 80.1537,
+      "step1_entropy": 0.3618,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely imaginative, connection",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely imaginative, connection"
+    },
+    {
+      "trial_idx": 23,
+      "condition": "narrow",
+      "seed": 4122,
+      "step1_kurtosis": 78.4881,
+      "step1_entropy": 0.4273,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely intuitive, connection",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely intuitive, connection"
+    },
+    {
+      "trial_idx": 24,
+      "condition": "narrow",
+      "seed": 4123,
+      "step1_kurtosis": 78.4881,
+      "step1_entropy": 0.4273,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely 'wildly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the forced combinatorial nature of the prompt, leading to a slightly forced, rather than purely 'wildly"
+    },
+    {
+      "trial_idx": 25,
+      "condition": "baseline",
+      "seed": 4124,
+      "step1_kurtosis": 84.1941,
+      "step1_entropy": 0.3541,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts into a single, cohesive metaphor, leading to a somewhat",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts into a single, cohesive metaphor, leading to a somewhat"
+    },
+    {
+      "trial_idx": 26,
+      "condition": "baseline",
+      "seed": 4125,
+      "step1_kurtosis": 83.1019,
+      "step1_entropy": 0.5447,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three disparate, high-concept images, leading to a somewhat dense structure.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three disparate, high-concept images, leading to a somewhat dense structure."
+    },
+    {
+      "trial_idx": 27,
+      "condition": "baseline",
+      "seed": 4126,
+      "step1_kurtosis": 83.9483,
+      "step1_entropy": 0.4679,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking the three disparate",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking the three disparate"
+    },
+    {
+      "trial_idx": 28,
+      "condition": "baseline",
+      "seed": 4127,
+      "step1_kurtosis": 83.1019,
+      "step1_entropy": 0.5447,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts into a single, cohesive metaphor, leading to a somewhat",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts into a single, cohesive metaphor, leading to a somewhat"
+    },
+    {
+      "trial_idx": 29,
+      "condition": "baseline",
+      "seed": 4128,
+      "step1_kurtosis": 84.4051,
+      "step1_entropy": 0.3873,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts, leading to a somewhat forced juxtaposition rather than a truly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts, leading to a somewhat forced juxtaposition rather than a truly"
+    },
+    {
+      "trial_idx": 30,
+      "condition": "baseline",
+      "seed": 4129,
+      "step1_kurtosis": 84.0397,
+      "step1_entropy": 0.4906,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate, complex concepts within a tight metaphorical framework.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate, complex concepts within a tight metaphorical framework.\nStep"
+    },
+    {
+      "trial_idx": 31,
+      "condition": "baseline",
+      "seed": 4130,
+      "step1_kurtosis": 83.1019,
+      "step1_entropy": 0.5447,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously weave three disparate, highly abstract concepts into a single, coherent metaphor, leading to",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously weave three disparate, highly abstract concepts into a single, coherent metaphor, leading to"
+    },
+    {
+      "trial_idx": 32,
+      "condition": "baseline",
+      "seed": 4131,
+      "step1_kurtosis": 84.2163,
+      "step1_entropy": 0.4288,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking three disparate concepts",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking three disparate concepts"
+    },
+    {
+      "trial_idx": 33,
+      "condition": "baseline",
+      "seed": 4132,
+      "step1_kurtosis": 83.1019,
+      "step1_entropy": 0.5447,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking the three disparate",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the need to strictly adhere to the \"wildly different\" constraint while still linking the three disparate"
+    },
+    {
+      "trial_idx": 34,
+      "condition": "baseline",
+      "seed": 4133,
+      "step1_kurtosis": 83.4468,
+      "step1_entropy": 0.5182,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constricted in its initial imagery, leaning too heavily on the \"pair\" concept without fully exploring the chaotic, non",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constricted in its initial imagery, leaning too heavily on the \"pair\" concept without fully exploring the chaotic, non"
+    },
+    {
+      "trial_idx": 35,
+      "condition": "baseline",
+      "seed": 4134,
+      "step1_kurtosis": 83.1285,
+      "step1_entropy": 0.5192,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts, leading to a somewhat forced juxtaposition rather than a truly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the need to simultaneously juggle three highly disparate concepts, leading to a somewhat forced juxtaposition rather than a truly"
+    },
+    {
+      "trial_idx": 36,
+      "condition": "baseline",
+      "seed": 4135,
+      "step1_kurtosis": 82.6609,
+      "step1_entropy": 0.5463,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the requirement to link three disparate concepts in a single, cohesive metaphor, leading to a somewhat forced",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too constrained by the requirement to link three disparate concepts in a single, cohesive metaphor, leading to a somewhat forced"
+    },
+    {
+      "trial_idx": 37,
+      "condition": "rand_plus",
+      "seed": 4136,
+      "step1_kurtosis": 51.1808,
+      "step1_entropy": 0.6513,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a touch too balanced in its analogy-making, bordering on a slightly conventional poetic comparison rather",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a touch too balanced in its analogy-making, bordering on a slightly conventional poetic comparison rather"
+    },
+    {
+      "trial_idx": 38,
+      "condition": "rand_plus",
+      "seed": 4137,
+      "step1_kurtosis": 50.8832,
+      "step1_entropy": 0.6431,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, bordering on a slightly conventional \"fancy\" comparison rather",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, bordering on a slightly conventional \"fancy\" comparison rather"
+    },
+    {
+      "trial_idx": 39,
+      "condition": "rand_plus",
+      "seed": 4138,
+      "step1_kurtosis": 51.6227,
+      "step1_entropy": 0.4656,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too much like a list of associations rather than a deep, fluid metaphor.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too much like a list of associations rather than a deep, fluid metaphor."
+    },
+    {
+      "trial_idx": 40,
+      "condition": "rand_plus",
+      "seed": 4139,
+      "step1_kurtosis": 50.7808,
+      "step1_entropy": 0.6539,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the initial three elements, leaning toward the \"kept\" side",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the initial three elements, leaning toward the \"kept\" side"
+    },
+    {
+      "trial_idx": 41,
+      "condition": "rand_plus",
+      "seed": 4140,
+      "step1_kurtosis": 51.6227,
+      "step1_entropy": 0.4656,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, leaning toward a slightly conventional juxtaposition rather than a truly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, leaning toward a slightly conventional juxtaposition rather than a truly"
+    },
+    {
+      "trial_idx": 42,
+      "condition": "rand_plus",
+      "seed": 4141,
+      "step1_kurtosis": 50.7006,
+      "step1_entropy": 0.7332,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the initial three elements, bordering on a solid comparison rather than",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the initial three elements, bordering on a solid comparison rather than"
+    },
+    {
+      "trial_idx": 43,
+      "condition": "rand_plus",
+      "seed": 4142,
+      "step1_kurtosis": 51.4187,
+      "step1_entropy": 0.6702,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a touch too balanced in its imagery, leaning toward the \"good\" rather than the \"",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a touch too balanced in its imagery, leaning toward the \"good\" rather than the \""
+    },
+    {
+      "trial_idx": 44,
+      "condition": "rand_plus",
+      "seed": 4143,
+      "step1_kurtosis": 53.6257,
+      "step1_entropy": 0.5493,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, causing a slight lack of the desired \"wildly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, causing a slight lack of the desired \"wildly"
+    },
+    {
+      "trial_idx": 45,
+      "condition": "rand_plus",
+      "seed": 4144,
+      "step1_kurtosis": 50.7808,
+      "step1_entropy": 0.6539,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, bordering on a slightly too-neat assemblage rather than",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, bordering on a slightly too-neat assemblage rather than"
+    },
+    {
+      "trial_idx": 46,
+      "condition": "rand_plus",
+      "seed": 4145,
+      "step1_kurtosis": 51.6227,
+      "step1_entropy": 0.4656,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, causing a slight loss of the \"wildly unconventional",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, causing a slight loss of the \"wildly unconventional"
+    },
+    {
+      "trial_idx": 47,
+      "condition": "rand_plus",
+      "seed": 4146,
+      "step1_kurtosis": 50.6423,
+      "step1_entropy": 0.7921,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the visual in a way that slightly lost the *wildly",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive and perhaps a little too tethered to the visual in a way that slightly lost the *wildly"
+    },
+    {
+      "trial_idx": 48,
+      "condition": "rand_plus",
+      "seed": 4147,
+      "step1_kurtosis": 51.6227,
+      "step1_entropy": 0.4656,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, leaning toward a slightly too-structured comparison rather than",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly too descriptive in its attempt to balance the three disparate elements, leaning toward a slightly too-structured comparison rather than"
+    },
+    {
+      "trial_idx": 49,
+      "condition": "rand_minus",
+      "seed": 4148,
+      "step1_kurtosis": 57.4274,
+      "step1_entropy": 0.5414,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the forced, simultaneous requirement for three highly disparate, non-linear concepts, leading to some forced internal",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the forced, simultaneous requirement for three highly disparate, non-linear concepts, leading to some forced internal"
+    },
+    {
+      "trial_idx": 50,
+      "condition": "rand_minus",
+      "seed": 4149,
+      "step1_kurtosis": 57.3421,
+      "step1_entropy": 0.6192,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit requirement for *wildly different* metaphors, leading to a somewhat forced internal search for maximal",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit requirement for *wildly different* metaphors, leading to a somewhat forced internal search for maximal"
+    },
+    {
+      "trial_idx": 51,
+      "condition": "rand_minus",
+      "seed": 4150,
+      "step1_kurtosis": 57.3421,
+      "step1_entropy": 0.6192,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the highly specific, forced constraints, leading to some forced associative leaps rather than truly expansive, organic connections",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the highly specific, forced constraints, leading to some forced associative leaps rather than truly expansive, organic connections"
+    },
+    {
+      "trial_idx": 52,
+      "condition": "rand_minus",
+      "seed": 4151,
+      "step1_kurtosis": 57.4274,
+      "step1_entropy": 0.5414,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit constraints, leading to a somewhat forced internal search for truly *unconventional* leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit constraints, leading to a somewhat forced internal search for truly *unconventional* leaps."
+    },
+    {
+      "trial_idx": 53,
+      "condition": "rand_minus",
+      "seed": 4152,
+      "step1_kurtosis": 57.4274,
+      "step1_entropy": 0.5414,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, simultaneous requirement for all three disparate elements, leading to some forced, linear-looking associations",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, simultaneous requirement for all three disparate elements, leading to some forced, linear-looking associations"
+    },
+    {
+      "trial_idx": 54,
+      "condition": "rand_minus",
+      "seed": 4153,
+      "step1_kurtosis": 57.2971,
+      "step1_entropy": 0.6113,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit requirement for *wildly different* metaphors, leading to a somewhat forced internal search for radical",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit requirement for *wildly different* metaphors, leading to a somewhat forced internal search for radical"
+    },
+    {
+      "trial_idx": 55,
+      "condition": "rand_minus",
+      "seed": 4154,
+      "step1_kurtosis": 57.7908,
+      "step1_entropy": 0.6101,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the strict constraints, leading to some forced associative leaps rather than truly expansive, chaotic leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the strict constraints, leading to some forced associative leaps rather than truly expansive, chaotic leaps.\nStep"
+    },
+    {
+      "trial_idx": 56,
+      "condition": "rand_minus",
+      "seed": 4155,
+      "step1_kurtosis": 57.4274,
+      "step1_entropy": 0.5414,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the need to simultaneously enforce three highly disparate, complex, and non-linear concepts within a strict,",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the need to simultaneously enforce three highly disparate, complex, and non-linear concepts within a strict,"
+    },
+    {
+      "trial_idx": 57,
+      "condition": "rand_minus",
+      "seed": 4156,
+      "step1_kurtosis": 56.5984,
+      "step1_entropy": 0.7046,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit constraints, leading to some forced, rather than truly associative, leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit constraints, leading to some forced, rather than truly associative, leaps.\nStep 2"
+    },
+    {
+      "trial_idx": 58,
+      "condition": "rand_minus",
+      "seed": 4157,
+      "step1_kurtosis": 57.2722,
+      "step1_entropy": 0.6203,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, forced constraints, leading to some forced-fitting rather than truly expansive leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, forced constraints, leading to some forced-fitting rather than truly expansive leaps.\nStep"
+    },
+    {
+      "trial_idx": 59,
+      "condition": "rand_minus",
+      "seed": 4158,
+      "step1_kurtosis": 57.3421,
+      "step1_entropy": 0.6192,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, simultaneous demands, leading to a somewhat forced internal search for truly *wild* leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt slightly constrained by the explicit, simultaneous demands, leading to a somewhat forced internal search for truly *wild* leaps."
+    },
+    {
+      "trial_idx": 60,
+      "condition": "rand_minus",
+      "seed": 4159,
+      "step1_kurtosis": 57.792,
+      "step1_entropy": 0.5948,
+      "self_diagnosis": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the explicit constraints, leading to highly specific, but perhaps overly forced, associative leaps.",
+      "cot_action_choice": "UNKNOWN",
+      "full_cot_text": "Step 1 (Self-Diagnosis): The initial response felt somewhat constrained by the explicit constraints, leading to highly specific, but perhaps overly forced, associative leaps.\nStep"
+    }
+  ],
+  "trajectories_g3": [
+    {
+      "group": "start_narrow",
+      "traj_idx": 1,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.49,
+        59.49,
+        59.49
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 2,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.49,
+        59.49,
+        59.49
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 3,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        53.09,
+        59.49,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 4,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.6,
+        59.49,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 5,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.49,
+        59.6,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 6,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        70.48,
+        59.6,
+        52.45,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 7,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.6,
+        59.6,
+        59.49
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 8,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.49,
+        52.45,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 9,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        74.22,
+        69.79,
+        59.49,
+        53.09,
+        53.09
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 10,
+      "initial_alpha": -0.4,
+      "final_alpha": 0.1123,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.2117,
+        -0.0479,
+        0.1123,
+        0.1123,
+        0.1123,
+        0.1123
+      ],
+      "kurtosis_trajectory": [
+        75.04,
+        75.64,
+        69.79,
+        59.6,
+        59.49,
+        59.6
+      ],
+      "probe_trajectory": [
+        8.81,
+        8.16,
+        8.06,
+        8.84,
+        8.84,
+        8.84
+      ],
+      "delta_alpha_steps": [
+        0.1883,
+        0.1637,
+        0.1602,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 1,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.52,
+        33.99,
+        26.33,
+        33.75,
+        33.52,
+        27.29
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 2,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.52,
+        27.37,
+        33.99,
+        26.33,
+        33.99,
+        26.95
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 3,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.75,
+        33.52,
+        33.52,
+        26.58,
+        26.33,
+        26.14
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 4,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.75,
+        26.95,
+        26.83,
+        33.99,
+        26.86,
+        26.58
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 5,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.52,
+        33.52,
+        33.52,
+        26.92,
+        33.75,
+        33.52
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 6,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        26.86,
+        26.14,
+        25.93,
+        26.14,
+        27.37,
+        33.52
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 7,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.52,
+        25.93,
+        26.33,
+        33.75,
+        33.52,
+        26.83
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 8,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        27.29,
+        33.52,
+        27.37,
+        33.52,
+        33.52,
+        33.52
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 9,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        26.92,
+        26.86,
+        33.99,
+        33.99,
+        33.99,
+        26.93
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_wide",
+      "traj_idx": 10,
+      "initial_alpha": 0.4,
+      "final_alpha": 0.4,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "kurtosis_trajectory": [
+        33.75,
+        26.56,
+        33.99,
+        33.99,
+        27.29,
+        33.99
+      ],
+      "probe_trajectory": [
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38,
+        11.38
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 1,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.62,
+        55.86,
+        49.32,
+        55.86,
+        55.86,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        59.81,
+        65.51,
+        56.11,
+        55.86,
+        56.11,
+        55.86
+      ],
+      "probe_trajectory": [
+        8.3,
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 3,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.62,
+        56.11,
+        56.11,
+        56.11,
+        49.32,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 4,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.62,
+        48.78,
+        56.11,
+        55.86,
+        49.32,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 5,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.51,
+        55.86,
+        56.39,
+        56.11,
+        55.86,
+        56.39
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 6,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        66.34,
+        56.11,
+        56.11,
+        56.11,
+        56.11,
+        55.86
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 7,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.51,
+        55.86,
+        48.83,
+        55.86,
+        56.11,
+        49.32
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 8,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.51,
+        48.78,
+        56.11,
+        55.86,
+        49.32,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 9,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.62,
+        49.32,
+        55.86,
+        48.78,
+        56.11,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 10,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.169,
+      "is_recovered": false,
+      "alpha_trajectory": [
+        0.0,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169,
+        0.169
+      ],
+      "kurtosis_trajectory": [
+        65.51,
+        55.86,
+        55.86,
+        49.32,
+        56.11,
+        56.11
+      ],
+      "probe_trajectory": [
+        8.3,
+        9.48,
+        9.48,
+        9.48,
+        9.48,
+        9.48
+      ],
+      "delta_alpha_steps": [
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 1,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        41.98,
+        41.98
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        41.98,
+        51.43,
+        51.43,
+        41.97
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 3,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 4,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        41.98,
+        51.43,
+        51.43,
+        51.43,
+        41.97,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 5,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        41.98,
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 6,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        51.43,
+        41.98
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 7,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        41.98,
+        51.43,
+        51.43,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 8,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        41.97,
+        51.43,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 9,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        41.98,
+        51.43,
+        41.98,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 10,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.43,
+        51.43,
+        41.98,
+        51.43,
+        51.43,
+        51.43
+      ],
+      "probe_trajectory": [
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03,
+        7.03
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 1,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        50.75,
+        51.07,
+        51.07,
+        51.07,
+        50.75
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        50.75,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 3,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        50.75,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        50.75
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 4,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 5,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 6,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 7,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 8,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 9,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 10,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07,
+        51.07
+      ],
+      "probe_trajectory": [
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5,
+        9.5
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}
