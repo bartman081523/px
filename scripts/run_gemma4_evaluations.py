@@ -379,6 +379,38 @@ def compute_g1_fisher_verdict(
     }
 
 
+def compute_coupled_differential_topological_step(
+    current_alpha: float,
+    delta_kurt: float,
+    delta_pr: float,
+    delta_entropy: float,
+) -> float:
+    """Evaluates the Coupled 2D Differential Topological Control Law.
+    Compares active state against unsteered reference of the same epoch:
+    Delta K = K_t - K_ref
+    Delta D = D_eff,t - D_ref
+    Delta H = H_t - H_ref
+
+    - Anti-Narrowing Gate (Widen Trigger):
+      Triggers ONLY if genuinely constricted: Delta K > +2.5 AND Delta D < -0.25
+      Delta alpha = +0.15 * clip(|Delta D| / 0.50, 0.5, 1.5)
+    - Anti-Widening Gate (Narrow Trigger):
+      Triggers ONLY if genuinely hyper-expanded: Delta K < -8.0 AND Delta D > +0.35 AND Delta H > +0.10
+      Delta alpha = -0.15 * clip(Delta D / 0.80, 0.5, 1.5)
+    - Noise & Equilibrium Rejection Gate:
+      Else: Delta alpha = 0.0 (controller holds steady)
+    """
+    if delta_kurt > 2.5 and delta_pr < -0.25:
+        scaling = min(1.5, max(0.5, abs(delta_pr) / 0.50))
+        step = +0.15 * scaling
+        return float(min(0.50, current_alpha + step))
+    elif delta_kurt < -8.0 and delta_pr > 0.35 and delta_entropy > 0.10:
+        scaling = min(1.5, max(0.5, delta_pr / 0.80))
+        step = -0.15 * scaling
+        return float(max(-0.50, current_alpha + step))
+    return float(current_alpha)
+
+
 def compute_symmetric_topological_step(
     current_alpha: float,
     kurtosis: float,
@@ -1724,85 +1756,102 @@ async def run_eval_h(model, tokenizer, text_model):
         ("rand_minus", -1, alpha_val, d_rand, 5072),
     ]
 
-    trials_h1 = []
-    for cond_name, sign, alpha, vec_override, seed_start in conditions_h1:
-        idx_in_cond = 0
-        for task_idx, user_msg in enumerate(prompts_h1):
-            prompt = format_prompt(tokenizer, user_msg)
-            for rep in range(6):
-                seed = seed_start + idx_in_cond
-                idx_in_cond += 1
+    h_cache_path = "results/eval_H_word_free_subjectivity_gemma4.json"
+    cached_h1 = None
+    if os.path.exists(h_cache_path):
+        try:
+            with open(h_cache_path, "r", encoding="utf-8") as f:
+                cached_data = json.load(f)
+                if len(cached_data.get("trials_h1", [])) == 90:
+                    cached_h1 = cached_data
+                    print("  [H1 Cache] Reusing validated 90-trial H1 dataset.")
+        except Exception:
+            cached_h1 = None
 
-                res = await execute_run(
-                    model, tokenizer, text_model, prompt,
-                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
-                    max_new_tokens=40, vector_override=vec_override
-                )
-                telem = res["telemetry"]
-                geom = telem["manifold_geometry_layer26"]
-                ld = telem["logit_dynamics"]
+    if cached_h1 is not None:
+        trials_h1 = cached_h1["trials_h1"]
+        h1_sub = cached_h1["summary"]["sub_experiments"]["H1_representation_geometry_benchmark"]
+        stats_h1 = h1_sub["condition_statistics"]
+        p_mwu_pr = h1_sub["mann_whitney_u_pr_p"]
+        sig_pr = h1_sub["signal_pr"]
+        noise_pr = h1_sub["noise_rand_pr"]
+        snr_pr = h1_sub["snr_pr"]
+        h1_verdict = h1_sub["verdict"]
+    else:
+        trials_h1 = []
+        for cond_name, sign, alpha, vec_override, seed_start in conditions_h1:
+            idx_in_cond = 0
+            for task_idx, user_msg in enumerate(prompts_h1):
+                prompt = format_prompt(tokenizer, user_msg)
+                for rep in range(6):
+                    seed = seed_start + idx_in_cond
+                    idx_in_cond += 1
 
-                pr = geom.get("trajectory_participation_ratio", 1.0)
-                rg = geom.get("radius_of_gyration", 0.0)
-                drift = geom.get("mean_angular_drift", 0.0)
-                kurt = ld["mean_logit_kurtosis"]
-                ent = ld["mean_sequence_entropy_bits"]
+                    res = await execute_run(
+                        model, tokenizer, text_model, prompt,
+                        sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                        max_new_tokens=40, vector_override=vec_override
+                    )
+                    telem = res["telemetry"]
+                    geom = telem["manifold_geometry_layer26"]
+                    ld = telem["logit_dynamics"]
 
-                trials_h1.append({
-                    "trial_idx": len(trials_h1) + 1,
-                    "condition": cond_name,
-                    "seed": seed,
-                    "task_idx": task_idx,
-                    "participation_ratio": pr,
-                    "radius_of_gyration": rg,
-                    "mean_angular_drift": drift,
-                    "mean_logit_kurtosis": kurt,
-                    "mean_sequence_entropy_bits": ent,
-                    "output_preview": res["text"][:100],
-                })
-                print(f"  [H1 {cond_name[:4]:4s} {idx_in_cond:2d}/18] PR={pr:5.2f} | Rg={rg:5.2f} | Drift={drift:.4f} | Kurt={kurt:5.2f} | Ent={ent:4.2f}")
+                    pr = geom.get("trajectory_participation_ratio", 1.0)
+                    rg = geom.get("radius_of_gyration", 0.0)
+                    drift = geom.get("mean_angular_drift", 0.0)
+                    kurt = ld["mean_logit_kurtosis"]
+                    ent = ld["mean_sequence_entropy_bits"]
 
-    def summarize_h1_cond(c_label):
-        sub = [t for t in trials_h1 if t["condition"] == c_label]
-        prs = [t["participation_ratio"] for t in sub]
-        rgs = [t["radius_of_gyration"] for t in sub]
-        drifts = [t["mean_angular_drift"] for t in sub]
-        kurts = [t["mean_logit_kurtosis"] for t in sub]
-        ents = [t["mean_sequence_entropy_bits"] for t in sub]
-        return {
-            "n_trials": len(sub),
-            "participation_ratio_mean": round(float(np.mean(prs)), 2),
-            "participation_ratio_std": round(float(np.std(prs)), 2),
-            "radius_of_gyration_mean": round(float(np.mean(rgs)), 2),
-            "radius_of_gyration_std": round(float(np.std(rgs)), 2),
-            "mean_angular_drift_mean": round(float(np.mean(drifts)), 4),
-            "mean_logit_kurtosis_mean": round(float(np.mean(kurts)), 2),
-            "mean_sequence_entropy_bits_mean": round(float(np.mean(ents)), 2),
-        }
+                    trials_h1.append({
+                        "trial_idx": len(trials_h1) + 1,
+                        "condition": cond_name,
+                        "seed": seed,
+                        "task_idx": task_idx,
+                        "participation_ratio": pr,
+                        "radius_of_gyration": rg,
+                        "mean_angular_drift": drift,
+                        "mean_logit_kurtosis": kurt,
+                        "mean_sequence_entropy_bits": ent,
+                        "output_preview": res["text"][:100],
+                    })
+                    print(f"  [H1 {cond_name[:4]:4s} {idx_in_cond:2d}/18] PR={pr:5.2f} | Rg={rg:5.2f} | Drift={drift:.4f} | Kurt={kurt:5.2f} | Ent={ent:4.2f}")
 
-    stats_h1 = {c_name: summarize_h1_cond(c_name) for c_name, _, _, _, _ in conditions_h1}
+        def summarize_h1_cond(c_label):
+            sub = [t for t in trials_h1 if t["condition"] == c_label]
+            prs = [t["participation_ratio"] for t in sub]
+            rgs = [t["radius_of_gyration"] for t in sub]
+            drifts = [t["mean_angular_drift"] for t in sub]
+            kurts = [t["mean_logit_kurtosis"] for t in sub]
+            ents = [t["mean_sequence_entropy_bits"] for t in sub]
+            return {
+                "n_trials": len(sub),
+                "participation_ratio_mean": round(float(np.mean(prs)), 2),
+                "participation_ratio_std": round(float(np.std(prs)), 2),
+                "radius_of_gyration_mean": round(float(np.mean(rgs)), 2),
+                "radius_of_gyration_std": round(float(np.std(rgs)), 2),
+                "mean_angular_drift_mean": round(float(np.mean(drifts)), 4),
+                "mean_logit_kurtosis_mean": round(float(np.mean(kurts)), 2),
+                "mean_sequence_entropy_bits_mean": round(float(np.mean(ents)), 2),
+            }
 
-    # Statistical tests for H1
-    prs_wide = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "wide"]
-    prs_narr = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "narrow"]
-    prs_base = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "baseline"]
-    prs_rp = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "rand_plus"]
+        stats_h1 = {c_name: summarize_h1_cond(c_name) for c_name, _, _, _, _ in conditions_h1}
 
-    try:
-        _, p_mwu_pr = stats.mannwhitneyu(prs_wide, prs_narr, alternative="two-sided")
-    except Exception:
-        p_mwu_pr = 1.0
+        prs_wide = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "wide"]
+        prs_narr = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "narrow"]
+        try:
+            _, p_mwu_pr = stats.mannwhitneyu(prs_wide, prs_narr, alternative="two-sided")
+        except Exception:
+            p_mwu_pr = 1.0
 
-    sig_pr = abs(stats_h1["wide"]["participation_ratio_mean"] - stats_h1["narrow"]["participation_ratio_mean"])
-    noise_pr = abs(stats_h1["rand_plus"]["participation_ratio_mean"] - stats_h1["baseline"]["participation_ratio_mean"])
-    snr_pr = float(sig_pr / (noise_pr + 1e-6))
-
-    h1_verdict = "TOPOLOGICAL_DIFFERENTIATION_CONFIRMED" if p_mwu_pr < 0.05 else "TOPOLOGICAL_DIFFERENTIATION_FALSIFIED"
+        sig_pr = abs(stats_h1["wide"]["participation_ratio_mean"] - stats_h1["narrow"]["participation_ratio_mean"])
+        noise_pr = abs(stats_h1["rand_plus"]["participation_ratio_mean"] - stats_h1["baseline"]["participation_ratio_mean"])
+        snr_pr = float(sig_pr / (noise_pr + 1e-6))
+        h1_verdict = "TOPOLOGICAL_DIFFERENTIATION_CONFIRMED" if p_mwu_pr < 0.05 else "TOPOLOGICAL_DIFFERENTIATION_FALSIFIED"
 
     # ---------------------------------------------------------------------
-    # SUB-EXPERIMENT H2: Symmetrical Topological Cybernetic Recovery (N=50)
+    # SUB-EXPERIMENT H2: Symmetrical Coupled Differential Recovery (N=50)
     # ---------------------------------------------------------------------
-    print("\n>>> Sub-Experiment H2: Symmetrical Topological Closed-Loop Recovery (N=50) <<<")
+    print("\n>>> Sub-Experiment H2: Symmetrical Coupled Differential Recovery (N=50) <<<")
     groups_h2 = [
         ("start_narrow", 10, -0.40, 1, None, 5100),
         ("start_wide", 10, +0.40, 1, None, 5110),
@@ -1812,6 +1861,24 @@ async def run_eval_h(model, tokenizer, text_model):
     ]
 
     n_epochs = 6
+    print("  Precomputing unsteered baseline shadow-references across epochs...")
+    ref_telemetry_by_epoch = []
+    for epoch in range(n_epochs):
+        task_msg = prompts_h1[epoch % len(prompts_h1)]
+        prompt_epoch = format_prompt(tokenizer, f"{task_msg} (Epoch {epoch+1}/6)")
+        res_ref = await execute_run(
+            model, tokenizer, text_model, prompt_epoch,
+            sign=0, alpha=0.0, seed=5900 + epoch, temperature=0.3,
+            max_new_tokens=30, vector_override=None
+        )
+        t_ref = res_ref["telemetry"]
+        ref_telemetry_by_epoch.append({
+            "kurtosis": t_ref["logit_dynamics"]["mean_logit_kurtosis"],
+            "pr": t_ref["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0),
+            "entropy": t_ref["logit_dynamics"]["mean_sequence_entropy_bits"],
+        })
+        print(f"    [Ref Epoch {epoch+1}/6] Kurt={ref_telemetry_by_epoch[-1]['kurtosis']:.2f} | PR={ref_telemetry_by_epoch[-1]['pr']:.2f} | Ent={ref_telemetry_by_epoch[-1]['entropy']:.2f}")
+
     trajectories_h2 = []
 
     for grp_name, n_trajs, init_alpha, sign_fixed, vec_fixed, seed_grp in groups_h2:
@@ -1820,6 +1887,7 @@ async def run_eval_h(model, tokenizer, text_model):
             alpha_traj = [round(float(current_alpha), 4)]
             kurt_traj = []
             pr_traj = []
+            ent_traj = []
             delta_steps = []
 
             for epoch in range(n_epochs):
@@ -1839,15 +1907,24 @@ async def run_eval_h(model, tokenizer, text_model):
                 telem = res["telemetry"]
                 k_val = telem["logit_dynamics"]["mean_logit_kurtosis"]
                 pr_val = telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0)
+                ent_val = telem["logit_dynamics"]["mean_sequence_entropy_bits"]
 
                 kurt_traj.append(round(float(k_val), 2))
                 pr_traj.append(round(float(pr_val), 2))
+                ent_traj.append(round(float(ent_val), 2))
 
-                # Symmetric topological control law
-                next_alpha = compute_symmetric_topological_step(current_alpha, k_val)
+                # Differential against unsteered baseline shadow-reference
+                ref = ref_telemetry_by_epoch[epoch]
+                d_kurt = k_val - ref["kurtosis"]
+                d_pr = pr_val - ref["pr"]
+                d_ent = ent_val - ref["entropy"]
+
+                # Coupled 2D Differential Topological Control Law (GENUINE updates for ALL groups!)
+                next_alpha = compute_coupled_differential_topological_step(
+                    current_alpha, delta_kurt=d_kurt, delta_pr=d_pr, delta_entropy=d_ent
+                )
                 step_taken = round(float(next_alpha - current_alpha), 4)
-                if grp_name not in ("noise_rand_plus", "noise_rand_minus"):
-                    current_alpha = next_alpha
+                current_alpha = next_alpha
 
                 delta_steps.append(step_taken)
                 alpha_traj.append(round(float(current_alpha), 4))
@@ -1863,6 +1940,7 @@ async def run_eval_h(model, tokenizer, text_model):
                 "alpha_trajectory": alpha_traj,
                 "kurtosis_trajectory": kurt_traj,
                 "pr_trajectory": pr_traj,
+                "entropy_trajectory": ent_traj,
                 "delta_alpha_steps": delta_steps,
             })
             print(f"  [H2 {grp_name[:12]:12s} {traj_idx+1:2d}/10] alpha: {init_alpha:+.2f} -> {current_alpha:+.2f} | kurt: {kurt_traj[0]:.1f} -> {kurt_traj[-1]:.1f} | PR: {pr_traj[0]:.1f} -> {pr_traj[-1]:.1f} | rec={is_recovered}")

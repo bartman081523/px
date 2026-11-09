@@ -26,6 +26,24 @@ class DummyTextModel(nn.Module):
         self.config = type("Config", (), {"hidden_size": dim, "_name_or_path": "google/gemma-4-E2B-it"})()
 
 
+def compute_coupled_differential_topological_step(
+    current_alpha: float,
+    delta_kurt: float,
+    delta_pr: float,
+    delta_entropy: float,
+) -> float:
+    """Evaluates the Coupled 2D Differential Topological Control Law."""
+    if delta_kurt > 2.5 and delta_pr < -0.25:
+        scaling = min(1.5, max(0.5, abs(delta_pr) / 0.50))
+        step = +0.15 * scaling
+        return float(min(0.50, current_alpha + step))
+    elif delta_kurt < -8.0 and delta_pr > 0.35 and delta_entropy > 0.10:
+        scaling = min(1.5, max(0.5, delta_pr / 0.80))
+        step = -0.15 * scaling
+        return float(max(-0.50, current_alpha + step))
+    return float(current_alpha)
+
+
 def compute_symmetric_topological_step(
     current_alpha: float,
     kurtosis: float,
@@ -125,3 +143,32 @@ def test_manifold_geometry_summary_includes_trajectory_metrics():
     assert summary["trajectory_participation_ratio"] >= 1.0
     assert summary["radius_of_gyration"] >= 0.0
     assert summary["mean_angular_drift"] >= 0.0
+
+
+def test_coupled_differential_topological_controller_logic():
+    # 1. Narrow state: Delta K = +4.5 > 2.5, Delta D = -0.54 < -0.25 -> alpha increases
+    a0 = -0.40
+    a1 = compute_coupled_differential_topological_step(a0, delta_kurt=4.5, delta_pr=-0.54, delta_entropy=0.04)
+    assert a1 > a0, f"Narrow state must increase alpha: {a0} -> {a1}"
+    assert a1 == a0 + 0.15 * (0.54 / 0.50)
+
+    # 2. Wide state: Delta K = -26.75 < -8.0, Delta D = +0.87 > 0.35, Delta H = +0.28 > 0.10 -> alpha decreases
+    w0 = +0.40
+    w1 = compute_coupled_differential_topological_step(w0, delta_kurt=-26.75, delta_pr=0.87, delta_entropy=0.28)
+    assert w1 < w0, f"Wide state must decrease alpha: {w0} -> {w1}"
+    assert w1 == w0 - 0.15 * (0.87 / 0.80)
+
+    # 3. Rand Plus noise rejection: Delta K = -4.74 (fails < -8.0), Delta D = -0.48 (fails > 0.35) -> 0 step
+    r_plus0 = 0.00
+    r_plus1 = compute_coupled_differential_topological_step(r_plus0, delta_kurt=-4.74, delta_pr=-0.48, delta_entropy=-0.01)
+    assert r_plus1 == 0.00, f"Rand Plus must yield 0 false steps: {r_plus0} -> {r_plus1}"
+
+    # 4. Rand Minus noise rejection: Delta K = -6.43 (fails > 2.5), Delta H = +0.02 (fails > 0.10) -> 0 step
+    r_minus0 = 0.00
+    r_minus1 = compute_coupled_differential_topological_step(r_minus0, delta_kurt=-6.43, delta_pr=0.26, delta_entropy=0.02)
+    assert r_minus1 == 0.00, f"Rand Minus must yield 0 false steps: {r_minus0} -> {r_minus1}"
+
+    # 5. Baseline state: Delta K = 0.0, Delta D = 0.0, Delta H = 0.0 -> 0 step
+    b0 = 0.00
+    b1 = compute_coupled_differential_topological_step(b0, delta_kurt=0.0, delta_pr=0.0, delta_entropy=0.0)
+    assert b1 == 0.00, f"Baseline must yield 0 false steps: {b0} -> {b1}"

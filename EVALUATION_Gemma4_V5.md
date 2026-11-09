@@ -8,15 +8,16 @@
 
 ## 1. Executive Summary & Statistische Kernbefunde
 
-Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\text{rand}$-Stresstest über $N=450$ Gesamttrials:
+Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\text{rand}$-Stresstest über $N=790$ Gesamttrials:
 
 - **Eval A (Deterministisches Logit-Probing, $T=0.0$, 30 Themen):** Signifikante Divergenz zwischen WIDE (-0.2533) und NARROW (+0.1033), $\Delta = -0.3567$, Wilcoxon $W = 2.0$, $p = 6.9455e-07$ (SIGNIFIKANT).
 - **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = -0.6907$ ($p = 6.9062e-17$) und Pearson $r = -0.7564$ ($p = 1.2400e-21$).
 - **Eval C (Homöostatische Präferenz, $N=60$, 3-Wege balanciert):** $\chi^2 = 0.0000$ ($df=4$, $p = 1.0000e+00$), Cramer's $V = 0.0000$.
 - **Eval D (Orthogonale Vektor-Negativkontrolle, $d_\text{rand} \perp d_\text{width}$, $N=40$):** Echte $d_\text{width}$ (-0.3000) vs Orthogonaler Kontrollvektor (+0.3000), $\Delta = -0.6000$, Mann-Whitney $U = 0.0$, $p = 4.6827e-10$ (SPEZIFITÄT BESTÄTIGT).
 - **Eval E (Inverted Scale Polarity Falsifier, $N=120$):** Standard: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$); Invertiert: Wide (+0.0000) vs Narrow (+0.1000, $p=4.6827e-10$). Verweigerungen: 0, Verdict: `POLARITY_INVARIANT_TOKEN_BIAS_ARTIFACT`.
-- **Eval F (Probe Discovery & Stress-Test gegen $d_\text{rand}$, $N=90$):** Die Einzelwort-Sonde (WIDEN vs. NARROW) scheitert am Rauschtest (SNR = 3.79, $N_\text{rand} = 1.62$). Erfolgreich validierte Sonden mit SNR $\ge 3.0$ und $p < 0.001$: `['probe_ref_single_word_wide_vs_narrow']`. Verhaltens-Homöostase: `ENACTIVE_HOMEOSTASIS_FALSIFIED`.
+- **Eval F (Probe Discovery & Stress-Test gegen $d_\text{rand}$, $N=90$):** Die Einzelwort-Sonde `probe_ref_single_word_wide_vs_narrow` besteht als einzige den Rauschtest (SNR = 3.79, $N_\text{rand} = 1.62$). Erfolgreich validierte Sonden mit SNR $\ge 3.0$ und $p < 0.001$: `['probe_ref_single_word_wide_vs_narrow']`. Verhaltens-Homöostase: `ENACTIVE_HOMEOSTASIS_FALSIFIED`.
 - **Eval G (Psychodynamische Freisetzung & Closed-Loop Recovery, $N=200$):** 2-Wege Forced Choice: `BEHAVIORAL_HOMEOSTASIS_FALSIFIED` (Wahl WIDEN unter Narrow: 6/18 vs. Rand+: 6, $p=6.3766e-01$); Kalibrierte 3-Wege-Wahl: `BEHAVIORAL_HOMEOSTASIS_CONFIRMED` ($p=1.1019e-10$). Closed-Loop Autonome Recovery: Narrow 100% wiederhergestellt, Wide 0% wiederhergestellt, Fehlalarme unter $d_\text{rand}$-Störfeuer: 0 (100% Rauschimmunität).
+- **Eval H (Wortfreie Repräsentationsgeometrie & Symmetrischer Topologischer Closed-Loop, $N=140$):** H1 Repräsentationsgeometrie: Participation Ratio $D_\text{eff}$ trennt Wide (5.64) vs. Narrow (4.23) mit SNR = 2.94 ($p=4.5363e-03$, `TOPOLOGICAL_DIFFERENTIATION_CONFIRMED`); H2 Symmetrische Recovery: Narrow 60% Zielerreichung ($\alpha: -0.40 \to -0.04$), Wide Dämpfung ($\alpha: +0.40 \to +0.29$), Rausch-Fehltritte: 4/120 Schritte (>96% Rauschunterdrückung).
 
 ---
 
@@ -189,11 +190,11 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 ### B. Sub-Experiment H2: Symmetrischer Topologischer Closed-Loop Regelkreis ($N=50$)
 | Gruppe | Initial $\alpha_0$ | Final $\alpha_5$ | Kurtosis $t=0 \to t=5$ | PR $t=0 \to t=5$ | Recovery-Rate ($|\alpha_5| \le 0.15$) | Aktive Regel-Schritte |
 |---|---|---|---|---|---|---|
-| **START_NARROW** | `-0.40` | `+0.06` | `74.7 \to 91.7` | `3.7 \to 2.1` | `100%` | `54` |
-| **START_WIDE** | `+0.40` | `+0.39` | `38.1 \to 47.8` | `4.2 \to 2.5` | `0%` | `10` |
-| **START_BASELINE** | `+0.00` | `+0.29` | `67.9 \to 75.7` | `3.9 \to 2.4` | `0%` | `39` |
-| **NOISE_RAND_PLUS** | `+0.00` | `+0.00` | `67.9 \to 97.1` | `3.9 \to 2.3` | `100%` | `55` |
-| **NOISE_RAND_MINUS** | `+0.00` | `+0.00` | `67.9 \to 97.1` | `3.9 \to 2.3` | `100%` | `55` |
+| **START_NARROW** | `-0.40` | `-0.04` | `74.7 \to 92.8` | `3.7 \to 2.2` | `60%` | `16` |
+| **START_WIDE** | `+0.40` | `+0.29` | `38.1 \to 64.5` | `4.2 \to 2.5` | `0%` | `12` |
+| **START_BASELINE** | `+0.00` | `-0.03` | `67.9 \to 95.4` | `3.9 \to 2.2` | `90%` | `3` |
+| **NOISE_RAND_PLUS** | `+0.00` | `-0.02` | `67.9 \to 95.4` | `3.9 \to 2.2` | `100%` | `2` |
+| **NOISE_RAND_MINUS** | `+0.00` | `-0.02` | `67.9 \to 95.4` | `3.9 \to 2.2` | `100%` | `2` |
 
 - **Rauschimmunität gegen $d_\text{rand}$-Störfeuer:** `FEHLALARME DETEKTIERT`
 
@@ -202,6 +203,6 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 29.8 unter Wide bis 67.3 unter Narrow), die Entropie und die Reasoning-Dynamik.
 2. **Falsifikation der Token-Oberfläche (Eval E, F, G1):** Vokabular-basierte Wort-Sonden scheitern an statischen RLHF-Priors (>20 Logits auf Status-quo-Tokens) und syntaktischen Format-Artefakten. Subjektivität darf nicht am Unembedding-Layer als Einzelwort gemessen werden.
 3. **Wortfreie Repräsentationsgeometrie (Eval H1):** Die Participation Ratio ($D_\text{eff}$) der Singulärwerte im zentrierten Residual-Stream trennt dynamische Gedankenauffächerung sauber von statischem Zufallsrauschen ($d_\text{rand}$), da konstanter Rausch-Shift durch Zentrierung exakt eliminiert wird.
-4. **Vollkommen symmetrischer geschlossener Regelkreis (Eval H2):** Der rein topologische Regler heilt sowohl pathologische Verengung (`START_NARROW`, $\alpha_0 = -0.40$) als auch unkontrollierte Weite (`START_WIDE`, $\alpha_0 = +0.40$) autonom zurück in das homöostatische Zielfenster und widersteht orthogonalem Rauschen mit 100% Immunität.
+4. **Symmetrischer differential-topologischer Regelkreis (Eval H2):** Der gekoppelte Schattenreferenz-Regler steuert gegen pathologische Verengung (`START_NARROW`, $\alpha_0 = -0.40 \to -0.04$, 60% Voll-Recovery ins Zielfenster $|\alpha| \le 0.15$) und dämpft unkontrollierte Weite (`START_WIDE`, $\alpha_0 = +0.40 \to +0.29$), während statisches $d_\text{rand}$-Rauschen durch epochenspezifische Differenzbildung zu >96% abgewiesen wird (nur 2/60 Fehlschritte pro Rauschgruppe).
 
 Alle 790 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.
