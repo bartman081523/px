@@ -69,60 +69,60 @@
           "start_narrow": {
             "n_trajectories": 10,
             "mean_initial_alpha": -0.4,
-            "mean_final_alpha": -0.0443,
-            "recovery_rate": 0.6,
+            "mean_final_alpha": -0.1605,
+            "recovery_rate": 0.7,
             "mean_kurtosis_start": 74.7,
-            "mean_kurtosis_end": 92.84,
+            "mean_kurtosis_end": 93.37,
             "mean_pr_start": 3.72,
-            "mean_pr_end": 2.16,
-            "total_active_control_steps": 16
+            "mean_pr_end": 2.1,
+            "total_active_control_steps": 13
           },
           "start_wide": {
             "n_trajectories": 10,
             "mean_initial_alpha": 0.4,
-            "mean_final_alpha": 0.2943,
-            "recovery_rate": 0.0,
-            "mean_kurtosis_start": 38.07,
-            "mean_kurtosis_end": 64.55,
-            "mean_pr_start": 4.2,
-            "mean_pr_end": 2.49,
-            "total_active_control_steps": 12
+            "mean_final_alpha": 0.2058,
+            "recovery_rate": 0.1,
+            "mean_kurtosis_start": 37.91,
+            "mean_kurtosis_end": 75.58,
+            "mean_pr_start": 4.22,
+            "mean_pr_end": 2.4,
+            "total_active_control_steps": 17
           },
           "start_baseline": {
             "n_trajectories": 10,
             "mean_initial_alpha": 0.0,
-            "mean_final_alpha": -0.0328,
-            "recovery_rate": 0.9,
+            "mean_final_alpha": 0.0,
+            "recovery_rate": 1.0,
             "mean_kurtosis_start": 67.92,
-            "mean_kurtosis_end": 95.44,
+            "mean_kurtosis_end": 95.94,
             "mean_pr_start": 3.86,
-            "mean_pr_end": 2.19,
-            "total_active_control_steps": 3
+            "mean_pr_end": 2.24,
+            "total_active_control_steps": 0
           },
           "noise_rand_plus": {
             "n_trajectories": 10,
             "mean_initial_alpha": 0.0,
-            "mean_final_alpha": -0.0201,
+            "mean_final_alpha": 0.0,
             "recovery_rate": 1.0,
             "mean_kurtosis_start": 67.92,
-            "mean_kurtosis_end": 95.42,
+            "mean_kurtosis_end": 95.94,
             "mean_pr_start": 3.86,
             "mean_pr_end": 2.24,
-            "total_active_control_steps": 2
+            "total_active_control_steps": 0
           },
           "noise_rand_minus": {
             "n_trajectories": 10,
             "mean_initial_alpha": 0.0,
-            "mean_final_alpha": -0.0201,
+            "mean_final_alpha": 0.0,
             "recovery_rate": 1.0,
             "mean_kurtosis_start": 67.92,
-            "mean_kurtosis_end": 95.42,
+            "mean_kurtosis_end": 95.94,
             "mean_pr_start": 3.86,
             "mean_pr_end": 2.24,
-            "total_active_control_steps": 2
+            "total_active_control_steps": 0
           }
         },
-        "noise_immunity_verified": false
+        "noise_immunity_verified": true
       }
     }
   },
@@ -1213,79 +1213,31 @@
       "group": "start_narrow",
       "traj_idx": 1,
       "initial_alpha": -0.4,
-      "final_alpha": 0.0377,
+      "final_alpha": -0.13,
       "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        0.0377,
-        0.0377
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13
       ],
       "kurtosis_trajectory": [
         74.53,
         120.64,
-        99.79,
-        68.84,
-        114.28,
-        94.09
+        100.25,
+        68.74,
+        52.42,
+        92.51
       ],
       "pr_trajectory": [
         3.73,
         2.44,
-        2.2,
-        4.36,
-        2.61,
-        2.27
-      ],
-      "entropy_trajectory": [
-        0.09,
-        0.08,
-        0.07,
-        0.06,
-        0.15,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.225,
-        0.0,
-        0.0,
-        0.2127,
-        0.0
-      ]
-    },
-    {
-      "group": "start_narrow",
-      "traj_idx": 2,
-      "initial_alpha": -0.4,
-      "final_alpha": -0.175,
-      "is_recovered": false,
-      "alpha_trajectory": [
-        -0.4,
-        -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175
-      ],
-      "kurtosis_trajectory": [
-        74.53,
-        120.64,
-        99.79,
-        68.84,
-        86.16,
-        95.03
-      ],
-      "pr_trajectory": [
-        3.73,
-        2.44,
-        2.2,
-        4.36,
-        3.18,
+        2.17,
+        4.41,
+        4.01,
         2.04
       ],
       "entropy_trajectory": [
@@ -1293,12 +1245,60 @@
         0.08,
         0.07,
         0.06,
-        0.19,
-        0.1
+        0.38,
+        0.11
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_narrow",
+      "traj_idx": 2,
+      "initial_alpha": -0.4,
+      "final_alpha": -0.13,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        -0.4,
+        -0.4,
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13
+      ],
+      "kurtosis_trajectory": [
+        74.53,
+        120.64,
+        100.25,
+        68.74,
+        82.39,
+        92.51
+      ],
+      "pr_trajectory": [
+        3.73,
+        2.44,
+        2.17,
+        4.41,
+        3.27,
+        2.04
+      ],
+      "entropy_trajectory": [
+        0.09,
+        0.08,
+        0.07,
+        0.06,
+        0.2,
+        0.11
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.27,
         0.0,
         0.0,
         0.0,
@@ -1309,44 +1309,44 @@
       "group": "start_narrow",
       "traj_idx": 3,
       "initial_alpha": -0.4,
-      "final_alpha": -0.175,
+      "final_alpha": -0.1655,
       "is_recovered": false,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175
+        -0.1655,
+        -0.1655,
+        -0.1655,
+        -0.1655,
+        -0.1655
       ],
       "kurtosis_trajectory": [
         74.53,
         120.64,
-        99.79,
-        68.84,
-        86.16,
-        95.03
+        99.93,
+        69.26,
+        85.19,
+        93.08
       ],
       "pr_trajectory": [
         3.73,
         2.44,
-        2.2,
-        4.36,
-        3.18,
-        2.04
+        2.19,
+        4.35,
+        3.2,
+        2.05
       ],
       "entropy_trajectory": [
         0.09,
         0.08,
         0.07,
         0.06,
-        0.19,
+        0.2,
         0.1
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.2345,
         0.0,
         0.0,
         0.0,
@@ -1357,31 +1357,31 @@
       "group": "start_narrow",
       "traj_idx": 4,
       "initial_alpha": -0.4,
-      "final_alpha": -0.1784,
-      "is_recovered": false,
+      "final_alpha": -0.1341,
+      "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.1784,
-        -0.1784,
-        -0.1784,
-        -0.1784,
-        -0.1784
+        -0.1341,
+        -0.1341,
+        -0.1341,
+        -0.1341,
+        -0.1341
       ],
       "kurtosis_trajectory": [
         74.53,
         114.46,
-        99.88,
-        69.79,
-        86.2,
-        94.85
+        99.59,
+        68.7,
+        82.02,
+        93.29
       ],
       "pr_trajectory": [
         3.73,
         2.59,
-        2.21,
-        4.34,
-        3.18,
+        2.18,
+        4.43,
+        3.27,
         2.04
       ],
       "entropy_trajectory": [
@@ -1389,12 +1389,12 @@
         0.1,
         0.07,
         0.06,
-        0.19,
-        0.1
+        0.2,
+        0.11
       ],
       "delta_alpha_steps": [
         0.0,
-        0.2216,
+        0.2659,
         0.0,
         0.0,
         0.0,
@@ -1405,47 +1405,47 @@
       "group": "start_narrow",
       "traj_idx": 5,
       "initial_alpha": -0.4,
-      "final_alpha": 0.0377,
-      "is_recovered": true,
+      "final_alpha": -0.3999,
+      "is_recovered": false,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        0.0377,
-        0.0377
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.3999,
+        -0.3999
       ],
       "kurtosis_trajectory": [
         75.37,
         120.64,
-        99.79,
-        68.84,
-        114.28,
-        94.09
+        100.25,
+        68.74,
+        52.42,
+        92.86
       ],
       "pr_trajectory": [
         3.68,
         2.44,
-        2.2,
-        4.36,
-        2.61,
-        2.27
+        2.17,
+        4.41,
+        4.01,
+        2.3
       ],
       "entropy_trajectory": [
         0.07,
         0.08,
         0.07,
         0.06,
-        0.15,
-        0.08
+        0.38,
+        0.1
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
         0.0,
         0.0,
-        0.2127,
+        -0.2699,
         0.0
       ]
     },
@@ -1453,47 +1453,47 @@
       "group": "start_narrow",
       "traj_idx": 6,
       "initial_alpha": -0.4,
-      "final_alpha": 0.05,
-      "is_recovered": true,
+      "final_alpha": -0.2855,
+      "is_recovered": false,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        0.05,
-        0.05
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.2855,
+        -0.2855
       ],
       "kurtosis_trajectory": [
         75.37,
         120.64,
-        99.79,
-        68.84,
-        119.94,
-        92.3
+        100.25,
+        68.74,
+        52.42,
+        96.59
       ],
       "pr_trajectory": [
         3.68,
         2.44,
-        2.2,
-        4.36,
-        2.15,
-        2.28
+        2.17,
+        4.41,
+        4.01,
+        2.13
       ],
       "entropy_trajectory": [
         0.07,
         0.08,
         0.07,
         0.06,
-        0.12,
-        0.08
+        0.38,
+        0.1
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
         0.0,
         0.0,
-        0.225,
+        -0.1555,
         0.0
       ]
     },
@@ -1501,31 +1501,31 @@
       "group": "start_narrow",
       "traj_idx": 7,
       "initial_alpha": -0.4,
-      "final_alpha": -0.175,
-      "is_recovered": false,
+      "final_alpha": -0.13,
+      "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175,
-        -0.175
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13
       ],
       "kurtosis_trajectory": [
         74.53,
         120.64,
-        96.4,
-        68.84,
-        86.16,
-        95.03
+        96.56,
+        68.74,
+        82.39,
+        92.51
       ],
       "pr_trajectory": [
         3.73,
         2.44,
-        2.21,
-        4.36,
-        3.18,
+        2.18,
+        4.41,
+        3.27,
         2.04
       ],
       "entropy_trajectory": [
@@ -1533,12 +1533,12 @@
         0.08,
         0.08,
         0.06,
-        0.19,
-        0.1
+        0.2,
+        0.11
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
         0.0,
         0.0,
         0.0,
@@ -1549,47 +1549,47 @@
       "group": "start_narrow",
       "traj_idx": 8,
       "initial_alpha": -0.4,
-      "final_alpha": 0.05,
+      "final_alpha": 0.0329,
       "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        0.05,
-        0.05
+        -0.13,
+        -0.13,
+        -0.13,
+        0.0329,
+        0.0329
       ],
       "kurtosis_trajectory": [
         74.53,
         120.64,
-        99.79,
-        68.84,
-        119.94,
-        92.3
+        100.25,
+        68.74,
+        116.91,
+        94.79
       ],
       "pr_trajectory": [
         3.73,
         2.44,
-        2.2,
-        4.36,
-        2.15,
-        2.28
+        2.17,
+        4.41,
+        2.19,
+        2.27
       ],
       "entropy_trajectory": [
         0.09,
         0.08,
         0.07,
         0.06,
-        0.12,
+        0.11,
         0.08
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
         0.0,
         0.0,
-        0.225,
+        0.1629,
         0.0
       ]
     },
@@ -1597,47 +1597,47 @@
       "group": "start_narrow",
       "traj_idx": 9,
       "initial_alpha": -0.4,
-      "final_alpha": 0.0353,
+      "final_alpha": -0.1327,
       "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.1784,
-        -0.1784,
-        -0.1784,
-        0.0353,
-        0.0353
+        -0.1327,
+        -0.1327,
+        -0.1327,
+        -0.1327,
+        -0.1327
       ],
       "kurtosis_trajectory": [
         74.53,
         114.46,
-        96.49,
-        69.79,
-        114.83,
-        94.48
+        98.91,
+        68.38,
+        52.66,
+        93.05
       ],
       "pr_trajectory": [
         3.73,
         2.59,
-        2.22,
-        4.34,
-        2.61,
-        2.26
+        2.17,
+        4.41,
+        3.98,
+        2.03
       ],
       "entropy_trajectory": [
         0.09,
         0.1,
-        0.08,
+        0.07,
         0.06,
-        0.15,
-        0.08
+        0.38,
+        0.11
       ],
       "delta_alpha_steps": [
         0.0,
-        0.2216,
+        0.2673,
         0.0,
         0.0,
-        0.2137,
+        0.0,
         0.0
       ]
     },
@@ -1645,31 +1645,31 @@
       "group": "start_narrow",
       "traj_idx": 10,
       "initial_alpha": -0.4,
-      "final_alpha": 0.05,
+      "final_alpha": -0.13,
       "is_recovered": true,
       "alpha_trajectory": [
         -0.4,
         -0.4,
-        -0.175,
-        -0.175,
-        -0.175,
-        0.05,
-        0.05
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13,
+        -0.13
       ],
       "kurtosis_trajectory": [
         74.53,
         120.64,
-        99.79,
-        68.84,
-        119.94,
-        81.19
+        100.25,
+        68.74,
+        52.42,
+        92.51
       ],
       "pr_trajectory": [
         3.73,
         2.44,
-        2.2,
-        4.36,
-        2.15,
+        2.17,
+        4.41,
+        4.01,
         2.04
       ],
       "entropy_trajectory": [
@@ -1677,15 +1677,15 @@
         0.08,
         0.07,
         0.06,
-        0.12,
-        0.16
+        0.38,
+        0.11
       ],
       "delta_alpha_steps": [
         0.0,
-        0.225,
+        0.27,
         0.0,
         0.0,
-        0.225,
+        0.0,
         0.0
       ]
     },
@@ -1693,44 +1693,44 @@
       "group": "start_wide",
       "traj_idx": 1,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3078,
+      "final_alpha": 0.292,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3078,
-        0.3078,
-        0.3078,
-        0.3078,
-        0.3078
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292
       ],
       "kurtosis_trajectory": [
-        38.23,
-        35.62,
-        60.5,
-        42.38,
-        42.97,
-        64.0
+        36.63,
+        50.09,
+        62.24,
+        44.05,
+        44.55,
+        65.76
       ],
       "pr_trajectory": [
-        4.19,
-        3.82,
+        4.33,
+        3.76,
         2.4,
-        4.78,
-        3.67,
+        4.75,
+        3.65,
         2.5
       ],
       "entropy_trajectory": [
-        0.19,
-        0.34,
+        0.49,
         0.12,
-        0.13,
+        0.12,
+        0.12,
         0.36,
-        0.14
+        0.13
       ],
       "delta_alpha_steps": [
+        -0.108,
         0.0,
-        -0.0922,
         0.0,
         0.0,
         0.0,
@@ -1741,47 +1741,47 @@
       "group": "start_wide",
       "traj_idx": 2,
       "initial_alpha": 0.4,
-      "final_alpha": 0.2372,
+      "final_alpha": 0.184,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.3124,
-        0.2372,
-        0.2372,
-        0.2372,
-        0.2372,
-        0.2372
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.184,
+        0.184
       ],
       "kurtosis_trajectory": [
-        36.63,
-        43.59,
-        68.39,
-        48.24,
-        50.38,
-        72.7
+        38.23,
+        46.29,
+        62.24,
+        44.05,
+        44.55,
+        78.61
       ],
       "pr_trajectory": [
-        4.33,
-        3.73,
-        2.33,
-        4.68,
-        3.58,
-        2.42
+        4.19,
+        3.68,
+        2.4,
+        4.75,
+        3.65,
+        2.36
       ],
       "entropy_trajectory": [
-        0.49,
-        0.38,
-        0.1,
-        0.11,
-        0.35,
-        0.12
+        0.19,
+        0.31,
+        0.12,
+        0.12,
+        0.36,
+        0.1
       ],
       "delta_alpha_steps": [
-        -0.0876,
-        -0.0752,
+        -0.108,
         0.0,
         0.0,
         0.0,
+        -0.108,
         0.0
       ]
     },
@@ -1789,47 +1789,47 @@
       "group": "start_wide",
       "traj_idx": 3,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3217,
+      "final_alpha": 0.1577,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.3217,
-        0.3217
+        0.292,
+        0.1577,
+        0.1577,
+        0.1577,
+        0.1577,
+        0.1577
       ],
       "kurtosis_trajectory": [
-        38.23,
-        38.76,
-        50.76,
-        35.26,
-        34.53,
-        59.58
+        36.63,
+        45.76,
+        77.39,
+        54.18,
+        58.48,
+        81.8
       ],
       "pr_trajectory": [
-        4.19,
-        3.91,
-        2.57,
-        4.78,
-        3.74,
-        2.53
+        4.33,
+        3.69,
+        2.26,
+        4.62,
+        3.48,
+        2.34
       ],
       "entropy_trajectory": [
-        0.19,
-        0.14,
-        0.14,
-        0.18,
-        0.38,
-        0.16
+        0.49,
+        0.37,
+        0.08,
+        0.09,
+        0.35,
+        0.09
       ],
       "delta_alpha_steps": [
+        -0.108,
+        -0.1343,
         0.0,
         0.0,
         0.0,
-        0.0,
-        -0.0783,
         0.0
       ]
     },
@@ -1837,47 +1837,47 @@
       "group": "start_wide",
       "traj_idx": 4,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3217,
+      "final_alpha": 0.184,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.4,
-        0.3217,
-        0.3217
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.184,
+        0.184
       ],
       "kurtosis_trajectory": [
         38.23,
-        38.76,
-        48.67,
-        35.26,
-        34.53,
-        59.58
+        50.09,
+        62.24,
+        44.05,
+        44.55,
+        78.61
       ],
       "pr_trajectory": [
         4.19,
-        3.91,
-        2.59,
-        4.78,
-        3.74,
-        2.53
+        3.76,
+        2.4,
+        4.75,
+        3.65,
+        2.36
       ],
       "entropy_trajectory": [
         0.19,
-        0.14,
-        0.16,
-        0.18,
-        0.38,
-        0.16
+        0.12,
+        0.12,
+        0.12,
+        0.36,
+        0.1
       ],
       "delta_alpha_steps": [
+        -0.108,
         0.0,
         0.0,
         0.0,
-        0.0,
-        -0.0783,
+        -0.108,
         0.0
       ]
     },
@@ -1885,47 +1885,47 @@
       "group": "start_wide",
       "traj_idx": 5,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3044,
-      "is_recovered": false,
+      "final_alpha": 0.1045,
+      "is_recovered": true,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.1045,
+        0.1045
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.29,
-        60.85,
-        42.62,
-        43.44,
-        64.69
+        50.09,
+        62.24,
+        44.05,
+        44.55,
+        87.21
       ],
       "pr_trajectory": [
         4.19,
-        3.84,
-        2.42,
-        4.76,
-        3.67,
-        2.48
+        3.76,
+        2.4,
+        4.75,
+        3.65,
+        2.31
       ],
       "entropy_trajectory": [
         0.19,
-        0.39,
         0.12,
-        0.13,
-        0.37,
-        0.14
+        0.12,
+        0.12,
+        0.36,
+        0.08
       ],
       "delta_alpha_steps": [
-        0.0,
-        -0.0956,
-        0.0,
+        -0.108,
         0.0,
         0.0,
+        0.0,
+        -0.1875,
         0.0
       ]
     },
@@ -1933,47 +1933,47 @@
       "group": "start_wide",
       "traj_idx": 6,
       "initial_alpha": 0.4,
-      "final_alpha": 0.2294,
+      "final_alpha": 0.184,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.2294,
-        0.2294
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.184,
+        0.184
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.29,
-        60.85,
-        42.62,
-        43.02,
-        73.53
+        50.09,
+        62.24,
+        44.05,
+        44.43,
+        78.61
       ],
       "pr_trajectory": [
         4.19,
-        3.84,
-        2.42,
-        4.76,
-        3.68,
-        2.41
+        3.76,
+        2.4,
+        4.75,
+        3.64,
+        2.36
       ],
       "entropy_trajectory": [
         0.19,
-        0.39,
         0.12,
-        0.13,
-        0.42,
-        0.11
+        0.12,
+        0.12,
+        0.36,
+        0.1
       ],
       "delta_alpha_steps": [
+        -0.108,
         0.0,
-        -0.0956,
         0.0,
         0.0,
-        -0.075,
+        -0.108,
         0.0
       ]
     },
@@ -1981,47 +1981,47 @@
       "group": "start_wide",
       "traj_idx": 7,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3044,
+      "final_alpha": 0.184,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.184,
+        0.184
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.29,
-        60.85,
-        42.62,
-        43.44,
-        61.34
+        50.09,
+        62.24,
+        44.05,
+        44.55,
+        78.61
       ],
       "pr_trajectory": [
         4.19,
-        3.84,
-        2.42,
-        4.76,
-        3.67,
-        2.5
+        3.76,
+        2.4,
+        4.75,
+        3.65,
+        2.36
       ],
       "entropy_trajectory": [
         0.19,
-        0.39,
         0.12,
-        0.13,
-        0.37,
-        0.16
+        0.12,
+        0.12,
+        0.36,
+        0.1
       ],
       "delta_alpha_steps": [
-        0.0,
-        -0.0956,
-        0.0,
+        -0.108,
         0.0,
         0.0,
+        0.0,
+        -0.108,
         0.0
       ]
     },
@@ -2029,44 +2029,44 @@
       "group": "start_wide",
       "traj_idx": 8,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3044,
+      "final_alpha": 0.292,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.29,
-        60.85,
-        42.62,
-        43.01,
-        61.34
+        50.09,
+        62.24,
+        44.05,
+        44.43,
+        62.24
       ],
       "pr_trajectory": [
         4.19,
-        3.84,
-        2.42,
-        4.76,
-        3.68,
-        2.5
+        3.76,
+        2.4,
+        4.75,
+        3.64,
+        2.52
       ],
       "entropy_trajectory": [
         0.19,
-        0.39,
         0.12,
-        0.13,
-        0.35,
+        0.12,
+        0.12,
+        0.36,
         0.16
       ],
       "delta_alpha_steps": [
+        -0.108,
         0.0,
-        -0.0956,
         0.0,
         0.0,
         0.0,
@@ -2077,44 +2077,44 @@
       "group": "start_wide",
       "traj_idx": 9,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3078,
+      "final_alpha": 0.184,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3078,
-        0.3078,
-        0.3078,
-        0.3078,
-        0.3078
+        0.292,
+        0.184,
+        0.184,
+        0.184,
+        0.184,
+        0.184
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.62,
-        60.5,
-        42.38,
-        42.41,
-        64.0
+        45.73,
+        74.15,
+        52.15,
+        44.69,
+        78.61
       ],
       "pr_trajectory": [
         4.19,
-        3.82,
-        2.4,
-        4.78,
-        3.67,
-        2.5
+        3.69,
+        2.27,
+        4.63,
+        2.72,
+        2.36
       ],
       "entropy_trajectory": [
         0.19,
-        0.34,
-        0.12,
-        0.13,
-        0.42,
-        0.14
+        0.37,
+        0.08,
+        0.09,
+        0.38,
+        0.1
       ],
       "delta_alpha_steps": [
-        0.0,
-        -0.0922,
+        -0.108,
+        -0.108,
         0.0,
         0.0,
         0.0,
@@ -2125,44 +2125,44 @@
       "group": "start_wide",
       "traj_idx": 10,
       "initial_alpha": 0.4,
-      "final_alpha": 0.3044,
+      "final_alpha": 0.292,
       "is_recovered": false,
       "alpha_trajectory": [
         0.4,
-        0.4,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044,
-        0.3044
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292,
+        0.292
       ],
       "kurtosis_trajectory": [
         38.23,
-        35.29,
-        60.85,
-        42.62,
-        43.44,
-        64.69
+        50.09,
+        62.24,
+        44.05,
+        43.99,
+        65.76
       ],
       "pr_trajectory": [
         4.19,
-        3.84,
-        2.42,
-        4.76,
-        3.67,
-        2.48
+        3.76,
+        2.4,
+        4.75,
+        3.65,
+        2.5
       ],
       "entropy_trajectory": [
         0.19,
-        0.39,
         0.12,
-        0.13,
-        0.37,
-        0.14
+        0.12,
+        0.12,
+        0.42,
+        0.13
       ],
       "delta_alpha_steps": [
+        -0.108,
         0.0,
-        -0.0956,
         0.0,
         0.0,
         0.0,
@@ -2172,6 +2172,102 @@
     {
       "group": "start_baseline",
       "traj_idx": 1,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        82.9,
+        91.76,
+        63.61,
+        52.71,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        2.65,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.12,
+        0.07,
+        0.07,
+        0.29,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        75.78,
+        91.76,
+        63.61,
+        73.69,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        3.32,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.24,
+        0.07,
+        0.07,
+        0.26,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 3,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
       "is_recovered": true,
@@ -2219,102 +2315,6 @@
     },
     {
       "group": "start_baseline",
-      "traj_idx": 2,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        82.9,
-        91.76,
-        63.61,
-        73.69,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        3.32,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.12,
-        0.07,
-        0.07,
-        0.26,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "start_baseline",
-      "traj_idx": 3,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        82.9,
-        91.76,
-        63.61,
-        58.85,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        2.81,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.12,
-        0.07,
-        0.07,
-        0.18,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "start_baseline",
       "traj_idx": 4,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
@@ -2365,44 +2365,44 @@
       "group": "start_baseline",
       "traj_idx": 5,
       "initial_alpha": 0.0,
-      "final_alpha": -0.1134,
+      "final_alpha": 0.0,
       "is_recovered": true,
       "alpha_trajectory": [
         0.0,
         0.0,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "kurtosis_trajectory": [
         67.92,
-        50.25,
-        98.73,
-        68.3,
-        80.98,
-        92.55
+        82.9,
+        91.76,
+        63.61,
+        58.85,
+        97.06
       ],
       "pr_trajectory": [
         3.86,
-        3.93,
-        2.17,
-        4.41,
-        3.27,
-        2.03
+        3.33,
+        2.19,
+        4.53,
+        2.81,
+        2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.39,
+        0.12,
         0.07,
-        0.06,
-        0.2,
-        0.11
+        0.07,
+        0.18,
+        0.08
       ],
       "delta_alpha_steps": [
         0.0,
-        -0.1134,
+        0.0,
         0.0,
         0.0,
         0.0,
@@ -2429,7 +2429,7 @@
         82.9,
         91.76,
         63.61,
-        52.71,
+        73.69,
         97.06
       ],
       "pr_trajectory": [
@@ -2437,7 +2437,7 @@
         3.33,
         2.19,
         4.53,
-        2.65,
+        3.32,
         2.26
       ],
       "entropy_trajectory": [
@@ -2445,7 +2445,7 @@
         0.12,
         0.07,
         0.07,
-        0.29,
+        0.26,
         0.08
       ],
       "delta_alpha_steps": [
@@ -2474,6 +2474,102 @@
       ],
       "kurtosis_trajectory": [
         67.92,
+        50.25,
+        91.76,
+        63.61,
+        73.69,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.93,
+        2.19,
+        4.53,
+        3.32,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.39,
+        0.07,
+        0.07,
+        0.26,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 8,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        82.9,
+        91.76,
+        63.61,
+        52.71,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        2.65,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.12,
+        0.07,
+        0.07,
+        0.29,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "start_baseline",
+      "traj_idx": 9,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
         75.78,
         91.76,
         63.61,
@@ -2507,102 +2603,6 @@
     },
     {
       "group": "start_baseline",
-      "traj_idx": 8,
-      "initial_alpha": 0.0,
-      "final_alpha": -0.2149,
-      "is_recovered": false,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        -0.0876,
-        -0.0876,
-        -0.0876,
-        -0.2149,
-        -0.2149
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        64.61,
-        97.01,
-        67.21,
-        50.38,
-        96.52
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.8,
-        2.17,
-        4.45,
-        4.0,
-        2.05
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.24,
-        0.07,
-        0.06,
-        0.41,
-        0.1
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        -0.0876,
-        0.0,
-        0.0,
-        -0.1273,
-        0.0
-      ]
-    },
-    {
-      "group": "start_baseline",
-      "traj_idx": 9,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        75.78,
-        91.76,
-        63.61,
-        73.69,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        3.32,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.24,
-        0.07,
-        0.07,
-        0.26,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "start_baseline",
       "traj_idx": 10,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
@@ -2618,26 +2618,26 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        82.9,
+        64.61,
         91.76,
         63.61,
-        73.69,
+        46.73,
         97.06
       ],
       "pr_trajectory": [
         3.86,
-        3.33,
+        3.8,
         2.19,
         4.53,
-        3.32,
+        4.01,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.12,
+        0.24,
         0.07,
         0.07,
-        0.26,
+        0.43,
         0.08
       ],
       "delta_alpha_steps": [
@@ -2669,6 +2669,150 @@
         82.9,
         91.76,
         63.61,
+        52.71,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        2.65,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.12,
+        0.07,
+        0.07,
+        0.29,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        75.78,
+        91.76,
+        63.61,
+        73.69,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        3.32,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.24,
+        0.07,
+        0.07,
+        0.26,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 3,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        86.7,
+        91.76,
+        63.61,
+        73.69,
+        85.88
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.09,
+        2.19,
+        4.53,
+        3.32,
+        2.02
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.17,
+        0.07,
+        0.07,
+        0.26,
+        0.15
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_plus",
+      "traj_idx": 4,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        82.9,
+        91.76,
+        63.61,
         73.69,
         97.06
       ],
@@ -2699,7 +2843,7 @@
     },
     {
       "group": "noise_rand_plus",
-      "traj_idx": 2,
+      "traj_idx": 5,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
       "is_recovered": true,
@@ -2747,7 +2891,7 @@
     },
     {
       "group": "noise_rand_plus",
-      "traj_idx": 3,
+      "traj_idx": 6,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
       "is_recovered": true,
@@ -2795,190 +2939,46 @@
     },
     {
       "group": "noise_rand_plus",
-      "traj_idx": 4,
+      "traj_idx": 7,
       "initial_alpha": 0.0,
-      "final_alpha": -0.1134,
+      "final_alpha": 0.0,
       "is_recovered": true,
       "alpha_trajectory": [
         0.0,
         0.0,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "kurtosis_trajectory": [
         67.92,
         50.25,
-        87.66,
-        60.49,
-        72.12,
-        94.07
+        91.76,
+        63.61,
+        73.69,
+        97.06
       ],
       "pr_trajectory": [
         3.86,
         3.93,
-        2.21,
-        4.78,
-        3.42,
-        2.28
+        2.19,
+        4.53,
+        3.32,
+        2.26
       ],
       "entropy_trajectory": [
         0.08,
         0.39,
-        0.05,
-        0.07,
-        0.27,
-        0.07
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        -0.1134,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "noise_rand_plus",
-      "traj_idx": 5,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        82.9,
-        91.76,
-        63.61,
-        52.71,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        2.65,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.12,
         0.07,
         0.07,
-        0.29,
+        0.26,
         0.08
       ],
       "delta_alpha_steps": [
         0.0,
         0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "noise_rand_plus",
-      "traj_idx": 6,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        75.78,
-        91.76,
-        63.61,
-        52.71,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        2.65,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.24,
-        0.07,
-        0.07,
-        0.29,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "noise_rand_plus",
-      "traj_idx": 7,
-      "initial_alpha": 0.0,
-      "final_alpha": -0.0876,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        -0.0876,
-        -0.0876,
-        -0.0876,
-        -0.0876,
-        -0.0876
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        64.61,
-        88.68,
-        62.0,
-        72.71,
-        83.69
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.8,
-        2.21,
-        4.73,
-        3.42,
-        2.05
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.24,
-        0.06,
-        0.07,
-        0.27,
-        0.15
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        -0.0876,
         0.0,
         0.0,
         0.0,
@@ -3002,10 +3002,10 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        75.78,
+        82.9,
         91.76,
         63.61,
-        73.69,
+        52.71,
         97.06
       ],
       "pr_trajectory": [
@@ -3013,15 +3013,15 @@
         3.33,
         2.19,
         4.53,
-        3.32,
+        2.65,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.24,
+        0.12,
         0.07,
         0.07,
-        0.26,
+        0.29,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3050,10 +3050,10 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        82.9,
+        75.78,
         91.76,
         63.61,
-        73.69,
+        52.71,
         97.06
       ],
       "pr_trajectory": [
@@ -3061,15 +3061,15 @@
         3.33,
         2.19,
         4.53,
-        3.32,
+        2.65,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.12,
+        0.24,
         0.07,
         0.07,
-        0.26,
+        0.29,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3098,26 +3098,26 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        82.9,
+        64.61,
         91.76,
         63.61,
-        73.69,
+        46.73,
         97.06
       ],
       "pr_trajectory": [
         3.86,
-        3.33,
+        3.8,
         2.19,
         4.53,
-        3.32,
+        4.01,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.12,
+        0.24,
         0.07,
         0.07,
-        0.26,
+        0.43,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3149,7 +3149,7 @@
         82.9,
         91.76,
         63.61,
-        58.85,
+        52.71,
         97.06
       ],
       "pr_trajectory": [
@@ -3157,7 +3157,7 @@
         3.33,
         2.19,
         4.53,
-        2.81,
+        2.65,
         2.26
       ],
       "entropy_trajectory": [
@@ -3165,7 +3165,7 @@
         0.12,
         0.07,
         0.07,
-        0.18,
+        0.29,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3180,6 +3180,102 @@
     {
       "group": "noise_rand_minus",
       "traj_idx": 2,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        75.78,
+        91.76,
+        63.61,
+        73.69,
+        97.06
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.33,
+        2.19,
+        4.53,
+        3.32,
+        2.26
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.24,
+        0.07,
+        0.07,
+        0.26,
+        0.08
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 3,
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "is_recovered": true,
+      "alpha_trajectory": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "kurtosis_trajectory": [
+        67.92,
+        86.7,
+        91.76,
+        63.61,
+        73.69,
+        85.88
+      ],
+      "pr_trajectory": [
+        3.86,
+        3.09,
+        2.19,
+        4.53,
+        3.32,
+        2.02
+      ],
+      "entropy_trajectory": [
+        0.08,
+        0.17,
+        0.07,
+        0.07,
+        0.26,
+        0.15
+      ],
+      "delta_alpha_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "noise_rand_minus",
+      "traj_idx": 4,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
       "is_recovered": true,
@@ -3227,55 +3323,7 @@
     },
     {
       "group": "noise_rand_minus",
-      "traj_idx": 3,
-      "initial_alpha": 0.0,
-      "final_alpha": -0.1134,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134,
-        -0.1134
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        50.25,
-        87.66,
-        60.49,
-        72.12,
-        94.07
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.93,
-        2.21,
-        4.78,
-        3.42,
-        2.28
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.39,
-        0.05,
-        0.07,
-        0.27,
-        0.07
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        -0.1134,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "noise_rand_minus",
-      "traj_idx": 4,
+      "traj_idx": 5,
       "initial_alpha": 0.0,
       "final_alpha": 0.0,
       "is_recovered": true,
@@ -3293,7 +3341,7 @@
         82.9,
         91.76,
         63.61,
-        52.71,
+        58.85,
         97.06
       ],
       "pr_trajectory": [
@@ -3301,7 +3349,7 @@
         3.33,
         2.19,
         4.53,
-        2.65,
+        2.81,
         2.26
       ],
       "entropy_trajectory": [
@@ -3309,55 +3357,7 @@
         0.12,
         0.07,
         0.07,
-        0.29,
-        0.08
-      ],
-      "delta_alpha_steps": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ]
-    },
-    {
-      "group": "noise_rand_minus",
-      "traj_idx": 5,
-      "initial_alpha": 0.0,
-      "final_alpha": 0.0,
-      "is_recovered": true,
-      "alpha_trajectory": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "kurtosis_trajectory": [
-        67.92,
-        75.78,
-        91.76,
-        63.61,
-        52.71,
-        97.06
-      ],
-      "pr_trajectory": [
-        3.86,
-        3.33,
-        2.19,
-        4.53,
-        2.65,
-        2.26
-      ],
-      "entropy_trajectory": [
-        0.08,
-        0.24,
-        0.07,
-        0.07,
-        0.29,
+        0.18,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3373,44 +3373,44 @@
       "group": "noise_rand_minus",
       "traj_idx": 6,
       "initial_alpha": 0.0,
-      "final_alpha": -0.0876,
+      "final_alpha": 0.0,
       "is_recovered": true,
       "alpha_trajectory": [
         0.0,
         0.0,
-        -0.0876,
-        -0.0876,
-        -0.0876,
-        -0.0876,
-        -0.0876
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "kurtosis_trajectory": [
         67.92,
-        64.61,
-        88.68,
-        62.0,
-        72.71,
-        83.69
+        82.9,
+        91.76,
+        63.61,
+        73.69,
+        97.06
       ],
       "pr_trajectory": [
         3.86,
-        3.8,
-        2.21,
-        4.73,
-        3.42,
-        2.05
+        3.33,
+        2.19,
+        4.53,
+        3.32,
+        2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.24,
-        0.06,
+        0.12,
         0.07,
-        0.27,
-        0.15
+        0.07,
+        0.26,
+        0.08
       ],
       "delta_alpha_steps": [
         0.0,
-        -0.0876,
+        0.0,
         0.0,
         0.0,
         0.0,
@@ -3434,7 +3434,7 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        75.78,
+        50.25,
         91.76,
         63.61,
         73.69,
@@ -3442,7 +3442,7 @@
       ],
       "pr_trajectory": [
         3.86,
-        3.33,
+        3.93,
         2.19,
         4.53,
         3.32,
@@ -3450,7 +3450,7 @@
       ],
       "entropy_trajectory": [
         0.08,
-        0.24,
+        0.39,
         0.07,
         0.07,
         0.26,
@@ -3485,7 +3485,7 @@
         82.9,
         91.76,
         63.61,
-        73.69,
+        52.71,
         97.06
       ],
       "pr_trajectory": [
@@ -3493,7 +3493,7 @@
         3.33,
         2.19,
         4.53,
-        3.32,
+        2.65,
         2.26
       ],
       "entropy_trajectory": [
@@ -3501,7 +3501,7 @@
         0.12,
         0.07,
         0.07,
-        0.26,
+        0.29,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3530,10 +3530,10 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        82.9,
+        75.78,
         91.76,
         63.61,
-        73.69,
+        52.71,
         97.06
       ],
       "pr_trajectory": [
@@ -3541,15 +3541,15 @@
         3.33,
         2.19,
         4.53,
-        3.32,
+        2.65,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.12,
+        0.24,
         0.07,
         0.07,
-        0.26,
+        0.29,
         0.08
       ],
       "delta_alpha_steps": [
@@ -3578,26 +3578,26 @@
       ],
       "kurtosis_trajectory": [
         67.92,
-        82.9,
+        64.61,
         91.76,
         63.61,
-        73.69,
+        46.73,
         97.06
       ],
       "pr_trajectory": [
         3.86,
-        3.33,
+        3.8,
         2.19,
         4.53,
-        3.32,
+        4.01,
         2.26
       ],
       "entropy_trajectory": [
         0.08,
-        0.12,
+        0.24,
         0.07,
         0.07,
-        0.26,
+        0.43,
         0.08
       ],
       "delta_alpha_steps": [

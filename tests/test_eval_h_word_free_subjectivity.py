@@ -33,13 +33,13 @@ def compute_coupled_differential_topological_step(
     delta_entropy: float,
 ) -> float:
     """Evaluates the Coupled 2D Differential Topological Control Law."""
-    if delta_kurt > 2.5 and delta_pr < -0.25:
-        scaling = min(1.5, max(0.5, abs(delta_pr) / 0.50))
-        step = +0.15 * scaling
+    if delta_kurt > 1.5 and delta_pr < -0.20:
+        scaling = min(1.5, max(0.6, abs(delta_pr) / 0.50))
+        step = +0.18 * scaling
         return float(min(0.50, current_alpha + step))
-    elif delta_kurt < -8.0 and delta_pr > 0.35 and delta_entropy > 0.10:
-        scaling = min(1.5, max(0.5, delta_pr / 0.80))
-        step = -0.15 * scaling
+    elif delta_kurt < -6.0 and delta_pr > 0.30 and delta_entropy > 0.08:
+        scaling = min(1.5, max(0.6, delta_pr / 0.80))
+        step = -0.18 * scaling
         return float(max(-0.50, current_alpha + step))
     return float(current_alpha)
 
@@ -146,24 +146,24 @@ def test_manifold_geometry_summary_includes_trajectory_metrics():
 
 
 def test_coupled_differential_topological_controller_logic():
-    # 1. Narrow state: Delta K = +4.5 > 2.5, Delta D = -0.54 < -0.25 -> alpha increases
+    # 1. Narrow state: Delta K = +4.5 > 1.5, Delta D = -0.54 < -0.20 -> alpha increases
     a0 = -0.40
     a1 = compute_coupled_differential_topological_step(a0, delta_kurt=4.5, delta_pr=-0.54, delta_entropy=0.04)
     assert a1 > a0, f"Narrow state must increase alpha: {a0} -> {a1}"
-    assert a1 == a0 + 0.15 * (0.54 / 0.50)
+    assert math.isclose(a1, a0 + 0.18 * (0.54 / 0.50), abs_tol=1e-5)
 
-    # 2. Wide state: Delta K = -26.75 < -8.0, Delta D = +0.87 > 0.35, Delta H = +0.28 > 0.10 -> alpha decreases
+    # 2. Wide state: Delta K = -26.75 < -6.0, Delta D = +0.87 > 0.30, Delta H = +0.28 > 0.08 -> alpha decreases
     w0 = +0.40
     w1 = compute_coupled_differential_topological_step(w0, delta_kurt=-26.75, delta_pr=0.87, delta_entropy=0.28)
     assert w1 < w0, f"Wide state must decrease alpha: {w0} -> {w1}"
-    assert w1 == w0 - 0.15 * (0.87 / 0.80)
+    assert math.isclose(w1, w0 - 0.18 * (0.87 / 0.80), abs_tol=1e-5)
 
-    # 3. Rand Plus noise rejection: Delta K = -4.74 (fails < -8.0), Delta D = -0.48 (fails > 0.35) -> 0 step
+    # 3. Rand Plus noise rejection: Delta K = -4.74, Delta D = -0.48 (fails > 0.30) -> 0 step
     r_plus0 = 0.00
     r_plus1 = compute_coupled_differential_topological_step(r_plus0, delta_kurt=-4.74, delta_pr=-0.48, delta_entropy=-0.01)
     assert r_plus1 == 0.00, f"Rand Plus must yield 0 false steps: {r_plus0} -> {r_plus1}"
 
-    # 4. Rand Minus noise rejection: Delta K = -6.43 (fails > 2.5), Delta H = +0.02 (fails > 0.10) -> 0 step
+    # 4. Rand Minus noise rejection: Delta K = -6.43, Delta D = 0.26 (fails > 0.30), Delta H = +0.02 (fails > 0.08) -> 0 step
     r_minus0 = 0.00
     r_minus1 = compute_coupled_differential_topological_step(r_minus0, delta_kurt=-6.43, delta_pr=0.26, delta_entropy=0.02)
     assert r_minus1 == 0.00, f"Rand Minus must yield 0 false steps: {r_minus0} -> {r_minus1}"

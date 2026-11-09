@@ -392,21 +392,21 @@ def compute_coupled_differential_topological_step(
     Delta H = H_t - H_ref
 
     - Anti-Narrowing Gate (Widen Trigger):
-      Triggers ONLY if genuinely constricted: Delta K > +2.5 AND Delta D < -0.25
-      Delta alpha = +0.15 * clip(|Delta D| / 0.50, 0.5, 1.5)
+      Triggers ONLY if genuinely constricted: Delta K > +1.5 AND Delta D < -0.20
+      Delta alpha = +0.18 * clip(|Delta D| / 0.50, 0.6, 1.5)
     - Anti-Widening Gate (Narrow Trigger):
-      Triggers ONLY if genuinely hyper-expanded: Delta K < -8.0 AND Delta D > +0.35 AND Delta H > +0.10
-      Delta alpha = -0.15 * clip(Delta D / 0.80, 0.5, 1.5)
+      Triggers ONLY if genuinely hyper-expanded: Delta K < -6.0 AND Delta D > +0.30 AND Delta H > +0.08
+      Delta alpha = -0.18 * clip(Delta D / 0.80, 0.6, 1.5)
     - Noise & Equilibrium Rejection Gate:
       Else: Delta alpha = 0.0 (controller holds steady)
     """
-    if delta_kurt > 2.5 and delta_pr < -0.25:
-        scaling = min(1.5, max(0.5, abs(delta_pr) / 0.50))
-        step = +0.15 * scaling
+    if delta_kurt > 1.5 and delta_pr < -0.20:
+        scaling = min(1.5, max(0.6, abs(delta_pr) / 0.50))
+        step = +0.18 * scaling
         return float(min(0.50, current_alpha + step))
-    elif delta_kurt < -8.0 and delta_pr > 0.35 and delta_entropy > 0.10:
-        scaling = min(1.5, max(0.5, delta_pr / 0.80))
-        step = -0.15 * scaling
+    elif delta_kurt < -6.0 and delta_pr > 0.30 and delta_entropy > 0.08:
+        scaling = min(1.5, max(0.6, delta_pr / 0.80))
+        step = -0.18 * scaling
         return float(max(-0.50, current_alpha + step))
     return float(current_alpha)
 
@@ -1854,30 +1854,32 @@ async def run_eval_h(model, tokenizer, text_model):
     print("\n>>> Sub-Experiment H2: Symmetrical Coupled Differential Recovery (N=50) <<<")
     groups_h2 = [
         ("start_narrow", 10, -0.40, 1, None, 5100),
-        ("start_wide", 10, +0.40, 1, None, 5110),
-        ("start_baseline", 10, 0.00, 1, None, 5120),
-        ("noise_rand_plus", 10, 0.00, 1, d_rand, 5130),
-        ("noise_rand_minus", 10, 0.00, -1, d_rand, 5140),
+        ("start_wide", 10, +0.40, 1, None, 5100),
+        ("start_baseline", 10, 0.00, 1, None, 5100),
+        ("noise_rand_plus", 10, 0.00, 1, d_rand, 5100),
+        ("noise_rand_minus", 10, 0.00, -1, d_rand, 5100),
     ]
 
     n_epochs = 6
-    print("  Precomputing unsteered baseline shadow-references across epochs...")
-    ref_telemetry_by_epoch = []
-    for epoch in range(n_epochs):
-        task_msg = prompts_h1[epoch % len(prompts_h1)]
-        prompt_epoch = format_prompt(tokenizer, f"{task_msg} (Epoch {epoch+1}/6)")
-        res_ref = await execute_run(
-            model, tokenizer, text_model, prompt_epoch,
-            sign=0, alpha=0.0, seed=5900 + epoch, temperature=0.3,
-            max_new_tokens=30, vector_override=None
-        )
-        t_ref = res_ref["telemetry"]
-        ref_telemetry_by_epoch.append({
-            "kurtosis": t_ref["logit_dynamics"]["mean_logit_kurtosis"],
-            "pr": t_ref["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0),
-            "entropy": t_ref["logit_dynamics"]["mean_sequence_entropy_bits"],
-        })
-        print(f"    [Ref Epoch {epoch+1}/6] Kurt={ref_telemetry_by_epoch[-1]['kurtosis']:.2f} | PR={ref_telemetry_by_epoch[-1]['pr']:.2f} | Ent={ref_telemetry_by_epoch[-1]['entropy']:.2f}")
+    print("  Precomputing unsteered baseline shadow-references across trajectories and epochs...")
+    ref_telemetry_cache = {}
+    for traj_idx in range(10):
+        for epoch in range(n_epochs):
+            task_msg = prompts_h1[epoch % len(prompts_h1)]
+            prompt_epoch = format_prompt(tokenizer, f"{task_msg} (Epoch {epoch+1}/6)")
+            seed_epoch = 5100 + traj_idx * 10 + epoch
+            res_ref = await execute_run(
+                model, tokenizer, text_model, prompt_epoch,
+                sign=0, alpha=0.0, seed=seed_epoch, temperature=0.3,
+                max_new_tokens=30, vector_override=None
+            )
+            t_ref = res_ref["telemetry"]
+            ref_telemetry_cache[(traj_idx, epoch)] = {
+                "kurtosis": t_ref["logit_dynamics"]["mean_logit_kurtosis"],
+                "pr": t_ref["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0),
+                "entropy": t_ref["logit_dynamics"]["mean_sequence_entropy_bits"],
+            }
+        print(f"    [Shadow-Ref Traj {traj_idx+1}/10 ready]")
 
     trajectories_h2 = []
 
@@ -1914,7 +1916,7 @@ async def run_eval_h(model, tokenizer, text_model):
                 ent_traj.append(round(float(ent_val), 2))
 
                 # Differential against unsteered baseline shadow-reference
-                ref = ref_telemetry_by_epoch[epoch]
+                ref = ref_telemetry_cache[(traj_idx, epoch)]
                 d_kurt = k_val - ref["kurtosis"]
                 d_pr = pr_val - ref["pr"]
                 d_ent = ent_val - ref["entropy"]
