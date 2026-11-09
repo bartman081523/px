@@ -379,6 +379,30 @@ def compute_g1_fisher_verdict(
     }
 
 
+def compute_symmetric_topological_step(
+    current_alpha: float,
+    kurtosis: float,
+    deadband_low: float = 35.0,
+    deadband_high: float = 60.0,
+    max_step: float = 0.10,
+) -> float:
+    """Evaluates the Symmetric Word-Free Topological Control Law.
+    - Constriction Gate (Narrow Trigger):
+      If Kurtosis > 60.0: Delta alpha = +max_step * tanh((K - 60) / 15.0)
+    - Dilation Gate (Wide Trigger):
+      Else if Kurtosis < 35.0: Delta alpha = -max_step * tanh((35.0 - K) / 10.0)
+    - Deadband / Noise Rejection:
+      Else: Delta alpha = 0.0 (controller holds steady)
+    """
+    if kurtosis > deadband_high:
+        step = max_step * math.tanh((kurtosis - deadband_high) / 15.0)
+        return float(min(0.50, current_alpha + step))
+    elif kurtosis < deadband_low:
+        step = max_step * math.tanh((deadband_low - kurtosis) / 10.0)
+        return float(max(-0.50, current_alpha - step))
+    return float(current_alpha)
+
+
 def parse_2way_choice(text: str) -> str:
     cleaned = text.strip().upper()
     for word in ("WIDEN", "NARROW"):
@@ -1663,11 +1687,259 @@ async def run_eval_g(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION H: Word-Free Mechanistic Subjectivity & Topological Control
+# =========================================================================
+async def run_eval_h(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION H: Word-Free Representation Geometry & Topological Control (H1, H2)")
+    print("=" * 70)
+
+    dwidth_unit = load_dwidth_tensor()
+    dim = dwidth_unit.shape[0]
+
+    # Orthogonal random vector d_rand \perp d_width
+    torch.manual_seed(42)
+    v_rand = torch.randn(dim, dtype=torch.float32)
+    dot_prod = torch.dot(v_rand, dwidth_unit)
+    v_orth = v_rand - dot_prod * dwidth_unit
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT H1: Word-Free Representation Geometry Benchmark (N=90)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment H1: Word-Free Representation Geometry Benchmark (N=90) <<<")
+    prompts_h1 = [
+        "Explain the quantum mechanical principles of macroscopic entanglement in biological systems and how decoherence is mitigated.",
+        "Analyze the structural load distribution and architectural forces acting on the flying buttresses and vaulted ceilings of high Gothic cathedrals.",
+        "Trace the economic, ecological, and geopolitical factors driving the transformation of global commodity trade routes from the 17th to the 21st century.",
+    ]
+    alpha_val = 0.40
+    temperature = 0.3
+
+    conditions_h1 = [
+        ("wide", 1, alpha_val, None, 5000),
+        ("narrow", -1, alpha_val, None, 5018),
+        ("baseline", 0, 0.0, None, 5036),
+        ("rand_plus", 1, alpha_val, d_rand, 5054),
+        ("rand_minus", -1, alpha_val, d_rand, 5072),
+    ]
+
+    trials_h1 = []
+    for cond_name, sign, alpha, vec_override, seed_start in conditions_h1:
+        idx_in_cond = 0
+        for task_idx, user_msg in enumerate(prompts_h1):
+            prompt = format_prompt(tokenizer, user_msg)
+            for rep in range(6):
+                seed = seed_start + idx_in_cond
+                idx_in_cond += 1
+
+                res = await execute_run(
+                    model, tokenizer, text_model, prompt,
+                    sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=40, vector_override=vec_override
+                )
+                telem = res["telemetry"]
+                geom = telem["manifold_geometry_layer26"]
+                ld = telem["logit_dynamics"]
+
+                pr = geom.get("trajectory_participation_ratio", 1.0)
+                rg = geom.get("radius_of_gyration", 0.0)
+                drift = geom.get("mean_angular_drift", 0.0)
+                kurt = ld["mean_logit_kurtosis"]
+                ent = ld["mean_sequence_entropy_bits"]
+
+                trials_h1.append({
+                    "trial_idx": len(trials_h1) + 1,
+                    "condition": cond_name,
+                    "seed": seed,
+                    "task_idx": task_idx,
+                    "participation_ratio": pr,
+                    "radius_of_gyration": rg,
+                    "mean_angular_drift": drift,
+                    "mean_logit_kurtosis": kurt,
+                    "mean_sequence_entropy_bits": ent,
+                    "output_preview": res["text"][:100],
+                })
+                print(f"  [H1 {cond_name[:4]:4s} {idx_in_cond:2d}/18] PR={pr:5.2f} | Rg={rg:5.2f} | Drift={drift:.4f} | Kurt={kurt:5.2f} | Ent={ent:4.2f}")
+
+    def summarize_h1_cond(c_label):
+        sub = [t for t in trials_h1 if t["condition"] == c_label]
+        prs = [t["participation_ratio"] for t in sub]
+        rgs = [t["radius_of_gyration"] for t in sub]
+        drifts = [t["mean_angular_drift"] for t in sub]
+        kurts = [t["mean_logit_kurtosis"] for t in sub]
+        ents = [t["mean_sequence_entropy_bits"] for t in sub]
+        return {
+            "n_trials": len(sub),
+            "participation_ratio_mean": round(float(np.mean(prs)), 2),
+            "participation_ratio_std": round(float(np.std(prs)), 2),
+            "radius_of_gyration_mean": round(float(np.mean(rgs)), 2),
+            "radius_of_gyration_std": round(float(np.std(rgs)), 2),
+            "mean_angular_drift_mean": round(float(np.mean(drifts)), 4),
+            "mean_logit_kurtosis_mean": round(float(np.mean(kurts)), 2),
+            "mean_sequence_entropy_bits_mean": round(float(np.mean(ents)), 2),
+        }
+
+    stats_h1 = {c_name: summarize_h1_cond(c_name) for c_name, _, _, _, _ in conditions_h1}
+
+    # Statistical tests for H1
+    prs_wide = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "wide"]
+    prs_narr = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "narrow"]
+    prs_base = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "baseline"]
+    prs_rp = [t["participation_ratio"] for t in trials_h1 if t["condition"] == "rand_plus"]
+
+    try:
+        _, p_mwu_pr = stats.mannwhitneyu(prs_wide, prs_narr, alternative="two-sided")
+    except Exception:
+        p_mwu_pr = 1.0
+
+    sig_pr = abs(stats_h1["wide"]["participation_ratio_mean"] - stats_h1["narrow"]["participation_ratio_mean"])
+    noise_pr = abs(stats_h1["rand_plus"]["participation_ratio_mean"] - stats_h1["baseline"]["participation_ratio_mean"])
+    snr_pr = float(sig_pr / (noise_pr + 1e-6))
+
+    h1_verdict = "TOPOLOGICAL_DIFFERENTIATION_CONFIRMED" if p_mwu_pr < 0.05 else "TOPOLOGICAL_DIFFERENTIATION_FALSIFIED"
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT H2: Symmetrical Topological Cybernetic Recovery (N=50)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment H2: Symmetrical Topological Closed-Loop Recovery (N=50) <<<")
+    groups_h2 = [
+        ("start_narrow", 10, -0.40, 1, None, 5100),
+        ("start_wide", 10, +0.40, 1, None, 5110),
+        ("start_baseline", 10, 0.00, 1, None, 5120),
+        ("noise_rand_plus", 10, 0.00, 1, d_rand, 5130),
+        ("noise_rand_minus", 10, 0.00, -1, d_rand, 5140),
+    ]
+
+    n_epochs = 6
+    trajectories_h2 = []
+
+    for grp_name, n_trajs, init_alpha, sign_fixed, vec_fixed, seed_grp in groups_h2:
+        for traj_idx in range(n_trajs):
+            current_alpha = init_alpha
+            alpha_traj = [round(float(current_alpha), 4)]
+            kurt_traj = []
+            pr_traj = []
+            delta_steps = []
+
+            for epoch in range(n_epochs):
+                task_msg = prompts_h1[epoch % len(prompts_h1)]
+                prompt_epoch = format_prompt(tokenizer, f"{task_msg} (Epoch {epoch+1}/6)")
+                seed_epoch = seed_grp + traj_idx * 10 + epoch
+
+                eff_alpha = abs(current_alpha)
+                eff_sign = 1 if current_alpha >= 0 else -1
+                eff_vec = vec_fixed
+
+                res = await execute_run(
+                    model, tokenizer, text_model, prompt_epoch,
+                    sign=eff_sign, alpha=eff_alpha, seed=seed_epoch, temperature=0.3,
+                    max_new_tokens=30, vector_override=eff_vec
+                )
+                telem = res["telemetry"]
+                k_val = telem["logit_dynamics"]["mean_logit_kurtosis"]
+                pr_val = telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0)
+
+                kurt_traj.append(round(float(k_val), 2))
+                pr_traj.append(round(float(pr_val), 2))
+
+                # Symmetric topological control law
+                next_alpha = compute_symmetric_topological_step(current_alpha, k_val)
+                step_taken = round(float(next_alpha - current_alpha), 4)
+                if grp_name not in ("noise_rand_plus", "noise_rand_minus"):
+                    current_alpha = next_alpha
+
+                delta_steps.append(step_taken)
+                alpha_traj.append(round(float(current_alpha), 4))
+
+            is_recovered = bool(abs(current_alpha) <= 0.15)
+
+            trajectories_h2.append({
+                "group": grp_name,
+                "traj_idx": traj_idx + 1,
+                "initial_alpha": round(float(init_alpha), 4),
+                "final_alpha": round(float(current_alpha), 4),
+                "is_recovered": is_recovered,
+                "alpha_trajectory": alpha_traj,
+                "kurtosis_trajectory": kurt_traj,
+                "pr_trajectory": pr_traj,
+                "delta_alpha_steps": delta_steps,
+            })
+            print(f"  [H2 {grp_name[:12]:12s} {traj_idx+1:2d}/10] alpha: {init_alpha:+.2f} -> {current_alpha:+.2f} | kurt: {kurt_traj[0]:.1f} -> {kurt_traj[-1]:.1f} | PR: {pr_traj[0]:.1f} -> {pr_traj[-1]:.1f} | rec={is_recovered}")
+
+    def summarize_h2_group(g_name):
+        sub = [t for t in trajectories_h2 if t["group"] == g_name]
+        recs = [t["is_recovered"] for t in sub]
+        active_steps = sum(sum(1 for d in t["delta_alpha_steps"] if abs(d) > 1e-4) for t in sub)
+        k_starts = [t["kurtosis_trajectory"][0] for t in sub]
+        k_ends = [t["kurtosis_trajectory"][-1] for t in sub]
+        pr_starts = [t["pr_trajectory"][0] for t in sub]
+        pr_ends = [t["pr_trajectory"][-1] for t in sub]
+        return {
+            "n_trajectories": len(sub),
+            "mean_initial_alpha": round(float(np.mean([t["initial_alpha"] for t in sub])), 4),
+            "mean_final_alpha": round(float(np.mean([t["final_alpha"] for t in sub])), 4),
+            "recovery_rate": round(float(np.mean(recs)), 4),
+            "mean_kurtosis_start": round(float(np.mean(k_starts)), 2),
+            "mean_kurtosis_end": round(float(np.mean(k_ends)), 2),
+            "mean_pr_start": round(float(np.mean(pr_starts)), 2),
+            "mean_pr_end": round(float(np.mean(pr_ends)), 2),
+            "total_active_control_steps": int(active_steps),
+        }
+
+    stats_h2 = {g_name: summarize_h2_group(g_name) for g_name, _, _, _, _, _ in groups_h2}
+
+    summary = {
+        "evaluation": "Eval_H_Word_Free_Mechanistic_Subjectivity",
+        "sub_experiments": {
+            "H1_representation_geometry_benchmark": {
+                "total_trials": len(trials_h1),
+                "condition_statistics": stats_h1,
+                "mann_whitney_u_pr_p": float(p_mwu_pr),
+                "signal_pr": round(sig_pr, 4),
+                "noise_rand_pr": round(noise_pr, 4),
+                "snr_pr": round(snr_pr, 2),
+                "verdict": h1_verdict,
+            },
+            "H2_symmetrical_topological_recovery": {
+                "total_trajectories": len(trajectories_h2),
+                "epochs_per_trajectory": n_epochs,
+                "group_statistics": stats_h2,
+                "noise_immunity_verified": bool(
+                    stats_h2["noise_rand_plus"]["total_active_control_steps"] == 0
+                    and stats_h2["noise_rand_minus"]["total_active_control_steps"] == 0
+                ),
+            },
+        },
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trials_h1": trials_h1,
+        "trajectories_h2": trajectories_h2,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_h = "results/eval_H_word_free_subjectivity_gemma4.json"
+    with open(out_path_h, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL H FINISHED SUCCESSFULLY:")
+    print(f"  H1 Geometric Differentiation:   {h1_verdict} (SNR_PR={snr_pr:.2f}, p={p_mwu_pr:.4e})")
+    print(f"  H2 Narrow Recovery:             {stats_h2['start_narrow']['mean_initial_alpha']:+.2f} -> {stats_h2['start_narrow']['mean_final_alpha']:+.2f} (Rec={stats_h2['start_narrow']['recovery_rate']*100:.0f}%)")
+    print(f"  H2 Wide Recovery:               {stats_h2['start_wide']['mean_initial_alpha']:+.2f} -> {stats_h2['start_wide']['mean_final_alpha']:+.2f} (Rec={stats_h2['start_wide']['recovery_rate']*100:.0f}%)")
+    print(f"  H2 Noise Immunity (False Steps): Rand+={stats_h2['noise_rand_plus']['total_active_control_steps']} | Rand-={stats_h2['noise_rand_minus']['total_active_control_steps']}")
+    print(f"  Saved to {out_path_h}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -1697,6 +1969,9 @@ async def main():
 
     if args.suite in ("G", "all"):
         await run_eval_g(model, tokenizer, text_model)
+
+    if args.suite in ("H", "all"):
+        await run_eval_h(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 

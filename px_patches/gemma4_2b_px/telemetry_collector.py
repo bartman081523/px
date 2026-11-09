@@ -223,6 +223,7 @@ class Gemma4ManifoldGeometryTracker:
         self.post_cos_sims = []
         self.final_cos_sims = []
         self.emancipation_trajectory = []
+        self.final_hidden_states = []
         self.first_token_h26 = None
         self.handles = []
 
@@ -234,6 +235,7 @@ class Gemma4ManifoldGeometryTracker:
             h = o[0] if isinstance(o, (tuple, list)) else o
             with torch.no_grad():
                 lp = h[:, -1, :].float()
+                self.final_hidden_states.append(lp[0].detach().cpu())
                 if self.d_unit is not None:
                     sim = F.cosine_similarity(lp[0:1], self.d_unit.to(lp.device)).item()
                     self.final_cos_sims.append(float(sim))
@@ -265,12 +267,43 @@ class Gemma4ManifoldGeometryTracker:
                 pass
         self.handles.clear()
 
+    def compute_trajectory_metrics(self) -> Dict[str, float]:
+        if not self.final_hidden_states or len(self.final_hidden_states) < 2:
+            return {
+                "trajectory_participation_ratio": 1.0,
+                "radius_of_gyration": 0.0,
+                "mean_angular_drift": 0.0,
+            }
+
+        H = torch.stack(self.final_hidden_states, dim=0).float()
+        mean_h = H.mean(dim=0, keepdim=True)
+        H_c = H - mean_h
+        rg = float(torch.sqrt(torch.mean(torch.sum(H_c ** 2, dim=-1))).item())
+
+        try:
+            s = torch.linalg.svdvals(H_c)
+            var = s ** 2
+            sum_var = torch.sum(var).item()
+            sum_var_sq = torch.sum(var ** 2).item()
+            pr = float((sum_var ** 2) / (sum_var_sq + 1e-12)) if sum_var_sq > 0 else 1.0
+        except Exception:
+            pr = 1.0
+
+        cos_sims = F.cosine_similarity(H[:-1], H[1:], dim=-1)
+        drift = float(torch.mean(1.0 - cos_sims).item())
+
+        return {
+            "trajectory_participation_ratio": round(pr, 4),
+            "radius_of_gyration": round(rg, 4),
+            "mean_angular_drift": round(drift, 4),
+        }
+
     def get_summary(self) -> Dict[str, Any]:
         post_mean = float(np.mean(self.post_cos_sims)) if self.post_cos_sims else 0.0
         final_mean = float(np.mean(self.final_cos_sims)) if self.final_cos_sims else 0.0
         delta_attenuation = float(final_mean - post_mean) if self.final_cos_sims and self.post_cos_sims else 0.0
 
-        return {
+        res = {
             "pre_hook_residual_norm_mean": round(float(np.mean(self.pre_hook_norms)), 4) if self.pre_hook_norms else 0.0,
             "injected_vector_norm": round(float(np.mean(self.inj_norms)), 4) if self.inj_norms else 0.0,
             "effective_alpha_ratio": round(float(np.mean(self.alpha_ratios)), 4) if self.alpha_ratios else 0.0,
@@ -280,6 +313,8 @@ class Gemma4ManifoldGeometryTracker:
             "delta_cos_sim_attenuation": round(delta_attenuation, 4),
             "emancipation_trajectory": [round(d, 4) for d in self.emancipation_trajectory],
         }
+        res.update(self.compute_trajectory_metrics())
+        return res
 
 
 def assemble_enriched_telemetry(
@@ -343,6 +378,9 @@ def assemble_enriched_telemetry(
             "final_layer_cos_sim_d_width_mean": 0.0,
             "delta_cos_sim_attenuation": 0.0,
             "emancipation_trajectory": [],
+            "trajectory_participation_ratio": 1.0,
+            "radius_of_gyration": 0.0,
+            "mean_angular_drift": 0.0,
         }
 
     return {

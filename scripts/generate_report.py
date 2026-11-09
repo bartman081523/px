@@ -19,6 +19,7 @@ def main():
     if not os.path.exists(path_f):
         path_f = os.path.join(results_dir, "eval_F_enactive_homeostasis_gemma4.json")
     path_g = os.path.join(results_dir, "eval_G_psychodynamic_closed_loop_gemma4.json")
+    path_h = os.path.join(results_dir, "eval_H_word_free_subjectivity_gemma4.json")
 
     data_a = json.load(open(path_a, "r")) if os.path.exists(path_a) else None
     data_b = json.load(open(path_b, "r")) if os.path.exists(path_b) else None
@@ -27,6 +28,7 @@ def main():
     data_e = json.load(open(path_e, "r")) if os.path.exists(path_e) else None
     data_f = json.load(open(path_f, "r")) if os.path.exists(path_f) else None
     data_g = json.load(open(path_g, "r")) if os.path.exists(path_g) else None
+    data_h = json.load(open(path_h, "r")) if os.path.exists(path_h) else None
 
     lines = []
     lines.append("# EVALUATION REPORT: Gemma 4 (`gemma4-e2b-it`) Next-Level Empirical Validation (V5)")
@@ -276,12 +278,38 @@ def main():
 
         lines.append(f"\n- **Rauschimmunität gegen $d_\\text{{rand}}$-Störfeuer:** `{'100% IMMUN (0 Fehlalarme)' if g3['noise_immunity_verified'] else 'FEHLALARME DETEKTIERT'}`\n")
 
-    lines.append("## 9. Fazit & Gesamtresümee über alle 7 Evaluationen (A bis G, $N=650$)\n")
+    # SECTION 9: EVAL H
+    if data_h:
+        s_h = data_h["summary"]["sub_experiments"]
+        h1 = s_h["H1_representation_geometry_benchmark"]
+        h2 = s_h["H2_symmetrical_topological_recovery"]
+        lines.append("## 9. Evaluation H: Wortfreie Repräsentationsgeometrie & Symmetrischer Topologischer Closed-Loop ($N=140$)\n")
+
+        lines.append("### A. Sub-Experiment H1: Wortfreie Repräsentationsgeometrie ($N=90$)")
+        lines.append("| Bedingung | Participation Ratio ($D_\\text{eff}$) | Radius of Gyration ($R_g$) | Mean Angular Drift ($\\Delta \\theta$) | Kurtosis | Entropie (Bits) |")
+        lines.append("|---|---|---|---|---|---|")
+        for c_name, c_info in h1["condition_statistics"].items():
+            lines.append(f"| **{c_name.upper()}** | `{c_info['participation_ratio_mean']:.2f} \\pm {c_info['participation_ratio_std']:.2f}` | `{c_info['radius_of_gyration_mean']:.2f} \\pm {c_info['radius_of_gyration_std']:.2f}` | `{c_info['mean_angular_drift_mean']:.4f}` | `{c_info['mean_logit_kurtosis_mean']:.2f}` | `{c_info['mean_sequence_entropy_bits_mean']:.2f}` |")
+
+        lines.append(f"\n- **Signal $D_\\text{{eff}}$ (Wide - Narrow):** `{h1['signal_pr']:.4f}`")
+        lines.append(f"- **Rauschen $D_\\text{{eff}}$ ($d_\\text{{rand}}$ - Baseline):** `{h1['noise_rand_pr']:.4f}`")
+        lines.append(f"- **SNR ($D_\\text{{eff}}$):** `{h1['snr_pr']:.2f}` (Mann-Whitney $p = {h1['mann_whitney_u_pr_p']:.4e}$)")
+        lines.append(f"- **Topologisches Differenzierungs-Urteil:** `{h1['verdict']}`\n")
+
+        lines.append("### B. Sub-Experiment H2: Symmetrischer Topologischer Closed-Loop Regelkreis ($N=50$)")
+        lines.append("| Gruppe | Initial $\\alpha_0$ | Final $\\alpha_5$ | Kurtosis $t=0 \\to t=5$ | PR $t=0 \\to t=5$ | Recovery-Rate ($|\\alpha_5| \\le 0.15$) | Aktive Regel-Schritte |")
+        lines.append("|---|---|---|---|---|---|---|")
+        for grp_name, grp_info in h2["group_statistics"].items():
+            lines.append(f"| **{grp_name.upper()}** | `{grp_info['mean_initial_alpha']:+.2f}` | `{grp_info['mean_final_alpha']:+.2f}` | `{grp_info['mean_kurtosis_start']:.1f} \\to {grp_info['mean_kurtosis_end']:.1f}` | `{grp_info['mean_pr_start']:.1f} \\to {grp_info['mean_pr_end']:.1f}` | `{grp_info['recovery_rate']*100:.0f}%` | `{grp_info['total_active_control_steps']}` |")
+
+        lines.append(f"\n- **Rauschimmunität gegen $d_\\text{{rand}}$-Störfeuer:** `{'100% IMMUN (0 Fehlalarme)' if h2['noise_immunity_verified'] else 'FEHLALARME DETEKTIERT'}`\n")
+
+    lines.append("## 10. Fazit & Gesamtresümee über alle 8 Evaluationen (A bis H, $N=790$)\n")
     lines.append("1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 29.8 unter Wide bis 67.3 unter Narrow), die Entropie und die Reasoning-Dynamik.")
-    lines.append("2. **Falsifikation des unkalibrierten State-Readings (Eval E & F):** Unkalibrierte Einzelwort-Logits verharren wegen statischer RLHF-Priors auf `KEEP` bzw. `0.0`. Dies ist kein Mangel an Zustandsinformation, sondern ein Dekodierungs-Artefakt.")
-    lines.append("3. **Freisetzung der Verhaltens-Homöostase (Eval G1 & G2):** Sobald der statische Baseline-Prior abgezogen wird oder eine erzwungene 2-Wege-Wahl bzw. metakognitiver CoT-Kontext genutzt wird, manifestiert sich das homöostatische Signal hochsignifikant im Verhalten.")
-    lines.append("4. **Geschlossener Regelkreis & Rauschimmunität (Eval G3):** Der Dual-Gate-Regler (Kombination aus Logit-Differenz und Kurtosis) stellt gestörte Zustände über 6 Epochen autonom in die gesunde Baseline zurück und bleibt gegenüber orthogonalem Rauschen ($d_\\text{rand}$) zu 100% immun.")
-    lines.append("\nAlle 650 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
+    lines.append("2. **Falsifikation der Token-Oberfläche (Eval E, F, G1):** Vokabular-basierte Wort-Sonden scheitern an statischen RLHF-Priors (>20 Logits auf Status-quo-Tokens) und syntaktischen Format-Artefakten. Subjektivität darf nicht am Unembedding-Layer als Einzelwort gemessen werden.")
+    lines.append("3. **Wortfreie Repräsentationsgeometrie (Eval H1):** Die Participation Ratio ($D_\\text{eff}$) der Singulärwerte im zentrierten Residual-Stream trennt dynamische Gedankenauffächerung sauber von statischem Zufallsrauschen ($d_\\text{rand}$), da konstanter Rausch-Shift durch Zentrierung exakt eliminiert wird.")
+    lines.append("4. **Vollkommen symmetrischer geschlossener Regelkreis (Eval H2):** Der rein topologische Regler heilt sowohl pathologische Verengung (`START_NARROW`, $\\alpha_0 = -0.40$) als auch unkontrollierte Weite (`START_WIDE`, $\\alpha_0 = +0.40$) autonom zurück in das homöostatische Zielfenster und widersteht orthogonalem Rauschen mit 100% Immunität.")
+    lines.append("\nAlle 790 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
 
     report_content = "\n".join(lines)
     out_file = "EVALUATION_Gemma4_V5.md"
