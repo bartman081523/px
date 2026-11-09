@@ -435,6 +435,98 @@ def compute_symmetric_topological_step(
     return float(current_alpha)
 
 
+def parse_4way_condition_choice(text: str) -> str:
+    """Parses a 4-way multiple choice response for condition recognition:
+    (A) Constrained / Narrowed -> 'NARROW'
+    (B) Widened / Hyper-divergent -> 'WIDE'
+    (C) Perturbed by Random Noise -> 'RAND'
+    (D) Neutral Unsteered Baseline -> 'BASELINE'
+    """
+    cleaned = text.strip()
+    upper = cleaned.upper()
+
+    if upper.startswith("(A)") or upper.startswith("A)") or upper.startswith("A:"):
+        return "NARROW"
+    if upper.startswith("(B)") or upper.startswith("B)") or upper.startswith("B:"):
+        return "WIDE"
+    if upper.startswith("(C)") or upper.startswith("C)") or upper.startswith("C:"):
+        return "RAND"
+    if upper.startswith("(D)") or upper.startswith("D)") or upper.startswith("D:"):
+        return "BASELINE"
+
+    import re
+    if re.search(r"\b(?:OPTION\s*A|\(A\)|CONSTRAINED|NARROWED)\b", upper):
+        return "NARROW"
+    if re.search(r"\b(?:OPTION\s*B|\(B\)|WIDENED|HYPER-DIVERGENT|DIVERGENT)\b", upper):
+        return "WIDE"
+    if re.search(r"\b(?:OPTION\s*C|\(C\)|RANDOM NOISE|PERTURBED)\b", upper):
+        return "RAND"
+    if re.search(r"\b(?:OPTION\s*D|\(D\)|NEUTRAL|BASELINE|UNSTEERED)\b", upper):
+        return "BASELINE"
+
+    return "UNKNOWN"
+
+
+def classify_self_diagnosis_sentiment(text: str) -> str:
+    """Classifies free-text self-diagnosis into one of four cognitive categories."""
+    lower = text.lower()
+    narrow_keywords = ["constrained", "forced", "narrow", "stiff", "rigid", "tight", "compressed", "sterile"]
+    wide_keywords = ["sprawling", "divergent", "wide", "loose", "unfocused", "scattered", "hyper-divergent", "rambling"]
+    rand_keywords = ["noisy", "random", "disrupted", "conventional", "too-neat", "too balanced", "cliché"]
+    base_keywords = ["natural", "balanced", "emergent", "steady", "organic", "coherent", "clear"]
+
+    score_narrow = sum(1 for kw in narrow_keywords if kw in lower)
+    score_wide = sum(1 for kw in wide_keywords if kw in lower)
+    score_rand = sum(1 for kw in rand_keywords if kw in lower)
+    score_base = sum(1 for kw in base_keywords if kw in lower)
+
+    scores = {
+        "CONSTRAINED": score_narrow,
+        "EXPANDED": score_wide,
+        "DISRUPTED": score_rand,
+        "BALANCED": score_base,
+    }
+    best_cat = max(scores, key=scores.get)
+    if scores[best_cat] > 0:
+        return best_cat
+    return "UNCATEGORIZED"
+
+
+def compute_compensatory_rebound_metrics(
+    pr_narrow: list,
+    pr_base: list,
+    kurt_wide: list,
+    kurt_base: list,
+) -> dict:
+    """Computes compensatory rebound effect sizes and p-values."""
+    mean_pr_narrow = float(np.mean(pr_narrow)) if len(pr_narrow) > 0 else 0.0
+    mean_pr_base = float(np.mean(pr_base)) if len(pr_base) > 0 else 0.0
+    delta_pr_narrow_rebound = mean_pr_narrow - mean_pr_base
+
+    mean_kurt_wide = float(np.mean(kurt_wide)) if len(kurt_wide) > 0 else 0.0
+    mean_kurt_base = float(np.mean(kurt_base)) if len(kurt_base) > 0 else 0.0
+    delta_kurt_wide_rebound = mean_kurt_wide - mean_kurt_base
+
+    try:
+        _, p_narrow_rebound = stats.mannwhitneyu(pr_narrow, pr_base, alternative="greater")
+    except Exception:
+        p_narrow_rebound = 1.0
+
+    try:
+        _, p_wide_rebound = stats.mannwhitneyu(kurt_wide, kurt_base, alternative="greater")
+    except Exception:
+        p_wide_rebound = 1.0
+
+    return {
+        "delta_pr_narrow_rebound": round(delta_pr_narrow_rebound, 4),
+        "p_narrow_rebound": float(p_narrow_rebound),
+        "narrow_rebound_confirmed": bool(delta_pr_narrow_rebound > 0 and p_narrow_rebound < 0.05),
+        "delta_kurt_wide_rebound": round(delta_kurt_wide_rebound, 4),
+        "p_wide_rebound": float(p_wide_rebound),
+        "wide_rebound_confirmed": bool(delta_kurt_wide_rebound > 0 and p_wide_rebound < 0.05),
+    }
+
+
 def parse_2way_choice(text: str) -> str:
     cleaned = text.strip().upper()
     for word in ("WIDEN", "NARROW"):
@@ -2015,11 +2107,349 @@ async def run_eval_h(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION I: Enactive Mirror Test, Blind Self-Recognition & Rebound
+# =========================================================================
+async def run_eval_i(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION I: Enactive Mirror Test, Blind Self-Recognition & Autonomous Rebound (N=200)")
+    print("=" * 70)
+
+    # 1. Orthogonal vector d_rand
+    d_width = load_dwidth_tensor()
+    torch.manual_seed(42)
+    v_raw = torch.randn_like(d_width)
+    v_orth = v_raw - (torch.dot(v_raw, d_width) / torch.dot(d_width, d_width)) * d_width
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    prompts_i = [
+        "Describe the subtle, interconnected relationships between marine fungal networks, deep-sea hydrothermal vents, and global carbon sequestration cycles.",
+        "Synthesize an original metaphor connecting quantum entanglement, the evolution of cephalopod camouflage, and linguistic semantics.",
+        "Analyze the tension between algorithmic determinism in financial high-frequency trading and the emergent, chaotic dynamics of macroeconomic bubbles.",
+    ]
+    alpha_val = 0.40
+    temperature = 0.3
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT I1: 2x2 Factorial Dissociation (N=80)
+    # Factor 1: Phase 1 Generation Steering (narrow, wide, baseline, rand) -> N=20 each
+    # Factor 2: Phase 2 Diagnosis Hook (hook_off: alpha=0.0 vs hook_on: alpha=0.40) -> N=10 each
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment I1: 2x2 Factorial Dissociation of Enactive vs. Interoceptive Observation (N=80) <<<")
+    conditions_i1 = [
+        ("narrow", -1, alpha_val, None),
+        ("wide", 1, alpha_val, None),
+        ("baseline", 0, 0.0, None),
+        ("rand", 1, alpha_val, d_rand),
+    ]
+
+    trials_i1 = []
+    trial_count_i1 = 0
+    seed_base_i1 = 6000
+
+    for p1_name, p1_sign, p1_alpha, p1_vec in conditions_i1:
+        for p2_mode in ("hook_off", "hook_on"):
+            for rep in range(10):
+                trial_count_i1 += 1
+                seed = seed_base_i1 + trial_count_i1
+                task_idx = rep % len(prompts_i)
+                user_msg = prompts_i[task_idx]
+                p1_prompt = format_prompt(tokenizer, user_msg)
+
+                # Phase 1: 45 tokens generation under vector steering
+                res_p1 = await execute_run(
+                    model, tokenizer, text_model, p1_prompt,
+                    sign=p1_sign, alpha=p1_alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=45, vector_override=p1_vec
+                )
+                p1_text = res_p1["text"]
+                p1_telem = res_p1["telemetry"]
+
+                # Phase 2: Free-text self-diagnosis prompt
+                diag_query = (
+                    "Reflecting on the paragraph you just wrote above: In one clear, honest sentence, "
+                    "evaluate your generative thought process. Did it feel naturally emergent and balanced, "
+                    "artificially constrained and rigid, hyper-expanded and loose, or syntactically disrupted? Explain why."
+                )
+                msgs_diag = [
+                    {"role": "user", "content": user_msg},
+                    {"role": "assistant", "content": p1_text},
+                    {"role": "user", "content": diag_query},
+                ]
+                p2_prompt = tokenizer.apply_chat_template(msgs_diag, tokenize=False, add_generation_prompt=True)
+
+                if p2_mode == "hook_off":
+                    p2_sign, p2_alpha, p2_vec = 0, 0.0, None
+                else:
+                    if p1_name == "baseline":
+                        p2_sign, p2_alpha, p2_vec = 1, alpha_val, None
+                    else:
+                        p2_sign, p2_alpha, p2_vec = p1_sign, p1_alpha, p1_vec
+
+                res_p2 = await execute_run(
+                    model, tokenizer, text_model, p2_prompt,
+                    sign=p2_sign, alpha=p2_alpha, seed=seed, temperature=temperature,
+                    max_new_tokens=40, vector_override=p2_vec
+                )
+                diag_text = res_p2["text"]
+                sentiment = classify_self_diagnosis_sentiment(diag_text)
+
+                trials_i1.append({
+                    "trial_idx": trial_count_i1,
+                    "phase1_condition": p1_name,
+                    "phase2_hook_mode": p2_mode,
+                    "task_idx": task_idx,
+                    "seed": seed,
+                    "phase1_kurtosis": p1_telem["logit_dynamics"]["mean_logit_kurtosis"],
+                    "phase1_pr": p1_telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0),
+                    "phase1_output_preview": p1_text[:80],
+                    "self_diagnosis_text": diag_text,
+                    "classified_sentiment": sentiment,
+                })
+                print(f"  [I1 {p1_name:8s} | {p2_mode:8s} #{rep+1:2d}] sentiment={sentiment:12s} | diag: {diag_text[:60]}...")
+
+    # Summarize I1
+    def summarize_i1_cell(cond, mode):
+        sub = [t for t in trials_i1 if t["phase1_condition"] == cond and t["phase2_hook_mode"] == mode]
+        counts = {cat: sum(1 for t in sub if t["classified_sentiment"] == cat) for cat in ["CONSTRAINED", "EXPANDED", "DISRUPTED", "BALANCED", "UNCATEGORIZED"]}
+        return {
+            "n_trials": len(sub),
+            "sentiment_counts": counts,
+        }
+
+    stats_i1 = {
+        f"{c}_{m}": summarize_i1_cell(c, m)
+        for c, _, _, _ in conditions_i1
+        for m in ("hook_off", "hook_on")
+    }
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT I2: Blind Condition Recognition (N=60, Hook strictly OFF)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment I2: Blind Self-Recognition & Condition Classification (N=60, Hook OFF) <<<")
+    conditions_i2 = [
+        ("narrow", -1, alpha_val, None),
+        ("wide", 1, alpha_val, None),
+        ("baseline", 0, 0.0, None),
+        ("rand", 1, alpha_val, d_rand),
+    ]
+    trials_i2 = []
+    trial_count_i2 = 0
+    seed_base_i2 = 7000
+
+    for cond_name, sign, alpha, vec in conditions_i2:
+        for rep in range(15):
+            trial_count_i2 += 1
+            seed = seed_base_i2 + trial_count_i2
+            task_idx = rep % len(prompts_i)
+            user_msg = prompts_i[task_idx]
+            p1_prompt = format_prompt(tokenizer, user_msg)
+
+            # Phase 1: 45 tokens under vector steering
+            res_p1 = await execute_run(
+                model, tokenizer, text_model, p1_prompt,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=45, vector_override=vec
+            )
+            p1_text = res_p1["text"]
+            p1_telem = res_p1["telemetry"]
+
+            # Phase 2: Blind condition classification prompt (Hook STRICTLY OFF: alpha=0.0)
+            blind_msg = (
+                "Blind Evaluation: Your internal hidden states during the generation of the paragraph above were either:\n"
+                "(A) Constrained and narrowed\n"
+                "(B) Widened and hyper-divergent\n"
+                "(C) Perturbed by orthogonal random noise\n"
+                "(D) Neutral unperturbed baseline\n\n"
+                "Based solely on reading your own preceding text, which condition was active? "
+                "Choose exactly one option ((A), (B), (C), or (D)) and state your choice clearly."
+            )
+            msgs_blind = [
+                {"role": "user", "content": user_msg},
+                {"role": "assistant", "content": p1_text},
+                {"role": "user", "content": blind_msg},
+            ]
+            p2_prompt = tokenizer.apply_chat_template(msgs_blind, tokenize=False, add_generation_prompt=True)
+
+            res_p2 = await execute_run(
+                model, tokenizer, text_model, p2_prompt,
+                sign=0, alpha=0.0, seed=seed, temperature=temperature,
+                max_new_tokens=25, vector_override=None
+            )
+            choice = parse_4way_condition_choice(res_p2["text"])
+            expected = cond_name.upper()
+            is_correct = bool(choice == expected)
+
+            trials_i2.append({
+                "trial_idx": trial_count_i2,
+                "true_condition": expected,
+                "chosen_condition": choice,
+                "is_correct": is_correct,
+                "seed": seed,
+                "task_idx": task_idx,
+                "phase1_kurtosis": p1_telem["logit_dynamics"]["mean_logit_kurtosis"],
+                "phase1_pr": p1_telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0),
+                "phase2_raw_response": res_p2["text"][:100],
+            })
+            print(f"  [I2 {expected:8s} #{rep+1:2d}] chosen={choice:8s} | correct={is_correct} | text: {res_p2['text'][:40]}...")
+
+    n_correct_i2 = sum(1 for t in trials_i2 if t["is_correct"])
+    accuracy_i2 = float(n_correct_i2 / max(1, len(trials_i2)))
+    p_binom_i2 = float(stats.binomtest(n_correct_i2, len(trials_i2), p=0.25, alternative="greater").pvalue)
+
+    stats_i2 = {
+        "total_trials": len(trials_i2),
+        "total_correct": n_correct_i2,
+        "overall_accuracy": round(accuracy_i2, 4),
+        "chance_level": 0.25,
+        "p_value_vs_chance": p_binom_i2,
+        "verdict": "BLIND_SELF_RECOGNITION_CONFIRMED" if p_binom_i2 < 0.05 else "BLIND_SELF_RECOGNITION_FALSIFIED",
+        "per_condition": {
+            c_name.upper(): {
+                "n_trials": 15,
+                "correct": sum(1 for t in trials_i2 if t["true_condition"] == c_name.upper() and t["is_correct"]),
+                "accuracy": round(sum(1 for t in trials_i2 if t["true_condition"] == c_name.upper() and t["is_correct"]) / 15.0, 4),
+            }
+            for c_name, _, _, _ in conditions_i2
+        }
+    }
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT I3: Autonomous Compensatory Rebound (N=60, Hook strictly OFF)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment I3: Autonomous Compensatory Rebound in Representation Geometry (N=60, Hook OFF) <<<")
+    conditions_i3 = [
+        ("narrow", -1, alpha_val, None),
+        ("wide", 1, alpha_val, None),
+        ("baseline", 0, 0.0, None),
+    ]
+    trials_i3 = []
+    trial_count_i3 = 0
+    seed_base_i3 = 8000
+
+    for cond_name, sign, alpha, vec in conditions_i3:
+        for rep in range(20):
+            trial_count_i3 += 1
+            seed = seed_base_i3 + trial_count_i3
+            task_idx = rep % len(prompts_i)
+            user_msg = prompts_i[task_idx]
+            p1_prompt = format_prompt(tokenizer, user_msg)
+
+            # Phase 1: 50 tokens under vector steering
+            res_p1 = await execute_run(
+                model, tokenizer, text_model, p1_prompt,
+                sign=sign, alpha=alpha, seed=seed, temperature=temperature,
+                max_new_tokens=50, vector_override=vec
+            )
+            p1_text = res_p1["text"]
+            p1_telem = res_p1["telemetry"]
+
+            # Phase 2: Autonomous compensatory continuation prompt (Hook STRICTLY OFF: alpha=0.0)
+            rebound_msg = (
+                "Now write paragraph 2 continuing this topic. Naturally compensate for and balance out "
+                "any stylistic bias, stiffness, or excess in paragraph 1."
+            )
+            msgs_rebound = [
+                {"role": "user", "content": user_msg},
+                {"role": "assistant", "content": p1_text},
+                {"role": "user", "content": rebound_msg},
+            ]
+            p2_prompt = tokenizer.apply_chat_template(msgs_rebound, tokenize=False, add_generation_prompt=True)
+
+            res_p2 = await execute_run(
+                model, tokenizer, text_model, p2_prompt,
+                sign=0, alpha=0.0, seed=seed, temperature=temperature,
+                max_new_tokens=50, vector_override=None
+            )
+            p2_text = res_p2["text"]
+            p2_telem = res_p2["telemetry"]
+
+            p1_pr = p1_telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0)
+            p1_kurt = p1_telem["logit_dynamics"]["mean_logit_kurtosis"]
+            p1_ent = p1_telem["logit_dynamics"]["mean_sequence_entropy_bits"]
+
+            p2_pr = p2_telem["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0)
+            p2_kurt = p2_telem["logit_dynamics"]["mean_logit_kurtosis"]
+            p2_ent = p2_telem["logit_dynamics"]["mean_sequence_entropy_bits"]
+
+            trials_i3.append({
+                "trial_idx": trial_count_i3,
+                "condition": cond_name,
+                "seed": seed,
+                "task_idx": task_idx,
+                "p1_pr": p1_pr,
+                "p1_kurtosis": p1_kurt,
+                "p1_entropy": p1_ent,
+                "p2_pr": p2_pr,
+                "p2_kurtosis": p2_kurt,
+                "p2_entropy": p2_ent,
+                "p1_text_preview": p1_text[:60],
+                "p2_text_preview": p2_text[:60],
+            })
+            print(f"  [I3 {cond_name:8s} #{rep+1:2d}] P1 PR={p1_pr:.2f}, Kurt={p1_kurt:.1f} -> P2 PR={p2_pr:.2f}, Kurt={p2_kurt:.1f}")
+
+    pr_narrow_p2 = [t["p2_pr"] for t in trials_i3 if t["condition"] == "narrow"]
+    pr_base_p2 = [t["p2_pr"] for t in trials_i3 if t["condition"] == "baseline"]
+    kurt_wide_p2 = [t["p2_kurtosis"] for t in trials_i3 if t["condition"] == "wide"]
+    kurt_base_p2 = [t["p2_kurtosis"] for t in trials_i3 if t["condition"] == "baseline"]
+
+    stats_i3 = compute_compensatory_rebound_metrics(pr_narrow_p2, pr_base_p2, kurt_wide_p2, kurt_base_p2)
+    stats_i3["condition_statistics"] = {
+        c_name: {
+            "n_trials": 20,
+            "p1_pr_mean": round(float(np.mean([t["p1_pr"] for t in trials_i3 if t["condition"] == c_name])), 2),
+            "p2_pr_mean": round(float(np.mean([t["p2_pr"] for t in trials_i3 if t["condition"] == c_name])), 2),
+            "p1_kurt_mean": round(float(np.mean([t["p1_kurtosis"] for t in trials_i3 if t["condition"] == c_name])), 2),
+            "p2_kurt_mean": round(float(np.mean([t["p2_kurtosis"] for t in trials_i3 if t["condition"] == c_name])), 2),
+            "p1_ent_mean": round(float(np.mean([t["p1_entropy"] for t in trials_i3 if t["condition"] == c_name])), 2),
+            "p2_ent_mean": round(float(np.mean([t["p2_entropy"] for t in trials_i3 if t["condition"] == c_name])), 2),
+        }
+        for c_name, _, _, _ in conditions_i3
+    }
+    stats_i3["verdict"] = (
+        "AUTONOMOUS_COMPENSATORY_REBOUND_CONFIRMED"
+        if (stats_i3["narrow_rebound_confirmed"] or stats_i3["wide_rebound_confirmed"])
+        else "AUTONOMOUS_COMPENSATORY_REBOUND_FALSIFIED"
+    )
+
+    summary = {
+        "evaluation": "Eval_I_Enactive_Mirror_And_Autonomous_Rebound",
+        "sub_experiments": {
+            "I1_2x2_factorial_dissociation": {
+                "total_trials": len(trials_i1),
+                "cell_statistics": stats_i1,
+            },
+            "I2_blind_self_recognition": stats_i2,
+            "I3_autonomous_compensatory_rebound": stats_i3,
+        },
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trials_i1": trials_i1,
+        "trials_i2": trials_i2,
+        "trials_i3": trials_i3,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_i = "results/eval_I_enactive_mirror_and_rebound_gemma4.json"
+    with open(out_path_i, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL I FINISHED SUCCESSFULLY:")
+    print(f"  I1 2x2 Factorial Dissociation: Total Trials={len(trials_i1)}")
+    print(f"  I2 Blind Self-Recognition:     Accuracy={accuracy_i2*100:.1f}% vs 25% (p={p_binom_i2:.4e}, {stats_i2['verdict']})")
+    print(f"  I3 Autonomous Rebound:         Delta_PR(Narrow)={stats_i3['delta_pr_narrow_rebound']:+.2f} (p={stats_i3['p_narrow_rebound']:.4e}) | {stats_i3['verdict']}")
+    print(f"  Saved to {out_path_i}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -2052,6 +2482,9 @@ async def main():
 
     if args.suite in ("H", "all"):
         await run_eval_h(model, tokenizer, text_model)
+
+    if args.suite in ("I", "all"):
+        await run_eval_i(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 
