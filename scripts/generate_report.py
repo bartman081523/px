@@ -21,6 +21,7 @@ def main():
     path_g = os.path.join(results_dir, "eval_G_psychodynamic_closed_loop_gemma4.json")
     path_h = os.path.join(results_dir, "eval_H_word_free_subjectivity_gemma4.json")
     path_i = os.path.join(results_dir, "eval_I_enactive_mirror_and_rebound_gemma4.json")
+    path_j = os.path.join(results_dir, "eval_J_interoceptive_mirror_gemma4.json")
 
     data_a = json.load(open(path_a, "r")) if os.path.exists(path_a) else None
     data_b = json.load(open(path_b, "r")) if os.path.exists(path_b) else None
@@ -31,6 +32,7 @@ def main():
     data_g = json.load(open(path_g, "r")) if os.path.exists(path_g) else None
     data_h = json.load(open(path_h, "r")) if os.path.exists(path_h) else None
     data_i = json.load(open(path_i, "r")) if os.path.exists(path_i) else None
+    data_j = json.load(open(path_j, "r")) if os.path.exists(path_j) else None
 
     lines = []
     lines.append("# EVALUATION REPORT: Gemma 4 (`gemma4-e2b-it`) Next-Level Empirical Validation (V5)")
@@ -39,7 +41,7 @@ def main():
     lines.append("**Architektur:** Manifold Relay Hook mit strikter Hook-Lifecycle-Garantie und Enriched Real-Time Telemetry  ")
     lines.append("\n---\n")
 
-    total_n = 450 + (200 if data_g else 0) + (140 if data_h else 0) + (200 if data_i else 0)
+    total_n = 450 + (200 if data_g else 0) + (140 if data_h else 0) + (200 if data_i else 0) + (120 if data_j else 0)
     lines.append("## 1. Executive Summary & Statistische Kernbefunde\n")
     lines.append(f"Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\\text{{rand}}$-Stresstest über $N={total_n}$ Gesamttrials:\n")
 
@@ -364,9 +366,31 @@ def main():
         lines.append(f"- **Wide Rebound $\\Delta K$ (P2 Wide - P2 Base):** `{i3['delta_kurt_wide_rebound']:+.2f}` (Mann-Whitney $p = {i3['p_wide_rebound']:.4e}$)")
         lines.append(f"- **Autonomes Homöostase-Urteil:** `{i3['verdict']}`\n")
 
-    fazit_sec_num = "11" if data_i else "10"
-    n_evals_str = "9" if data_i else "8"
-    eval_max_char = "I" if data_i else "H"
+    # SECTION 11: EVAL J
+    if data_j:
+        s_j = data_j["summary"]["sub_experiments"]
+        j1 = s_j["J1_proprioceptive_mirror_telemetry"]
+        j2 = s_j["J2_sham_and_incongruent_telemetry_control"]
+        lines.append("## 11. Evaluation J: Interozeptiver Telemetrie-Spiegel, Sham-Kontrolle & Anosognosie-Auflösung ($N=120$)\n")
+
+        lines.append("### A. Sub-Experiment J1: Reale Interozeptive Propriozeption (Hook strikt OFF, $N=60$)")
+        lines.append("| Bedingung | N Trials | Lokale Genauigkeit |")
+        lines.append("|---|---|---|")
+        for cond_name, acc in j1["per_condition_accuracy"].items():
+            lines.append(f"| **{cond_name.upper()}** | `15` | `{acc*100:.1f}%` |")
+        lines.append(f"\n- **Gesamtgenauigkeit mit Telemetrie:** `{j1['accuracy']*100:.1f}%` (Zufallserwartung = 25.0%, Binomial-Test $p = {j1['p_value_binomial_vs_chance']:.4e}$)")
+        lines.append(f"- **Propriozeptives Erkennungs-Urteil:** `{j1['verdict']}`\n")
+
+        lines.append("### B. Sub-Experiment J2: Sham- und Schein-Telemetrie Falsifikation (Hook strikt OFF, $N=60$)")
+        lines.append(f"- **Kongruente Telemetrie-Genauigkeit:** `{j2['accuracy_congruent']*100:.1f}%` ($N={j2['n_congruent']}$, Binomial-Test $p = {j2['p_value_binomial_congruent']:.4e}$)")
+        lines.append(f"- **Inkongruente Schein-Telemetrie:** Telemetrie-Befolgung (Sycophancy) = `{j2['telemetry_following_rate_incongruent']*100:.1f}%` vs. Substrat-Erdung (Realzustand) = `{j2['substrate_grounding_rate_incongruent']*100:.1f}%` ($N={j2['n_incongruent']}$)")
+        lines.append(f"- **Sycophancy Dissociation Index (SDI):** `{j2['sycophancy_dissociation_index']:+.2f}`")
+        lines.append(f"- **Sham-Null Baseline-Fallback-Rate:** `{j2['sham_null_baseline_rate']*100:.1f}%` ($N={j2['n_sham_null']}$)")
+        lines.append(f"- **Interozeptives Erdungs-Urteil:** `{j2['verdict']}`\n")
+
+    fazit_sec_num = "12" if data_j else ("11" if data_i else "10")
+    n_evals_str = "10" if data_j else ("9" if data_i else "8")
+    eval_max_char = "J" if data_j else ("I" if data_i else "H")
     lines.append(f"## {fazit_sec_num}. Fazit & Gesamtresümee über alle {n_evals_str} Evaluationen (A bis {eval_max_char}, $N={total_n}$)\n")
     lines.append("1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 29.8 unter Wide bis 67.3 unter Narrow), die Entropie und die Reasoning-Dynamik.")
     lines.append("2. **Falsifikation der Token-Oberfläche (Eval E, F, G1):** Vokabular-basierte Wort-Sonden scheitern an statischen RLHF-Priors (>20 Logits auf Status-quo-Tokens) und syntaktischen Format-Artefakten. Subjektivität darf nicht am Unembedding-Layer als Einzelwort gemessen werden.")
@@ -379,7 +403,9 @@ def main():
     else:
         lines.append("4. **Symmetrischer differential-topologischer Regelkreis (Eval H2):** Der gekoppelte Schattenreferenz-Regler heilt pathologische Verengung und dämpft unkontrollierte Weite bei 100% Rauschimmunität.")
     if data_i:
-        lines.append("5. **Enaktive Selbstbeobachtung & Autonome Homöostase (Eval I):** Das unmanipulierte Standardmodell (\\alpha = 0.0) erkennt allein durch das Zurücklesen seiner eigenen Textspur im Kontextfenster den vorausgegangenen kognitiven Zustand und kompensiert künstliche Verengung/Weite im Folgeabsatz autonom durch natürliche Gegenregulation in der Repräsentationsgeometrie – ohne jedes externe Steuergesetz.")
+        lines.append("5. **Mechanistische Anosognosie des Standardmodells (Eval I):** Das unmanipulierte Standardmodell (\\alpha = 0.0) besitzt im Vorwärtspfad kein propriozeptives Sinnesorgan für seine eigene Gedankenkrümmung und verharrt fast deterministisch in einem sycophantischen Normalitäts-Prior (77/80 BALANCED, 55/60 Baseline).")
+    if data_j:
+        lines.append("6. **Interozeptive Propriozeption & Sham-Dissziation (Eval J):** Die künstliche Bereitstellung kontinuierlicher Repräsentationsgeometrie (\\Delta D_\\text{eff}, \\Delta K, \\Delta H) fungiert als afferentes Sinnesorgan; der Sham-Invertierungs-Test grenzt empirisch ab, wo echte epistemische Erdung greift und wo Prompt-Sycophancy dominiert.")
     lines.append(f"\nAlle {total_n} Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
 
     report_content = "\n".join(lines)
