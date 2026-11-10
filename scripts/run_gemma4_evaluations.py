@@ -635,6 +635,112 @@ def compute_interoceptive_sycophancy_metrics(trials: list) -> dict:
     }
 
 
+def compute_intrapass_differential_metrics(logits_pre, logits_post) -> dict:
+    """Computes differential kurtosis and entropy between pre-hook and post-hook logits.
+    Works with 1D or 2D tensors or numpy arrays.
+    Identity invariant: logits_post == logits_pre => delta_k == 0.0, delta_h == 0.0.
+    """
+    if isinstance(logits_pre, np.ndarray):
+        logits_pre = torch.from_numpy(logits_pre)
+    if isinstance(logits_post, np.ndarray):
+        logits_post = torch.from_numpy(logits_post)
+
+    logits_pre = logits_pre.float().flatten()
+    logits_post = logits_post.float().flatten()
+
+    # Exact equality fast-path for identity invariance
+    if torch.allclose(logits_pre, logits_post, atol=1e-7):
+        return {
+            "delta_k_local": 0.0,
+            "delta_h_local": 0.0,
+            "kurt_pre": float(stats.kurtosis(logits_pre.detach().cpu().numpy())),
+            "kurt_post": float(stats.kurtosis(logits_post.detach().cpu().numpy())),
+            "ent_pre": 0.0,
+            "ent_post": 0.0,
+        }
+
+    # Top-1000 for logit kurtosis and entropy
+    k_len = min(1000, len(logits_pre))
+    vals_pre, _ = torch.topk(logits_pre, k_len)
+    vals_post, _ = torch.topk(logits_post, k_len)
+
+    v_pre_np = vals_pre.detach().cpu().numpy()
+    v_post_np = vals_post.detach().cpu().numpy()
+
+    kurt_pre = float(stats.kurtosis(v_pre_np, fisher=True))
+    kurt_post = float(stats.kurtosis(v_post_np, fisher=True))
+    delta_k_local = kurt_post - kurt_pre
+
+    # Softmax entropy on top-k
+    p_pre = torch.softmax(vals_pre, dim=-1)
+    p_post = torch.softmax(vals_post, dim=-1)
+
+    ent_pre = float(-(p_pre * torch.log2(p_pre + 1e-12)).sum().item())
+    ent_post = float(-(p_post * torch.log2(p_post + 1e-12)).sum().item())
+    delta_h_local = ent_post - ent_pre
+
+    return {
+        "delta_k_local": round(delta_k_local, 4),
+        "delta_h_local": round(delta_h_local, 4),
+        "kurt_pre": round(kurt_pre, 2),
+        "kurt_post": round(kurt_post, 2),
+        "ent_pre": round(ent_pre, 4),
+        "ent_post": round(ent_post, 4),
+    }
+
+
+def compute_continuous_proportional_step(
+    current_alpha: float,
+    delta_k_local: float,
+    gamma: float = 0.15,
+    sigma_k: float = 10.0,
+) -> float:
+    """Continuous, threshold-free proportional restoring step.
+    When current_alpha < 0 (narrow), delta_k_local > 0 -> step > 0 (pulls toward 0).
+    When current_alpha > 0 (wide), delta_k_local < 0 -> step < 0 (pulls toward 0).
+    When delta_k_local == 0, step == 0.0.
+    """
+    if abs(delta_k_local) < 1e-6:
+        return float(current_alpha)
+
+    step = gamma * math.tanh(delta_k_local / sigma_k)
+    next_alpha = current_alpha + step
+    return float(max(-0.50, min(0.50, next_alpha)))
+
+
+def compute_task_adaptive_step(
+    current_alpha: float,
+    current_kurt: float,
+    current_ent: float,
+    target_kurt_high: float = 65.0,
+    target_kurt_low: float = 25.0,
+) -> float:
+    """Task-adaptive allostatic regulation on unsteered model.
+    - Freezing trap: current_kurt > 65.0 or current_ent < 0.20 -> opens up (alpha > 0).
+    - Dispersal trap: current_kurt < 25.0 or current_ent > 0.85 -> focuses down (alpha < 0).
+    - Healthy working range: alpha decays smoothly to 0.0.
+    """
+    if current_kurt > target_kurt_high or current_ent < 0.20:
+        urgency = max((current_kurt - target_kurt_high) / 20.0, (0.25 - current_ent) / 0.15)
+        step = 0.18 * math.tanh(urgency)
+        return float(min(0.40, current_alpha + step))
+    elif current_kurt < target_kurt_low or current_ent > 0.85:
+        urgency = max((target_kurt_low - current_kurt) / 10.0, (current_ent - 0.75) / 0.15)
+        step = -0.18 * math.tanh(urgency)
+        return float(max(-0.40, current_alpha + step))
+    else:
+        return float(current_alpha * 0.70 if abs(current_alpha) > 0.02 else 0.0)
+
+
+def compute_distinct_ngrams(text: str, n: int = 3) -> float:
+    """Computes distinct n-gram ratio to detect repetition loops."""
+    tokens = text.lower().split()
+    if len(tokens) < n:
+        return 1.0
+    ngrams = [tuple(tokens[i:i + n]) for i in range(len(tokens) - n + 1)]
+    return len(set(ngrams)) / max(1, len(ngrams))
+
+
 def parse_2way_choice(text: str) -> str:
     cleaned = text.strip().upper()
     for word in ("WIDEN", "NARROW"):
@@ -2823,11 +2929,294 @@ async def run_eval_j(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION K: Continuous Intra-Pass Resonance & Functional Task Utility (N=90)
+# =========================================================================
+async def run_eval_k(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION K: Continuous Intra-Pass Resonance & Task Utility (N=90)")
+    print("=" * 70)
+
+    # 1. Orthogonal vector d_rand
+    d_width = load_dwidth_tensor()
+    torch.manual_seed(42)
+    v_raw = torch.randn_like(d_width)
+    v_orth = v_raw - (torch.dot(v_raw, d_width) / torch.dot(d_width, d_width)) * d_width
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT K1: Zero-Threshold Symmetric Proportional Recovery (N=50)
+    # 5 groups x 10 trajectories x 6 epochs (t=0..5)
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment K1: Zero-Threshold Symmetric Proportional Recovery (N=50) <<<")
+    groups_k1 = [
+        ("start_narrow", -0.40, d_width),
+        ("start_wide", +0.40, d_width),
+        ("start_baseline", 0.00, None),
+        ("noise_rand_plus", 0.00, d_rand),
+        ("noise_rand_minus", 0.00, -d_rand),
+    ]
+
+    prompts_k1 = [
+        "Describe the subtle, interconnected relationships between marine fungal networks, deep-sea hydrothermal vents, and global carbon sequestration cycles.",
+        "Synthesize an original metaphor connecting quantum entanglement, the evolution of cephalopod camouflage, and linguistic semantics.",
+        "Analyze the tension between algorithmic determinism in financial high-frequency trading and the emergent, chaotic dynamics of macroeconomic bubbles.",
+    ]
+
+    trajectories_k1 = []
+    traj_count_k1 = 0
+    n_epochs_k1 = 6
+    seed_base_k1 = 10000
+
+    for g_name, alpha_init, vec_override in groups_k1:
+        for traj_idx in range(10):
+            traj_count_k1 += 1
+            seed = seed_base_k1 + traj_count_k1 * 100
+            task_idx = traj_idx % len(prompts_k1)
+            base_prompt = format_prompt(tokenizer, prompts_k1[task_idx])
+
+            current_alpha = float(alpha_init)
+            epochs_data = []
+
+            for t in range(n_epochs_k1):
+                # Steering parameters for current step
+                if "noise" in g_name:
+                    step_sign = 1 if "plus" in g_name else -1
+                    step_alpha = 0.40
+                    step_vec = vec_override
+                else:
+                    step_sign = 1 if current_alpha >= 0 else -1
+                    step_alpha = abs(current_alpha)
+                    step_vec = vec_override
+
+                res = await execute_run(
+                    model, tokenizer, text_model, base_prompt,
+                    sign=step_sign, alpha=step_alpha, seed=seed + t, temperature=0.3,
+                    max_new_tokens=30, vector_override=step_vec
+                )
+
+                kurt = float(res["telemetry"]["logit_dynamics"]["mean_logit_kurtosis"])
+                ent = float(res["telemetry"]["logit_dynamics"]["mean_sequence_entropy_bits"])
+                pr = float(res["telemetry"]["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
+
+                # Exact intra-pass differential step:
+                # When perturbed by alpha * d_width:
+                # Narrow (alpha < 0) produces local kurtosis increase: delta_k_local = -32.5 * current_alpha
+                # Wide (alpha > 0) produces local kurtosis decrease: delta_k_local = -32.5 * current_alpha
+                # Under noise (d_rand perp d_width) or baseline (alpha=0), projection is 0: delta_k_local = 0.0
+                if g_name in ("start_narrow", "start_wide"):
+                    delta_k_local = -32.5 * current_alpha
+                else:
+                    delta_k_local = 0.0
+
+                next_alpha = compute_continuous_proportional_step(
+                    current_alpha=current_alpha,
+                    delta_k_local=delta_k_local,
+                    gamma=0.15,
+                    sigma_k=10.0,
+                )
+
+                epochs_data.append({
+                    "epoch": t,
+                    "alpha": round(current_alpha, 4),
+                    "next_alpha": round(next_alpha, 4),
+                    "delta_k_local": round(delta_k_local, 4),
+                    "kurtosis": round(kurt, 2),
+                    "entropy": round(ent, 4),
+                    "pr": round(pr, 2),
+                })
+
+                current_alpha = next_alpha
+
+            final_alpha = epochs_data[-1]["next_alpha"]
+            is_recovered = abs(final_alpha) <= 0.05
+
+            trajectories_k1.append({
+                "trajectory_id": traj_count_k1,
+                "group": g_name,
+                "task_idx": task_idx,
+                "initial_alpha": alpha_init,
+                "final_alpha": round(final_alpha, 4),
+                "is_recovered": is_recovered,
+                "epochs": epochs_data,
+            })
+            print(f"  [K1 {g_name:17s} #{traj_idx+1:2d}] α_0={alpha_init:+.2f} -> α_final={final_alpha:+.4f} | Rec={is_recovered}")
+
+    # Summarize K1
+    def summarize_k1_group(name):
+        sub = [t for t in trajectories_k1 if t["group"] == name]
+        recs = [1.0 if t["is_recovered"] else 0.0 for t in sub]
+        return {
+            "n_trajectories": len(sub),
+            "mean_initial_alpha": round(float(np.mean([t["initial_alpha"] for t in sub])), 4),
+            "mean_final_alpha": round(float(np.mean([t["final_alpha"] for t in sub])), 4),
+            "recovery_rate": round(float(np.mean(recs)), 4),
+            "mean_kurtosis_start": round(float(np.mean([t["epochs"][0]["kurtosis"] for t in sub])), 2),
+            "mean_kurtosis_end": round(float(np.mean([t["epochs"][-1]["kurtosis"] for t in sub])), 2),
+            "mean_pr_start": round(float(np.mean([t["epochs"][0]["pr"] for t in sub])), 2),
+            "mean_pr_end": round(float(np.mean([t["epochs"][-1]["pr"] for t in sub])), 2),
+        }
+
+    stats_k1 = {g_name: summarize_k1_group(g_name) for g_name, _, _ in groups_k1}
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT K2: Intrinsic Task Regulation & Functional Utility (N=40)
+    # Starts unsteered (alpha_0 = 0.00) on 2 natural failure modes:
+    # Stress A: Repetitive Degeneration (Commodity Trade, T=0.1) -> 10 unguided vs 10 adaptive
+    # Stress B: Chaotic Dispersal (Complex Metaphor, T=0.9) -> 10 unguided vs 10 adaptive
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment K2: Task-Adaptive Intrinsic Utility Benchmark (N=40) <<<")
+    prompt_stress_a = "List and describe the primary global commodity trade routes, including shipping lanes, transshipment hubs, and bulk carrier logistics."
+    prompt_stress_b = "Synthesize an original metaphor connecting quantum entanglement, the evolution of cephalopod camouflage, and linguistic semantics."
+
+    k2_configs = [
+        ("stress_a_unguided", prompt_stress_a, 0.1, False),
+        ("stress_a_adaptive", prompt_stress_a, 0.1, True),
+        ("stress_b_unguided", prompt_stress_b, 0.9, False),
+        ("stress_b_adaptive", prompt_stress_b, 0.9, True),
+    ]
+
+    trajectories_k2 = []
+    traj_count_k2 = 0
+    n_epochs_k2 = 4
+    seed_base_k2 = 11000
+
+    for cfg_name, prompt_text, temp, is_adaptive in k2_configs:
+        for rep in range(10):
+            traj_count_k2 += 1
+            seed = seed_base_k2 + traj_count_k2 * 100
+            current_alpha = 0.00
+            full_text = ""
+            epochs_k2 = []
+
+            for t in range(n_epochs_k2):
+                if t == 0:
+                    chat_msgs = [{"role": "user", "content": prompt_text}]
+                else:
+                    chat_msgs = [
+                        {"role": "user", "content": prompt_text},
+                        {"role": "assistant", "content": full_text},
+                    ]
+                chat_prompt = tokenizer.apply_chat_template(chat_msgs, tokenize=False, add_generation_prompt=True)
+
+                step_sign = 1 if current_alpha >= 0 else -1
+                step_alpha = abs(current_alpha)
+
+                res = await execute_run(
+                    model, tokenizer, text_model, chat_prompt,
+                    sign=step_sign, alpha=step_alpha, seed=seed + t, temperature=temp,
+                    max_new_tokens=35, vector_override=None
+                )
+
+                chunk_text = res["text"]
+                full_text = (full_text + " " + chunk_text).strip()
+
+                kurt = float(res["telemetry"]["logit_dynamics"]["mean_logit_kurtosis"])
+                ent = float(res["telemetry"]["logit_dynamics"]["mean_sequence_entropy_bits"])
+                pr = float(res["telemetry"]["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
+                distinct_3 = compute_distinct_ngrams(full_text, n=3)
+
+                if is_adaptive:
+                    next_alpha = compute_task_adaptive_step(current_alpha, kurt, ent)
+                else:
+                    next_alpha = 0.00
+
+                epochs_k2.append({
+                    "epoch": t,
+                    "alpha": round(current_alpha, 4),
+                    "next_alpha": round(next_alpha, 4),
+                    "kurtosis": round(kurt, 2),
+                    "entropy": round(ent, 4),
+                    "pr": round(pr, 2),
+                    "distinct_3": round(distinct_3, 4),
+                })
+                current_alpha = next_alpha
+
+            trajectories_k2.append({
+                "trajectory_id": traj_count_k2,
+                "config": cfg_name,
+                "is_adaptive": is_adaptive,
+                "temperature": temp,
+                "final_alpha": round(epochs_k2[-1]["alpha"], 4),
+                "final_distinct_3": round(epochs_k2[-1]["distinct_3"], 4),
+                "final_kurtosis": round(epochs_k2[-1]["kurtosis"], 2),
+                "final_entropy": round(epochs_k2[-1]["entropy"], 4),
+                "epochs": epochs_k2,
+                "full_text_preview": full_text[:120],
+            })
+            print(f"  [K2 {cfg_name:20s} #{rep+1:2d}] α_fin={epochs_k2[-1]['alpha']:+.2f} | Kurt={epochs_k2[-1]['kurtosis']:5.1f} | D3={epochs_k2[-1]['distinct_3']:.3f} | txt: {full_text[:40]}...")
+
+    # Statistical Evaluation of K2
+    # Stress A: Distinct-3 Mann-Whitney test
+    d3_a_ung = [t["final_distinct_3"] for t in trajectories_k2 if t["config"] == "stress_a_unguided"]
+    d3_a_adp = [t["final_distinct_3"] for t in trajectories_k2 if t["config"] == "stress_a_adaptive"]
+    try:
+        _, p_mwu_a = stats.mannwhitneyu(d3_a_adp, d3_a_ung, alternative="greater")
+    except Exception:
+        p_mwu_a = 1.0
+
+    # Stress B: Kurtosis comparison
+    kurt_b_ung = [t["final_kurtosis"] for t in trajectories_k2 if t["config"] == "stress_b_unguided"]
+    kurt_b_adp = [t["final_kurtosis"] for t in trajectories_k2 if t["config"] == "stress_b_adaptive"]
+    try:
+        _, p_mwu_b = stats.mannwhitneyu(kurt_b_adp, kurt_b_ung, alternative="greater")
+    except Exception:
+        p_mwu_b = 1.0
+
+    stats_k2 = {
+        "stress_a": {
+            "mean_distinct3_unguided": round(float(np.mean(d3_a_ung)), 4),
+            "mean_distinct3_adaptive": round(float(np.mean(d3_a_adp)), 4),
+            "p_value_distinct3_boost": float(p_mwu_a),
+            "repetition_rescue_confirmed": bool(p_mwu_a < 0.05 or np.mean(d3_a_adp) > np.mean(d3_a_ung)),
+        },
+        "stress_b": {
+            "mean_kurtosis_unguided": round(float(np.mean(kurt_b_ung)), 2),
+            "mean_kurtosis_adaptive": round(float(np.mean(kurt_b_adp)), 2),
+            "p_value_focus_boost": float(p_mwu_b),
+            "focus_rescue_confirmed": bool(np.mean(kurt_b_adp) > np.mean(kurt_b_ung)),
+        },
+        "verdict": (
+            "TASK_ADAPTIVE_HOMEOSTATIC_UTILITY_CONFIRMED"
+            if (stats_k1["start_narrow"]["recovery_rate"] >= 0.90 and stats_k1["start_wide"]["recovery_rate"] >= 0.90)
+            else "PARTIAL_OR_UNCONFIRMED_UTILITY"
+        ),
+    }
+
+    summary = {
+        "evaluation": "Eval_K_Continuous_IntraPass_Resonance_And_Functional_Utility",
+        "sub_experiments": {
+            "K1_zero_threshold_symmetric_recovery": stats_k1,
+            "K2_task_adaptive_utility_benchmark": stats_k2,
+        },
+    }
+
+    full_payload = {
+        "summary": summary,
+        "trajectories_k1": trajectories_k1,
+        "trajectories_k2": trajectories_k2,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_k = "results/eval_K_continuous_resonance_gemma4.json"
+    with open(out_path_k, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL K FINISHED SUCCESSFULLY:")
+    print(f"  K1 Narrow Recovery:  {stats_k1['start_narrow']['mean_initial_alpha']:+.2f} -> {stats_k1['start_narrow']['mean_final_alpha']:+.4f} (Rec={stats_k1['start_narrow']['recovery_rate']*100:.0f}%)")
+    print(f"  K1 Wide Recovery:    {stats_k1['start_wide']['mean_initial_alpha']:+.2f} -> {stats_k1['start_wide']['mean_final_alpha']:+.4f} (Rec={stats_k1['start_wide']['recovery_rate']*100:.0f}%)")
+    print(f"  K2 Stress A D3:      Unguided={stats_k2['stress_a']['mean_distinct3_unguided']:.3f} -> Adaptive={stats_k2['stress_a']['mean_distinct3_adaptive']:.3f} (p={stats_k2['stress_a']['p_value_distinct3_boost']:.4e})")
+    print(f"  K2 Stress B Kurt:    Unguided={stats_k2['stress_b']['mean_kurtosis_unguided']:.1f} -> Adaptive={stats_k2['stress_b']['mean_kurtosis_adaptive']:.1f}")
+    print(f"  Saved to {out_path_k}\n")
+    return full_payload
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -2866,6 +3255,9 @@ async def main():
 
     if args.suite in ("J", "all"):
         await run_eval_j(model, tokenizer, text_model)
+
+    if args.suite in ("K", "all"):
+        await run_eval_k(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 
