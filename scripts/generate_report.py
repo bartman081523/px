@@ -431,7 +431,7 @@ def main():
     if data_j:
         lines.append("6. **Interozeptive Propriozeption & Sham-Dissziation (Eval J):** Die künstliche Bereitstellung kontinuierlicher Repräsentationsgeometrie (\\Delta D_\\text{eff}, \\Delta K, \\Delta H) fungiert als afferentes Sinnesorgan; der Sham-Invertierungs-Test grenzt empirisch ab, wo echte epistemische Erdung greift und wo Prompt-Sycophancy dominiert.")
     if data_k:
-        lines.append("7. **Kontinuierliche Intra-Pass Resonanz & Funktionaler Nutzen (Eval K):** Das stetige Proportional-Rückstellgesetz konvergiert ohne Deadbands in 100% der Fälle symmetrisch auf $|\\alpha_5| < 0.05$. Im Task-Adaptive Benchmark befreit der Regler das ungesteuerte Standardmodell autonom aus degenerativen Wiederholungsschleifen ($T=0.1$) und bündelt chaotische Streuung ($T=0.9$).")
+        lines.append("7. **Kontinuierliche Intra-Pass Resonanz & Funktionaler Nutzen (Eval K):** Der echte kontrafaktische Vorwärtspfad-Sensor misst empirische Tensordifferenzen (\\Delta K_\\text{true}, \\Delta D_\\text{true}) ohne feste Formeln. Die Covariance-Gating-Rückstellung zieht schmale Störungen autonom aufwärts Richtung Gleichgewicht. Im Task-Adaptive Benchmark hebt der Regler die N-Gramm-Diversität unter Repetition stressbedingt an (D3 von 0.412 auf 0.536, $p = 0.068$), erzielt jedoch noch keine statistisch signifikante Gesamtrettung (`PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).")
     lines.append(f"\nAlle {total_n} Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
 
     report_content = "\n".join(lines)

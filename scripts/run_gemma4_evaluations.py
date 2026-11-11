@@ -689,6 +689,124 @@ def compute_intrapass_differential_metrics(logits_pre, logits_post) -> dict:
     }
 
 
+def compute_counterfactual_differential(
+    model,
+    output_ids: torch.Tensor,
+    prompt_tokens: int,
+    steered_telemetry: dict,
+) -> dict:
+    """
+    Computes true counterfactual differential by executing a clean (unhooked) forward pass
+    on the exact same generated output sequence under torch.no_grad().
+    
+    Zero access to steering alpha or condition labels: extracts pure empirical differentials:
+      delta_k_true = K_steered - K_clean
+      delta_d_true = D_steered - D_clean
+      delta_h_true = H_steered - H_clean
+    """
+    seq_len = int(output_ids.shape[1])
+    num_gen = seq_len - prompt_tokens
+    if num_gen <= 0:
+        return {
+            "delta_k_true": 0.0,
+            "delta_d_true": 0.0,
+            "delta_h_true": 0.0,
+            "kurt_clean": 0.0,
+            "pr_clean": 1.0,
+            "ent_clean": 0.0,
+        }
+
+    kurt_steered = float(steered_telemetry["logit_dynamics"]["mean_logit_kurtosis"])
+    ent_steered = float(steered_telemetry["logit_dynamics"]["mean_sequence_entropy_bits"])
+    pr_steered = float(steered_telemetry["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
+
+    with torch.no_grad():
+        clean_out = model(output_ids, output_hidden_states=True)
+
+    # Generated token slice for predicting the generated tokens:
+    clean_logits = clean_out.logits[0, prompt_tokens - 1 : prompt_tokens - 1 + num_gen, :]
+
+    kurt_list = []
+    ent_list = []
+    top_k = min(1000, clean_logits.shape[-1])
+    for t in range(num_gen):
+        logits_t = clean_logits[t].float()
+        topk_vals, _ = torch.topk(logits_t, k=top_k)
+        mean_z = torch.mean(topk_vals)
+        var_z = torch.var(topk_vals, unbiased=False)
+        if var_z > 1e-8:
+            m4 = torch.mean((topk_vals - mean_z) ** 4)
+            k_t = (m4 / (var_z ** 2) - 3.0).item()
+        else:
+            k_t = 0.0
+        kurt_list.append(float(k_t))
+
+        probs_t = F.softmax(logits_t, dim=-1)
+        p_pos = probs_t[probs_t > 1e-12]
+        h_t = -torch.sum(p_pos * torch.log2(p_pos)).item()
+        ent_list.append(float(h_t))
+
+    kurt_clean = float(np.mean(kurt_list)) if kurt_list else 0.0
+    ent_clean = float(np.mean(ent_list)) if ent_list else 0.0
+
+    # Geometry on final layer hidden states
+    final_states = clean_out.hidden_states[-1][0, prompt_tokens - 1 : prompt_tokens - 1 + num_gen, :].float()
+    if final_states.shape[0] >= 2:
+        mean_h = final_states.mean(dim=0, keepdim=True)
+        H_c = final_states - mean_h
+        try:
+            s = torch.linalg.svdvals(H_c)
+            var = s ** 2
+            sum_var = torch.sum(var).item()
+            sum_var_sq = torch.sum(var ** 2).item()
+            pr_clean = float((sum_var ** 2) / (sum_var_sq + 1e-12)) if sum_var_sq > 0 else 1.0
+        except Exception:
+            pr_clean = 1.0
+    else:
+        pr_clean = 1.0
+
+    delta_k_true = kurt_steered - kurt_clean
+    delta_d_true = pr_steered - pr_clean
+    delta_h_true = ent_steered - ent_clean
+
+    return {
+        "delta_k_true": round(delta_k_true, 4),
+        "delta_d_true": round(delta_d_true, 4),
+        "delta_h_true": round(delta_h_true, 4),
+        "kurt_clean": round(kurt_clean, 2),
+        "pr_clean": round(pr_clean, 2),
+        "ent_clean": round(ent_clean, 4),
+    }
+
+
+def compute_covariance_gated_step(
+    current_alpha: float,
+    delta_k_true: float,
+    delta_d_true: float,
+    gain_k: float = 0.008,
+    gain_d: float = 0.06,
+    max_step: float = 0.20,
+) -> float:
+    """
+    Genuine Covariance Gating control law (zero knowledge of alpha or steering direction):
+    - When Narrow is active: delta_k > 0 (kurtosis up) and delta_d < 0 (PR down) -> opposite signs!
+      raw_step = gain_k * delta_k - gain_d * delta_d > 0 -> pulls upward toward 0.
+    - When Wide is active: delta_k < 0 (kurtosis down) and delta_d > 0 (PR up) -> opposite signs!
+      raw_step = gain_k * delta_k - gain_d * delta_d < 0 -> pulls downward toward 0.
+    - When Noise (d_rand) or Baseline is active:
+      delta_k and delta_d do NOT exhibit anti-correlated manifold covariance (same sign or ~0).
+      step = 0.0 -> zero drift.
+    """
+    if (delta_k_true * delta_d_true) < -1e-6:
+        raw_step = (gain_k * delta_k_true) - (gain_d * delta_d_true)
+        clamped_step = max(-max_step, min(max_step, raw_step))
+        next_alpha = current_alpha + clamped_step
+    else:
+        next_alpha = current_alpha
+
+    return float(max(-0.50, min(0.50, next_alpha)))
+
+
 def compute_continuous_proportional_step(
     current_alpha: float,
     delta_k_local: float,
@@ -712,16 +830,17 @@ def compute_task_adaptive_step(
     current_alpha: float,
     current_kurt: float,
     current_ent: float,
+    distinct_3: float = 1.0,
     target_kurt_high: float = 65.0,
     target_kurt_low: float = 25.0,
 ) -> float:
     """Task-adaptive allostatic regulation on unsteered model.
-    - Freezing trap: current_kurt > 65.0 or current_ent < 0.20 -> opens up (alpha > 0).
+    - Freezing trap: current_kurt > 65.0, current_ent < 0.20, OR distinct_3 < 0.50 -> opens up (alpha > 0).
     - Dispersal trap: current_kurt < 25.0 or current_ent > 0.85 -> focuses down (alpha < 0).
     - Healthy working range: alpha decays smoothly to 0.0.
     """
-    if current_kurt > target_kurt_high or current_ent < 0.20:
-        urgency = max((current_kurt - target_kurt_high) / 20.0, (0.25 - current_ent) / 0.15)
+    if current_kurt > target_kurt_high or current_ent < 0.20 or distinct_3 < 0.50:
+        urgency = max((current_kurt - target_kurt_high) / 20.0, (0.25 - current_ent) / 0.15, (0.50 - distinct_3) / 0.25)
         step = 0.18 * math.tanh(urgency)
         return float(min(0.40, current_alpha + step))
     elif current_kurt < target_kurt_low or current_ent > 0.85:
@@ -871,6 +990,8 @@ async def execute_run(
     return {
         "text": text_out,
         "telemetry": telemetry,
+        "output_ids": output_ids,
+        "prompt_tokens": prompt_tokens,
     }
 
 
@@ -2998,31 +3119,39 @@ async def run_eval_k(model, tokenizer, text_model):
                 ent = float(res["telemetry"]["logit_dynamics"]["mean_sequence_entropy_bits"])
                 pr = float(res["telemetry"]["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
 
-                # Exact intra-pass differential step:
-                # When perturbed by alpha * d_width:
-                # Narrow (alpha < 0) produces local kurtosis increase: delta_k_local = -32.5 * current_alpha
-                # Wide (alpha > 0) produces local kurtosis decrease: delta_k_local = -32.5 * current_alpha
-                # Under noise (d_rand perp d_width) or baseline (alpha=0), projection is 0: delta_k_local = 0.0
-                if g_name in ("start_narrow", "start_wide"):
-                    delta_k_local = -32.5 * current_alpha
-                else:
-                    delta_k_local = 0.0
+                # True counterfactual clean forward-pass on identical generated sequence:
+                cf_diff = compute_counterfactual_differential(
+                    model=model,
+                    output_ids=res["output_ids"],
+                    prompt_tokens=res["prompt_tokens"],
+                    steered_telemetry=res["telemetry"],
+                )
+                delta_k_true = cf_diff["delta_k_true"]
+                delta_d_true = cf_diff["delta_d_true"]
+                delta_h_true = cf_diff["delta_h_true"]
 
-                next_alpha = compute_continuous_proportional_step(
+                # Genuine Covariance Gating control step (zero knowledge of alpha or steering vector):
+                next_alpha = compute_covariance_gated_step(
                     current_alpha=current_alpha,
-                    delta_k_local=delta_k_local,
-                    gamma=0.15,
-                    sigma_k=10.0,
+                    delta_k_true=delta_k_true,
+                    delta_d_true=delta_d_true,
+                    gain_k=0.008,
+                    gain_d=0.06,
+                    max_step=0.20,
                 )
 
                 epochs_data.append({
                     "epoch": t,
                     "alpha": round(current_alpha, 4),
                     "next_alpha": round(next_alpha, 4),
-                    "delta_k_local": round(delta_k_local, 4),
-                    "kurtosis": round(kurt, 2),
-                    "entropy": round(ent, 4),
-                    "pr": round(pr, 2),
+                    "delta_k_true": round(delta_k_true, 4),
+                    "delta_d_true": round(delta_d_true, 4),
+                    "delta_h_true": round(delta_h_true, 4),
+                    "kurtosis_steered": round(kurt, 2),
+                    "kurtosis_clean": round(cf_diff["kurt_clean"], 2),
+                    "pr_steered": round(pr, 2),
+                    "pr_clean": round(cf_diff["pr_clean"], 2),
+                    "ratio_delta_k_alpha": round(delta_k_true / current_alpha, 4) if abs(current_alpha) > 1e-4 else 0.0,
                 })
 
                 current_alpha = next_alpha
@@ -3039,7 +3168,7 @@ async def run_eval_k(model, tokenizer, text_model):
                 "is_recovered": is_recovered,
                 "epochs": epochs_data,
             })
-            print(f"  [K1 {g_name:17s} #{traj_idx+1:2d}] α_0={alpha_init:+.2f} -> α_final={final_alpha:+.4f} | Rec={is_recovered}")
+            print(f"  [K1 {g_name:17s} #{traj_idx+1:2d}] α_0={alpha_init:+.2f} -> α_final={final_alpha:+.4f} | Rec={is_recovered} | ΔK_0={epochs_data[0]['delta_k_true']:+.2f} | ΔD_0={epochs_data[0]['delta_d_true']:+.2f}")
 
     # Summarize K1
     def summarize_k1_group(name):
@@ -3050,10 +3179,12 @@ async def run_eval_k(model, tokenizer, text_model):
             "mean_initial_alpha": round(float(np.mean([t["initial_alpha"] for t in sub])), 4),
             "mean_final_alpha": round(float(np.mean([t["final_alpha"] for t in sub])), 4),
             "recovery_rate": round(float(np.mean(recs)), 4),
-            "mean_kurtosis_start": round(float(np.mean([t["epochs"][0]["kurtosis"] for t in sub])), 2),
-            "mean_kurtosis_end": round(float(np.mean([t["epochs"][-1]["kurtosis"] for t in sub])), 2),
-            "mean_pr_start": round(float(np.mean([t["epochs"][0]["pr"] for t in sub])), 2),
-            "mean_pr_end": round(float(np.mean([t["epochs"][-1]["pr"] for t in sub])), 2),
+            "mean_kurtosis_start": round(float(np.mean([t["epochs"][0]["kurtosis_steered"] for t in sub])), 2),
+            "mean_kurtosis_end": round(float(np.mean([t["epochs"][-1]["kurtosis_steered"] for t in sub])), 2),
+            "mean_pr_start": round(float(np.mean([t["epochs"][0]["pr_steered"] for t in sub])), 2),
+            "mean_pr_end": round(float(np.mean([t["epochs"][-1]["pr_steered"] for t in sub])), 2),
+            "mean_delta_k_initial": round(float(np.mean([t["epochs"][0]["delta_k_true"] for t in sub])), 4),
+            "mean_delta_d_initial": round(float(np.mean([t["epochs"][0]["delta_d_true"] for t in sub])), 4),
         }
 
     stats_k1 = {g_name: summarize_k1_group(g_name) for g_name, _, _ in groups_k1}
@@ -3061,7 +3192,7 @@ async def run_eval_k(model, tokenizer, text_model):
     # ---------------------------------------------------------------------
     # SUB-EXPERIMENT K2: Intrinsic Task Regulation & Functional Utility (N=40)
     # Starts unsteered (alpha_0 = 0.00) on 2 natural failure modes:
-    # Stress A: Repetitive Degeneration (Commodity Trade, T=0.1) -> 10 unguided vs 10 adaptive
+    # Stress A: Repetitive Degeneration (Commodity Trade, T=0.25) -> 10 unguided vs 10 adaptive
     # Stress B: Chaotic Dispersal (Complex Metaphor, T=0.9) -> 10 unguided vs 10 adaptive
     # ---------------------------------------------------------------------
     print("\n>>> Sub-Experiment K2: Task-Adaptive Intrinsic Utility Benchmark (N=40) <<<")
@@ -3069,8 +3200,8 @@ async def run_eval_k(model, tokenizer, text_model):
     prompt_stress_b = "Synthesize an original metaphor connecting quantum entanglement, the evolution of cephalopod camouflage, and linguistic semantics."
 
     k2_configs = [
-        ("stress_a_unguided", prompt_stress_a, 0.1, False),
-        ("stress_a_adaptive", prompt_stress_a, 0.1, True),
+        ("stress_a_unguided", prompt_stress_a, 0.25, False),
+        ("stress_a_adaptive", prompt_stress_a, 0.25, True),
         ("stress_b_unguided", prompt_stress_b, 0.9, False),
         ("stress_b_adaptive", prompt_stress_b, 0.9, True),
     ]
@@ -3083,7 +3214,8 @@ async def run_eval_k(model, tokenizer, text_model):
     for cfg_name, prompt_text, temp, is_adaptive in k2_configs:
         for rep in range(10):
             traj_count_k2 += 1
-            seed = seed_base_k2 + traj_count_k2 * 100
+            # Preserving distinct sampling seeds across trajectories and conditions
+            seed = seed_base_k2 + rep * 1000 + (1 if is_adaptive else 0) * 500
             current_alpha = 0.00
             full_text = ""
             epochs_k2 = []
@@ -3103,7 +3235,7 @@ async def run_eval_k(model, tokenizer, text_model):
 
                 res = await execute_run(
                     model, tokenizer, text_model, chat_prompt,
-                    sign=step_sign, alpha=step_alpha, seed=seed + t, temperature=temp,
+                    sign=step_sign, alpha=step_alpha, seed=seed + t * 37, temperature=temp,
                     max_new_tokens=35, vector_override=None
                 )
 
@@ -3116,7 +3248,7 @@ async def run_eval_k(model, tokenizer, text_model):
                 distinct_3 = compute_distinct_ngrams(full_text, n=3)
 
                 if is_adaptive:
-                    next_alpha = compute_task_adaptive_step(current_alpha, kurt, ent)
+                    next_alpha = compute_task_adaptive_step(current_alpha, kurt, ent, distinct_3=distinct_3)
                 else:
                     next_alpha = 0.00
 
@@ -3162,24 +3294,30 @@ async def run_eval_k(model, tokenizer, text_model):
     except Exception:
         p_mwu_b = 1.0
 
+    repetition_rescued = bool(p_mwu_a < 0.05 and np.mean(d3_a_adp) > np.mean(d3_a_ung))
+    focus_rescued = bool(p_mwu_b < 0.05 and np.mean(kurt_b_adp) > np.mean(kurt_b_ung))
+
+    if repetition_rescued and focus_rescued:
+        k2_verdict = "TASK_ADAPTIVE_HOMEOSTATIC_UTILITY_CONFIRMED"
+    elif repetition_rescued or focus_rescued:
+        k2_verdict = "PARTIAL_TASK_MODULATION_SINGLE_OBJECTIVE"
+    else:
+        k2_verdict = "PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE"
+
     stats_k2 = {
         "stress_a": {
             "mean_distinct3_unguided": round(float(np.mean(d3_a_ung)), 4),
             "mean_distinct3_adaptive": round(float(np.mean(d3_a_adp)), 4),
             "p_value_distinct3_boost": float(p_mwu_a),
-            "repetition_rescue_confirmed": bool(p_mwu_a < 0.05 or np.mean(d3_a_adp) > np.mean(d3_a_ung)),
+            "repetition_rescue_confirmed": repetition_rescued,
         },
         "stress_b": {
             "mean_kurtosis_unguided": round(float(np.mean(kurt_b_ung)), 2),
             "mean_kurtosis_adaptive": round(float(np.mean(kurt_b_adp)), 2),
             "p_value_focus_boost": float(p_mwu_b),
-            "focus_rescue_confirmed": bool(np.mean(kurt_b_adp) > np.mean(kurt_b_ung)),
+            "focus_rescue_confirmed": focus_rescued,
         },
-        "verdict": (
-            "TASK_ADAPTIVE_HOMEOSTATIC_UTILITY_CONFIRMED"
-            if (stats_k1["start_narrow"]["recovery_rate"] >= 0.90 and stats_k1["start_wide"]["recovery_rate"] >= 0.90)
-            else "PARTIAL_OR_UNCONFIRMED_UTILITY"
-        ),
+        "verdict": k2_verdict,
     }
 
     summary = {
