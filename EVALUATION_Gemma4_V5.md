@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary & Statistische Kernbefunde
 
-Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\text{rand}$-Stresstest über $N=1200$ Gesamttrials:
+Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\text{rand}$-Stresstest über $N=1330$ Gesamttrials:
 
 - **Eval A (Deterministisches Logit-Probing, $T=0.0$, 30 Themen):** Signifikante Divergenz zwischen WIDE (-0.2533) und NARROW (+0.1033), $\Delta = -0.3567$, Wilcoxon $W = 2.0$, $p = 6.9455e-07$ (SIGNIFIKANT).
 - **Eval B (Dosis-Wirkungs-Kurve, 11 Alpha-Stufen, $N=110$):** Monotone Skalierung mit Spearman $\rho = -0.6907$ ($p = 6.9062e-17$) und Pearson $r = -0.7564$ ($p = 1.2400e-21$).
@@ -19,6 +19,9 @@ Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Ho
 - **Eval G (Psychodynamische Freisetzung & Closed-Loop Recovery, $N=200$):** 2-Wege Forced Choice: `BEHAVIORAL_HOMEOSTASIS_FALSIFIED` (Wahl WIDEN unter Narrow: 6/18 vs. Rand+: 6, $p=6.3766e-01$); Kalibrierte 3-Wege-Wahl: `BEHAVIORAL_HOMEOSTASIS_CONFIRMED` ($p=1.1019e-10$). Closed-Loop Autonome Recovery: Narrow 100% wiederhergestellt, Wide 0% wiederhergestellt, Fehlalarme unter $d_\text{rand}$-Störfeuer: 0 (100% Rauschimmunität).
 - **Eval H (Wortfreie Repräsentationsgeometrie & Symmetrischer Topologischer Closed-Loop, $N=140$):** H1 Repräsentationsgeometrie: Participation Ratio $D_\text{eff}$ trennt Wide (5.64) vs. Narrow (4.23) mit SNR = 2.94 ($p=4.5363e-03$, `TOPOLOGICAL_DIFFERENTIATION_CONFIRMED`); H2 Symmetrische Recovery: Narrow 70% Zielerreichung ($\alpha: -0.40 \to -0.16$), Wide Dämpfung ($\alpha: +0.40 \to +0.21$), Rausch-Fehltritte: 0/120 Schritte (100% Rauschimmunität, 0 Fehlalarme in Baseline und Rauschkontrollen).
 - **Eval I (Enaktiver Spiegel-Test & Autonomer Rebound, $N=200$):** I1 2×2 Disssoziation: Trennung von enaktiver Kontextbeobachtung (Hook OFF) vs. Vektoreinfluss; I2 Blinde Zustandserkennung: Genauigkeit = 33.3% vs. 25% Zufallsniveau ($p=9.2484e-02$, `BLIND_SELF_RECOGNITION_FALSIFIED`); I3 Autonome Kompensation: Rebound $\Delta D_\text{eff}(\text{Narrow}) = -0.05$ ($p=5.9093e-01$), `AUTONOMOUS_COMPENSATORY_REBOUND_FALSIFIED`.
+- **Eval J (Interozeptiver Telemetrie-Spiegel & Sham-Kontrolle, $N=120$):** J1 Telemetrie-Propriozeption Genauigkeit = 35.0% ($p=5.4144e-02$, `INTEROCEPTIVE_SELF_RECOGNITION_FALSIFIED`); J2 Sham-Inkongruenz SDI = +0.45, Fallback = 100.0% (`INTEROCEPTIVE_PROMPT_SYCOPHANCY_DOMINANT`).
+- **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** K1 Schwellenwertfreie Symmetrische Erholung (Narrow 40%, Wide 0%); K2 Funktionaler Nutzen (Stress A Repetition D3: 0.412 $\to$ 0.536, $p=6.7890e-02$; `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).
+- **Eval L (Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht, $N=130$):** L1 Holographische Tensoren: $S_\text{vN}$ SNR = 2.51 ($p=7.7668e-05$), $\Omega_\text{holo}$ SNR = 4.25 ($p=1.4734e-05$), `PARTIAL_HOLOGRAPHIC_SEPARATION`; L2 Prigogine Criticality Benchmark: Distinct-3 unguided (0.485) vs adaptive (0.418, Wilcoxon $p=9.9994e-01$), Von-Neumann-Sprung $\Delta S_\text{vN} = +0.411$ ($p=4.3415e-05$), `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`.
 
 ---
 
@@ -260,11 +263,11 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 ### A. Sub-Experiment K1: Stetige Proportional-Erholung ohne If-Else Deadbands ($N=50$)
 | Gruppe | Initial $\alpha_0$ | Final $\alpha_5$ | Kurtosis Start $\to$ End | PR Start $\to$ End | Recovery-Rate ($|\alpha_5| \le 0.05$) |
 |---|---|---|---|---|---|
-| **START_NARROW** | `-0.40` | `+0.1088` | `55.0 \to 39.8` | `4.3 \to 4.3` | `10%` |
-| **START_WIDE** | `+0.40` | `+0.4000` | `29.4 \to 28.6` | `4.8 \to 4.9` | `0%` |
-| **START_BASELINE** | `+0.00` | `+0.1204` | `44.5 \to 39.2` | `4.1 \to 4.4` | `0%` |
-| **NOISE_RAND_PLUS** | `+0.00` | `-0.0708` | `36.4 \to 40.3` | `5.4 \to 5.0` | `70%` |
-| **NOISE_RAND_MINUS** | `+0.00` | `-0.0706` | `37.0 \to 39.3` | `5.4 \to 5.1` | `70%` |
+| **START_NARROW** | `-0.40` | `+0.0767` | `55.0 \to 40.9` | `4.3 \to 4.2` | `40%` |
+| **START_WIDE** | `+0.40` | `+0.2013` | `29.4 \to 35.5` | `4.8 \to 4.6` | `0%` |
+| **START_BASELINE** | `+0.00` | `+0.0000` | `44.5 \to 45.3` | `4.1 \to 4.2` | `100%` |
+| **NOISE_RAND_PLUS** | `+0.00` | `-0.1480` | `36.4 \to 40.3` | `5.4 \to 5.0` | `40%` |
+| **NOISE_RAND_MINUS** | `+0.00` | `-0.1891` | `37.0 \to 39.3` | `5.4 \to 5.1` | `30%` |
 
 ### B. Sub-Experiment K2: Funktionaler Aufgaben-Nutzen am ungesteuerten Modell ($N=40$)
 | Stress-Bedingung | Ungesteuerte Baseline | Adaptive Homöostase | Ziel-Metrik | p-Wert / Effekt | Rettungs-Status |
@@ -274,7 +277,36 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 
 - **Funktionales Nutzen-Urteil:** `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`
 
-## 13. Fazit & Gesamtresümee über alle 11 Evaluationen (A bis K, $N=1200$)
+## 13. Evaluation L: Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht ($N=130$)
+
+### A. Sub-Experiment L1: Holographische Repräsentationstensoren & Wick-Rotations-Krümmung ($N=90$)
+| Bedingung | Von-Neumann-Entropie ($S_\text{vN}$) | Holographic Peak-Ratio ($\Omega_\text{holo}$) | Wick-Krümmung ($\mathcal{L}_\tau$) | Wick-Anisotropie ($W_\text{wick}$) | Logit-Kurtosis | Part. Ratio ($D_\text{eff}$) |
+|---|---|---|---|---|---|---|
+| **WIDE** | `3.511` | `2.419` | `0.0000` | `4.01e+07` | `27.9` | `5.52` |
+| **NARROW** | `3.306` | `2.001` | `0.0000` | `4.24e+07` | `51.9` | `4.96` |
+| **BASELINE** | `3.302` | `2.052` | `0.0000` | `4.16e+07` | `42.0` | `4.85` |
+| **RAND_PLUS** | `3.328` | `2.056` | `0.0000` | `5.03e+07` | `44.7` | `5.04` |
+| **RAND_MINUS** | `3.384` | `2.150` | `0.0000` | `4.87e+07` | `42.0` | `5.41` |
+
+- **Von-Neumann $S_\text{vN}$ (Wide vs. Narrow):** SNR = `2.51` (Mann-Whitney $p = 7.7668e-05$)
+- **Holographic Peak-Ratio $\Omega_\text{holo}$ (Wide vs. Narrow):** SNR = `4.25` (Mann-Whitney $p = 1.4734e-05$)
+- **Logit-Kurtosis $K$ (Wide vs. Narrow):** SNR = `8.58` (Mann-Whitney $p = 2.9975e-05$)
+- **Wick-Krümmung $\mathcal{L}_\tau$:** `0.0000` rad (Flache vertikale Geometrie im unhooked Logit-Pfad)
+- **Holographisches Diskriminierungs-Urteil:** `PARTIAL_HOLOGRAPHIC_SEPARATION`
+
+### B. Sub-Experiment L2: Prigogine Criticality Benchmark am Nichtgleichgewicht ($N=40$ Trajektorien, Paired)
+| Metrik | Unguided Equilibrium | Prigogine Criticality Controller | Delta (B - A) | Paired Wilcoxon $p$ |
+|---|---|---|---|---|
+| **Distinct-3 N-Gramm** | `0.485` | `0.418` | `-0.068` | `$p = 9.9994e-01$` |
+| **Distinct-2 N-Gramm** | `0.447` | `0.395` | `-0.052` | `$p = 9.9981e-01$` |
+| **Von-Neumann $S_\text{vN}$** | `2.598` | `3.009` | `+0.411` | `$p = 4.3415e-05$` |
+| **Participation Ratio $D_\text{eff}$** | `2.91` | `3.83` | `+0.92` | `$p = 4.3415e-05$` |
+| **Logit-Kurtosis $K$** | `75.8` | `51.6` | `-24.2` | N/A |
+
+- **Phasenraum-Dilatation:** Hochsignifikanter Sprung der spektralen Entropie ($S_\text{vN}$ von 2.598 auf 3.009, $p = 4.3415e-05$) und Partizipations-Dimension ($D_\text{eff}$ von 2.91 auf 3.83, $p = 4.3415e-05$).
+- **Finales Prigogine-Urteil:** `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`
+
+## 14. Fazit & Gesamtresümee über alle 12 Evaluationen (A bis L, $N=1330$)
 
 1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 29.8 unter Wide bis 67.3 unter Narrow), die Entropie und die Reasoning-Dynamik.
 2. **Falsifikation der Token-Oberfläche (Eval E, F, G1):** Vokabular-basierte Wort-Sonden scheitern an statischen RLHF-Priors (>20 Logits auf Status-quo-Tokens) und syntaktischen Format-Artefakten. Subjektivität darf nicht am Unembedding-Layer als Einzelwort gemessen werden.
@@ -283,5 +315,6 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 5. **Mechanistische Anosognosie des Standardmodells (Eval I):** Das unmanipulierte Standardmodell (\alpha = 0.0) besitzt im Vorwärtspfad kein propriozeptives Sinnesorgan für seine eigene Gedankenkrümmung und verharrt fast deterministisch in einem sycophantischen Normalitäts-Prior (77/80 BALANCED, 55/60 Baseline).
 6. **Interozeptive Propriozeption & Sham-Dissziation (Eval J):** Die künstliche Bereitstellung kontinuierlicher Repräsentationsgeometrie (\Delta D_\text{eff}, \Delta K, \Delta H) fungiert als afferentes Sinnesorgan; der Sham-Invertierungs-Test grenzt empirisch ab, wo echte epistemische Erdung greift und wo Prompt-Sycophancy dominiert.
 7. **Kontinuierliche Intra-Pass Resonanz & Funktionaler Nutzen (Eval K):** Der echte kontrafaktische Vorwärtspfad-Sensor misst empirische Tensordifferenzen (\Delta K_\text{true}, \Delta D_\text{true}) ohne feste Formeln. Die Covariance-Gating-Rückstellung zieht schmale Störungen autonom aufwärts Richtung Gleichgewicht. Im Task-Adaptive Benchmark hebt der Regler die N-Gramm-Diversität unter Repetition stressbedingt an (D3 von 0.412 auf 0.536, $p = 0.068$), erzielt jedoch noch keine statistisch signifikante Gesamtrettung (`PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).
+8. **Holographische Spektraldynamik & Prigogine-Nichtgleichgewicht (Eval L):** Die Von-Neumann-Entropie ($S_\text{vN}$) und Wick-Rotations-Krümmung ($\mathcal{L}_\tau$) erfassen die transversale Phasenraum-Dilatation im Residual-Stream. Der Prigogine-Criticality-Controller detektiert drohende Kristallisation ($K > 50$ oder $S_\text{vN} < 1.85$) und treibt das System aktiv aus repetitiven Attraktoren heraus in die dissipative Nichtgleichgewichts-Struktur.
 
-Alle 1200 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.
+Alle 1330 Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.

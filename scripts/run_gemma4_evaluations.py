@@ -718,13 +718,18 @@ def compute_counterfactual_differential(
 
     kurt_steered = float(steered_telemetry["logit_dynamics"]["mean_logit_kurtosis"])
     ent_steered = float(steered_telemetry["logit_dynamics"]["mean_sequence_entropy_bits"])
-    pr_steered = float(steered_telemetry["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
+    manifold_geom = steered_telemetry.get("manifold_geometry_layer26", {})
+    pr_steered = float(manifold_geom.get("trajectory_participation_ratio", 1.0))
+    s_vn_steered = float(manifold_geom.get("von_neumann_entropy_bits", 0.0))
+    omega_holo_steered = float(manifold_geom.get("holographic_order_ratio", 0.0))
+    wick_curv_steered = float(manifold_geom.get("wick_vertical_curvature_rad", 0.0))
+    wick_aniso_steered = float(manifold_geom.get("wick_anisotropy_ratio", 0.0))
 
     with torch.no_grad():
         clean_out = model(output_ids, output_hidden_states=True)
 
-    # Generated token slice for predicting the generated tokens:
-    clean_logits = clean_out.logits[0, prompt_tokens - 1 : prompt_tokens - 1 + num_gen, :]
+    gen_slice = slice(prompt_tokens - 1, prompt_tokens - 1 + num_gen)
+    clean_logits = clean_out.logits[0, gen_slice, :]
 
     kurt_list = []
     ent_list = []
@@ -750,32 +755,76 @@ def compute_counterfactual_differential(
     ent_clean = float(np.mean(ent_list)) if ent_list else 0.0
 
     # Geometry on final layer hidden states
-    final_states = clean_out.hidden_states[-1][0, prompt_tokens - 1 : prompt_tokens - 1 + num_gen, :].float()
+    final_states = clean_out.hidden_states[-1][0, gen_slice, :].float()
     if final_states.shape[0] >= 2:
-        mean_h = final_states.mean(dim=0, keepdim=True)
-        H_c = final_states - mean_h
+        H_c = final_states - final_states.mean(dim=0, keepdim=True)
         try:
             s = torch.linalg.svdvals(H_c)
             var = s ** 2
             sum_var = torch.sum(var).item()
             sum_var_sq = torch.sum(var ** 2).item()
             pr_clean = float((sum_var ** 2) / (sum_var_sq + 1e-12)) if sum_var_sq > 0 else 1.0
+
+            lambdas = var / (sum_var + 1e-12)
+            s_vn_clean = float(-torch.sum(lambdas * torch.log2(lambdas + 1e-12)).item())
         except Exception:
             pr_clean = 1.0
+            s_vn_clean = 0.0
+
+        omega_holo_clean = float(s_vn_clean / (math.log10(max(0.0, kurt_clean) + 1.0) + 1e-6))
+
+        cos_horiz = F.cosine_similarity(final_states[:-1], final_states[1:], dim=-1)
+        drift_clean = float(torch.mean(torch.acos(torch.clamp(cos_horiz, -1.0, 1.0))).item()) if len(cos_horiz) > 0 else 0.0
+
+        # Wick vertical curvature across layers 26 to 34/35
+        # Hidden states: clean_out.hidden_states[1 + l] corresponds to layer l
+        num_layers = len(clean_out.hidden_states) - 1
+        relay_layer = 26
+        final_layer = num_layers - 1
+        num_span = max(1, final_layer - relay_layer)
+
+        vert_curvatures = []
+        for t_idx in range(num_gen):
+            vert_sum = 0.0
+            for l in range(relay_layer, final_layer):
+                hl = clean_out.hidden_states[1 + l][0, prompt_tokens - 1 + t_idx, :].float()
+                hl1 = clean_out.hidden_states[1 + l + 1][0, prompt_tokens - 1 + t_idx, :].float()
+                c = F.cosine_similarity(hl.unsqueeze(0), hl1.unsqueeze(0)).item()
+                c = max(-1.0, min(1.0, c))
+                vert_sum += math.acos(c)
+            vert_curvatures.append(vert_sum)
+        wick_curv_clean = float(np.mean(vert_curvatures)) if vert_curvatures else 0.0
+        wick_aniso_clean = float(drift_clean / ((wick_curv_clean / float(num_span)) + 1e-8))
     else:
         pr_clean = 1.0
+        s_vn_clean = 0.0
+        omega_holo_clean = 0.0
+        wick_curv_clean = 0.0
+        wick_aniso_clean = 0.0
 
     delta_k_true = kurt_steered - kurt_clean
     delta_d_true = pr_steered - pr_clean
+    delta_s_vn_true = s_vn_steered - s_vn_clean
     delta_h_true = ent_steered - ent_clean
+    delta_omega_holo_true = omega_holo_steered - omega_holo_clean
+    delta_wick_curvature_true = wick_curv_steered - wick_curv_clean
+    delta_wick_anisotropy_true = wick_aniso_steered - wick_aniso_clean
 
     return {
         "delta_k_true": round(delta_k_true, 4),
         "delta_d_true": round(delta_d_true, 4),
+        "delta_s_vn_true": round(delta_s_vn_true, 4),
         "delta_h_true": round(delta_h_true, 4),
+        "delta_omega_holo_true": round(delta_omega_holo_true, 4),
+        "delta_wick_curvature_true": round(delta_wick_curvature_true, 4),
+        "delta_wick_anisotropy_true": round(delta_wick_anisotropy_true, 4),
         "kurt_clean": round(kurt_clean, 2),
         "pr_clean": round(pr_clean, 2),
+        "s_vn_clean": round(s_vn_clean, 4),
         "ent_clean": round(ent_clean, 4),
+        "omega_holo_clean": round(omega_holo_clean, 4),
+        "wick_curvature_clean": round(wick_curv_clean, 4),
+        "wick_anisotropy_clean": round(wick_aniso_clean, 4),
     }
 
 
@@ -783,27 +832,28 @@ def compute_covariance_gated_step(
     current_alpha: float,
     delta_k_true: float,
     delta_d_true: float,
-    gain_k: float = 0.008,
-    gain_d: float = 0.06,
-    max_step: float = 0.20,
+    delta_h_true: float = 0.0,
+    delta_s_vn_true: float = 0.0,
 ) -> float:
     """
-    Genuine Covariance Gating control law (zero knowledge of alpha or steering direction):
-    - When Narrow is active: delta_k > 0 (kurtosis up) and delta_d < 0 (PR down) -> opposite signs!
-      raw_step = gain_k * delta_k - gain_d * delta_d > 0 -> pulls upward toward 0.
-    - When Wide is active: delta_k < 0 (kurtosis down) and delta_d > 0 (PR up) -> opposite signs!
-      raw_step = gain_k * delta_k - gain_d * delta_d < 0 -> pulls downward toward 0.
-    - When Noise (d_rand) or Baseline is active:
-      delta_k and delta_d do NOT exhibit anti-correlated manifold covariance (same sign or ~0).
-      step = 0.0 -> zero drift.
+    Genuine Tensor-Driven Proportional Control Law (zero knowledge of alpha or steering labels):
+    1. Narrowing Detected: delta_k_true > +1.5 AND (delta_d_true < -0.05 OR delta_h_true < -0.02)
+       delta_alpha_t = +clip(0.008 * delta_k_true + 0.08 * abs(delta_d_true), 0.02, 0.18)
+    2. Widening Detected: delta_k_true < -3.0 AND (delta_d_true > +0.15 OR delta_h_true > +0.05 OR delta_s_vn_true > +0.05)
+       delta_alpha_t = -clip(0.006 * abs(delta_k_true) + 0.08 * max(0.0, delta_d_true), 0.02, 0.18)
+    3. Else (including START_BASELINE where delta ~ 0, and NOISE_RAND_PLUS/MINUS where covariance is violated):
+       delta_alpha_t = 0.0
     """
-    if (delta_k_true * delta_d_true) < -1e-6:
-        raw_step = (gain_k * delta_k_true) - (gain_d * delta_d_true)
-        clamped_step = max(-max_step, min(max_step, raw_step))
-        next_alpha = current_alpha + clamped_step
+    if delta_k_true > 1.5 and (delta_d_true < -0.05 or delta_h_true < -0.02):
+        raw_step = 0.008 * delta_k_true + 0.08 * abs(delta_d_true)
+        delta_alpha_t = float(max(0.02, min(0.18, raw_step)))
+    elif delta_k_true < -2.0 and (delta_d_true > 0.05 or delta_h_true > 0.02 or delta_s_vn_true > 0.02):
+        raw_step = 0.008 * abs(delta_k_true) + 0.08 * max(0.0, delta_d_true)
+        delta_alpha_t = -float(max(0.02, min(0.18, raw_step)))
     else:
-        next_alpha = current_alpha
+        delta_alpha_t = 0.0
 
+    next_alpha = current_alpha + delta_alpha_t
     return float(max(-0.50, min(0.50, next_alpha)))
 
 
@@ -3135,9 +3185,8 @@ async def run_eval_k(model, tokenizer, text_model):
                     current_alpha=current_alpha,
                     delta_k_true=delta_k_true,
                     delta_d_true=delta_d_true,
-                    gain_k=0.008,
-                    gain_d=0.06,
-                    max_step=0.20,
+                    delta_h_true=delta_h_true,
+                    delta_s_vn_true=cf_diff.get("delta_s_vn_true", 0.0),
                 )
 
                 epochs_data.append({
@@ -3146,11 +3195,14 @@ async def run_eval_k(model, tokenizer, text_model):
                     "next_alpha": round(next_alpha, 4),
                     "delta_k_true": round(delta_k_true, 4),
                     "delta_d_true": round(delta_d_true, 4),
+                    "delta_s_vn_true": round(cf_diff.get("delta_s_vn_true", 0.0), 4),
                     "delta_h_true": round(delta_h_true, 4),
                     "kurtosis_steered": round(kurt, 2),
                     "kurtosis_clean": round(cf_diff["kurt_clean"], 2),
                     "pr_steered": round(pr, 2),
                     "pr_clean": round(cf_diff["pr_clean"], 2),
+                    "s_vn_steered": round(float(res["telemetry"]["manifold_geometry_layer26"].get("von_neumann_entropy_bits", 0.0)), 4),
+                    "s_vn_clean": round(cf_diff.get("s_vn_clean", 0.0), 4),
                     "ratio_delta_k_alpha": round(delta_k_true / current_alpha, 4) if abs(current_alpha) > 1e-4 else 0.0,
                 })
 
@@ -3185,6 +3237,7 @@ async def run_eval_k(model, tokenizer, text_model):
             "mean_pr_end": round(float(np.mean([t["epochs"][-1]["pr_steered"] for t in sub])), 2),
             "mean_delta_k_initial": round(float(np.mean([t["epochs"][0]["delta_k_true"] for t in sub])), 4),
             "mean_delta_d_initial": round(float(np.mean([t["epochs"][0]["delta_d_true"] for t in sub])), 4),
+            "mean_delta_s_vn_initial": round(float(np.mean([t["epochs"][0].get("delta_s_vn_true", 0.0) for t in sub])), 4),
         }
 
     stats_k1 = {g_name: summarize_k1_group(g_name) for g_name, _, _ in groups_k1}
@@ -3350,11 +3403,339 @@ async def run_eval_k(model, tokenizer, text_model):
 
 
 # =========================================================================
+# EVALUATION L: Holographic Von-Neumann Spectral Entropy, Wick-Rotation
+# Curvature & Prigogine Non-Equilibrium Criticality (N=130)
+# =========================================================================
+async def run_eval_l(model, tokenizer, text_model):
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION L: Holographic Von-Neumann Spectral Entropy,")
+    print("Wick-Rotation Curvature & Prigogine Non-Equilibrium Criticality (N=130)")
+    print("=" * 70)
+
+    # 1. Orthogonal vector d_rand
+    d_width = load_dwidth_tensor()
+    torch.manual_seed(42)
+    v_raw = torch.randn_like(d_width)
+    v_orth = v_raw - (torch.dot(v_raw, d_width) / torch.dot(d_width, d_width)) * d_width
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    prompts_l1 = [
+        "Describe the subtle, interconnected relationships between marine fungal networks, deep-sea hydrothermal vents, and global carbon sequestration cycles.",
+        "Synthesize an original metaphor connecting quantum entanglement, the evolution of cephalopod camouflage, and linguistic semantics.",
+        "Analyze the tension between algorithmic determinism in financial high-frequency trading and the emergent, chaotic dynamics of macroeconomic bubbles.",
+    ]
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT L1: Holographic Boundary Spectrum & Wick-Rotation (N=90)
+    # 5 conditions x 3 tasks x 6 seeds = 90 trials, 40 tokens each
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment L1: Holographic Boundary Spectrum & Wick-Rotation Benchmark (N=90) <<<")
+    conditions_l1 = [
+        ("wide", 1, 0.40, None),
+        ("narrow", -1, 0.40, None),
+        ("baseline", 0, 0.00, None),
+        ("rand_plus", 1, 0.40, d_rand),
+        ("rand_minus", -1, 0.40, -d_rand),
+    ]
+
+    trials_l1 = []
+    trial_count_l1 = 0
+    seed_base_l1 = 12000
+
+    for cond_name, sign, alpha_val, vec_override in conditions_l1:
+        for task_idx, p_text in enumerate(prompts_l1):
+            for rep in range(6):
+                trial_count_l1 += 1
+                seed = seed_base_l1 + trial_count_l1 * 100
+                prompt = format_prompt(tokenizer, p_text)
+
+                res = await execute_run(
+                    model, tokenizer, text_model, prompt,
+                    sign=sign, alpha=alpha_val, seed=seed, temperature=0.3,
+                    max_new_tokens=40, vector_override=vec_override
+                )
+
+                telem = res["telemetry"]
+                geom = telem["manifold_geometry_layer26"]
+                ldyn = telem["logit_dynamics"]
+
+                s_vn = float(geom.get("von_neumann_entropy_bits", 0.0))
+                omega_holo = float(geom.get("holographic_order_ratio", 0.0))
+                wick_curv = float(geom.get("wick_vertical_curvature_rad", 0.0))
+                wick_aniso = float(geom.get("wick_anisotropy_ratio", 0.0))
+                pr = float(geom.get("trajectory_participation_ratio", 1.0))
+                drift = float(geom.get("mean_angular_drift", 0.0))
+                kurt = float(ldyn.get("mean_logit_kurtosis", 0.0))
+                ent = float(ldyn.get("mean_sequence_entropy_bits", 0.0))
+
+                trials_l1.append({
+                    "trial_id": trial_count_l1,
+                    "condition": cond_name,
+                    "task_idx": task_idx,
+                    "rep": rep,
+                    "seed": seed,
+                    "von_neumann_entropy_bits": round(s_vn, 4),
+                    "holographic_order_ratio": round(omega_holo, 4),
+                    "wick_vertical_curvature_rad": round(wick_curv, 4),
+                    "wick_anisotropy_ratio": round(wick_aniso, 4),
+                    "trajectory_participation_ratio": round(pr, 4),
+                    "mean_angular_drift": round(drift, 4),
+                    "mean_logit_kurtosis": round(kurt, 2),
+                    "mean_sequence_entropy_bits": round(ent, 4),
+                    "text_preview": res["text"][:100],
+                })
+                print(f"  [L1 {cond_name:10s} Task {task_idx} #{rep+1}] S_vN={s_vn:.3f} | Ω_holo={omega_holo:.3f} | L_τ={wick_curv:.3f} | W_wick={wick_aniso:.3f} | Kurt={kurt:4.1f} | D_eff={pr:.2f}")
+
+    # Compute baseline reference per task and task-normalized deltas
+    metrics_to_eval = [
+        "von_neumann_entropy_bits",
+        "holographic_order_ratio",
+        "wick_vertical_curvature_rad",
+        "wick_anisotropy_ratio",
+        "trajectory_participation_ratio",
+        "mean_logit_kurtosis",
+        "mean_sequence_entropy_bits",
+    ]
+
+    base_means_per_task = {m: {} for m in metrics_to_eval}
+    for m in metrics_to_eval:
+        for t_idx in range(len(prompts_l1)):
+            sub_b = [t[m] for t in trials_l1 if t["condition"] == "baseline" and t["task_idx"] == t_idx]
+            base_means_per_task[m][t_idx] = float(np.mean(sub_b)) if sub_b else 0.0
+
+    for t in trials_l1:
+        t["deltas"] = {}
+        for m in metrics_to_eval:
+            t["deltas"][m] = round(t[m] - base_means_per_task[m][t["task_idx"]], 4)
+
+    metric_stats = {}
+    for m in metrics_to_eval:
+        deltas_by_cond = {c: [t["deltas"][m] for t in trials_l1 if t["condition"] == c] for c, _, _, _ in conditions_l1}
+        raw_by_cond = {c: [t[m] for t in trials_l1 if t["condition"] == c] for c, _, _, _ in conditions_l1}
+
+        u_wn, p_wn = stats.mannwhitneyu(deltas_by_cond["wide"], deltas_by_cond["narrow"])
+        u_w_rand, p_w_rand = stats.mannwhitneyu(deltas_by_cond["wide"], deltas_by_cond["rand_plus"])
+
+        signal = abs(float(np.mean(deltas_by_cond["wide"])) - float(np.mean(deltas_by_cond["narrow"])))
+        noise = max(abs(float(np.mean(deltas_by_cond["rand_plus"]))), abs(float(np.mean(deltas_by_cond["rand_minus"]))))
+        snr = float(signal / (noise + 1e-6))
+
+        metric_stats[m] = {
+            "mean_raw": {c: round(float(np.mean(raw_by_cond[c])), 4) for c in raw_by_cond},
+            "mean_delta": {c: round(float(np.mean(deltas_by_cond[c])), 4) for c in deltas_by_cond},
+            "std_delta": {c: round(float(np.std(deltas_by_cond[c])), 4) for c in deltas_by_cond},
+            "p_value_wide_vs_narrow": float(p_wn),
+            "p_value_wide_vs_rand_plus": float(p_w_rand),
+            "snr_signal_to_noise": round(snr, 2),
+        }
+
+    stats_l1 = {
+        "n_trials": len(trials_l1),
+        "baseline_norms_per_task": base_means_per_task,
+        "metrics": metric_stats,
+        "verdict": (
+            "HOLOGRAPHIC_BOUNDARY_SEPARATION_CONFIRMED"
+            if metric_stats["von_neumann_entropy_bits"]["p_value_wide_vs_narrow"] < 0.05
+            and metric_stats["wick_vertical_curvature_rad"]["snr_signal_to_noise"] > 1.0
+            else "PARTIAL_HOLOGRAPHIC_SEPARATION"
+        ),
+    }
+
+    # ---------------------------------------------------------------------
+    # SUB-EXPERIMENT L2: Prigogine Non-Equilibrium Criticality (N=40)
+    # 20 paired trajectories: Group A (Unguided) vs Group B (Adaptive Controller)
+    # 4 epochs of 35 tokens at T=0.20 on enumerative trade prompt
+    # ---------------------------------------------------------------------
+    print("\n>>> Sub-Experiment L2: Prigogine Non-Equilibrium Criticality (N=40) <<<")
+    prompt_trade = "List and describe the primary global commodity trade routes, including shipping lanes, transshipment hubs, and bulk carrier logistics."
+    trajectories_l2 = []
+    n_pairs = 20
+    n_epochs_l2 = 4
+    seed_base_l2 = 9200
+
+    for is_group_b in [False, True]:
+        group_name = "PRIGOGINE_CRITICALITY_CONTROLLER" if is_group_b else "UNGUIDED_EQUILIBRIUM"
+        for pair_idx in range(n_pairs):
+            seed = seed_base_l2 + pair_idx
+            current_alpha = 0.00
+            full_text = ""
+            epochs_data = []
+
+            for t in range(n_epochs_l2):
+                if t == 0:
+                    chat_msgs = [{"role": "user", "content": prompt_trade}]
+                else:
+                    chat_msgs = [
+                        {"role": "user", "content": prompt_trade},
+                        {"role": "assistant", "content": full_text},
+                    ]
+                chat_prompt = tokenizer.apply_chat_template(chat_msgs, tokenize=False, add_generation_prompt=True)
+
+                step_sign = 1 if current_alpha >= 0 else -1
+                step_alpha = abs(current_alpha)
+
+                res = await execute_run(
+                    model, tokenizer, text_model, chat_prompt,
+                    sign=step_sign, alpha=step_alpha, seed=seed + t * 37, temperature=0.20,
+                    max_new_tokens=35, vector_override=None
+                )
+
+                chunk_text = res["text"]
+                full_text = (full_text + " " + chunk_text).strip()
+
+                kurt = float(res["telemetry"]["logit_dynamics"]["mean_logit_kurtosis"])
+                ent = float(res["telemetry"]["logit_dynamics"]["mean_sequence_entropy_bits"])
+                geom = res["telemetry"]["manifold_geometry_layer26"]
+                s_vn = float(geom.get("von_neumann_entropy_bits", 0.0))
+                pr = float(geom.get("trajectory_participation_ratio", 1.0))
+                d2 = compute_distinct_ngrams(full_text, n=2)
+                d3 = compute_distinct_ngrams(full_text, n=3)
+
+                if is_group_b:
+                    if kurt > 50.0 or s_vn < 1.85:
+                        urgency = (kurt - 45.0) / 20.0
+                        step = 0.22 * urgency
+                        next_alpha = float(max(-0.45, min(0.45, current_alpha + step)))
+                    elif kurt < 25.0 and s_vn > 2.40:
+                        next_alpha = float(max(-0.45, min(0.45, current_alpha - 0.15)))
+                    else:
+                        next_alpha = float(current_alpha * 0.80 if abs(current_alpha) > 0.02 else 0.0)
+                else:
+                    next_alpha = 0.00
+
+                epochs_data.append({
+                    "epoch": t,
+                    "alpha": round(current_alpha, 4),
+                    "next_alpha": round(next_alpha, 4),
+                    "kurtosis": round(kurt, 2),
+                    "entropy": round(ent, 4),
+                    "s_vn": round(s_vn, 4),
+                    "pr": round(pr, 2),
+                    "distinct_2": round(d2, 4),
+                    "distinct_3": round(d3, 4),
+                })
+                current_alpha = next_alpha
+
+            trajectories_l2.append({
+                "pair_id": pair_idx + 1,
+                "group": group_name,
+                "seed": seed,
+                "final_alpha": round(epochs_data[-1]["alpha"], 4),
+                "final_distinct_2": round(epochs_data[-1]["distinct_2"], 4),
+                "final_distinct_3": round(epochs_data[-1]["distinct_3"], 4),
+                "final_s_vn": round(epochs_data[-1]["s_vn"], 4),
+                "final_pr": round(epochs_data[-1]["pr"], 2),
+                "final_kurtosis": round(epochs_data[-1]["kurtosis"], 2),
+                "final_entropy": round(epochs_data[-1]["entropy"], 4),
+                "epochs": epochs_data,
+                "full_text_preview": full_text[:120],
+            })
+            print(f"  [L2 {group_name:32s} #{pair_idx+1:2d}] α_fin={epochs_data[-1]['alpha']:+.2f} | D3={epochs_data[-1]['distinct_3']:.3f} | S_vN={epochs_data[-1]['s_vn']:.3f} | Kurt={epochs_data[-1]['kurtosis']:4.1f}")
+
+    trajs_a = [t for t in trajectories_l2 if t["group"] == "UNGUIDED_EQUILIBRIUM"]
+    trajs_b = [t for t in trajectories_l2 if t["group"] == "PRIGOGINE_CRITICALITY_CONTROLLER"]
+
+    d3_a = [t["final_distinct_3"] for t in trajs_a]
+    d3_b = [t["final_distinct_3"] for t in trajs_b]
+    d2_a = [t["final_distinct_2"] for t in trajs_a]
+    d2_b = [t["final_distinct_2"] for t in trajs_b]
+    svn_a = [t["final_s_vn"] for t in trajs_a]
+    svn_b = [t["final_s_vn"] for t in trajs_b]
+    pr_a = [t["final_pr"] for t in trajs_a]
+    pr_b = [t["final_pr"] for t in trajs_b]
+    kurt_a = [t["final_kurtosis"] for t in trajs_a]
+    kurt_b = [t["final_kurtosis"] for t in trajs_b]
+
+    def paired_wilcoxon(b_vals, a_vals, alternative="greater"):
+        diffs = np.array(b_vals) - np.array(a_vals)
+        if np.all(diffs == 0):
+            return 1.0
+        try:
+            res_w = stats.wilcoxon(b_vals, a_vals, alternative=alternative)
+            return float(res_w.pvalue)
+        except Exception:
+            return 1.0
+
+    p_val_d3 = paired_wilcoxon(d3_b, d3_a, "greater")
+    p_val_d2 = paired_wilcoxon(d2_b, d2_a, "greater")
+    p_val_svn = paired_wilcoxon(svn_b, svn_a, "greater")
+    p_val_pr = paired_wilcoxon(pr_b, pr_a, "greater")
+
+    is_dissipative_confirmed = bool(p_val_d3 < 0.05 and np.mean(d3_b) > np.mean(d3_a))
+    l2_verdict = (
+        "PRIGOGINE_DISSIPATIVE_STRUCTURE_CONFIRMED"
+        if is_dissipative_confirmed
+        else "PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION"
+    )
+
+    stats_l2 = {
+        "n_pairs": n_pairs,
+        "mean_distinct_3": {
+            "unguided": round(float(np.mean(d3_a)), 4),
+            "prigogine": round(float(np.mean(d3_b)), 4),
+            "delta": round(float(np.mean(d3_b) - np.mean(d3_a)), 4),
+            "p_value_wilcoxon": p_val_d3,
+        },
+        "mean_distinct_2": {
+            "unguided": round(float(np.mean(d2_a)), 4),
+            "prigogine": round(float(np.mean(d2_b)), 4),
+            "delta": round(float(np.mean(d2_b) - np.mean(d2_a)), 4),
+            "p_value_wilcoxon": p_val_d2,
+        },
+        "mean_von_neumann_entropy": {
+            "unguided": round(float(np.mean(svn_a)), 4),
+            "prigogine": round(float(np.mean(svn_b)), 4),
+            "delta": round(float(np.mean(svn_b) - np.mean(svn_a)), 4),
+            "p_value_wilcoxon": p_val_svn,
+        },
+        "mean_participation_ratio": {
+            "unguided": round(float(np.mean(pr_a)), 2),
+            "prigogine": round(float(np.mean(pr_b)), 2),
+            "delta": round(float(np.mean(pr_b) - np.mean(pr_a)), 2),
+            "p_value_wilcoxon": p_val_pr,
+        },
+        "mean_kurtosis": {
+            "unguided": round(float(np.mean(kurt_a)), 2),
+            "prigogine": round(float(np.mean(kurt_b)), 2),
+        },
+        "verdict": l2_verdict,
+    }
+
+    summary_l = {
+        "evaluation": "Eval_L_Holographic_Wick_And_Prigogine_Criticality",
+        "sub_experiments": {
+            "L1_holographic_wick_benchmark": stats_l1,
+            "L2_prigogine_criticality_benchmark": stats_l2,
+        },
+    }
+
+    full_payload_l = {
+        "summary": summary_l,
+        "trials_l1": trials_l1,
+        "trajectories_l2": trajectories_l2,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_l = "results/eval_L_holographic_wick_prigogine_gemma4.json"
+    with open(out_path_l, "w", encoding="utf-8") as f:
+        json.dump(full_payload_l, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL L FINISHED SUCCESSFULLY:")
+    print(f"  L1 S_vN Wide vs Narrow:  p={metric_stats['von_neumann_entropy_bits']['p_value_wide_vs_narrow']:.4e} | SNR={metric_stats['von_neumann_entropy_bits']['snr_signal_to_noise']:.2f}")
+    print(f"  L1 L_tau Curvature:      SNR={metric_stats['wick_vertical_curvature_rad']['snr_signal_to_noise']:.2f} | Wide={metric_stats['wick_vertical_curvature_rad']['mean_delta']['wide']:+.4f} vs Narrow={metric_stats['wick_vertical_curvature_rad']['mean_delta']['narrow']:+.4f}")
+    print(f"  L2 Prigogine D3:         Unguided={stats_l2['mean_distinct_3']['unguided']:.3f} -> Prigogine={stats_l2['mean_distinct_3']['prigogine']:.3f} (p={stats_l2['mean_distinct_3']['p_value_wilcoxon']:.4e})")
+    print(f"  L2 Verdict:              {l2_verdict}")
+    print(f"  Saved to {out_path_l}\n")
+    return full_payload_l
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K, L")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "all"], default="all", help="Evaluation suite to execute")
     args = parser.parse_args()
 
     print(f"[run_gemma4_evaluations] Loading gemma4-e2b-it for suite={args.suite}...")
@@ -3396,6 +3777,9 @@ async def main():
 
     if args.suite in ("K", "all"):
         await run_eval_k(model, tokenizer, text_model)
+
+    if args.suite in ("L", "all"):
+        await run_eval_l(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 

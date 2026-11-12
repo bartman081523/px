@@ -41,7 +41,8 @@ def test_covariance_gated_step_narrow_recovery():
         # Physical model: deltas scale with remaining perturbation
         delta_k = -50.0 * alpha_t  # positive when alpha_t < 0
         delta_d = 1.5 * alpha_t    # negative when alpha_t < 0
-        alpha_t = compute_covariance_gated_step(alpha_t, delta_k, delta_d)
+        delta_h = 0.5 * alpha_t    # negative when alpha_t < 0
+        alpha_t = compute_covariance_gated_step(alpha_t, delta_k, delta_d, delta_h)
     assert abs(alpha_t) < 0.05, f"Expected convergence to |alpha| < 0.05, got {alpha_t}"
 
 
@@ -49,7 +50,7 @@ def test_covariance_gated_step_wide_recovery():
     """Verify Covariance Gating on Wide perturbation (ΔK < 0, ΔD > 0)."""
     alpha_0 = +0.40
     # Wide signature: kurtosis decreased (-22.0), PR increased (+0.8)
-    alpha_1 = compute_covariance_gated_step(alpha_0, delta_k_true=-22.0, delta_d_true=+0.8)
+    alpha_1 = compute_covariance_gated_step(alpha_0, delta_k_true=-22.0, delta_d_true=+0.8, delta_h_true=+0.25)
     assert alpha_1 < alpha_0, "Wide recovery must pull alpha downward towards 0"
     assert alpha_1 > 0.0
 
@@ -58,7 +59,8 @@ def test_covariance_gated_step_wide_recovery():
     for _ in range(5):
         delta_k = -50.0 * alpha_t  # negative when alpha_t > 0
         delta_d = 1.5 * alpha_t    # positive when alpha_t > 0
-        alpha_t = compute_covariance_gated_step(alpha_t, delta_k, delta_d)
+        delta_h = 0.5 * alpha_t    # positive when alpha_t > 0
+        alpha_t = compute_covariance_gated_step(alpha_t, delta_k, delta_d, delta_h)
     assert abs(alpha_t) < 0.05, f"Expected convergence to |alpha| < 0.05, got {alpha_t}"
 
 

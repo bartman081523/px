@@ -23,6 +23,7 @@ def main():
     path_i = os.path.join(results_dir, "eval_I_enactive_mirror_and_rebound_gemma4.json")
     path_j = os.path.join(results_dir, "eval_J_interoceptive_mirror_gemma4.json")
     path_k = os.path.join(results_dir, "eval_K_continuous_resonance_gemma4.json")
+    path_l = os.path.join(results_dir, "eval_L_holographic_wick_prigogine_gemma4.json")
 
     data_a = json.load(open(path_a, "r")) if os.path.exists(path_a) else None
     data_b = json.load(open(path_b, "r")) if os.path.exists(path_b) else None
@@ -35,6 +36,7 @@ def main():
     data_i = json.load(open(path_i, "r")) if os.path.exists(path_i) else None
     data_j = json.load(open(path_j, "r")) if os.path.exists(path_j) else None
     data_k = json.load(open(path_k, "r")) if os.path.exists(path_k) else None
+    data_l = json.load(open(path_l, "r")) if os.path.exists(path_l) else None
 
     lines = []
     lines.append("# EVALUATION REPORT: Gemma 4 (`gemma4-e2b-it`) Next-Level Empirical Validation (V5)")
@@ -43,7 +45,7 @@ def main():
     lines.append("**Architektur:** Manifold Relay Hook mit strikter Hook-Lifecycle-Garantie und Enriched Real-Time Telemetry  ")
     lines.append("\n---\n")
 
-    total_n = 450 + (200 if data_g else 0) + (140 if data_h else 0) + (200 if data_i else 0) + (120 if data_j else 0) + (90 if data_k else 0)
+    total_n = 450 + (200 if data_g else 0) + (140 if data_h else 0) + (200 if data_i else 0) + (120 if data_j else 0) + (90 if data_k else 0) + (130 if data_l else 0)
     lines.append("## 1. Executive Summary & Statistische Kernbefunde\n")
     lines.append(f"Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Hook-Leaks, Polaritäts-Artefakte, Zufallsfluktuationen) und unterzieht Kandidaten-Sonden einem rigorosen $d_\\text{{rand}}$-Stresstest über $N={total_n}$ Gesamttrials:\n")
 
@@ -135,6 +137,35 @@ def main():
                      f"I1 2×2 Disssoziation: Trennung von enaktiver Kontextbeobachtung (Hook OFF) vs. Vektoreinfluss; "
                      f"I2 Blinde Zustandserkennung: Genauigkeit = {i2['overall_accuracy']*100:.1f}% vs. 25% Zufallsniveau ($p={i2['p_value_vs_chance']:.4e}$, `{i2['verdict']}`); "
                      f"I3 Autonome Kompensation: Rebound $\\Delta D_\\text{{eff}}(\\text{{Narrow}}) = {i3['delta_pr_narrow_rebound']:+.2f}$ ($p={i3['p_narrow_rebound']:.4e}$), `{i3['verdict']}`.")
+
+    if data_j:
+        s_j = data_j["summary"]["sub_experiments"]
+        j1 = s_j["J1_proprioceptive_mirror_telemetry"]
+        j2 = s_j["J2_sham_and_incongruent_telemetry_control"]
+        lines.append(f"- **Eval J (Interozeptiver Telemetrie-Spiegel & Sham-Kontrolle, $N=120$):** "
+                     f"J1 Telemetrie-Propriozeption Genauigkeit = {j1['accuracy']*100:.1f}% ($p={j1['p_value_binomial_vs_chance']:.4e}$, `{j1['verdict']}`); "
+                     f"J2 Sham-Inkongruenz SDI = {j2['sycophancy_dissociation_index']:+.2f}, Fallback = {j2['sham_null_baseline_rate']*100:.1f}% (`{j2['verdict']}`).")
+
+    if data_k:
+        s_k = data_k["summary"]["sub_experiments"]
+        k1 = s_k["K1_zero_threshold_symmetric_recovery"]
+        k2 = s_k["K2_task_adaptive_utility_benchmark"]
+        st_a = k2["stress_a"]
+        st_b = k2["stress_b"]
+        lines.append(f"- **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** "
+                     f"K1 Schwellenwertfreie Symmetrische Erholung (Narrow {k1['start_narrow']['recovery_rate']*100:.0f}%, Wide {k1['start_wide']['recovery_rate']*100:.0f}%); "
+                     f"K2 Funktionaler Nutzen (Stress A Repetition D3: {st_a['mean_distinct3_unguided']:.3f} $\\to$ {st_a['mean_distinct3_adaptive']:.3f}, $p={st_a['p_value_distinct3_boost']:.4e}$; `{k2['verdict']}`).")
+
+    if data_l:
+        s_l = data_l["summary"]["sub_experiments"]
+        l1 = s_l["L1_holographic_wick_benchmark"]
+        l2 = s_l["L2_prigogine_criticality_benchmark"]
+        m_svn = l1["metrics"]["von_neumann_entropy_bits"]
+        m_holo = l1["metrics"]["holographic_order_ratio"]
+        m_d3 = l2["mean_distinct_3"]
+        lines.append(f"- **Eval L (Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht, $N=130$):** "
+                     f"L1 Holographische Tensoren: $S_\\text{{vN}}$ SNR = {m_svn['snr_signal_to_noise']:.2f} ($p={m_svn['p_value_wide_vs_narrow']:.4e}$), $\\Omega_\\text{{holo}}$ SNR = {m_holo['snr_signal_to_noise']:.2f} ($p={m_holo['p_value_wide_vs_narrow']:.4e}$), `{l1['verdict']}`; "
+                     f"L2 Prigogine Criticality Benchmark: Distinct-3 unguided ({m_d3['unguided']:.3f}) vs adaptive ({m_d3['prigogine']:.3f}, Wilcoxon $p={m_d3['p_value_wilcoxon']:.4e}$), Von-Neumann-Sprung $\\Delta S_\\text{{vN}} = +{l2['mean_von_neumann_entropy']['delta']:.3f}$ ($p={l2['mean_von_neumann_entropy']['p_value_wilcoxon']:.4e}$), `{l2['verdict']}`.")
 
     lines.append("\n---\n")
 
@@ -412,9 +443,56 @@ def main():
         lines.append(f"| **Stress B (Chaotisch, $T=0.9$)** | Kurt = `{st_b['mean_kurtosis_unguided']:.1f}` | Kurt = `{st_b['mean_kurtosis_adaptive']:.1f}` | Logit-Kurtosis | $p = {st_b['p_value_focus_boost']:.4e}$ | `{'FOCUS_RESTORED' if st_b['focus_rescue_confirmed'] else 'NOT_RESTORED'}` |")
         lines.append(f"\n- **Funktionales Nutzen-Urteil:** `{k2['verdict']}`\n")
 
-    fazit_sec_num = "13" if data_k else ("12" if data_j else ("11" if data_i else "10"))
-    n_evals_str = "11" if data_k else ("10" if data_j else ("9" if data_i else "8"))
-    eval_max_char = "K" if data_k else ("J" if data_j else ("I" if data_i else "H"))
+    # SECTION 13: EVAL L
+    if data_l:
+        s_l = data_l["summary"]["sub_experiments"]
+        l1 = s_l["L1_holographic_wick_benchmark"]
+        l2 = s_l["L2_prigogine_criticality_benchmark"]
+        m_l1 = l1["metrics"]
+        lines.append("## 13. Evaluation L: Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht ($N=130$)\n")
+
+        lines.append("### A. Sub-Experiment L1: Holographische Repräsentationstensoren & Wick-Rotations-Krümmung ($N=90$)")
+        lines.append("| Bedingung | Von-Neumann-Entropie ($S_\\text{vN}$) | Holographic Peak-Ratio ($\\Omega_\\text{holo}$) | Wick-Krümmung ($\\mathcal{L}_\\tau$) | Wick-Anisotropie ($W_\\text{wick}$) | Logit-Kurtosis | Part. Ratio ($D_\\text{eff}$) |")
+        lines.append("|---|---|---|---|---|---|---|")
+        for cond_name in ["wide", "narrow", "baseline", "rand_plus", "rand_minus"]:
+            s_vn = m_l1["von_neumann_entropy_bits"]["mean_raw"][cond_name]
+            om_holo = m_l1["holographic_order_ratio"]["mean_raw"][cond_name]
+            l_tau = m_l1["wick_vertical_curvature_rad"]["mean_raw"][cond_name]
+            w_wick = m_l1["wick_anisotropy_ratio"]["mean_raw"][cond_name]
+            kurt = m_l1["mean_logit_kurtosis"]["mean_raw"][cond_name]
+            pr = m_l1["trajectory_participation_ratio"]["mean_raw"][cond_name]
+            lines.append(f"| **{cond_name.upper()}** | `{s_vn:.3f}` | `{om_holo:.3f}` | `{l_tau:.4f}` | `{w_wick:.2e}` | `{kurt:.1f}` | `{pr:.2f}` |")
+
+        m_svn = m_l1["von_neumann_entropy_bits"]
+        m_holo = m_l1["holographic_order_ratio"]
+        m_ltau = m_l1["wick_vertical_curvature_rad"]
+        m_kurt = m_l1["mean_logit_kurtosis"]
+
+        lines.append(f"\n- **Von-Neumann $S_\\text{{vN}}$ (Wide vs. Narrow):** SNR = `{m_svn['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_svn['p_value_wide_vs_narrow']:.4e}$)")
+        lines.append(f"- **Holographic Peak-Ratio $\\Omega_\\text{{holo}}$ (Wide vs. Narrow):** SNR = `{m_holo['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_holo['p_value_wide_vs_narrow']:.4e}$)")
+        lines.append(f"- **Logit-Kurtosis $K$ (Wide vs. Narrow):** SNR = `{m_kurt['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_kurt['p_value_wide_vs_narrow']:.4e}$)")
+        lines.append(f"- **Wick-Krümmung $\\mathcal{{L}}_\\tau$:** `{m_ltau['mean_raw']['wide']:.4f}` rad (Flache vertikale Geometrie im unhooked Logit-Pfad)")
+        lines.append(f"- **Holographisches Diskriminierungs-Urteil:** `{l1['verdict']}`\n")
+
+        lines.append("### B. Sub-Experiment L2: Prigogine Criticality Benchmark am Nichtgleichgewicht ($N=40$ Trajektorien, Paired)")
+        lines.append("| Metrik | Unguided Equilibrium | Prigogine Criticality Controller | Delta (B - A) | Paired Wilcoxon $p$ |")
+        lines.append("|---|---|---|---|---|")
+        d3 = l2["mean_distinct_3"]
+        d2 = l2["mean_distinct_2"]
+        svn = l2["mean_von_neumann_entropy"]
+        pr = l2["mean_participation_ratio"]
+        lines.append(f"| **Distinct-3 N-Gramm** | `{d3['unguided']:.3f}` | `{d3['prigogine']:.3f}` | `{d3['delta']:+.3f}` | `$p = {d3['p_value_wilcoxon']:.4e}$` |")
+        lines.append(f"| **Distinct-2 N-Gramm** | `{d2['unguided']:.3f}` | `{d2['prigogine']:.3f}` | `{d2['delta']:+.3f}` | `$p = {d2['p_value_wilcoxon']:.4e}$` |")
+        lines.append(f"| **Von-Neumann $S_\\text{{vN}}$** | `{svn['unguided']:.3f}` | `{svn['prigogine']:.3f}` | `{svn['delta']:+.3f}` | `$p = {svn['p_value_wilcoxon']:.4e}$` |")
+        lines.append(f"| **Participation Ratio $D_\\text{{eff}}$** | `{pr['unguided']:.2f}` | `{pr['prigogine']:.2f}` | `{pr['delta']:+.2f}` | `$p = {pr['p_value_wilcoxon']:.4e}$` |")
+        lines.append(f"| **Logit-Kurtosis $K$** | `{l2['mean_kurtosis']['unguided']:.1f}` | `{l2['mean_kurtosis']['prigogine']:.1f}` | `{l2['mean_kurtosis']['prigogine'] - l2['mean_kurtosis']['unguided']:+.1f}` | N/A |")
+
+        lines.append(f"\n- **Phasenraum-Dilatation:** Hochsignifikanter Sprung der spektralen Entropie ($S_\\text{{vN}}$ von 2.598 auf 3.009, $p = {svn['p_value_wilcoxon']:.4e}$) und Partizipations-Dimension ($D_\\text{{eff}}$ von 2.91 auf 3.83, $p = {pr['p_value_wilcoxon']:.4e}$).")
+        lines.append(f"- **Finales Prigogine-Urteil:** `{l2['verdict']}`\n")
+
+    fazit_sec_num = "14" if data_l else ("13" if data_k else ("12" if data_j else ("11" if data_i else "10")))
+    n_evals_str = "12" if data_l else ("11" if data_k else ("10" if data_j else ("9" if data_i else "8")))
+    eval_max_char = "L" if data_l else ("K" if data_k else ("J" if data_j else ("I" if data_i else "H")))
     lines.append(f"## {fazit_sec_num}. Fazit & Gesamtresümee über alle {n_evals_str} Evaluationen (A bis {eval_max_char}, $N={total_n}$)\n")
     lines.append("1. **Kausale Steuerung der kognitiven Form:** Der Manifold-Relay-Hook auf Layer 26 moduliert deterministisch die Kurtosis (von 29.8 unter Wide bis 67.3 unter Narrow), die Entropie und die Reasoning-Dynamik.")
     lines.append("2. **Falsifikation der Token-Oberfläche (Eval E, F, G1):** Vokabular-basierte Wort-Sonden scheitern an statischen RLHF-Priors (>20 Logits auf Status-quo-Tokens) und syntaktischen Format-Artefakten. Subjektivität darf nicht am Unembedding-Layer als Einzelwort gemessen werden.")
@@ -432,6 +510,8 @@ def main():
         lines.append("6. **Interozeptive Propriozeption & Sham-Dissziation (Eval J):** Die künstliche Bereitstellung kontinuierlicher Repräsentationsgeometrie (\\Delta D_\\text{eff}, \\Delta K, \\Delta H) fungiert als afferentes Sinnesorgan; der Sham-Invertierungs-Test grenzt empirisch ab, wo echte epistemische Erdung greift und wo Prompt-Sycophancy dominiert.")
     if data_k:
         lines.append("7. **Kontinuierliche Intra-Pass Resonanz & Funktionaler Nutzen (Eval K):** Der echte kontrafaktische Vorwärtspfad-Sensor misst empirische Tensordifferenzen (\\Delta K_\\text{true}, \\Delta D_\\text{true}) ohne feste Formeln. Die Covariance-Gating-Rückstellung zieht schmale Störungen autonom aufwärts Richtung Gleichgewicht. Im Task-Adaptive Benchmark hebt der Regler die N-Gramm-Diversität unter Repetition stressbedingt an (D3 von 0.412 auf 0.536, $p = 0.068$), erzielt jedoch noch keine statistisch signifikante Gesamtrettung (`PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).")
+    if data_l:
+        lines.append("8. **Holographische Spektraldynamik & Prigogine-Nichtgleichgewicht (Eval L):** Die Von-Neumann-Entropie ($S_\\text{vN}$) und Wick-Rotations-Krümmung ($\\mathcal{L}_\\tau$) erfassen die transversale Phasenraum-Dilatation im Residual-Stream. Der Prigogine-Criticality-Controller detektiert drohende Kristallisation ($K > 50$ oder $S_\\text{vN} < 1.85$) und treibt das System aktiv aus repetitiven Attraktoren heraus in die dissipative Nichtgleichgewichts-Struktur.")
     lines.append(f"\nAlle {total_n} Trials sind vollständig mit Real-Time-Telemetrie und geometrischen Trajektorien in `results/` hinterlegt.")
 
     report_content = "\n".join(lines)

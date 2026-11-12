@@ -207,7 +207,7 @@ class Gemma4TelemetryLogitsProcessor(LogitsProcessor):
 
 
 class Gemma4ManifoldGeometryTracker:
-    """Hooks into target and final layers to track manifold geometry and emancipation."""
+    """Hooks into layers 26 to 35 to track boundary geometry, holographic entropy, and Wick curvature."""
 
     def __init__(self, text_model, dwidth_tensor, relay_layer: int = 26):
         self.text_model = text_model
@@ -224,24 +224,30 @@ class Gemma4ManifoldGeometryTracker:
         self.final_cos_sims = []
         self.emancipation_trajectory = []
         self.final_hidden_states = []
+        self.intermediate_layers_states = {l: [] for l in range(self.relay_layer_idx, self.final_layer_idx + 1)}
         self.first_token_h26 = None
         self.handles = []
 
     def attach(self):
         self.detach()
+        self.intermediate_layers_states = {l: [] for l in range(self.relay_layer_idx, self.final_layer_idx + 1)}
 
-        # Final layer hook
-        def final_layer_hook(_m, _i, o):
-            h = o[0] if isinstance(o, (tuple, list)) else o
-            with torch.no_grad():
-                lp = h[:, -1, :].float()
-                self.final_hidden_states.append(lp[0].detach().cpu())
-                if self.d_unit is not None:
-                    sim = F.cosine_similarity(lp[0:1], self.d_unit.to(lp.device)).item()
-                    self.final_cos_sims.append(float(sim))
+        def make_layer_hook(layer_num):
+            def layer_hook(_m, _i, o):
+                h = o[0] if isinstance(o, (tuple, list)) else o
+                with torch.no_grad():
+                    lp = h[:, -1, :].float()
+                    self.intermediate_layers_states[layer_num].append(lp[0].detach().cpu())
+                    if layer_num == self.final_layer_idx:
+                        self.final_hidden_states.append(lp[0].detach().cpu())
+                        if self.d_unit is not None:
+                            sim = F.cosine_similarity(lp[0:1], self.d_unit.to(lp.device)).item()
+                            self.final_cos_sims.append(float(sim))
+            return layer_hook
 
-        h_final = self.text_model.layers[self.final_layer_idx].register_forward_hook(final_layer_hook)
-        self.handles.append(h_final)
+        for l_idx in range(self.relay_layer_idx, self.final_layer_idx + 1):
+            h_hook = self.text_model.layers[l_idx].register_forward_hook(make_layer_hook(l_idx))
+            self.handles.append(h_hook)
 
     def record_step(self, h_pre, h_post, inj, alpha):
         with torch.no_grad():
@@ -267,15 +273,20 @@ class Gemma4ManifoldGeometryTracker:
                 pass
         self.handles.clear()
 
-    def compute_trajectory_metrics(self) -> Dict[str, float]:
+    def compute_trajectory_metrics(self, mean_logit_kurtosis: float = 0.0) -> Dict[str, float]:
         if not self.final_hidden_states or len(self.final_hidden_states) < 2:
             return {
                 "trajectory_participation_ratio": 1.0,
                 "radius_of_gyration": 0.0,
                 "mean_angular_drift": 0.0,
+                "von_neumann_entropy_bits": 0.0,
+                "holographic_order_ratio": 0.0,
+                "wick_vertical_curvature_rad": 0.0,
+                "wick_anisotropy_ratio": 0.0,
             }
 
         H = torch.stack(self.final_hidden_states, dim=0).float()
+        T = H.shape[0]
         mean_h = H.mean(dim=0, keepdim=True)
         H_c = H - mean_h
         rg = float(torch.sqrt(torch.mean(torch.sum(H_c ** 2, dim=-1))).item())
@@ -286,19 +297,56 @@ class Gemma4ManifoldGeometryTracker:
             sum_var = torch.sum(var).item()
             sum_var_sq = torch.sum(var ** 2).item()
             pr = float((sum_var ** 2) / (sum_var_sq + 1e-12)) if sum_var_sq > 0 else 1.0
+
+            lambdas = var / (sum_var + 1e-12)
+            log2_l = torch.log2(lambdas + 1e-12)
+            s_vn = float(-torch.sum(lambdas * log2_l).item())
         except Exception:
             pr = 1.0
+            s_vn = 0.0
+
+        omega_holo = float(s_vn / (math.log10(max(0.0, mean_logit_kurtosis) + 1.0) + 1e-6))
 
         cos_sims = F.cosine_similarity(H[:-1], H[1:], dim=-1)
-        drift = float(torch.mean(1.0 - cos_sims).item())
+        cos_clamped = torch.clamp(cos_sims, -1.0, 1.0)
+        angles_horiz = torch.acos(cos_clamped)
+        drift = float(torch.mean(angles_horiz).item()) if len(angles_horiz) > 0 else 0.0
+
+        # Wick-Rotation Imaginary-Time Curvature across Layers 26 to 35
+        # L_tau = 1/T * sum_{t=1}^T sum_{l=26}^{34} arccos(clamp(cos(h_l(t), h_{l+1}(t)), -1, 1))
+        wick_curvatures = []
+        num_layers_span = self.final_layer_idx - self.relay_layer_idx  # 35 - 26 = 9
+        has_intermediates = all(
+            len(self.intermediate_layers_states.get(l, [])) >= T
+            for l in range(self.relay_layer_idx, self.final_layer_idx + 1)
+        )
+        if has_intermediates and num_layers_span > 0:
+            for t_idx in range(T):
+                vert_angle_sum = 0.0
+                for l in range(self.relay_layer_idx, self.final_layer_idx):
+                    hl = self.intermediate_layers_states[l][t_idx]
+                    hl1 = self.intermediate_layers_states[l + 1][t_idx]
+                    c = F.cosine_similarity(hl.unsqueeze(0), hl1.unsqueeze(0)).item()
+                    c = max(-1.0, min(1.0, c))
+                    vert_angle_sum += math.acos(c)
+                wick_curvatures.append(vert_angle_sum)
+            wick_l_tau = float(np.mean(wick_curvatures)) if wick_curvatures else 0.0
+        else:
+            wick_l_tau = 0.0
+
+        wick_anisotropy = float(drift / ((wick_l_tau / max(1.0, float(num_layers_span))) + 1e-8))
 
         return {
             "trajectory_participation_ratio": round(pr, 4),
             "radius_of_gyration": round(rg, 4),
             "mean_angular_drift": round(drift, 4),
+            "von_neumann_entropy_bits": round(s_vn, 4),
+            "holographic_order_ratio": round(omega_holo, 4),
+            "wick_vertical_curvature_rad": round(wick_l_tau, 4),
+            "wick_anisotropy_ratio": round(wick_anisotropy, 4),
         }
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self, mean_kurtosis: float = 0.0) -> Dict[str, Any]:
         post_mean = float(np.mean(self.post_cos_sims)) if self.post_cos_sims else 0.0
         final_mean = float(np.mean(self.final_cos_sims)) if self.final_cos_sims else 0.0
         delta_attenuation = float(final_mean - post_mean) if self.final_cos_sims and self.post_cos_sims else 0.0
@@ -313,7 +361,7 @@ class Gemma4ManifoldGeometryTracker:
             "delta_cos_sim_attenuation": round(delta_attenuation, 4),
             "emancipation_trajectory": [round(d, 4) for d in self.emancipation_trajectory],
         }
-        res.update(self.compute_trajectory_metrics())
+        res.update(self.compute_trajectory_metrics(mean_logit_kurtosis=mean_kurtosis))
         return res
 
 
@@ -367,7 +415,8 @@ def assemble_enriched_telemetry(
         }
 
     if geom_tracker is not None:
-        manifold_geom = geom_tracker.get_summary()
+        mean_kurt = float(logit_dynamics.get("mean_logit_kurtosis", 0.0))
+        manifold_geom = geom_tracker.get_summary(mean_kurtosis=mean_kurt)
     else:
         manifold_geom = {
             "pre_hook_residual_norm_mean": 0.0,
@@ -381,6 +430,10 @@ def assemble_enriched_telemetry(
             "trajectory_participation_ratio": 1.0,
             "radius_of_gyration": 0.0,
             "mean_angular_drift": 0.0,
+            "von_neumann_entropy_bits": 0.0,
+            "holographic_order_ratio": 0.0,
+            "wick_vertical_curvature_rad": 0.0,
+            "wick_anisotropy_ratio": 0.0,
         }
 
     return {
