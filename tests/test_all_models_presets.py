@@ -1,7 +1,13 @@
 import torch
+import pytest
 import asyncio
 import json
 from model_manager import ModelManager
+
+# Loads minicpm5-1b three times (one per preset).
+# Opt-in via `pytest --gpu` (12 GB VRAM, slow).
+pytestmark = pytest.mark.gpu
+
 
 async def test_all_models_presets():
     manager = ModelManager()

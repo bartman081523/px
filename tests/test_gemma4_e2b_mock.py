@@ -227,14 +227,23 @@ class TestGemma4E2BZoneRouting(unittest.TestCase):
 class TestGemma4E2BPatch(unittest.TestCase):
     """Validate gemma4_conditional loading branch in ModelManager."""
 
+    @patch('transformers.AutoProcessor.from_pretrained')
     @patch('transformers.AutoModelForImageTextToText.from_pretrained')
     @patch('transformers.AutoTokenizer.from_pretrained')
-    def test_gemma4_uses_image_text_to_text_loader(self, mock_tok, mock_image_text):
-        """gemma4_conditional must use AutoModelForImageTextToText (multimodal)."""
+    def test_gemma4_uses_image_text_to_text_loader(self, mock_tok, mock_image_text, mock_processor):
+        """gemma4_conditional must use AutoModelForImageTextToText (multimodal).
+
+        Audit fix 2026-11-13: the multimodal branch of ModelManager also calls
+        AutoProcessor.from_pretrained(). That call was not mocked, so transformers
+        built a real Gemma4Processor and immediately rejected the MagicMock
+        tokenizer ("Received a MagicMock for argument tokenizer") — the test was
+        red for a transformers-version reason, not because of a loader regression.
+        """
         from model_manager import ModelManager
 
         # Set up mocks
         mock_tok.return_value = MagicMock()
+        mock_processor.return_value = MagicMock()
         # _NoTopLevelLanguageModelMock: the real Gemma4ForConditionalGeneration
         # has no top-level .language_model (text backbone lives at
         # model.model.language_model). A plain MagicMock would auto-create

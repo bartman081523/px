@@ -1,10 +1,16 @@
 import torch
+import pytest
 import asyncio
 import os
 from model_manager import ModelManager
 
 os.environ["DEBUG_PX"] = "1"
 os.environ["DEBUG_GEMMA4"] = "1"
+
+# Loads gemma4-e2b-it with SUBJECTIVE recursion.
+# Opt-in via `pytest --gpu` (12 GB VRAM, slow).
+pytestmark = pytest.mark.gpu
+
 
 async def test_gemma4_e2b():
     manager = ModelManager()

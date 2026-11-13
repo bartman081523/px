@@ -3,6 +3,7 @@ import torch
 import asyncio
 import os
 import json
+import pytest
 from model_manager import ModelManager
 
 class TestPXIntegrity(unittest.TestCase):
@@ -11,6 +12,7 @@ class TestPXIntegrity(unittest.TestCase):
         cls.manager = ModelManager()
         cls.model_id = "gemma3-270m-it"
         
+    @pytest.mark.gpu
     def test_recursion_active(self):
         """Verify that SUBJECTIVE mode actually enters recursion (steps > 0)."""
         loop = asyncio.new_event_loop()
@@ -45,30 +47,46 @@ class TestPXIntegrity(unittest.TestCase):
             loop.close()
 
     def test_telemetry_file_persistence(self):
-        """Verify that telemetry files are written to telemetry/ folder."""
-        # This requires the server or a direct call to telemetry.record
-        from telemetry import telemetry
-        
+        """Verify that telemetry.record() persists a well-formed JSON record.
+
+        Audit fix 2026-11-13: the test used to read a hardcoded *sibling*
+        directory (/run/media/julian/ML4/ollama-work/all_space/telemetry) and
+        picked `sorted(files)[-1]` lexicographically — which is not necessarily
+        the record it just wrote and may be a non-JSON artefact. That produced a
+        JSONDecodeError unrelated to any code under test. It now uses the real
+        TELEMETRY_DIR from the module and diffs the file set around the write.
+        """
+        import telemetry as telemetry_mod
+
+        telemetry = telemetry_mod.telemetry
+        telemetry_dir = telemetry_mod.TELEMETRY_DIR
+        self.assertTrue(os.path.isdir(telemetry_dir),
+                        f"TELEMETRY_DIR does not exist: {telemetry_dir}")
+
+        before = set(os.listdir(telemetry_dir))
+
         test_model = "test-integrity-model"
         telemetry.record(
-            test_model, 
-            prompt_tokens=10, 
-            completion_tokens=5, 
+            test_model,
+            prompt_tokens=10,
+            completion_tokens=5,
             px_metrics={"phi": 0.9},
             prompt_text="Test prompt",
-            completion_text="Test response"
+            completion_text="Test response",
         )
-        
-        telemetry_dir = "/run/media/julian/ML4/ollama-work/all_space/telemetry"
-        files = os.listdir(telemetry_dir)
-        self.assertGreater(len(files), 0, "No telemetry files found in telemetry/ directory")
-        
-        # Check latest file content
-        latest_file = sorted(files)[-1]
-        with open(os.path.join(telemetry_dir, latest_file), "r") as f:
+
+        new_files = sorted(set(os.listdir(telemetry_dir)) - before)
+        self.assertEqual(len(new_files), 1,
+                         f"Expected exactly one new telemetry file, got {new_files}")
+
+        with open(os.path.join(telemetry_dir, new_files[0]), "r") as f:
             data = json.load(f)
-            self.assertEqual(data["model_id"], test_model)
-            self.assertEqual(data["prompt"], "Test prompt")
+        self.assertEqual(data["model_id"], test_model)
+        self.assertEqual(data["prompt"], "Test prompt")
+        self.assertEqual(data["completion"], "Test response")
+        self.assertEqual(data["prompt_tokens"], 10)
+        self.assertEqual(data["completion_tokens"], 5)
+        self.assertEqual(data["px_metrics"], {"phi": 0.9})
 
 if __name__ == "__main__":
     unittest.main()

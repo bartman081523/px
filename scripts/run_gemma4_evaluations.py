@@ -724,29 +724,50 @@ def compute_sequence_metrics(
 
     gen_slice = slice(int(prompt_tokens) - 1, int(prompt_tokens) - 1 + num_gen)
 
+    # Memory-frugal: a full-vocabulary log_softmax over all generated positions at
+    # once peaks at >100 MB and OOMs on a 12 GB card that already hosts the model.
+    # We therefore copy out only the slices we need and release the forward output
+    # immediately; the logit-based channels are then computed in chunks.
     with torch.no_grad():
         out = model(seq_ids, output_hidden_states=True)
+        hidden_states = out.hidden_states
+        num_layers = len(hidden_states) - 1
+        final_layer = num_layers - 1
+        span_layers = [l for l in range(relay_layer, final_layer + 1) if (l + 1) < len(hidden_states)]
 
-    logits = out.logits[0, gen_slice, :].float()            # (num_gen, V)
+        H = hidden_states[-1][0, gen_slice, :].float().clone()          # (num_gen, D)
+        layers_h = (
+            torch.stack([hidden_states[1 + l][0, gen_slice, :].float() for l in span_layers], dim=0).clone()
+            if len(span_layers) >= 2 else None
+        )                                                               # (L, num_gen, D)
+        logits = out.logits[0, gen_slice, :].float().clone()            # (num_gen, V)
+        del out, hidden_states
+    torch.cuda.empty_cache()
+
     top_k = min(1000, int(logits.shape[-1]))
-    vals = torch.topk(logits, k=top_k, dim=-1).values      # (num_gen, top_k)
-    mean_v = vals.mean(dim=-1, keepdim=True)
-    var_v = vals.var(dim=-1, unbiased=False, keepdim=True)
-    m4 = ((vals - mean_v) ** 4).mean(dim=-1, keepdim=True)
-    kurt_t = torch.where(var_v > 1e-8,
-                         m4 / (var_v ** 2 + 1e-12) - 3.0,
-                         torch.zeros_like(var_v)).squeeze(-1)
-    kurtosis = float(kurt_t.mean().item())
-
-    logp = F.log_softmax(logits, dim=-1)
-    entropy = float((-(logp.exp() * logp).sum(dim=-1) / math.log(2.0)).mean().item())
+    kurt_chunks = []
+    ent_chunks = []
+    with torch.no_grad():
+        for i0 in range(0, num_gen, 8):
+            chunk = logits[i0:i0 + 8]
+            vals = torch.topk(chunk, k=top_k, dim=-1).values           # (n, top_k)
+            mean_v = vals.mean(dim=-1, keepdim=True)
+            var_v = vals.var(dim=-1, unbiased=False, keepdim=True)
+            m4 = ((vals - mean_v) ** 4).mean(dim=-1, keepdim=True)
+            kurt_chunks.append(
+                torch.where(var_v > 1e-8,
+                            m4 / (var_v ** 2 + 1e-12) - 3.0,
+                            torch.zeros_like(var_v)).squeeze(-1)
+            )
+            logp = F.log_softmax(chunk, dim=-1)
+            ent_chunks.append(-logp.exp().mul_(logp).sum(dim=-1) / math.log(2.0))
+            del chunk, vals, logp
+        kurtosis = float(torch.cat(kurt_chunks).mean().item())
+        entropy = float(torch.cat(ent_chunks).mean().item())
+    del logits, kurt_chunks, ent_chunks
+    torch.cuda.empty_cache()
 
     # --- Holographic boundary spectrum on the generated trajectory -------------
-    hidden_states = out.hidden_states
-    num_layers = len(hidden_states) - 1
-    final_layer = num_layers - 1
-
-    H = hidden_states[-1][0, gen_slice, :].float()          # (num_gen, D)
     H_c = H - H.mean(dim=0, keepdim=True)
     try:
         s = torch.linalg.svdvals(H_c)
@@ -765,14 +786,10 @@ def compute_sequence_metrics(
     drift = float(torch.mean(torch.acos(torch.clamp(cos_horiz, -1.0, 1.0))).item()) if num_gen > 1 else 0.0
 
     # --- Wick rotation: imaginary-time curvature across layers 26..final -------
-    span_layers = [l for l in range(relay_layer, final_layer + 1) if (l + 1) < len(hidden_states)]
     wick_curvature = 0.0
     wick_anisotropy = 0.0
     num_span = max(1, final_layer - relay_layer)
-    if len(span_layers) >= 2:
-        layers_h = torch.stack(
-            [hidden_states[1 + l][0, gen_slice, :].float() for l in span_layers], dim=0
-        )                                                    # (L, num_gen, D)
+    if layers_h is not None:
         cos_vert = F.cosine_similarity(layers_h[:-1], layers_h[1:], dim=-1)  # (L-1, num_gen)
         angles = torch.acos(torch.clamp(cos_vert, -0.999999, 0.999999))
         wick_curvature = float(angles.sum(dim=0).mean().item()) if angles.numel() > 0 else 0.0
@@ -1114,6 +1131,11 @@ async def execute_run(
     if counterfactual:
         # Counterfactual reference: same sequence, same function, controller removed.
         clean_metrics = compute_sequence_metrics(model, output_ids, prompt_tokens)
+
+    if counterfactual:
+        # The two measurement passes transiently materialise full-vocabulary logits;
+        # release the cache so consecutive trials do not fragment the 12 GB card.
+        torch.cuda.empty_cache()
 
     geom_tracker.detach()
     if hasattr(text_model, "_px_geom_tracker"):

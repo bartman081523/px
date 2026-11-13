@@ -42,23 +42,23 @@ def _update(**kwargs):
 
 
 # Patch gradio BEFORE importing chat_tab so dass handle_load_saved die
-# mocks bekommt.
+# mocks bekommt. chat_tab greift auf `gr.update` zur *Aufrufzeit* zu, ein
+# Monkeypatch pro Test genügt daher — und ist zwingend: der frühere
+# import-zeitliche Patch wurde erst bei atexit zurückgenommen und leakte
+# dadurch in JEDEN danach importierten Test (z.B.
+# test_px_regression::test_telemetry_schema_and_export_integrity, das ein
+# echtes gr.update-dict subskribiert und stattdessen _MockSentinel bekam).
 import gradio as gr
-_ORIG_SKIP = gr.skip
-_ORIG_UPDATE = gr.update
-gr.skip = _skip
-gr.update = _update
+
+import pytest
 
 
-def _restore_gradio():
-    """Cleanup: stelle das echte gr.skip/gr.update wieder her, damit der
-    Patch nicht in andere Tests leakt (Plan ui-styling 2026-07-06:
-    test_chat_settings braucht echtes gr.update(value=...) Subscripting)."""
-    gr.skip = _ORIG_SKIP
-    gr.update = _ORIG_UPDATE
-
-import atexit
-atexit.register(_restore_gradio)
+@pytest.fixture(autouse=True)
+def _mock_gradio_sentinels(monkeypatch):
+    """Scoped gr.skip()/gr.update() mocks — restored after every test."""
+    monkeypatch.setattr(gr, "skip", _skip)
+    monkeypatch.setattr(gr, "update", _update)
+    yield
 
 from gradio_tabs.chat_tab import (
     handle_load_saved, handle_new_session, handle_refresh, handle_export,
@@ -231,20 +231,30 @@ def test_refresh_1_returns_update_with_choices():
 # --- runner -------------------------------------------------------------
 
 def _run_all():
+    """Standalone runner (`python tests/test_chat_handlers.py`).
+
+    Applies the same gr.skip/gr.update sentinels the pytest fixture installs,
+    so the script and the suite exercise identical code paths.
+    """
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
+    orig_skip, orig_update = gr.skip, gr.update
+    gr.skip, gr.update = _skip, _update
     passed = 0
     failed = 0
-    for t in tests:
-        try:
-            t()
-            print(f"PASS  {t.__name__}")
-            passed += 1
-        except AssertionError as e:
-            print(f"FAIL  {t.__name__}: {e}")
-            failed += 1
-        except Exception as e:  # noqa
-            print(f"ERROR {t.__name__}: {type(e).__name__}: {e}")
-            failed += 1
+    try:
+        for t in tests:
+            try:
+                t()
+                print(f"PASS  {t.__name__}")
+                passed += 1
+            except AssertionError as e:
+                print(f"FAIL  {t.__name__}: {e}")
+                failed += 1
+            except Exception as e:  # noqa
+                print(f"ERROR {t.__name__}: {type(e).__name__}: {e}")
+                failed += 1
+    finally:
+        gr.skip, gr.update = orig_skip, orig_update
     print(f"\n{passed} passed, {failed} failed")
     return failed == 0
 

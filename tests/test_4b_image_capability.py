@@ -34,9 +34,15 @@ import ssl
 import unittest
 from pathlib import Path
 
+import pytest
+
 # Project root
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
+
+# Every test here posts to https://localhost:7860/v1/chat/completions.
+# Opt-in via `pytest --live`; without a server the suite must stay green.
+pytestmark = pytest.mark.live
 
 
 # ── helpers ─────────────────────────────────────────────────────────────────
