@@ -11,6 +11,8 @@ import numpy as np
 from scripts.run_gemma4_evaluations import (
     DRIFT_NOISE_GATE_RAD,
     compute_covariance_gated_step,
+    compute_efference_copy_step,
+    wick_ratio_differential,
     compute_counterfactual_differential,
     compute_continuous_proportional_step,
     compute_intrapass_differential_metrics,
@@ -154,3 +156,96 @@ def test_counterfactual_differential_zero_invariance():
     assert diff["delta_h_true"] == 0.0
     assert diff["delta_omega_holo_true"] == 0.0
     assert diff["delta_wick_curvature_true"] == 0.0
+
+
+# --- K1b: constant-free efference-copy arm --------------------------------
+
+def test_efference_gate_closed_when_noise_lowers_wick_ratio():
+    """d_rand lowers W (L_tau/drift) below the clean value -> no action at all."""
+    assert compute_efference_copy_step(0.0, delta_k_true=-9.0, kurt_clean=40.0, delta_w=-0.9) == 0.0
+    assert compute_efference_copy_step(-0.4, delta_k_true=+9.0, kurt_clean=50.0, delta_w=-0.1) == -0.4
+
+
+def test_efference_step_is_relative_displacement():
+    """Step equals the relative kurtosis displacement; no reference constant involved."""
+    a1 = compute_efference_copy_step(-0.40, delta_k_true=+5.0, kurt_clean=50.0, delta_w=+0.2)
+    assert a1 == pytest.approx(-0.30, abs=1e-9)          # -0.40 + 5/50
+    a2 = compute_efference_copy_step(+0.40, delta_k_true=-5.0, kurt_clean=50.0, delta_w=+0.2)
+    assert a2 == pytest.approx(+0.30, abs=1e-9)
+    # same relative displacement at a different absolute kurtosis -> same step
+    a3 = compute_efference_copy_step(-0.40, delta_k_true=+80.0, kurt_clean=800.0, delta_w=+0.2)
+    assert a3 == pytest.approx(-0.30, abs=1e-9)
+
+
+def test_efference_step_has_fixed_point_at_zero_differential():
+    """delta_k_true == 0 is the fixed point: the controller stops exactly there."""
+    for alpha in (-0.40, -0.05, 0.0, 0.05, 0.40):
+        assert compute_efference_copy_step(alpha, delta_k_true=0.0, kurt_clean=50.0,
+                                           delta_w=+0.3) == pytest.approx(alpha, abs=1e-12)
+
+
+def test_efference_step_is_rate_limited_not_deadbanded():
+    """Small real displacements still move (no deadband); large ones are clipped to +/-0.18."""
+    tiny = compute_efference_copy_step(-0.40, delta_k_true=+0.05, kurt_clean=50.0, delta_w=+0.01)
+    assert tiny > -0.40, "any non-zero differential must move the controller (no deadband)"
+    hard = compute_efference_copy_step(0.0, delta_k_true=+900.0, kurt_clean=50.0, delta_w=+0.01)
+    assert hard == pytest.approx(0.18, abs=1e-12)
+
+
+def test_efference_converges_symmetrically_from_both_sides():
+    """Simulated closed loop with the plant gain measured in the real run.
+
+    Epoch-0 data: narrow alpha=-0.40 -> dK=+11.92 on K_clean=55.7 (gain 29.8);
+    wide alpha=+0.40 -> dK=-22.80 on K_clean=29.4 (gain 57.0). Both must reach
+    |alpha| <= 0.05 within the six epochs of the benchmark.
+    """
+    for alpha0, gain, k_clean in ((-0.40, 29.8, 55.7), (+0.40, 57.0, 29.4)):
+        alpha = alpha0
+        for _ in range(6):
+            delta_k = -gain * alpha
+            alpha = compute_efference_copy_step(alpha, delta_k_true=delta_k,
+                                                kurt_clean=k_clean, delta_w=+0.2)
+        assert abs(alpha) <= 0.05, f"start {alpha0:+.2f} converged only to {alpha:+.4f}"
+
+
+def test_efference_keeps_baseline_exactly_zero():
+    """Inactive controller: delta_w may open the gate, but delta_k == 0 keeps alpha at 0."""
+    for _ in range(6):
+        assert compute_efference_copy_step(0.0, delta_k_true=0.0, kurt_clean=44.0,
+                                           delta_w=+0.4) == 0.0
+
+
+def test_wick_ratio_differential_is_zero_on_identical_measurements():
+    """Inactive controller: identical steered/clean measurements -> delta_w exactly 0.0.
+
+    Regression pin: the first K1b run mixed step-wise telemetry drift (~0.34 rad)
+    with forward-pass drift (~0.96 rad), which produced delta_w ~= +3.9 at alpha=0
+    and left the coherence gate permanently open.
+    """
+    m = {"wick_curvature": 2.5897, "drift": 0.9568, "kurtosis": 44.0}
+    w_s, w_c, dw = wick_ratio_differential(m, dict(m))
+    assert w_s == w_c
+    assert dw == 0.0
+
+
+def test_wick_ratio_is_scale_free():
+    """W is a ratio: identical relative curvature gives the same value at any drift scale."""
+    a = {"wick_curvature": 2.0, "drift": 0.5}
+    b = {"wick_curvature": 4.0, "drift": 1.0}
+    w_a, _, _ = wick_ratio_differential(a, a)
+    w_b, _, _ = wick_ratio_differential(b, b)
+    assert w_a == pytest.approx(4.0)
+    assert w_a == pytest.approx(w_b)
+
+
+def test_wick_ratio_differential_does_not_separate_d_rand_on_the_forward_path():
+    """Measured reality (probe 2026-11-13): on the *forward replay* path both a genuine
+    and an orthogonal perturbation raise W (wide +0.17, narrow +0.34, d_rand +0.22),
+    so delta_w > 0 alone is NOT a noise discriminant. This test pins that finding so
+    nobody re-derives the gate from a false premise.
+    """
+    clean = {"wick_curvature": 2.9944, "drift": 1.0077}
+    for steered in ({"wick_curvature": 3.0936, "drift": 0.9751},    # +d_width
+                    {"wick_curvature": 3.0694, "drift": 0.9719}):   # +d_rand
+        _, _, dw = wick_ratio_differential(steered, clean)
+        assert dw > 0.0, "forward-path W rises for both perturbations - not discriminative"

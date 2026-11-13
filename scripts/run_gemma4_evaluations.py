@@ -899,6 +899,59 @@ def compute_covariance_gated_step(
     return float(max(-0.50, min(0.50, next_alpha)))
 
 
+def wick_ratio_differential(steered_metrics: dict, clean_metrics: dict):
+    """W = L_tau / drift on the steered and the clean replay of the identical slice.
+
+    Returns (W_steered, W_clean, delta_w). Both ratios are formed from the same
+    two dictionaries, so an inactive controller (identical measurements) yields
+    exactly delta_w == 0.0 with no measurement-path offset.
+    """
+    wick_s = float(steered_metrics.get("wick_curvature", 0.0))
+    wick_c = float(clean_metrics.get("wick_curvature", 0.0))
+    drift_s = float(steered_metrics.get("drift", 0.0))
+    drift_c = float(clean_metrics.get("drift", 0.0))
+    w_s = wick_s / drift_s if drift_s > 1e-9 else 0.0
+    w_c = wick_c / drift_c if drift_c > 1e-9 else 0.0
+    return w_s, w_c, w_s - w_c
+
+
+def compute_efference_copy_step(
+    current_alpha: float,
+    delta_k_true: float,
+    kurt_clean: float,
+    delta_w: float,
+    max_step: float = 0.18,
+) -> float:
+    """Constant-free controller (K1b): efference copy instead of a tuned gate.
+
+    The observable is the Wick ratio of the trajectory against its own clean
+    replay on the identical token slice:
+
+        W = L_tau / dtheta      (imaginary-time curvature per unit real-time drift)
+
+        delta_w = W_steered - W_clean
+
+    Role assignment measured in Eval L1 (N=90): W is the *coherence* axis
+    (signal 6.87/6.60 vs d_rand 5.62/5.79, AUC 0.89, p=1.2e-8), while
+    K / Omega_holo / S_vN form the *state* axis (wide vs narrow). A perturbation
+    that only jitters the trajectory lowers W, a coherent state change raises it.
+
+    Gate:   delta_w > 0  (no constant, no deadband, the clean pass is the reference)
+    Step:   delta_alpha = clip(delta_k_true / kurt_clean, -max_step, +max_step)
+
+    The step is the *relative* kurtosis displacement, so the fixed point is
+    delta_k_true == 0: the controller stops exactly when the steering no longer
+    changes the state geometry. `max_step` is a rate limit, not a deadband.
+    """
+    if delta_w <= 0.0:
+        return float(current_alpha)
+    if kurt_clean <= 0.0:
+        return float(current_alpha)
+    step = delta_k_true / kurt_clean
+    step = max(-max_step, min(max_step, step))
+    return float(max(-0.50, min(0.50, current_alpha + step)))
+
+
 def compute_continuous_proportional_step(
     current_alpha: float,
     delta_k_local: float,
@@ -3231,7 +3284,7 @@ async def run_eval_j(model, tokenizer, text_model):
 # =========================================================================
 # EVALUATION K: Continuous Intra-Pass Resonance & Functional Task Utility (N=90)
 # =========================================================================
-async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
+async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="covariance"):
     print("\n" + "=" * 70)
     print("STARTING EVALUATION K: Continuous Intra-Pass Resonance & Task Utility (N=90)")
     print("=" * 70)
@@ -3317,16 +3370,33 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
                     res["telemetry"]["manifold_geometry_layer26"].get("mean_angular_drift", 0.0)
                 )
 
-                # Genuine covariance + angular-drift gating (zero knowledge of alpha or steering vector):
-                next_alpha = compute_covariance_gated_step(
-                    current_alpha=current_alpha,
-                    delta_k_true=delta_k_true,
-                    delta_omega_holo_true=cf_diff.get("delta_omega_holo_true", 0.0),
-                    drift_steered=drift_steered,
-                    delta_d_true=delta_d_true,
-                    delta_h_true=delta_h_true,
-                    delta_s_vn_true=cf_diff.get("delta_s_vn_true", 0.0),
-                )
+                # Wick ratio (imaginary-time curvature per unit real-time drift)
+                # evaluated identically on the steered and the clean replay.
+                # Both W values MUST come from the identical forward-replay path.
+                # The step-wise telemetry drift has a different scale (~0.34 vs ~0.96 rad),
+                # so mixing the two paths would produce a constant positive offset
+                # (measured: +3.9 even at alpha = 0) and open the gate permanently.
+                _w_steered, _w_clean, delta_w = wick_ratio_differential(steered_m, clean_m)
+                _drift_s_fwd = float(steered_m.get("drift", 0.0))
+
+                if gate == "efference":
+                    next_alpha = compute_efference_copy_step(
+                        current_alpha=current_alpha,
+                        delta_k_true=delta_k_true,
+                        kurt_clean=float(cf_diff.get("kurt_clean", 0.0)),
+                        delta_w=delta_w,
+                    )
+                else:
+                    # Genuine covariance + angular-drift gating (zero knowledge of alpha or steering vector):
+                    next_alpha = compute_covariance_gated_step(
+                        current_alpha=current_alpha,
+                        delta_k_true=delta_k_true,
+                        delta_omega_holo_true=cf_diff.get("delta_omega_holo_true", 0.0),
+                        drift_steered=drift_steered,
+                        delta_d_true=delta_d_true,
+                        delta_h_true=delta_h_true,
+                        delta_s_vn_true=cf_diff.get("delta_s_vn_true", 0.0),
+                    )
 
                 epochs_data.append({
                     "epoch": t,
@@ -3345,6 +3415,13 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
                     "s_vn_steered": round(float(steered_m["s_vn"]), 4),
                     "s_vn_clean": round(cf_diff.get("s_vn_clean", 0.0), 4),
                     "wick_curvature_steered": round(float(steered_m.get("wick_curvature", 0.0)), 4),
+                    "wick_curvature_clean": round(float(cf_diff.get("wick_curvature_clean", 0.0)), 4),
+                    "drift_clean": round(float(cf_diff.get("drift_clean", 0.0)), 4),
+                    "drift_steered_fwd": round(_drift_s_fwd, 4),
+                    "w_steered": round(_w_steered, 4) if _w_steered != float("inf") else None,
+                    "w_clean": round(_w_clean, 4) if _w_clean != float("inf") else None,
+                    "delta_w": round(delta_w, 4) if delta_w == delta_w and abs(delta_w) != float("inf") else None,
+                    "gate_open": bool(delta_w > 0.0) if gate == "efference" else None,
                     "ratio_delta_k_alpha": round(delta_k_true / current_alpha, 4) if abs(current_alpha) > 1e-4 else 0.0,
                 })
 
@@ -3398,13 +3475,44 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
             "passed": bool(all(abs(e["delta_k_true"]) < 1e-3 and abs(e["delta_d_true"]) < 1e-3
                                and abs(e["delta_s_vn_true"]) < 1e-3 for e in baseline_epochs)) if baseline_epochs else False,
         }
-        stats_k1["gate_thresholds"] = {
-            "drift_noise_gate_rad": DRIFT_NOISE_GATE_RAD,
-            "anti_narrowing": {"delta_k_min": GATE_ANTI_NARROWING_DELTA_K_MIN,
-                               "delta_omega_holo_max": GATE_ANTI_NARROWING_DELTA_OMEGA_MAX},
-            "anti_widening": {"delta_k_max": GATE_ANTI_WIDENING_DELTA_K_MAX,
-                              "delta_omega_holo_min": GATE_ANTI_WIDENING_DELTA_OMEGA_MIN},
-        }
+        if gate == "efference":
+            _base_ws = [e["delta_w"] for t in trajectories_k1 if t["group"] == "start_baseline"
+                        for e in t["epochs"] if e.get("delta_w") is not None]
+            stats_k1["wick_ratio_zero_invariance_check"] = {
+                "n_baseline_epochs": len(_base_ws),
+                "max_abs_delta_w": round(max((abs(v) for v in _base_ws), default=0.0), 6),
+                "passed": bool(all(abs(v) < 1e-6 for v in _base_ws)) if _base_ws else False,
+            }
+            stats_k1["gate_thresholds"] = {
+                "law": "efference_copy_constant_free",
+                "coherence_gate": "delta_w > 0 (W = L_tau/drift, steered vs identical clean replay)",
+                "step": "clip(delta_k_true / kurt_clean, -0.18, +0.18)",
+                "reference_constants": [],
+            }
+            stats_k1["efference_diagnostics"] = {
+                g: {
+                    "n_epochs": len([e for t in trajectories_k1 if t["group"] == g for e in t["epochs"]]),
+                    "gate_open_rate": round(float(np.mean([
+                        1.0 if e.get("gate_open") else 0.0
+                        for t in trajectories_k1 if t["group"] == g for e in t["epochs"]])) if any(
+                        t["group"] == g for t in trajectories_k1) else 0.0, 4),
+                    "mean_delta_w": round(float(np.mean([
+                        e["delta_w"] for t in trajectories_k1 if t["group"] == g
+                        for e in t["epochs"] if e.get("delta_w") is not None])) if any(
+                        e.get("delta_w") is not None for t in trajectories_k1 if t["group"] == g
+                        for e in t["epochs"]) else 0.0, 4),
+                }
+                for g, _, _ in groups_k1
+            }
+        else:
+            stats_k1["gate_thresholds"] = {
+                "law": "covariance_gated",
+                "drift_noise_gate_rad": DRIFT_NOISE_GATE_RAD,
+                "anti_narrowing": {"delta_k_min": GATE_ANTI_NARROWING_DELTA_K_MIN,
+                                   "delta_omega_holo_max": GATE_ANTI_NARROWING_DELTA_OMEGA_MAX},
+                "anti_widening": {"delta_k_max": GATE_ANTI_WIDENING_DELTA_K_MAX,
+                                  "delta_omega_holo_min": GATE_ANTI_WIDENING_DELTA_OMEGA_MIN},
+            }
     else:
         _prev_k = _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
         trajectories_k1 = _prev_k.get("trajectories_k1", [])
@@ -3563,7 +3671,8 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
     }
 
     os.makedirs("results", exist_ok=True)
-    out_path_k = "results/eval_K_continuous_resonance_gemma4.json"
+    out_path_k = ("results/eval_K_k1b_efference_gemma4.json" if gate == "efference"
+                  else "results/eval_K_continuous_resonance_gemma4.json")
     with open(out_path_k, "w", encoding="utf-8") as f:
         json.dump(full_payload, f, indent=2)
 
@@ -3945,6 +4054,10 @@ async def run_eval_l(model, tokenizer, text_model, subs=("L1", "L2")):
 async def main():
     parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K, L")
     parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "all"], default="all", help="Evaluation suite to execute")
+    parser.add_argument("--gate", choices=["covariance", "efference"], default="covariance",
+                        help="K1 control law. 'covariance' = registered arm (Delta-K/Delta-Omega/drift gate); "
+                             "'efference' = constant-free arm (delta_w > 0 against the identical clean replay, "
+                             "step = delta_k/kurt_clean). The efference arm writes its own results file.")
     parser.add_argument("--subs", default=None,
                         help="Comma separated sub-experiments to (re)run, e.g. 'K1,L1'. Skipped sub-experiments "
                              "are carried over unchanged from the existing results JSON.")
@@ -3993,7 +4106,7 @@ async def main():
         await run_eval_j(model, tokenizer, text_model)
 
     if args.suite in ("K", "all"):
-        await run_eval_k(model, tokenizer, text_model, subs=subs)
+        await run_eval_k(model, tokenizer, text_model, subs=subs, gate=args.gate)
 
     if args.suite in ("L", "all"):
         await run_eval_l(model, tokenizer, text_model, subs=subs)

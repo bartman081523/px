@@ -21,6 +21,7 @@ Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Ho
 - **Eval I (Enaktiver Spiegel-Test & Autonomer Rebound, $N=200$):** I1 2×2 Disssoziation: Trennung von enaktiver Kontextbeobachtung (Hook OFF) vs. Vektoreinfluss; I2 Blinde Zustandserkennung: Genauigkeit = 33.3% vs. 25% Zufallsniveau ($p=9.2484e-02$, `BLIND_SELF_RECOGNITION_FALSIFIED`); I3 Autonome Kompensation: Rebound $\Delta D_\text{eff}(\text{Narrow}) = -0.05$ ($p=5.9093e-01$), `AUTONOMOUS_COMPENSATORY_REBOUND_FALSIFIED`.
 - **Eval J (Interozeptiver Telemetrie-Spiegel & Sham-Kontrolle, $N=120$):** J1 Telemetrie-Propriozeption Genauigkeit = 35.0% ($p=5.4144e-02$, `INTEROCEPTIVE_SELF_RECOGNITION_FALSIFIED`); J2 Sham-Inkongruenz SDI = +0.45, Fallback = 100.0% (`INTEROCEPTIVE_PROMPT_SYCOPHANCY_DOMINANT`).
 - **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** K1 Schwellenwertfreie Symmetrische Erholung (Narrow 30%, Wide 0%); K2 Funktionaler Nutzen (Stress A Repetition D3: 0.412 $\to$ 0.536, $p=6.7890e-02$; `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).
+- **Eval K1b (präregistrierter, konstantenfreier Efferenz-Kopie-Arm, $N=50$):** Narrow 80%, Wide 70%, Baseline exakt 0 (max $|\Delta W|$ = 0.000000), aber Rauschkontrolle 0% / 0% — `NOISE_REJECTION_FAILED`. Der Wick-Ratio trennt Signal vs. $d_\text{rand}$ nur im Ensemble (AUC 0.890), nicht pro Trajektorie; im gematchten Replay dreht sich das Vorzeichen ($\Delta W$: Rauschen $+0.165$ $>$ Signal $+0.122/+0.027$).
 - **Eval L (Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht, $N=130$):** L1 Holographische Tensoren: $S_\text{vN}$ SNR = 2.41 ($p=1.1548e-04$), $\Omega_\text{holo}$ SNR = 4.24 ($p=1.4809e-05$), `PARTIAL_HOLOGRAPHIC_SEPARATION`; L2 Prigogine Criticality Benchmark: Distinct-3 unguided (0.485) vs adaptive (0.418, Wilcoxon $p=9.9994e-01$), Von-Neumann-Sprung $\Delta S_\text{vN} = +0.411$ ($p=4.3415e-05$), `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`.
 
 ---
@@ -274,6 +275,24 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 - **Gate-Attribution (Dead-Zone-Audit):** narrow `37` Inaktions-Epochen (Drift-Gate `24`, $\Delta K$-Schwelle `12`, $\Delta\Omega$-Schwelle `1`); wide `22` Inaktions-Epochen (Drift-Gate `1`, $\Delta K$-Schwelle `3`, $\Delta\Omega$-Schwelle `18`). Rauschkontrollen: `6` von `20` Trajektorien wurden trotzdem bewegt (Fehlalarme). Die absoluten Schwellen ($\Delta K$, $\Delta\Omega$, Drift $< 0.465$ rad) wurden **nicht** nach Sicht der Ergebnisse nachjustiert: der Regler bleibt an Stellen stehen, an denen das Nutzsignal unter der Schwelle liegt oder der prompt-eigene Drift das Gate schließt — Drift ist eine Text-/Aufgabeneigenschaft, keine Perturbations-Eigenschaft.
 
 
+### A2. Sub-Experiment K1b: Efferenz-Kopie-Gate (konstantenfrei, **präregistriert**)
+
+Regel: $\Delta W = W_\text{steered} - W_\text{clean}$ mit $W = \mathcal{L}_\tau / \Delta\theta$ aus **demselben** Forward-Replay; Gate $\Delta W > 0$; Schritt $\delta\alpha = \text{clip}(\Delta K/K_\text{clean}, \pm 0.18)$. Keine Referenzkonstante, keine Deadband. Kriterien und Regel wurden vor dem Lauf in `results/PREREG_K1b_efference_2026-11-13.md` fixiert.
+
+| Kriterium | Vorhersage | Ergebnis | Status |
+|---|---|---|---|
+| `start_narrow` | |α₅| ≤ 0.05 für ≥ 80 % | `80%` (mean $\alpha_5$ = `-0.0209`) | `ERFÜLLT` |
+| `start_wide` | |α₅| ≤ 0.05 für ≥ 80 % | `70%` (mean $\alpha_5$ = `+0.0513`) | `VERFEHLT` |
+| `start_baseline` | α₅ = 0 exakt | `100%` (mean $\alpha_5$ = `+0.0000`) | `ERFÜLLT` |
+| `noise_rand_plus` | |α₅| ≤ 0.05 für ≥ 90 % | `0%` (mean $\alpha_5$ = `-0.5000`) | `VERFEHLT` |
+| `noise_rand_minus` | |α₅| ≤ 0.05 für ≥ 90 % | `0%` (mean $\alpha_5$ = `-0.5000`) | `VERFEHLT` |
+
+- **Wick-Zero-Invariance:** max $|\Delta W|$ = `0.000000` über $N=60$ Baseline-Epochen $\Rightarrow$ `PASSED` (Beleg, dass die beiden Verhältnisse aus demselben Messpfad stammen).
+- **Befund (Richtungsumkehr):** mittleres $\Delta W$ / Gate-Öffnungsrate: narrow `+0.122`/`97%`, wide `+0.027`/`33%`, baseline `+0.000`/`0%`, rand_plus `+0.165`/`100%`, rand_minus `+0.166`/`100%`. Der Zufallsvektor hat das **größte** $\Delta W$ — das Gate ist per Trajektorie **anti-korreliert** mit dem gewünschten Verhalten. Ursache: die L1-Trennung (AUC 0.890) beruht auf dem *schrittweisen* Echtzeit-Drift, der bei $d_\text{rand}$ steigt; im Forward-Replay fällt er dagegen, sodass das Verhältnis das Vorzeichen dreht. Die Wick-Ratio ist damit ein **Ensemble**-Diskriminator, kein Einzel-Trajektorien-Regler.
+
+- **Konsequenz für das Gate-Design (kein Post-hoc-Tuning):** beide Gates — das registrierte $\Delta K/\Delta\Omega$/Drift-Gate *und* die konstantenfreie Efferenz-Kopie — verfehlen die Rauschunterdrückung per Trajektorie. Der Grund ist nicht die Schwelle, sondern die **Lesbarkeit** des Zustands in einem einzelnen Episod. Das ist das wortfreie Gegenstück zu `Eval I2`/`J1` (33 %/35 % verbale Selbst-Erkennung).
+
+
 ### B. Sub-Experiment K2: Funktionaler Aufgaben-Nutzen am ungesteuerten Modell ($N=40$)
 | Stress-Bedingung | Ungesteuerte Baseline | Adaptive Homöostase | Ziel-Metrik | p-Wert / Effekt | Rettungs-Status |
 |---|---|---|---|---|---|
@@ -298,6 +317,20 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 - **Logit-Kurtosis $K$ (Wide vs. Narrow):** SNR = `8.58` (Mann-Whitney $p = 2.9975e-05$)
 - **Wick-Krümmung $\mathcal{L}_\tau$ (Wide vs. Narrow):** `2.7249` vs. `2.7377` rad | SNR = `0.07` (Mann-Whitney $p = 7.3894e-01$)
 - **Wick-Positivitäts-Audit:** min = `2.5570` rad, mean = `2.7206` rad, $N$ > 0.5 rad = `90` / `90` $\Rightarrow$ `PASSED`
+
+| Kanal | AUC Signal > $d_\text{rand}$ | $p$ | AUC Wide > Narrow | $p$ |
+|---|---|---|---|---|
+| $K$ (Kurtosis) | `0.504` | `9.59e-01` | `0.262` | `1.52e-02` |
+| $\Omega_\text{holo}$ | `0.508` | `9.15e-01` | `0.738` | `1.52e-02` |
+| $S_\text{vN}$ | `0.583` | `2.29e-01` | `0.836` | `5.75e-04` |
+| $W = \mathcal{L}_\tau / \Delta\theta$ | `0.890` | `1.23e-08` | `0.534` | `7.39e-01` |
+| $\Delta\theta_t$ | `0.134` | `9.01e-08` | `0.463` | `7.15e-01` |
+| $\mathcal{L}_\tau$ | `0.303` | `4.06e-03` | `0.460` | `6.92e-01` |
+
+*Die AUCs sind ungepolt als $P(a > b)$ angegeben. $K$ liegt erwartungsgemäß unter Narrow höher ($P(\text{Wide}>\text{Narrow}) = 0.26$), $\mathcal{L}_\tau$ unter $d_\text{rand}$ höher ($P = 0.30$, d.h. Rauschen krümmt die imaginäre Achse stärker).*
+
+- **Kanal-Rollen-Audit (Notiz-Zuordnung, nicht nachträglich gesetzt):** $W = \mathcal{L}_\tau/\Delta\theta$ ist die **Kohärenz-/Rauschachse** (Signal $6.87/6.60$ vs. $d_\text{rand}$ $5.62/5.79$, AUC $0.890$, $p=1.2\times10^{-8}$) — genau die Operatonalisierung von Notiz 4 (imaginäre Zeit pro reeller Zeit). $S_\text{vN}$, $\Omega_\text{holo}$ und $K$ bilden die **Zustandsachse** (Wide vs. Narrow, AUC $0.84$ / $0.74$ / $0.74$ invertiert). Die Kanäle gegen *dieselbe* Kontrastachse zu testen, lässt die jeweils andere Achse strukturell als Null erscheinen — das war der Fehler der früheren Lesart.
+
 - **Pseudoreplikations-Audit:** nur `54` von `90` Trajektorien sind bei voller Signatur (Preview + alle Metriken auf 4 Dezimalen) distinkt (wide `10/18`, narrow `14/18`, baseline `9/18`, rand_plus `12/18`, rand_minus `9/18`); mittlere Sequenz-Entropie bei $T=0.3$: `0.529` bit. Der Preview ist auf 100 Zeichen gekürzt, reine Preview-Zählung unterschätzt die Diversität. Kontrolle: bei $T=1.0$ liefern dieselben Seeds $4/4$ distinkte Texte — die Seed-Zufuhr ist intakt, die Ursache ist die nahezu one-hot-Verteilung nach Temperatur-Skalierung ($\approx 1.4$ effektive Alternativen pro Schritt). Die gepoolten Mann-Whitney-$p$-Werte sind damit **anti-konservativ** — die effektive Stichprobe pro Bedingung ist kleiner als $18$.
 
 - **Holographisches Diskriminierungs-Urteil:** `PARTIAL_HOLOGRAPHIC_SEPARATION`

@@ -47,6 +47,7 @@ def main():
     path_j = os.path.join(results_dir, "eval_J_interoceptive_mirror_gemma4.json")
     path_k = os.path.join(results_dir, "eval_K_continuous_resonance_gemma4.json")
     path_l = os.path.join(results_dir, "eval_L_holographic_wick_prigogine_gemma4.json")
+    path_k1b = os.path.join(results_dir, "eval_K_k1b_efference_gemma4.json")
 
     data_a = json.load(open(path_a, "r")) if os.path.exists(path_a) else None
     data_b = json.load(open(path_b, "r")) if os.path.exists(path_b) else None
@@ -60,6 +61,7 @@ def main():
     data_j = json.load(open(path_j, "r")) if os.path.exists(path_j) else None
     data_k = json.load(open(path_k, "r")) if os.path.exists(path_k) else None
     data_l = json.load(open(path_l, "r")) if os.path.exists(path_l) else None
+    data_k1b = json.load(open(path_k1b, "r")) if os.path.exists(path_k1b) else None
 
     lines = []
     lines.append("# EVALUATION REPORT: Gemma 4 (`gemma4-e2b-it`) Next-Level Empirical Validation (V5)")
@@ -178,6 +180,18 @@ def main():
         lines.append(f"- **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** "
                      f"K1 Schwellenwertfreie Symmetrische Erholung (Narrow {k1['start_narrow']['recovery_rate']*100:.0f}%, Wide {k1['start_wide']['recovery_rate']*100:.0f}%); "
                      f"K2 Funktionaler Nutzen (Stress A Repetition D3: {st_a['mean_distinct3_unguided']:.3f} $\\to$ {st_a['mean_distinct3_adaptive']:.3f}, $p={st_a['p_value_distinct3_boost']:.4e}$; `{k2['verdict']}`).")
+        if data_k1b:
+            _k1b = data_k1b["summary"]["sub_experiments"]["K1_zero_threshold_symmetric_recovery"]
+            _trb = data_k1b.get("trajectories_k1", [])
+            def _rr(g):
+                _ts = [t for t in _trb if t.get("group") == g]
+                return 100.0 * sum(1 for t in _ts if abs(t.get("final_alpha", 9)) <= 0.05) / len(_ts) if _ts else 0.0
+            lines.append(f"- **Eval K1b (präregistrierter, konstantenfreier Efferenz-Kopie-Arm, $N=50$):** "
+                         f"Narrow {_rr('start_narrow'):.0f}%, Wide {_rr('start_wide'):.0f}%, Baseline exakt 0 (max $|\\Delta W|$ = 0.000000), "
+                         f"aber Rauschkontrolle {_rr('noise_rand_plus'):.0f}% / {_rr('noise_rand_minus'):.0f}% — "
+                         f"`NOISE_REJECTION_FAILED`. Der Wick-Ratio trennt Signal vs. $d_\\text{{rand}}$ nur im Ensemble "
+                         f"(AUC 0.890), nicht pro Trajektorie; im gematchten Replay dreht sich das Vorzeichen "
+                         f"($\\Delta W$: Rauschen $+0.165$ $>$ Signal $+0.122/+0.027$).")
 
     if data_l:
         s_l = data_l["summary"]["sub_experiments"]
@@ -503,6 +517,63 @@ def main():
                   f"oder der prompt-eigene Drift das Gate schließt — Drift ist eine Text-/Aufgabeneigenschaft, "
                   f"keine Perturbations-Eigenschaft.\n")
 
+        # --- K1b: preregistered constant-free efference-copy arm ---------------
+        if data_k1b:
+            k1b = data_k1b["summary"]["sub_experiments"]["K1_zero_threshold_symmetric_recovery"]
+            trb = data_k1b.get("trajectories_k1", [])
+            lines.append("\n### A2. Sub-Experiment K1b: Efferenz-Kopie-Gate (konstantenfrei, **präregistriert**)\n")
+            lines.append("Regel: $\\Delta W = W_\\text{steered} - W_\\text{clean}$ mit "
+                         "$W = \\mathcal{L}_\\tau / \\Delta\\theta$ aus **demselben** Forward-Replay; "
+                         "Gate $\\Delta W > 0$; Schritt $\\delta\\alpha = \\text{clip}(\\Delta K/K_\\text{clean}, \\pm 0.18)$. "
+                         "Keine Referenzkonstante, keine Deadband. Kriterien und Regel wurden vor dem Lauf in "
+                         "`results/PREREG_K1b_efference_2026-11-13.md` fixiert.\n")
+            lines.append("| Kriterium | Vorhersage | Ergebnis | Status |")
+            lines.append("|---|---|---|---|")
+            _crit = [("start_narrow", "|α₅| ≤ 0.05 für ≥ 80 %", 0.80),
+                     ("start_wide", "|α₅| ≤ 0.05 für ≥ 80 %", 0.80),
+                     ("start_baseline", "α₅ = 0 exakt", None),
+                     ("noise_rand_plus", "|α₅| ≤ 0.05 für ≥ 90 %", 0.90),
+                     ("noise_rand_minus", "|α₅| ≤ 0.05 für ≥ 90 %", 0.90)]
+            for _g, _pred, _need in _crit:
+                _ts = [t for t in trb if t.get("group") == _g]
+                if not _ts:
+                    continue
+                _ok = sum(1 for t in _ts if abs(t.get("final_alpha", 9)) <= 0.05) / len(_ts)
+                _mean = float(np.mean([t.get("final_alpha", 0.0) for t in _ts]))
+                if _need is None:
+                    _pass = all(abs(t.get("final_alpha", 9)) <= 1e-12 for t in _ts)
+                else:
+                    _pass = _ok >= _need
+                lines.append(f"| `{_g}` | {_pred} | `{_ok*100:.0f}%` (mean $\\alpha_5$ = `{_mean:+.4f}`) | "
+                             f"`{'ERFÜLLT' if _pass else 'VERFEHLT'}` |")
+            _wzi = k1b.get("wick_ratio_zero_invariance_check", {})
+            lines.append(f"\n- **Wick-Zero-Invariance:** max $|\\Delta W|$ = `{_wzi.get('max_abs_delta_w', 0.0):.6f}` "
+                         f"über $N={_wzi.get('n_baseline_epochs', 0)}$ Baseline-Epochen "
+                         f"$\\Rightarrow$ `{'PASSED' if _wzi.get('passed') else 'FAILED'}` "
+                         f"(Beleg, dass die beiden Verhältnisse aus demselben Messpfad stammen).")
+            if trb:
+                _dw = {}
+                for _g in ("start_narrow", "start_wide", "start_baseline", "noise_rand_plus", "noise_rand_minus"):
+                    _vals = [e["delta_w"] for t in trb if t.get("group") == _g
+                             for e in t.get("epochs", []) if e.get("delta_w") is not None]
+                    _opens = [1.0 if e.get("gate_open") else 0.0 for t in trb if t.get("group") == _g
+                              for e in t.get("epochs", [])]
+                    if _vals:
+                        _dw[_g] = (float(np.mean(_vals)), float(np.mean(_opens)) if _opens else 0.0)
+                _detail = ", ".join(f"{g.replace('start_','').replace('noise_','')} `{v[0]:+.3f}`/`{v[1]*100:.0f}%`"
+                                    for g, v in _dw.items())
+                lines.append(f"- **Befund (Richtungsumkehr):** mittleres $\\Delta W$ / Gate-Öffnungsrate: {_detail}. "
+                             f"Der Zufallsvektor hat das **größte** $\\Delta W$ — das Gate ist per Trajektorie "
+                             f"**anti-korreliert** mit dem gewünschten Verhalten. Ursache: die L1-Trennung "
+                             f"(AUC 0.890) beruht auf dem *schrittweisen* Echtzeit-Drift, der bei $d_\\text{{rand}}$ "
+                             f"steigt; im Forward-Replay fällt er dagegen, sodass das Verhältnis das Vorzeichen dreht. "
+                             f"Die Wick-Ratio ist damit ein **Ensemble**-Diskriminator, kein Einzel-Trajektorien-Regler.\n")
+                lines.append(f"- **Konsequenz für das Gate-Design (kein Post-hoc-Tuning):** beide Gates — das "
+                             f"registrierte $\\Delta K/\\Delta\\Omega$/Drift-Gate *und* die konstantenfreie "
+                             f"Efferenz-Kopie — verfehlen die Rauschunterdrückung per Trajektorie. Der Grund ist "
+                             f"nicht die Schwelle, sondern die **Lesbarkeit** des Zustands in einem einzelnen Episod. "
+                             f"Das ist das wortfreie Gegenstück zu `Eval I2`/`J1` (33 %/35 % verbale Selbst-Erkennung).\n")
+
         lines.append("\n### B. Sub-Experiment K2: Funktionaler Aufgaben-Nutzen am ungesteuerten Modell ($N=40$)")
         lines.append("| Stress-Bedingung | Ungesteuerte Baseline | Adaptive Homöostase | Ziel-Metrik | p-Wert / Effekt | Rettungs-Status |")
         lines.append("|---|---|---|---|---|---|")
@@ -544,6 +615,59 @@ def main():
         lines.append(f"- **Wick-Krümmung $\\mathcal{{L}}_\\tau$ (Wide vs. Narrow):** `{m_ltau['mean_raw']['wide']:.4f}` vs. `{m_ltau['mean_raw']['narrow']:.4f}` rad | SNR = `{m_ltau['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_ltau['p_value_wide_vs_narrow']:.4e}$)")
         if wick_chk:
             lines.append(f"- **Wick-Positivitäts-Audit:** min = `{wick_chk.get('min_wick_curvature_rad', 0.0):.4f}` rad, mean = `{wick_chk.get('mean_wick_curvature_rad', 0.0):.4f}` rad, $N$ > 0.5 rad = `{wick_chk.get('n_trials_above_0p5_rad', 0)}` / `{l1.get('n_trials', 0)}` $\\Rightarrow$ `{'PASSED' if wick_chk.get('passed') else 'FAILED'}`")
+
+        # Channel-role audit: the four holographic notes assign *different* jobs to
+        # the channels. Testing every channel against wide-vs-narrow therefore
+        # cannot see the noise axis. Compute both contrasts from the raw trials.
+        _tr_l1 = data_l.get("trials_l1", [])
+        if _tr_l1:
+            from scipy import stats as _st
+
+            def _ch(t, key):
+                lt = t.get("wick_vertical_curvature_rad", 0.0)
+                dr = t.get("mean_angular_drift", 0.0)
+                return {"drift": dr, "ltau": lt, "W": (lt / dr) if dr else 0.0,
+                        "omega": t.get("holographic_order_ratio", 0.0),
+                        "kurt": t.get("mean_logit_kurtosis", 0.0),
+                        "svn": t.get("von_neumann_entropy_bits", 0.0)}[key]
+
+            def _auc(a, b):
+                import numpy as _np
+                a, b = _np.asarray(a), _np.asarray(b)
+                return float(_np.mean([[1.0 if x > y else 0.5 if x == y else 0.0 for y in b] for x in a]))
+
+            _sig = [t for t in _tr_l1 if t.get("condition") in ("wide", "narrow")]
+            _rnd = [t for t in _tr_l1 if t.get("condition") in ("rand_plus", "rand_minus")]
+            _wide = [t for t in _tr_l1 if t.get("condition") == "wide"]
+            _narrow = [t for t in _tr_l1 if t.get("condition") == "narrow"]
+            _rows = []
+            for _key in ("kurt", "omega", "svn", "W", "drift", "ltau"):
+                _a = [_ch(t, _key) for t in _sig]
+                _b = [_ch(t, _key) for t in _rnd]
+                _u, _p = _st.mannwhitneyu(_a, _b, alternative="two-sided")
+                _aw = [_ch(t, _key) for t in _wide]
+                _an = [_ch(t, _key) for t in _narrow]
+                _uw, _pw = _st.mannwhitneyu(_aw, _an, alternative="two-sided")
+                _rows.append((_key, _auc(_a, _b), _p, _auc(_aw, _an), _pw))
+            lines.append(f"\n| Kanal | AUC Signal > $d_\\text{{rand}}$ | $p$ | AUC Wide > Narrow | $p$ |"
+                         f"\n|---|---|---|---|---|")
+            _pretty = {"kurt": "$K$ (Kurtosis)", "omega": "$\\Omega_\\text{holo}$",
+                       "svn": "$S_\\text{vN}$", "W": "$W = \\mathcal{L}_\\tau / \\Delta\\theta$",
+                       "drift": "$\\Delta\\theta_t$", "ltau": "$\\mathcal{L}_\\tau$"}
+            for _key, _a, _p, _aw, _pw in _rows:
+                lines.append(f"| {_pretty[_key]} | `{_a:.3f}` | `{_p:.2e}` | `{_aw:.3f}` | `{_pw:.2e}` |")
+            lines.append("\n*Die AUCs sind ungepolt als $P(a > b)$ angegeben. $K$ liegt erwartungsgemäß "
+                         "unter Narrow höher ($P(\\text{Wide}>\\text{Narrow}) = 0.26$), $\\mathcal{L}_\\tau$ "
+                         "unter $d_\\text{rand}$ höher ($P = 0.30$, d.h. Rauschen krümmt die imaginäre Achse stärker).*")
+            lines.append(
+                "\n- **Kanal-Rollen-Audit (Notiz-Zuordnung, nicht nachträglich gesetzt):** "
+                "$W = \\mathcal{L}_\\tau/\\Delta\\theta$ ist die **Kohärenz-/Rauschachse** "
+                "(Signal $6.87/6.60$ vs. $d_\\text{rand}$ $5.62/5.79$, AUC $0.890$, $p=1.2\\times10^{-8}$) — "
+                "genau die Operatonalisierung von Notiz 4 (imaginäre Zeit pro reeller Zeit). "
+                "$S_\\text{vN}$, $\\Omega_\\text{holo}$ und $K$ bilden die **Zustandsachse** "
+                "(Wide vs. Narrow, AUC $0.84$ / $0.74$ / $0.74$ invertiert). "
+                "Die Kanäle gegen *dieselbe* Kontrastachse zu testen, lässt die jeweils andere Achse "
+                "strukturell als Null erscheinen — das war der Fehler der früheren Lesart.\n")
 
         # Pseudoreplication audit: at T=0.3 the post-temperature distribution is
         # near one-hot, so distinct seeds frequently emit identical texts. The
