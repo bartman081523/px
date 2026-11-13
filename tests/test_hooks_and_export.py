@@ -59,11 +59,17 @@ def test_manifold_relay_hook_lifecycle():
 
 
 def test_manifold_relay_hook_exception_safety():
-    """Verify hook cleanup even when an exception occurs inside the context block."""
+    """Verify hook cleanup even when an exception occurs inside the context block.
+
+    Audit fix 2026-11-13: the context manager must never wipe *foreign* forward hooks
+    on the relay layer. Doing so silently destroyed the geometry tracker on layer 26,
+    which is why Eval L reported wick_vertical_curvature_rad == 0.0 for all 90 trials.
+    Only relay-installed handles may be removed.
+    """
     model = DummyModel(num_layers=30)
     layer26 = model.language_model.layers[26]
 
-    # Pre-add a dummy hook to simulate an orphaned hook
+    # Pre-add a dummy hook to simulate a third-party observer (e.g. geometry tracker)
     def dummy_hook(m, i, o):
         return o
 
@@ -72,13 +78,13 @@ def test_manifold_relay_hook_exception_safety():
 
     with pytest.raises(RuntimeError):
         with ManifoldRelayHook(model, layer_idx=26, sign=0, model_id="gemma4-e2b-it") as hook:
-            # During enter, orphaned hooks on target_layer should be cleared!
-            assert len(layer26._forward_hooks) == 0
+            # Foreign hooks on the target layer must survive context entry
+            assert len(layer26._forward_hooks) == 1
             raise RuntimeError("Simulated mid-inference failure")
 
-    # After exception exit, hooks must remain completely clean
+    # After exception exit, relay hooks are gone but the foreign hook is intact
     assert hook.active_hooks_count == 0
-    assert len(layer26._forward_hooks) == 0
+    assert len(layer26._forward_hooks) == 1
 
 
 def test_session_settings_freezing_and_export(tmp_path, monkeypatch):

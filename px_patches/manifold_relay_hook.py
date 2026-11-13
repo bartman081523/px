@@ -81,11 +81,14 @@ class ManifoldRelayHook:
                     pass
             self.text_model._px_relay_handles = []
 
-        # 2. Clear any lingering forward hooks directly on target layer
-        if hasattr(self.target_layer, "_forward_hooks"):
-            self.target_layer._forward_hooks.clear()
-        if hasattr(self.target_layer, "_forward_pre_hooks"):
-            self.target_layer._forward_pre_hooks.clear()
+        # 2. NOTE (audit fix 2026-11-13): the previous implementation called
+        #    self.target_layer._forward_hooks.clear() here, which silently destroyed
+        #    every third-party forward hook on the relay layer — most notably the
+        #    Gemma4ManifoldGeometryTracker hook on layer 26. That made the
+        #    intermediate layer states (26..35) uncollectable, which is exactly why
+        #    Eval L reported wick_vertical_curvature_rad == 0.0 for all 90 trials.
+        #    Stale relay hooks are already removed above via _px_relay_handles, so
+        #    foreign hooks are now preserved. Same rule applies in __exit__.
 
         # 3. If sign != 0, install the relay hook
         if self.sign != 0:
@@ -106,7 +109,7 @@ class ManifoldRelayHook:
                 dwidth=self.vector,
             )
 
-        self.active_hooks_count = len(self.target_layer._forward_hooks)
+        self.active_hooks_count = len(getattr(self.text_model, "_px_relay_handles", None) or [])
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -121,7 +124,5 @@ class ManifoldRelayHook:
                 from px_patches.gemma4_2b_px.relay_inject import remove_relay
 
             remove_relay(self.text_model)
-            if self.target_layer is not None and hasattr(self.target_layer, "_forward_hooks"):
-                self.target_layer._forward_hooks.clear()
         self.active_hooks_count = 0
         return False

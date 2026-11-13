@@ -432,7 +432,12 @@ def main():
         lines.append("| Gruppe | Initial $\\alpha_0$ | Final $\\alpha_5$ | Kurtosis Start $\\to$ End | PR Start $\\to$ End | Recovery-Rate ($|\\alpha_5| \\le 0.05$) |")
         lines.append("|---|---|---|---|---|---|")
         for g_name, g_info in k1.items():
+            if g_name == "zero_invariance_check":
+                continue
             lines.append(f"| **{g_name.upper()}** | `{g_info['mean_initial_alpha']:+.2f}` | `{g_info['mean_final_alpha']:+.4f}` | `{g_info['mean_kurtosis_start']:.1f} \\to {g_info['mean_kurtosis_end']:.1f}` | `{g_info['mean_pr_start']:.1f} \\to {g_info['mean_pr_end']:.1f}` | `{g_info['recovery_rate']*100:.0f}%` |")
+        zic = k1.get("zero_invariance_check")
+        if zic:
+            lines.append(f"\n- **Zero-Invariance-Audit (inaktiver Regler $\\alpha=0$):** max $|\\Delta K|$ = `{zic.get('max_abs_delta_k_true', 0.0):.6f}`, max $|\\Delta D_\\text{{eff}}|$ = `{zic.get('max_abs_delta_d_true', 0.0):.6f}`, max $|\\Delta S_\\text{{vN}}|$ = `{zic.get('max_abs_delta_s_vn_true', 0.0):.6f}` über $N={zic.get('n_baseline_epochs', 0)}$ Baseline-Epochen $\\Rightarrow$ `{'PASSED' if zic.get('passed') else 'FAILED'}`")
 
         lines.append("\n### B. Sub-Experiment K2: Funktionaler Aufgaben-Nutzen am ungesteuerten Modell ($N=40$)")
         lines.append("| Stress-Bedingung | Ungesteuerte Baseline | Adaptive Homöostase | Ziel-Metrik | p-Wert / Effekt | Rettungs-Status |")
@@ -471,7 +476,10 @@ def main():
         lines.append(f"\n- **Von-Neumann $S_\\text{{vN}}$ (Wide vs. Narrow):** SNR = `{m_svn['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_svn['p_value_wide_vs_narrow']:.4e}$)")
         lines.append(f"- **Holographic Peak-Ratio $\\Omega_\\text{{holo}}$ (Wide vs. Narrow):** SNR = `{m_holo['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_holo['p_value_wide_vs_narrow']:.4e}$)")
         lines.append(f"- **Logit-Kurtosis $K$ (Wide vs. Narrow):** SNR = `{m_kurt['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_kurt['p_value_wide_vs_narrow']:.4e}$)")
-        lines.append(f"- **Wick-Krümmung $\\mathcal{{L}}_\\tau$:** `{m_ltau['mean_raw']['wide']:.4f}` rad (Flache vertikale Geometrie im unhooked Logit-Pfad)")
+        wick_chk = l1.get("wick_positivity_check", {})
+        lines.append(f"- **Wick-Krümmung $\\mathcal{{L}}_\\tau$ (Wide vs. Narrow):** `{m_ltau['mean_raw']['wide']:.4f}` vs. `{m_ltau['mean_raw']['narrow']:.4f}` rad | SNR = `{m_ltau['snr_signal_to_noise']:.2f}` (Mann-Whitney $p = {m_ltau['p_value_wide_vs_narrow']:.4e}$)")
+        if wick_chk:
+            lines.append(f"- **Wick-Positivitäts-Audit:** min = `{wick_chk.get('min_wick_curvature_rad', 0.0):.4f}` rad, mean = `{wick_chk.get('mean_wick_curvature_rad', 0.0):.4f}` rad, $N$ > 0.5 rad = `{wick_chk.get('n_trials_above_0p5_rad', 0)}` / `{l1.get('n_trials', 0)}` $\\Rightarrow$ `{'PASSED' if wick_chk.get('passed') else 'FAILED'}`")
         lines.append(f"- **Holographisches Diskriminierungs-Urteil:** `{l1['verdict']}`\n")
 
         lines.append("### B. Sub-Experiment L2: Prigogine Criticality Benchmark am Nichtgleichgewicht ($N=40$ Trajektorien, Paired)")
@@ -487,7 +495,7 @@ def main():
         lines.append(f"| **Participation Ratio $D_\\text{{eff}}$** | `{pr['unguided']:.2f}` | `{pr['prigogine']:.2f}` | `{pr['delta']:+.2f}` | `$p = {pr['p_value_wilcoxon']:.4e}$` |")
         lines.append(f"| **Logit-Kurtosis $K$** | `{l2['mean_kurtosis']['unguided']:.1f}` | `{l2['mean_kurtosis']['prigogine']:.1f}` | `{l2['mean_kurtosis']['prigogine'] - l2['mean_kurtosis']['unguided']:+.1f}` | N/A |")
 
-        lines.append(f"\n- **Phasenraum-Dilatation:** Hochsignifikanter Sprung der spektralen Entropie ($S_\\text{{vN}}$ von 2.598 auf 3.009, $p = {svn['p_value_wilcoxon']:.4e}$) und Partizipations-Dimension ($D_\\text{{eff}}$ von 2.91 auf 3.83, $p = {pr['p_value_wilcoxon']:.4e}$).")
+        lines.append(f"\n- **Phasenraum-Dilatation:** Sprung der spektralen Entropie ($S_\\text{{vN}}$ von `{svn['unguided']:.3f}` auf `{svn['prigogine']:.3f}`, $p = {svn['p_value_wilcoxon']:.4e}$) und Partizipations-Dimension ($D_\\text{{eff}}$ von `{pr['unguided']:.2f}` auf `{pr['prigogine']:.2f}`, $p = {pr['p_value_wilcoxon']:.4e}$).")
         lines.append(f"- **Finales Prigogine-Urteil:** `{l2['verdict']}`\n")
 
     fazit_sec_num = "14" if data_l else ("13" if data_k else ("12" if data_j else ("11" if data_i else "10")))
