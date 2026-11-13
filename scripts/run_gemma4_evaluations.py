@@ -851,6 +851,12 @@ def compute_counterfactual_differential(steered_metrics: dict, clean_metrics: di
 
 
 DRIFT_NOISE_GATE_RAD = 0.465  # measured in Eval L1: d_rand 0.49-0.55 rad, d_width 0.35-0.43 rad
+# Single source of truth for the covariance gate thresholds (never restate these
+# literals in the report or the tests -- read them from here).
+GATE_ANTI_NARROWING_DELTA_K_MIN = 1.5
+GATE_ANTI_NARROWING_DELTA_OMEGA_MAX = -0.02
+GATE_ANTI_WIDENING_DELTA_K_MAX = -2.0
+GATE_ANTI_WIDENING_DELTA_OMEGA_MIN = 0.05
 
 
 def compute_covariance_gated_step(
@@ -880,10 +886,12 @@ def compute_covariance_gated_step(
     """
     delta_alpha_t = 0.0
     if drift_steered < DRIFT_NOISE_GATE_RAD:
-        if delta_k_true > 1.5 and delta_omega_holo_true < -0.02:
+        if (delta_k_true > GATE_ANTI_NARROWING_DELTA_K_MIN
+                and delta_omega_holo_true < GATE_ANTI_NARROWING_DELTA_OMEGA_MAX):
             raw_step = 0.008 * delta_k_true + 0.08 * abs(delta_d_true)
             delta_alpha_t = float(max(0.02, min(0.18, raw_step)))
-        elif delta_k_true < -2.0 and delta_omega_holo_true > 0.05:
+        elif (delta_k_true < GATE_ANTI_WIDENING_DELTA_K_MAX
+              and delta_omega_holo_true > GATE_ANTI_WIDENING_DELTA_OMEGA_MIN):
             raw_step = 0.006 * abs(delta_k_true) + 0.08 * max(0.0, delta_d_true)
             delta_alpha_t = -float(max(0.02, min(0.18, raw_step)))
 
@@ -3390,6 +3398,13 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2")):
             "passed": bool(all(abs(e["delta_k_true"]) < 1e-3 and abs(e["delta_d_true"]) < 1e-3
                                and abs(e["delta_s_vn_true"]) < 1e-3 for e in baseline_epochs)) if baseline_epochs else False,
         }
+        stats_k1["gate_thresholds"] = {
+            "drift_noise_gate_rad": DRIFT_NOISE_GATE_RAD,
+            "anti_narrowing": {"delta_k_min": GATE_ANTI_NARROWING_DELTA_K_MIN,
+                               "delta_omega_holo_max": GATE_ANTI_NARROWING_DELTA_OMEGA_MAX},
+            "anti_widening": {"delta_k_max": GATE_ANTI_WIDENING_DELTA_K_MAX,
+                              "delta_omega_holo_min": GATE_ANTI_WIDENING_DELTA_OMEGA_MIN},
+        }
     else:
         _prev_k = _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
         trajectories_k1 = _prev_k.get("trajectories_k1", [])
@@ -3705,6 +3720,10 @@ async def run_eval_l(model, tokenizer, text_model, subs=("L1", "L2")):
             "n_trials": len(trials_l1),
             "baseline_norms_per_task": base_means_per_task,
             "metrics": metric_stats,
+            "unique_texts_per_condition": {
+                c: len({t["text_preview"] for t in trials_l1 if t["condition"] == c})
+                for c in ["wide", "narrow", "baseline", "rand_plus", "rand_minus"]
+            },
             "wick_positivity_check": {
                 "min_wick_curvature_rad": round(float(min(t["wick_vertical_curvature_rad"] for t in trials_l1)), 4),
                 "mean_wick_curvature_rad": round(float(np.mean([t["wick_vertical_curvature_rad"] for t in trials_l1])), 4),
@@ -3915,7 +3934,7 @@ async def run_eval_l(model, tokenizer, text_model, subs=("L1", "L2")):
     print(f"  L1 S_vN Wide vs Narrow:  p={metric_stats['von_neumann_entropy_bits']['p_value_wide_vs_narrow']:.4e} | SNR={metric_stats['von_neumann_entropy_bits']['snr_signal_to_noise']:.2f}")
     print(f"  L1 L_tau Curvature:      SNR={metric_stats['wick_vertical_curvature_rad']['snr_signal_to_noise']:.2f} | Wide={metric_stats['wick_vertical_curvature_rad']['mean_delta']['wide']:+.4f} vs Narrow={metric_stats['wick_vertical_curvature_rad']['mean_delta']['narrow']:+.4f}")
     print(f"  L2 Prigogine D3:         Unguided={stats_l2['mean_distinct_3']['unguided']:.3f} -> Prigogine={stats_l2['mean_distinct_3']['prigogine']:.3f} (p={stats_l2['mean_distinct_3']['p_value_wilcoxon']:.4e})")
-    print(f"  L2 Verdict:              {l2_verdict}")
+    print(f"  L2 Verdict:              {stats_l2.get('verdict', 'n/a') if not run_l2 else l2_verdict}")
     print(f"  Saved to {out_path_l}\n")
     return full_payload_l
 

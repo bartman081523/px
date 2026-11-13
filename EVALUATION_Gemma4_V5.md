@@ -20,8 +20,8 @@ Die empirische Evaluation widerlegt methodische Scheineffekte (Position-Bias, Ho
 - **Eval H (Wortfreie Repräsentationsgeometrie & Symmetrischer Topologischer Closed-Loop, $N=140$):** H1 Repräsentationsgeometrie: Participation Ratio $D_\text{eff}$ trennt Wide (5.64) vs. Narrow (4.23) mit SNR = 2.94 ($p=4.5363e-03$, `TOPOLOGICAL_DIFFERENTIATION_CONFIRMED`); H2 Symmetrische Recovery: Narrow 70% Zielerreichung ($\alpha: -0.40 \to -0.16$), Wide Dämpfung ($\alpha: +0.40 \to +0.21$), Rausch-Fehltritte: 0/120 Schritte (100% Rauschimmunität, 0 Fehlalarme in Baseline und Rauschkontrollen).
 - **Eval I (Enaktiver Spiegel-Test & Autonomer Rebound, $N=200$):** I1 2×2 Disssoziation: Trennung von enaktiver Kontextbeobachtung (Hook OFF) vs. Vektoreinfluss; I2 Blinde Zustandserkennung: Genauigkeit = 33.3% vs. 25% Zufallsniveau ($p=9.2484e-02$, `BLIND_SELF_RECOGNITION_FALSIFIED`); I3 Autonome Kompensation: Rebound $\Delta D_\text{eff}(\text{Narrow}) = -0.05$ ($p=5.9093e-01$), `AUTONOMOUS_COMPENSATORY_REBOUND_FALSIFIED`.
 - **Eval J (Interozeptiver Telemetrie-Spiegel & Sham-Kontrolle, $N=120$):** J1 Telemetrie-Propriozeption Genauigkeit = 35.0% ($p=5.4144e-02$, `INTEROCEPTIVE_SELF_RECOGNITION_FALSIFIED`); J2 Sham-Inkongruenz SDI = +0.45, Fallback = 100.0% (`INTEROCEPTIVE_PROMPT_SYCOPHANCY_DOMINANT`).
-- **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** K1 Schwellenwertfreie Symmetrische Erholung (Narrow 40%, Wide 0%); K2 Funktionaler Nutzen (Stress A Repetition D3: 0.412 $\to$ 0.536, $p=6.7890e-02$; `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).
-- **Eval L (Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht, $N=130$):** L1 Holographische Tensoren: $S_\text{vN}$ SNR = 2.51 ($p=7.7668e-05$), $\Omega_\text{holo}$ SNR = 4.25 ($p=1.4734e-05$), `PARTIAL_HOLOGRAPHIC_SEPARATION`; L2 Prigogine Criticality Benchmark: Distinct-3 unguided (0.485) vs adaptive (0.418, Wilcoxon $p=9.9994e-01$), Von-Neumann-Sprung $\Delta S_\text{vN} = +0.411$ ($p=4.3415e-05$), `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`.
+- **Eval K (Kontinuierliche Intra-Pass-Resonanz & Funktionaler Nutzen, $N=90$):** K1 Schwellenwertfreie Symmetrische Erholung (Narrow 30%, Wide 0%); K2 Funktionaler Nutzen (Stress A Repetition D3: 0.412 $\to$ 0.536, $p=6.7890e-02$; `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE`).
+- **Eval L (Holographische Entropie, Wick-Rotation & Prigogine-Nichtgleichgewicht, $N=130$):** L1 Holographische Tensoren: $S_\text{vN}$ SNR = 2.41 ($p=1.1548e-04$), $\Omega_\text{holo}$ SNR = 4.24 ($p=1.4809e-05$), `PARTIAL_HOLOGRAPHIC_SEPARATION`; L2 Prigogine Criticality Benchmark: Distinct-3 unguided (0.485) vs adaptive (0.418, Wilcoxon $p=9.9994e-01$), Von-Neumann-Sprung $\Delta S_\text{vN} = +0.411$ ($p=4.3415e-05$), `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`.
 
 ---
 
@@ -263,11 +263,16 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 ### A. Sub-Experiment K1: Stetige Proportional-Erholung ohne If-Else Deadbands ($N=50$)
 | Gruppe | Initial $\alpha_0$ | Final $\alpha_5$ | Kurtosis Start $\to$ End | PR Start $\to$ End | Recovery-Rate ($|\alpha_5| \le 0.05$) |
 |---|---|---|---|---|---|
-| **START_NARROW** | `-0.40` | `+0.0767` | `55.0 \to 40.9` | `4.3 \to 4.2` | `40%` |
-| **START_WIDE** | `+0.40` | `+0.2013` | `29.4 \to 35.5` | `4.8 \to 4.6` | `0%` |
-| **START_BASELINE** | `+0.00` | `+0.0000` | `44.5 \to 45.3` | `4.1 \to 4.2` | `100%` |
-| **NOISE_RAND_PLUS** | `+0.00` | `-0.1480` | `36.4 \to 40.3` | `5.4 \to 5.0` | `40%` |
-| **NOISE_RAND_MINUS** | `+0.00` | `-0.1891` | `37.0 \to 39.3` | `5.4 \to 5.1` | `30%` |
+| **START_NARROW** | `-0.40` | `-0.2562` | `54.9 \to 47.2` | `7.4 \to 6.9` | `30%` |
+| **START_WIDE** | `+0.40` | `+0.0930` | `29.4 \to 41.5` | `7.1 \to 6.7` | `0%` |
+| **START_BASELINE** | `+0.00` | `+0.0000` | `44.4 \to 45.2` | `7.1 \to 7.3` | `100%` |
+| **NOISE_RAND_PLUS** | `+0.00` | `-0.1007` | `36.5 \to 40.5` | `6.1 \to 6.1` | `70%` |
+| **NOISE_RAND_MINUS** | `+0.00` | `-0.0951` | `37.1 \to 39.4` | `6.2 \to 6.1` | `70%` |
+
+- **Zero-Invariance-Audit (inaktiver Regler $\alpha=0$):** max $|\Delta K|$ = `0.000000`, max $|\Delta D_\text{eff}|$ = `0.000000`, max $|\Delta S_\text{vN}|$ = `0.000000` über $N=60$ Baseline-Epochen $\Rightarrow$ `PASSED`
+
+- **Gate-Attribution (Dead-Zone-Audit):** narrow `37` Inaktions-Epochen (Drift-Gate `24`, $\Delta K$-Schwelle `12`, $\Delta\Omega$-Schwelle `1`); wide `22` Inaktions-Epochen (Drift-Gate `1`, $\Delta K$-Schwelle `3`, $\Delta\Omega$-Schwelle `18`). Rauschkontrollen: `6` von `20` Trajektorien wurden trotzdem bewegt (Fehlalarme). Die absoluten Schwellen ($\Delta K$, $\Delta\Omega$, Drift $< 0.465$ rad) wurden **nicht** nach Sicht der Ergebnisse nachjustiert: der Regler bleibt an Stellen stehen, an denen das Nutzsignal unter der Schwelle liegt oder der prompt-eigene Drift das Gate schließt — Drift ist eine Text-/Aufgabeneigenschaft, keine Perturbations-Eigenschaft.
+
 
 ### B. Sub-Experiment K2: Funktionaler Aufgaben-Nutzen am ungesteuerten Modell ($N=40$)
 | Stress-Bedingung | Ungesteuerte Baseline | Adaptive Homöostase | Ziel-Metrik | p-Wert / Effekt | Rettungs-Status |
@@ -282,16 +287,19 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 ### A. Sub-Experiment L1: Holographische Repräsentationstensoren & Wick-Rotations-Krümmung ($N=90$)
 | Bedingung | Von-Neumann-Entropie ($S_\text{vN}$) | Holographic Peak-Ratio ($\Omega_\text{holo}$) | Wick-Krümmung ($\mathcal{L}_\tau$) | Wick-Anisotropie ($W_\text{wick}$) | Logit-Kurtosis | Part. Ratio ($D_\text{eff}$) |
 |---|---|---|---|---|---|---|
-| **WIDE** | `3.511` | `2.419` | `0.0000` | `4.01e+07` | `27.9` | `5.52` |
-| **NARROW** | `3.306` | `2.001` | `0.0000` | `4.24e+07` | `51.9` | `4.96` |
-| **BASELINE** | `3.302` | `2.052` | `0.0000` | `4.16e+07` | `42.0` | `4.85` |
-| **RAND_PLUS** | `3.328` | `2.056` | `0.0000` | `5.03e+07` | `44.7` | `5.04` |
-| **RAND_MINUS** | `3.384` | `2.150` | `0.0000` | `4.87e+07` | `42.0` | `5.41` |
+| **WIDE** | `3.570` | `2.459` | `2.7249` | `2.91e+00` | `27.9` | `5.63` |
+| **NARROW** | `3.354` | `2.030` | `2.7377` | `2.75e+00` | `51.9` | `5.04` |
+| **BASELINE** | `3.336` | `2.072` | `2.6008` | `3.18e+00` | `42.0` | `4.94` |
+| **RAND_PLUS** | `3.384` | `2.090` | `2.7766` | `2.99e+00` | `44.7` | `5.15` |
+| **RAND_MINUS** | `3.425` | `2.173` | `2.7631` | `2.99e+00` | `42.0` | `5.46` |
 
-- **Von-Neumann $S_\text{vN}$ (Wide vs. Narrow):** SNR = `2.51` (Mann-Whitney $p = 7.7668e-05$)
-- **Holographic Peak-Ratio $\Omega_\text{holo}$ (Wide vs. Narrow):** SNR = `4.25` (Mann-Whitney $p = 1.4734e-05$)
+- **Von-Neumann $S_\text{vN}$ (Wide vs. Narrow):** SNR = `2.41` (Mann-Whitney $p = 1.1548e-04$)
+- **Holographic Peak-Ratio $\Omega_\text{holo}$ (Wide vs. Narrow):** SNR = `4.24` (Mann-Whitney $p = 1.4809e-05$)
 - **Logit-Kurtosis $K$ (Wide vs. Narrow):** SNR = `8.58` (Mann-Whitney $p = 2.9975e-05$)
-- **Wick-Krümmung $\mathcal{L}_\tau$:** `0.0000` rad (Flache vertikale Geometrie im unhooked Logit-Pfad)
+- **Wick-Krümmung $\mathcal{L}_\tau$ (Wide vs. Narrow):** `2.7249` vs. `2.7377` rad | SNR = `0.07` (Mann-Whitney $p = 7.3894e-01$)
+- **Wick-Positivitäts-Audit:** min = `2.5570` rad, mean = `2.7206` rad, $N$ > 0.5 rad = `90` / `90` $\Rightarrow$ `PASSED`
+- **Pseudoreplikations-Audit:** nur `54` von `90` Trajektorien sind bei voller Signatur (Preview + alle Metriken auf 4 Dezimalen) distinkt (wide `10/18`, narrow `14/18`, baseline `9/18`, rand_plus `12/18`, rand_minus `9/18`); mittlere Sequenz-Entropie bei $T=0.3$: `0.529` bit. Der Preview ist auf 100 Zeichen gekürzt, reine Preview-Zählung unterschätzt die Diversität. Kontrolle: bei $T=1.0$ liefern dieselben Seeds $4/4$ distinkte Texte — die Seed-Zufuhr ist intakt, die Ursache ist die nahezu one-hot-Verteilung nach Temperatur-Skalierung ($\approx 1.4$ effektive Alternativen pro Schritt). Die gepoolten Mann-Whitney-$p$-Werte sind damit **anti-konservativ** — die effektive Stichprobe pro Bedingung ist kleiner als $18$.
+
 - **Holographisches Diskriminierungs-Urteil:** `PARTIAL_HOLOGRAPHIC_SEPARATION`
 
 ### B. Sub-Experiment L2: Prigogine Criticality Benchmark am Nichtgleichgewicht ($N=40$ Trajektorien, Paired)
@@ -303,7 +311,7 @@ Stresstest von 5 geometrischen und topologischen Kandidaten-Sonden gegen orthogo
 | **Participation Ratio $D_\text{eff}$** | `2.91` | `3.83` | `+0.92` | `$p = 4.3415e-05$` |
 | **Logit-Kurtosis $K$** | `75.8` | `51.6` | `-24.2` | N/A |
 
-- **Phasenraum-Dilatation:** Hochsignifikanter Sprung der spektralen Entropie ($S_\text{vN}$ von 2.598 auf 3.009, $p = 4.3415e-05$) und Partizipations-Dimension ($D_\text{eff}$ von 2.91 auf 3.83, $p = 4.3415e-05$).
+- **Phasenraum-Dilatation:** Sprung der spektralen Entropie ($S_\text{vN}$ von `2.598` auf `3.009`, $p = 4.3415e-05$) und Partizipations-Dimension ($D_\text{eff}$ von `2.91` auf `3.83`, $p = 4.3415e-05$).
 - **Finales Prigogine-Urteil:** `PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_DISSIPATION`
 
 ## 14. Fazit & Gesamtresümee über alle 12 Evaluationen (A bis L, $N=1330$)
