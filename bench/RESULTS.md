@@ -216,8 +216,35 @@ nutzt weiter den Dequant-Pfad.
 | bf16-Referenz | ~18 tok/s | ~10 GB | volle Gewichte |
 
 **170× schneller als der Dequant-Pfad**, 2,7× weniger VRAM als bf16 — aber
-noch ~2× langsamer als bf16, weil pro Schicht zwei Matvecs laufen und der
-Prefill (T > 1) weiterhin dequantisiert (≈ 20 s pro Prompt, 278 Matrizen).
+noch ~2× langsamer als bf16, weil pro Schicht zwei Matvecs laufen.
+
+### 9.4b Batched GEMM-Kernel für Prefill (`ququint_quant/gf5_gemm.py`)
+
+Der Prefill dequantisiert nicht mehr in numpy, sondern rechnet direkt aus den
+Records: pro 128er-Block 10 `tl.dot`-Aufrufe mit K = 16 (13 Digits + 3 Pads,
+weil `tl.dot` K ≥ 16 verlangt; 5^16 > 2^32, daher ist ein 16-Digit-Record
+nicht möglich).
+
+| T (Prompt-Tokens) | Prefill | Rate |
+|---|---|---|
+| 87 | 1,26 s | 69 tok/s |
+| 396 | 3,87 s | 102 tok/s |
+| 1558 | 13,0 s | 120 tok/s |
+
+Vorher (numpy-Dequant, 278 Matrizen) ≈ **20 s pro Prompt, unabhängig von T**.
+Der Kernel ist damit **~16× schneller** im Prefill und skaliert mit der
+Prompt-Länge.
+
+Ende-zu-Ende (32 Tokens generieren, inkl. Prefill): **5,6 s = 5,7 tok/s**
+(vorher 24,8 s = 1,1 tok/s), VRAM-Peak **3,76 GB**, **0 Kernel-Fallbacks**.
+
+Korrektheit: Kernel-GEMM vs. Dequant-Matmul max. rel. Fehler **2,3e-3**
+(bf16-Ausgaberundung), Logit-Parität unverändert (Cosine 0,990–0,998,
+Top-1 3/3).
+
+Verbleibende Ineffizienz: K = 16 bei 13 genutzten Digits — die Tensor-Cores
+laufen zu ~80 % leer. Zwei Records pro Dot (K = 26 → 32) würden die
+Launch-Zahl halbieren und wären der nächste Schritt.
 
 Zwei echte Kernel-Bugs wurden dabei gefunden und behoben:
 1. **Illegal Memory Access** bei `nb·rpb % rc != 0`: der Kernel maskiert die

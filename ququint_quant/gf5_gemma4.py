@@ -376,16 +376,32 @@ class GF5Linear(torch.nn.Module):
             out = out + self.bias.float()
         return out.to(x.dtype).reshape(*x.shape[:-1], self.out_features)
 
+    def _gemm_forward(self, x):
+        from gf5_gemm import gfp_matmul
+        shp = x.shape
+        x2 = x.reshape(-1, shp[-1]).float().contiguous()   # Kernel erwartet f32
+        out = gfp_matmul(self.u32, self.scale, x2, self.out_features,
+                         self.in_features, P)
+        if getattr(self, "u32b", None) is not None:
+            out = out + gfp_matmul(self.u32b, self.scaleb, x2, self.out_features,
+                                   self.in_features, P)
+        out = out.float()
+        if self.bias is not None:
+            out = out + self.bias.float()
+        return out.to(x.dtype).reshape(*shp[:-1], self.out_features)
+
     def forward(self, x):
-        use_kernel = (x.is_cuda and x.dim() >= 2 and x.shape[-2] == 1
-                      and x.shape[0] == 1 and self.u32.is_cuda)
-        if use_kernel:
+        on_cuda = x.is_cuda and x.dim() >= 2 and x.shape[0] == 1 and self.u32.is_cuda
+        use_kernel = on_cuda and x.shape[-2] == 1
+        use_gemm = on_cuda and x.shape[-2] > 1
+        if use_kernel or use_gemm:
             try:
-                return self._kernel_forward(x)
+                return self._kernel_forward(x) if use_kernel else self._gemm_forward(x)
             except Exception as e:      # Kernel-Fehler -> ehrlicher Fallback
                 if not getattr(self, "_kernel_warned", False):
                     print(f"[gf5] kernel fallback ({type(e).__name__}: {e})", flush=True)
                     self._kernel_warned = True
+                self._fallbacks = getattr(self, "_fallbacks", 0) + 1
         if self._deq is None or self._deq.dtype != x.dtype:
             self._deq = self.dequantized(x.dtype, x.device)
         out = torch.nn.functional.linear(x, self._deq, self.bias)
