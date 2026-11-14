@@ -166,3 +166,65 @@ exakt 400 Tokens (kein EOS) — die Anti-Collapse-Komponente ist für stabile L�
   führt Dateien aus (`hello.py` → `[2, 3, 5, 7, 11]`).
 - Der zuvor belegte 123 415-Token-Treffer bleibt gültig (gleiches GGUF, gleiche Flags);
   er wurde vor dem Disk-Umzug gemessen.
+
+---
+
+## 9. GF(5)-Gemma-4 (Runde 3) — gebaut, gemessen, ehrlich eingeordnet
+
+Artefakt: `/home/julian/.cache/huggingface/gf5-gemma-4-E2B-it/`
+Code: `ququint_quant/gf5_gemma4.py` (`pack` / `eval`).
+
+### 9.1 Was gebaut wurde
+- Jeder 2-D-Gewichtstensor der Sprachpfade → blockweise GF(5) {−2,−1,0,1,2},
+  per-Block-fp16-Skalar, 13 Ququints/u32 (LSB zuerst), k = 0,6
+  (auf echten Gewichten gemessen optimal: rel-L2 0,316 vs 0,451 bei k = 1,0).
+- `embed_tokens_per_layer` (262 144 × 8960, 4,7 GB) als **zeilen-aligned**
+  Lookup gepackt: nur angefragte Zeilen werden entpackt.
+- `embed_tokens` (geteilt mit lm_head) bleibt bf16, Vision-/Audio-Tower bleiben bf16.
+- Zwei Varianten: **GF5** (1 Stufe) und **GF5²** (Residual-Stufe).
+
+### 9.2 Größe
+
+| Variante | Quelle | gepackt | Rest (bf16) | gesamt | Faktor |
+|---|---|---|---|---|---|
+| GF5 (1 Stufe) | 10,25 GB | 1,37 GB | 1,75 GB | **3,12 GB** | 3,28× |
+| GF5² (2 Stufen) | 10,25 GB | ~2,75 GB | 1,75 GB | **4,50 GB** | 2,28× |
+
+### 9.3 Qualität (Logit-Parität gegen bf16, 3 Prompts, letzte Position)
+
+| Variante | rel-L2 (Gewichte) | Cosine | Top-1 | Top-50-Overlap | KL (nats) |
+|---|---|---|---|---|---|
+| GF5 | 0,315 | 0,72–0,96 | **0/3** | **0,02** | 8,1–14,6 |
+| GF5² | 0,114 | **0,990–0,998** | **3/3** | 0,18–0,38 | 0,000–0,42 |
+
+**GF5 mit fünf Stufen ist für dieses Modell zu grob.** Bei 2,59 bit bricht die
+Next-Token-Verteilung zusammen (Top-50 praktisch disjunkt, Text unbrauchbar).
+Die Residual-Stufe rettet die Qualität auf INT4-Niveau (rel-L2 0,114 vs.
+0,117 bei INT4-sym) — kostet aber 5,17 bit, also **mehr** als INT4 (4,0 bit).
+
+### 9.4 Geschwindigkeit
+Ohne fusionierten Kernel dequantisiert der Forward pro Aufruf:
+**~21 s pro Token** (0,05 tok/s) bei 2,4 GB VRAM. Das ist kein Runtime-Format,
+sondern ein Speicherformat. Der gemessene GF(5)-GEMV (2,37× auf echtem Tensor)
+würde das lösen, ist aber wegen des abweichenden Record-Layouts
+(10 Records je 128er-Block, Skalar je (Block,Rohr)) nicht eingebunden.
+
+### 9.5 Fazit
+GF(5) gewinnt auf der Größen-/Qualitätsfront **nicht** gegen INT4: einstufig
+zu verlustbehaftet, zweistufig größer als INT4 bei gleicher Qualität. Der
+verbleibende Vorteil ist strukturell (mul-freier Kernel, exakte
+{−2,−1,0,1,2}-Symmetrie), nicht informativ. Für gemma-4-E2B ist das Format
+damit ein Negativ-Ergebnis — mit vollständigem Artefakt und Messung.
+
+## 10. KV-Wiederverwendung im Harness (Runde 3)
+
+`llama-server --parallel 1 --cache-reuse 256` (131k ctx, KV q8_0):
+
+| Turn | prompt_n | cache_n | wall |
+|---|---|---|---|
+| 1 (kalt) | 16 838 | 0 | 44,5 s |
+| 2 (identisch) | 4 | 16 834 | **0,4 s (111× schneller)** |
+| 3 (+9 Tokens) | 525 | 16 322 | **2,4 s** |
+
+Inkrementelle Harness-Turns kosten damit Sekunden statt Minuten — der
+128k-Kontext ist praktisch nutzbar, solange der Prefix stabil bleibt.
