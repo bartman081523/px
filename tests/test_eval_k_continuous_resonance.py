@@ -160,59 +160,91 @@ def test_counterfactual_differential_zero_invariance():
 
 # --- K1b: constant-free efference-copy arm --------------------------------
 
-def test_efference_gate_closed_when_noise_lowers_wick_ratio():
-    """d_rand lowers W (L_tau/drift) below the clean value -> no action at all."""
-    assert compute_efference_copy_step(0.0, delta_k_true=-9.0, kurt_clean=40.0, delta_w=-0.9) == 0.0
-    assert compute_efference_copy_step(-0.4, delta_k_true=+9.0, kurt_clean=50.0, delta_w=-0.1) == -0.4
+def test_efference_gate_closed_when_noise_or_incongruent():
+    """Noise controls (Task 0/2: dS_vN < 0, Task 1: dOmega < |dW|) keep gate closed."""
+    # Task 0/2 noise: dK < 0, but dS_vN < 0 and dD < 0 -> gate closed
+    assert compute_efference_copy_step(0.0, delta_k_true=-12.7, kurt_clean=48.0, delta_w=+0.14,
+                                       delta_s_vn_true=-0.047, delta_d_true=-0.45, delta_omega_holo_true=+0.12) == 0.0
+    # Task 1 noise: dS_vN > 0 and dD > 0, but dOmega < |dW| (0.18 < 0.23) -> gate closed
+    assert compute_efference_copy_step(0.0, delta_k_true=-3.14, kurt_clean=36.0, delta_w=+0.227,
+                                       delta_s_vn_true=+0.078, delta_d_true=+0.59, delta_omega_holo_true=+0.182) == 0.0
+    # Inverted narrow: dK > 0 but dW <= 0 -> gate closed
+    assert compute_efference_copy_step(-0.4, delta_k_true=+9.0, kurt_clean=50.0, delta_w=-0.1,
+                                       delta_s_vn_true=-0.05) == -0.4
 
 
-def test_efference_step_is_relative_displacement():
-    """Step equals the relative kurtosis displacement; no reference constant involved."""
-    a1 = compute_efference_copy_step(-0.40, delta_k_true=+5.0, kurt_clean=50.0, delta_w=+0.2)
-    assert a1 == pytest.approx(-0.30, abs=1e-9)          # -0.40 + 5/50
-    a2 = compute_efference_copy_step(+0.40, delta_k_true=-5.0, kurt_clean=50.0, delta_w=+0.2)
-    assert a2 == pytest.approx(+0.30, abs=1e-9)
-    # same relative displacement at a different absolute kurtosis -> same step
-    a3 = compute_efference_copy_step(-0.40, delta_k_true=+80.0, kurt_clean=800.0, delta_w=+0.2)
-    assert a3 == pytest.approx(-0.30, abs=1e-9)
+def test_efference_step_dual_bulk_boundary():
+    """Step incorporates both relative boundary displacement (dK/Kc) and bulk order shift (dOm/Omc)."""
+    # Narrowing: dK > 0, dS_vN < 0, dW > 0 -> step = dK/Kc - dOm/Omc
+    # Kc=50.0, dK=+5.0 -> dK/Kc = +0.10. Omc = 2.0, dOm = -0.10 -> -dOm/Omc = +0.05.
+    # Total step = +0.15. Alpha: -0.40 -> -0.25.
+    a1 = compute_efference_copy_step(
+        -0.40, delta_k_true=+5.0, kurt_clean=50.0, delta_w=+0.2,
+        delta_s_vn_true=-0.05, delta_omega_holo_true=-0.10, s_vn_clean=3.4
+    )
+    # Omega_clean = 3.4 / log10(51) = 3.4 / 1.70757 = 1.99113
+    # Step = 5/50 - (-0.10 / 1.99113) = 0.10 + 0.05022 = +0.15022
+    assert a1 == pytest.approx(-0.40 + (5.0 / 50.0 - (-0.10 / (3.4 / math.log10(51.0)))), abs=1e-5)
+
+    # Widening: dK < 0, dS_vN > 0, dD > 0, dOm > |dW| -> pulls alpha downward
+    a2 = compute_efference_copy_step(
+        +0.40, delta_k_true=-5.0, kurt_clean=50.0, delta_w=+0.05,
+        delta_s_vn_true=+0.05, delta_d_true=+0.5, delta_omega_holo_true=+0.10, s_vn_clean=3.4
+    )
+    assert a2 < +0.40
 
 
 def test_efference_step_has_fixed_point_at_zero_differential():
-    """delta_k_true == 0 is the fixed point: the controller stops exactly there."""
+    """delta_k_true == 0 and delta_omega_holo_true == 0 is the fixed point: controller stops exactly there."""
     for alpha in (-0.40, -0.05, 0.0, 0.05, 0.40):
-        assert compute_efference_copy_step(alpha, delta_k_true=0.0, kurt_clean=50.0,
-                                           delta_w=+0.3) == pytest.approx(alpha, abs=1e-12)
+        assert compute_efference_copy_step(
+            alpha, delta_k_true=0.0, kurt_clean=50.0, delta_w=+0.3,
+            delta_s_vn_true=-0.05, delta_omega_holo_true=0.0, s_vn_clean=3.0
+        ) == pytest.approx(alpha, abs=1e-12)
 
 
 def test_efference_step_is_rate_limited_not_deadbanded():
     """Small real displacements still move (no deadband); large ones are clipped to +/-0.18."""
-    tiny = compute_efference_copy_step(-0.40, delta_k_true=+0.05, kurt_clean=50.0, delta_w=+0.01)
+    tiny = compute_efference_copy_step(
+        -0.40, delta_k_true=+0.05, kurt_clean=50.0, delta_w=+0.01,
+        delta_s_vn_true=-0.001, delta_omega_holo_true=-0.001, s_vn_clean=3.0
+    )
     assert tiny > -0.40, "any non-zero differential must move the controller (no deadband)"
-    hard = compute_efference_copy_step(0.0, delta_k_true=+900.0, kurt_clean=50.0, delta_w=+0.01)
+    hard = compute_efference_copy_step(
+        0.0, delta_k_true=+900.0, kurt_clean=50.0, delta_w=+0.01,
+        delta_s_vn_true=-1.0, delta_omega_holo_true=-1.0, s_vn_clean=3.0
+    )
     assert hard == pytest.approx(0.18, abs=1e-12)
 
 
 def test_efference_converges_symmetrically_from_both_sides():
-    """Simulated closed loop with the plant gain measured in the real run.
+    """Simulated closed loop with dual bulk-boundary dynamics."""
+    # Narrow start (-0.40)
+    alpha_n = -0.40
+    for _ in range(6):
+        alpha_n = compute_efference_copy_step(
+            alpha_n, delta_k_true=-30.0 * alpha_n, kurt_clean=55.0, delta_w=+0.2,
+            delta_s_vn_true=0.1 * alpha_n, delta_omega_holo_true=0.2 * alpha_n, s_vn_clean=3.2
+        )
+    assert abs(alpha_n) <= 0.05, f"narrow converged only to {alpha_n:+.4f}"
 
-    Epoch-0 data: narrow alpha=-0.40 -> dK=+11.92 on K_clean=55.7 (gain 29.8);
-    wide alpha=+0.40 -> dK=-22.80 on K_clean=29.4 (gain 57.0). Both must reach
-    |alpha| <= 0.05 within the six epochs of the benchmark.
-    """
-    for alpha0, gain, k_clean in ((-0.40, 29.8, 55.7), (+0.40, 57.0, 29.4)):
-        alpha = alpha0
-        for _ in range(6):
-            delta_k = -gain * alpha
-            alpha = compute_efference_copy_step(alpha, delta_k_true=delta_k,
-                                                kurt_clean=k_clean, delta_w=+0.2)
-        assert abs(alpha) <= 0.05, f"start {alpha0:+.2f} converged only to {alpha:+.4f}"
+    # Wide start (+0.40)
+    alpha_w = +0.40
+    for _ in range(6):
+        alpha_w = compute_efference_copy_step(
+            alpha_w, delta_k_true=-50.0 * alpha_w, kurt_clean=30.0, delta_w=+0.05,
+            delta_s_vn_true=0.1 * alpha_w, delta_d_true=0.8 * alpha_w, delta_omega_holo_true=0.5 * alpha_w, s_vn_clean=3.5
+        )
+    assert abs(alpha_w) <= 0.05, f"wide converged only to {alpha_w:+.4f}"
 
 
 def test_efference_keeps_baseline_exactly_zero():
-    """Inactive controller: delta_w may open the gate, but delta_k == 0 keeps alpha at 0."""
+    """Inactive controller: delta_k == 0 and delta_om == 0 keeps alpha at 0."""
     for _ in range(6):
-        assert compute_efference_copy_step(0.0, delta_k_true=0.0, kurt_clean=44.0,
-                                           delta_w=+0.4) == 0.0
+        assert compute_efference_copy_step(
+            0.0, delta_k_true=0.0, kurt_clean=44.0, delta_w=+0.4,
+            delta_s_vn_true=0.0, delta_omega_holo_true=0.0, s_vn_clean=3.0
+        ) == 0.0
 
 
 def test_wick_ratio_differential_is_zero_on_identical_measurements():

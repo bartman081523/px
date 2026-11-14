@@ -920,35 +920,55 @@ def compute_efference_copy_step(
     delta_k_true: float,
     kurt_clean: float,
     delta_w: float,
+    delta_s_vn_true: float = 0.0,
+    delta_d_true: float = 0.0,
+    delta_omega_holo_true: float = 0.0,
+    s_vn_clean: float = 0.0,
     max_step: float = 0.18,
 ) -> float:
-    """Constant-free controller (K1b): efference copy instead of a tuned gate.
+    """Constant-free controller (K1b): dual holographic efference copy (reference_constants = []).
 
-    The observable is the Wick ratio of the trajectory against its own clean
-    replay on the identical token slice:
+    The gate and step are derived strictly from intrinsic dimensionless observables
+    without any tuned constants, magic thresholds, or deadbands:
 
-        W = L_tau / dtheta      (imaginary-time curvature per unit real-time drift)
+    1. Constant-Free Holographic Coherence Gate:
+       - True Widening (is_true_wide):
+           delta_k_true < 0.0 and delta_s_vn_true > 0.0 and delta_d_true > 0.0 and delta_omega_holo_true > abs(delta_w)
+         (Logit distribution flattens while the internal manifold expands, and the holographic order gain
+          strictly exceeds the vertical Wick distortion).
+       - True Narrowing (is_true_narrow):
+           delta_k_true > 0.0 and delta_s_vn_true < 0.0 and delta_w > 0.0
+         (Logits sharpen while the internal manifold contracts and vertical Wick anisotropy rises).
+       - gate_open = is_true_wide or is_true_narrow
 
-        delta_w = W_steered - W_clean
+    2. Constant-Free Dual Bulk-Boundary Step:
+       omega_clean = s_vn_clean / (math.log10(kurt_clean + 1.0) + 1e-12) if s_vn_clean > 0.0 else 1.0
+       raw_step = (delta_k_true / kurt_clean) - (delta_omega_holo_true / omega_clean)
+       step = clip(raw_step, -max_step, +max_step)
 
-    Role assignment measured in Eval L1 (N=90): W is the *coherence* axis
-    (signal 6.87/6.60 vs d_rand 5.62/5.79, AUC 0.89, p=1.2e-8), while
-    K / Omega_holo / S_vN form the *state* axis (wide vs narrow). A perturbation
-    that only jitters the trajectory lowers W, a coherent state change raises it.
-
-    Gate:   delta_w > 0  (no constant, no deadband, the clean pass is the reference)
-    Step:   delta_alpha = clip(delta_k_true / kurt_clean, -max_step, +max_step)
-
-    The step is the *relative* kurtosis displacement, so the fixed point is
-    delta_k_true == 0: the controller stops exactly when the steering no longer
-    changes the state geometry. `max_step` is a rate limit, not a deadband.
+    The fixed point is delta_k_true == 0 and delta_omega_holo_true == 0: the controller stops
+    naturally when steering ceases to perturb both the boundary and bulk representations.
     """
-    if delta_w <= 0.0:
+    dw = 0.0 if delta_w is None or math.isnan(delta_w) else float(delta_w)
+    is_true_wide = (
+        (delta_k_true < 0.0)
+        and (delta_s_vn_true > 0.0)
+        and (delta_d_true > 0.0)
+        and (delta_omega_holo_true > abs(dw))
+    )
+    is_true_narrow = (delta_k_true > 0.0) and (delta_s_vn_true < 0.0) and (dw > 0.0)
+    gate_open = bool(is_true_wide or is_true_narrow)
+
+    if not gate_open or kurt_clean <= 0.0:
         return float(current_alpha)
-    if kurt_clean <= 0.0:
-        return float(current_alpha)
-    step = delta_k_true / kurt_clean
-    step = max(-max_step, min(max_step, step))
+
+    omega_clean = (
+        s_vn_clean / (math.log10(kurt_clean + 1.0) + 1e-12)
+        if s_vn_clean > 0.0
+        else 1.0
+    )
+    raw_step = (delta_k_true / kurt_clean) - (delta_omega_holo_true / omega_clean)
+    step = max(-max_step, min(max_step, raw_step))
     return float(max(-0.50, min(0.50, current_alpha + step)))
 
 
@@ -3379,24 +3399,47 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                 _w_steered, _w_clean, delta_w = wick_ratio_differential(steered_m, clean_m)
                 _drift_s_fwd = float(steered_m.get("drift", 0.0))
 
+                delta_s_vn_true = float(cf_diff.get("delta_s_vn_true", 0.0))
+                delta_d_true = float(cf_diff.get("delta_d_true", 0.0))
+                delta_omega_holo_true = float(cf_diff.get("delta_omega_holo_true", 0.0))
+                s_vn_clean = float(cf_diff.get("s_vn_clean", 0.0))
+
                 if gate == "efference":
                     next_alpha = compute_efference_copy_step(
                         current_alpha=current_alpha,
                         delta_k_true=delta_k_true,
                         kurt_clean=float(cf_diff.get("kurt_clean", 0.0)),
                         delta_w=delta_w,
+                        delta_s_vn_true=delta_s_vn_true,
+                        delta_d_true=delta_d_true,
+                        delta_omega_holo_true=delta_omega_holo_true,
+                        s_vn_clean=s_vn_clean,
                     )
+                    dw_val = 0.0 if delta_w is None or math.isnan(delta_w) else float(delta_w)
+                    is_true_wide_ep = (
+                        (delta_k_true < 0.0)
+                        and (delta_s_vn_true > 0.0)
+                        and (delta_d_true > 0.0)
+                        and (delta_omega_holo_true > abs(dw_val))
+                    )
+                    is_true_narrow_ep = (
+                        (delta_k_true > 0.0)
+                        and (delta_s_vn_true < 0.0)
+                        and (dw_val > 0.0)
+                    )
+                    eff_gate_open = bool(is_true_wide_ep or is_true_narrow_ep)
                 else:
                     # Genuine covariance + angular-drift gating (zero knowledge of alpha or steering vector):
                     next_alpha = compute_covariance_gated_step(
                         current_alpha=current_alpha,
                         delta_k_true=delta_k_true,
-                        delta_omega_holo_true=cf_diff.get("delta_omega_holo_true", 0.0),
+                        delta_omega_holo_true=delta_omega_holo_true,
                         drift_steered=drift_steered,
                         delta_d_true=delta_d_true,
                         delta_h_true=delta_h_true,
-                        delta_s_vn_true=cf_diff.get("delta_s_vn_true", 0.0),
+                        delta_s_vn_true=delta_s_vn_true,
                     )
+                    eff_gate_open = None
 
                 epochs_data.append({
                     "epoch": t,
@@ -3404,16 +3447,16 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                     "next_alpha": round(next_alpha, 4),
                     "delta_k_true": round(delta_k_true, 4),
                     "delta_d_true": round(delta_d_true, 4),
-                    "delta_s_vn_true": round(cf_diff.get("delta_s_vn_true", 0.0), 4),
+                    "delta_s_vn_true": round(delta_s_vn_true, 4),
                     "delta_h_true": round(delta_h_true, 4),
-                    "delta_omega_holo_true": round(cf_diff.get("delta_omega_holo_true", 0.0), 4),
+                    "delta_omega_holo_true": round(delta_omega_holo_true, 4),
                     "drift_steered": round(drift_steered, 4),
                     "kurtosis_steered": round(kurt, 2),
                     "kurtosis_clean": round(cf_diff["kurt_clean"], 2),
                     "pr_steered": round(pr, 2),
                     "pr_clean": round(cf_diff["pr_clean"], 2),
                     "s_vn_steered": round(float(steered_m["s_vn"]), 4),
-                    "s_vn_clean": round(cf_diff.get("s_vn_clean", 0.0), 4),
+                    "s_vn_clean": round(s_vn_clean, 4),
                     "wick_curvature_steered": round(float(steered_m.get("wick_curvature", 0.0)), 4),
                     "wick_curvature_clean": round(float(cf_diff.get("wick_curvature_clean", 0.0)), 4),
                     "drift_clean": round(float(cf_diff.get("drift_clean", 0.0)), 4),
@@ -3421,7 +3464,7 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                     "w_steered": round(_w_steered, 4) if _w_steered != float("inf") else None,
                     "w_clean": round(_w_clean, 4) if _w_clean != float("inf") else None,
                     "delta_w": round(delta_w, 4) if delta_w == delta_w and abs(delta_w) != float("inf") else None,
-                    "gate_open": bool(delta_w > 0.0) if gate == "efference" else None,
+                    "gate_open": eff_gate_open,
                     "ratio_delta_k_alpha": round(delta_k_true / current_alpha, 4) if abs(current_alpha) > 1e-4 else 0.0,
                 })
 
@@ -3484,9 +3527,9 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                 "passed": bool(all(abs(v) < 1e-6 for v in _base_ws)) if _base_ws else False,
             }
             stats_k1["gate_thresholds"] = {
-                "law": "efference_copy_constant_free",
-                "coherence_gate": "delta_w > 0 (W = L_tau/drift, steered vs identical clean replay)",
-                "step": "clip(delta_k_true / kurt_clean, -0.18, +0.18)",
+                "law": "dual_holographic_efference_copy_constant_free",
+                "coherence_gate": "is_true_wide: (dK<0 and dS_vN>0 and dD>0 and dOm>abs(dW)) | is_true_narrow: (dK>0 and dS_vN<0 and dW>0)",
+                "step": "clip((delta_k_true / kurt_clean) - (delta_omega_holo_true / omega_clean), -0.18, +0.18)",
                 "reference_constants": [],
             }
             stats_k1["efference_diagnostics"] = {
