@@ -1,0 +1,180 @@
+{
+  "model": "Argon-1B (MLA-MoE, latent KV)",
+  "params_b": 2.246,
+  "results": {
+    "easy": {
+      "passed": 5,
+      "n": 12,
+      "mean_tok_s": 16.33,
+      "rows": [
+        {
+          "task": "add",
+          "ok": true,
+          "err": "",
+          "wall": 25.35,
+          "tok_s": 15.8,
+          "code_len": 108
+        },
+        {
+          "task": "is_even",
+          "ok": true,
+          "err": "",
+          "wall": 24.65,
+          "tok_s": 16.2,
+          "code_len": 92
+        },
+        {
+          "task": "fizzbuzz",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.37,
+          "tok_s": 16.4,
+          "code_len": 989
+        },
+        {
+          "task": "reverse_string",
+          "ok": false,
+          "err": "NameError: name 'reverse_string' is not defined",
+          "wall": 24.57,
+          "tok_s": 16.3,
+          "code_len": 24
+        },
+        {
+          "task": "gcd",
+          "ok": true,
+          "err": "",
+          "wall": 24.43,
+          "tok_s": 16.4,
+          "code_len": 185
+        },
+        {
+          "task": "is_prime",
+          "ok": true,
+          "err": "",
+          "wall": 24.37,
+          "tok_s": 16.4,
+          "code_len": 235
+        },
+        {
+          "task": "count_vowels",
+          "ok": false,
+          "err": "SyntaxError: unterminated string literal (detected at line 34)",
+          "wall": 24.31,
+          "tok_s": 16.5,
+          "code_len": 906
+        },
+        {
+          "task": "fibonacci",
+          "ok": false,
+          "err": "AssertionError",
+          "wall": 24.39,
+          "tok_s": 16.4,
+          "code_len": 206
+        },
+        {
+          "task": "binary_search",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.34,
+          "tok_s": 16.4,
+          "code_len": 2382
+        },
+        {
+          "task": "flatten",
+          "ok": true,
+          "err": "",
+          "wall": 24.41,
+          "tok_s": 16.4,
+          "code_len": 258
+        },
+        {
+          "task": "word_freq",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.44,
+          "tok_s": 16.4,
+          "code_len": 627
+        },
+        {
+          "task": "caesar",
+          "ok": false,
+          "err": "SyntaxError: unmatched ')'",
+          "wall": 24.49,
+          "tok_s": 16.3,
+          "code_len": 772
+        }
+      ]
+    },
+    "hard": {
+      "passed": 0,
+      "n": 8,
+      "mean_tok_s": 16.4,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.36,
+          "tok_s": 16.4,
+          "code_len": 1629
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": false,
+          "err": "AssertionError",
+          "wall": 24.45,
+          "tok_s": 16.4,
+          "code_len": 588
+        },
+        {
+          "task": "merge_intervals",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.41,
+          "tok_s": 16.4,
+          "code_len": 1543
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.35,
+          "tok_s": 16.4,
+          "code_len": 1841
+        },
+        {
+          "task": "spiral_order",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.44,
+          "tok_s": 16.4,
+          "code_len": 1661
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.36,
+          "tok_s": 16.4,
+          "code_len": 1731
+        },
+        {
+          "task": "edit_distance",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall": 24.38,
+          "tok_s": 16.4,
+          "code_len": 1005
+        },
+        {
+          "task": "word_break",
+          "ok": false,
+          "err": "SyntaxError: unterminated triple-quoted string literal (detected at line 12)",
+          "wall": 24.32,
+          "tok_s": 16.4,
+          "code_len": 1432
+        }
+      ]
+    }
+  }
+}

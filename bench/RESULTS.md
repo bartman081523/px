@@ -120,3 +120,49 @@ Self-Repair. In Kombination: **~175× Capability-Dichte**, nicht 10 000×.
   vollständig GF5-quantisiertes Gemma-4 mit lauffähigem Forward gibt es noch nicht.
 - **128 k-Prefill im Harness-Alltag**: 565 s für 123 k Tokens sind gemessen, aber für
  agentische Schleifen noch zu langsam (KV-Cache-Wiederverwendung nötig).
+
+---
+
+## 8. Runde 2 (2026-11-14, nach „Proceed"): Argon/KenosisLogos + Betriebsgrenzen
+
+### 8.1 Argon-1B (`/run/media/julian/ML6/KenosisLogos`) — getestet
+
+| Prüfung | Ergebnis |
+|---|---|
+| `verify_argon.py` | 6/6 Stufen bestanden (0 Missing Keys, Latent-KV bitgenau: 1,35e-4 Logit-Delta, Generierung stabil) |
+| `compare_gemma3_vs_argon.py` | 6/6 Benchmarks bestanden |
+| Parameter | **2,246 B** (MoE: 8 Experten × 1728 inter, 2 aktiv; Vocab 262 144) |
+| KV/Token (global) | **320 Floats** (256 c_kv + 64 k_rope) vs. gemma-3-1B **512** ⇒ **−37,5 %** |
+| KV @ 32 k (global) | **80 MB** vs. 128 MB |
+| Lokale Schichten | Ringpuffer bei 512 (sliding_window) ⇒ **O(1)** statt linear |
+| Multimodal | Early Fusion (Vision 2D-RoPE + Audio) in 1B — gemma-3-1B kann das nicht |
+| Coding easy (12) | **5/12 (42 %)** |
+| Coding hard (8) | **0/8 (0 %)** |
+| Decode | 16,4 tok/s |
+
+**Lesart:** Argon ist ein *Architektur-Demonstrator* für billigen KV-Speicher, lokale O(1)-Caches
+und Early-Fusion-Multimodalität — **kein** Fähigkeits-Upgrade. Auf Coding liegt es auf
+gemma-3-1B-Niveau, also deutlich unter gemma4-E2B (12/12, 7/8) und weit unter dem 27B.
+Der Wert liegt darin, dass die KV-Ersparnis mit *beliebigen* Gewichten kombinierbar wäre
+(gemma4-Klasse + MLA-Cache), nicht in den aktuellen Argon-Gewichten.
+
+Nebenbefund: im Direktpfad generiert Argon ohne `ArgonEntropyFloorLogitsProcessor` immer
+exakt 400 Tokens (kein EOS) — die Anti-Collapse-Komponente ist für stabile Längen Pflicht.
+
+### 8.2 Betriebsgrenzen, die die Messung zuerst blockierten
+
+1. **Modell-Disk war zu 100 % voll** (194 MB frei, `/run/media/julian/home_julian`). `llama-server`
+   meldete daraufhin irreführend „No such file or directory" statt ENOSPC, obwohl die GGUF-Datei
+   intakt war. Modell nach `/var/tmp/bonsai/` verschoben (Root-FS, 18 GB frei) — läuft.
+2. **Ubatch-Tuning am 131k-Kontext nicht möglich:** `-ub 1024` braucht 968 MB Compute-Buffer,
+   `-ub 2048` 1,42 GB → beide OOM bei 12 GB. Der Default (`-ub 512`) ist auf dieser Karte das Maximum.
+   Prefill bleibt damit 220–400 tok/s; 128k ≈ 6–9 min pro kaltem Prompt.
+
+### 8.3 Stand des Harness (verifiziert nach dem Umzug)
+
+- `llama-server` auf `127.0.0.1:9931`, `--ctx-size 131072`, KV q8_0, 11,5 GB VRAM.
+- Needle bei 17 995 Tokens erneut getroffen (48 s) auf dem neuen Pfad.
+- `opencode run --standalone -m llamacpp-gf3/ternary-bonsai-27b-gf3 --auto` schreibt und
+  führt Dateien aus (`hello.py` → `[2, 3, 5, 7, 11]`).
+- Der zuvor belegte 123 415-Token-Treffer bleibt gültig (gleiches GGUF, gleiche Flags);
+  er wurde vor dem Disk-Umzug gemessen.
