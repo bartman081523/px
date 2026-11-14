@@ -1,0 +1,93 @@
+{
+  "api": "http://127.0.0.1:7860/v1",
+  "model": "gemma4-e2b-it",
+  "max_tokens": 700,
+  "tier": "frontier",
+  "repair": 2,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 7,
+      "passed": 5,
+      "pass_at_1": 0.7143,
+      "mean_tok_s": 18.86,
+      "median_wall_s": 53.18,
+      "warmup_s": 0.4,
+      "rows": [
+        {
+          "task": "parse_ini",
+          "ok": true,
+          "err": "",
+          "wall_s": 33.81,
+          "completion_tokens": 628,
+          "tok_s": 18.58,
+          "attempts": 1,
+          "code_len": 1290
+        },
+        {
+          "task": "eval_expr",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 112.88,
+          "completion_tokens": 2100,
+          "tok_s": 18.6,
+          "attempts": 3,
+          "code_len": 2827
+        },
+        {
+          "task": "topological_sort",
+          "ok": true,
+          "err": "",
+          "wall_s": 36.58,
+          "completion_tokens": 700,
+          "tok_s": 19.13,
+          "attempts": 1,
+          "code_len": 1830
+        },
+        {
+          "task": "min_window_substring",
+          "ok": true,
+          "err": "",
+          "wall_s": 27.35,
+          "completion_tokens": 526,
+          "tok_s": 19.23,
+          "attempts": 1,
+          "code_len": 2003
+        },
+        {
+          "task": "count_inversions",
+          "ok": true,
+          "err": "",
+          "wall_s": 53.18,
+          "completion_tokens": 1003,
+          "tok_s": 18.86,
+          "attempts": 2,
+          "code_len": 1993
+        },
+        {
+          "task": "tree_codec",
+          "ok": true,
+          "err": "",
+          "wall_s": 73.91,
+          "completion_tokens": 1400,
+          "tok_s": 18.94,
+          "attempts": 2,
+          "code_len": 2067
+        },
+        {
+          "task": "roman_roundtrip",
+          "ok": false,
+          "err": "AssertionError: no error",
+          "wall_s": 98.81,
+          "completion_tokens": 1847,
+          "tok_s": 18.69,
+          "attempts": 3,
+          "code_len": 1700
+        }
+      ]
+    }
+  }
+}

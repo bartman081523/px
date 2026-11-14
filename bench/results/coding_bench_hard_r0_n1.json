@@ -1,0 +1,479 @@
+{
+  "api": "http://127.0.0.1:7860/v1",
+  "model": "gemma4-e2b-it",
+  "max_tokens": 400,
+  "tier": "hard",
+  "repair": 0,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 8,
+      "passed": 7,
+      "pass_at_1": 0.875,
+      "mean_tok_s": 18.76,
+      "median_wall_s": 12.46,
+      "warmup_s": 36.2,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 21.29,
+          "completion_tokens": 400,
+          "tok_s": 18.79,
+          "attempts": 1,
+          "code_len": 1280
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": true,
+          "err": "",
+          "wall_s": 12.74,
+          "completion_tokens": 239,
+          "tok_s": 18.76,
+          "attempts": 1,
+          "code_len": 804
+        },
+        {
+          "task": "merge_intervals",
+          "ok": true,
+          "err": "",
+          "wall_s": 12.19,
+          "completion_tokens": 227,
+          "tok_s": 18.63,
+          "attempts": 1,
+          "code_len": 841
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": true,
+          "err": "",
+          "wall_s": 6.12,
+          "completion_tokens": 115,
+          "tok_s": 18.79,
+          "attempts": 1,
+          "code_len": 372
+        },
+        {
+          "task": "spiral_order",
+          "ok": true,
+          "err": "",
+          "wall_s": 21.43,
+          "completion_tokens": 400,
+          "tok_s": 18.67,
+          "attempts": 1,
+          "code_len": 1217
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 7.97,
+          "completion_tokens": 150,
+          "tok_s": 18.81,
+          "attempts": 1,
+          "code_len": 573
+        },
+        {
+          "task": "edit_distance",
+          "ok": true,
+          "err": "",
+          "wall_s": 21.3,
+          "completion_tokens": 400,
+          "tok_s": 18.78,
+          "attempts": 1,
+          "code_len": 937
+        },
+        {
+          "task": "word_break",
+          "ok": true,
+          "err": "",
+          "wall_s": 10.33,
+          "completion_tokens": 195,
+          "tok_s": 18.88,
+          "attempts": 1,
+          "code_len": 573
+        }
+      ]
+    },
+    "ACTIVE_MANIFOLD": {
+      "config": {
+        "preset": "ACTIVE_MANIFOLD"
+      },
+      "n": 8,
+      "passed": 7,
+      "pass_at_1": 0.875,
+      "mean_tok_s": 17.9,
+      "median_wall_s": 12.3,
+      "warmup_s": 0.6,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.18,
+          "completion_tokens": 400,
+          "tok_s": 18.04,
+          "attempts": 1,
+          "code_len": 1272
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": true,
+          "err": "",
+          "wall_s": 11.34,
+          "completion_tokens": 207,
+          "tok_s": 18.25,
+          "attempts": 1,
+          "code_len": 720
+        },
+        {
+          "task": "merge_intervals",
+          "ok": true,
+          "err": "",
+          "wall_s": 12.51,
+          "completion_tokens": 227,
+          "tok_s": 18.14,
+          "attempts": 1,
+          "code_len": 841
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": true,
+          "err": "",
+          "wall_s": 7.78,
+          "completion_tokens": 135,
+          "tok_s": 17.36,
+          "attempts": 1,
+          "code_len": 475
+        },
+        {
+          "task": "spiral_order",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.46,
+          "completion_tokens": 400,
+          "tok_s": 17.81,
+          "attempts": 1,
+          "code_len": 1217
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 8.6,
+          "completion_tokens": 150,
+          "tok_s": 17.43,
+          "attempts": 1,
+          "code_len": 573
+        },
+        {
+          "task": "edit_distance",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.04,
+          "completion_tokens": 400,
+          "tok_s": 18.15,
+          "attempts": 1,
+          "code_len": 960
+        },
+        {
+          "task": "word_break",
+          "ok": true,
+          "err": "",
+          "wall_s": 12.1,
+          "completion_tokens": 218,
+          "tok_s": 18.02,
+          "attempts": 1,
+          "code_len": 640
+        }
+      ]
+    },
+    "ACTIVE_MANIFOLD_LEAN": {
+      "config": {
+        "preset": "ACTIVE_MANIFOLD_LEAN"
+      },
+      "n": 8,
+      "passed": 7,
+      "pass_at_1": 0.875,
+      "mean_tok_s": 17.98,
+      "median_wall_s": 12.39,
+      "warmup_s": 0.5,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 21.83,
+          "completion_tokens": 400,
+          "tok_s": 18.32,
+          "attempts": 1,
+          "code_len": 1272
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": true,
+          "err": "",
+          "wall_s": 11.28,
+          "completion_tokens": 207,
+          "tok_s": 18.34,
+          "attempts": 1,
+          "code_len": 720
+        },
+        {
+          "task": "merge_intervals",
+          "ok": true,
+          "err": "",
+          "wall_s": 12.83,
+          "completion_tokens": 227,
+          "tok_s": 17.69,
+          "attempts": 1,
+          "code_len": 841
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": true,
+          "err": "",
+          "wall_s": 7.72,
+          "completion_tokens": 135,
+          "tok_s": 17.49,
+          "attempts": 1,
+          "code_len": 475
+        },
+        {
+          "task": "spiral_order",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.21,
+          "completion_tokens": 400,
+          "tok_s": 18.01,
+          "attempts": 1,
+          "code_len": 1217
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 8.52,
+          "completion_tokens": 150,
+          "tok_s": 17.61,
+          "attempts": 1,
+          "code_len": 573
+        },
+        {
+          "task": "edit_distance",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.07,
+          "completion_tokens": 400,
+          "tok_s": 18.12,
+          "attempts": 1,
+          "code_len": 960
+        },
+        {
+          "task": "word_break",
+          "ok": true,
+          "err": "",
+          "wall_s": 11.96,
+          "completion_tokens": 218,
+          "tok_s": 18.23,
+          "attempts": 1,
+          "code_len": 640
+        }
+      ]
+    },
+    "ACTIVE_MANIFOLD_RELAY:+1": {
+      "config": {
+        "preset": "ACTIVE_MANIFOLD_RELAY",
+        "relay_sign": 1,
+        "relay_alpha": 0.5
+      },
+      "n": 8,
+      "passed": 1,
+      "pass_at_1": 0.125,
+      "mean_tok_s": 17.72,
+      "median_wall_s": 22.48,
+      "warmup_s": 0.5,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.76,
+          "completion_tokens": 400,
+          "tok_s": 17.57,
+          "attempts": 1,
+          "code_len": 1494
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.24,
+          "completion_tokens": 400,
+          "tok_s": 17.98,
+          "attempts": 1,
+          "code_len": 1447
+        },
+        {
+          "task": "merge_intervals",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 23.0,
+          "completion_tokens": 400,
+          "tok_s": 17.39,
+          "attempts": 1,
+          "code_len": 1521
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": false,
+          "err": "AssertionError",
+          "wall_s": 22.94,
+          "completion_tokens": 400,
+          "tok_s": 17.43,
+          "attempts": 1,
+          "code_len": 1462
+        },
+        {
+          "task": "spiral_order",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.5,
+          "completion_tokens": 400,
+          "tok_s": 17.77,
+          "attempts": 1,
+          "code_len": 1317
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.47,
+          "completion_tokens": 400,
+          "tok_s": 17.8,
+          "attempts": 1,
+          "code_len": 889
+        },
+        {
+          "task": "edit_distance",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.05,
+          "completion_tokens": 400,
+          "tok_s": 18.14,
+          "attempts": 1,
+          "code_len": 1308
+        },
+        {
+          "task": "word_break",
+          "ok": false,
+          "err": "AttributeError: 'list' object has no attribute 'isic'",
+          "wall_s": 10.95,
+          "completion_tokens": 194,
+          "tok_s": 17.71,
+          "attempts": 1,
+          "code_len": 569
+        }
+      ]
+    },
+    "ACTIVE_MANIFOLD_RELAY:-1": {
+      "config": {
+        "preset": "ACTIVE_MANIFOLD_RELAY",
+        "relay_sign": -1,
+        "relay_alpha": 0.5
+      },
+      "n": 8,
+      "passed": 2,
+      "pass_at_1": 0.25,
+      "mean_tok_s": 17.89,
+      "median_wall_s": 21.84,
+      "warmup_s": 0.7,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 21.66,
+          "completion_tokens": 400,
+          "tok_s": 18.46,
+          "attempts": 1,
+          "code_len": 1296
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": false,
+          "err": "SyntaxError: closing parenthesis ')' does not match opening parenthesis '['",
+          "wall_s": 14.7,
+          "completion_tokens": 264,
+          "tok_s": 17.95,
+          "attempts": 1,
+          "code_len": 815
+        },
+        {
+          "task": "merge_intervals",
+          "ok": false,
+          "err": "AssertionError",
+          "wall_s": 22.03,
+          "completion_tokens": 400,
+          "tok_s": 18.16,
+          "attempts": 1,
+          "code_len": 855
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": false,
+          "err": "AssertionError",
+          "wall_s": 6.37,
+          "completion_tokens": 111,
+          "tok_s": 17.41,
+          "attempts": 1,
+          "code_len": 333
+        },
+        {
+          "task": "spiral_order",
+          "ok": false,
+          "err": "IndentationError: unexpected indent",
+          "wall_s": 22.19,
+          "completion_tokens": 400,
+          "tok_s": 18.03,
+          "attempts": 1,
+          "code_len": 1361
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 8.77,
+          "completion_tokens": 151,
+          "tok_s": 17.21,
+          "attempts": 1,
+          "code_len": 561
+        },
+        {
+          "task": "edit_distance",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 22.26,
+          "completion_tokens": 400,
+          "tok_s": 17.97,
+          "attempts": 1,
+          "code_len": 1180
+        },
+        {
+          "task": "word_break",
+          "ok": true,
+          "err": "",
+          "wall_s": 22.32,
+          "completion_tokens": 400,
+          "tok_s": 17.92,
+          "attempts": 1,
+          "code_len": 506
+        }
+      ]
+    }
+  }
+}

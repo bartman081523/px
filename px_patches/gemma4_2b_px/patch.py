@@ -1131,6 +1131,31 @@ def apply_px_patch(model, config_preset="ACTIVE_MANIFOLD", **kwargs):
     return True
 
 
+def _strip_px_attrs(module):
+    """Delete every `_px_*` attribute from `module` (idempotent, future-proof).
+
+    2026-11-14 (Capability-Kampagne): `_px_repetition_penalty` (1.15) und
+    `_px_no_repeat_ngram_size` (3) wurden von apply_px_patch gesetzt, aber
+    von remove_px_patch NICHT entfernt. generators._px_gen_kwargs liest beide
+    Attribute bei jeder Anfrage — dadurch blieb nach einem Preset-Wechsel
+    ACTIVE_MANIFOLD → BASELINE die Token-Loop-Mitigation aktiv und zerlegte
+    Code-Generierung (Beweis: `def add( a, b):` / `result. append(...)` /
+    `result.Append(...)` statt `result.append(...)`; identischer Prompt über
+    den Direktpfad war fehlerfrei).
+
+    Statt eine gepflegte Liste zu erweitern, wird jedes `_px_*`-Attribut
+    entfernt. Rückgabe: Liste der entfernten Namen.
+    """
+    removed = []
+    for attr in [a for a in vars(module) if a.startswith("_px_")]:
+        try:
+            delattr(module, attr)
+            removed.append(attr)
+        except AttributeError:
+            pass
+    return removed
+
+
 def remove_px_patch(model):
     """Restore original model forward pass."""
     text_model = _resolve_text_model(model)
@@ -1147,12 +1172,19 @@ def remove_px_patch(model):
         '_px_calibrator', '_px_injection_norm', '_px_mephisto', '_px_aks', '_px_subj_sensor',
         '_px_azs', '_px_has_image_tokens', '_px_saved_input_ids',
         '_px_relay_handles', '_px_relay_cfg', '_px_hf_id',
+        '_px_repetition_penalty', '_px_no_repeat_ngram_size',
     ]:
         if hasattr(text_model, attr):
             try:
                 delattr(text_model, attr)
             except AttributeError:
                 pass
+
+    # Belt-and-braces: any future _px_* attribute must also not survive a
+    # return to BASELINE (they are read by generators._px_gen_kwargs).
+    _leftover = _strip_px_attrs(text_model)
+    if _leftover:
+        print(f"[gemma4-px] stripped leftover PX attrs: {_leftover}")
 
     # Also restore outer forward if it was wrapped
     if hasattr(model, 'model') and hasattr(model.model, '_px_original_forward'):

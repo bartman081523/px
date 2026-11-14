@@ -1,0 +1,93 @@
+{
+  "api": "http://127.0.0.1:9931/v1",
+  "model": "ternary-bonsai-27b-gf3",
+  "max_tokens": 700,
+  "tier": "frontier",
+  "repair": 0,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 7,
+      "passed": 6,
+      "pass_at_1": 0.8571,
+      "mean_tok_s": 17.17,
+      "median_wall_s": 14.71,
+      "warmup_s": 0.7,
+      "rows": [
+        {
+          "task": "parse_ini",
+          "ok": true,
+          "err": "",
+          "wall_s": 8.46,
+          "completion_tokens": 143,
+          "tok_s": 16.9,
+          "attempts": 1,
+          "code_len": 634
+        },
+        {
+          "task": "eval_expr",
+          "ok": true,
+          "err": "",
+          "wall_s": 37.55,
+          "completion_tokens": 663,
+          "tok_s": 17.65,
+          "attempts": 1,
+          "code_len": 2593
+        },
+        {
+          "task": "topological_sort",
+          "ok": true,
+          "err": "",
+          "wall_s": 11.1,
+          "completion_tokens": 186,
+          "tok_s": 16.76,
+          "attempts": 1,
+          "code_len": 694
+        },
+        {
+          "task": "min_window_substring",
+          "ok": true,
+          "err": "",
+          "wall_s": 14.71,
+          "completion_tokens": 252,
+          "tok_s": 17.14,
+          "attempts": 1,
+          "code_len": 949
+        },
+        {
+          "task": "count_inversions",
+          "ok": true,
+          "err": "",
+          "wall_s": 13.64,
+          "completion_tokens": 233,
+          "tok_s": 17.08,
+          "attempts": 1,
+          "code_len": 940
+        },
+        {
+          "task": "tree_codec",
+          "ok": true,
+          "err": "",
+          "wall_s": 15.94,
+          "completion_tokens": 273,
+          "tok_s": 17.13,
+          "attempts": 1,
+          "code_len": 1021
+        },
+        {
+          "task": "roman_roundtrip",
+          "ok": false,
+          "err": "ValueError: Invalid Roman numeral: MCMXCIV",
+          "wall_s": 39.99,
+          "completion_tokens": 700,
+          "tok_s": 17.5,
+          "attempts": 1,
+          "code_len": 1973
+        }
+      ]
+    }
+  }
+}

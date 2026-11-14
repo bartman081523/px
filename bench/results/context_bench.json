@@ -1,0 +1,35 @@
+{
+  "api": "http://127.0.0.1:9931/v1",
+  "model": "ternary-bonsai-27b-gf3",
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "rows": [
+        {
+          "approx_tokens": 8000,
+          "hit": true,
+          "wall_s": 11.16,
+          "prompt_tokens": 4537,
+          "answer": "KESTREL-7741"
+        },
+        {
+          "approx_tokens": 32000,
+          "hit": true,
+          "wall_s": 47.1,
+          "prompt_tokens": 17995,
+          "answer": "KESTREL-7741"
+        },
+        {
+          "approx_tokens": 64000,
+          "hit": true,
+          "wall_s": 106.77,
+          "prompt_tokens": 35937,
+          "answer": "KESTREL-7741"
+        }
+      ],
+      "recall": 1.0
+    }
+  }
+}

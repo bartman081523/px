@@ -1,0 +1,103 @@
+{
+  "api": "http://127.0.0.1:9931/v1",
+  "model": "ternary-bonsai-27b-gf3",
+  "max_tokens": 500,
+  "tier": "hard",
+  "repair": 0,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 8,
+      "passed": 8,
+      "pass_at_1": 1.0,
+      "mean_tok_s": 16.52,
+      "median_wall_s": 7.08,
+      "warmup_s": 0.5,
+      "rows": [
+        {
+          "task": "lru_cache",
+          "ok": true,
+          "err": "",
+          "wall_s": 9.83,
+          "completion_tokens": 168,
+          "tok_s": 17.09,
+          "attempts": 1,
+          "code_len": 623
+        },
+        {
+          "task": "top_k_frequent",
+          "ok": true,
+          "err": "",
+          "wall_s": 3.26,
+          "completion_tokens": 48,
+          "tok_s": 14.75,
+          "attempts": 1,
+          "code_len": 154
+        },
+        {
+          "task": "merge_intervals",
+          "ok": true,
+          "err": "",
+          "wall_s": 6.5,
+          "completion_tokens": 108,
+          "tok_s": 16.62,
+          "attempts": 1,
+          "code_len": 367
+        },
+        {
+          "task": "valid_parentheses",
+          "ok": true,
+          "err": "",
+          "wall_s": 5.8,
+          "completion_tokens": 93,
+          "tok_s": 16.04,
+          "attempts": 1,
+          "code_len": 322
+        },
+        {
+          "task": "spiral_order",
+          "ok": true,
+          "err": "",
+          "wall_s": 13.82,
+          "completion_tokens": 240,
+          "tok_s": 17.37,
+          "attempts": 1,
+          "code_len": 899
+        },
+        {
+          "task": "bfs_shortest_path",
+          "ok": true,
+          "err": "",
+          "wall_s": 7.65,
+          "completion_tokens": 128,
+          "tok_s": 16.73,
+          "attempts": 1,
+          "code_len": 515
+        },
+        {
+          "task": "edit_distance",
+          "ok": true,
+          "err": "",
+          "wall_s": 13.03,
+          "completion_tokens": 224,
+          "tok_s": 17.19,
+          "attempts": 1,
+          "code_len": 617
+        },
+        {
+          "task": "word_break",
+          "ok": true,
+          "err": "",
+          "wall_s": 6.29,
+          "completion_tokens": 103,
+          "tok_s": 16.37,
+          "attempts": 1,
+          "code_len": 291
+        }
+      ]
+    }
+  }
+}

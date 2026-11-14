@@ -1,0 +1,69 @@
+{
+  "hf_id": "google/gemma-4-E2B-it",
+  "n_safetensors": 1,
+  "total_params_bf16_bytes": 10246357958,
+  "linear_bytes_bf16": 10213785600,
+  "linear_tensors": 567,
+  "gf5_bytes": 1675699200,
+  "gf3_bytes": 1196928000,
+  "ratio_bf16_to_gf5": 6.1,
+  "ratio_bf16_to_gf3": 8.53,
+  "sample_shapes": [
+    [
+      "model.audio_tower.layers.0.feed_forward1.ffw_layer_1.linear.weight",
+      [
+        4096,
+        1024
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.feed_forward1.ffw_layer_2.linear.weight",
+      [
+        1024,
+        4096
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.feed_forward2.ffw_layer_1.linear.weight",
+      [
+        4096,
+        1024
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.feed_forward2.ffw_layer_2.linear.weight",
+      [
+        1024,
+        4096
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.lconv1d.linear_end.linear.weight",
+      [
+        1024,
+        1024
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.lconv1d.linear_start.linear.weight",
+      [
+        2048,
+        1024
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.self_attn.k_proj.linear.weight",
+      [
+        1024,
+        1024
+      ]
+    ],
+    [
+      "model.audio_tower.layers.0.self_attn.post.linear.weight",
+      [
+        1024,
+        1024
+      ]
+    ]
+  ]
+}

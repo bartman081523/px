@@ -1,0 +1,93 @@
+{
+  "api": "http://127.0.0.1:7860/v1",
+  "model": "gemma4-e2b-it",
+  "max_tokens": 700,
+  "tier": "frontier",
+  "repair": 0,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 7,
+      "passed": 3,
+      "pass_at_1": 0.4286,
+      "mean_tok_s": 19.2,
+      "median_wall_s": 36.32,
+      "warmup_s": 41.2,
+      "rows": [
+        {
+          "task": "parse_ini",
+          "ok": true,
+          "err": "",
+          "wall_s": 32.77,
+          "completion_tokens": 628,
+          "tok_s": 19.16,
+          "attempts": 1,
+          "code_len": 1290
+        },
+        {
+          "task": "eval_expr",
+          "ok": false,
+          "err": "SyntaxError: invalid syntax",
+          "wall_s": 36.81,
+          "completion_tokens": 700,
+          "tok_s": 19.02,
+          "attempts": 1,
+          "code_len": 2849
+        },
+        {
+          "task": "topological_sort",
+          "ok": true,
+          "err": "",
+          "wall_s": 36.44,
+          "completion_tokens": 700,
+          "tok_s": 19.21,
+          "attempts": 1,
+          "code_len": 1830
+        },
+        {
+          "task": "min_window_substring",
+          "ok": true,
+          "err": "",
+          "wall_s": 27.43,
+          "completion_tokens": 526,
+          "tok_s": 19.18,
+          "attempts": 1,
+          "code_len": 2003
+        },
+        {
+          "task": "count_inversions",
+          "ok": false,
+          "err": "AssertionError",
+          "wall_s": 15.65,
+          "completion_tokens": 303,
+          "tok_s": 19.36,
+          "attempts": 1,
+          "code_len": 916
+        },
+        {
+          "task": "tree_codec",
+          "ok": false,
+          "err": "AssertionError",
+          "wall_s": 36.47,
+          "completion_tokens": 700,
+          "tok_s": 19.19,
+          "attempts": 1,
+          "code_len": 1308
+        },
+        {
+          "task": "roman_roundtrip",
+          "ok": false,
+          "err": "AssertionError: no error",
+          "wall_s": 36.32,
+          "completion_tokens": 700,
+          "tok_s": 19.27,
+          "attempts": 1,
+          "code_len": 1580
+        }
+      ]
+    }
+  }
+}

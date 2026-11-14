@@ -6,6 +6,7 @@ OpenAI-compatible SSE format: data: {json}\n\n, data: [DONE]\n\n
 """
 
 import asyncio
+import os
 import queue as _queue
 
 import torch
@@ -559,6 +560,83 @@ except ImportError:  # pragma: no cover — sehr alte transformers
     from transformers import LogitsProcessor, LogitsProcessorList
 
 
+class NoRepeatNgramWhenProse(LogitsProcessor):
+    """n-Gramm-Sperre, die in Code-Blöcken abschaltet.
+
+    Warum (Capability-Kampagne 2026-11-14, gemessen): `_px_no_repeat_ngram_size=3`
+    (gesetzt von ACTIVE_MANIFOLD/LEAN/RELAY) verbietet jedes wiederholte
+    3-Gramm. Für Prosa ist das die Token-Loop-Bremse; für Code ist es fatal,
+    weil `def f(...)`, `return x`, `self.left` usw. strukturell wiederkehren.
+    Messung auf demselben Modell, identischer Prompt:
+      BASELINE              7/8 harte Coding-Tasks
+      ACTIVE_MANIFOLD       0/8 (SyntaxError-Kaskade)
+    Die Sperre wird daher nur angewandt, solange der generierte Text noch
+    keinen Code-Fence (```) geöffnet hat: Prosa-Verhalten unverändert,
+    Code-Generierung nicht mehr zerstört.
+    """
+
+    def __init__(self, ngram_size: int, fence_token_ids, prompt_len: int):
+        self.n = int(ngram_size)
+        self.fence = {int(t) for t in fence_token_ids}
+        self.prompt_len = int(prompt_len)
+        self.in_code = False
+
+    def __call__(self, input_ids, scores):
+        if self.n <= 1 or not self.fence:
+            return scores
+        gen = input_ids[0][self.prompt_len:]
+        if not self.in_code and any(int(t) in self.fence for t in gen):
+            self.in_code = True
+        if self.in_code:
+            return scores
+        seq = input_ids[0].tolist()
+        n = self.n
+        if len(seq) < n:
+            return scores
+        prefix = tuple(seq[-(n - 1):]) if n > 1 else ()
+        banned = set()
+        for i in range(len(seq) - n + 1):
+            if tuple(seq[i:i + n - 1]) == prefix:
+                banned.add(seq[i + n - 1])
+        if banned:
+            scores[:, list(banned)] = torch.finfo(scores.dtype).min
+        return scores
+
+
+def _code_fence_token_ids(tokenizer):
+    """Token-IDs, die einen Markdown-Code-Fence eröffnen (``` bzw. ``)."""
+    ids = set()
+    for s in ("```", "``", "`"):
+        try:
+            enc = tokenizer.encode(s, add_special_tokens=False)
+        except Exception:
+            continue
+        if enc:
+            ids.add(enc[0])
+    return sorted(ids)
+
+
+def _replace_ngram_with_code_aware(gen_kwargs: dict, tokenizer, input_len: int) -> dict:
+    """Ersetzt `no_repeat_ngram_size` durch den code-bewussten Prozessor."""
+    n = gen_kwargs.pop("no_repeat_ngram_size", None)
+    if not n:
+        return gen_kwargs
+    fence = _code_fence_token_ids(tokenizer)
+    if not fence:
+        gen_kwargs["no_repeat_ngram_size"] = n
+        return gen_kwargs
+    proc = NoRepeatNgramWhenProse(int(n), fence, input_len)
+    existing = gen_kwargs.get("logits_processor")
+    if isinstance(existing, LogitsProcessorList):
+        existing.append(proc)
+        gen_kwargs["logits_processor"] = existing
+    elif existing:
+        gen_kwargs["logits_processor"] = LogitsProcessorList(list(existing) + [proc])
+    else:
+        gen_kwargs["logits_processor"] = LogitsProcessorList([proc])
+    return gen_kwargs
+
+
 class ThinkingBudgetLogitsProcessor(LogitsProcessor):
     r"""Erzwingt ein Token-Budget für den Gemma-4-Think-Kanal.
 
@@ -1082,6 +1160,9 @@ async def generate_chat_completion(
     # use_cache for long inputs (4b/E2B with T > 4500)
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    # Code-bewusste n-Gramm-Sperre: Prosa unverändert, Code nicht zerstört.
+    if os.environ.get("PX_CODE_AWARE_NGRAM", "1") != "0":
+        gen_kwargs = _replace_ngram_with_code_aware(gen_kwargs, tokenizer, input_len)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
     gen_kwargs = _tools_gen_adjustments(gen_kwargs, tools_active, tokenizer)
 
@@ -1292,6 +1373,9 @@ async def generate_chat_completion_stream(
     # use_cache for long inputs (4b/E2B with T > 4500)
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    # Code-bewusste n-Gramm-Sperre: Prosa unverändert, Code nicht zerstört.
+    if os.environ.get("PX_CODE_AWARE_NGRAM", "1") != "0":
+        gen_kwargs = _replace_ngram_with_code_aware(gen_kwargs, tokenizer, input_len)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
     gen_kwargs = _tools_gen_adjustments(gen_kwargs, tools_active, tokenizer)
 
@@ -1531,6 +1615,9 @@ async def generate_completion(
     # use_cache for long inputs (4b/E2B with T > 4500)
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    # Code-bewusste n-Gramm-Sperre: Prosa unverändert, Code nicht zerstört.
+    if os.environ.get("PX_CODE_AWARE_NGRAM", "1") != "0":
+        gen_kwargs = _replace_ngram_with_code_aware(gen_kwargs, tokenizer, input_len)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     with torch.no_grad():
@@ -1593,6 +1680,9 @@ async def generate_completion_stream(
     # use_cache for long inputs (4b/E2B with T > 4500)
     gen_kwargs["_input_len"] = input_len
     gen_kwargs = _px_gen_kwargs(model, gen_kwargs)
+    # Code-bewusste n-Gramm-Sperre: Prosa unverändert, Code nicht zerstört.
+    if os.environ.get("PX_CODE_AWARE_NGRAM", "1") != "0":
+        gen_kwargs = _replace_ngram_with_code_aware(gen_kwargs, tokenizer, input_len)
     gen_kwargs = _inject_eot_eos(gen_kwargs, tokenizer)
 
     thread = Thread(target=model.generate, kwargs=gen_kwargs)

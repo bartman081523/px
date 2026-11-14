@@ -1,0 +1,143 @@
+{
+  "api": "http://127.0.0.1:9931/v1",
+  "model": "ternary-bonsai-27b-gf3",
+  "max_tokens": 400,
+  "tier": "easy",
+  "repair": 0,
+  "best_of": 1,
+  "results": {
+    "BASELINE": {
+      "config": {
+        "preset": "BASELINE"
+      },
+      "n": 12,
+      "passed": 12,
+      "pass_at_1": 1.0,
+      "mean_tok_s": 14.55,
+      "median_wall_s": 3.75,
+      "warmup_s": 1.5,
+      "rows": [
+        {
+          "task": "add",
+          "ok": true,
+          "err": "",
+          "wall_s": 1.42,
+          "completion_tokens": 18,
+          "tok_s": 12.66,
+          "attempts": 1,
+          "code_len": 32
+        },
+        {
+          "task": "is_even",
+          "ok": true,
+          "err": "",
+          "wall_s": 1.67,
+          "completion_tokens": 21,
+          "tok_s": 12.58,
+          "attempts": 1,
+          "code_len": 38
+        },
+        {
+          "task": "fizzbuzz",
+          "ok": true,
+          "err": "",
+          "wall_s": 6.6,
+          "completion_tokens": 108,
+          "tok_s": 16.35,
+          "attempts": 1,
+          "code_len": 323
+        },
+        {
+          "task": "reverse_string",
+          "ok": true,
+          "err": "",
+          "wall_s": 1.51,
+          "completion_tokens": 18,
+          "tok_s": 11.88,
+          "attempts": 1,
+          "code_len": 42
+        },
+        {
+          "task": "gcd",
+          "ok": true,
+          "err": "",
+          "wall_s": 2.3,
+          "completion_tokens": 32,
+          "tok_s": 13.9,
+          "attempts": 1,
+          "code_len": 65
+        },
+        {
+          "task": "is_prime",
+          "ok": true,
+          "err": "",
+          "wall_s": 5.63,
+          "completion_tokens": 91,
+          "tok_s": 16.16,
+          "attempts": 1,
+          "code_len": 234
+        },
+        {
+          "task": "count_vowels",
+          "ok": true,
+          "err": "",
+          "wall_s": 2.49,
+          "completion_tokens": 32,
+          "tok_s": 12.83,
+          "attempts": 1,
+          "code_len": 80
+        },
+        {
+          "task": "fibonacci",
+          "ok": true,
+          "err": "",
+          "wall_s": 5.33,
+          "completion_tokens": 78,
+          "tok_s": 14.63,
+          "attempts": 1,
+          "code_len": 188
+        },
+        {
+          "task": "binary_search",
+          "ok": true,
+          "err": "",
+          "wall_s": 5.79,
+          "completion_tokens": 94,
+          "tok_s": 16.24,
+          "attempts": 1,
+          "code_len": 294
+        },
+        {
+          "task": "flatten",
+          "ok": true,
+          "err": "",
+          "wall_s": 3.44,
+          "completion_tokens": 53,
+          "tok_s": 15.39,
+          "attempts": 1,
+          "code_len": 201
+        },
+        {
+          "task": "word_freq",
+          "ok": true,
+          "err": "",
+          "wall_s": 4.06,
+          "completion_tokens": 64,
+          "tok_s": 15.75,
+          "attempts": 1,
+          "code_len": 177
+        },
+        {
+          "task": "caesar",
+          "ok": true,
+          "err": "",
+          "wall_s": 5.3,
+          "completion_tokens": 86,
+          "tok_s": 16.23,
+          "attempts": 1,
+          "code_len": 262
+        }
+      ]
+    }
+  }
+}
