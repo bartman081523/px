@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """GF(5)-Quantisierung für gemma-4-E2B — Ende-zu-Ende (Pack + Lauf).
 
 Aufbau
@@ -255,40 +254,39 @@ def cmd_pack(a):
                     manifest[key] = {"format": "bf16", "shape": list(t.shape)}
                     continue
                 is_lookup = "embed_tokens_per_layer" in key
+                SUF = ["", "b", "c", "d"]
                 if is_lookup:
                     u, S, rec_per_row = pack_rows(t, block, a.k)
-                else:
-                    Wn = t.float().numpy()
-                    u, S = pack_kernel(Wn, block, a.k)
-                    rec_per_row = 0
-                if a.stages >= 2 and not is_lookup:
-                    # Residual-Stufe im selben Kernel-Layout: R = W - dequant(u,S)
-                    rec = unpack_kernel(u, S, t.shape[0], t.shape[1], block)
-                    u2, S2 = pack_kernel(Wn - rec, block, a.k)
-                    packed[key + ".gf5b_u32"] = torch.from_numpy(u2)
-                    packed[key + ".gf5b_scale"] = torch.from_numpy(S2)
-                packed[key + ".gf5_u32"] = torch.from_numpy(u)
-                packed[key + ".gf5_scale"] = torch.from_numpy(S).reshape(-1) \
-                    if not is_lookup else torch.from_numpy(S)
-                if is_lookup:
+                    packed[key + ".gf5_u32"] = torch.from_numpy(u)
+                    packed[key + ".gf5_scale"] = torch.from_numpy(S)
                     idx = np.linspace(0, t.shape[0] - 1,
                                       min(4096, t.shape[0])).astype(np.int64)
                     ref = t[idx].float().numpy()
                     rec = unpack_rows(u, S, idx, t.shape[1], block, rec_per_row)
                     rel = float((((ref - rec) ** 2).sum() / (ref ** 2).sum()) ** 0.5)
+                    n_st = 1
                 else:
-                    rec = unpack_kernel(u, S, t.shape[0], t.shape[1], block)
-                    ref = t.float().numpy()
-                    rel = float((((ref - rec) ** 2).sum() / (ref ** 2).sum()) ** 0.5)
+                    Wn = t.float().numpy()
+                    rec = np.zeros_like(Wn)
+                    n_st = max(1, int(a.stages))
+                    for _st in range(n_st):
+                        u, S = pack_kernel(Wn - rec, block, a.k)
+                        sfx = SUF[_st]
+                        packed[key + f".gf5{sfx}_u32"] = torch.from_numpy(u)
+                        packed[key + f".gf5{sfx}_scale"] = torch.from_numpy(S)
+                        rec = rec + unpack_kernel(u, S, t.shape[0], t.shape[1], block)
+                    rec_per_row = 0
+                    rel = float((((Wn - rec) ** 2).sum() / (Wn ** 2).sum()) ** 0.5)
                 manifest[key] = {"format": "gf5", "shape": list(t.shape),
                                  "block": block, "k": a.k,
                                  "layout": "rows" if is_lookup else "kernel",
-                                 "stages": 1 if (is_lookup or a.stages < 2) else 2,
+                                 "stages": n_st,
                                  "rec_per_row": rec_per_row,
                                  "rel_l2": round(rel, 5),
                                  "bits": round(32.0 / ND + 16.0 / block, 3)}
                 n_q += 1
-                total_q_bytes += u.nbytes + S.nbytes
+                total_q_bytes += sum(v.numel() * v.element_size()
+                                     for kk, v in packed.items() if kk.startswith(key + "."))
                 del t
                 if n_q % 100 == 0:
                     print(f"  [{n_q:4d} quantisiert] {key} "
@@ -335,43 +333,49 @@ def cmd_pack(a):
 
 # ── Module ───────────────────────────────────────────────────────────────
 class GF5Linear(torch.nn.Module):
-    """Lineare Schicht im GF(5)-Kernel-Layout (u (RB,m), s (nb,m)).
+    """Lineare Schicht als **Liste von GF(5)-Stufen** (u (RB,m), s (nb,m)).
 
-    Zwei Pfade:
-      * Decode (Batch 1, ein Token, CUDA): `gfp_matvec` — mul-frei, liest die
-        gepackten Records direkt. Puffer liegen dafür auf der GPU.
-      * Prefill (mehrere Tokens) / CPU: Dequant aus dem Kernel-Layout, damit
-        die Aktivierung als normale Matmul laufen kann (einmal pro Aufruf).
+    Stufe 0 ist die Quantisierung, Stufe 1..n sind Residual-Quantisierungen
+    derselben Matrix. Mehr Stufen = besser (rel-L2 0,316 → 0,114 → 0,047)
+    aber mehr Bits (2,59 → 5,17 → 7,76) und mehr Kernel-Calls.
+
+    Pfade:
+      * Decode (Batch 1, ein Token, CUDA): `gfp_matvec` je Stufe.
+      * Prefill (T > 1, CUDA): `gfp_matmul` je Stufe.
+      * Sonst: Dequant nach bf16 + F.linear.
     """
 
-    def __init__(self, u, S, out_features, in_features, block, bias=None):
+    def __init__(self, stages, out_features, in_features, block, bias=None):
         super().__init__()
-        self.register_buffer("u32", u.to(torch.int32), persistent=False)
-        self.register_buffer("scale", S.to(torch.float16), persistent=False)
+        self.stages = [(u.to(torch.int32), S.to(torch.float16)) for u, S in stages]
         self.out_features = out_features
         self.in_features = in_features
         self.block = block
         self.bias = bias
         self._deq = None
 
+    # Geräte-Transfer der gepackten Stufen (keine registrierten Buffer, weil
+    # sie je nach Pfad im RAM oder VRAM liegen sollen)
+    def to_packed(self, device):
+        self.stages = [(u.to(device), S.to(device)) for u, S in self.stages]
+        return self
+
     def dequantized(self, dtype=torch.bfloat16, device="cpu"):
-        u = self.u32.detach().cpu().numpy().view(np.uint32)
-        S = self.scale.detach().float().cpu().numpy()
-        W = unpack_kernel(u, S, self.out_features, self.in_features, self.block)
-        if getattr(self, "u32b", None) is not None and self.u32b is not None:
-            ub = self.u32b.detach().cpu().numpy().view(np.uint32)
-            Sb = self.scaleb.detach().float().cpu().numpy()
-            W = W + unpack_kernel(ub, Sb, self.out_features, self.in_features, self.block)
+        W = None
+        for u, S in self.stages:
+            d = unpack_kernel(u.detach().cpu().numpy().view(np.uint32),
+                              S.detach().float().cpu().numpy(),
+                              self.out_features, self.in_features, self.block)
+            W = d if W is None else W + d
         return torch.from_numpy(W).to(device, dtype)
 
     def _kernel_forward(self, x):
-        from gf5_gemv import gfp_matvec  # ququint_quant/ im sys.path
+        from gf5_gemv import gfp_matvec
         vec = x.reshape(-1).float()
-        out = gfp_matvec(self.u32, self.scale, vec,
-                         self.out_features, self.in_features, P)
-        if getattr(self, "u32b", None) is not None and self.u32b is not None:
-            out = out + gfp_matvec(self.u32b, self.scaleb, vec,
-                                   self.out_features, self.in_features, P)
+        out = None
+        for u, S in self.stages:
+            o = gfp_matvec(u, S, vec, self.out_features, self.in_features, P)
+            out = o if out is None else out + o
         if self.bias is not None:
             out = out + self.bias.float()
         return out.to(x.dtype).reshape(*x.shape[:-1], self.out_features)
@@ -379,25 +383,27 @@ class GF5Linear(torch.nn.Module):
     def _gemm_forward(self, x):
         from gf5_gemm import gfp_matmul
         shp = x.shape
-        x2 = x.reshape(-1, shp[-1]).float().contiguous()   # Kernel erwartet f32
-        out = gfp_matmul(self.u32, self.scale, x2, self.out_features,
-                         self.in_features, P)
-        if getattr(self, "u32b", None) is not None:
-            out = out + gfp_matmul(self.u32b, self.scaleb, x2, self.out_features,
-                                   self.in_features, P)
+        x2 = x.reshape(-1, shp[-1]).float().contiguous()
+        T = x2.shape[0]
+        bm, bt = (64, 64) if T < 256 else (32, 256)
+        out = None
+        for u, S in self.stages:
+            o = gfp_matmul(u, S, x2, self.out_features, self.in_features, P,
+                           block_m=bm, block_t=bt)
+            out = o if out is None else out + o
         out = out.float()
         if self.bias is not None:
             out = out + self.bias.float()
         return out.to(x.dtype).reshape(*shp[:-1], self.out_features)
 
     def forward(self, x):
-        on_cuda = x.is_cuda and x.dim() >= 2 and x.shape[0] == 1 and self.u32.is_cuda
+        on_cuda = x.is_cuda and x.dim() >= 2 and x.shape[0] == 1 and self.stages[0][0].is_cuda
         use_kernel = on_cuda and x.shape[-2] == 1
         use_gemm = on_cuda and x.shape[-2] > 1
         if use_kernel or use_gemm:
             try:
                 return self._kernel_forward(x) if use_kernel else self._gemm_forward(x)
-            except Exception as e:      # Kernel-Fehler -> ehrlicher Fallback
+            except Exception as e:
                 if not getattr(self, "_kernel_warned", False):
                     print(f"[gf5] kernel fallback ({type(e).__name__}: {e})", flush=True)
                     self._kernel_warned = True
@@ -405,15 +411,11 @@ class GF5Linear(torch.nn.Module):
         if self._deq is None or self._deq.dtype != x.dtype:
             self._deq = self.dequantized(x.dtype, x.device)
         out = torch.nn.functional.linear(x, self._deq, self.bias)
-        # Dequant-Cache NICHT halten: alle 278 Matrizen wären ~8,5 GB VRAM.
         self._deq = None
         return out
 
     def packed_bytes(self):
-        n = self.u32.numel() * 4 + self.scale.numel() * 2
-        if getattr(self, "u32b", None) is not None:
-            n += self.u32b.numel() * 4 + self.scaleb.numel() * 2
-        return n
+        return sum(u.numel() * 4 + S.numel() * 2 for u, S in self.stages)
 
 
 class GF5Embedding(torch.nn.Module):
@@ -485,18 +487,16 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
             continue
         meta = manifest[key]
         if isinstance(mod, torch.nn.Linear):
-            _nb = meta["shape"][1] // meta["block"]
-            new = GF5Linear(packed[uk], packed[sk].reshape(_nb, meta["shape"][0]),
-                            meta["shape"][0], meta["shape"][1],
+            stages = []
+            for sfx in ("", "b", "c", "d"):
+                uk2 = key + f".gf5{sfx}_u32"
+                if uk2 not in packed:
+                    break
+                nb = meta["shape"][1] // meta["block"]
+                stages.append((packed[uk2], packed[uk2.replace("_u32", "_scale")].reshape(
+                    nb, meta["shape"][0])))
+            new = GF5Linear(stages, meta["shape"][0], meta["shape"][1],
                             meta["block"], bias=mod.bias)
-            if uk.replace(".gf5_u32", ".gf5b_u32") in packed:
-                new.register_buffer(
-                    "u32b", packed[uk.replace(".gf5_u32", ".gf5b_u32")].to(torch.int32),
-                    persistent=False)
-                new.register_buffer(
-                    "scaleb", packed[uk.replace(".gf5_u32", ".gf5b_scale")].to(
-                        torch.float16).reshape(-1, meta["shape"][0]),
-                    persistent=False)
             replaced_l += 1
         elif isinstance(mod, torch.nn.Embedding):
             new = GF5Embedding(packed[uk], packed[sk], meta["shape"][0], meta["shape"][1],
@@ -537,7 +537,9 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
         model.lm_head = _DtypeCastLinear(model.lm_head)
     model = model.to(device)
     for _m in model.modules():
-        if isinstance(_m, GF5Embedding):
+        if isinstance(_m, GF5Linear):
+            _m.to_packed(device)
+        elif isinstance(_m, GF5Embedding):
             _m.u32 = _m.u32.cpu()
             _m.scale = _m.scale.cpu()
     model.eval()

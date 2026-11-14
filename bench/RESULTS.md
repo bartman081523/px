@@ -242,9 +242,43 @@ Korrektheit: Kernel-GEMM vs. Dequant-Matmul max. rel. Fehler **2,3e-3**
 (bf16-Ausgaberundung), Logit-Parität unverändert (Cosine 0,990–0,998,
 Top-1 3/3).
 
-Verbleibende Ineffizienz: K = 16 bei 13 genutzten Digits — die Tensor-Cores
-laufen zu ~80 % leer. Zwei Records pro Dot (K = 26 → 32) würden die
-Launch-Zahl halbieren und wären der nächste Schritt.
+### 9.4c Tile-Tuning (statt K = 32) — 1,3× mehr Prefill
+
+Die naheliegende Idee „zwei Records pro Dot (K = 26 → 32)" wurde geprüft und
+**verworfen**: die 26 Digits zweier Records liegen im `u`-Vektor nicht
+zusammenhängend, der Kernel bräuchte einen `tl.gather` über eine
+lane-abhängige Record-Achse — den gibt es in dieser Triton-Version nicht.
+Stattdessen wurde die Kachelgröße optimiert (gemessen auf 1536×6144):
+
+| T | BM=64, BT=64 | BM=32, BT=256 |
+|---|---|---|
+| 512 | 14,0 ms | **10,8 ms** |
+| 1558 | 34,6 ms | **30,1 ms** |
+| 3000 | 62,6 ms | **40,4 ms** |
+
+Heuristik jetzt: `T < 256 → (64, 64)`, sonst `(32, 256)`. Ergebnis:
+
+| T | Prefill vorher | Prefill jetzt |
+|---|---|---|
+| 87 | 1,26 s | 1,26 s |
+| 396 | 3,87 s | **3,10 s** (128 tok/s) |
+| 1558 | 13,0 s | **9,92 s** (157 tok/s) |
+
+### 9.4d Dritte Residualstufe (Qualitätsvariante)
+
+`gf5-gemma-4-E2B-it-s3/` (4,38 GB, 2,34× kleiner), rel-L2 **0,047**
+(2 Stufen: 0,114; 1 Stufe: 0,316):
+
+| Variante | rel-L2 | Cosine | Top-1 | Top-50 | KL | Decode | VRAM |
+|---|---|---|---|---|---|---|---|
+| 2 Stufen | 0,114 | 0,990–0,998 | 3/3 | 0,18–0,38 | 0,00–0,44 | 5,5 tok/s | 3,75 GB |
+| 3 Stufen | **0,047** | 0,996–0,999 | 2/3 | **0,24–0,52** | 0,00–0,36 | 4,6 tok/s | 4,37 GB |
+
+Die dritte Stufe verbessert die Verteilungsüberlappung messbar (Top-50
+0,18→0,24 und 0,38→0,52), kostet aber 0,6 GB und ~20 % Decode. **Default
+bleibt 2 Stufen** (schneller), 3 Stufen liegen als Qualitätsvariante daneben.
+Eine vierte Stufe (rel-L2 0,018) bringt nur noch 1,55× Kompression und wurde
+nicht gepackt.
 
 Zwei echte Kernel-Bugs wurden dabei gefunden und behoben:
 1. **Illegal Memory Access** bei `nb·rpb % rc != 0`: der Kernel maskiert die
