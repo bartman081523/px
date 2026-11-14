@@ -134,9 +134,13 @@ def gfp_matvec(u_gpu, s_gpu, x_f32, m, n, p, block_r=128, rc=16, x_pad=None):
     # Null-Spalten — Digits rr·nd+k ↔ Gewicht (b·128+j) für j<128
     # (call-invariant → in einer Runtime gecacht; Bench übergibt x_pad)
     if x_pad is None:
-        x_pad = torch.zeros(nb, rpb * nd, dtype=torch.float32, device="cuda")
-        x_pad[:, :128] = x_f32.reshape(nb, 128)
-        x_pad = x_pad.reshape(-1)
+        # Tail-Pad: der letzte Chunk liest x[rr*ND+k] auch für rr >= RB
+        # (x wird im Kernel NICHT maskiert) -> ohne Reserve = illegal access,
+        # sobald nb*rpb kein Vielfaches von rc ist (z. B. nb=12, rpb=10, rc=16).
+        _buf = torch.zeros(nb * rpb * nd + rc * nd, dtype=torch.float32, device="cuda")
+        _view = _buf[: nb * rpb * nd].view(nb, rpb * nd)
+        _view[:, :128] = x_f32.reshape(nb, 128)
+        x_pad = _buf
     part = torch.empty(cb, m, dtype=torch.float32, device="cuda")
     _gfp_mv[(triton.cdiv(m, block_r), cb)](
         u_gpu, s_gpu, x_pad, part, m, rb, ND=nd, P=p, RPB=rpb,

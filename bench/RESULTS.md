@@ -202,19 +202,39 @@ Next-Token-Verteilung zusammen (Top-50 praktisch disjunkt, Text unbrauchbar).
 Die Residual-Stufe rettet die Qualität auf INT4-Niveau (rel-L2 0,114 vs.
 0,117 bei INT4-sym) — kostet aber 5,17 bit, also **mehr** als INT4 (4,0 bit).
 
-### 9.4 Geschwindigkeit
-Ohne fusionierten Kernel dequantisiert der Forward pro Aufruf:
-**~21 s pro Token** (0,05 tok/s) bei 2,4 GB VRAM. Das ist kein Runtime-Format,
-sondern ein Speicherformat. Der gemessene GF(5)-GEMV (2,37× auf echtem Tensor)
-würde das lösen, ist aber wegen des abweichenden Record-Layouts
-(10 Records je 128er-Block, Skalar je (Block,Rohr)) nicht eingebunden.
+### 9.4 Geschwindigkeit — mit integriertem GF(5)-Kernel im Forward
+
+Der Kernel (`ququint_quant/gf5_gemv.py::gfp_matvec`) ist jetzt im Decode-Pfad
+von `GF5Linear` eingebunden: `u` liegt im Kernel-Layout (RB, m), `s` als
+(nb, m), Decode (Batch 1, ein Token) ruft `gfp_matvec` direkt auf, Prefill
+nutzt weiter den Dequant-Pfad.
+
+| Pfad | Decode | VRAM (Peak) | Bemerkung |
+|---|---|---|---|
+| Dequant pro Token (vorher) | 0,05 tok/s (21 s/Token) | 2,4 GB | reines Speicherformat |
+| **Kernel im Forward** | **8,5 tok/s** (0,118 s/Token) | **3,7 GB** | 2 Stufen = 2 Kernel-Calls je Schicht |
+| bf16-Referenz | ~18 tok/s | ~10 GB | volle Gewichte |
+
+**170× schneller als der Dequant-Pfad**, 2,7× weniger VRAM als bf16 — aber
+noch ~2× langsamer als bf16, weil pro Schicht zwei Matvecs laufen und der
+Prefill (T > 1) weiterhin dequantisiert (≈ 20 s pro Prompt, 278 Matrizen).
+
+Zwei echte Kernel-Bugs wurden dabei gefunden und behoben:
+1. **Illegal Memory Access** bei `nb·rpb % rc != 0`: der Kernel maskiert die
+   `x`-Loads nicht, las also hinter `x_pad` (z. B. nb=12, rpb=10, rc=16).
+   Fix: Tail-Pad von `rc·ND` Elementen in `gfp_matvec`.
+2. **Dequant-Cache hielt 8,5 GB**: alle 278 Matrizen gleichzeitig dequantisiert
+   (Peak 10,7 GB). Fix: Cache wird nach jedem Forward freigegeben (3,7 GB).
 
 ### 9.5 Fazit
 GF(5) gewinnt auf der Größen-/Qualitätsfront **nicht** gegen INT4: einstufig
-zu verlustbehaftet, zweistufig größer als INT4 bei gleicher Qualität. Der
-verbleibende Vorteil ist strukturell (mul-freier Kernel, exakte
-{−2,−1,0,1,2}-Symmetrie), nicht informativ. Für gemma-4-E2B ist das Format
-damit ein Negativ-Ergebnis — mit vollständigem Artefakt und Messung.
+zu verlustbehaftet, zweistufig (5,17 bit) größer als INT4 (4,0 bit) bei
+gleichem Fehler. Der Kernel läuft jetzt im Forward und bringt 8,5 tok/s bei
+3,7 GB — funktional, aber weder schneller noch kleiner als eine
+INT4-GEMM-Referenz. Der verbleibende Vorteil ist strukturell (mul-freie
+Akkumulation, exakte {−2,−1,0,1,2}-Symmetrie, kein Nullteiler-Problem),
+nicht informativ. Für gemma-4-E2B bleibt es ein Negativ-Ergebnis — jetzt
+aber mit lauffähigem Kernel, nicht nur mit einem Packformat.
 
 ## 10. KV-Wiederverwendung im Harness (Runde 3)
 
