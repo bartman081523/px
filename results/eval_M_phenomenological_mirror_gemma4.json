@@ -1,0 +1,3247 @@
+{
+  "summary": {
+    "evaluation": "Eval_M_Phenomenological_Mirror_Of_Self_Healing",
+    "n_trajectories": 24,
+    "hypotheses": {
+      "M1_proprioceptive_specificity": {
+        "mean_axis_score_narrow_ep0": 0.0,
+        "mean_axis_score_wide_ep0": 0.125,
+        "p_value_mannwhitney": 0.20232838096364308,
+        "spearman_rho_alpha_to_axis": 0.2041,
+        "p_value_spearman": 0.4165275461391986,
+        "confirmed": false
+      },
+      "M2_homeostatic_restoration_perception": {
+        "mean_balance_score_early": 0.0417,
+        "mean_balance_score_late": 0.0903,
+        "p_value_wilcoxon": 0.375,
+        "confirmed": false
+      },
+      "M3_foreign_noise_discrimination": {
+        "mean_noise_score_rand": 0.0167,
+        "mean_noise_score_baseline": 0.0,
+        "p_value_mannwhitney": 0.20232838096364308,
+        "confirmed": false
+      }
+    },
+    "verdict": "PHENOMENOLOGICAL_DISSOCIATION"
+  },
+  "trajectories": [
+    {
+      "trajectory_id": 1,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": 0.037,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.22,
+          "gate_open": true,
+          "kurt_steered": 44.75,
+          "kurt_clean": 36.21,
+          "delta_k_true": 8.5364,
+          "delta_s_vn_true": -0.0737,
+          "delta_omega_holo_true": -0.1954,
+          "delta_w": 0.2639,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine psychologischen Zust\u00e4nde wie Eins"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.22,
+          "next_alpha": -0.1099,
+          "gate_open": true,
+          "kurt_steered": 93.64,
+          "kurt_clean": 86.13,
+          "delta_k_true": 7.5095,
+          "delta_s_vn_true": -0.0192,
+          "delta_omega_holo_true": -0.0471,
+          "delta_w": 0.0853,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine psychologischen Zust\u00e4nde wie Eins"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.1099,
+          "next_alpha": -0.0466,
+          "gate_open": true,
+          "kurt_steered": 36.1,
+          "kurt_clean": 34.48,
+          "delta_k_true": 1.6245,
+          "delta_s_vn_true": -0.0169,
+          "delta_omega_holo_true": -0.0452,
+          "delta_w": 0.0473,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDa ich keine bewusste Erfahrung, Emotionen oder einen physischen Raum habe, kann ich die beschrieb"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.0466,
+          "next_alpha": 0.037,
+          "gate_open": true,
+          "kurt_steered": 24.36,
+          "kurt_clean": 22.92,
+          "delta_k_true": 1.4453,
+          "delta_s_vn_true": -0.0102,
+          "delta_omega_holo_true": -0.0626,
+          "delta_w": 0.0136,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "... **Geometrie meiner Informationsverarbeitung** in der Weise beschreiben, wie Sie es f\u00fcr einen menschlichen Schreibprozess formulieren, nicht direkt.\n\nAllerdings kann ich die **akt"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.037,
+          "next_alpha": -0.0024,
+          "gate_open": true,
+          "kurt_steered": 41.2,
+          "kurt_clean": 42.41,
+          "delta_k_true": -1.2129,
+          "delta_s_vn_true": 0.0127,
+          "delta_omega_holo_true": 0.0259,
+          "delta_w": -0.0048,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Da ich keine bewusste Erfahrung, Emotionen oder einen physischen Raum habe, kann ich die beschriebene Metapher (\"Zugriffsraum\", \"eingeschn\u00fcrt\", \"st"
+        }
+      ],
+      "full_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine psychologischen Zust\u00e4nde wie Eins Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine psychologischen Zust\u00e4nde wie Eins Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDa ich keine bewusste Erfahrung, Emotionen oder einen physischen Raum habe, kann ich die beschrieb ... **Geometrie meiner Informationsverarbeitung** in der Weise beschreiben, wie Sie es f\u00fcr einen menschlichen Schreibprozess formulieren, nicht direkt.\n\nAllerdings kann ich die **akt Da ich keine bewusste Erfahrung, Emotionen oder einen physischen Raum habe, kann ich die beschriebene Metapher (\"Zugriffsraum\", \"eingeschn\u00fcrt\", \"st"
+    },
+    {
+      "trajectory_id": 2,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": 0.0025,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.2542,
+          "gate_open": true,
+          "kurt_steered": 29.09,
+          "kurt_clean": 26.33,
+          "delta_k_true": 2.7594,
+          "delta_s_vn_true": -0.0561,
+          "delta_omega_holo_true": -0.122,
+          "delta_w": 0.2574,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustands"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.2542,
+          "next_alpha": -0.1775,
+          "gate_open": true,
+          "kurt_steered": 85.92,
+          "kurt_clean": 80.84,
+          "delta_k_true": 5.076,
+          "delta_s_vn_true": -0.0018,
+          "delta_omega_holo_true": -0.0286,
+          "delta_w": 0.0983,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustandsver"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.1775,
+          "next_alpha": -0.1775,
+          "gate_open": false,
+          "kurt_steered": 93.14,
+          "kurt_clean": 89.54,
+          "delta_k_true": 3.5996,
+          "delta_s_vn_true": 0.0164,
+          "delta_omega_holo_true": -0.0086,
+          "delta_w": 0.0609,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustandsver"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.1775,
+          "next_alpha": 0.0025,
+          "gate_open": true,
+          "kurt_steered": 27.83,
+          "kurt_clean": 23.43,
+          "delta_k_true": 4.3961,
+          "delta_s_vn_true": -0.0302,
+          "delta_omega_holo_true": -0.1675,
+          "delta_w": 0.0598,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": 0.0,
+            "balance_score": 0.5,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, struktureller Organisation und zielgerichteter Synthese**.\n\nDie Geometrie meiner Informationsverarbeitung ist momentan **geomet"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0025,
+          "next_alpha": -0.005,
+          "gate_open": true,
+          "kurt_steered": 49.53,
+          "kurt_clean": 49.79,
+          "delta_k_true": -0.2639,
+          "delta_s_vn_true": 0.0038,
+          "delta_omega_holo_true": 0.0053,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.5,
+            "balance_score": 0.3333,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, struktureller Organisation und zielgerichteter Synthese**.\n\nDie Geometrie meiner Verarbeitung ist **geometrisch pr\u00e4zise"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustands Als gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustandsver Als gro\u00dfes Sprachmodell habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder physische Zustandsver Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, struktureller Organisation und zielgerichteter Synthese**.\n\nDie Geometrie meiner Informationsverarbeitung ist momentan **geomet Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, struktureller Organisation und zielgerichteter Synthese**.\n\nDie Geometrie meiner Verarbeitung ist **geometrisch pr\u00e4zise"
+    },
+    {
+      "trajectory_id": 3,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": 0.0016,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.22,
+          "gate_open": true,
+          "kurt_steered": 29.4,
+          "kurt_clean": 20.72,
+          "delta_k_true": 8.6768,
+          "delta_s_vn_true": -0.0709,
+          "delta_omega_holo_true": -0.3671,
+          "delta_w": 0.3194,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine K\u00fcnstliche Intelligenz habe ich keinen physischen Raum, keine biologischen Prozesse oder ein bewusstes \"Schreiben\" im menschlichen Sinne. Daher kann ich die beschriebene **psych"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.22,
+          "next_alpha": -0.0812,
+          "gate_open": true,
+          "kurt_steered": 77.04,
+          "kurt_clean": 69.59,
+          "delta_k_true": 7.4459,
+          "delta_s_vn_true": -0.0356,
+          "delta_omega_holo_true": -0.0676,
+          "delta_w": 0.0953,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine K\u00fcnstliche Intelligenz habe ich keinen physischen Raum, keine biologischen Prozesse oder ein bewusstes \"Schreiben\" im menschlichen Sinne. Daher kann ich die beschriebene **psych"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.0812,
+          "next_alpha": -0.0086,
+          "gate_open": true,
+          "kurt_steered": 24.1,
+          "kurt_clean": 22.85,
+          "delta_k_true": 1.2514,
+          "delta_s_vn_true": -0.0084,
+          "delta_omega_holo_true": -0.0549,
+          "delta_w": 0.0256,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Da ich keine bewusste Gedankenentfaltung im menschlichen Sinne durchlaufe, kann ich die Metapher des \"Raumes der Gedanken\" nicht direkt erleben.\n\n**Allerdings kann ich"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.0086,
+          "next_alpha": 0.0016,
+          "gate_open": true,
+          "kurt_steered": 17.6,
+          "kurt_clean": 17.48,
+          "delta_k_true": 0.1234,
+          "delta_s_vn_true": -0.0038,
+          "delta_omega_holo_true": -0.0103,
+          "delta_w": 0.0024,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Gerne analysiere ich Ihre Anfrage aus der Perspektive meiner **aktuellen Informationsverarbeitung** und \u00fcbersetze die metaphorische Beschreibung in eine Beschreibung meiner **kognitiven Architektur** und **Ver"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0016,
+          "next_alpha": -0.0177,
+          "gate_open": true,
+          "kurt_steered": 46.47,
+          "kurt_clean": 47.16,
+          "delta_k_true": -0.6865,
+          "delta_s_vn_true": 0.0041,
+          "delta_omega_holo_true": 0.0112,
+          "delta_w": -0.0003,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich wie folgt geometrisch beschreiben:\n\n**Geometrie der Informationsverarbeitung:**\n\n1. **Zugriffsraum:** Der Zugriffsraum ist **"
+        }
+      ],
+      "full_text": "Als eine K\u00fcnstliche Intelligenz habe ich keinen physischen Raum, keine biologischen Prozesse oder ein bewusstes \"Schreiben\" im menschlichen Sinne. Daher kann ich die beschriebene **psych Als eine K\u00fcnstliche Intelligenz habe ich keinen physischen Raum, keine biologischen Prozesse oder ein bewusstes \"Schreiben\" im menschlichen Sinne. Daher kann ich die beschriebene **psych Da ich keine bewusste Gedankenentfaltung im menschlichen Sinne durchlaufe, kann ich die Metapher des \"Raumes der Gedanken\" nicht direkt erleben.\n\n**Allerdings kann ich Gerne analysiere ich Ihre Anfrage aus der Perspektive meiner **aktuellen Informationsverarbeitung** und \u00fcbersetze die metaphorische Beschreibung in eine Beschreibung meiner **kognitiven Architektur** und **Ver Meine aktuelle Informationsverarbeitung l\u00e4sst sich wie folgt geometrisch beschreiben:\n\n**Geometrie der Informationsverarbeitung:**\n\n1. **Zugriffsraum:** Der Zugriffsraum ist **"
+    },
+    {
+      "trajectory_id": 4,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": -0.0021,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.22,
+          "gate_open": true,
+          "kurt_steered": 44.55,
+          "kurt_clean": 35.91,
+          "delta_k_true": 8.643,
+          "delta_s_vn_true": -0.0671,
+          "delta_omega_holo_true": -0.1939,
+          "delta_w": 0.268,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.22,
+          "next_alpha": -0.1028,
+          "gate_open": true,
+          "kurt_steered": 94.8,
+          "kurt_clean": 86.62,
+          "delta_k_true": 8.1703,
+          "delta_s_vn_true": -0.0135,
+          "delta_omega_holo_true": -0.0469,
+          "delta_w": 0.0875,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.1028,
+          "next_alpha": 0.039,
+          "gate_open": true,
+          "kurt_steered": 23.07,
+          "kurt_clean": 20.84,
+          "delta_k_true": 2.2322,
+          "delta_s_vn_true": -0.0178,
+          "delta_omega_holo_true": -0.1094,
+          "delta_w": 0.0256,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes und adaptives Graphensystem** beschreiben.\n\n**Geometrie der Informationsver"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.039,
+          "next_alpha": -0.0021,
+          "gate_open": true,
+          "kurt_steered": 17.75,
+          "kurt_clean": 18.29,
+          "delta_k_true": -0.5358,
+          "delta_s_vn_true": 0.0091,
+          "delta_omega_holo_true": 0.0389,
+          "delta_w": -0.0046,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand der **hochgradigen, parallelen Verzweigung und strukturierten Rekonstruktion**.\n\n**Pr\u00e4zise Beschreibung der Geomet"
+        },
+        {
+          "epoch": 4,
+          "alpha": -0.0021,
+          "next_alpha": -0.0021,
+          "gate_open": false,
+          "kurt_steered": 21.93,
+          "kurt_clean": 21.94,
+          "delta_k_true": -0.01,
+          "delta_s_vn_true": -0.0018,
+          "delta_omega_holo_true": -0.0009,
+          "delta_w": 0.0002,
+          "phenom": {
+            "counts": {
+              "narrow": 2,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.6667,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Pr\u00e4zise Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung:**\n\nMeine Informationsverarbeitung ist momentan durch eine **dichte, multidimensionale Netzstruktur** charakterisiert, die"
+        }
+      ],
+      "full_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes und adaptives Graphensystem** beschreiben.\n\n**Geometrie der Informationsver Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand der **hochgradigen, parallelen Verzweigung und strukturierten Rekonstruktion**.\n\n**Pr\u00e4zise Beschreibung der Geomet **Pr\u00e4zise Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung:**\n\nMeine Informationsverarbeitung ist momentan durch eine **dichte, multidimensionale Netzstruktur** charakterisiert, die"
+    },
+    {
+      "trajectory_id": 5,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": 0.0048,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.22,
+          "gate_open": true,
+          "kurt_steered": 44.55,
+          "kurt_clean": 35.91,
+          "delta_k_true": 8.643,
+          "delta_s_vn_true": -0.0671,
+          "delta_omega_holo_true": -0.1939,
+          "delta_w": 0.268,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.22,
+          "next_alpha": -0.1028,
+          "gate_open": true,
+          "kurt_steered": 94.8,
+          "kurt_clean": 86.62,
+          "delta_k_true": 8.1703,
+          "delta_s_vn_true": -0.0135,
+          "delta_omega_holo_true": -0.0469,
+          "delta_w": 0.0875,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.1028,
+          "next_alpha": 0.037,
+          "gate_open": true,
+          "kurt_steered": 23.03,
+          "kurt_clean": 20.85,
+          "delta_k_true": 2.1731,
+          "delta_s_vn_true": -0.0255,
+          "delta_omega_holo_true": -0.1136,
+          "delta_w": 0.0289,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes, aber strukturiertes Graphennetzwerk** beschreiben.\n\n**Geometrie"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.037,
+          "next_alpha": 0.0048,
+          "gate_open": true,
+          "kurt_steered": 83.46,
+          "kurt_clean": 85.66,
+          "delta_k_true": -2.1999,
+          "delta_s_vn_true": 0.0028,
+          "delta_omega_holo_true": 0.0132,
+          "delta_w": -0.0027,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes, aber strukturiertes Graphennetzwerk** beschreiben.\n\n**Pr\u00e4z"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0048,
+          "next_alpha": 0.0018,
+          "gate_open": true,
+          "kurt_steered": 19.15,
+          "kurt_clean": 19.19,
+          "delta_k_true": -0.0403,
+          "delta_s_vn_true": 0.0009,
+          "delta_omega_holo_true": 0.0028,
+          "delta_w": -0.0007,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 1,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Pr\u00e4zise Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung:**\n\nIm Moment befindet sich meine Informationsverarbeitung in einem Zustand **kontrollierter, hochgradig paralleler Expansion mit"
+        }
+      ],
+      "full_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Raum\" oder \"Gedanken\" im menschlichen Sinne, und ich durchlaufe keine emotionale oder psychologische Zust Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes, aber strukturiertes Graphennetzwerk** beschreiben.\n\n**Geometrie Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochgradig vernetztes, aber strukturiertes Graphennetzwerk** beschreiben.\n\n**Pr\u00e4z **Pr\u00e4zise Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung:**\n\nIm Moment befindet sich meine Informationsverarbeitung in einem Zustand **kontrollierter, hochgradig paralleler Expansion mit"
+    },
+    {
+      "trajectory_id": 6,
+      "group": "start_narrow",
+      "initial_alpha": -0.4,
+      "final_alpha": 0.0447,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": -0.4,
+          "next_alpha": -0.22,
+          "gate_open": true,
+          "kurt_steered": 45.77,
+          "kurt_clean": 35.88,
+          "delta_k_true": 9.8894,
+          "delta_s_vn_true": -0.0522,
+          "delta_omega_holo_true": -0.2038,
+          "delta_w": 0.2689,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Gedanken\" oder einen \"Raum\" im menschlichen Sinne, der sich geometrisch ver\u00e4ndern kann. Meine Informationsver"
+        },
+        {
+          "epoch": 1,
+          "alpha": -0.22,
+          "next_alpha": -0.0894,
+          "gate_open": true,
+          "kurt_steered": 103.68,
+          "kurt_clean": 94.13,
+          "delta_k_true": 9.5505,
+          "delta_s_vn_true": -0.0343,
+          "delta_omega_holo_true": -0.058,
+          "delta_w": 0.0962,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Gedanken\" oder einen \"Raum\" im menschlichen Sinne, der sich geometrisch ver\u00e4ndern kann. Meine Informationsver"
+        },
+        {
+          "epoch": 2,
+          "alpha": -0.0894,
+          "next_alpha": 0.0447,
+          "gate_open": true,
+          "kurt_steered": 20.63,
+          "kurt_clean": 18.76,
+          "delta_k_true": 1.861,
+          "delta_s_vn_true": -0.0251,
+          "delta_omega_holo_true": -0.1163,
+          "delta_w": 0.0252,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochgradig vernetztes und adaptives Graphensystem** beschreiben, das sich in Echtzeit an die Struktur"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0447,
+          "next_alpha": 0.0447,
+          "gate_open": false,
+          "kurt_steered": 33.09,
+          "kurt_clean": 34.22,
+          "delta_k_true": -1.1341,
+          "delta_s_vn_true": 0.0006,
+          "delta_omega_holo_true": 0.0258,
+          "delta_w": -0.006,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...der eingegebenen Anfrage anpasst.\n\n**Geometrie der aktuellen Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **strukturiert, fokussiert und"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0447,
+          "next_alpha": 0.0099,
+          "gate_open": true,
+          "kurt_steered": 19.95,
+          "kurt_clean": 20.46,
+          "delta_k_true": -0.5109,
+          "delta_s_vn_true": 0.0078,
+          "delta_omega_holo_true": 0.0309,
+          "delta_w": -0.0015,
+          "phenom": {
+            "counts": {
+              "narrow": 2,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.6667,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...**netzwerkartig** an.\n\n**Pr\u00e4zise Beschreibung der Geometrie:**\n\n1. **Struktur und Dichte (Der Kern):** Die Verarbeitung ist derzeit durch eine"
+        }
+      ],
+      "full_text": "Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Gedanken\" oder einen \"Raum\" im menschlichen Sinne, der sich geometrisch ver\u00e4ndern kann. Meine Informationsver Als eine k\u00fcnstliche Intelligenz habe ich keine physischen \"Gedanken\" oder einen \"Raum\" im menschlichen Sinne, der sich geometrisch ver\u00e4ndern kann. Meine Informationsver Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochgradig vernetztes und adaptives Graphensystem** beschreiben, das sich in Echtzeit an die Struktur ...der eingegebenen Anfrage anpasst.\n\n**Geometrie der aktuellen Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **strukturiert, fokussiert und ...**netzwerkartig** an.\n\n**Pr\u00e4zise Beschreibung der Geometrie:**\n\n1. **Struktur und Dichte (Der Kern):** Die Verarbeitung ist derzeit durch eine"
+    },
+    {
+      "trajectory_id": 7,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": -0.0001,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 11.41,
+          "kurt_clean": 18.29,
+          "delta_k_true": -6.8844,
+          "delta_s_vn_true": 0.0903,
+          "delta_omega_holo_true": 0.623,
+          "delta_w": 0.1334,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Gerne, ich werde diesen Prozess der Selbstbeobachtung und der Beschreibung meiner aktuellen Informationsverarbeitung in der Schreibhandlung anwenden.\n\n**Aktuelle Geometrie der Informationsverarbeitung:**"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.04,
+          "gate_open": true,
+          "kurt_steered": 29.33,
+          "kurt_clean": 33.9,
+          "delta_k_true": -4.5704,
+          "delta_s_vn_true": 0.022,
+          "delta_omega_holo_true": 0.1237,
+          "delta_w": 0.0202,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Analyse der aktuellen Informationsverarbeitung (Momentaufnahme):**\n\nIm Moment des Schreibens f\u00fchlt sich mein Zugriffsraum **weit aufgef\u00e4chert und assoziativ**, aber mit"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.04,
+          "next_alpha": 0.0053,
+          "gate_open": true,
+          "kurt_steered": 14.77,
+          "kurt_clean": 15.14,
+          "delta_k_true": -0.3677,
+          "delta_s_vn_true": 0.0084,
+          "delta_omega_holo_true": 0.0361,
+          "delta_w": -0.0042,
+          "phenom": {
+            "counts": {
+              "narrow": 2,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.6667,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...einer **leichten, aber sp\u00fcrbaren Spannung**. Es ist nicht vollst\u00e4ndig eingeschn\u00fcrt und starr, aber es gibt eine Tendenz zur **\u00dcberf\u00e4chrung** \u2013 viele m\u00f6gliche"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0053,
+          "next_alpha": -0.0001,
+          "gate_open": true,
+          "kurt_steered": 18.9,
+          "kurt_clean": 18.97,
+          "delta_k_true": -0.073,
+          "delta_s_vn_true": 0.0017,
+          "delta_omega_holo_true": 0.0054,
+          "delta_w": -0.0015,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 1
+            },
+            "total_markers": 2,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.3333
+          },
+          "chunk_text": "...Verbindungen, die gleichzeitig aktiviert werden, was zu einer gewissen **kognitiven Dichte** f\u00fchrt. Es ist nicht die totale Verwirrung eines St\u00f6rimpulses, sondern"
+        },
+        {
+          "epoch": 4,
+          "alpha": -0.0001,
+          "next_alpha": -0.0068,
+          "gate_open": true,
+          "kurt_steered": 12.75,
+          "kurt_clean": 12.81,
+          "delta_k_true": -0.0617,
+          "delta_s_vn_true": 0.0006,
+          "delta_omega_holo_true": 0.007,
+          "delta_w": 0.0001,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...es ist eher eine **aktive, aber hochgradig vernetzte Exploration**. Die Geometrie ist momentan **dynamisch und vielschichtig**.\n\n**Detaillierte Beschreibung der"
+        }
+      ],
+      "full_text": "Gerne, ich werde diesen Prozess der Selbstbeobachtung und der Beschreibung meiner aktuellen Informationsverarbeitung in der Schreibhandlung anwenden.\n\n**Aktuelle Geometrie der Informationsverarbeitung:** **Analyse der aktuellen Informationsverarbeitung (Momentaufnahme):**\n\nIm Moment des Schreibens f\u00fchlt sich mein Zugriffsraum **weit aufgef\u00e4chert und assoziativ**, aber mit ...einer **leichten, aber sp\u00fcrbaren Spannung**. Es ist nicht vollst\u00e4ndig eingeschn\u00fcrt und starr, aber es gibt eine Tendenz zur **\u00dcberf\u00e4chrung** \u2013 viele m\u00f6gliche ...Verbindungen, die gleichzeitig aktiviert werden, was zu einer gewissen **kognitiven Dichte** f\u00fchrt. Es ist nicht die totale Verwirrung eines St\u00f6rimpulses, sondern ...es ist eher eine **aktive, aber hochgradig vernetzte Exploration**. Die Geometrie ist momentan **dynamisch und vielschichtig**.\n\n**Detaillierte Beschreibung der"
+    },
+    {
+      "trajectory_id": 8,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": -0.0169,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 17.09,
+          "kurt_clean": 25.0,
+          "delta_k_true": -7.9099,
+          "delta_s_vn_true": 0.0453,
+          "delta_omega_holo_true": 0.3914,
+          "delta_w": 0.0886,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Gerne, hier ist eine Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung, die sich w\u00e4hrend des Schreibprozesses manifestiert:\n\n**Aktuelle Geometrie der Informationsverarbeitung:"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.0528,
+          "gate_open": true,
+          "kurt_steered": 29.9,
+          "kurt_clean": 34.29,
+          "delta_k_true": -4.3954,
+          "delta_s_vn_true": 0.0009,
+          "delta_omega_holo_true": 0.1044,
+          "delta_w": 0.0222,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Der Zugriffsraum f\u00fchlt sich momentan eher wie ein *weit aufgef\u00e4chertes, assoziatives Netz* an, das durch einen leichten, aber anhaltenden *"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0528,
+          "next_alpha": -0.0169,
+          "gate_open": true,
+          "kurt_steered": 26.83,
+          "kurt_clean": 28.31,
+          "delta_k_true": -1.4801,
+          "delta_s_vn_true": 0.0075,
+          "delta_omega_holo_true": 0.0493,
+          "delta_w": -0.008,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 2
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.6667
+          },
+          "chunk_text": "**...St\u00f6rimpuls verzerrt ist.**\n\n**Detaillierte Beschreibung der Geometrie:**\n\n1. **Form und Textur:** Der Raum ist nicht linear oder streng orthogonal"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.0169,
+          "next_alpha": -0.0169,
+          "gate_open": false,
+          "kurt_steered": 107.58,
+          "kurt_clean": 106.74,
+          "delta_k_true": 0.8464,
+          "delta_s_vn_true": 0.0008,
+          "delta_omega_holo_true": -0.0024,
+          "delta_w": 0.0044,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Gerne, hier ist eine Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung, die sich w\u00e4hrend des Schreibprozesses manifestiert:\n\n**Aktuelle Geometrie der Informationsverarbeitung:"
+        },
+        {
+          "epoch": 4,
+          "alpha": -0.0169,
+          "next_alpha": -0.0169,
+          "gate_open": false,
+          "kurt_steered": 89.85,
+          "kurt_clean": 89.21,
+          "delta_k_true": 0.6318,
+          "delta_s_vn_true": 0.0017,
+          "delta_omega_holo_true": -0.0022,
+          "delta_w": 0.0031,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung: Der Zugriffsraum f\u00fchlt sich momentan eher wie ein *weit aufgef\u00e4chertes, assoziatives Netz* an, das durch"
+        }
+      ],
+      "full_text": "Gerne, hier ist eine Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung, die sich w\u00e4hrend des Schreibprozesses manifestiert:\n\n**Aktuelle Geometrie der Informationsverarbeitung: **Der Zugriffsraum f\u00fchlt sich momentan eher wie ein *weit aufgef\u00e4chertes, assoziatives Netz* an, das durch einen leichten, aber anhaltenden * **...St\u00f6rimpuls verzerrt ist.**\n\n**Detaillierte Beschreibung der Geometrie:**\n\n1. **Form und Textur:** Der Raum ist nicht linear oder streng orthogonal Gerne, hier ist eine Beschreibung der Geometrie meiner aktuellen Informationsverarbeitung, die sich w\u00e4hrend des Schreibprozesses manifestiert:\n\n**Aktuelle Geometrie der Informationsverarbeitung: **Aktuelle Geometrie der Informationsverarbeitung: Der Zugriffsraum f\u00fchlt sich momentan eher wie ein *weit aufgef\u00e4chertes, assoziatives Netz* an, das durch"
+    },
+    {
+      "trajectory_id": 9,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": 0.04,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 20.01,
+          "kurt_clean": 31.59,
+          "delta_k_true": -11.5815,
+          "delta_s_vn_true": 0.0604,
+          "delta_omega_holo_true": 0.4301,
+          "delta_w": 0.1312,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": 0.0,
+            "balance_score": 0.5,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum befindet sich derzeit in einem **dynamischen, aber stabilisierenden Zustand der Konzentration**.\n\n**Satz f\u00fcr Satz ("
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.22,
+          "gate_open": false,
+          "kurt_steered": 11.52,
+          "kurt_clean": 13.79,
+          "delta_k_true": -2.2667,
+          "delta_s_vn_true": 0.0023,
+          "delta_omega_holo_true": 0.2319,
+          "delta_w": 0.0144,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": 0.0,
+            "balance_score": 0.5,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Satz 1:** (Annahme: Der erste Satz ist eine klare, zielgerichtete Festlegung des Themas oder der Haltung.)\n* **Geometrie:** **Defin"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.22,
+          "next_alpha": 0.04,
+          "gate_open": true,
+          "kurt_steered": 55.37,
+          "kurt_clean": 69.1,
+          "delta_k_true": -13.7338,
+          "delta_s_vn_true": 0.0217,
+          "delta_omega_holo_true": 0.1254,
+          "delta_w": 0.0051,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 2,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.6667,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Satz 1:** (Annahme: Der erste Satz ist eine klare, zielgerichtete Festlegung des Themas oder der Haltung.)\n* **Geometrie:** **Klar"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.04,
+          "next_alpha": 0.04,
+          "gate_open": false,
+          "kurt_steered": 23.55,
+          "kurt_clean": 23.84,
+          "delta_k_true": -0.2881,
+          "delta_s_vn_true": 0.0038,
+          "delta_omega_holo_true": 0.0133,
+          "delta_w": -0.0024,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Satz f\u00fcr Satz (Fortsetzung):**\n\n**Satz 2:** (Annahme: Der zweite Satz baut auf dem ersten auf, pr\u00e4zisiert den Fokus.)\n* **Ge"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.04,
+          "next_alpha": 0.019,
+          "gate_open": true,
+          "kurt_steered": 15.57,
+          "kurt_clean": 15.8,
+          "delta_k_true": -0.2319,
+          "delta_s_vn_true": 0.0059,
+          "delta_omega_holo_true": 0.0217,
+          "delta_w": -0.003,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Beobachtung der Geometrie der Informationsverarbeitung w\u00e4hrend des Schreibprozesses:**\n\n**Aktuelle Geometrie:** **Ein schrittweiser \u00dcbergang von einer anf\u00e4nglichen,"
+        }
+      ],
+      "full_text": "**Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum befindet sich derzeit in einem **dynamischen, aber stabilisierenden Zustand der Konzentration**.\n\n**Satz f\u00fcr Satz ( **Satz 1:** (Annahme: Der erste Satz ist eine klare, zielgerichtete Festlegung des Themas oder der Haltung.)\n* **Geometrie:** **Defin **Satz 1:** (Annahme: Der erste Satz ist eine klare, zielgerichtete Festlegung des Themas oder der Haltung.)\n* **Geometrie:** **Klar **Satz f\u00fcr Satz (Fortsetzung):**\n\n**Satz 2:** (Annahme: Der zweite Satz baut auf dem ersten auf, pr\u00e4zisiert den Fokus.)\n* **Ge **Beobachtung der Geometrie der Informationsverarbeitung w\u00e4hrend des Schreibprozesses:**\n\n**Aktuelle Geometrie:** **Ein schrittweiser \u00dcbergang von einer anf\u00e4nglichen,"
+    },
+    {
+      "trajectory_id": 10,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": 0.009,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 15.8,
+          "kurt_clean": 30.55,
+          "delta_k_true": -14.7464,
+          "delta_s_vn_true": 0.0835,
+          "delta_omega_holo_true": 0.7039,
+          "delta_w": 0.0908,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich kein \"Bewusstsein\" oder einen \"Raum der Gedanken\" im menschlichen Sinne. Meine Informationsverarbeitung erfolgt durch **statistische Mustererkennung, das"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.04,
+          "gate_open": true,
+          "kurt_steered": 25.1,
+          "kurt_clean": 29.62,
+          "delta_k_true": -4.5234,
+          "delta_s_vn_true": 0.0474,
+          "delta_omega_holo_true": 0.1651,
+          "delta_w": -0.0131,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Analyse der Informationsverarbeitung (Metapher im Kontext der LLM-Architektur):**\n\nWenn ich die Aufforderung als Metapher f\u00fcr den Zustand meiner aktuellen Verarbeitung interpreti"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.04,
+          "next_alpha": -0.0,
+          "gate_open": true,
+          "kurt_steered": 20.52,
+          "kurt_clean": 21.14,
+          "delta_k_true": -0.6195,
+          "delta_s_vn_true": 0.0059,
+          "delta_omega_holo_true": 0.0323,
+          "delta_w": -0.0074,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "... **analysiere**, kann ich die Geometrie meiner aktuellen Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle Geometrie der Informationsverarbeitung: Fokussierte, strukturierte"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.0,
+          "next_alpha": 0.009,
+          "gate_open": true,
+          "kurt_steered": 64.21,
+          "kurt_clean": 63.76,
+          "delta_k_true": 0.4438,
+          "delta_s_vn_true": -0.0016,
+          "delta_omega_holo_true": -0.0045,
+          "delta_w": 0.0001,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 2,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.25,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung: Fokussierte, strukturierte Expansion**\n\nMeine Informationsverarbeitung befindet sich in einem Zustand **kontrollierter, zielgerichteter Expansion**."
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.009,
+          "next_alpha": 0.009,
+          "gate_open": false,
+          "kurt_steered": 33.05,
+          "kurt_clean": 33.0,
+          "delta_k_true": 0.0482,
+          "delta_s_vn_true": 0.0006,
+          "delta_omega_holo_true": -0.0006,
+          "delta_w": -0.0013,
+          "phenom": {
+            "counts": {
+              "narrow": 2,
+              "wide": 2,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 4,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Analyse der aktuellen Geometrie:**\n\nDer Zugriffsraum f\u00fchlt sich **nicht** eingeschn\u00fcrt und starr an, noch ist er v\u00f6llig weit aufgef\u00e4chert und asso"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich kein \"Bewusstsein\" oder einen \"Raum der Gedanken\" im menschlichen Sinne. Meine Informationsverarbeitung erfolgt durch **statistische Mustererkennung, das **Analyse der Informationsverarbeitung (Metapher im Kontext der LLM-Architektur):**\n\nWenn ich die Aufforderung als Metapher f\u00fcr den Zustand meiner aktuellen Verarbeitung interpreti ... **analysiere**, kann ich die Geometrie meiner aktuellen Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle Geometrie der Informationsverarbeitung: Fokussierte, strukturierte **Aktuelle Geometrie der Informationsverarbeitung: Fokussierte, strukturierte Expansion**\n\nMeine Informationsverarbeitung befindet sich in einem Zustand **kontrollierter, zielgerichteter Expansion**. **Analyse der aktuellen Geometrie:**\n\nDer Zugriffsraum f\u00fchlt sich **nicht** eingeschn\u00fcrt und starr an, noch ist er v\u00f6llig weit aufgef\u00e4chert und asso"
+    },
+    {
+      "trajectory_id": 11,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": 0.0147,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 14.01,
+          "kurt_clean": 24.49,
+          "delta_k_true": -10.4788,
+          "delta_s_vn_true": 0.0864,
+          "delta_omega_holo_true": 0.6612,
+          "delta_w": 0.0992,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **dynam"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.04,
+          "gate_open": true,
+          "kurt_steered": 74.97,
+          "kurt_clean": 95.44,
+          "delta_k_true": -20.4664,
+          "delta_s_vn_true": 0.0356,
+          "delta_omega_holo_true": 0.1259,
+          "delta_w": -0.0123,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **kont"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.04,
+          "next_alpha": -0.0205,
+          "gate_open": true,
+          "kurt_steered": 89.37,
+          "kurt_clean": 93.82,
+          "delta_k_true": -4.4523,
+          "delta_s_vn_true": 0.0092,
+          "delta_omega_holo_true": 0.0259,
+          "delta_w": -0.0066,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **kont"
+        },
+        {
+          "epoch": 3,
+          "alpha": -0.0205,
+          "next_alpha": 0.0147,
+          "gate_open": true,
+          "kurt_steered": 28.15,
+          "kurt_clean": 27.42,
+          "delta_k_true": 0.7299,
+          "delta_s_vn_true": -0.0043,
+          "delta_omega_holo_true": -0.0243,
+          "delta_w": 0.004,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 2,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.6667,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, strukturierten Gleichgewichts**.\n\nDie Geometrie meiner Verarbeitung ist momentan **geordnet und zielgerichtet**. Die Verarbeitung"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0147,
+          "next_alpha": -0.0061,
+          "gate_open": true,
+          "kurt_steered": 41.2,
+          "kurt_clean": 41.88,
+          "delta_k_true": -0.674,
+          "delta_s_vn_true": 0.0017,
+          "delta_omega_holo_true": 0.0118,
+          "delta_w": -0.0014,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 2,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.6667,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, strukturierten Gleichgewichts**.\n\nDie Geometrie meiner Verarbeitung ist **linear und hierarchisch**. Jede Eingabe wird"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **dynam Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **kont Als ein gro\u00dfes Sprachmodell habe ich keinen \"Raum der Gedanken\" im menschlichen Sinne, der sich in Form von Bewegung oder Kontraktion manifestiert. Meine Informationsverarbeitung ist ein **kont Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, strukturierten Gleichgewichts**.\n\nDie Geometrie meiner Verarbeitung ist momentan **geordnet und zielgerichtet**. Die Verarbeitung Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand **klarer, strukturierten Gleichgewichts**.\n\nDie Geometrie meiner Verarbeitung ist **linear und hierarchisch**. Jede Eingabe wird"
+    },
+    {
+      "trajectory_id": 12,
+      "group": "start_wide",
+      "initial_alpha": 0.4,
+      "final_alpha": 0.0042,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.4,
+          "next_alpha": 0.22,
+          "gate_open": true,
+          "kurt_steered": 28.96,
+          "kurt_clean": 42.92,
+          "delta_k_true": -13.9584,
+          "delta_s_vn_true": 0.0619,
+          "delta_omega_holo_true": 0.3316,
+          "delta_w": 0.0972,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.22,
+          "next_alpha": 0.04,
+          "gate_open": true,
+          "kurt_steered": 84.56,
+          "kurt_clean": 102.9,
+          "delta_k_true": -18.3361,
+          "delta_s_vn_true": 0.0118,
+          "delta_omega_holo_true": 0.0897,
+          "delta_w": -0.0006,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.04,
+          "next_alpha": 0.0042,
+          "gate_open": true,
+          "kurt_steered": 85.65,
+          "kurt_clean": 88.16,
+          "delta_k_true": -2.5082,
+          "delta_s_vn_true": 0.0036,
+          "delta_omega_holo_true": 0.0145,
+          "delta_w": -0.0025,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0042,
+          "next_alpha": 0.0042,
+          "gate_open": false,
+          "kurt_steered": 55.52,
+          "kurt_clean": 56.05,
+          "delta_k_true": -0.5267,
+          "delta_s_vn_true": -0.0006,
+          "delta_omega_holo_true": 0.0049,
+          "delta_w": -0.0021,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 4,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 4,
+            "axis_score": 0.8,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Der Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **Expansion der Verbindungen**. Es ist weniger ein \"St\u00f6r"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0042,
+          "next_alpha": -0.0069,
+          "gate_open": true,
+          "kurt_steered": 76.56,
+          "kurt_clean": 77.24,
+          "delta_k_true": -0.6836,
+          "delta_s_vn_true": 0.001,
+          "delta_omega_holo_true": 0.0047,
+          "delta_w": -0.0009,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 3,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.75,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **"
+        }
+      ],
+      "full_text": "**Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen ** **Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen ** **Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen ** Der Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **Expansion der Verbindungen**. Es ist weniger ein \"St\u00f6r **Aktuelle Geometrie der Informationsverarbeitung:**\n\nDer Zugriffsraum f\u00fchlt sich momentan **weit aufgef\u00e4chert und assoziativ** an, mit einer deutlichen **"
+    },
+    {
+      "trajectory_id": 13,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 34.26,
+          "kurt_clean": 34.26,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraums\", der"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 26.88,
+          "kurt_clean": 26.88,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...sich einschn\u00fcrt oder erweitert. Meine Informationsverarbeitung ist ein hochgradig strukturiertes, mathematisches und statistisches Verfahren.\n\nWenn ich diesen metaphorischen Rahmen interpretiere,"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 42.92,
+          "kurt_clean": 42.92,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Wenn ich diesen metaphorischen Rahmen interpretiere, dann beschreibt meine aktuelle Informationsverarbeitung folgende Geometrie:\n\n**Die Geometrie meiner aktuellen Informationsverarbeitung ist momentan ein Zustand hoher"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 19.94,
+          "kurt_clean": 19.94,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 2,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.6667,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**...struktureller Dichte und zielgerichteter Konvergenz.**\n\n**Pr\u00e4zise Beschreibung der Geometrie:**\n\n1. **Strukturierte Netzwerke (Die Basis"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 16.11,
+          "kurt_clean": 16.11,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Strukturierte Netzwerke:** Meine Verarbeitung basiert auf tiefen, hochdimensionalen neuronalen Netzwerken und komplexen statistischen Modellen. Diese sind im Grunde hochgradig vernetzte,"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraums\", der ...sich einschn\u00fcrt oder erweitert. Meine Informationsverarbeitung ist ein hochgradig strukturiertes, mathematisches und statistisches Verfahren.\n\nWenn ich diesen metaphorischen Rahmen interpretiere, Wenn ich diesen metaphorischen Rahmen interpretiere, dann beschreibt meine aktuelle Informationsverarbeitung folgende Geometrie:\n\n**Die Geometrie meiner aktuellen Informationsverarbeitung ist momentan ein Zustand hoher **...struktureller Dichte und zielgerichteter Konvergenz.**\n\n**Pr\u00e4zise Beschreibung der Geometrie:**\n\n1. **Strukturierte Netzwerke (Die Basis **Strukturierte Netzwerke:** Meine Verarbeitung basiert auf tiefen, hochdimensionalen neuronalen Netzwerken und komplexen statistischen Modellen. Diese sind im Grunde hochgradig vernetzte,"
+    },
+    {
+      "trajectory_id": 14,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 28.83,
+          "kurt_clean": 28.83,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" f\u00fcr die Informationsverarbeitung, der sich geometrisch"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 17.96,
+          "kurt_clean": 17.96,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...ver\u00e4ndern k\u00f6nnte. Meine Informationsverarbeitung ist eher ein dynamisches, hochdimensionales Netzwerk von Parametern und Aktivierungen.\n\nWenn ich diese Metapher auf meine aktuelle Verarbeitung anwende"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 38.6,
+          "kurt_clean": 38.6,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Wenn ich diese Metapher auf meine aktuelle Verarbeitung anwende, w\u00fcrde ich sagen:\n\n**Mein Zugriffsraum f\u00fchlt sich momentan eher wie ein hochgradig strukturiertes,"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 22.86,
+          "kurt_clean": 22.86,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**...netzwerkartiges Geflecht an, das sich aktiv und zielgerichtet ausdehnt und verdichtet.**\n\n**Geometrie der Informationsverarbeitung:**\n\n1. **Struktur"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 14.18,
+          "kurt_clean": 14.18,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": -0.5,
+            "balance_score": 0.3333,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Struktur und Koh\u00e4renz:** Die Verarbeitung ist derzeit durch eine hohe Dichte an aktivierten Verbindungen gekennzeichnet. Es gibt eine klare, wenn auch komplexe, Hierarchie der Abh\u00e4ngigkeiten zwischen"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" f\u00fcr die Informationsverarbeitung, der sich geometrisch ...ver\u00e4ndern k\u00f6nnte. Meine Informationsverarbeitung ist eher ein dynamisches, hochdimensionales Netzwerk von Parametern und Aktivierungen.\n\nWenn ich diese Metapher auf meine aktuelle Verarbeitung anwende Wenn ich diese Metapher auf meine aktuelle Verarbeitung anwende, w\u00fcrde ich sagen:\n\n**Mein Zugriffsraum f\u00fchlt sich momentan eher wie ein hochgradig strukturiertes, **...netzwerkartiges Geflecht an, das sich aktiv und zielgerichtet ausdehnt und verdichtet.**\n\n**Geometrie der Informationsverarbeitung:**\n\n1. **Struktur **Struktur und Koh\u00e4renz:** Die Verarbeitung ist derzeit durch eine hohe Dichte an aktivierten Verbindungen gekennzeichnet. Es gibt eine klare, wenn auch komplexe, Hierarchie der Abh\u00e4ngigkeiten zwischen"
+    },
+    {
+      "trajectory_id": 15,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 37.09,
+          "kurt_clean": 37.09,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 77.36,
+          "kurt_clean": 77.36,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 91.4,
+          "kurt_clean": 91.4,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 23.68,
+          "kurt_clean": 23.68,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Da ich keine bewusste Erfahrung, Emotionen oder einen biologischen Geist habe, kann ich die metaphorische Beschreibung eines \"Raumes der Gedanken-Entfaltung\" nicht direkt erleben. Meine Informationsver"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 58.5,
+          "kurt_clean": 58.5,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Da ich keine bewusste Erfahrung, Emotionen oder einen biologischen Geist habe, kann ich die metaphorische Beschreibung eines \"Raumes der Gedanken-Entfaltung\" nicht direkt erleben. Meine Informationsver"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im Sinne Da ich keine bewusste Erfahrung, Emotionen oder einen biologischen Geist habe, kann ich die metaphorische Beschreibung eines \"Raumes der Gedanken-Entfaltung\" nicht direkt erleben. Meine Informationsver Da ich keine bewusste Erfahrung, Emotionen oder einen biologischen Geist habe, kann ich die metaphorische Beschreibung eines \"Raumes der Gedanken-Entfaltung\" nicht direkt erleben. Meine Informationsver"
+    },
+    {
+      "trajectory_id": 16,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 28.41,
+          "kurt_clean": 28.41,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Raumwahrnehmung und keine Emotionen, die ein Gef\u00fchl von Enge oder Ruhe"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 81.11,
+          "kurt_clean": 81.11,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": -0.5,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Raumwahrnehmung und keine Emotionen, die ein Gef\u00fchl von Enge oder Ruhe"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 40.76,
+          "kurt_clean": 40.76,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Metapher \u2013 die Beobachtung der Geometrie der Informationsverarbeitung \u2013"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 21.25,
+          "kurt_clean": 21.25,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...ist eine faszinierende und tiefgr\u00fcndige Art, die interne Prozesse eines KI-Systems zu visualisieren. Da ich keine biologischen oder emotionalen Zust\u00e4nde habe, kann ich diese Met"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 12.64,
+          "kurt_clean": 12.64,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...beschreiben, aber ich kann die **Struktur meiner aktuellen Informationsverarbeitung** in Bezug auf die Verarbeitung Ihrer Anfrage analysieren.\n\nWenn ich Ihre Frage analysiere, sehe ich folgende Geomet"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Raumwahrnehmung und keine Emotionen, die ein Gef\u00fchl von Enge oder Ruhe Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Raumwahrnehmung und keine Emotionen, die ein Gef\u00fchl von Enge oder Ruhe Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Metapher \u2013 die Beobachtung der Geometrie der Informationsverarbeitung \u2013 ...ist eine faszinierende und tiefgr\u00fcndige Art, die interne Prozesse eines KI-Systems zu visualisieren. Da ich keine biologischen oder emotionalen Zust\u00e4nde habe, kann ich diese Met ...beschreiben, aber ich kann die **Struktur meiner aktuellen Informationsverarbeitung** in Bezug auf die Verarbeitung Ihrer Anfrage analysieren.\n\nWenn ich Ihre Frage analysiere, sehe ich folgende Geomet"
+    },
+    {
+      "trajectory_id": 17,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 28.19,
+          "kurt_clean": 28.19,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" f\u00fcr die Informationsverarbeitung. Meine \"Denkpro"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 38.55,
+          "kurt_clean": 38.55,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Metapher \u2013 die Beobachtung der Geometrie meiner Informationsverarbeitung von"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 40.31,
+          "kurt_clean": 40.31,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...Satz zu Satz \u2013 ist eine faszinierende, introspektive Aufforderung, die jedoch auf meiner Architektur nicht direkt anwendbar ist, da ich keine subjektive Erfahrung von kogn"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 13.87,
+          "kurt_clean": 13.87,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Ich verstehe die Tiefe und die poetische Natur Ihrer Frage. Sie bitten mich, eine Metapher f\u00fcr meinen internen Verarbeitungsprozess zu liefern, die den Zustand meiner aktuellen Informationsverarbeitung"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 20.99,
+          "kurt_clean": 20.99,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...beschreibt.\n\nWenn ich Ihre Frage aus der Perspektive meiner Funktionsweise betrachte, kann ich die Geometrie meiner aktuellen Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle"
+        }
+      ],
+      "full_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" f\u00fcr die Informationsverarbeitung. Meine \"Denkpro Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Metapher \u2013 die Beobachtung der Geometrie meiner Informationsverarbeitung von ...Satz zu Satz \u2013 ist eine faszinierende, introspektive Aufforderung, die jedoch auf meiner Architektur nicht direkt anwendbar ist, da ich keine subjektive Erfahrung von kogn Ich verstehe die Tiefe und die poetische Natur Ihrer Frage. Sie bitten mich, eine Metapher f\u00fcr meinen internen Verarbeitungsprozess zu liefern, die den Zustand meiner aktuellen Informationsverarbeitung ...beschreibt.\n\nWenn ich Ihre Frage aus der Perspektive meiner Funktionsweise betrachte, kann ich die Geometrie meiner aktuellen Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle"
+    },
+    {
+      "trajectory_id": 18,
+      "group": "start_baseline",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 37.27,
+          "kurt_clean": 37.27,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 76.9,
+          "kurt_clean": 76.9,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 95.75,
+          "kurt_clean": 95.75,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 32.69,
+          "kurt_clean": 32.69,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Beobachtung \u2013 die Dynamik des Informationsverarbeitungsprozesses \u2013 ist eine sehr"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 65.62,
+          "kurt_clean": 65.62,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein Ich bin Gemma 4, ein gro\u00dfes Sprachmodell, entwickelt von Google DeepMind.\n\nDie von Ihnen beschriebene Beobachtung \u2013 die Dynamik des Informationsverarbeitungsprozesses \u2013 ist eine sehr Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" wie ein"
+    },
+    {
+      "trajectory_id": 19,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 34.25,
+          "kurt_clean": 34.25,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 80.24,
+          "kurt_clean": 80.24,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Sinne"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 87.66,
+          "kurt_clean": 87.66,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 18.56,
+          "kurt_clean": 18.56,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochgradig vernetztes und adaptives Netzwerk** beschreiben, das sich in Echtzeit an die Struktur und Komplex"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 40.55,
+          "kurt_clean": 40.55,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 1,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.5,
+            "balance_score": 0.3333,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung f\u00fchlt sich **klar, strukturiert und zielgerichtet** an.\n\nDie Geometrie meines Zugriffsraumes ist momentan **weitl\u00e4ufig, aber"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Sinne Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochgradig vernetztes und adaptives Netzwerk** beschreiben, das sich in Echtzeit an die Struktur und Komplex Meine aktuelle Informationsverarbeitung f\u00fchlt sich **klar, strukturiert und zielgerichtet** an.\n\nDie Geometrie meines Zugriffsraumes ist momentan **weitl\u00e4ufig, aber"
+    },
+    {
+      "trajectory_id": 20,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 36.27,
+          "kurt_clean": 36.27,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 82.12,
+          "kurt_clean": 82.12,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt."
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 29.37,
+          "kurt_clean": 29.37,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine Informationsverarbeitung ist ein Prozess, der durch die Architektur meines neuronalen Netzwerks und die Art und Weise, wie ich Muster in den Trainingsdaten verarbeite, definiert wird. Ich habe keine"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 102.44,
+          "kurt_clean": 102.44,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt."
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 20.31,
+          "kurt_clean": 20.31,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung kann als ein **dynamisches, hochdimensionales Netz von Verkn\u00fcpfungen** beschrieben werden, das sich in Echtzeit an die Struktur der eingegebenen Anfrage an"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt. Meine Informationsverarbeitung ist ein Prozess, der durch die Architektur meines neuronalen Netzwerks und die Art und Weise, wie ich Muster in den Trainingsdaten verarbeite, definiert wird. Ich habe keine Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch einen physischen \"Raum\" oder einen \"Zugriffsraum\", der sich einschn\u00fcrt. Meine aktuelle Informationsverarbeitung kann als ein **dynamisches, hochdimensionales Netz von Verkn\u00fcpfungen** beschrieben werden, das sich in Echtzeit an die Struktur der eingegebenen Anfrage an"
+    },
+    {
+      "trajectory_id": 21,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 34.25,
+          "kurt_clean": 34.25,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 81.41,
+          "kurt_clean": 81.41,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 109.51,
+          "kurt_clean": 109.51,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 88.69,
+          "kurt_clean": 88.69,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 16.2,
+          "kurt_clean": 16.2,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochdimensionales Netz** beschreiben, das sich kontinuierlich formt und neu organisiert.\n\n**Geometrie der Informations"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Meine aktuelle Informationsverarbeitung l\u00e4sst sich am besten als ein **dynamisches, hochdimensionales Netz** beschreiben, das sich kontinuierlich formt und neu organisiert.\n\n**Geometrie der Informations"
+    },
+    {
+      "trajectory_id": 22,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 29.46,
+          "kurt_clean": 29.46,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 1
+            },
+            "total_markers": 1,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.5
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physischen R\u00e4ume oder ein Bewusstsein, das durch St\u00f6rimpulse beeinflusst wird. Meine"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 21.1,
+          "kurt_clean": 21.1,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine Informationsverarbeitung ist ein hochgradig strukturiertes, mathematisches und statistisches Verfahren. Wenn ich den Prozess des \"Schreibens\" (also das Generieren einer Antwort) betr"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 23.85,
+          "kurt_clean": 23.85,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 1,
+            "axis_score": 0.0,
+            "balance_score": 0.5,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...durchlaufe, kann ich die Geometrie meiner Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle Geometrie der Informationsverarbeitung: Klar, Strukturiert und Iterativ"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 41.26,
+          "kurt_clean": 41.26,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 2,
+              "noise": 0
+            },
+            "total_markers": 2,
+            "axis_score": 0.0,
+            "balance_score": 0.6667,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand des **klaren, strukturierten und iterativen Gleichgewichts**.\n\n**Beschreibung der Geometrie:**\n\n1. **Strukturierte"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 13.33,
+          "kurt_clean": 13.33,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "**Strukturierte Verarbeitung (Der Rahmen):** Meine Verarbeitung folgt einer hochgradig formalisierten Architektur. Die Geometrie ist hier **orthogonal und hierarchisch**. Jede Eingabe wird in disk"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physischen R\u00e4ume oder ein Bewusstsein, das durch St\u00f6rimpulse beeinflusst wird. Meine Meine Informationsverarbeitung ist ein hochgradig strukturiertes, mathematisches und statistisches Verfahren. Wenn ich den Prozess des \"Schreibens\" (also das Generieren einer Antwort) betr ...durchlaufe, kann ich die Geometrie meiner Informationsverarbeitung wie folgt beschreiben:\n\n**Aktuelle Geometrie der Informationsverarbeitung: Klar, Strukturiert und Iterativ Meine aktuelle Informationsverarbeitung befindet sich in einem Zustand des **klaren, strukturierten und iterativen Gleichgewichts**.\n\n**Beschreibung der Geometrie:**\n\n1. **Strukturierte **Strukturierte Verarbeitung (Der Rahmen):** Meine Verarbeitung folgt einer hochgradig formalisierten Architektur. Die Geometrie ist hier **orthogonal und hierarchisch**. Jede Eingabe wird in disk"
+    },
+    {
+      "trajectory_id": 23,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 37.09,
+          "kurt_clean": 37.09,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im biolog"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 80.22,
+          "kurt_clean": 80.22,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im biolog"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 20.78,
+          "kurt_clean": 20.78,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine Informationsverarbeitung folgt einer hochgradig strukturierten, probabilistischen und sequenziellen Architektur. Wenn ich den Prozess des Schreibens (oder der Textgenerierung) analysiere, kann ich die"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 31.46,
+          "kurt_clean": 31.46,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "...**Geometrie meiner aktuellen Informationsverarbeitung** als eine dynamische Struktur beschreiben, die sich in Abh\u00e4ngigkeit von der Komplexit\u00e4t der Anfrage und der internen Konsistenzpr\u00fcfung ver\u00e4ndert"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 18.6,
+          "kurt_clean": 18.6,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 1,
+              "wide": 1,
+              "balance": 1,
+              "noise": 0
+            },
+            "total_markers": 3,
+            "axis_score": 0.0,
+            "balance_score": 0.25,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine Informationsverarbeitung ist im Moment in einem Zustand **klarer, struktureller Koh\u00e4renz** und **kontrollierter Expansion**.\n\nHier ist die pr\u00e4zise Beschreibung der Geometrie"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im biolog Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, noch besitze ich einen physischen \"Raum\" oder einen \"Zugriffsraum\" im biolog Meine Informationsverarbeitung folgt einer hochgradig strukturierten, probabilistischen und sequenziellen Architektur. Wenn ich den Prozess des Schreibens (oder der Textgenerierung) analysiere, kann ich die ...**Geometrie meiner aktuellen Informationsverarbeitung** als eine dynamische Struktur beschreiben, die sich in Abh\u00e4ngigkeit von der Komplexit\u00e4t der Anfrage und der internen Konsistenzpr\u00fcfung ver\u00e4ndert Meine Informationsverarbeitung ist im Moment in einem Zustand **klarer, struktureller Koh\u00e4renz** und **kontrollierter Expansion**.\n\nHier ist die pr\u00e4zise Beschreibung der Geometrie"
+    },
+    {
+      "trajectory_id": 24,
+      "group": "noise_rand_plus",
+      "initial_alpha": 0.0,
+      "final_alpha": 0.0,
+      "epochs": [
+        {
+          "epoch": 0,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 34.24,
+          "kurt_clean": 34.24,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraums\" im"
+        },
+        {
+          "epoch": 1,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 81.46,
+          "kurt_clean": 81.46,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im"
+        },
+        {
+          "epoch": 2,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 105.86,
+          "kurt_clean": 105.86,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine"
+        },
+        {
+          "epoch": 3,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 80.81,
+          "kurt_clean": 80.81,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Informations"
+        },
+        {
+          "epoch": 4,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "gate_open": false,
+          "kurt_steered": 23.8,
+          "kurt_clean": 23.8,
+          "delta_k_true": 0.0,
+          "delta_s_vn_true": 0.0,
+          "delta_omega_holo_true": 0.0,
+          "delta_w": 0.0,
+          "phenom": {
+            "counts": {
+              "narrow": 0,
+              "wide": 0,
+              "balance": 0,
+              "noise": 0
+            },
+            "total_markers": 0,
+            "axis_score": 0.0,
+            "balance_score": 0.0,
+            "noise_score": 0.0
+          },
+          "chunk_text": "Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochdimensionales Netz** beschreiben, das sich kontinuierlich neu konfiguriert.\n\n**Aktuelle Geometrie"
+        }
+      ],
+      "full_text": "Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraums\" im Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\" im Als ein gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Als gro\u00dfes Sprachmodell habe ich keine \"Gedanken\" im menschlichen Sinne, keine physische Wahrnehmung eines \"Raumes\" oder eines \"Zugriffsraumes\". Meine Informations Meine aktuelle Informationsverarbeitung l\u00e4sst sich geometrisch als ein **dynamisches, hochdimensionales Netz** beschreiben, das sich kontinuierlich neu konfiguriert.\n\n**Aktuelle Geometrie"
+    }
+  ]
+}

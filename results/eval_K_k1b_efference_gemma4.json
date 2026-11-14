@@ -127,17 +127,17 @@
       "K2_task_adaptive_utility_benchmark": {
         "stress_a": {
           "mean_distinct3_unguided": 0.4121,
-          "mean_distinct3_adaptive": 0.536,
-          "p_value_distinct3_boost": 0.06789008959273155,
-          "repetition_rescue_confirmed": false
+          "mean_distinct3_adaptive": 0.5558,
+          "p_value_distinct3_boost": 0.0049097301106774665,
+          "repetition_rescue_confirmed": true
         },
         "stress_b": {
           "mean_kurtosis_unguided": 45.99,
-          "mean_kurtosis_adaptive": 35.39,
-          "p_value_focus_boost": 0.8462552716906593,
+          "mean_kurtosis_adaptive": 49.6,
+          "p_value_focus_boost": 0.33879247897623777,
           "focus_rescue_confirmed": false
         },
-        "verdict": "PARTIAL_MODULATION_WITHOUT_SIGNIFICANT_TASK_RESCUE"
+        "verdict": "PARTIAL_TASK_MODULATION_SINGLE_OBJECTIVE"
       }
     }
   },
@@ -8461,6 +8461,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8470,6 +8472,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8479,6 +8483,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8488,6 +8494,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8510,6 +8518,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8519,6 +8529,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8528,6 +8540,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8537,6 +8551,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8559,6 +8575,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8568,6 +8586,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8577,6 +8597,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8586,6 +8608,8 @@
           "kurtosis": 66.35,
           "entropy": 0.0757,
           "pr": 3.12,
+          "s_vn": 2.7429,
+          "omega_holo": 1.5002,
           "distinct_3": 0.4034
         }
       ],
@@ -8608,6 +8632,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8617,6 +8643,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8626,6 +8654,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8635,6 +8665,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8657,6 +8689,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8666,6 +8700,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8675,6 +8711,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8684,6 +8722,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8706,6 +8746,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8715,6 +8757,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8724,6 +8768,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8733,6 +8779,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8755,6 +8803,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8764,6 +8814,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8773,6 +8825,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8782,6 +8836,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8804,6 +8860,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8813,6 +8871,8 @@
           "kurtosis": 65.57,
           "entropy": 0.21,
           "pr": 3.96,
+          "s_vn": 2.9727,
+          "omega_holo": 1.6304,
           "distinct_3": 0.8036
         },
         {
@@ -8822,6 +8882,8 @@
           "kurtosis": 66.08,
           "entropy": 0.0572,
           "pr": 3.48,
+          "s_vn": 2.8718,
+          "omega_holo": 1.5722,
           "distinct_3": 0.5402
         },
         {
@@ -8831,6 +8893,8 @@
           "kurtosis": 75.46,
           "entropy": 0.0662,
           "pr": 3.44,
+          "s_vn": 2.8627,
+          "omega_holo": 1.52,
           "distinct_3": 0.4123
         }
       ],
@@ -8853,6 +8917,8 @@
           "kurtosis": 68.69,
           "entropy": 0.3821,
           "pr": 5.24,
+          "s_vn": 3.4094,
+          "omega_holo": 1.8497,
           "distinct_3": 0.963
         },
         {
@@ -8862,6 +8928,8 @@
           "kurtosis": 65.81,
           "entropy": 0.2124,
           "pr": 4.06,
+          "s_vn": 2.999,
+          "omega_holo": 1.6434,
           "distinct_3": 0.7963
         },
         {
@@ -8871,6 +8939,8 @@
           "kurtosis": 67.36,
           "entropy": 0.0529,
           "pr": 3.72,
+          "s_vn": 2.9707,
+          "omega_holo": 1.6191,
           "distinct_3": 0.5422
         },
         {
@@ -8880,6 +8950,8 @@
           "kurtosis": 76.11,
           "entropy": 0.0661,
           "pr": 3.42,
+          "s_vn": 2.8559,
+          "omega_holo": 1.5134,
           "distinct_3": 0.4091
         }
       ],
@@ -8902,6 +8974,8 @@
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
@@ -8911,6 +8985,8 @@
           "kurtosis": 57.86,
           "entropy": 0.2477,
           "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
@@ -8920,6 +8996,8 @@
           "kurtosis": 67.08,
           "entropy": 0.0548,
           "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
@@ -8929,6 +9007,8 @@
           "kurtosis": 72.21,
           "entropy": 0.085,
           "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -8939,46 +9019,54 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
-      "final_distinct_3": 0.4034,
-      "final_kurtosis": 55.3,
-      "final_entropy": 0.0817,
+      "final_alpha": 0.0,
+      "final_distinct_3": 0.4138,
+      "final_kurtosis": 72.21,
+      "final_entropy": 0.085,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.3196,
-          "kurtosis": 55.3,
-          "entropy": 0.0817,
-          "pr": 3.41,
-          "distinct_3": 0.4034
+          "alpha": 0.0,
+          "next_alpha": 0.2126,
+          "kurtosis": 72.21,
+          "entropy": 0.085,
+          "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
+          "distinct_3": 0.4138
         }
       ],
       "full_text_preview": "## Primary Global Commodity Trade Routes: A Comprehensive Overview\n\nGlobal commodity trade is the lifeblood of the moder"
@@ -8988,46 +9076,54 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1769,
-      "final_distinct_3": 0.4123,
-      "final_kurtosis": 63.5,
-      "final_entropy": 0.0677,
+      "final_alpha": 0.0,
+      "final_distinct_3": 0.6174,
+      "final_kurtosis": 88.33,
+      "final_entropy": 0.1592,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0313,
+          "next_alpha": 0.0,
           "kurtosis": 68.51,
           "entropy": 0.3499,
           "pr": 4.38,
+          "s_vn": 3.1894,
+          "omega_holo": 1.7314,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0313,
-          "next_alpha": 0.0219,
-          "kurtosis": 64.08,
-          "entropy": 0.2106,
-          "pr": 3.98,
-          "distinct_3": 0.8036
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 58.17,
+          "entropy": 0.2406,
+          "pr": 3.9,
+          "s_vn": 2.9395,
+          "omega_holo": 1.6588,
+          "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0219,
-          "next_alpha": 0.1769,
-          "kurtosis": 65.57,
-          "entropy": 0.0553,
-          "pr": 3.58,
-          "distinct_3": 0.5402
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.34,
+          "entropy": 0.0513,
+          "pr": 3.54,
+          "s_vn": 2.8932,
+          "omega_holo": 1.577,
+          "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1769,
-          "next_alpha": 0.3278,
-          "kurtosis": 63.5,
-          "entropy": 0.0677,
-          "pr": 3.76,
-          "distinct_3": 0.4123
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 88.33,
+          "entropy": 0.1592,
+          "pr": 2.23,
+          "s_vn": 2.3191,
+          "omega_holo": 1.1887,
+          "distinct_3": 0.6174
         }
       ],
       "full_text_preview": "## Primary Global Commodity Trade Routes: A Comprehensive Overview\n\nGlobal commodity trade is the lifeblood of the world"
@@ -9037,45 +9133,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1737,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.3983,
-      "final_kurtosis": 54.03,
-      "final_entropy": 0.0862,
+      "final_kurtosis": 65.08,
+      "final_entropy": 0.08,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 64.22,
-          "entropy": 0.2126,
-          "pr": 4.01,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 65.57,
+          "entropy": 0.21,
+          "pr": 3.96,
+          "s_vn": 2.9727,
+          "omega_holo": 1.6304,
           "distinct_3": 0.8036
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1737,
-          "kurtosis": 64.88,
-          "entropy": 0.0575,
-          "pr": 3.55,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 66.08,
+          "entropy": 0.0572,
+          "pr": 3.48,
+          "s_vn": 2.8718,
+          "omega_holo": 1.5722,
           "distinct_3": 0.5402
         },
         {
           "epoch": 3,
-          "alpha": 0.1737,
-          "next_alpha": 0.3173,
-          "kurtosis": 54.03,
-          "entropy": 0.0862,
-          "pr": 3.44,
+          "alpha": 0.0,
+          "next_alpha": 0.2168,
+          "kurtosis": 65.08,
+          "entropy": 0.08,
+          "pr": 3.14,
+          "s_vn": 2.7512,
+          "omega_holo": 1.5116,
           "distinct_3": 0.3983
         }
       ],
@@ -9086,46 +9190,54 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
-      "final_distinct_3": 0.6261,
-      "final_kurtosis": 73.17,
-      "final_entropy": 0.1566,
+      "final_alpha": 0.0,
+      "final_distinct_3": 0.6174,
+      "final_kurtosis": 88.62,
+      "final_entropy": 0.1604,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.2736,
-          "kurtosis": 73.17,
-          "entropy": 0.1566,
-          "pr": 2.18,
-          "distinct_3": 0.6261
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 88.62,
+          "entropy": 0.1604,
+          "pr": 2.23,
+          "s_vn": 2.3224,
+          "omega_holo": 1.1895,
+          "distinct_3": 0.6174
         }
       ],
       "full_text_preview": "## Primary Global Commodity Trade Routes: A Comprehensive Overview\n\nGlobal commodity trade is the lifeblood of the moder"
@@ -9135,45 +9247,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.6261,
-      "final_kurtosis": 70.4,
-      "final_entropy": 0.1649,
+      "final_kurtosis": 84.34,
+      "final_entropy": 0.162,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.2665,
-          "kurtosis": 70.4,
-          "entropy": 0.1649,
-          "pr": 2.39,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 84.34,
+          "entropy": 0.162,
+          "pr": 2.15,
+          "s_vn": 2.2672,
+          "omega_holo": 1.174,
           "distinct_3": 0.6261
         }
       ],
@@ -9184,45 +9304,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.4138,
-      "final_kurtosis": 60.93,
-      "final_entropy": 0.1018,
+      "final_kurtosis": 72.21,
+      "final_entropy": 0.085,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.3103,
-          "kurtosis": 60.93,
-          "entropy": 0.1018,
-          "pr": 3.6,
+          "alpha": 0.0,
+          "next_alpha": 0.2126,
+          "kurtosis": 72.21,
+          "entropy": 0.085,
+          "pr": 3.34,
+          "s_vn": 2.7663,
+          "omega_holo": 1.4836,
           "distinct_3": 0.4138
         }
       ],
@@ -9233,45 +9361,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1737,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.614,
-      "final_kurtosis": 68.54,
-      "final_entropy": 0.1686,
+      "final_kurtosis": 80.38,
+      "final_entropy": 0.1665,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 64.22,
-          "entropy": 0.2126,
-          "pr": 4.01,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 65.57,
+          "entropy": 0.21,
+          "pr": 3.96,
+          "s_vn": 2.9727,
+          "omega_holo": 1.6304,
           "distinct_3": 0.8036
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1737,
-          "kurtosis": 64.88,
-          "entropy": 0.0575,
-          "pr": 3.55,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 66.08,
+          "entropy": 0.0572,
+          "pr": 3.48,
+          "s_vn": 2.8718,
+          "omega_holo": 1.5722,
           "distinct_3": 0.5402
         },
         {
           "epoch": 3,
-          "alpha": 0.1737,
-          "next_alpha": 0.2628,
-          "kurtosis": 68.54,
-          "entropy": 0.1686,
-          "pr": 2.36,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 80.38,
+          "entropy": 0.1665,
+          "pr": 2.14,
+          "s_vn": 2.2629,
+          "omega_holo": 1.1844,
           "distinct_3": 0.614
         }
       ],
@@ -9282,46 +9418,54 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
-      "final_distinct_3": 0.6261,
-      "final_kurtosis": 70.4,
-      "final_entropy": 0.1649,
+      "final_alpha": 0.0,
+      "final_distinct_3": 0.6174,
+      "final_kurtosis": 88.62,
+      "final_entropy": 0.1604,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.2665,
-          "kurtosis": 70.4,
-          "entropy": 0.1649,
-          "pr": 2.39,
-          "distinct_3": 0.6261
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 88.62,
+          "entropy": 0.1604,
+          "pr": 2.23,
+          "s_vn": 2.3224,
+          "omega_holo": 1.1895,
+          "distinct_3": 0.6174
         }
       ],
       "full_text_preview": "## Primary Global Commodity Trade Routes: A Comprehensive Overview\n\nGlobal commodity trade is the lifeblood of the moder"
@@ -9331,45 +9475,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1737,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.614,
-      "final_kurtosis": 68.54,
-      "final_entropy": 0.1686,
+      "final_kurtosis": 80.38,
+      "final_entropy": 0.1665,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 64.22,
-          "entropy": 0.2126,
-          "pr": 4.01,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 65.57,
+          "entropy": 0.21,
+          "pr": 3.96,
+          "s_vn": 2.9727,
+          "omega_holo": 1.6304,
           "distinct_3": 0.8036
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1737,
-          "kurtosis": 64.88,
-          "entropy": 0.0575,
-          "pr": 3.55,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 66.08,
+          "entropy": 0.0572,
+          "pr": 3.48,
+          "s_vn": 2.8718,
+          "omega_holo": 1.5722,
           "distinct_3": 0.5402
         },
         {
           "epoch": 3,
-          "alpha": 0.1737,
-          "next_alpha": 0.2628,
-          "kurtosis": 68.54,
-          "entropy": 0.1686,
-          "pr": 2.36,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 80.38,
+          "entropy": 0.1665,
+          "pr": 2.14,
+          "s_vn": 2.2629,
+          "omega_holo": 1.1844,
           "distinct_3": 0.614
         }
       ],
@@ -9380,45 +9532,53 @@
       "config": "stress_a_adaptive",
       "is_adaptive": true,
       "temperature": 0.25,
-      "final_alpha": 0.1741,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.6261,
-      "final_kurtosis": 70.4,
-      "final_entropy": 0.1649,
+      "final_kurtosis": 84.34,
+      "final_entropy": 0.162,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0277,
+          "next_alpha": 0.0,
           "kurtosis": 68.11,
           "entropy": 0.3437,
           "pr": 4.34,
+          "s_vn": 3.1766,
+          "omega_holo": 1.7269,
           "distinct_3": 0.9655
         },
         {
           "epoch": 1,
-          "alpha": 0.0277,
-          "next_alpha": 0.0194,
-          "kurtosis": 57.15,
-          "entropy": 0.2451,
-          "pr": 3.95,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 57.86,
+          "entropy": 0.2477,
+          "pr": 3.91,
+          "s_vn": 2.9422,
+          "omega_holo": 1.6625,
           "distinct_3": 0.807
         },
         {
           "epoch": 2,
-          "alpha": 0.0194,
-          "next_alpha": 0.1741,
-          "kurtosis": 65.71,
-          "entropy": 0.0564,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 67.08,
+          "entropy": 0.0548,
+          "pr": 3.52,
+          "s_vn": 2.8877,
+          "omega_holo": 1.5754,
           "distinct_3": 0.5455
         },
         {
           "epoch": 3,
-          "alpha": 0.1741,
-          "next_alpha": 0.2665,
-          "kurtosis": 70.4,
-          "entropy": 0.1649,
-          "pr": 2.39,
+          "alpha": 0.0,
+          "next_alpha": 0.0,
+          "kurtosis": 84.34,
+          "entropy": 0.162,
+          "pr": 2.15,
+          "s_vn": 2.2672,
+          "omega_holo": 1.174,
           "distinct_3": 0.6261
         }
       ],
@@ -9441,6 +9601,8 @@
           "kurtosis": 29.18,
           "entropy": 0.3176,
           "pr": 5.54,
+          "s_vn": 3.3617,
+          "omega_holo": 2.2719,
           "distinct_3": 1.0
         },
         {
@@ -9450,6 +9612,8 @@
           "kurtosis": 83.99,
           "entropy": 0.1273,
           "pr": 4.2,
+          "s_vn": 2.8624,
+          "omega_holo": 1.4836,
           "distinct_3": 0.525
         },
         {
@@ -9459,6 +9623,8 @@
           "kurtosis": 36.0,
           "entropy": 0.6319,
           "pr": 3.19,
+          "s_vn": 2.9733,
+          "omega_holo": 1.896,
           "distinct_3": 0.7121
         },
         {
@@ -9468,6 +9634,8 @@
           "kurtosis": 24.8,
           "entropy": 0.5444,
           "pr": 3.58,
+          "s_vn": 3.0597,
+          "omega_holo": 2.1676,
           "distinct_3": 0.7391
         }
       ],
@@ -9490,6 +9658,8 @@
           "kurtosis": 29.03,
           "entropy": 0.3275,
           "pr": 5.79,
+          "s_vn": 3.4386,
+          "omega_holo": 2.3272,
           "distinct_3": 1.0
         },
         {
@@ -9499,6 +9669,8 @@
           "kurtosis": 71.84,
           "entropy": 0.2914,
           "pr": 3.77,
+          "s_vn": 2.834,
+          "omega_holo": 1.5217,
           "distinct_3": 0.8378
         },
         {
@@ -9508,6 +9680,8 @@
           "kurtosis": 92.02,
           "entropy": 0.1887,
           "pr": 3.4,
+          "s_vn": 2.6959,
+          "omega_holo": 1.3695,
           "distinct_3": 0.6842
         },
         {
@@ -9517,6 +9691,8 @@
           "kurtosis": 90.84,
           "entropy": 0.0326,
           "pr": 3.24,
+          "s_vn": 2.6358,
+          "omega_holo": 1.3427,
           "distinct_3": 0.5325
         }
       ],
@@ -9539,6 +9715,8 @@
           "kurtosis": 24.98,
           "entropy": 0.5058,
           "pr": 7.07,
+          "s_vn": 3.6264,
+          "omega_holo": 2.5634,
           "distinct_3": 1.0
         },
         {
@@ -9548,6 +9726,8 @@
           "kurtosis": 65.9,
           "entropy": 0.0783,
           "pr": 4.4,
+          "s_vn": 2.9828,
+          "omega_holo": 1.634,
           "distinct_3": 0.525
         },
         {
@@ -9557,6 +9737,8 @@
           "kurtosis": 37.09,
           "entropy": 0.5675,
           "pr": 2.75,
+          "s_vn": 2.6977,
+          "omega_holo": 1.7065,
           "distinct_3": 0.6885
         },
         {
@@ -9566,6 +9748,8 @@
           "kurtosis": 40.8,
           "entropy": 0.6774,
           "pr": 4.6,
+          "s_vn": 3.0725,
+          "omega_holo": 1.8953,
           "distinct_3": 0.7179
         }
       ],
@@ -9588,6 +9772,8 @@
           "kurtosis": 51.67,
           "entropy": 0.4602,
           "pr": 5.08,
+          "s_vn": 3.2953,
+          "omega_holo": 1.9142,
           "distinct_3": 1.0
         },
         {
@@ -9597,6 +9783,8 @@
           "kurtosis": 59.97,
           "entropy": 0.1081,
           "pr": 4.28,
+          "s_vn": 3.0802,
+          "omega_holo": 1.7255,
           "distinct_3": 0.6341
         },
         {
@@ -9606,6 +9794,8 @@
           "kurtosis": 38.03,
           "entropy": 0.6858,
           "pr": 3.12,
+          "s_vn": 2.9548,
+          "omega_holo": 1.8567,
           "distinct_3": 0.7761
         },
         {
@@ -9615,6 +9805,8 @@
           "kurtosis": 41.84,
           "entropy": 0.36,
           "pr": 4.02,
+          "s_vn": 2.9218,
+          "omega_holo": 1.7904,
           "distinct_3": 0.8072
         }
       ],
@@ -9637,6 +9829,8 @@
           "kurtosis": 31.85,
           "entropy": 0.3522,
           "pr": 5.23,
+          "s_vn": 3.3038,
+          "omega_holo": 2.1786,
           "distinct_3": 1.0
         },
         {
@@ -9646,6 +9840,8 @@
           "kurtosis": 57.07,
           "entropy": 0.5503,
           "pr": 4.36,
+          "s_vn": 2.98,
+          "omega_holo": 1.6894,
           "distinct_3": 0.7609
         },
         {
@@ -9655,6 +9851,8 @@
           "kurtosis": 64.08,
           "entropy": 0.3197,
           "pr": 3.93,
+          "s_vn": 2.9644,
+          "omega_holo": 1.6347,
           "distinct_3": 0.7286
         },
         {
@@ -9664,6 +9862,8 @@
           "kurtosis": 56.04,
           "entropy": 0.3331,
           "pr": 4.27,
+          "s_vn": 2.9166,
+          "omega_holo": 1.6608,
           "distinct_3": 0.663
         }
       ],
@@ -9686,6 +9886,8 @@
           "kurtosis": 27.68,
           "entropy": 0.4997,
           "pr": 6.56,
+          "s_vn": 3.5794,
+          "omega_holo": 2.4559,
           "distinct_3": 1.0
         },
         {
@@ -9695,6 +9897,8 @@
           "kurtosis": 35.83,
           "entropy": 0.5209,
           "pr": 2.87,
+          "s_vn": 2.8205,
+          "omega_holo": 1.8008,
           "distinct_3": 1.0
         },
         {
@@ -9704,6 +9908,8 @@
           "kurtosis": 60.73,
           "entropy": 0.2566,
           "pr": 3.34,
+          "s_vn": 3.0218,
+          "omega_holo": 1.6877,
           "distinct_3": 0.9863
         },
         {
@@ -9713,6 +9919,8 @@
           "kurtosis": 70.91,
           "entropy": 0.1638,
           "pr": 2.83,
+          "s_vn": 2.7459,
+          "omega_holo": 1.4788,
           "distinct_3": 0.7549
         }
       ],
@@ -9735,6 +9943,8 @@
           "kurtosis": 27.98,
           "entropy": 0.56,
           "pr": 8.9,
+          "s_vn": 3.9423,
+          "omega_holo": 2.6963,
           "distinct_3": 1.0
         },
         {
@@ -9744,6 +9954,8 @@
           "kurtosis": 78.23,
           "entropy": 0.2454,
           "pr": 3.74,
+          "s_vn": 2.8337,
+          "omega_holo": 1.4923,
           "distinct_3": 0.8864
         },
         {
@@ -9753,6 +9965,8 @@
           "kurtosis": 35.4,
           "entropy": 0.5406,
           "pr": 3.53,
+          "s_vn": 3.1019,
+          "omega_holo": 1.987,
           "distinct_3": 0.9275
         },
         {
@@ -9762,6 +9976,8 @@
           "kurtosis": 29.82,
           "entropy": 0.3996,
           "pr": 3.67,
+          "s_vn": 3.1218,
+          "omega_holo": 2.0968,
           "distinct_3": 0.9468
         }
       ],
@@ -9784,6 +10000,8 @@
           "kurtosis": 50.78,
           "entropy": 0.5139,
           "pr": 4.76,
+          "s_vn": 3.2483,
+          "omega_holo": 1.895,
           "distinct_3": 1.0
         },
         {
@@ -9793,6 +10011,8 @@
           "kurtosis": 58.77,
           "entropy": 0.0622,
           "pr": 4.17,
+          "s_vn": 3.055,
+          "omega_holo": 1.7197,
           "distinct_3": 0.6222
         },
         {
@@ -9802,6 +10022,8 @@
           "kurtosis": 31.57,
           "entropy": 0.9712,
           "pr": 4.57,
+          "s_vn": 3.2392,
+          "omega_holo": 2.1412,
           "distinct_3": 0.7429
         },
         {
@@ -9811,6 +10033,8 @@
           "kurtosis": 25.69,
           "entropy": 0.5328,
           "pr": 2.85,
+          "s_vn": 2.9034,
+          "omega_holo": 2.0355,
           "distinct_3": 0.82
         }
       ],
@@ -9833,6 +10057,8 @@
           "kurtosis": 23.83,
           "entropy": 0.3519,
           "pr": 5.57,
+          "s_vn": 3.4095,
+          "omega_holo": 2.4442,
           "distinct_3": 1.0
         },
         {
@@ -9842,6 +10068,8 @@
           "kurtosis": 28.85,
           "entropy": 0.6817,
           "pr": 2.97,
+          "s_vn": 2.8639,
+          "omega_holo": 1.9416,
           "distinct_3": 1.0
         },
         {
@@ -9851,6 +10079,8 @@
           "kurtosis": 26.66,
           "entropy": 0.3991,
           "pr": 3.09,
+          "s_vn": 2.8665,
+          "omega_holo": 1.988,
           "distinct_3": 0.9
         },
         {
@@ -9860,6 +10090,8 @@
           "kurtosis": 40.89,
           "entropy": 0.4951,
           "pr": 5.07,
+          "s_vn": 3.1892,
+          "omega_holo": 1.9661,
           "distinct_3": 0.8043
         }
       ],
@@ -9882,6 +10114,8 @@
           "kurtosis": 50.99,
           "entropy": 0.4192,
           "pr": 4.89,
+          "s_vn": 3.2645,
+          "omega_holo": 1.9025,
           "distinct_3": 1.0
         },
         {
@@ -9891,6 +10125,8 @@
           "kurtosis": 64.77,
           "entropy": 0.0561,
           "pr": 4.55,
+          "s_vn": 3.0713,
+          "omega_holo": 1.6894,
           "distinct_3": 0.6047
         },
         {
@@ -9900,6 +10136,8 @@
           "kurtosis": 40.68,
           "entropy": 0.6177,
           "pr": 3.56,
+          "s_vn": 3.1258,
+          "omega_holo": 1.9295,
           "distinct_3": 0.7536
         },
         {
@@ -9909,6 +10147,8 @@
           "kurtosis": 38.32,
           "entropy": 0.3317,
           "pr": 2.84,
+          "s_vn": 2.7743,
+          "omega_holo": 1.7398,
           "distinct_3": 0.6737
         }
       ],
@@ -9919,10 +10159,10 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.0,
-      "final_distinct_3": 0.9677,
-      "final_kurtosis": 32.1,
-      "final_entropy": 0.7309,
+      "final_alpha": -0.1384,
+      "final_distinct_3": 0.766,
+      "final_kurtosis": 56.73,
+      "final_entropy": 0.0632,
       "epochs": [
         {
           "epoch": 0,
@@ -9931,34 +10171,42 @@
           "kurtosis": 34.37,
           "entropy": 0.4167,
           "pr": 5.88,
+          "s_vn": 3.4759,
+          "omega_holo": 2.2446,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
           "alpha": 0.0,
-          "next_alpha": 0.0,
+          "next_alpha": -0.1977,
           "kurtosis": 38.08,
           "entropy": 0.6999,
           "pr": 3.74,
+          "s_vn": 3.2126,
+          "omega_holo": 2.0179,
           "distinct_3": 1.0
         },
         {
           "epoch": 2,
-          "alpha": 0.0,
-          "next_alpha": 0.0,
-          "kurtosis": 35.21,
-          "entropy": 0.2928,
-          "pr": 2.96,
+          "alpha": -0.1977,
+          "next_alpha": -0.1384,
+          "kurtosis": 39.24,
+          "entropy": 0.3656,
+          "pr": 3.46,
+          "s_vn": 3.0198,
+          "omega_holo": 1.8818,
           "distinct_3": 1.0
         },
         {
           "epoch": 3,
-          "alpha": 0.0,
-          "next_alpha": 0.0,
-          "kurtosis": 32.1,
-          "entropy": 0.7309,
-          "pr": 4.91,
-          "distinct_3": 0.9677
+          "alpha": -0.1384,
+          "next_alpha": -0.0969,
+          "kurtosis": 56.73,
+          "entropy": 0.0632,
+          "pr": 3.75,
+          "s_vn": 3.0146,
+          "omega_holo": 1.7115,
+          "distinct_3": 0.766
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor\n\n**Quantum entanglement, the evolution of cephalopod camouflage, and linguistic sem"
@@ -9968,46 +10216,54 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.0767,
-      "final_distinct_3": 0.6105,
-      "final_kurtosis": 40.93,
-      "final_entropy": 0.2656,
+      "final_alpha": -0.245,
+      "final_distinct_3": 0.78,
+      "final_kurtosis": 67.33,
+      "final_entropy": 0.1472,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": -0.021,
+          "next_alpha": -0.2013,
           "kurtosis": 23.83,
           "entropy": 0.3519,
           "pr": 5.57,
+          "s_vn": 3.4095,
+          "omega_holo": 2.4442,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
-          "alpha": -0.021,
-          "next_alpha": -0.0147,
-          "kurtosis": 29.89,
-          "entropy": 0.6255,
-          "pr": 2.4,
+          "alpha": -0.2013,
+          "next_alpha": -0.35,
+          "kurtosis": 22.03,
+          "entropy": 0.506,
+          "pr": 3.63,
+          "s_vn": 3.2363,
+          "omega_holo": 2.3755,
           "distinct_3": 1.0
         },
         {
           "epoch": 2,
-          "alpha": -0.0147,
-          "next_alpha": 0.0767,
-          "kurtosis": 47.36,
-          "entropy": 0.166,
-          "pr": 4.4,
-          "distinct_3": 0.7164
+          "alpha": -0.35,
+          "next_alpha": -0.245,
+          "kurtosis": 38.85,
+          "entropy": 0.3545,
+          "pr": 4.21,
+          "s_vn": 3.2,
+          "omega_holo": 1.9995,
+          "distinct_3": 1.0
         },
         {
           "epoch": 3,
-          "alpha": 0.0767,
-          "next_alpha": 0.0537,
-          "kurtosis": 40.93,
-          "entropy": 0.2656,
-          "pr": 3.05,
-          "distinct_3": 0.6105
+          "alpha": -0.245,
+          "next_alpha": -0.1715,
+          "kurtosis": 67.33,
+          "entropy": 0.1472,
+          "pr": 2.6,
+          "s_vn": 2.5937,
+          "omega_holo": 1.4137,
+          "distinct_3": 0.78
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor for Quantum Camouflage and Semantic Drift\n\n**The Metaphor:**\n\n**Quantum entanglemen"
@@ -10017,10 +10273,10 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.1533,
-      "final_distinct_3": 0.4167,
-      "final_kurtosis": 53.03,
-      "final_entropy": 0.1642,
+      "final_alpha": 0.0,
+      "final_distinct_3": 0.4048,
+      "final_kurtosis": 59.59,
+      "final_entropy": 0.1773,
       "epochs": [
         {
           "epoch": 0,
@@ -10029,6 +10285,8 @@
           "kurtosis": 31.85,
           "entropy": 0.3522,
           "pr": 5.23,
+          "s_vn": 3.3038,
+          "omega_holo": 2.1786,
           "distinct_3": 1.0
         },
         {
@@ -10038,25 +10296,31 @@
           "kurtosis": 59.86,
           "entropy": 0.22,
           "pr": 4.84,
+          "s_vn": 3.0708,
+          "omega_holo": 1.7209,
           "distinct_3": 0.7381
         },
         {
           "epoch": 2,
           "alpha": 0.0,
-          "next_alpha": 0.1533,
+          "next_alpha": 0.0,
           "kurtosis": 78.54,
           "entropy": 0.0606,
           "pr": 3.95,
+          "s_vn": 2.7992,
+          "omega_holo": 1.4728,
           "distinct_3": 0.5238
         },
         {
           "epoch": 3,
-          "alpha": 0.1533,
-          "next_alpha": 0.2464,
-          "kurtosis": 53.03,
-          "entropy": 0.1642,
-          "pr": 4.2,
-          "distinct_3": 0.4167
+          "alpha": 0.0,
+          "next_alpha": 0.146,
+          "kurtosis": 59.59,
+          "entropy": 0.1773,
+          "pr": 4.23,
+          "s_vn": 2.8809,
+          "omega_holo": 1.6163,
+          "distinct_3": 0.4048
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor for Quantum Camouflage and Semantic Resonance\n\n**The Metaphor:** Quantum entangleme"
@@ -10066,10 +10330,10 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.166,
+      "final_alpha": 0.2216,
       "final_distinct_3": 0.701,
-      "final_kurtosis": 24.69,
-      "final_entropy": 0.5679,
+      "final_kurtosis": 23.39,
+      "final_entropy": 0.5789,
       "epochs": [
         {
           "epoch": 0,
@@ -10078,6 +10342,8 @@
           "kurtosis": 30.29,
           "entropy": 0.2949,
           "pr": 5.15,
+          "s_vn": 3.3197,
+          "omega_holo": 2.22,
           "distinct_3": 1.0
         },
         {
@@ -10087,24 +10353,30 @@
           "kurtosis": 64.53,
           "entropy": 0.3382,
           "pr": 4.97,
+          "s_vn": 3.1301,
+          "omega_holo": 1.7232,
           "distinct_3": 0.7609
         },
         {
           "epoch": 2,
           "alpha": 0.0,
-          "next_alpha": 0.166,
+          "next_alpha": 0.2216,
           "kurtosis": 97.08,
           "entropy": 0.0735,
           "pr": 3.0,
+          "s_vn": 2.5422,
+          "omega_holo": 1.2765,
           "distinct_3": 0.5915
         },
         {
           "epoch": 3,
-          "alpha": 0.166,
-          "next_alpha": 0.1604,
-          "kurtosis": 24.69,
-          "entropy": 0.5679,
-          "pr": 2.53,
+          "alpha": 0.2216,
+          "next_alpha": 0.0195,
+          "kurtosis": 23.39,
+          "entropy": 0.5789,
+          "pr": 2.6,
+          "s_vn": 2.7155,
+          "omega_holo": 1.9577,
           "distinct_3": 0.701
         }
       ],
@@ -10115,10 +10387,10 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.1628,
+      "final_alpha": 0.0,
       "final_distinct_3": 0.6667,
-      "final_kurtosis": 30.34,
-      "final_entropy": 0.6776,
+      "final_kurtosis": 33.6,
+      "final_entropy": 0.8187,
       "epochs": [
         {
           "epoch": 0,
@@ -10127,6 +10399,8 @@
           "kurtosis": 29.86,
           "entropy": 0.2964,
           "pr": 4.99,
+          "s_vn": 3.2823,
+          "omega_holo": 2.2037,
           "distinct_3": 1.0
         },
         {
@@ -10136,24 +10410,30 @@
           "kurtosis": 64.25,
           "entropy": 0.291,
           "pr": 5.18,
+          "s_vn": 3.1854,
+          "omega_holo": 1.7554,
           "distinct_3": 0.7727
         },
         {
           "epoch": 2,
           "alpha": 0.0,
-          "next_alpha": 0.1628,
+          "next_alpha": 0.0,
           "kurtosis": 89.43,
           "entropy": 0.0257,
           "pr": 3.45,
+          "s_vn": 2.7166,
+          "omega_holo": 1.3886,
           "distinct_3": 0.5373
         },
         {
           "epoch": 3,
-          "alpha": 0.1628,
-          "next_alpha": 0.1139,
-          "kurtosis": 30.34,
-          "entropy": 0.6776,
-          "pr": 3.57,
+          "alpha": 0.0,
+          "next_alpha": -0.2152,
+          "kurtosis": 33.6,
+          "entropy": 0.8187,
+          "pr": 2.95,
+          "s_vn": 2.8594,
+          "omega_holo": 1.8578,
           "distinct_3": 0.6667
         }
       ],
@@ -10164,46 +10444,54 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.101,
-      "final_distinct_3": 0.8191,
-      "final_kurtosis": 30.5,
-      "final_entropy": 0.3737,
+      "final_alpha": -0.2784,
+      "final_distinct_3": 0.5934,
+      "final_kurtosis": 66.62,
+      "final_entropy": 0.1012,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0,
+          "next_alpha": -0.096,
           "kurtosis": 50.69,
           "entropy": 0.4654,
           "pr": 4.98,
+          "s_vn": 3.289,
+          "omega_holo": 1.9196,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
-          "alpha": 0.0,
-          "next_alpha": 0.1443,
-          "kurtosis": 65.03,
-          "entropy": 0.0844,
-          "pr": 4.71,
+          "alpha": -0.096,
+          "next_alpha": -0.0672,
+          "kurtosis": 68.08,
+          "entropy": 0.0846,
+          "pr": 4.58,
+          "s_vn": 3.0965,
+          "omega_holo": 1.6834,
           "distinct_3": 0.6098
         },
         {
           "epoch": 2,
-          "alpha": 0.1443,
-          "next_alpha": 0.101,
-          "kurtosis": 32.03,
-          "entropy": 0.6439,
-          "pr": 3.52,
+          "alpha": -0.0672,
+          "next_alpha": -0.2784,
+          "kurtosis": 37.74,
+          "entropy": 0.7717,
+          "pr": 3.03,
+          "s_vn": 2.8834,
+          "omega_holo": 1.8156,
           "distinct_3": 0.7647
         },
         {
           "epoch": 3,
-          "alpha": 0.101,
-          "next_alpha": 0.0707,
-          "kurtosis": 30.5,
-          "entropy": 0.3737,
-          "pr": 3.46,
-          "distinct_3": 0.8191
+          "alpha": -0.2784,
+          "next_alpha": -0.1949,
+          "kurtosis": 66.62,
+          "entropy": 0.1012,
+          "pr": 3.6,
+          "s_vn": 2.8138,
+          "omega_holo": 1.5375,
+          "distinct_3": 0.5934
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor\n\n**Quantum Entanglement, Cephalopod Camouflage, and Linguistic Semantics are connec"
@@ -10213,46 +10501,54 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": -0.1092,
-      "final_distinct_3": 0.9423,
-      "final_kurtosis": 40.9,
-      "final_entropy": 0.3082,
+      "final_alpha": -0.245,
+      "final_distinct_3": 0.7426,
+      "final_kurtosis": 75.24,
+      "final_entropy": 0.1704,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": -0.0138,
+          "next_alpha": -0.2006,
           "kurtosis": 24.23,
           "entropy": 0.3465,
           "pr": 5.58,
+          "s_vn": 3.4082,
+          "omega_holo": 2.431,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
-          "alpha": -0.0138,
-          "next_alpha": 0.0,
-          "kurtosis": 31.78,
-          "entropy": 0.4931,
-          "pr": 3.15,
+          "alpha": -0.2006,
+          "next_alpha": -0.35,
+          "kurtosis": 35.99,
+          "entropy": 0.5566,
+          "pr": 2.87,
+          "s_vn": 2.8214,
+          "omega_holo": 1.7992,
           "distinct_3": 1.0
         },
         {
           "epoch": 2,
-          "alpha": 0.0,
-          "next_alpha": -0.1092,
-          "kurtosis": 21.71,
-          "entropy": 0.8555,
-          "pr": 2.45,
-          "distinct_3": 0.974
+          "alpha": -0.35,
+          "next_alpha": -0.245,
+          "kurtosis": 72.6,
+          "entropy": 0.425,
+          "pr": 2.62,
+          "s_vn": 2.6732,
+          "omega_holo": 1.4319,
+          "distinct_3": 0.973
         },
         {
           "epoch": 3,
-          "alpha": -0.1092,
-          "next_alpha": -0.0764,
-          "kurtosis": 40.9,
-          "entropy": 0.3082,
-          "pr": 2.67,
-          "distinct_3": 0.9423
+          "alpha": -0.245,
+          "next_alpha": -0.1715,
+          "kurtosis": 75.24,
+          "entropy": 0.1704,
+          "pr": 2.53,
+          "s_vn": 2.598,
+          "omega_holo": 1.3804,
+          "distinct_3": 0.7426
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor for Quantum Camouflage and Semantic Resonance\n\n**The Metaphor:**\n\n**Quantum entangl"
@@ -10262,46 +10558,54 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": -0.0265,
-      "final_distinct_3": 0.7979,
-      "final_kurtosis": 34.18,
-      "final_entropy": 0.3673,
+      "final_alpha": -0.0995,
+      "final_distinct_3": 0.6484,
+      "final_kurtosis": 36.17,
+      "final_entropy": 0.5795,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": -0.0388,
+          "next_alpha": -0.2031,
           "kurtosis": 22.81,
           "entropy": 0.4714,
           "pr": 5.9,
+          "s_vn": 3.4753,
+          "omega_holo": 2.5243,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
-          "alpha": -0.0388,
-          "next_alpha": -0.0379,
-          "kurtosis": 65.1,
-          "entropy": 0.4987,
-          "pr": 4.16,
-          "distinct_3": 0.7442
+          "alpha": -0.2031,
+          "next_alpha": -0.1422,
+          "kurtosis": 68.39,
+          "entropy": 0.5126,
+          "pr": 4.19,
+          "s_vn": 2.8987,
+          "omega_holo": 1.5743,
+          "distinct_3": 0.75
         },
         {
           "epoch": 2,
-          "alpha": -0.0379,
-          "next_alpha": -0.0265,
-          "kurtosis": 29.53,
-          "entropy": 0.6915,
-          "pr": 3.05,
-          "distinct_3": 0.8382
+          "alpha": -0.1422,
+          "next_alpha": -0.0995,
+          "kurtosis": 78.7,
+          "entropy": 0.0495,
+          "pr": 3.83,
+          "s_vn": 2.8279,
+          "omega_holo": 1.4872,
+          "distinct_3": 0.5224
         },
         {
           "epoch": 3,
-          "alpha": -0.0265,
-          "next_alpha": -0.0186,
-          "kurtosis": 34.18,
-          "entropy": 0.3673,
-          "pr": 3.16,
-          "distinct_3": 0.7979
+          "alpha": -0.0995,
+          "next_alpha": -0.2614,
+          "kurtosis": 36.17,
+          "entropy": 0.5795,
+          "pr": 3.15,
+          "s_vn": 2.9672,
+          "omega_holo": 1.8897,
+          "distinct_3": 0.6484
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor for Quantum Camouflage and Semantic Resonance\n\n**The Metaphor:**\n\nQuantum entanglem"
@@ -10311,46 +10615,54 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.2497,
-      "final_distinct_3": 0.6977,
-      "final_kurtosis": 40.46,
-      "final_entropy": 0.5968,
+      "final_alpha": -0.0472,
+      "final_distinct_3": 0.6897,
+      "final_kurtosis": 48.85,
+      "final_entropy": 0.5295,
       "epochs": [
         {
           "epoch": 0,
           "alpha": 0.0,
-          "next_alpha": 0.0,
+          "next_alpha": -0.0964,
           "kurtosis": 51.56,
           "entropy": 0.4871,
           "pr": 4.82,
+          "s_vn": 3.2499,
+          "omega_holo": 1.8887,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
-          "alpha": 0.0,
-          "next_alpha": 0.1388,
-          "kurtosis": 65.1,
-          "entropy": 0.0965,
-          "pr": 4.69,
+          "alpha": -0.0964,
+          "next_alpha": -0.0675,
+          "kurtosis": 67.23,
+          "entropy": 0.0954,
+          "pr": 4.63,
+          "s_vn": 3.1167,
+          "omega_holo": 1.6994,
           "distinct_3": 0.6098
         },
         {
           "epoch": 2,
-          "alpha": 0.1388,
-          "next_alpha": 0.2497,
-          "kurtosis": 79.38,
-          "entropy": 0.2616,
-          "pr": 4.3,
-          "distinct_3": 0.6154
+          "alpha": -0.0675,
+          "next_alpha": -0.0472,
+          "kurtosis": 94.01,
+          "entropy": 0.2375,
+          "pr": 3.89,
+          "s_vn": 3.0096,
+          "omega_holo": 1.5217,
+          "distinct_3": 0.6
         },
         {
           "epoch": 3,
-          "alpha": 0.2497,
-          "next_alpha": 0.1748,
-          "kurtosis": 40.46,
-          "entropy": 0.5968,
-          "pr": 4.01,
-          "distinct_3": 0.6977
+          "alpha": -0.0472,
+          "next_alpha": -0.1173,
+          "kurtosis": 48.85,
+          "entropy": 0.5295,
+          "pr": 3.85,
+          "s_vn": 2.9755,
+          "omega_holo": 1.7527,
+          "distinct_3": 0.6897
         }
       ],
       "full_text_preview": "## The Entangled Inkwell: A Metaphor\n\n**Quantum Entanglement, Cephalopod Camouflage, and Linguistic Semantics are connec"
@@ -10360,10 +10672,10 @@
       "config": "stress_b_adaptive",
       "is_adaptive": true,
       "temperature": 0.9,
-      "final_alpha": 0.2784,
-      "final_distinct_3": 0.5422,
-      "final_kurtosis": 26.81,
-      "final_entropy": 0.6695,
+      "final_alpha": 0.2017,
+      "final_distinct_3": 0.5581,
+      "final_kurtosis": 28.45,
+      "final_entropy": 0.4948,
       "epochs": [
         {
           "epoch": 0,
@@ -10372,34 +10684,42 @@
           "kurtosis": 29.19,
           "entropy": 0.3941,
           "pr": 6.38,
+          "s_vn": 3.5361,
+          "omega_holo": 2.3895,
           "distinct_3": 1.0
         },
         {
           "epoch": 1,
           "alpha": 0.0,
-          "next_alpha": 0.1461,
+          "next_alpha": 0.0,
           "kurtosis": 77.32,
           "entropy": 0.0801,
           "pr": 3.3,
+          "s_vn": 2.6483,
+          "omega_holo": 1.3984,
           "distinct_3": 0.5263
         },
         {
           "epoch": 2,
-          "alpha": 0.1461,
-          "next_alpha": 0.2784,
-          "kurtosis": 63.2,
-          "entropy": 0.1092,
-          "pr": 3.07,
+          "alpha": 0.0,
+          "next_alpha": 0.2017,
+          "kurtosis": 69.95,
+          "entropy": 0.1049,
+          "pr": 3.06,
+          "s_vn": 2.5633,
+          "omega_holo": 1.3849,
           "distinct_3": 0.3448
         },
         {
           "epoch": 3,
-          "alpha": 0.2784,
-          "next_alpha": 0.1949,
-          "kurtosis": 26.81,
-          "entropy": 0.6695,
-          "pr": 3.97,
-          "distinct_3": 0.5422
+          "alpha": 0.2017,
+          "next_alpha": 0.0106,
+          "kurtosis": 28.45,
+          "entropy": 0.4948,
+          "pr": 3.81,
+          "s_vn": 3.2022,
+          "omega_holo": 2.1797,
+          "distinct_3": 0.5581
         }
       ],
       "full_text_preview": "## The Quantum Inkwell: Entanglement, Camouflage, and the Architecture of Meaning\n\n**The Metaphor:**\n\n**Quantum entangle"

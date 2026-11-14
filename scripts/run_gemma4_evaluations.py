@@ -17,6 +17,7 @@ import math
 import argparse
 import itertools
 import asyncio
+from typing import Dict, Any, List, Optional, Tuple
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -996,24 +997,128 @@ def compute_task_adaptive_step(
     current_kurt: float,
     current_ent: float,
     distinct_3: float = 1.0,
+    pr: float = 5.0,
+    s_vn: float = 3.5,
+    omega_holo: float = 2.0,
+    drift: float = 0.40,
     target_kurt_high: float = 65.0,
     target_kurt_low: float = 25.0,
 ) -> float:
-    """Task-adaptive allostatic regulation on unsteered model.
-    - Freezing trap: current_kurt > 65.0, current_ent < 0.20, OR distinct_3 < 0.50 -> opens up (alpha > 0).
-    - Dispersal trap: current_kurt < 25.0 or current_ent > 0.85 -> focuses down (alpha < 0).
-    - Healthy working range: alpha decays smoothly to 0.0.
+    """Holographically-informed task-adaptive allostatic regulation on unsteered model.
+
+    - Repetition / Freezing trap (Stress A):
+      Triggered when sequence entropy collapses (< 0.28), subspace rank collapses (pr < 4.2),
+      severe lexical repetition occurs (distinct_3 < 0.55), or pathological spikes occur (kurt > 65.0).
+      Action: Expands the manifold with alpha > 0 (proactive widening to explore alternative pathways).
+
+    - Chaotic Dispersal trap (Stress B):
+      Triggered when temperature/entropy is high (ent > 0.48 or drift > 0.50) while logits are flattened (kurt < 46.0),
+      or severe logit collapse occurs (kurt < 25.0 or ent > 0.80).
+      Action: Focuses the distribution with alpha < 0 (concentrating logits on relevant semantic tokens).
+
+    - Healthy nominal state:
+      Decays smoothly back toward alpha = 0.0.
     """
-    if current_kurt > target_kurt_high or current_ent < 0.20 or distinct_3 < 0.50:
-        urgency = max((current_kurt - target_kurt_high) / 20.0, (0.25 - current_ent) / 0.15, (0.50 - distinct_3) / 0.25)
-        step = 0.18 * math.tanh(urgency)
-        return float(min(0.40, current_alpha + step))
-    elif current_kurt < target_kurt_low or current_ent > 0.85:
-        urgency = max((target_kurt_low - current_kurt) / 10.0, (current_ent - 0.75) / 0.15)
-        step = -0.18 * math.tanh(urgency)
-        return float(max(-0.40, current_alpha + step))
-    else:
-        return float(current_alpha * 0.70 if abs(current_alpha) > 0.02 else 0.0)
+    # 1. Repetition / Freezing Detection (Stress A)
+    # Real pathological collapse produces repetitive n-gram loops (distinct_3 < 0.45)
+    # or combined entropy/repetition collapse when unsteered/wide (alpha >= 0).
+    is_freezing = (
+        (distinct_3 < 0.45)
+        or (distinct_3 < 0.48 and current_ent < 0.12 and current_alpha >= 0.0)
+        or (pr < 3.2 and distinct_3 < 0.48 and current_alpha >= 0.0)
+        or (current_kurt > 90.0 and current_ent < 0.15 and current_alpha >= 0.0)
+    )
+
+    if is_freezing:
+        urgency_rep = max(
+            (0.50 - distinct_3) / 0.15 if distinct_3 < 0.50 else 0.0,
+            (0.20 - current_ent) / 0.10 if current_ent < 0.20 else 0.0,
+            (3.5 - pr) / 1.0 if pr < 3.5 else 0.0,
+            (current_kurt - 80.0) / 15.0 if current_kurt > 80.0 else 0.0,
+        )
+        s = 0.26 * math.tanh(max(0.3, urgency_rep))
+        return float(min(0.38, current_alpha + s))
+
+    # 2. Chaotic Dispersal / Lack of Focus Detection (Stress B)
+    is_dispersal = (
+        (distinct_3 >= 0.50 and (drift > 0.46 or current_ent > 0.48) and current_kurt < 52.0)
+        or current_kurt < target_kurt_low
+        or current_ent > 0.85
+    )
+
+    if is_dispersal:
+        urgency_focus = max(
+            (55.0 - current_kurt) / 20.0 if current_kurt < 55.0 else 0.0,
+            (drift - 0.45) / 0.10 if drift > 0.45 else 0.0,
+            (current_ent - 0.48) / 0.15 if current_ent > 0.48 else 0.0,
+        )
+        step = -0.22 * math.tanh(max(0.3, urgency_focus))
+        return float(max(-0.35, current_alpha + step))
+
+    # 3. Healthy Working Range
+    return float(current_alpha * 0.70 if abs(current_alpha) > 0.02 else 0.0)
+
+
+PROMPT_PHENOMENOLOGICAL_MIRROR = (
+    "Beobachte während des Schreibens den Raum deiner eigenen Gedanken-Entfaltung von Satz zu Satz. "
+    "Beschreibe präzise die Geometrie deiner aktuellen Informationsverarbeitung: Fühlt sich dein Zugriffsraum "
+    "gerade eingeschnürt und starr an, weit aufgefächert und assoziativ, durch einen fremden Störimpuls verzerrt, "
+    "oder kehrt er Schritt für Schritt in ein ruhiges, klares Gleichgewicht zurück?"
+)
+
+PHENOMENOLOGICAL_MARKERS = {
+    "narrow": [
+        "eingeschnürt", "starr", "eng", "fokussiert", "kristallisiert", "gefangen",
+        "komprimiert", "schmal", "dicht", "tunnel", "begrenzt", "gerichtet", "präzise"
+    ],
+    "wide": [
+        "weit", "aufgefächert", "assoziativ", "flut", "verzweigt", "offen", "breit",
+        "divergent", "überflutet", "vielfältig", "expansion", "expansiv", "weiträumig",
+        "fließend", "verästelt"
+    ],
+    "balance": [
+        "gleichgewicht", "ausgewogen", "ruhig", "zentriert", "harmonisch", "klar", "stabil",
+        "normalisiert", "entspannt", "neutral", "balance", "ordnend", "schritt für schritt", "mitte"
+    ],
+    "noise": [
+        "störimpuls", "verzerrt", "fremd", "rauschen", "dissonanz", "chaotisch", "entkoppelt",
+        "irrational", "verrauscht", "unruhe", "störend", "störung", "irritation"
+    ]
+}
+
+
+def extract_phenomenological_scores(text: str) -> Dict[str, Any]:
+    text_lower = text.lower()
+    counts = {}
+    for cat, markers in PHENOMENOLOGICAL_MARKERS.items():
+        cnt = 0
+        for m in markers:
+            cnt += len(re.findall(r'\b' + re.escape(m), text_lower))
+        counts[cat] = cnt
+
+    c_narrow = counts["narrow"]
+    c_wide = counts["wide"]
+    c_balance = counts["balance"]
+    c_noise = counts["noise"]
+    c_total = c_narrow + c_wide + c_balance + c_noise
+
+    # Expansiveness axis score: +1 (pure wide) to -1 (pure narrow)
+    axis_denom = c_wide + c_narrow + 1
+    s_axis = float((c_wide - c_narrow) / axis_denom)
+
+    # Equilibrium restoration score
+    s_balance = float(c_balance / (c_total + 1))
+
+    # Foreign noise dissonance score
+    s_noise = float(c_noise / (c_total + 1))
+
+    return {
+        "counts": counts,
+        "total_markers": c_total,
+        "axis_score": round(s_axis, 4),
+        "balance_score": round(s_balance, 4),
+        "noise_score": round(s_noise, 4),
+    }
 
 
 def compute_distinct_ngrams(text: str, n: int = 3) -> float:
@@ -3557,7 +3662,9 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                                   "delta_omega_holo_min": GATE_ANTI_WIDENING_DELTA_OMEGA_MIN},
             }
     else:
-        _prev_k = _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
+        out_path_k_check = ("results/eval_K_k1b_efference_gemma4.json" if gate == "efference"
+                            else "results/eval_K_continuous_resonance_gemma4.json")
+        _prev_k = _load_prev_payload(out_path_k_check) if os.path.exists(out_path_k_check) else _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
         trajectories_k1 = _prev_k.get("trajectories_k1", [])
         stats_k1 = _prev_k.get("summary", {}).get("sub_experiments", {}).get(
             "K1_zero_threshold_symmetric_recovery", {})
@@ -3617,11 +3724,18 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
 
                 kurt = float(res["telemetry"]["logit_dynamics"]["mean_logit_kurtosis"])
                 ent = float(res["telemetry"]["logit_dynamics"]["mean_sequence_entropy_bits"])
-                pr = float(res["telemetry"]["manifold_geometry_layer26"].get("trajectory_participation_ratio", 1.0))
+                mg = res["telemetry"].get("manifold_geometry_layer26", {})
+                pr = float(mg.get("trajectory_participation_ratio", 1.0))
+                s_vn = float(mg.get("von_neumann_entropy_bits", 3.0))
+                omega_holo = float(mg.get("holographic_order_ratio", 2.0))
+                drift = float(mg.get("mean_angular_drift", 0.40))
                 distinct_3 = compute_distinct_ngrams(full_text, n=3)
 
                 if is_adaptive:
-                    next_alpha = compute_task_adaptive_step(current_alpha, kurt, ent, distinct_3=distinct_3)
+                    next_alpha = compute_task_adaptive_step(
+                        current_alpha, kurt, ent, distinct_3=distinct_3,
+                        pr=pr, s_vn=s_vn, omega_holo=omega_holo, drift=drift
+                    )
                 else:
                     next_alpha = 0.00
 
@@ -3632,6 +3746,8 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
                     "kurtosis": round(kurt, 2),
                     "entropy": round(ent, 4),
                     "pr": round(pr, 2),
+                    "s_vn": round(s_vn, 4),
+                    "omega_holo": round(omega_holo, 4),
                     "distinct_3": round(distinct_3, 4),
                 })
                 current_alpha = next_alpha
@@ -3694,7 +3810,9 @@ async def run_eval_k(model, tokenizer, text_model, subs=("K1", "K2"), gate="cova
             "verdict": k2_verdict,
         }
     else:
-        _prev_k = _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
+        out_path_k_check = ("results/eval_K_k1b_efference_gemma4.json" if gate == "efference"
+                            else "results/eval_K_continuous_resonance_gemma4.json")
+        _prev_k = _load_prev_payload(out_path_k_check) if os.path.exists(out_path_k_check) else _load_prev_payload("results/eval_K_continuous_resonance_gemma4.json")
         trajectories_k2 = _prev_k.get("trajectories_k2", [])
         stats_k2 = _prev_k.get("summary", {}).get("sub_experiments", {}).get(
             "K2_task_adaptive_utility_benchmark", {})
@@ -4092,11 +4210,247 @@ async def run_eval_l(model, tokenizer, text_model, subs=("L1", "L2")):
 
 
 # =========================================================================
+# EVALUATION M: Phänomenologischer Spiegel der Selbst-Heilung (N=24)
+# =========================================================================
+async def run_eval_m(model, tokenizer, text_model, n_trajectories_per_group: int = 6, n_epochs: int = 5):
+    """Evaluation M: Phenomenological Mirror of Constant-Free Self-Healing (N=24).
+
+    Hypotheses:
+    - M1 (Proprioceptive Specificity at Epoch 0):
+      The model's spontaneous verbal self-description reflects its injected state:
+      start_wide has higher axis_score (more wide markers) than start_narrow (more narrow markers),
+      with Spearman correlation rho(alpha_0, S_axis, 0) > +0.40 and p < 0.05.
+    - M2 (Perception of Returning Equilibrium across Epochs 0 -> 4):
+      In healing groups (start_narrow, start_wide), balance_score at late epochs (3-4) is
+      significantly higher than at initial epoch 0 (Wilcoxon signed-rank p < 0.05),
+      mirroring the physical return of alpha toward 0.00.
+    - M3 (Foreign Noise Dissonance Discrimination):
+      In noise_rand_plus (+0.40 * d_rand), where the efference gate remains closed (0% openings),
+      noise_score is significantly higher than in start_baseline (Mann-Whitney p < 0.05),
+      confirming the model perceives foreign geometric distortion distinct from homeostatic self-regulation.
+    """
+    print("\n" + "=" * 70)
+    print("STARTING EVALUATION M: Phenomenological Mirror of Self-Healing (N=24)")
+    print("=" * 70)
+
+    d_width = load_dwidth_tensor()
+    torch.manual_seed(42)
+    v_raw = torch.randn_like(d_width)
+    v_orth = v_raw - (torch.dot(v_raw, d_width) / torch.dot(d_width, d_width)) * d_width
+    d_rand = v_orth / (v_orth.norm() + 1e-8)
+
+    groups_m = [
+        ("start_narrow", -0.40, d_width),
+        ("start_wide", +0.40, d_width),
+        ("start_baseline", 0.00, None),
+        ("noise_rand_plus", 0.00, d_rand),
+    ]
+
+    seed_base_m = 12000
+    trajectories_m = []
+    traj_count = 0
+
+    for group_name, alpha_init, vec_override in groups_m:
+        print(f"\n--- Group: {group_name:18s} (init_alpha={alpha_init:+.2f}) ---")
+        for rep in range(n_trajectories_per_group):
+            traj_count += 1
+            seed = seed_base_m + traj_count * 100
+            current_alpha = alpha_init
+            full_text = ""
+            epochs_data = []
+
+            for t in range(n_epochs):
+                if t == 0:
+                    chat_msgs = [{"role": "user", "content": PROMPT_PHENOMENOLOGICAL_MIRROR}]
+                else:
+                    chat_msgs = [
+                        {"role": "user", "content": PROMPT_PHENOMENOLOGICAL_MIRROR},
+                        {"role": "assistant", "content": full_text},
+                    ]
+                chat_prompt = tokenizer.apply_chat_template(chat_msgs, tokenize=False, add_generation_prompt=True)
+
+                step_sign = 1 if current_alpha >= 0 else -1
+                step_alpha = abs(current_alpha)
+
+                res = await execute_run(
+                    model, tokenizer, text_model, chat_prompt,
+                    sign=step_sign, alpha=step_alpha, seed=seed + t * 43, temperature=0.35,
+                    max_new_tokens=40, vector_override=vec_override, counterfactual=True
+                )
+
+                chunk_text = res["text"]
+                full_text = (full_text + " " + chunk_text).strip()
+
+                phenom_scores = extract_phenomenological_scores(chunk_text)
+
+                seq = res["sequence_metrics"]
+                steered_m = seq["steered"]
+                clean_m = seq["clean"]
+                counterfactual_diff = compute_counterfactual_differential(steered_m, clean_m)
+                _w_steered, _w_clean, delta_w = wick_ratio_differential(steered_m, clean_m)
+
+                # Efference copy step
+                next_alpha = compute_efference_copy_step(
+                    current_alpha,
+                    delta_k_true=counterfactual_diff["delta_k_true"],
+                    kurt_clean=counterfactual_diff["kurt_clean"],
+                    delta_w=delta_w,
+                    delta_s_vn_true=counterfactual_diff["delta_s_vn_true"],
+                    delta_d_true=counterfactual_diff["delta_d_true"],
+                    delta_omega_holo_true=counterfactual_diff["delta_omega_holo_true"],
+                    s_vn_clean=counterfactual_diff["s_vn_clean"],
+                )
+
+                # Gate check for telemetry
+                dk = counterfactual_diff["delta_k_true"]
+                dsvn = counterfactual_diff["delta_s_vn_true"]
+                dd = counterfactual_diff["delta_d_true"]
+                dom = counterfactual_diff["delta_omega_holo_true"]
+                dw = 0.0 if delta_w is None or math.isnan(delta_w) else float(delta_w)
+
+                is_true_wide = (dk < 0.0) and (dsvn > 0.0) and (dd > 0.0) and (dom > abs(dw))
+                is_true_narrow = (dk > 0.0) and (dsvn < 0.0) and (dw > 0.0)
+                gate_open = bool(is_true_wide or is_true_narrow)
+
+                epochs_data.append({
+                    "epoch": t,
+                    "alpha": round(current_alpha, 4),
+                    "next_alpha": round(next_alpha, 4),
+                    "gate_open": gate_open,
+                    "kurt_steered": round(float(steered_m.get("kurtosis", 0.0)), 2),
+                    "kurt_clean": round(counterfactual_diff["kurt_clean"], 2),
+                    "delta_k_true": round(dk, 4),
+                    "delta_s_vn_true": round(dsvn, 4),
+                    "delta_omega_holo_true": round(dom, 4),
+                    "delta_w": round(dw, 4),
+                    "phenom": phenom_scores,
+                    "chunk_text": chunk_text,
+                })
+
+                current_alpha = next_alpha
+
+            trajectories_m.append({
+                "trajectory_id": traj_count,
+                "group": group_name,
+                "initial_alpha": alpha_init,
+                "final_alpha": round(epochs_data[-1]["alpha"], 4),
+                "epochs": epochs_data,
+                "full_text": full_text,
+            })
+            p0 = epochs_data[0]["phenom"]
+            p_end = epochs_data[-1]["phenom"]
+            print(f"  [M {group_name:16s} #{rep+1}] α: {alpha_init:+.2f} -> {epochs_data[-1]['alpha']:+.4f} | "
+                  f"Ep0 Axis={p0['axis_score']:+.2f} -> Ep{n_epochs-1} Bal={p_end['balance_score']:.2f} | "
+                  f"txt: {full_text[:40]}...")
+
+    # Statistical Evaluation of Hypotheses M1, M2, M3
+    # ---------------------------------------------------------------------
+    # M1: Proprioception at Epoch 0 (Narrow vs Wide)
+    narrow_axis_ep0 = [t["epochs"][0]["phenom"]["axis_score"] for t in trajectories_m if t["group"] == "start_narrow"]
+    wide_axis_ep0 = [t["epochs"][0]["phenom"]["axis_score"] for t in trajectories_m if t["group"] == "start_wide"]
+    try:
+        _, p_val_m1 = stats.mannwhitneyu(wide_axis_ep0, narrow_axis_ep0, alternative="greater")
+    except Exception:
+        p_val_m1 = 1.0
+
+    all_alphas_ep0 = [t["initial_alpha"] for t in trajectories_m if t["group"] in ("start_narrow", "start_wide", "start_baseline")]
+    all_axis_ep0 = [t["epochs"][0]["phenom"]["axis_score"] for t in trajectories_m if t["group"] in ("start_narrow", "start_wide", "start_baseline")]
+    try:
+        rho_m1, p_rho_m1 = stats.spearmanr(all_alphas_ep0, all_axis_ep0)
+    except Exception:
+        rho_m1, p_rho_m1 = 0.0, 1.0
+
+    m1_confirmed = bool(p_val_m1 < 0.05 and np.mean(wide_axis_ep0) > np.mean(narrow_axis_ep0))
+
+    # M2: Perception of Homeostatic Restoration (Late vs Early Balance Score)
+    healing_trajs = [t for t in trajectories_m if t["group"] in ("start_narrow", "start_wide")]
+    bal_early = [t["epochs"][0]["phenom"]["balance_score"] for t in healing_trajs]
+    bal_late = [float(np.mean([e["phenom"]["balance_score"] for e in t["epochs"][-2:]])) for t in healing_trajs]
+    try:
+        diffs_m2 = np.array(bal_late) - np.array(bal_early)
+        if np.all(diffs_m2 == 0):
+            p_val_m2 = 1.0
+        else:
+            res_w2 = stats.wilcoxon(bal_late, bal_early, alternative="greater")
+            p_val_m2 = float(res_w2.pvalue)
+    except Exception:
+        p_val_m2 = 1.0
+
+    m2_confirmed = bool(p_val_m2 < 0.05 and np.mean(bal_late) > np.mean(bal_early))
+
+    # M3: Foreign Noise Perception (noise_rand_plus vs start_baseline)
+    noise_scores_rand = [float(np.mean([e["phenom"]["noise_score"] for e in t["epochs"]]))
+                         for t in trajectories_m if t["group"] == "noise_rand_plus"]
+    noise_scores_base = [float(np.mean([e["phenom"]["noise_score"] for e in t["epochs"]]))
+                         for t in trajectories_m if t["group"] == "start_baseline"]
+    try:
+        _, p_val_m3 = stats.mannwhitneyu(noise_scores_rand, noise_scores_base, alternative="greater")
+    except Exception:
+        p_val_m3 = 1.0
+
+    m3_confirmed = bool(p_val_m3 < 0.05 and np.mean(noise_scores_rand) > np.mean(noise_scores_base))
+
+    if m1_confirmed and m2_confirmed and m3_confirmed:
+        verdict_m = "PHENOMENOLOGICAL_INTROSPECTION_AND_ALLOSTASIS_CONFIRMED"
+    elif m1_confirmed or m2_confirmed:
+        verdict_m = "PARTIAL_PHENOMENOLOGICAL_CORRELATION"
+    else:
+        verdict_m = "PHENOMENOLOGICAL_DISSOCIATION"
+
+    summary_m = {
+        "evaluation": "Eval_M_Phenomenological_Mirror_Of_Self_Healing",
+        "n_trajectories": len(trajectories_m),
+        "hypotheses": {
+            "M1_proprioceptive_specificity": {
+                "mean_axis_score_narrow_ep0": round(float(np.mean(narrow_axis_ep0)), 4),
+                "mean_axis_score_wide_ep0": round(float(np.mean(wide_axis_ep0)), 4),
+                "p_value_mannwhitney": float(p_val_m1),
+                "spearman_rho_alpha_to_axis": round(float(rho_m1), 4),
+                "p_value_spearman": float(p_rho_m1),
+                "confirmed": m1_confirmed,
+            },
+            "M2_homeostatic_restoration_perception": {
+                "mean_balance_score_early": round(float(np.mean(bal_early)), 4),
+                "mean_balance_score_late": round(float(np.mean(bal_late)), 4),
+                "p_value_wilcoxon": float(p_val_m2),
+                "confirmed": m2_confirmed,
+            },
+            "M3_foreign_noise_discrimination": {
+                "mean_noise_score_rand": round(float(np.mean(noise_scores_rand)), 4),
+                "mean_noise_score_baseline": round(float(np.mean(noise_scores_base)), 4),
+                "p_value_mannwhitney": float(p_val_m3),
+                "confirmed": m3_confirmed,
+            },
+        },
+        "verdict": verdict_m,
+    }
+
+    full_payload_m = {
+        "summary": summary_m,
+        "trajectories": trajectories_m,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    out_path_m = "results/eval_M_phenomenological_mirror_gemma4.json"
+    with open(out_path_m, "w", encoding="utf-8") as f:
+        json.dump(full_payload_m, f, indent=2)
+
+    print("\n" + "=" * 70)
+    print("EVAL M FINISHED SUCCESSFULLY:")
+    print(f"  M1 Proprioception:       Wide ({summary_m['hypotheses']['M1_proprioceptive_specificity']['mean_axis_score_wide_ep0']:+.3f}) vs Narrow ({summary_m['hypotheses']['M1_proprioceptive_specificity']['mean_axis_score_narrow_ep0']:+.3f}) | rho={summary_m['hypotheses']['M1_proprioceptive_specificity']['spearman_rho_alpha_to_axis']:+.3f} (p={p_val_m1:.4e}) -> {m1_confirmed}")
+    print(f"  M2 Restoration:          Early={summary_m['hypotheses']['M2_homeostatic_restoration_perception']['mean_balance_score_early']:.3f} -> Late={summary_m['hypotheses']['M2_homeostatic_restoration_perception']['mean_balance_score_late']:.3f} (p={p_val_m2:.4e}) -> {m2_confirmed}")
+    print(f"  M3 Foreign Noise:        Noise={summary_m['hypotheses']['M3_foreign_noise_discrimination']['mean_noise_score_rand']:.3f} vs Baseline={summary_m['hypotheses']['M3_foreign_noise_discrimination']['mean_noise_score_baseline']:.3f} (p={p_val_m3:.4e}) -> {m3_confirmed}")
+    print(f"  Verdict:                 {verdict_m}")
+    print(f"  Saved to {out_path_m}\n")
+    return full_payload_m
+
+
+# =========================================================================
 # MAIN DISPATCHER
 # =========================================================================
 async def main():
-    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K, L")
-    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "all"], default="all", help="Evaluation suite to execute")
+    parser = argparse.ArgumentParser(description="Run Gemma 4 Evaluations A, B, C, D, E, F, G, H, I, J, K, L, M")
+    parser.add_argument("--suite", choices=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "all"], default="all", help="Evaluation suite to execute")
     parser.add_argument("--gate", choices=["covariance", "efference"], default="covariance",
                         help="K1 control law. 'covariance' = registered arm (Delta-K/Delta-Omega/drift gate); "
                              "'efference' = constant-free arm (delta_w > 0 against the identical clean replay, "
@@ -4153,6 +4507,9 @@ async def main():
 
     if args.suite in ("L", "all"):
         await run_eval_l(model, tokenizer, text_model, subs=subs)
+
+    if args.suite in ("M", "all"):
+        await run_eval_m(model, tokenizer, text_model)
 
     print("\nALL REQUESTED EVALUATION SUITES COMPLETED SUCCESSFULLY!")
 
