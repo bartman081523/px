@@ -309,3 +309,40 @@ aber mit lauffähigem Kernel, nicht nur mit einem Packformat.
 
 Inkrementelle Harness-Turns kosten damit Sekunden statt Minuten — der
 128k-Kontext ist praktisch nutzbar, solange der Prefix stabil bleibt.
+
+---
+
+## 11. Qualitätsrunde (selective bf16 / mehrstufig) und HF-Upload
+
+### 11.1 Was verbessert wurde
+- **`--keep-bf16`**: Key-Substrings bleiben bitgenau (Attention, Gates).
+- **Mehrstufige Lookup-Quantisierung**: `embed_tokens_per_layer` (4,7 GB)
+  wird zeilen-aligned mit Residualstufen gepackt und nur zeilenweise
+  dequantisiert. Vorher lag dort rel-L2 0,30 (eine Stufe) — die Per-Layer-
+  Inputs jedes Layers waren verrauscht.
+- **`_DtypeCastLinear` für alle bf16-Linears**: der Gemma-4-Forward hält
+  float32-Buffer (RoPE), sonst prallen fp32-Aktivierungen auf bf16-Gewichte.
+- **Embedding-Output-Dtype** wird erzwungen (sonst hebt sich der ganze
+  Residualstrom auf fp32).
+
+### 11.2 Grenzkurve (gemessen, greedy-Generierung)
+
+| Variante | Größe | rel-L2 | Cosine | Top-1 | Top-50 | Text |
+|---|---|---|---|---|---|---|
+| 1 Stufe, alles | 3,1 GB | 0,316 | 0,72–0,96 | 0/3 | 0,02 | unbrauchbar |
+| 2 Stufen, alles | 4,5 GB | 0,114 | 0,990–0,998 | 3/3 | 0,18–0,38 | Artefakte |
+| 2 Stufen, Attn exakt | 4,2 GB | 0,114 | 0,994–0,999 | 3/3 | 0,20–0,42 | Artefakte |
+| 3 Stufen, Attn exakt | 4,7 GB | 0,050 | 0,996–0,999 | 2/3 | 0,24–0,52 | Artefakte |
+| **3 Stufen, Attn+Gates exakt, Embedding 3-stufig** | **6,2 GB** | **0,045** | **0,997–0,999** | **3/3** | **0,28–0,58** | **Artefakte (weniger)** |
+| 4 Stufen, Attn+Gates exakt | 5,2 GB | 0,020 | – | – | – | Artefakte |
+
+**Befund:** Selbst bei rel-L2 0,018 (≈10 bit) bleiben Token-Artefakte
+(verschmolzene Wörter, gelegentliche Wiederholungen). Die Empfindlichkeit
+liegt am Modell (Per-Layer-Embedding-Injektion in jeden Layer), nicht an der
+Stufenzahl. Mit dem Dequant-Pfad (`PX_GF5_NO_KERNEL=1`) ist der Text
+identisch — die Kernel sind also nicht die Ursache.
+
+### 11.3 Upload
+`neuralworm/gemma-4-E2B-it-gf5` (HF, public): 6,2 GB, Runtime
+(`gf5_runtime.py`, `gf5_gemv.py`, `gf5_gemm.py`), `generate.py`, Manifest,
+README mit Messwerten und Grenzen. Kein `AutoModel.from_pretrained`-Drop-in.

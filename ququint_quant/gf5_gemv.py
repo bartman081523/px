@@ -29,15 +29,14 @@ import triton
 import triton.language as tl
 
 REPO = Path(__file__).resolve().parent.parent
+# `runtime_qwen35_ptq` wird NUR vom Bench in main() gebraucht (Bonsai-Material).
+# Der Kernel selbst muss ohne das px-Repo importierbar sein (Standalone-Nutzung).
 sys.path.insert(0, str(REPO / "px_patches" / "ternary_bonsai_27b_px"))
-import runtime_qwen35_ptq as RT  # noqa: E402  (dequant_pack, ptq10_matvec)
 
 HF_FILE = "/home/julian/.cache/huggingface/ternary-bonsai-2-27b-hf/model.safetensors"
 
-_spec = importlib.util.spec_from_file_location(
-    "gf5q", REPO / "ququint_quant" / "gf5_llm_quantizer.py")
-Q = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(Q)
+# Quantizer wird erst im Bench (main) gebraucht -> lazy, damit der Kernel
+# standalone (ohne das px-Repo) importierbar bleibt.
 
 ND = {5: 13, 3: 20}          # Digits per Record (Base-5/Base-3, LSB zuerst)
 HALFV = {5: 2, 3: 1}         # (p-1)//2 — Zustand {−HALF..+HALF}
@@ -161,6 +160,11 @@ def bench(fn, iters=200, warmup=20):
 
 
 def main():
+    import runtime_qwen35_ptq as RT  # noqa: F401  (nur Bench)
+    _spec = importlib.util.spec_from_file_location(
+        "gf5q", REPO / "ququint_quant" / "gf5_llm_quantizer.py")
+    Q = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(Q)
     name = "model.layers.0.mlp.down_proj.weight"
     dev = "cuda"
     torch.cuda.init()

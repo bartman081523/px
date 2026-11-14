@@ -159,6 +159,38 @@ def pack_rows(t: torch.Tensor, block: int, k: float = 1.0):
     return u_all.numpy().astype(np.uint32), S_all.numpy(), rec_per_row
 
 
+def pack_rows_multi(t: torch.Tensor, block: int, k: float = 0.6, stages: int = 2):
+    """Lookup-Tabelle mit Residualstufen, zeilen-aligned (wie pack_rows).
+
+    Rückgabe: Liste [(u, S), ...], rec_per_row
+    """
+    rows, dim = t.shape
+    bpr = dim // block
+    rec_per_row = -(-dim // ND)
+    outs = [([], []) for _ in range(stages)]
+    rows_per_chunk = max(1, PACK_CHUNK_BYTES // (dim * 4))
+    for start in range(0, rows, rows_per_chunk):
+        end = min(rows, start + rows_per_chunk)
+        W = t[start:end].float().numpy()
+        resid = W.copy()
+        m = end - start
+        for st in range(stages):
+            Wb = resid.reshape(m * bpr, block)
+            amax = np.abs(Wb).max(axis=1, keepdims=True)
+            Sc = np.maximum(k * amax / QMAX, 1e-12).astype(np.float32)
+            Q = np.clip(np.rint(Wb / Sc), -QMAX, QMAX).astype(np.int8)
+            d = (Q.astype(np.int64) + QMAX).reshape(m, dim)
+            dp = np.full((m, rec_per_row * ND), QMAX, dtype=np.int64)
+            dp[:, :dim] = d
+            pk = (P ** np.arange(ND, dtype=np.int64))
+            u = (dp.reshape(m * rec_per_row, ND) * pk).sum(axis=1).astype(np.uint32)
+            outs[st][0].append(u)
+            outs[st][1].append(Sc.reshape(m, bpr).astype(np.float16))
+            rec = (Q.astype(np.float32).reshape(m, bpr, block) * Sc.reshape(m, bpr, 1)).reshape(m, dim)
+            resid = resid - rec
+    return [(np.concatenate(u), np.concatenate(S)) for u, S in outs], rec_per_row
+
+
 def unpack_rows(u: np.ndarray, S: np.ndarray, row_ids: np.ndarray,
                 dim: int, block: int, rec_per_row: int) -> np.ndarray:
     """Dequantisiert nur die angeforderten Zeilen."""
@@ -253,18 +285,28 @@ def cmd_pack(a):
                     rest[key] = t.contiguous()
                     manifest[key] = {"format": "bf16", "shape": list(t.shape)}
                     continue
+                keep = [k.strip() for k in (a.keep_bf16 or "").split(",") if k.strip()]
+                if any(kk in key for kk in keep):
+                    rest[key] = t.contiguous()
+                    manifest[key] = {"format": "bf16", "shape": list(t.shape),
+                                     "kept": "bf16"}
+                    continue
                 is_lookup = "embed_tokens_per_layer" in key
                 SUF = ["", "b", "c", "d"]
                 if is_lookup:
-                    u, S, rec_per_row = pack_rows(t, block, a.k)
-                    packed[key + ".gf5_u32"] = torch.from_numpy(u)
-                    packed[key + ".gf5_scale"] = torch.from_numpy(S)
+                    packs, rec_per_row = pack_rows_multi(t, block, a.k,
+                                                         max(1, int(a.stages)))
+                    n_st = len(packs)
+                    for _st, (_u, _S) in enumerate(packs):
+                        sfx = SUF[_st]
+                        packed[key + f".gf5{sfx}_u32"] = torch.from_numpy(_u)
+                        packed[key + f".gf5{sfx}_scale"] = torch.from_numpy(_S)
                     idx = np.linspace(0, t.shape[0] - 1,
                                       min(4096, t.shape[0])).astype(np.int64)
                     ref = t[idx].float().numpy()
-                    rec = unpack_rows(u, S, idx, t.shape[1], block, rec_per_row)
+                    rec = sum(unpack_rows(_u, _S, idx, t.shape[1], block, rec_per_row)
+                              for _u, _S in packs)
                     rel = float((((ref - rec) ** 2).sum() / (ref ** 2).sum()) ** 0.5)
-                    n_st = 1
                 else:
                     Wn = t.float().numpy()
                     rec = np.zeros_like(Wn)
@@ -397,7 +439,9 @@ class GF5Linear(torch.nn.Module):
         return out.to(x.dtype).reshape(*shp[:-1], self.out_features)
 
     def forward(self, x):
-        on_cuda = x.is_cuda and x.dim() >= 2 and x.shape[0] == 1 and self.stages[0][0].is_cuda
+        on_cuda = (x.is_cuda and x.dim() >= 2 and x.shape[0] == 1
+                   and self.stages[0][0].is_cuda
+                   and os.environ.get("PX_GF5_NO_KERNEL", "0") != "1")
         use_kernel = on_cuda and x.shape[-2] == 1
         use_gemm = on_cuda and x.shape[-2] > 1
         if use_kernel or use_gemm:
@@ -419,30 +463,38 @@ class GF5Linear(torch.nn.Module):
 
 
 class GF5Embedding(torch.nn.Module):
-    """Lookup-Tabelle im zeilen-alignten GF5-Layout (nur angefragte Zeilen
-    werden dequantisiert; die Tabelle bleibt im RAM)."""
+    """Lookup-Tabelle im zeilen-alignten GF5-Layout, optional mehrstufig.
 
-    def __init__(self, u, S, num_embeddings, embedding_dim, block, rec_per_row):
+    Nur die angefragten Zeilen werden dequantisiert; die Stufen werden
+    summiert. Die Tabelle bleibt im RAM (kein VRAM-Verbrauch).
+    """
+
+    def __init__(self, stages, num_embeddings, embedding_dim, block, rec_per_row,
+                 dtype=torch.bfloat16):
         super().__init__()
-        self.register_buffer("u32", u.to(torch.int32), persistent=False)
-        self.register_buffer("scale", S.to(torch.float16), persistent=False)
+        self.stages = [(u.to(torch.int32), S.to(torch.float16)) for u, S in stages]
         self.num_embeddings = num_embeddings
         self.embedding_dim = embedding_dim
         self.block = block
         self.rec_per_row = rec_per_row
+        self.out_dtype = dtype
 
     def forward(self, ids: torch.Tensor) -> torch.Tensor:
         flat = ids.reshape(-1)
         uniq, inv = torch.unique(flat, return_inverse=True)
-        rows = unpack_rows(self.u32.detach().cpu().numpy().view(np.uint32),
-                           self.scale.detach().float().cpu().numpy(),
-                           uniq.cpu().numpy(), self.embedding_dim,
-                           self.block, self.rec_per_row)
-        t = torch.from_numpy(rows).to(ids.device)
+        idx = uniq.cpu().numpy()
+        rows = None
+        for u, S in self.stages:
+            r = unpack_rows(u.detach().cpu().numpy().view(np.uint32),
+                            S.detach().float().cpu().numpy(),
+                            idx, self.embedding_dim, self.block, self.rec_per_row)
+            rows = r if rows is None else rows + r
+        # dtype-Cast ist Pflicht: sonst geht fp32 in den Residualstrom.
+        t = torch.from_numpy(rows).to(ids.device, self.out_dtype)
         return t[inv].reshape(*ids.shape, self.embedding_dim)
 
     def packed_bytes(self):
-        return self.u32.numel() * 4 + self.scale.numel() * 2
+        return sum(u.numel() * 4 + S.numel() * 2 for u, S in self.stages)
 
 
 class _DtypeCastLinear(torch.nn.Module):
@@ -499,8 +551,14 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
                             meta["block"], bias=mod.bias)
             replaced_l += 1
         elif isinstance(mod, torch.nn.Embedding):
-            new = GF5Embedding(packed[uk], packed[sk], meta["shape"][0], meta["shape"][1],
-                               meta["block"], meta["rec_per_row"])
+            est = []
+            for sfx in ("", "b", "c", "d"):
+                uk2 = key + f".gf5{sfx}_u32"
+                if uk2 not in packed:
+                    break
+                est.append((packed[uk2], packed[uk2.replace("_u32", "_scale")]))
+            new = GF5Embedding(est, meta["shape"][0], meta["shape"][1],
+                               meta["block"], meta["rec_per_row"], dtype=dtype)
             replaced_e += 1
         else:
             continue
@@ -533,15 +591,22 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
         if _b.is_floating_point():
             _b.data = _b.data.to(dtype)
     model = model.to(dtype=dtype)
-    if hasattr(model, "lm_head"):
-        model.lm_head = _DtypeCastLinear(model.lm_head)
+    # Alle verbliebenen bf16-Linears (Attention, Vision, LM-Head) kapseln:
+    # der Modell-Forward hält float32-Buffer (RoPE inv_freq), dadurch kommen
+    # fp32-Aktivierungen an bf16-Gewichten an.
+    _wrapped = 0
+    for _name, _mod in list(model.named_modules()):
+        if isinstance(_mod, torch.nn.Linear):
+            _parent = model.get_submodule(_name.rsplit(".", 1)[0]) if "." in _name else model
+            setattr(_parent, _name.rsplit(".", 1)[-1], _DtypeCastLinear(_mod))
+            _wrapped += 1
+    print(f"[gf5] dtype-cast wrapper auf {_wrapped} bf16-Linears", flush=True)
     model = model.to(device)
     for _m in model.modules():
         if isinstance(_m, GF5Linear):
             _m.to_packed(device)
         elif isinstance(_m, GF5Embedding):
-            _m.u32 = _m.u32.cpu()
-            _m.scale = _m.scale.cpu()
+            _m.stages = [(u.cpu(), S.cpu()) for u, S in _m.stages]
     model.eval()
     del packed, rest, sd, keep
     gc.collect()
@@ -594,6 +659,9 @@ def main():
     p1 = sub.add_parser("pack")
     p1.add_argument("--src", required=True)
     p1.add_argument("--out", required=True)
+    p1.add_argument("--keep-bf16", default="",
+                    help="Komma-Liste von Key-Substrings, die bitgenau bf16 bleiben "
+                         "(z. B. 'self_attn.' für Attention-exakt + MLP-quantisiert)")
     p1.add_argument("--stages", type=int, default=2,
                     help="1 = GF5, 2 = GF5 + GF5-Residual (GF5², rel-L2 ~0.114 @ 5.17 bit)")
     p1.add_argument("--k", type=float, default=0.6,
