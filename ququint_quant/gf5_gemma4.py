@@ -289,12 +289,19 @@ def cmd_pack(a):
                     manifest[key] = {"format": "bf16", "shape": list(t.shape)}
                     continue
                 keep = [k.strip() for k in (a.keep_bf16 or "").split(",") if k.strip()]
+                only = [k.strip() for k in (getattr(a, "only", "") or "").split(",") if k.strip()]
+                if only and not any(kk in key for kk in only):
+                    rest[key] = t.contiguous()
+                    manifest[key] = {"format": "bf16", "shape": list(t.shape),
+                                     "kept": "bf16 (only-filter)"}
+                    continue
                 if any(kk in key for kk in keep):
                     rest[key] = t.contiguous()
                     manifest[key] = {"format": "bf16", "shape": list(t.shape),
                                      "kept": "bf16"}
                     continue
                 is_lookup = "embed_tokens_per_layer" in key
+                in_scale = None      # nur im Nicht-Lookup-Zweig gesetzt
                 SUF = ["", "b", "c", "d"]
                 if is_lookup:
                     packs, rec_per_row = pack_rows_multi(t, block, a.k,
@@ -312,7 +319,6 @@ def cmd_pack(a):
                     rel = float((((ref - rec) ** 2).sum() / (ref ** 2).sum()) ** 0.5)
                 else:
                     Wn = t.float().numpy()
-                    in_scale = None
                     _akey = key[:-7] if key.endswith(".weight") else key
                     if awq is not None and _akey in awq.files:
                         av = awq[_akey].astype(np.float32)
@@ -505,18 +511,26 @@ class GF5Embedding(torch.nn.Module):
         self.out_dtype = dtype
 
     def forward(self, ids: torch.Tensor) -> torch.Tensor:
+        # Chunked: ein 36k-Token-Prompt hätte sonst 36k x 8960 x 4 B je Stufe
+        # (~1,3 GB) als float32 im Speicher — genau der OOM bei T=36k.
         flat = ids.reshape(-1)
-        uniq, inv = torch.unique(flat, return_inverse=True)
-        idx = uniq.cpu().numpy()
-        rows = None
-        for u, S in self.stages:
-            r = unpack_rows(u.detach().cpu().numpy().view(np.uint32),
-                            S.detach().float().cpu().numpy(),
-                            idx, self.embedding_dim, self.block, self.rec_per_row)
-            rows = r if rows is None else rows + r
-        # dtype-Cast ist Pflicht: sonst geht fp32 in den Residualstrom.
-        t = torch.from_numpy(rows).to(ids.device, self.out_dtype)
-        return t[inv].reshape(*ids.shape, self.embedding_dim)
+        n = flat.numel()
+        out = torch.empty((n, self.embedding_dim), dtype=self.out_dtype, device=ids.device)
+        CH = 2048
+        for s0 in range(0, n, CH):
+            chunk = flat[s0:s0 + CH]
+            uniq, inv = torch.unique(chunk, return_inverse=True)
+            idx = uniq.cpu().numpy()
+            rows = None
+            for u, S in self.stages:
+                r = unpack_rows(u.detach().cpu().numpy().view(np.uint32),
+                                S.detach().float().cpu().numpy(),
+                                idx, self.embedding_dim, self.block, self.rec_per_row)
+                rows = r if rows is None else rows + r
+            # `inv` lebt auf dem Gerät, `rows` kommt aus numpy (CPU) ->
+            # Index muss auf die CPU-Seite.
+            out[s0:s0 + CH] = torch.from_numpy(rows)[inv.cpu()]
+        return out.reshape(*ids.shape, self.embedding_dim)
 
     def packed_bytes(self):
         return sum(u.numel() * 4 + S.numel() * 2 for u, S in self.stages)
@@ -546,8 +560,12 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
     manifest = json.load(open(os.path.join(out_dir, "gf5_manifest.json")))
     print("[gf5] instantiating model from config (no bf16 weights) ...", flush=True)
     cfg = AutoConfig.from_pretrained(out_dir, trust_remote_code=True)
+    # attn_implementation MUSS mit: from_config defaultet sonst auf eager
+    # (O(T^2)-Score-Matrix). Mit "sdpa" greift in fp16 der Memory-Efficient-
+    # Kernel (in bf16 tut er es NICHT -> OOM bei ~8k auf 12 GB).
+    _attn = os.environ.get("PX_ATTN_IMPL", "sdpa")
     model = AutoModelForImageTextToText.from_config(
-        cfg, trust_remote_code=True, torch_dtype=dtype)
+        cfg, trust_remote_code=True, torch_dtype=dtype, attn_implementation=_attn)
     try:
         model.generation_config = GenerationConfig.from_pretrained(out_dir)
     except Exception:
@@ -687,6 +705,9 @@ def main():
     p1.add_argument("--out", required=True)
     p1.add_argument("--awq", default="", help="calib.npz aus gf5_calibrate.py")
     p1.add_argument("--awq-alpha", type=float, default=0.5)
+    p1.add_argument("--only", default="",
+                    help="Komma-Liste: NUR Keys mit diesen Substrings quantisieren "
+                         "(z. B. 'embed_tokens_per_layer'). Rest bleibt bf16.")
     p1.add_argument("--keep-bf16", default="",
                     help="Komma-Liste von Key-Substrings, die bitgenau bf16 bleiben "
                          "(z. B. 'self_attn.' für Attention-exakt + MLP-quantisiert)")

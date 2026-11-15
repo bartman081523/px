@@ -31,13 +31,29 @@ keine brauchbaren Tool-Loops. Deshalb zuerst Achse B.
   (Integer-Coercion) über `/v1/chat/completions`.
 - **Offen:** Ende-zu-Ende in opencode (blockiert von Achse B).
 
+## B1 — Ergebnis: flash-attn ist auf dieser GPU unmöglich (gemessen)
+
+| Prüfung | Ergebnis |
+|---|---|
+| `nvcc` im System | **nicht vorhanden** |
+| micromamba-Pakete | `cuda-nvcc-tools 13.2/13.3` + Env `elektron-cuda` (CUDA **12.9**) vorhanden — Build wäre technisch möglich |
+| flash-attn 2.x | verlangt **sm80+**; die RTX 2060 ist **sm75** → kein Kernel |
+| cuDNN-Attention | „only supports gpu architectures in the range [sm80, sm121] … running on sm 7.5" → **nicht verfügbar** |
+| PyTorch Memory-Efficient (cutlass) | **funktioniert** — aber nur in **fp16** (bf16 wird abgelehnt: „Expected {Half, Float}") · head_dim 256: **0,21 GB @ 8 415 Tokens**, **0,81 GB @ 33 000** |
+| gemma4 mit fp16 + `attn_implementation="sdpa"` | OOM bleibt **quadratisch**: 2,48 GB @ 36 k, 8,97 GB @ 98 k, 46,9 GB @ 224 k → es ist die **T×T-Maske/Score-Materialisierung**, nicht der Kernel |
+| Patch-Versuche (`ALL_ATTENTION_FUNCTIONS`, `get_interface`) | ohne Wirkung — gemma4 holt die Maske aus `masking_utils`, nicht aus dem Attention-Call |
+
+**Konsequenz:** B1 ist erledigt und **negativ**. Der Engpass ist nicht der
+Attention-Kernel, sondern die dichte Maske. Damit ist **B2 (Chunked Prefill)**
+der richtige Weg: er begrenzt die Maske pro Chunk auf `chunk × T`.
+
 ## B — Kontext (nächster Schritt, höchste Priorität)
 
 Ziel: **32 k** nutzbar auf 12 GB, ohne Qualitätsverlust (Lossless-Kontrakt).
 
 Drei Wege, in dieser Reihenfolge:
 
-1. **flash-attn installieren** (`pip install flash-attn --no-build-isolation`).
+1. ~~**flash-attn installieren**~~ → **verworfen** (sm75, siehe B1-Ergebnis) (`pip install flash-attn --no-build-isolation`).
    Dann `attn_implementation="flash_attention_2"` → O(T) statt O(T²) Speicher.
    Falsifikator: OOM bei 32 k verschwindet; Needle-Recall unverändert.
    Risiko: Build gegen die vorhandene torch/CUDA-Version kann scheitern.
