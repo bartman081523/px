@@ -57,3 +57,36 @@ def pytest_collection_modifyitems(config, items):
         for item in items:
             if marker_name in item.keywords:
                 item.add_marker(skip)
+
+
+# ── OOM-Diagnose statt kryptischem CUDA-Fehler ──────────────────────────────
+def pytest_exception_interact(node, call, report):
+    """Erklärt einen CUDA-OOM, statt nur den Torch-Traceback zu zeigen.
+
+    Hintergrund: die GPU-Tests laden echte Modelle (~4–10 GB). Läuft daneben
+    ein Server (px-explorer auf :7860 oder llama-server auf :9931), ist der
+    Speicher weg und der Fehler sieht wie ein Testfehler aus, obwohl es
+    Ressourcen-Konkurrenz ist. `scripts/run_full_tests.sh` trennt die Phasen
+    genau deshalb; diese Meldung sagt es dem, der es trotzdem kombiniert.
+    """
+    exc = call.excinfo.value if call.excinfo else None
+    if exc is None:
+        return
+    name = type(exc).__name__
+    msg = str(exc)
+    if "OutOfMemory" not in name and "out of memory" not in msg.lower():
+        return
+    try:
+        import torch
+        free, total = torch.cuda.mem_get_info()
+        used_gib = (total - free) / 2**30
+        free_gib = free / 2**30
+    except Exception:
+        return
+    report.sections.append((
+        "OOM-Diagnose",
+        f"GPU belegt: {used_gib:.1f} GiB, frei: {free_gib:.1f} GiB.\n"
+        "Läuft ein Server? `ss -ltnp | grep -E ':(7860|9931)'`.\n"
+        "Empfohlen: `scripts/run_full_tests.sh` (Phasen getrennt) oder den\n"
+        "Server vor den GPU-Tests stoppen.",
+    ))

@@ -11,6 +11,15 @@ class TestDeepSessionRegression(unittest.TestCase):
     def setUpClass(cls):
         cls.manager = ModelManager()
         cls.model_id = "gemma3-270m-it"
+
+    @classmethod
+    def tearDownClass(cls):
+        # Modell freigeben: sonst bleibt der Speicher über den Testlauf hinaus
+        # belegt und der nächste GPU-Test läuft in einen OOM.
+        try:
+            cls.manager.unload(cls.model_id)
+        except Exception:
+            pass
         
     def test_logic_hallucination_regression(self):
         """
