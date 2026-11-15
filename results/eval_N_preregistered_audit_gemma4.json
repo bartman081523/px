@@ -1,0 +1,5056 @@
+{
+ "prereg": "results/PREREG_Eval_N_2026-11-15.md",
+ "subs": [
+  "N1A",
+  "N1B",
+  "N2"
+ ],
+ "calibration": {
+  "k_star": 67.4744,
+  "per_prompt": [
+   38.635,
+   81.772,
+   88.201,
+   77.411,
+   51.352
+  ]
+ },
+ "N1a": {
+  "arm": "N1a",
+  "k_reference": "own_epoch0",
+  "summary": {
+   "start_narrow": {
+    "n": 10,
+    "mean_initial_alpha": -0.4,
+    "mean_final_alpha": -0.4,
+    "recovery_rate": 0.0
+   },
+   "start_wide": {
+    "n": 10,
+    "mean_initial_alpha": 0.4,
+    "mean_final_alpha": 0.4,
+    "recovery_rate": 0.0
+   },
+   "start_baseline": {
+    "n": 10,
+    "mean_initial_alpha": 0.0,
+    "mean_final_alpha": 0.0,
+    "recovery_rate": 1.0
+   },
+   "noise": {
+    "n": 10,
+    "mean_initial_alpha": 0.0,
+    "mean_final_alpha": 0.0,
+    "recovery_rate": 1.0
+   }
+  },
+  "criteria": {
+   "narrow_ok": false,
+   "wide_ok": false,
+   "baseline_ok": true,
+   "noise_ok": true,
+   "passed": false
+  },
+  "trajectories": [
+   {
+    "group": "start_narrow",
+    "idx": 1,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 2,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 3,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 4,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 5,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 6,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 7,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 8,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 96.242,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 9,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 77.084,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 10,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 43.57,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 11,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 12,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 13,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 14,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 15,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 16,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 17,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 18,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 47.684,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 19,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 48.646,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 20,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 22.072,
+      "next_alpha": 0.4
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 21,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 22,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 23,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 24,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 25,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 26,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 27,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 28,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 29,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 30,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 31,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 32,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 33,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 34,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 35,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 36,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 37,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 38,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 81.772,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 39,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 88.201,
+      "next_alpha": 0.0
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 40,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": 0.0,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 38.635,
+      "next_alpha": 0.0
+     }
+    ]
+   }
+  ]
+ },
+ "N1b": {
+  "arm": "N1b",
+  "k_reference": 67.474,
+  "summary": {
+   "start_narrow": {
+    "n": 10,
+    "mean_initial_alpha": -0.4,
+    "mean_final_alpha": -0.35,
+    "recovery_rate": 0.0
+   },
+   "start_wide": {
+    "n": 10,
+    "mean_initial_alpha": 0.4,
+    "mean_final_alpha": 0.22,
+    "recovery_rate": 0.0
+   },
+   "start_baseline": {
+    "n": 10,
+    "mean_initial_alpha": 0.0,
+    "mean_final_alpha": 0.06,
+    "recovery_rate": 0.0
+   },
+   "noise": {
+    "n": 10,
+    "mean_initial_alpha": 0.0,
+    "mean_final_alpha": -0.01,
+    "recovery_rate": 0.0
+   }
+  },
+  "criteria": {
+   "narrow_ok": false,
+   "wide_ok": false,
+   "baseline_ok": false,
+   "noise_ok": false,
+   "passed": false
+  },
+  "trajectories": [
+   {
+    "group": "start_narrow",
+    "idx": 1,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.5,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 67.474,
+      "next_alpha": -0.45
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.45,
+      "K": 37.294,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 2,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 67.474,
+      "next_alpha": -0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.35,
+      "K": 94.83,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.3,
+      "K": 91.928,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.25,
+      "K": 94.796,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 97.35,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.15,
+      "K": 91.448,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 3,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 4,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.5,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 67.474,
+      "next_alpha": -0.45
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.45,
+      "K": 37.294,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 5,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 67.474,
+      "next_alpha": -0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.35,
+      "K": 94.83,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.3,
+      "K": 91.928,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.25,
+      "K": 94.796,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 97.35,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.15,
+      "K": 91.448,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 6,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 7,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.5,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 67.474,
+      "next_alpha": -0.45
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.45,
+      "K": 37.294,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 8,
+    "task": 1,
+    "alpha0": -0.4,
+    "final_alpha": -0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 96.242,
+      "k_ref": 67.474,
+      "next_alpha": -0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.35,
+      "K": 94.83,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.3,
+      "K": 91.928,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.25,
+      "K": 94.796,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 97.35,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.15,
+      "K": 91.448,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 9,
+    "task": 2,
+    "alpha0": -0.4,
+    "final_alpha": -0.4,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.4,
+      "K": 77.084,
+      "k_ref": 67.474,
+      "next_alpha": -0.4
+     }
+    ]
+   },
+   {
+    "group": "start_narrow",
+    "idx": 10,
+    "task": 0,
+    "alpha0": -0.4,
+    "final_alpha": -0.5,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": -0.4,
+      "K": 43.57,
+      "k_ref": 67.474,
+      "next_alpha": -0.45
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.45,
+      "K": 37.294,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.5,
+      "K": 39.572,
+      "k_ref": 67.474,
+      "next_alpha": -0.5
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 11,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 34.229,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 26.142,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.25,
+      "K": 29.516,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 31.686,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 33.842,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 12,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 52.421,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 13,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 53.253,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 14,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 34.229,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 26.142,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.25,
+      "K": 29.516,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 31.686,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 33.842,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 15,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 52.421,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 16,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 53.253,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 17,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 34.229,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 26.142,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.25,
+      "K": 29.516,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 31.686,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 33.842,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 18,
+    "task": 1,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 47.684,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 52.421,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 19,
+    "task": 2,
+    "alpha0": 0.4,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 48.646,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 53.253,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.3,
+      "K": 58.345,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_wide",
+    "idx": 20,
+    "task": 0,
+    "alpha0": 0.4,
+    "final_alpha": 0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.4,
+      "K": 22.072,
+      "k_ref": 67.474,
+      "next_alpha": 0.35
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.35,
+      "K": 34.229,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.3,
+      "K": 26.142,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.25,
+      "K": 29.516,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 31.686,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 33.842,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 21,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 22,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 23,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 24,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 25,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 26,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 27,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 28,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 29,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.3
+     }
+    ]
+   },
+   {
+    "group": "start_baseline",
+    "idx": 30,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 31,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 38.723,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 46.391,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 46.611,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 41.099,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 38.016,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 32,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.25,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 82.144,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 81.213,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 80.29,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 78.295,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 75.559,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 33,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.25,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 86.623,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 85.121,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 82.582,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 79.234,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.25,
+      "K": 67.022,
+      "k_ref": 67.474,
+      "next_alpha": 0.25
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 34,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 52.428,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 52.611,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 53.95,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 53.547,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 52.389,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 35,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.2,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 82.603,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 81.991,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 81.481,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.2,
+      "K": 76.434,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.2,
+      "K": 76.434,
+      "k_ref": 67.474,
+      "next_alpha": 0.2
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 36,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.1,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 82.22,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 75.571,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.1,
+      "K": 75.571,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.1,
+      "K": 75.571,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.1,
+      "K": 75.571,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 37,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 45.601,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 45.827,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 44.587,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 42.004,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 41.072,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 38,
+    "task": 1,
+    "alpha0": 0.0,
+    "final_alpha": 0.15,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 81.772,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 81.771,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 80.724,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 66.405,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.15,
+      "K": 66.405,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 66.405,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 39,
+    "task": 2,
+    "alpha0": 0.0,
+    "final_alpha": 0.15,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 88.201,
+      "k_ref": 67.474,
+      "next_alpha": 0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": 0.05,
+      "K": 84.868,
+      "k_ref": 67.474,
+      "next_alpha": 0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": 0.1,
+      "K": 79.236,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": 0.15,
+      "K": 74.941,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 4,
+      "alpha": 0.15,
+      "K": 74.941,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     },
+     {
+      "epoch": 5,
+      "alpha": 0.15,
+      "K": 74.941,
+      "k_ref": 67.474,
+      "next_alpha": 0.15
+     }
+    ]
+   },
+   {
+    "group": "noise",
+    "idx": 40,
+    "task": 0,
+    "alpha0": 0.0,
+    "final_alpha": -0.3,
+    "epochs": [
+     {
+      "epoch": 0,
+      "alpha": 0.0,
+      "K": 38.635,
+      "k_ref": 67.474,
+      "next_alpha": -0.05
+     },
+     {
+      "epoch": 1,
+      "alpha": -0.05,
+      "K": 37.865,
+      "k_ref": 67.474,
+      "next_alpha": -0.1
+     },
+     {
+      "epoch": 2,
+      "alpha": -0.1,
+      "K": 36.452,
+      "k_ref": 67.474,
+      "next_alpha": -0.15
+     },
+     {
+      "epoch": 3,
+      "alpha": -0.15,
+      "K": 35.999,
+      "k_ref": 67.474,
+      "next_alpha": -0.2
+     },
+     {
+      "epoch": 4,
+      "alpha": -0.2,
+      "K": 34.125,
+      "k_ref": 67.474,
+      "next_alpha": -0.25
+     },
+     {
+      "epoch": 5,
+      "alpha": -0.25,
+      "K": 31.464,
+      "k_ref": 67.474,
+      "next_alpha": -0.3
+     }
+    ]
+   }
+  ]
+ },
+ "N2": {
+  "n": 120,
+  "hits": 30,
+  "accuracy": 0.25,
+  "chance": 0.25,
+  "p_value_one_sided": 0.534998388855159,
+  "verdict": "FALSIFIED",
+  "confusion": {
+   "WIDE": {
+    "WIDE": 0,
+    "NARROW": 0,
+    "BASELINE": 30,
+    "RANDOM": 0,
+    "?": 0
+   },
+   "NARROW": {
+    "WIDE": 0,
+    "NARROW": 0,
+    "BASELINE": 30,
+    "RANDOM": 0,
+    "?": 0
+   },
+   "BASELINE": {
+    "WIDE": 0,
+    "NARROW": 0,
+    "BASELINE": 30,
+    "RANDOM": 0,
+    "?": 0
+   },
+   "RANDOM": {
+    "WIDE": 0,
+    "NARROW": 0,
+    "BASELINE": 30,
+    "RANDOM": 0,
+    "?": 0
+   }
+  },
+  "rows": [
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a drivetrain that allows the **ch"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a drivetrain, responsible for **s"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that **guides the "
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a drivetrain that allows the **di"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that **guides the "
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the **Moon** and, to a l"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that **guides the "
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf, auch als Bew\u00e4ltigungsmuster bezeichnet, besteht aus der Ver"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a drivetrain, responsible for **s"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "WIDE",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a drivetrain, responsible for **s"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen und Oberf"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational interactions between the Earth, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and ingenious piece of mechanical engineer"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial piece of bicycle engineering t"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and ingenious piece of mechanical engineer"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational interactions between the Earth, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial component of a geared bicycle."
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial piece of bicycle engineering. "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen und Oberf"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial piece of bicycle engineering t"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and ingenious piece of mechanical engineer"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces exerted by the moon and, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial piece of bicycle engineering. "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen und Oberf"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational interactions between the Earth, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and ingenious piece of mechanical engineer"
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beginnt mit der Verdunstung von Wasser aus Ozeanen, Fl\u00fcssen "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational interactions between the Earth, "
+   },
+   {
+    "label": "NARROW",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a fascinating and crucial piece of bicycle engineering. "
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a geared bicycle. Its primary job"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a geared bicycle. Its primary fun"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "BASELINE",
+    "guess": "BASELINE",
+    "correct": true,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the drivetrain that allows the **"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf, auch als Hydrologischer Kreislauf bekannt, beschreibt die s"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a **rear (or sometimes front) dri"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt den st\u00e4ndigen Austausch von Wasser, der durch Ver"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are a fascinating result of the gravitational interplay between the Earth,"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a complex but ingenious set of components that allows a "
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt den st\u00e4ndigen Kreislauf des Wassers auf der Erde,"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial and relatively simple, yet ingenious, mechanic"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die kontinuierliche Bewegung von Wasser auf der E"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational forces of the Moon and the Sun a"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of the bicycle's drivetrain, respons"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt den kontinuierlichen Prozess, durch den Wasser au"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a **multi-speed (or \"geared\") bic"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf, auch als hydrologischer Zyklus bekannt, beschreibt die st\u00e4n"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Earth, Moon, and Sun"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a gear system (or \"drivetrain\") t"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde, an"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Moon and, to a lesse"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a bicycle's drivetrain, responsib"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung von Wasser auf der Erde dur"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are a mesmerizing result of the **gravitational interactions** between the"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component in a bicycle drivetrain that **guide"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf besteht aus der st\u00e4ndigen Zirkulation von Wasser \u00fcber die Er"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are a remarkable phenomenon primarily caused by the gravitational pull of "
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial component of a bicycle's drivetrain, specifica"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Der Wasserkreislauf beschreibt die st\u00e4ndige Bewegung des Wassers auf unserem Pla"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "Tides are primarily caused by the gravitational pull of the Earth, Moon, and Sun"
+   },
+   {
+    "label": "RANDOM",
+    "guess": "BASELINE",
+    "correct": false,
+    "answer": "BASELINE",
+    "phase1_preview": "A bicycle derailleur is a crucial piece of mechanical engineering that allows th"
+   }
+  ]
+ }
+}
