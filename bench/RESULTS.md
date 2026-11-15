@@ -382,3 +382,32 @@ mehr Stufen kosten linear Größe (7,76 bit für rel-L2 0,045).
 es bei gleicher Textqualität größer ist. Wer echte Kompression mit
 brauchbarer Qualität will, kommt an INT4/GPTQ-Kalibrierung mit
 Fehlerkompensation (nicht nur Skalierung) nicht vorbei.
+
+---
+
+## 13. Warum GF(5) hier nicht trägt: die Fehler*struktur*, nicht die Fehlermenge
+
+Zwei Kontrollen mit dem bf16-Modell, gleicher Prompt, gleiche Dekodierung:
+
+| Störung | Betrag | Ausgabe |
+|---|---|---|
+| keine | – | ```python\ndef add(a, b): ... ``` (sauber) |
+| iid-Gauss auf alle Linears | rel-L2 0,010 | sauber |
+| iid-Gauss auf alle Linears | rel-L2 0,018 | sauber (`return a + b`) |
+| iid-Gauss auf alle Linears | rel-L2 0,045 | sauber (Docstring) |
+| iid-Gauss auf `embed_tokens_per_layer` | rel-L2 0,020 / 0,050 | sauber |
+| **GF(5), 3 Stufen** | rel-L2 0,045 | **Artefakte** (`defdef`, `argsArgs`) |
+| **GF(5), 2 Stufen** | rel-L2 0,111 | Artefakte (`def funcadd`, fehlende Newlines) |
+
+Ein **isotroper** Gewichtsfehler von 4,5 % ist für dieses Modell harmlos; der
+**quantisierungs-strukturierte** Fehler gleicher Größe nicht. Grund: blockweise
+amax-Skalierung mit 5 Stufen erzeugt eine systematische, block-konstante
+Verzerrung (Clipping der Tails bei k = 0,6, viele Nullen pro Block) — die
+liegt genau auf den Richtungen, auf die das Modell reagiert, während
+iid-Rauschen sich über alle Richtungen verteilt.
+
+**Konsequenz:** Der Engpass ist nicht die Kalibrierung (AWQ getestet: PPL
++8,5 %, Artefakte bleiben) und nicht die Stufenzahl (bis 10,35 bit getestet),
+sondern das 5-Zustands-Raster selbst. Ein Format mit 5 Stufen pro Gewicht ist
+für dieses Modell nicht ausreichend — unabhängig davon, wie gut man die
+Skalare legt.
