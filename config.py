@@ -97,7 +97,12 @@ MODEL_REGISTRY = {
         "patch_kwargs": {"routing_mode": "adaptive"},
         "model_type": "gemma4_conditional",
         "dtype": "bfloat16",
-        "max_length": 4096,
+        # HF-Config deklariert max_position_embeddings = 131072 (Sliding-Window
+        # 512 auf 28/35 Layern, Full-Attention alle 5.). Die Registry stand auf
+        # 4096 — das war ein Serving-Deckel, keine Modellgrenze. Praktisch
+        # limitiert jetzt der Speicher: ohne flash-attn fällt SDPA auf den
+        # Math-Backend zurück (O(T^2)); ~8k ist mit bf16 auf 12 GB die Grenze.
+        "max_length": 131072,
     },
 
     # ── MiniCPM5 1B ──

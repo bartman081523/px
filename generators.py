@@ -8,6 +8,7 @@ OpenAI-compatible SSE format: data: {json}\n\n, data: [DONE]\n\n
 import asyncio
 import os
 import queue as _queue
+import re
 
 import torch
 import json
@@ -409,6 +410,90 @@ def _tools_gen_adjustments(gen_kwargs, tools_active: bool, tokenizer) -> dict:
     return gen_kwargs
 
 
+_GEMMA_CALL_RE = re.compile(r"call:([A-Za-z_][\w.]*)\s*\{")
+
+
+def _coerce_gemma_arg(raw: str, kind):
+    v = raw.strip()
+    if kind in ("integer", "number"):
+        try:
+            return int(v) if kind == "integer" else float(v)
+        except ValueError:
+            return v
+    if kind == "boolean":
+        return v.lower() in ("true", "1", "yes")
+    return v
+
+
+def _split_gemma_args(body: str):
+    """`k:v,k2:v2` → [(k, v)], Kommas nur auf Ebene 0."""
+    parts, depth, cur = [], 0, ""
+    for ch in body:
+        if ch in "{[":
+            depth += 1
+        elif ch in "}]":
+            depth -= 1
+        if ch == "," and depth == 0:
+            parts.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        parts.append(cur)
+    out = []
+    for p in parts:
+        if ":" not in p:
+            continue
+        k, v = p.split(":", 1)
+        out.append((k.strip(), v))
+    return out
+
+
+def _extract_gemma4_tool_calls(text: str, tools):
+    """gemma-4-Chat-Template-Format aus dem Content holen.
+
+    Das Template schreibt Aufrufe als Klartext `call:NAME{key:value,...}`
+    (Werte ohne Quoting), NICHT als `<tool_call>`-Block. Der bestehende
+    Shim kennt nur die Tag-Form; ohne diesen Parser landet der Aufruf als
+    Content beim Client. Gemessen (2026-11-15): gemma4-e2b-it liefert
+    `call:read_file{path:src/main.py}` korrekt, aber `tool_calls=None`.
+    """
+    types = _ToolCallStreamShim._extract_param_types(tools)
+    out, calls, i = [], [], 0
+    while True:
+        m = _GEMMA_CALL_RE.search(text, i)
+        if not m:
+            break
+        name = m.group(1)
+        k = m.end() - 1
+        depth = 0
+        end = None
+        while k < len(text):
+            if text[k] == "{":
+                depth += 1
+            elif text[k] == "}":
+                depth -= 1
+                if depth == 0:
+                    end = k
+                    break
+            k += 1
+        if end is None:
+            break
+        body = text[m.end():end]
+        schema = types.get(name, {})
+        args = {key: _coerce_gemma_arg(val, schema.get(key)) for key, val in
+                _split_gemma_args(body)}
+        out.append(text[i:m.start()])
+        calls.append({
+            "id": f"call_gemma_{len(calls)}",
+            "type": "function",
+            "function": {"name": name, "arguments": json.dumps(args)},
+        })
+        i = end + 1
+    out.append(text[i:])
+    return "".join(out), calls
+
+
 def _apply_tool_shim_to_result(res: dict, tools) -> dict:
     """Non-Stream: Funktionsaufrufe aus dem fertigen Text herausnehmen."""
     shim = _ToolCallStreamShim(tools)
@@ -421,6 +506,17 @@ def _apply_tool_shim_to_result(res: dict, tools) -> dict:
     for kind, payload in shim.finalize():
         if kind == "content":
             parts.append(payload)
+    if not calls:
+        # Zweiter Parser: gemma-4-Template-Format `call:NAME{...}` (siehe oben).
+        cleaned, gemma_calls = _extract_gemma4_tool_calls(res.get("text", ""), tools)
+        if gemma_calls:
+            # `parts` ist hier nur der Passthrough des Shims (er hat keinen
+            # <tool_call>-Block gefunden) — nicht erneut anhängen, sonst
+            # steht der Aufruf weiter im Content.
+            res["text"] = cleaned
+            res["tool_calls"] = gemma_calls
+            res["finish_reason"] = "tool_calls"
+            return res
     if calls:
         res["text"] = "".join(parts)
         res["tool_calls"] = [{"id": c["id"], "type": c["type"],
