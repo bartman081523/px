@@ -296,7 +296,9 @@ LLM-Logits.
 
 **Nächster Schritt (aus Eval O folgt er zwingend):** Wer die Geometrie
 wirklich sehen will, muss die **Attention-Verteilung** selbst messen, nicht
-die Logits. Ein Hook mit `output_attentions=True` (eager, 24 Tokens, 12 GB)
-liefert pro Kopf eine echte Wahrscheinlichkeitsverteilung über Kontext-
-Positionen — dort ist `H/ln(T)` eine Verteilung mit definiertem Maximum, und
-die Φ⁻¹-Frage wird erstmals sinnvoll. Das ist Eval P, nicht O.
+die Logits. Dort ist `H/ln(T)` eine Verteilung mit definiertem Maximum, und
+die Φ⁻¹-Frage wird erstmals sinnvoll. Getestet am 2026-11-15: der direkte
+Weg (`output_attentions=True`) scheitert auf dem aktuellen Ladepfad mit
+`RuntimeError: Tensor on device meta ... cuda:0`; nötig ist ein expliziter
+`attn_implementation="eager"`-Load (kurze Sequenzen) oder ein q/k-Hook mit
+eigenem `softmax(qkᵀ/√d)`. Das ist Eval P, nicht O.

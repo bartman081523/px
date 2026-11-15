@@ -84,9 +84,15 @@ Prefill verworfen), damit Wide/Narrow-Arme mit Eval L vergleichbar bleiben.
 1. **Logit-Entropie ist die falsche Verteilung für Φ⁻¹.** Das Maximum der
    Logit-Verteilung ist ln(V) = 12,5 nats; die behauptete 61,8-%-Grenze
    verlangt 7,7 nats, die kein Token erreicht. Wer die Schwelle prüfen will,
-   muss die **Attention-Verteilung** über Kontext-Positionen messen
-   (`output_attentions=True`, eager) — dort ist `H/ln(T)` definiert und
-   nicht-trivial.
+   muss die **Attention-Verteilung** über Kontext-Positionen messen —
+   dort ist `H/ln(T)` definiert und nicht-trivial. Getestet am 2026-11-15:
+   `model(input_ids=..., output_attentions=True)` scheitert auf diesem
+   Ladepfad mit `RuntimeError: Tensor on device meta is not on the expected
+   device cuda:0!` (ein Teil der Parameter wird beim Load offloaded, und der
+   Attention-Rückgabepfad materialisiert sie nicht). Sauberer Weg: Modell
+   explizit mit `attn_implementation="eager"` laden (kurze Sequenzen, sonst
+   O(T²)-Speicher) oder q/k im Attention-Modul per Hook abgreifen und
+   `softmax(qkᵀ/√d)` selbst rechnen.
 2. **72 Dimensionen sind mit 96 Kalibriervektoren nicht auflösbar.** Für
    D > 95 ist die PCA ranglimitiert; die beobachtete Flachheit (Spanne 0,025)
    ist kein Beleg gegen 72, sondern ein Auflösungslimit (E).
