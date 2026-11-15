@@ -105,6 +105,28 @@ sinnvoll ist: sie überstreicht [0,1] und hat eine definierte Maximalkapazität
 pro Token sind also nur über q verschieden; unabhängige Key-Räume gibt es
 zwei (sliding / full).
 
+## Eval P — Attention-Horizont (Ergebnis)
+
+70 Sessions, rangfreie Kalibrierung (1248 Vektoren). Details:
+`results/PREREG_Eval_P_2026-11-15.md`.
+
+- **Φ⁻¹ im Attention-Horizont:** Abdeckung 0,004–0,963 (CONFIRMED), aber
+  keine Bimodalität (Dip-Tiefe 1e-4) und keine stabile Trennung (AUC 0,22
+  invertiert; positions-gematcht p = 0,37).
+- **Relay-Hook:** Attention-Breite unverändert (p = 0,70); Norm ±0,04
+  (p = 0,041), aber nicht spezifisch gegen Zufallsrichtung (p = 0,31).
+- **H72-Paradox:** `H72(wide) < H72(narrow)` repliziert mit rangfreier Basis
+  **nicht** (p = 0,82). `ρ⊥ = 0,42` — der 72-dim Unterraum trägt nur 58 % der
+  Norm. `max |cos(d_width, PC)| = 0,056`. → **Basis-Artefakt, keine Evidenz.**
+- **72D:** `H_D/ln D` = 0,488 / 0,511 / 0,524 / 0,532 / 0,540 für
+  D = 24…144 — monoton, kein Extremum (FALSIFIED).
+- **S4 als „Maximal-Koppler":** widerlegt. Ein gaußsches Zufallspotential auf
+  demselben `H_sym` kollabiert 3× schneller (6,9 vs 20,7 Schritte).
+
+**Lehre für künftige Metriken:** jede Größe, die von einer PCA-Basis abhängt,
+muss mit N ≫ D und ausgewiesenem `ρ⊥` berichtet werden; sonst misst man die
+Kalibrierung, nicht das Modell.
+
 ## Grenzen (vor dem nächsten Schritt lesen)
 
 1. **Logit-Entropie ist die falsche Verteilung für Φ⁻¹.** Das Maximum der

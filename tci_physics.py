@@ -555,3 +555,75 @@ if __name__ == "__main__":
     print(json.dumps(a, indent=1)[:4000])
     s = operator_suite(n_seeds=20, steps=20)
     print(json.dumps({k: v for k, v in s.items() if k != "traces_mean"}, indent=1)[:4000])
+
+
+# ── O2b: ist der *alignierte* Trichter besonders, oder S4 selbst? ───────────
+def funnel_alignment_suite(n_random: int = 200, steps: int = 40, dtau: float = 1.0,
+                           device: str = "cuda", dtype=torch.float64) -> Dict[str, object]:
+    """Vergleichsklasse für die „Maximal-Koppler"-Behauptung.
+
+    Referenz: H_sym + index-quadratischer Trichter (der TCI-Fall).
+    Kontrollen mit *identischem* Trichter-Spektrum, aber anderer Lage:
+      perm   — dieselben Diagonaleinträge, zufällig permutiert
+      rand   — gaußsche Diagonale, Frobenius-Norm angeglichen
+      couple — zufällige symmetrische Kopplung (Diagonale 0), Norm angeglichen
+    Kriterium (PREREG_Eval_P): aligniert gilt als ausgezeichnet, wenn es im
+    Ensemble `perm` oder `rand` unter den schnellsten 5 % liegt.
+    """
+    if device == "cuda" and not torch.cuda.is_available():
+        device = "cpu"
+    theta = 1.0 / phi()
+
+    H24 = s4_hamiltonian_24(dtype=dtype)
+    I3 = torch.eye(3, dtype=dtype)
+    Hsym = (torch.kron(H24, I3) + 0.3 * torch.kron(torch.eye(24, dtype=dtype),
+                                                   torch.diag(torch.tensor([0.0, 0.5, 1.0], dtype=dtype)))).to(device)
+    x = (torch.arange(72, dtype=dtype, device=device) / 71.0)
+    V = (3.0 * x ** 2)
+    v_norm = float(V.norm())
+
+    def prep(H):
+        lam = torch.linalg.eigvalsh(H)
+        return (H - lam.min() * torch.eye(72, dtype=H.dtype, device=H.device)) / (lam.max() - lam.min())
+
+    psi = (torch.ones(72, dtype=torch.complex128, device=device) / math.sqrt(72))
+    H_ref = prep(Hsym + torch.diag(V))
+    eig_ref = torch.linalg.eigh(H_ref)
+    tc_ref = crossing_time(run_trajectory(H_ref, alpha_tci(), dtau, steps, psi, eig=eig_ref)["H_norm"], theta)
+
+    g = torch.Generator(device=device).manual_seed(20261125)
+    ens = {"perm": [], "rand": [], "couple": []}
+    for _ in range(n_random):
+        # perm: gleiches Multiset der Diagonale, zufällige Lage
+        perm = torch.randperm(72, generator=g, device=device)
+        H = prep(Hsym + torch.diag(V[perm]))
+        ens["perm"].append(crossing_time(run_trajectory(H, alpha_tci(), dtau, steps, psi)["H_norm"], theta))
+
+        # rand: gaußsche Diagonale, Frobenius-Norm angeglichen
+        d = torch.randn(72, generator=g, dtype=dtype, device=device)
+        d = d / d.norm() * v_norm
+        H = prep(Hsym + torch.diag(d))
+        ens["rand"].append(crossing_time(run_trajectory(H, alpha_tci(), dtau, steps, psi)["H_norm"], theta))
+
+        # couple: zufällige symmetrische Kopplung, Diagonale 0, Norm angeglichen
+        A = torch.randn(72, 72, generator=g, dtype=dtype, device=device)
+        A = (A + A.T) / math.sqrt(2.0)
+        A = A - torch.diag(torch.diagonal(A))
+        A = A / A.norm() * v_norm
+        H = prep(Hsym + A)
+        ens["couple"].append(crossing_time(run_trajectory(H, alpha_tci(), dtau, steps, psi)["H_norm"], theta))
+
+    out = {"reference_t_cross": tc_ref, "reference_H_norm_final": None,
+           "n_random": n_random, "ensembles": {}}
+    for k, vals in ens.items():
+        arr = np.array([v if v is not None else steps + 1.0 for v in vals])
+        pct = float((arr < (tc_ref if tc_ref is not None else steps + 1)).mean())
+        out["ensembles"][k] = {
+            "t_cross_mean": round(float(arr.mean()), 3),
+            "t_cross_median": round(float(np.median(arr)), 3),
+            "crossed_fraction": round(float(np.mean([v is not None for v in vals])), 3),
+            "percentile_of_aligned": pct,
+        }
+    out["aligned_is_outlier"] = bool(min(out["ensembles"][k]["percentile_of_aligned"]
+                                         for k in ("perm", "rand")) <= 0.05)
+    return out
