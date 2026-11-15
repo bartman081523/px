@@ -125,7 +125,7 @@ def session(model, tok, prompt, hprobe, steer, seed):
         hprobe.records.clear()
         past = out.past_key_values
         logits = out.logits[0, -1].float()
-        ents, gen = [], 0
+        ents, gen, gen_ids = [], 0, []
         for t in range(N_NEW):
             ents.append(shannon_bits(logits))
             l = logits.clone()
@@ -133,6 +133,7 @@ def session(model, tok, prompt, hprobe, steer, seed):
                 l[eos] = -float("inf")          # min_new_tokens = N_NEW
             nxt = int(torch.multinomial(F.softmax(l / TEMP, dim=-1), 1))
             gen += 1
+            gen_ids.append(nxt)
             pos = T + gen - 1
             out = model(input_ids=torch.tensor([[nxt]], device=dev),
                         past_key_values=past, use_cache=True,
@@ -149,7 +150,10 @@ def session(model, tok, prompt, hprobe, steer, seed):
     k2 = float(np.mean(ents) / math.log(vocab))
     return {"K1_norm": k1, "K2_Hlogit_norm": k2, "K3_erank": k3,
             "n_gen": gen, "logit_bits_mean": float(np.mean(ents)),
-            "final_hidden_norm": float(recs[-1].layer_states[-1].norm())}
+            "final_hidden_norm": float(recs[-1].layer_states[-1].norm()),
+            "text": tok.decode(gen_ids, skip_special_tokens=True),
+            # mittlere finale Hidden-Repräsentation der 24 Tokens (für Cosinus)
+            "emb": torch.stack([r.layer_states[-1] for r in recs], 0).mean(0)}
 
 
 class _null:

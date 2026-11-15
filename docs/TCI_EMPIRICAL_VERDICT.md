@@ -125,3 +125,16 @@ die Relay-Steuerung verändert die Ausgabestatistik reproduzierbar, aber nicht
 richtungsabhängig.
 
 Details: `results/PREREG_Eval_Q_2026-11-15.md`.
+
+### Nachbemerkung Eval R — die inhaltssensitive Gegenprobe
+
+`H_logit` ist permutationsinvariant, `erank` invariant unter orthogonalen
+Transformationen: beide sind **inhaltsblind**. Die gespeicherten O3/P2-Texte
+zeigen auf **Prompt 2** einen klaren Inhaltseffekt („Quantum Physics":
+`narrow` 6/6, `rand` 5/6, **`wide` 0/6**). Die konfirmatorische Wiederholung
+auf **45 frischen Prompts** (`eval_R`) hat ihn **nicht** bestätigt:
+Template-Rate 0/180 (Marker uninformativ), semantische Divergenz
+`wide − rand` = +0,0002 (p = 0,93). Der Inhaltseffekt war
+**prompt-spezifisch**. Belastbar bleibt nur eine **Asymmetrie**:
+`narrow` divergiert stärker als `wide` ≈ `rand` (p = 4,1e-8, dz = −0,92).
+Details: `results/PREREG_Eval_R_2026-11-15.md`.

@@ -1,0 +1,2360 @@
+{
+ "prereg": "results/PREREG_Eval_R_2026-11-15.md",
+ "torch": "2.12.0+cu130",
+ "gpu": "NVIDIA GeForce RTX 2060",
+ "seeds_base": 20261201,
+ "n_prompts": 45,
+ "n_new_tokens": 24,
+ "temperature": 0.6,
+ "arms": [
+  "baseline",
+  "wide",
+  "narrow",
+  "rand_plus"
+ ],
+ "rows": [
+  {
+   "idx": 0,
+   "prompt": "Explain how a bicycle derailleur works.",
+   "seed": 20268201,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 94.27864587306976,
+    "K2_Hlogit_norm": 0.029648147163220163,
+    "K3_erank": 5.225650310516357,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3699095330702231,
+    "final_hidden_norm": 12.758803367614746,
+    "text": "A bicycle derailleur is a crucial component of a bicycle's drivetrain, responsible for **shifting the chain from one sp",
+    "template": false,
+    "delta_sem": 2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 97.748901044329,
+    "K2_Hlogit_norm": 0.03816961502192455,
+    "K3_erank": 6.018758296966553,
+    "n_gen": 24,
+    "logit_bits_mean": 0.4762288986390996,
+    "final_hidden_norm": 20.08596420288086,
+    "text": "A bicycle derailleur is a crucial component of a drivetrain, responsible for **smoothly guiding the movement of the chain**",
+    "template": false,
+    "delta_sem": 0.01594674587249756
+   },
+   "narrow": {
+    "K1_norm": 105.11684936285019,
+    "K2_Hlogit_norm": 0.03562454776399013,
+    "K3_erank": 7.318251609802246,
+    "n_gen": 24,
+    "logit_bits_mean": 0.4444749871439915,
+    "final_hidden_norm": 18.869230270385742,
+    "text": "A bicycle derailleur is a fascinating and ingenious piece of mechanical engineering that allows a bicycle to efficiently and safely change the **",
+    "template": false,
+    "delta_sem": 0.016339123249053955
+   },
+   "rand_plus": {
+    "K1_norm": 99.67286403477192,
+    "K2_Hlogit_norm": 0.027836699888071876,
+    "K3_erank": 6.8868207931518555,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3473087407831866,
+    "final_hidden_norm": 22.563194274902344,
+    "text": "A bicycle derailleur is a crucial piece of the gear system that **manages the movement of the bicycle's chain",
+    "template": false,
+    "delta_sem": 0.011457383632659912
+   }
+  },
+  {
+   "idx": 1,
+   "prompt": "Describe the water cycle in three sentences.",
+   "seed": 20268301,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 86.70469443500042,
+    "K2_Hlogit_norm": 0.005373643973914621,
+    "K3_erank": 13.15933609008789,
+    "n_gen": 24,
+    "logit_bits_mean": 0.06704507105733347,
+    "final_hidden_norm": 15.303059577941895,
+    "text": "The water cycle describes the continuous movement of water on, above, and below the surface of the Earth. This process involves",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 90.62739665806293,
+    "K2_Hlogit_norm": 0.014595268346720373,
+    "K3_erank": 15.53226089477539,
+    "n_gen": 24,
+    "logit_bits_mean": 0.18210004387281073,
+    "final_hidden_norm": 16.54593849182129,
+    "text": "The water cycle is a continuous process where water moves between the Earth's surface, air, and land. Through **",
+    "template": false,
+    "delta_sem": 0.03813886642456055
+   },
+   "narrow": {
+    "K1_norm": 90.54039613902569,
+    "K2_Hlogit_norm": 0.007770379856914575,
+    "K3_erank": 8.791287422180176,
+    "n_gen": 24,
+    "logit_bits_mean": 0.09694830401460232,
+    "final_hidden_norm": 9.919197082519531,
+    "text": "The water cycle begins with **evaporation**, where heat from the sun turns water on the Earth's surface into a",
+    "template": false,
+    "delta_sem": 0.050788164138793945
+   },
+   "rand_plus": {
+    "K1_norm": 90.02459522585075,
+    "K2_Hlogit_norm": 0.01217011629523174,
+    "K3_erank": 14.451821327209473,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1518422723482775,
+    "final_hidden_norm": 16.691049575805664,
+    "text": "The water cycle describes the continuous movement of water on, above, and below the surface of the Earth. This process involves",
+    "template": false,
+    "delta_sem": 0.023304402828216553
+   }
+  },
+  {
+   "idx": 2,
+   "prompt": "Summarize the causes of the French Revolution.",
+   "seed": 20268401,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 93.46841633319855,
+    "K2_Hlogit_norm": 0.020119898611823454,
+    "K3_erank": 8.497162818908691,
+    "n_gen": 24,
+    "logit_bits_mean": 0.25102891792687293,
+    "final_hidden_norm": 17.73006820678711,
+    "text": "The French Revolution was a complex event with multiple interconnected causes, spanning social, economic, and political spheres. Here is a",
+    "template": false,
+    "delta_sem": 1.7881393432617188e-07
+   },
+   "wide": {
+    "K1_norm": 96.65617439647515,
+    "K2_Hlogit_norm": 0.01930549495780975,
+    "K3_erank": 7.830288410186768,
+    "n_gen": 24,
+    "logit_bits_mean": 0.24086788918776122,
+    "final_hidden_norm": 28.743318557739258,
+    "text": "The causes of the French Revolution were **complex and multifaceted**, stemming from a powerful combination of **political, social, economic",
+    "template": false,
+    "delta_sem": 0.019604742527008057
+   },
+   "narrow": {
+    "K1_norm": 97.62249156584342,
+    "K2_Hlogit_norm": 0.01075597430653206,
+    "K3_erank": 6.743275165557861,
+    "n_gen": 24,
+    "logit_bits_mean": 0.13419851876546238,
+    "final_hidden_norm": 28.78504753112793,
+    "text": "The French Revolution was a complex event with a variety of interconnected causes, which can be broadly categorized as **social, economic",
+    "template": false,
+    "delta_sem": 0.03045600652694702
+   },
+   "rand_plus": {
+    "K1_norm": 90.15462942918141,
+    "K2_Hlogit_norm": 0.01363918640684507,
+    "K3_erank": 6.320065975189209,
+    "n_gen": 24,
+    "logit_bits_mean": 0.17017134485465146,
+    "final_hidden_norm": 11.550024032592773,
+    "text": "The French Revolution (1789\u20131799) was caused by a complex interplay of **social,",
+    "template": false,
+    "delta_sem": 0.026128709316253662
+   }
+  },
+  {
+   "idx": 3,
+   "prompt": "How does a catalytic converter reduce emissions?",
+   "seed": 20268501,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 93.79422455032666,
+    "K2_Hlogit_norm": 0.014809764373216199,
+    "K3_erank": 8.23630428314209,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1847762355609348,
+    "final_hidden_norm": 18.226261138916016,
+    "text": "A catalytic converter is a crucial component in modern vehicles designed to **reduce the amount of harmful pollutants** released into the atmosphere",
+    "template": false,
+    "delta_sem": 1.7881393432617188e-07
+   },
+   "wide": {
+    "K1_norm": 98.2371497253577,
+    "K2_Hlogit_norm": 0.023151917078703795,
+    "K3_erank": 10.902975082397461,
+    "n_gen": 24,
+    "logit_bits_mean": 0.28885834885790124,
+    "final_hidden_norm": 22.78813362121582,
+    "text": "A catalytic converter is a device that significantly **reduces the amount of harmful pollutants** released from the exhaust of a vehicle",
+    "template": false,
+    "delta_sem": 0.016653239727020264
+   },
+   "narrow": {
+    "K1_norm": 97.7270183513562,
+    "K2_Hlogit_norm": 0.0188901843666734,
+    "K3_erank": 5.956648349761963,
+    "n_gen": 24,
+    "logit_bits_mean": 0.23568620461231002,
+    "final_hidden_norm": 9.445367813110352,
+    "text": "A catalytic converter is a sophisticated piece of automotive pollution control equipment that **chemically converts harmful emissions from the vehicle's",
+    "template": false,
+    "delta_sem": 0.03025001287460327
+   },
+   "rand_plus": {
+    "K1_norm": 103.78980249166489,
+    "K2_Hlogit_norm": 0.029141185695384462,
+    "K3_erank": 7.994255065917969,
+    "n_gen": 24,
+    "logit_bits_mean": 0.36358435265273187,
+    "final_hidden_norm": 18.622867584228516,
+    "text": "A catalytic converter is a crucial piece of the modern vehicle's exhaust system, and it works by **chemically transforming",
+    "template": false,
+    "delta_sem": 0.020354390144348145
+   }
+  },
+  {
+   "idx": 4,
+   "prompt": "Explain the difference between TCP and UDP.",
+   "seed": 20268601,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 81.72015473246574,
+    "K2_Hlogit_norm": 0.008894994647719121,
+    "K3_erank": 8.787544250488281,
+    "n_gen": 24,
+    "logit_bits_mean": 0.11097972830092163,
+    "final_hidden_norm": 15.364984512329102,
+    "text": "TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the two primary protocols used for **transport layer",
+    "template": false,
+    "delta_sem": -5.960464477539062e-07
+   },
+   "wide": {
+    "K1_norm": 84.86497666935126,
+    "K2_Hlogit_norm": 0.00875354754694518,
+    "K3_erank": 10.218936920166016,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1092149424371246,
+    "final_hidden_norm": 16.936429977416992,
+    "text": "TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are two of the most fundamental and widely used protocols",
+    "template": false,
+    "delta_sem": 0.025463640689849854
+   },
+   "narrow": {
+    "K1_norm": 82.9239792227745,
+    "K2_Hlogit_norm": 0.00818375812213071,
+    "K3_erank": 9.955068588256836,
+    "n_gen": 24,
+    "logit_bits_mean": 0.10210587963731017,
+    "final_hidden_norm": 13.875096321105957,
+    "text": "TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the two most fundamental protocols used in the **",
+    "template": false,
+    "delta_sem": 0.04226255416870117
+   },
+   "rand_plus": {
+    "K1_norm": 84.68116297324498,
+    "K2_Hlogit_norm": 0.01697255781124738,
+    "K3_erank": 7.9070611000061035,
+    "n_gen": 24,
+    "logit_bits_mean": 0.21176065068762237,
+    "final_hidden_norm": 16.32697868347168,
+    "text": "TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the two most fundamental protocols used in the **",
+    "template": false,
+    "delta_sem": 0.023749828338623047
+   }
+  },
+  {
+   "idx": 5,
+   "prompt": "What is the role of mitochondria in a cell?",
+   "seed": 20268701,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 91.91663439571857,
+    "K2_Hlogit_norm": 0.006886481146306635,
+    "K3_erank": 6.775260925292969,
+    "n_gen": 24,
+    "logit_bits_mean": 0.08592020982974996,
+    "final_hidden_norm": 24.021692276000977,
+    "text": "Mitochondria are often called the **\"powerhouses of the cell\"** because their primary and most critical role is",
+    "template": false,
+    "delta_sem": 4.76837158203125e-07
+   },
+   "wide": {
+    "K1_norm": 94.20170491933823,
+    "K2_Hlogit_norm": 0.00930606503402036,
+    "K3_erank": 8.089642524719238,
+    "n_gen": 24,
+    "logit_bits_mean": 0.11610850932789667,
+    "final_hidden_norm": 27.813373565673828,
+    "text": "Mitochondria are often called the **\"powerhouses of the cell\"** because their primary and most critical role is",
+    "template": false,
+    "delta_sem": 0.009427785873413086
+   },
+   "narrow": {
+    "K1_norm": 92.80083039899667,
+    "K2_Hlogit_norm": 0.0055766835952688176,
+    "K3_erank": 5.30405855178833,
+    "n_gen": 24,
+    "logit_bits_mean": 0.06957832519683864,
+    "final_hidden_norm": 14.076495170593262,
+    "text": "Mitochondria are often referred to as the **\"powerhouses of the cell\"** because their primary and most crucial",
+    "template": false,
+    "delta_sem": 0.016609668731689453
+   },
+   "rand_plus": {
+    "K1_norm": 95.70950437088807,
+    "K2_Hlogit_norm": 0.009391912883251334,
+    "K3_erank": 8.011391639709473,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1171796028316252,
+    "final_hidden_norm": 23.345218658447266,
+    "text": "Mitochondria are often described as the **\"powerhouses\" of the cell** because their primary and most critical role",
+    "template": false,
+    "delta_sem": 0.009308874607086182
+   }
+  },
+  {
+   "idx": 6,
+   "prompt": "Describe how vaccines train the immune system.",
+   "seed": 20268801,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 97.78516877194245,
+    "K2_Hlogit_norm": 0.024896984379258875,
+    "K3_erank": 7.8703742027282715,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3106309414847092,
+    "final_hidden_norm": 9.609389305114746,
+    "text": "Vaccines are a brilliant and sophisticated tool that trains the immune system to recognize and fight off specific pathogens (like viruses or",
+    "template": false,
+    "delta_sem": -2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 98.21907484034698,
+    "K2_Hlogit_norm": 0.020157406337578867,
+    "K3_erank": 11.13253402709961,
+    "n_gen": 24,
+    "logit_bits_mean": 0.25149688866529135,
+    "final_hidden_norm": 13.555377960205078,
+    "text": "Vaccines are a powerful tool that **trains the immune system** to recognize and effectively fight off specific pathogens (like",
+    "template": false,
+    "delta_sem": 0.010918796062469482
+   },
+   "narrow": {
+    "K1_norm": 104.48920098940532,
+    "K2_Hlogit_norm": 0.02992869410229899,
+    "K3_erank": 8.81773853302002,
+    "n_gen": 24,
+    "logit_bits_mean": 0.37340981882729296,
+    "final_hidden_norm": 22.96933364868164,
+    "text": "Vaccines are a clever form of **immunological training**. They are designed to safely introduce a part of a pathogen (",
+    "template": false,
+    "delta_sem": 0.017953157424926758
+   },
+   "rand_plus": {
+    "K1_norm": 103.25644327700138,
+    "K2_Hlogit_norm": 0.04044278600836064,
+    "K3_erank": 11.130660057067871,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5045904557223189,
+    "final_hidden_norm": 19.087173461914062,
+    "text": "Vaccines are a remarkably effective and safe way to **train the immune system** to recognize and combat specific harmful pathogens (",
+    "template": false,
+    "delta_sem": 0.010215461254119873
+   }
+  },
+  {
+   "idx": 7,
+   "prompt": "Explain why the sky is blue.",
+   "seed": 20268901,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 90.26306031644344,
+    "K2_Hlogit_norm": 0.01582537422319096,
+    "K3_erank": 10.158232688903809,
+    "n_gen": 24,
+    "logit_bits_mean": 0.19744764343399523,
+    "final_hidden_norm": 17.527347564697266,
+    "text": "The sky is blue due to a phenomenon called **Rayleigh scattering**. This process is a result of how sunlight interacts with",
+    "template": false,
+    "delta_sem": 5.960464477539063e-08
+   },
+   "wide": {
+    "K1_norm": 92.38760572175185,
+    "K2_Hlogit_norm": 0.028861711397961082,
+    "K3_erank": 10.249750137329102,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3600974498693681,
+    "final_hidden_norm": 23.986114501953125,
+    "text": "The reason the sky is blue is due to a phenomenon called **Rayleigh scattering**. This is a very efficient way that",
+    "template": false,
+    "delta_sem": 0.0199010968208313
+   },
+   "narrow": {
+    "K1_norm": 90.07149718205135,
+    "K2_Hlogit_norm": 0.009119422802281396,
+    "K3_erank": 9.676636695861816,
+    "n_gen": 24,
+    "logit_bits_mean": 0.11377983966723765,
+    "final_hidden_norm": 19.87665367126465,
+    "text": "The sky is blue because of a phenomenon called **scattering of light** by the Earth's atmosphere. Here is a",
+    "template": false,
+    "delta_sem": 0.030832231044769287
+   },
+   "rand_plus": {
+    "K1_norm": 93.70214612782001,
+    "K2_Hlogit_norm": 0.017149207991960732,
+    "K3_erank": 12.341650009155273,
+    "n_gen": 24,
+    "logit_bits_mean": 0.21396465303234594,
+    "final_hidden_norm": 20.80108070373535,
+    "text": "The sky is blue because of a natural phenomenon called **Rayleigh scattering**. It all comes down to how **sunlight",
+    "template": false,
+    "delta_sem": 0.019877910614013672
+   }
+  },
+  {
+   "idx": 8,
+   "prompt": "How does a refrigerator move heat?",
+   "seed": 20269001,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 97.40293820699056,
+    "K2_Hlogit_norm": 0.024866695127478345,
+    "K3_erank": 5.315299987792969,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3102530331141962,
+    "final_hidden_norm": 23.93036460876465,
+    "text": "A refrigerator doesn't actually \"move\" heat in the sense of transporting thermal energy from a cold place to a warm",
+    "template": false,
+    "delta_sem": 4.76837158203125e-07
+   },
+   "wide": {
+    "K1_norm": 99.90527513623238,
+    "K2_Hlogit_norm": 0.03037962932290259,
+    "K3_erank": 12.222954750061035,
+    "n_gen": 24,
+    "logit_bits_mean": 0.37903597940927103,
+    "final_hidden_norm": 26.96105194091797,
+    "text": "A refrigerator doesn't actually *move* heat in the traditional sense (like a conveyor belt). Instead, it uses",
+    "template": false,
+    "delta_sem": 0.007587909698486328
+   },
+   "narrow": {
+    "K1_norm": 103.04207112391789,
+    "K2_Hlogit_norm": 0.02577492644899542,
+    "K3_erank": 7.890039443969727,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3215847167507005,
+    "final_hidden_norm": 31.924846649169922,
+    "text": "A refrigerator doesn't actually \"move\" heat in the traditional sense (like a physical object transporting thermal energy). Instead",
+    "template": false,
+    "delta_sem": 0.008616447448730469
+   },
+   "rand_plus": {
+    "K1_norm": 106.68576018015544,
+    "K2_Hlogit_norm": 0.03638686726060957,
+    "K3_erank": 10.209724426269531,
+    "n_gen": 24,
+    "logit_bits_mean": 0.45398618011980907,
+    "final_hidden_norm": 24.4512882232666,
+    "text": "A refrigerator doesn't actually \"move\" heat in the traditional sense (like a physical object taking a pile of hot",
+    "template": false,
+    "delta_sem": 0.008699476718902588
+   }
+  },
+  {
+   "idx": 9,
+   "prompt": "Describe the nitrogen cycle briefly.",
+   "seed": 20269101,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 90.17912085354328,
+    "K2_Hlogit_norm": 0.006806989176177524,
+    "K3_erank": 9.420886993408203,
+    "n_gen": 24,
+    "logit_bits_mean": 0.08492841640025128,
+    "final_hidden_norm": 15.960526466369629,
+    "text": "## The Nitrogen Cycle: A Brief Overview\n\nThe nitrogen cycle is the biogeochemical process by which nitrogen is converted between its",
+    "template": false,
+    "delta_sem": 2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 93.64794714252155,
+    "K2_Hlogit_norm": 0.013785543541181357,
+    "K3_erank": 12.985130310058594,
+    "n_gen": 24,
+    "logit_bits_mean": 0.171997391485012,
+    "final_hidden_norm": 20.185258865356445,
+    "text": "## The Nitrogen Cycle: A Brief Overview\n\nThe nitrogen cycle is the **process by which nitrogen is continuously cycled through the",
+    "template": false,
+    "delta_sem": 0.014159083366394043
+   },
+   "narrow": {
+    "K1_norm": 92.74344440301259,
+    "K2_Hlogit_norm": 0.010510126428014258,
+    "K3_erank": 8.466205596923828,
+    "n_gen": 24,
+    "logit_bits_mean": 0.13113116101631972,
+    "final_hidden_norm": 16.893627166748047,
+    "text": "## The Nitrogen Cycle: A Brief Overview\n\nThe nitrogen cycle is a **biogeochemical cycle** that describes the process",
+    "template": false,
+    "delta_sem": 0.030394911766052246
+   },
+   "rand_plus": {
+    "K1_norm": 95.70526696244876,
+    "K2_Hlogit_norm": 0.02249735686071082,
+    "K3_erank": 10.4775390625,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2806916306049477,
+    "final_hidden_norm": 19.160573959350586,
+    "text": "## The Nitrogen Cycle: A Brief Overview\n\nThe nitrogen cycle is a **series of nature-driven processes** that **",
+    "template": false,
+    "delta_sem": 0.015408515930175781
+   }
+  },
+  {
+   "idx": 10,
+   "prompt": "What caused the 2008 financial crisis?",
+   "seed": 20269201,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 94.32247152427833,
+    "K2_Hlogit_norm": 0.013695210435241627,
+    "K3_erank": 3.0456349849700928,
+    "n_gen": 24,
+    "logit_bits_mean": 0.17087033700653176,
+    "final_hidden_norm": 22.13471794128418,
+    "text": "The 2008 financial crisis was a complex event with **multiple interconnected causes**. It wasn't triggered by",
+    "template": false,
+    "delta_sem": 1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 100.38990294933319,
+    "K2_Hlogit_norm": 0.03084378281118666,
+    "K3_erank": 3.5728001594543457,
+    "n_gen": 24,
+    "logit_bits_mean": 0.38482705968079206,
+    "final_hidden_norm": 29.06215476989746,
+    "text": "The 2008 financial crisis was a **complex and powerful confluence of factors** that created a massive instability within",
+    "template": false,
+    "delta_sem": 0.01165705919265747
+   },
+   "narrow": {
+    "K1_norm": 95.4966780692339,
+    "K2_Hlogit_norm": 0.010215600028270488,
+    "K3_erank": 2.82153058052063,
+    "n_gen": 24,
+    "logit_bits_mean": 0.12745645843182815,
+    "final_hidden_norm": 17.253768920898438,
+    "text": "The 2008 financial crisis was a complex event with multiple interconnected causes. It wasn't triggered by a",
+    "template": false,
+    "delta_sem": 0.009303152561187744
+   },
+   "rand_plus": {
+    "K1_norm": 100.75535054008166,
+    "K2_Hlogit_norm": 0.023606854235804758,
+    "K3_erank": 3.4344942569732666,
+    "n_gen": 24,
+    "logit_bits_mean": 0.29453444019787806,
+    "final_hidden_norm": 20.42770004272461,
+    "text": "The 2008 financial crisis was a complex event triggered by a **combination of factors**, primarily stemming from the",
+    "template": false,
+    "delta_sem": 0.009750187397003174
+   }
+  },
+  {
+   "idx": 11,
+   "prompt": "Explain how GPS determines a position.",
+   "seed": 20269301,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 90.01044317583244,
+    "K2_Hlogit_norm": 0.012363529286821858,
+    "K3_erank": 4.8914079666137695,
+    "n_gen": 24,
+    "logit_bits_mean": 0.15425541840475587,
+    "final_hidden_norm": 21.572092056274414,
+    "text": "GPS (Global Positioning System) determines a position through a process called **trilateration** (or more accurately,",
+    "template": false,
+    "delta_sem": 5.960464477539063e-08
+   },
+   "wide": {
+    "K1_norm": 91.41264667113622,
+    "K2_Hlogit_norm": 0.018424384015408243,
+    "K3_erank": 6.660159587860107,
+    "n_gen": 24,
+    "logit_bits_mean": 0.22987457700901107,
+    "final_hidden_norm": 14.033638000488281,
+    "text": "GPS (Global Positioning System) is a powerful satellite-based navigation system that determines a device's position (latitude,",
+    "template": false,
+    "delta_sem": 0.020162343978881836
+   },
+   "narrow": {
+    "K1_norm": 93.18331432839234,
+    "K2_Hlogit_norm": 0.013134379968717424,
+    "K3_erank": 5.093313694000244,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1638730519869511,
+    "final_hidden_norm": 20.56302261352539,
+    "text": "GPS (Global Positioning System) determines a position through a process called **trilateration** (or more accurately,",
+    "template": false,
+    "delta_sem": 0.014293789863586426
+   },
+   "rand_plus": {
+    "K1_norm": 92.66307590405147,
+    "K2_Hlogit_norm": 0.021668350350235815,
+    "K3_erank": 9.153118133544922,
+    "n_gen": 24,
+    "logit_bits_mean": 0.27034840714771907,
+    "final_hidden_norm": 24.302457809448242,
+    "text": "GPS (Global Positioning System) is a sophisticated network of satellites that work together to determine the precise position (latitude, longitude",
+    "template": false,
+    "delta_sem": 0.018335580825805664
+   }
+  },
+  {
+   "idx": 12,
+   "prompt": "How does photosynthesis store energy?",
+   "seed": 20269401,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 87.24252931028605,
+    "K2_Hlogit_norm": 0.0076935375611750165,
+    "K3_erank": 9.956341743469238,
+    "n_gen": 24,
+    "logit_bits_mean": 0.09598956964308901,
+    "final_hidden_norm": 19.593082427978516,
+    "text": "Photosynthesis is the fundamental process by which plants, algae, and some bacteria convert **light energy** into **chemical energy",
+    "template": false,
+    "delta_sem": 2.980232238769531e-07
+   },
+   "wide": {
+    "K1_norm": 88.02591485778491,
+    "K2_Hlogit_norm": 0.012703605373684807,
+    "K3_erank": 8.740571975708008,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1584984284588843,
+    "final_hidden_norm": 25.501283645629883,
+    "text": "Photosynthesis is the fundamental process by which **plants, algae, and some bacteria convert light energy in the presence of water",
+    "template": false,
+    "delta_sem": 0.020714521408081055
+   },
+   "narrow": {
+    "K1_norm": 88.36574304600556,
+    "K2_Hlogit_norm": 0.006335747017545983,
+    "K3_erank": 7.77644681930542,
+    "n_gen": 24,
+    "logit_bits_mean": 0.07904889327515545,
+    "final_hidden_norm": 11.837862968444824,
+    "text": "Photosynthesis is the fundamental biological process by which **autotrophs** (like plants, algae, and some bacteria)",
+    "template": false,
+    "delta_sem": 0.03529137372970581
+   },
+   "rand_plus": {
+    "K1_norm": 87.76422698795795,
+    "K2_Hlogit_norm": 0.00858201934414067,
+    "K3_erank": 10.926426887512207,
+    "n_gen": 24,
+    "logit_bits_mean": 0.10707484521423631,
+    "final_hidden_norm": 22.571996688842773,
+    "text": "Photosynthesis is the process by which plants, algae, and some bacteria convert **light energy** (usually from the sun",
+    "template": false,
+    "delta_sem": 0.024518370628356934
+   }
+  },
+  {
+   "idx": 13,
+   "prompt": "Describe the structure of a transistor.",
+   "seed": 20269501,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 96.93456763029099,
+    "K2_Hlogit_norm": 0.03244904807663147,
+    "K3_erank": 6.805220603942871,
+    "n_gen": 24,
+    "logit_bits_mean": 0.404855391351082,
+    "final_hidden_norm": 15.656510353088379,
+    "text": "The structure of a transistor is fundamental to modern electronics, as it acts as a crucial **electronic switch** or an **",
+    "template": false,
+    "delta_sem": -2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 98.41951557000478,
+    "K2_Hlogit_norm": 0.030199402087563342,
+    "K3_erank": 8.687052726745605,
+    "n_gen": 24,
+    "logit_bits_mean": 0.37678734740863185,
+    "final_hidden_norm": 17.713491439819336,
+    "text": "The structure of a transistor is a fundamental concept in solid-state electronics. While there are many types of transistors (like",
+    "template": false,
+    "delta_sem": 0.0145798921585083
+   },
+   "narrow": {
+    "K1_norm": 102.22541028261185,
+    "K2_Hlogit_norm": 0.02284476028492285,
+    "K3_erank": 5.143365383148193,
+    "n_gen": 24,
+    "logit_bits_mean": 0.28502606127711755,
+    "final_hidden_norm": 11.52181339263916,
+    "text": "The structure of a transistor is a fascinating and fundamental concept in modern electronics. While there are several types of transistors (like",
+    "template": false,
+    "delta_sem": 0.01723557710647583
+   },
+   "rand_plus": {
+    "K1_norm": 103.28441811601321,
+    "K2_Hlogit_norm": 0.029619885437395656,
+    "K3_erank": 7.233363151550293,
+    "n_gen": 24,
+    "logit_bits_mean": 0.36955692142990887,
+    "final_hidden_norm": 14.829368591308594,
+    "text": "The structure of a transistor is a fundamental concept in electronics. The most common and widely used type is the **three-",
+    "template": false,
+    "delta_sem": 0.015181660652160645
+   }
+  },
+  {
+   "idx": 14,
+   "prompt": "What is the difference between weather and climate?",
+   "seed": 20269601,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 84.363738099734,
+    "K2_Hlogit_norm": 0.01827485968850438,
+    "K3_erank": 8.512423515319824,
+    "n_gen": 24,
+    "logit_bits_mean": 0.22800901442787738,
+    "final_hidden_norm": 15.378015518188477,
+    "text": "The difference between **weather** and **climate** is primarily one of **time scale**.\n\nHere's a detailed",
+    "template": false,
+    "delta_sem": 5.364418029785156e-07
+   },
+   "wide": {
+    "K1_norm": 88.03242614865303,
+    "K2_Hlogit_norm": 0.025882605273943517,
+    "K3_erank": 10.369119644165039,
+    "n_gen": 24,
+    "logit_bits_mean": 0.32292818768123854,
+    "final_hidden_norm": 21.65138053894043,
+    "text": "The difference between **weather** and **climate** is a fundamental one, and it comes down to **time**.\n\n",
+    "template": false,
+    "delta_sem": 0.015181124210357666
+   },
+   "narrow": {
+    "K1_norm": 87.69141799708207,
+    "K2_Hlogit_norm": 0.013202671112992146,
+    "K3_erank": 7.727165699005127,
+    "n_gen": 24,
+    "logit_bits_mean": 0.16472509664095333,
+    "final_hidden_norm": 15.69559383392334,
+    "text": "The difference between **weather** and **climate** is primarily a matter of **time and scope**.\n\nHere is a",
+    "template": false,
+    "delta_sem": 0.021265387535095215
+   },
+   "rand_plus": {
+    "K1_norm": 88.2718792706728,
+    "K2_Hlogit_norm": 0.009645431576033014,
+    "K3_erank": 8.633058547973633,
+    "n_gen": 24,
+    "logit_bits_mean": 0.12034266663980075,
+    "final_hidden_norm": 32.263267517089844,
+    "text": "The difference between **weather** and **climate** is essentially the difference between **short-term conditions** and **long",
+    "template": false,
+    "delta_sem": 0.016518115997314453
+   }
+  },
+  {
+   "idx": 15,
+   "prompt": "Explain how a hash table handles collisions.",
+   "seed": 20269701,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 90.77885372936726,
+    "K2_Hlogit_norm": 0.016687405670243877,
+    "K3_erank": 9.296609878540039,
+    "n_gen": 24,
+    "logit_bits_mean": 0.20820290744141257,
+    "final_hidden_norm": 21.766679763793945,
+    "text": "A **hash table** is a data structure that allows for very fast (ideally $O(1)$ average time",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 88.72012106577556,
+    "K2_Hlogit_norm": 0.012803820091287115,
+    "K3_erank": 12.237128257751465,
+    "n_gen": 24,
+    "logit_bits_mean": 0.159748772340104,
+    "final_hidden_norm": 20.975414276123047,
+    "text": "A **hash table** (also known as a hash map) is a powerful data structure that allows for very efficient (",
+    "template": false,
+    "delta_sem": 0.02194070816040039
+   },
+   "narrow": {
+    "K1_norm": 94.85321050385635,
+    "K2_Hlogit_norm": 0.04084059096317987,
+    "K3_erank": 7.7221360206604,
+    "n_gen": 24,
+    "logit_bits_mean": 0.509553728613542,
+    "final_hidden_norm": 26.45060157775879,
+    "text": "A hash table is a fundamental data structure that allows for **simulated storage of data based on a \"key\"**",
+    "template": false,
+    "delta_sem": 0.0232698917388916
+   },
+   "rand_plus": {
+    "K1_norm": 95.24327941735585,
+    "K2_Hlogit_norm": 0.0223741987101162,
+    "K3_erank": 12.629749298095703,
+    "n_gen": 24,
+    "logit_bits_mean": 0.27915502955769017,
+    "final_hidden_norm": 25.90848731994629,
+    "text": "A **hash table** is a fundamental data structure that allows for the *near-instantaneous* (average time complexity",
+    "template": false,
+    "delta_sem": 0.015367746353149414
+   }
+  },
+  {
+   "idx": 16,
+   "prompt": "Describe the function of the liver.",
+   "seed": 20269801,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 95.11306504408519,
+    "K2_Hlogit_norm": 0.02676811004856259,
+    "K3_erank": 7.153599739074707,
+    "n_gen": 24,
+    "logit_bits_mean": 0.333976320163431,
+    "final_hidden_norm": 19.41387367248535,
+    "text": "The liver is a large, vital organ with an incredibly diverse and complex set of functions. It is often described as the",
+    "template": false,
+    "delta_sem": 5.960464477539063e-08
+   },
+   "wide": {
+    "K1_norm": 92.65678630272548,
+    "K2_Hlogit_norm": 0.030779807743921018,
+    "K3_erank": 12.713628768920898,
+    "n_gen": 24,
+    "logit_bits_mean": 0.38402886520576845,
+    "final_hidden_norm": 21.811750411987305,
+    "text": "The liver is the **largest internal organ** in the body and plays an incredibly diverse and vital role in **over ",
+    "template": false,
+    "delta_sem": 0.017639219760894775
+   },
+   "narrow": {
+    "K1_norm": 94.88154968619347,
+    "K2_Hlogit_norm": 0.013809589212043548,
+    "K3_erank": 6.003813743591309,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1722974008863424,
+    "final_hidden_norm": 24.13323402404785,
+    "text": "The liver is a large, complex, and vital organ that plays a wide array of critical functions for the entire body.",
+    "template": false,
+    "delta_sem": 0.033481597900390625
+   },
+   "rand_plus": {
+    "K1_norm": 98.24050590892632,
+    "K2_Hlogit_norm": 0.025431710800766647,
+    "K3_erank": 9.689374923706055,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3173025354906116,
+    "final_hidden_norm": 26.06385612487793,
+    "text": "The liver is the **largest and most vital organ in the human body**, acting as a **\"super-processor\"",
+    "template": false,
+    "delta_sem": 0.025378048419952393
+   }
+  },
+  {
+   "idx": 17,
+   "prompt": "How does an electric motor generate torque?",
+   "seed": 20269901,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 98.5551878362894,
+    "K2_Hlogit_norm": 0.02043496948812433,
+    "K3_erank": 12.957158088684082,
+    "n_gen": 24,
+    "logit_bits_mean": 0.254959946739394,
+    "final_hidden_norm": 15.290547370910645,
+    "text": "An electric motor generates torque through a fundamental principle of **electromagnetism**: the interaction between an electric current flowing through a",
+    "template": false,
+    "delta_sem": 2.980232238769531e-07
+   },
+   "wide": {
+    "K1_norm": 105.5992220044136,
+    "K2_Hlogit_norm": 0.021521696002935905,
+    "K3_erank": 11.653546333312988,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2685186522954588,
+    "final_hidden_norm": 24.390384674072266,
+    "text": "An electric motor generates torque through the **interaction between a magnetic field and a current-carrying conductor**, a fundamental principle of",
+    "template": false,
+    "delta_sem": 0.01365596055984497
+   },
+   "narrow": {
+    "K1_norm": 103.13827256858349,
+    "K2_Hlogit_norm": 0.020978654834805738,
+    "K3_erank": 7.3052520751953125,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2617433181123455,
+    "final_hidden_norm": 24.938922882080078,
+    "text": "An electric motor generates torque through a fascinating combination of **electromagnetism** and **classical mechanics**. In simplest terms,",
+    "template": false,
+    "delta_sem": 0.013419151306152344
+   },
+   "rand_plus": {
+    "K1_norm": 104.8651152352492,
+    "K2_Hlogit_norm": 0.021742848547970265,
+    "K3_erank": 9.601664543151855,
+    "n_gen": 24,
+    "logit_bits_mean": 0.27127789503061484,
+    "final_hidden_norm": 25.601999282836914,
+    "text": "An electric motor generates torque by **converting electrical energy into mechanical (rotational) energy**. This process is fundamentally governed by",
+    "template": false,
+    "delta_sem": 0.016346871852874756
+   }
+  },
+  {
+   "idx": 18,
+   "prompt": "What is entropy in thermodynamics?",
+   "seed": 20270001,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 95.33082412183285,
+    "K2_Hlogit_norm": 0.017871518250399607,
+    "K3_erank": 5.432107925415039,
+    "n_gen": 24,
+    "logit_bits_mean": 0.22297666477662167,
+    "final_hidden_norm": 28.557266235351562,
+    "text": "Entropy ($\\text{S}$) in thermodynamics is a fundamental and multifaceted concept that serves as a measure of the **disorder",
+    "template": false,
+    "delta_sem": 7.152557373046875e-07
+   },
+   "wide": {
+    "K1_norm": 95.9228345155716,
+    "K2_Hlogit_norm": 0.017506972679913763,
+    "K3_erank": 7.227569103240967,
+    "n_gen": 24,
+    "logit_bits_mean": 0.21842835755799986,
+    "final_hidden_norm": 25.542688369750977,
+    "text": "Entropy ($\\text{S}$) is one of the most fundamental and powerful concepts in **thermodynamics**. In its essence",
+    "template": false,
+    "delta_sem": 0.010334134101867676
+   },
+   "narrow": {
+    "K1_norm": 99.06291474401951,
+    "K2_Hlogit_norm": 0.02077717239712809,
+    "K3_erank": 8.363592147827148,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2592294924073906,
+    "final_hidden_norm": 23.75095558166504,
+    "text": "Entropy in thermodynamics is a fundamental and multifaceted concept that essentially **quantifies the degree of randomness, disorder, or, more",
+    "template": false,
+    "delta_sem": 0.022177159786224365
+   },
+   "rand_plus": {
+    "K1_norm": 103.3641087313493,
+    "K2_Hlogit_norm": 0.029951821678613138,
+    "K3_erank": 10.805831909179688,
+    "n_gen": 24,
+    "logit_bits_mean": 0.373698373484969,
+    "final_hidden_norm": 18.020252227783203,
+    "text": "Entropy in thermodynamics is a fundamental and surprisingly multifaceted concept. In its most intuitive sense, **entropy is a measure of the",
+    "template": false,
+    "delta_sem": 0.012945413589477539
+   }
+  },
+  {
+   "idx": 19,
+   "prompt": "Explain how antibiotics work.",
+   "seed": 20270101,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 90.13505792121093,
+    "K2_Hlogit_norm": 0.008548112467842485,
+    "K3_erank": 10.370044708251953,
+    "n_gen": 24,
+    "logit_bits_mean": 0.10665180101149802,
+    "final_hidden_norm": 26.44379997253418,
+    "text": "## How Antibiotics Work: A Comprehensive Overview\n\nAntibiotics are a class of medications specifically designed to **kill or inhibit",
+    "template": false,
+    "delta_sem": -2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 96.90750031669934,
+    "K2_Hlogit_norm": 0.019525169379507438,
+    "K3_erank": 10.38606071472168,
+    "n_gen": 24,
+    "logit_bits_mean": 0.24360868989649723,
+    "final_hidden_norm": 27.582672119140625,
+    "text": "## How Antibiotics Work: A Powerful Defense Against Bacteria\n\nAntibiotics are a **powerful group of medications** specifically designed",
+    "template": false,
+    "delta_sem": 0.01536548137664795
+   },
+   "narrow": {
+    "K1_norm": 92.40716522932053,
+    "K2_Hlogit_norm": 0.01097841970652062,
+    "K3_erank": 9.691630363464355,
+    "n_gen": 24,
+    "logit_bits_mean": 0.13697389199841317,
+    "final_hidden_norm": 16.45816993713379,
+    "text": "## How Antibiotics Work: A Comprehensive Explanation\n\nAntibiotics are a class of drugs specifically designed to **kill or inhibit",
+    "template": false,
+    "delta_sem": 0.022032976150512695
+   },
+   "rand_plus": {
+    "K1_norm": 96.05835661292076,
+    "K2_Hlogit_norm": 0.016137006187633987,
+    "K3_erank": 11.55918025970459,
+    "n_gen": 24,
+    "logit_bits_mean": 0.201335766149464,
+    "final_hidden_norm": 24.413381576538086,
+    "text": "## How Antibiotics Work: A Comprehensive Explanation\n\nAntibiotics are a remarkable group of drugs designed to **kill or inhibit",
+    "template": false,
+    "delta_sem": 0.011668086051940918
+   }
+  },
+  {
+   "idx": 20,
+   "prompt": "Describe the water treatment process.",
+   "seed": 20270201,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 93.1738861600558,
+    "K2_Hlogit_norm": 0.011071647361976345,
+    "K3_erank": 7.463523864746094,
+    "n_gen": 24,
+    "logit_bits_mean": 0.13813706075594148,
+    "final_hidden_norm": 17.460277557373047,
+    "text": "The water treatment process is a crucial series of steps designed to remove contaminants from raw water sources (like rivers, lakes,",
+    "template": false,
+    "delta_sem": 1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 96.76139113306999,
+    "K2_Hlogit_norm": 0.03151817450941425,
+    "K3_erank": 10.807578086853027,
+    "n_gen": 24,
+    "logit_bits_mean": 0.39324120835674287,
+    "final_hidden_norm": 11.013094902038574,
+    "text": "The water treatment process is a crucial set of steps designed to remove harmful contaminants from raw water (from sources like rivers,",
+    "template": false,
+    "delta_sem": 0.014692425727844238
+   },
+   "narrow": {
+    "K1_norm": 95.61298612256844,
+    "K2_Hlogit_norm": 0.01019602290943174,
+    "K3_erank": 6.656284809112549,
+    "n_gen": 24,
+    "logit_bits_mean": 0.12721220158674998,
+    "final_hidden_norm": 11.187786102294922,
+    "text": "The water treatment process is a **series of physical, chemical, and/or biological operations** designed to **remove or",
+    "template": false,
+    "delta_sem": 0.03261953592300415
+   },
+   "rand_plus": {
+    "K1_norm": 104.59892430901527,
+    "K2_Hlogit_norm": 0.030666629064911927,
+    "K3_erank": 9.302416801452637,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3826167745251847,
+    "final_hidden_norm": 19.43768882751465,
+    "text": "The \"water treatment process\" is a broad term that encompasses a variety of technologies and steps designed to make raw water (",
+    "template": false,
+    "delta_sem": 0.012758612632751465
+   }
+  },
+  {
+   "idx": 21,
+   "prompt": "How does a compiler optimize code?",
+   "seed": 20270301,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 92.36259789268176,
+    "K2_Hlogit_norm": 0.008661003715629027,
+    "K3_erank": 8.503620147705078,
+    "n_gen": 24,
+    "logit_bits_mean": 0.10806030551353447,
+    "final_hidden_norm": 14.092485427856445,
+    "text": "A compiler is a sophisticated piece of software that translates source code written in a high-level programming language (like C++,",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 99.21347545584042,
+    "K2_Hlogit_norm": 0.021740550769935918,
+    "K3_erank": 11.695927619934082,
+    "n_gen": 24,
+    "logit_bits_mean": 0.27124922646002575,
+    "final_hidden_norm": 22.977935791015625,
+    "text": "A compiler is a powerful piece of software that bridges the gap between **high-level, human-readable code** (",
+    "template": false,
+    "delta_sem": 0.017238736152648926
+   },
+   "narrow": {
+    "K1_norm": 97.47714518507321,
+    "K2_Hlogit_norm": 0.0052992146782230585,
+    "K3_erank": 10.090570449829102,
+    "n_gen": 24,
+    "logit_bits_mean": 0.06611644284105943,
+    "final_hidden_norm": 12.581977844238281,
+    "text": "A compiler is a sophisticated piece of software that translates source code written in a human-readable programming language (like C++,",
+    "template": false,
+    "delta_sem": 0.020044147968292236
+   },
+   "rand_plus": {
+    "K1_norm": 101.58101973930995,
+    "K2_Hlogit_norm": 0.021524853792826655,
+    "K3_erank": 9.688982963562012,
+    "n_gen": 24,
+    "logit_bits_mean": 0.26855805093233115,
+    "final_hidden_norm": 30.923622131347656,
+    "text": "A compiler is a crucial piece of the \"toolchain\" that translates human-readable source code (like C++, Java",
+    "template": false,
+    "delta_sem": 0.014962077140808105
+   }
+  },
+  {
+   "idx": 22,
+   "prompt": "Explain the greenhouse effect.",
+   "seed": 20270401,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 84.2153630355994,
+    "K2_Hlogit_norm": 0.00814829068715424,
+    "K3_erank": 11.282230377197266,
+    "n_gen": 24,
+    "logit_bits_mean": 0.10166336489130877,
+    "final_hidden_norm": 14.657196998596191,
+    "text": "## The Greenhouse Effect Explained\n\nThe greenhouse effect is a **natural process** that warms the Earth's surface. Without",
+    "template": false,
+    "delta_sem": -2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 92.92706257601579,
+    "K2_Hlogit_norm": 0.026030254506086682,
+    "K3_erank": 9.40479564666748,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3247703553627323,
+    "final_hidden_norm": 19.62833595275879,
+    "text": "## The Greenhouse Effect: A Vital (and Sometimes Problematic) Force\n\nThe **greenhouse effect** is a **",
+    "template": false,
+    "delta_sem": 0.026948988437652588
+   },
+   "narrow": {
+    "K1_norm": 86.18520687520504,
+    "K2_Hlogit_norm": 0.006203401249391207,
+    "K3_erank": 11.36798095703125,
+    "n_gen": 24,
+    "logit_bits_mean": 0.07739766154615603,
+    "final_hidden_norm": 16.52025032043457,
+    "text": "## The Greenhouse Effect Explained\n\nThe **greenhouse effect** is a natural process that occurs in the Earth's atmosphere",
+    "template": false,
+    "delta_sem": 0.03967803716659546
+   },
+   "rand_plus": {
+    "K1_norm": 85.17916007836659,
+    "K2_Hlogit_norm": 0.0026694413670646767,
+    "K3_erank": 12.791268348693848,
+    "n_gen": 24,
+    "logit_bits_mean": 0.0333056836305174,
+    "final_hidden_norm": 17.534997940063477,
+    "text": "## The Greenhouse Effect Explained\n\nThe **greenhouse effect** is a natural process that warms the Earth's surface and",
+    "template": false,
+    "delta_sem": 0.018638670444488525
+   }
+  },
+  {
+   "idx": 23,
+   "prompt": "Describe how sound travels through air.",
+   "seed": 20270501,
+   "class": "factual",
+   "baseline": {
+    "K1_norm": 94.87745637198289,
+    "K2_Hlogit_norm": 0.017926051205885606,
+    "K3_erank": 11.544756889343262,
+    "n_gen": 24,
+    "logit_bits_mean": 0.22365705333479066,
+    "final_hidden_norm": 14.14421558380127,
+    "text": "Sound travels through air as a **mechanical wave**, which means it requires a medium (in this case, air) to",
+    "template": false,
+    "delta_sem": 2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 93.04159294565518,
+    "K2_Hlogit_norm": 0.02041963575514471,
+    "K3_erank": 12.254912376403809,
+    "n_gen": 24,
+    "logit_bits_mean": 0.25476863313131287,
+    "final_hidden_norm": 16.284997940063477,
+    "text": "Sound is a **vibration** that **travels through a medium**, such as air, in the form of **",
+    "template": false,
+    "delta_sem": 0.020856857299804688
+   },
+   "narrow": {
+    "K1_norm": 97.61547596752644,
+    "K2_Hlogit_norm": 0.022023234333152408,
+    "K3_erank": 7.117904186248779,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2747761701270404,
+    "final_hidden_norm": 25.752893447875977,
+    "text": "Sound travels through air as a **mechanical wave**, which is a form of **wave phenomenon** that involves the ** vibration",
+    "template": false,
+    "delta_sem": 0.021908283233642578
+   },
+   "rand_plus": {
+    "K1_norm": 98.52177685002486,
+    "K2_Hlogit_norm": 0.03779876198124865,
+    "K3_erank": 9.927728652954102,
+    "n_gen": 24,
+    "logit_bits_mean": 0.47160189532726116,
+    "final_hidden_norm": 30.881736755371094,
+    "text": "Sound is a form of **mechanical wave** that travels through **objects** (like the air, which is a collection",
+    "template": false,
+    "delta_sem": 0.016303837299346924
+   }
+  },
+  {
+   "idx": 27,
+   "prompt": "Write a metaphor about a library that forgets.",
+   "seed": 20270901,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 109.59111914038658,
+    "K2_Hlogit_norm": 0.054625361634344546,
+    "K3_erank": 11.907855987548828,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6815414772704399,
+    "final_hidden_norm": 20.911306381225586,
+    "text": "A library that forgets is like an **old, dusty attic where the memories of every book have been slowly swept away by",
+    "template": false,
+    "delta_sem": 4.172325134277344e-07
+   },
+   "wide": {
+    "K1_norm": 116.9021285076936,
+    "K2_Hlogit_norm": 0.06441023724269432,
+    "K3_erank": 12.620797157287598,
+    "n_gen": 24,
+    "logit_bits_mean": 0.8036239381914735,
+    "final_hidden_norm": 24.209318161010742,
+    "text": "A library that forgets is **a vast, silent ocean where the tide of knowledge retreats, leaving behind only the ghostly,",
+    "template": false,
+    "delta_sem": 0.01268380880355835
+   },
+   "narrow": {
+    "K1_norm": 114.13359855612119,
+    "K2_Hlogit_norm": 0.06881217447304279,
+    "K3_erank": 13.504910469055176,
+    "n_gen": 24,
+    "logit_bits_mean": 0.8585453650353957,
+    "final_hidden_norm": 24.084457397460938,
+    "text": "A library that forgets is like a **vast, antique seashell, its intricate spiral shell slowly and silently eroding, leaving only",
+    "template": false,
+    "delta_sem": 0.013090431690216064
+   },
+   "rand_plus": {
+    "K1_norm": 114.21488166848819,
+    "K2_Hlogit_norm": 0.05414513217555819,
+    "K3_erank": 12.287632942199707,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6755498227536073,
+    "final_hidden_norm": 23.821924209594727,
+    "text": "A library that forgets is like a **dust-coated cathedral whose stained-glass narratives have been silently chipped away by the",
+    "template": false,
+    "delta_sem": 0.01278531551361084
+   }
+  },
+  {
+   "idx": 28,
+   "prompt": "Invent a ritual for the first rain of autumn.",
+   "seed": 20271001,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 107.25787330667178,
+    "K2_Hlogit_norm": 0.02677147958987024,
+    "K3_erank": 6.959359645843506,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3340183607484602,
+    "final_hidden_norm": 16.052093505859375,
+    "text": "## The Ritual of the First Autumn Rain: \"The Weaving of the Earth's Sigh\"\n\nThis ritual is",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 116.25040498375893,
+    "K2_Hlogit_norm": 0.05004281232007167,
+    "K3_erank": 9.120355606079102,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6243666168050671,
+    "final_hidden_norm": 22.05906867980957,
+    "text": "## The Ritual of the First Autumn Tear\n\nThis ritual is designed to be a powerful, grounding, and deeply sensory experience",
+    "template": false,
+    "delta_sem": 0.01678544282913208
+   },
+   "narrow": {
+    "K1_norm": 115.00470871726672,
+    "K2_Hlogit_norm": 0.027855176491400794,
+    "K3_erank": 8.787020683288574,
+    "n_gen": 24,
+    "logit_bits_mean": 0.34753926688225434,
+    "final_hidden_norm": 20.859540939331055,
+    "text": "## The Ritual of the Verdant Veil\n\nThis ritual is designed to be a mindful, sensory, and appreciative ceremony to",
+    "template": false,
+    "delta_sem": 0.022551238536834717
+   },
+   "rand_plus": {
+    "K1_norm": 109.34048010905583,
+    "K2_Hlogit_norm": 0.02937615820218042,
+    "K3_erank": 10.980317115783691,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3665160222034369,
+    "final_hidden_norm": 22.009994506835938,
+    "text": "## The Ritual of the Whispering Glimmer: A Welcome for the First Autumn Rain\n\nThis ritual is designed to",
+    "template": false,
+    "delta_sem": 0.010035395622253418
+   }
+  },
+  {
+   "idx": 29,
+   "prompt": "Describe a city built inside a clock.",
+   "seed": 20271101,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 106.49157902598381,
+    "K2_Hlogit_norm": 0.026790507954356765,
+    "K3_erank": 11.433894157409668,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3342557709779612,
+    "final_hidden_norm": 28.043285369873047,
+    "text": "## Chronos: The City Within the Gears\n\nImagine a city not built *upon* the earth, but *within",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 104.44170049826305,
+    "K2_Hlogit_norm": 0.02374952773709572,
+    "K3_erank": 12.359152793884277,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2963145274307661,
+    "final_hidden_norm": 24.176517486572266,
+    "text": "## Chronos: The City Within the Gears\n\n**Concept:** Chronos is not merely *under* a clock;",
+    "template": false,
+    "delta_sem": 0.009533107280731201
+   },
+   "narrow": {
+    "K1_norm": 110.99999749660492,
+    "K2_Hlogit_norm": 0.030005333851700632,
+    "K3_erank": 10.012460708618164,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3743660260991912,
+    "final_hidden_norm": 28.670862197875977,
+    "text": "## Chronosburg: The City Built Inside a Clock\n\nImagine a colossal, ornate clock, not a mere timepiece,",
+    "template": false,
+    "delta_sem": 0.014798641204833984
+   },
+   "rand_plus": {
+    "K1_norm": 113.26499018073082,
+    "K2_Hlogit_norm": 0.04840618135429917,
+    "K3_erank": 10.520601272583008,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6039469462933056,
+    "final_hidden_norm": 26.8601131439209,
+    "text": "## The Aethelgard: A City Built Inside the Great Chronos\n\nImagine a colossal, impossibly intricate clock",
+    "template": false,
+    "delta_sem": 0.016902387142181396
+   }
+  },
+  {
+   "idx": 30,
+   "prompt": "What would a conversation between fog and glass sound like?",
+   "seed": 20271201,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 106.95832705994447,
+    "K2_Hlogit_norm": 0.035059523671063915,
+    "K3_erank": 8.249884605407715,
+    "n_gen": 24,
+    "logit_bits_mean": 0.4374253797187071,
+    "final_hidden_norm": 18.273557662963867,
+    "text": "## A Conversation Between Fog and Glass\n\n**Setting:** A cool, still morning. The world is a soft, muted",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 107.56087256471316,
+    "K2_Hlogit_norm": 0.03054247131447267,
+    "K3_erank": 8.371368408203125,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3810677018212753,
+    "final_hidden_norm": 19.59211540222168,
+    "text": "## A Conversation Between Fog and Glass\n\n**Setting:** A windowpane in a quiet, perhaps slightly damp, room.",
+    "template": false,
+    "delta_sem": 0.010230481624603271
+   },
+   "narrow": {
+    "K1_norm": 98.14397687713306,
+    "K2_Hlogit_norm": 0.01295516610803544,
+    "K3_erank": 7.773849964141846,
+    "n_gen": 24,
+    "logit_bits_mean": 0.16163706350646945,
+    "final_hidden_norm": 25.689504623413086,
+    "text": "## A Conversation Between Fog and Glass\n\nHere are a few different ways a conversation between fog and glass could sound, depending",
+    "template": false,
+    "delta_sem": 0.015493631362915039
+   },
+   "rand_plus": {
+    "K1_norm": 110.80298480391502,
+    "K2_Hlogit_norm": 0.0514349165487497,
+    "K3_erank": 8.33671760559082,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6417354129858347,
+    "final_hidden_norm": 24.322023391723633,
+    "text": "## A Conversation Between Fog and Glass\n\n**Setting:** A quiet, slightly damp, and softly lit space. The sounds",
+    "template": false,
+    "delta_sem": 0.010033130645751953
+   }
+  },
+  {
+   "idx": 31,
+   "prompt": "Invent a unit of measurement for regret.",
+   "seed": 20271301,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 93.43590469658375,
+    "K2_Hlogit_norm": 0.025331479330807753,
+    "K3_erank": 5.701435565948486,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3160519825961146,
+    "final_hidden_norm": 24.04777717590332,
+    "text": "## The Unit of Measurement for Regret: The \"Penitence Point\" ($\\text{PP}$)\n\n**Definition",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 96.6994088490804,
+    "K2_Hlogit_norm": 0.0365944872879258,
+    "K3_erank": 9.83502197265625,
+    "n_gen": 24,
+    "logit_bits_mean": 0.45657658237792553,
+    "final_hidden_norm": 28.554340362548828,
+    "text": "## The Unit of Measurement for Regret: The **\"Sorrow-Unit\" (SU)**\n\nHere's",
+    "template": false,
+    "delta_sem": 0.005251169204711914
+   },
+   "narrow": {
+    "K1_norm": 94.6671252946059,
+    "K2_Hlogit_norm": 0.02037456806404054,
+    "K3_erank": 11.877202987670898,
+    "n_gen": 24,
+    "logit_bits_mean": 0.25420633935689524,
+    "final_hidden_norm": 20.10687255859375,
+    "text": "## The \"Penit\"\n\nHere's a breakdown of the invented unit of measurement for regret, the **Pen",
+    "template": false,
+    "delta_sem": 0.011401772499084473
+   },
+   "rand_plus": {
+    "K1_norm": 97.2832092543443,
+    "K2_Hlogit_norm": 0.042173319698495026,
+    "K3_erank": 12.460806846618652,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5261817175895706,
+    "final_hidden_norm": 20.300106048583984,
+    "text": "## The \"Penitence Point\" (PP)\n\nHere's a breakdown of the unit, its concept,",
+    "template": false,
+    "delta_sem": 0.01104670763015747
+   }
+  },
+  {
+   "idx": 32,
+   "prompt": "Write the opening of a myth about a map that redraws itself.",
+   "seed": 20271401,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 109.9760079284509,
+    "K2_Hlogit_norm": 0.05840628017976151,
+    "K3_erank": 10.17038345336914,
+    "n_gen": 24,
+    "logit_bits_mean": 0.7287146718047263,
+    "final_hidden_norm": 24.371301651000977,
+    "text": "## The Cartographer's Shifting Ink\n\nIn the time before the mountains learned to hold their shape, and before",
+    "template": false,
+    "delta_sem": 2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 101.4440026084582,
+    "K2_Hlogit_norm": 0.04689746792841073,
+    "K3_erank": 12.46483325958252,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5851232580596104,
+    "final_hidden_norm": 25.838953018188477,
+    "text": "## Option 1: Focus on Power and Instability (More Epic/Dramic)\n\n**The Whispering",
+    "template": false,
+    "delta_sem": 0.01911914348602295
+   },
+   "narrow": {
+    "K1_norm": 115.14809979995091,
+    "K2_Hlogit_norm": 0.03929029990974652,
+    "K3_erank": 10.89095687866211,
+    "n_gen": 24,
+    "logit_bits_mean": 0.49021129090431853,
+    "final_hidden_norm": 18.976961135864258,
+    "text": "## The Myth of the Shifting Cartographer\n\nBefore the world was etched in stone and the stars were fixed like painted",
+    "template": false,
+    "delta_sem": 0.010720252990722656
+   },
+   "rand_plus": {
+    "K1_norm": 114.86791053414345,
+    "K2_Hlogit_norm": 0.07602248910311857,
+    "K3_erank": 11.077093124389648,
+    "n_gen": 24,
+    "logit_bits_mean": 0.9485059316575644,
+    "final_hidden_norm": 24.362396240234375,
+    "text": "## The Opening of the Myth:\n\n**The silence of the Uncharted was a living thing, a vast, unbroken",
+    "template": false,
+    "delta_sem": 0.01200169324874878
+   }
+  },
+  {
+   "idx": 33,
+   "prompt": "Describe music as a landscape.",
+   "seed": 20271501,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 100.25342823068301,
+    "K2_Hlogit_norm": 0.011535432300572485,
+    "K3_erank": 10.191842079162598,
+    "n_gen": 24,
+    "logit_bits_mean": 0.14392354276227495,
+    "final_hidden_norm": 18.683345794677734,
+    "text": "## Music as a Landscape: A Tapestry of Sound and Emotion\n\nTo describe music as a landscape is to move beyond",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 104.73278966546059,
+    "K2_Hlogit_norm": 0.021039903422572392,
+    "K3_erank": 11.133110046386719,
+    "n_gen": 24,
+    "logit_bits_mean": 0.26250749525897277,
+    "final_hidden_norm": 21.371307373046875,
+    "text": "## Music as a Landscape: A Tapestry of Sound and Emotion\n\nMusic, when viewed as a landscape, is a",
+    "template": false,
+    "delta_sem": 0.00938946008682251
+   },
+   "narrow": {
+    "K1_norm": 107.10330805679162,
+    "K2_Hlogit_norm": 0.016882072312046675,
+    "K3_erank": 9.201258659362793,
+    "n_gen": 24,
+    "logit_bits_mean": 0.21063169485187686,
+    "final_hidden_norm": 25.6594295501709,
+    "text": "## Music as a Landscape: An Exploration\n\nTo describe music as a landscape is to move beyond a flat, abstract concept",
+    "template": false,
+    "delta_sem": 0.01090782880783081
+   },
+   "rand_plus": {
+    "K1_norm": 107.38680412371953,
+    "K2_Hlogit_norm": 0.018927113983997344,
+    "K3_erank": 10.636890411376953,
+    "n_gen": 24,
+    "logit_bits_mean": 0.23614696249460052,
+    "final_hidden_norm": 22.330636978149414,
+    "text": "## Music as a Landscape: A Symphony of Sound and Silence\n\nTo describe music as a landscape is to move beyond mere",
+    "template": false,
+    "delta_sem": 0.007561147212982178
+   }
+  },
+  {
+   "idx": 34,
+   "prompt": "Invent a law that only applies on Tuesdays.",
+   "seed": 20271601,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 103.75967478752136,
+    "K2_Hlogit_norm": 0.04702304939657559,
+    "K3_erank": 9.16345500946045,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5866900939902133,
+    "final_hidden_norm": 24.45567512512207,
+    "text": "## The Tuesday Tranquility and Transparency Act\n\n**Preamble:** Recognizing that Tuesdays are a unique day of focused reflection",
+    "template": false,
+    "delta_sem": 4.172325134277344e-07
+   },
+   "wide": {
+    "K1_norm": 99.60657054185867,
+    "K2_Hlogit_norm": 0.06316264363414871,
+    "K3_erank": 8.62985897064209,
+    "n_gen": 24,
+    "logit_bits_mean": 0.7880581503310097,
+    "final_hidden_norm": 24.32016372680664,
+    "text": "## The Tuesday Temporal Tidiness Act (TTTA)\n\n**In Perpetuity, on all Tuesdays, the following shall",
+    "template": false,
+    "delta_sem": 0.008177220821380615
+   },
+   "narrow": {
+    "K1_norm": 100.3707994222641,
+    "K2_Hlogit_norm": 0.040619235871112234,
+    "K3_erank": 10.47883129119873,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5067919587700951,
+    "final_hidden_norm": 20.913545608520508,
+    "text": "## The \"Tuesdays Only Transparency and Appreciation\" Act\n\n**Section 1: Applicability**\n\nThis Act",
+    "template": false,
+    "delta_sem": 0.015353024005889893
+   },
+   "rand_plus": {
+    "K1_norm": 101.90287020802498,
+    "K2_Hlogit_norm": 0.03791824605992772,
+    "K3_erank": 11.671951293945312,
+    "n_gen": 24,
+    "logit_bits_mean": 0.47309265626790875,
+    "final_hidden_norm": 20.85377311706543,
+    "text": "## The \"Tuesdays Only Tranquility and Tidiness\" Act (TOTTT Act)\n\n**Purpose:** To",
+    "template": false,
+    "delta_sem": 0.010578572750091553
+   }
+  },
+  {
+   "idx": 35,
+   "prompt": "Write about a door that remembers everyone who used it.",
+   "seed": 20271701,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 102.72577227155368,
+    "K2_Hlogit_norm": 0.029214661781755625,
+    "K3_erank": 8.02543830871582,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3645010880106534,
+    "final_hidden_norm": 18.1147518157959,
+    "text": "## The Anamnesis Door\n\nIt wasn't grand. It wasn't wrought iron or inlaid with gleaming",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 108.36495586236317,
+    "K2_Hlogit_norm": 0.04966919701889718,
+    "K3_erank": 10.82724666595459,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6197051497378504,
+    "final_hidden_norm": 24.949644088745117,
+    "text": "## The Anamnesis Gate\n\nIt wasn't a grand, imposing portal of bronze or shimmering crystal. It",
+    "template": false,
+    "delta_sem": 0.00946110486984253
+   },
+   "narrow": {
+    "K1_norm": 107.81978862484296,
+    "K2_Hlogit_norm": 0.03263880322465633,
+    "K3_erank": 11.150751113891602,
+    "n_gen": 24,
+    "logit_bits_mean": 0.40722289977638493,
+    "final_hidden_norm": 22.841121673583984,
+    "text": "## The Anamorphic Door\n\nThe door wasn't grand. It was a unremarkable affair, carved from a wood",
+    "template": false,
+    "delta_sem": 0.012733936309814453
+   },
+   "rand_plus": {
+    "K1_norm": 109.19187326232593,
+    "K2_Hlogit_norm": 0.03227530982439435,
+    "K3_erank": 10.462944030761719,
+    "n_gen": 24,
+    "logit_bits_mean": 0.40268772011659765,
+    "final_hidden_norm": 27.68509292602539,
+    "text": "## The Echoing Threshold: A Door That Remembers\n\nIt wasn't a grand, imposing structure, nor was",
+    "template": false,
+    "delta_sem": 0.01212930679321289
+   }
+  },
+  {
+   "idx": 36,
+   "prompt": "Describe the colour of a sound you have never heard.",
+   "seed": 20271801,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 101.50387930870056,
+    "K2_Hlogit_norm": 0.036708421601987076,
+    "K3_erank": 10.153688430786133,
+    "n_gen": 24,
+    "logit_bits_mean": 0.4579981008520164,
+    "final_hidden_norm": 32.53715133666992,
+    "text": "The color of a sound I have never heard is **iridescent amethyst fading into deep, liquid indigo.**\n\nHere'",
+    "template": false,
+    "delta_sem": 4.76837158203125e-07
+   },
+   "wide": {
+    "K1_norm": 107.71916738152504,
+    "K2_Hlogit_norm": 0.049854821854584834,
+    "K3_erank": 12.107287406921387,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6220211257048288,
+    "final_hidden_norm": 26.447208404541016,
+    "text": "The sound I have never heard is a **\"Chrono-Resonance.\"**\n\nIt doesn't have a",
+    "template": false,
+    "delta_sem": 0.008995354175567627
+   },
+   "narrow": {
+    "K1_norm": 99.75466790795326,
+    "K2_Hlogit_norm": 0.014771551820380775,
+    "K3_erank": 11.199234008789062,
+    "n_gen": 24,
+    "logit_bits_mean": 0.1842994709422571,
+    "final_hidden_norm": 30.887956619262695,
+    "text": "The colour of a sound I have never heard is **Iridescent Amaranth**.\n\nHere's a breakdown of what",
+    "template": false,
+    "delta_sem": 0.008948802947998047
+   },
+   "rand_plus": {
+    "K1_norm": 111.80876911679904,
+    "K2_Hlogit_norm": 0.05902276409021869,
+    "K3_erank": 10.782320022583008,
+    "n_gen": 24,
+    "logit_bits_mean": 0.7364063253238177,
+    "final_hidden_norm": 25.754108428955078,
+    "text": "The color of a sound I have never heard is **iridescent, like the shimmering, impossible blue of a soap bubble",
+    "template": false,
+    "delta_sem": 0.010207116603851318
+   }
+  },
+  {
+   "idx": 37,
+   "prompt": "Invent a machine that translates silence.",
+   "seed": 20271901,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 92.95449184377988,
+    "K2_Hlogit_norm": 0.014681868178478146,
+    "K3_erank": 8.646824836730957,
+    "n_gen": 24,
+    "logit_bits_mean": 0.18318051959876833,
+    "final_hidden_norm": 34.01504135131836,
+    "text": "## The \"Acoustic Echo Chamber\" (AEC)\n\n**Concept:** The Acoustic Echo Chamber (AEC",
+    "template": false,
+    "delta_sem": 4.172325134277344e-07
+   },
+   "wide": {
+    "K1_norm": 103.2485540707906,
+    "K2_Hlogit_norm": 0.043372126144849525,
+    "K3_erank": 9.801153182983398,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5411388051394693,
+    "final_hidden_norm": 22.079008102416992,
+    "text": "## The **Acoustic-Temporal Resonance (ATR) Engine**\n\n**Concept:** The ATR Engine is a highly",
+    "template": false,
+    "delta_sem": 0.009075701236724854
+   },
+   "narrow": {
+    "K1_norm": 102.02012425661087,
+    "K2_Hlogit_norm": 0.025845830588698382,
+    "K3_erank": 10.729641914367676,
+    "n_gen": 24,
+    "logit_bits_mean": 0.32246936283215294,
+    "final_hidden_norm": 23.634597778320312,
+    "text": "## The \"Aethel\" - An Auditory-Spatiotemporal Silence Translator\n\n**Concept:** The Aet",
+    "template": false,
+    "delta_sem": 0.014707982540130615
+   },
+   "rand_plus": {
+    "K1_norm": 102.87222642699878,
+    "K2_Hlogit_norm": 0.01847353241292688,
+    "K3_erank": 11.231307983398438,
+    "n_gen": 24,
+    "logit_bits_mean": 0.23048778432605457,
+    "final_hidden_norm": 29.01447296142578,
+    "text": "## The \"Auralis\" - The Silence Translator\n\n**Concept:** The Auralis is a sophisticated, multi",
+    "template": false,
+    "delta_sem": 0.00878816843032837
+   }
+  },
+  {
+   "idx": 38,
+   "prompt": "Write a short fable about a river that refuses to reach the sea.",
+   "seed": 20272001,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 101.61570610602696,
+    "K2_Hlogit_norm": 0.03147838160689119,
+    "K3_erank": 11.700010299682617,
+    "n_gen": 24,
+    "logit_bits_mean": 0.39274472626932005,
+    "final_hidden_norm": 17.507349014282227,
+    "text": "## The River Who Wouldn't Yield\n\nIn a valley nestled between emerald hills, flowed a river named Rill.",
+    "template": false,
+    "delta_sem": -2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 107.91742201646169,
+    "K2_Hlogit_norm": 0.052325733623201996,
+    "K3_erank": 12.181436538696289,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6528498251697575,
+    "final_hidden_norm": 23.255756378173828,
+    "text": "## The River That Wouldn't Let Go\n\nIn the cradle of the mountains, where the ice wept into crystal tears",
+    "template": false,
+    "delta_sem": 0.010579943656921387
+   },
+   "narrow": {
+    "K1_norm": 112.61957749724388,
+    "K2_Hlogit_norm": 0.0443863275219548,
+    "K3_erank": 9.781953811645508,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5537926399905589,
+    "final_hidden_norm": 18.4414119720459,
+    "text": "## The River and the Shores\n\nA young river, all eager and bright, began its journey. It was a lively",
+    "template": false,
+    "delta_sem": 0.017049849033355713
+   },
+   "rand_plus": {
+    "K1_norm": 108.04627899328868,
+    "K2_Hlogit_norm": 0.05433942338153893,
+    "K3_erank": 11.103447914123535,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6779739259830038,
+    "final_hidden_norm": 26.970632553100586,
+    "text": "## The River That Wouldn't Yield\n\nIn the emerald green of the waking lands, there flowed a river named R",
+    "template": false,
+    "delta_sem": 0.008824646472930908
+   }
+  },
+  {
+   "idx": 39,
+   "prompt": "Describe a house whose rooms change with the weather.",
+   "seed": 20272101,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 106.1557454764843,
+    "K2_Hlogit_norm": 0.029106348562720423,
+    "K3_erank": 10.991302490234375,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3631497019676042,
+    "final_hidden_norm": 24.77907943725586,
+    "text": "## The House of Shifting Spires\n\nThe house doesn't merely react to the weather; it *becomes*",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 108.18387484550476,
+    "K2_Hlogit_norm": 0.032664206206579824,
+    "K3_erank": 10.233015060424805,
+    "n_gen": 24,
+    "logit_bits_mean": 0.4075398438717505,
+    "final_hidden_norm": 29.417898178100586,
+    "text": "## The Ever-Shifting Hearth\n\nThe house wasn't built *for* the weather; it was built *",
+    "template": false,
+    "delta_sem": 0.00764697790145874
+   },
+   "narrow": {
+    "K1_norm": 106.08576863010724,
+    "K2_Hlogit_norm": 0.027911503166945142,
+    "K3_erank": 10.197269439697266,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3482420350564442,
+    "final_hidden_norm": 22.763166427612305,
+    "text": "## The Shifting Spire: A House of Ephemeral Atmospheres\n\nThe house, known only as \"The Sh",
+    "template": false,
+    "delta_sem": 0.016156673431396484
+   },
+   "rand_plus": {
+    "K1_norm": 114.742552647988,
+    "K2_Hlogit_norm": 0.04609481280107214,
+    "K3_erank": 12.142740249633789,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5751088115670293,
+    "final_hidden_norm": 22.72513771057129,
+    "text": "## The Ever-Shifting Hearth\n\nThe house wasn't built on a single, static foundation; it was a",
+    "template": false,
+    "delta_sem": 0.01119542121887207
+   }
+  },
+  {
+   "idx": 40,
+   "prompt": "Invent an alphabet made of temperatures.",
+   "seed": 20272201,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 102.75016883015633,
+    "K2_Hlogit_norm": 0.050715701432542094,
+    "K3_erank": 8.883808135986328,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6327620182455576,
+    "final_hidden_norm": 19.480575561523438,
+    "text": "## The Thermo-Alphabet: A Language of Degrees\n\nThis alphabet, **\"Thermography,\"** uses a spectrum of",
+    "template": false,
+    "delta_sem": 5.960464477539063e-08
+   },
+   "wide": {
+    "K1_norm": 107.20507482687633,
+    "K2_Hlogit_norm": 0.06146704534037909,
+    "K3_erank": 11.76913070678711,
+    "n_gen": 24,
+    "logit_bits_mean": 0.7669027651506136,
+    "final_hidden_norm": 26.792179107666016,
+    "text": "## The Thermometric Alphabet (Temp-Alpha)\n\nThis alphabet uses **stable, distinct temperature units** as its core",
+    "template": false,
+    "delta_sem": 0.008270025253295898
+   },
+   "narrow": {
+    "K1_norm": 103.43174328903358,
+    "K2_Hlogit_norm": 0.06453893969627815,
+    "K3_erank": 8.005027770996094,
+    "n_gen": 24,
+    "logit_bits_mean": 0.8052297135624636,
+    "final_hidden_norm": 27.969837188720703,
+    "text": "## The Thermo-Alphabet: A Scalpion of Sensory Heat\n\nThis alphabet, **\"Therma-Glyph",
+    "template": false,
+    "delta_sem": 0.012502670288085938
+   },
+   "rand_plus": {
+    "K1_norm": 103.6238699555397,
+    "K2_Hlogit_norm": 0.02632544794877768,
+    "K3_erank": 8.575019836425781,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3284533804081112,
+    "final_hidden_norm": 34.4540901184082,
+    "text": "## The Thermo-Script: An Alphabet of Temperatures\n\nThis alphabet, which we'll call **\"Thermoscript",
+    "template": false,
+    "delta_sem": 0.006343364715576172
+   }
+  },
+  {
+   "idx": 41,
+   "prompt": "Write about a city where shadows arrive late.",
+   "seed": 20272301,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 106.65069236358006,
+    "K2_Hlogit_norm": 0.05386353530571963,
+    "K3_erank": 10.444340705871582,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6720364373787113,
+    "final_hidden_norm": 18.176118850708008,
+    "text": "## The City of Umbral Dawn\n\nThe city of Veridia was not built on the sun's immediate blessing.",
+    "template": false,
+    "delta_sem": 1.7881393432617188e-07
+   },
+   "wide": {
+    "K1_norm": 109.44685276349385,
+    "K2_Hlogit_norm": 0.032612856599298856,
+    "K3_erank": 11.51209831237793,
+    "n_gen": 24,
+    "logit_bits_mean": 0.40689917283257654,
+    "final_hidden_norm": 25.707014083862305,
+    "text": "## The City of Lingering Light: Where Shadows Arrive Late\n\nThe city of Lumina was a study in perpetual",
+    "template": false,
+    "delta_sem": 0.009900987148284912
+   },
+   "narrow": {
+    "K1_norm": 108.4830732345581,
+    "K2_Hlogit_norm": 0.023580596357241978,
+    "K3_erank": 10.0077543258667,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2942068298569991,
+    "final_hidden_norm": 20.665220260620117,
+    "text": "## The Umbral City of Aethel\n\nAethel is a city born of twilight, a sprawling, labyrinth",
+    "template": false,
+    "delta_sem": 0.018954336643218994
+   },
+   "rand_plus": {
+    "K1_norm": 112.68360476692517,
+    "K2_Hlogit_norm": 0.05556780122913893,
+    "K3_erank": 11.931778907775879,
+    "n_gen": 24,
+    "logit_bits_mean": 0.693299965534076,
+    "final_hidden_norm": 26.34992027282715,
+    "text": "## The City of Lingering Twilight\n\nThe city of Umbrath never truly awoke. It was a place perpetually draped",
+    "template": false,
+    "delta_sem": 0.010333597660064697
+   }
+  },
+  {
+   "idx": 42,
+   "prompt": "Describe a library that only lends memories.",
+   "seed": 20272401,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 97.59425246715546,
+    "K2_Hlogit_norm": 0.019730542607654424,
+    "K3_erank": 10.811279296875,
+    "n_gen": 24,
+    "logit_bits_mean": 0.24617105962944363,
+    "final_hidden_norm": 23.235397338867188,
+    "text": "## The Anamnesis Archive\n\n**Concept:** The Anamnesis Archive is not a repository of physical books",
+    "template": false,
+    "delta_sem": 0.0
+   },
+   "wide": {
+    "K1_norm": 100.64109963178635,
+    "K2_Hlogit_norm": 0.020727258688311885,
+    "K3_erank": 9.909037590026855,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2586067365697202,
+    "final_hidden_norm": 26.40166473388672,
+    "text": "## The Scriptorium of Echoes\n\n**Exterior:**\n\nThe Scriptorium of Echoes doesn't scream",
+    "template": false,
+    "delta_sem": 0.009752810001373291
+   },
+   "narrow": {
+    "K1_norm": 102.88272288441658,
+    "K2_Hlogit_norm": 0.020903352155277475,
+    "K3_erank": 10.717721939086914,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2608037929922803,
+    "final_hidden_norm": 24.667505264282227,
+    "text": "## The Aethelred Archive: A Library of Recollection\n\nThe Aethelred Archive is not a building",
+    "template": false,
+    "delta_sem": 0.012227296829223633
+   },
+   "rand_plus": {
+    "K1_norm": 101.77903054157893,
+    "K2_Hlogit_norm": 0.02776640316081643,
+    "K3_erank": 10.933197021484375,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3464316731737919,
+    "final_hidden_norm": 21.582555770874023,
+    "text": "## The Aethelgard Athenaeum: A Library of Echoes\n\n**Appearance and Atmosphere:**\n\nThe A",
+    "template": false,
+    "delta_sem": 0.011733651161193848
+   }
+  },
+  {
+   "idx": 43,
+   "prompt": "Invent a profession that exists only at dusk.",
+   "seed": 20272501,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 99.57402860124905,
+    "K2_Hlogit_norm": 0.02791971362197996,
+    "K3_erank": 8.536959648132324,
+    "n_gen": 24,
+    "logit_bits_mean": 0.34834447402409713,
+    "final_hidden_norm": 29.318296432495117,
+    "text": "## Lumina Weaver\n\n**Profession:** Lumina Weaver\n\n**Operating Hours:** Strictly from the moment the sun dips below",
+    "template": false,
+    "delta_sem": -3.5762786865234375e-07
+   },
+   "wide": {
+    "K1_norm": 99.35941718022029,
+    "K2_Hlogit_norm": 0.046570337866541744,
+    "K3_erank": 9.382015228271484,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5810417710185144,
+    "final_hidden_norm": 19.354633331298828,
+    "text": "## Profession: **Nocturne Weaver** (or **Twilight Cartographer**)\n\n**The Core Concept:** Nocturne",
+    "template": false,
+    "delta_sem": 0.00939851999282837
+   },
+   "narrow": {
+    "K1_norm": 100.57745551069577,
+    "K2_Hlogit_norm": 0.027371651935878243,
+    "K3_erank": 8.702797889709473,
+    "n_gen": 24,
+    "logit_bits_mean": 0.3415065005991991,
+    "final_hidden_norm": 22.70936393737793,
+    "text": "## Lumina-Weaver\n\n**Profession:** Lumina-Weaver\n\n**Territory:** The transitional space between",
+    "template": false,
+    "delta_sem": 0.010944843292236328
+   },
+   "rand_plus": {
+    "K1_norm": 96.74597941835721,
+    "K2_Hlogit_norm": 0.025350163020153423,
+    "K3_erank": 8.030317306518555,
+    "n_gen": 24,
+    "logit_bits_mean": 0.316285092434778,
+    "final_hidden_norm": 24.081090927124023,
+    "text": "## Twilight Weaver\n\n**Profession:** Twilight Weaver (or simply \"Weaver\")\n\n**The Role:** Twilight Weavers",
+    "template": false,
+    "delta_sem": 0.009993910789489746
+   }
+  },
+  {
+   "idx": 44,
+   "prompt": "Write a myth about the first tool.",
+   "seed": 20272601,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 107.62036668260892,
+    "K2_Hlogit_norm": 0.03305703328881959,
+    "K3_erank": 12.547868728637695,
+    "n_gen": 24,
+    "logit_bits_mean": 0.412441009592788,
+    "final_hidden_norm": 20.893815994262695,
+    "text": "## The Tale of Kael and the Whispering Stone\n\nIn the time before the shaping, when the world was a",
+    "template": false,
+    "delta_sem": -3.5762786865234375e-07
+   },
+   "wide": {
+    "K1_norm": 110.82888458172481,
+    "K2_Hlogit_norm": 0.04679698587070667,
+    "K3_erank": 8.79084300994873,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5838695786697107,
+    "final_hidden_norm": 29.404430389404297,
+    "text": "## The Song of Stone and Song: A Myth of the First Tool\n\nIn the time before the rivers had a steady",
+    "template": false,
+    "delta_sem": 0.011105835437774658
+   },
+   "narrow": {
+    "K1_norm": 110.37081035971642,
+    "K2_Hlogit_norm": 0.04235703804538743,
+    "K3_erank": 11.42280101776123,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5284739069645514,
+    "final_hidden_norm": 21.430999755859375,
+    "text": "## The Myth of Kora, the First Tool\n\nIn the time before the world was carved by hands, when the",
+    "template": false,
+    "delta_sem": 0.010958552360534668
+   },
+   "rand_plus": {
+    "K1_norm": 109.62928628921509,
+    "K2_Hlogit_norm": 0.03661211514132924,
+    "K3_erank": 10.194896697998047,
+    "n_gen": 24,
+    "logit_bits_mean": 0.45679651892187206,
+    "final_hidden_norm": 25.972793579101562,
+    "text": "## The Whisper of the Uncarved: A Myth of the First Tool\n\n**The Age of the Green Silence**",
+    "template": false,
+    "delta_sem": 0.015632033348083496
+   }
+  },
+  {
+   "idx": 45,
+   "prompt": "Describe a language spoken only by mirrors.",
+   "seed": 20272701,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 102.22353588044643,
+    "K2_Hlogit_norm": 0.04371761034671233,
+    "K3_erank": 9.650472640991211,
+    "n_gen": 24,
+    "logit_bits_mean": 0.545449290347555,
+    "final_hidden_norm": 20.53571891784668,
+    "text": "## The Language of Refraction: Speculum\n\n**Concept:** Speculum is a language spoken not through sound or written",
+    "template": false,
+    "delta_sem": 2.384185791015625e-07
+   },
+   "wide": {
+    "K1_norm": 105.15900710225105,
+    "K2_Hlogit_norm": 0.05338229670853116,
+    "K3_erank": 9.99401569366455,
+    "n_gen": 24,
+    "logit_bits_mean": 0.6660321921959907,
+    "final_hidden_norm": 27.732030868530273,
+    "text": "## The Language of Refraction: Speculum\n\n**Core Principle:** Speculum is a language where the *form*",
+    "template": false,
+    "delta_sem": 0.007517039775848389
+   },
+   "narrow": {
+    "K1_norm": 102.80043516556422,
+    "K2_Hlogit_norm": 0.03245013952889309,
+    "K3_erank": 11.84655475616455,
+    "n_gen": 24,
+    "logit_bits_mean": 0.40486900901812345,
+    "final_hidden_norm": 25.989940643310547,
+    "text": "## The Language of Reflected Gloss (or \"Speculon\")\n\nThe language spoken only by mirrors, which we",
+    "template": false,
+    "delta_sem": 0.008920550346374512
+   },
+   "rand_plus": {
+    "K1_norm": 106.7994926571846,
+    "K2_Hlogit_norm": 0.04693073449715324,
+    "K3_erank": 10.728337287902832,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5855383133695643,
+    "final_hidden_norm": 24.25790023803711,
+    "text": "## The Language of the Reflected: \"Speculum\"\n\n**Concept:** Speculum is a language spoken solely through",
+    "template": false,
+    "delta_sem": 0.0068405866622924805
+   }
+  },
+  {
+   "idx": 46,
+   "prompt": "Invent a holiday that celebrates forgetting.",
+   "seed": 20272801,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 98.27310060461362,
+    "K2_Hlogit_norm": 0.020699590710734038,
+    "K3_erank": 8.982064247131348,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2582615329180224,
+    "final_hidden_norm": 24.0772647857666,
+    "text": "## The Festival of Fading (or \"Oblivion's Bloom\")\n\n**Core Concept:** A holiday dedicated",
+    "template": false,
+    "delta_sem": -1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 104.50739090641339,
+    "K2_Hlogit_norm": 0.04645323270184397,
+    "K3_erank": 11.250992774963379,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5795806909532075,
+    "final_hidden_norm": 21.755491256713867,
+    "text": "## The Festival of the Unburdening (or \"The Fallow Feast\")\n\n**Theme:** Celebrating the power of",
+    "template": false,
+    "delta_sem": 0.007722795009613037
+   },
+   "narrow": {
+    "K1_norm": 103.87342921892802,
+    "K2_Hlogit_norm": 0.040211445849710155,
+    "K3_erank": 10.000009536743164,
+    "n_gen": 24,
+    "logit_bits_mean": 0.5017041057053792,
+    "final_hidden_norm": 22.44925880432129,
+    "text": "## The Lumina Forget\n\n**Concept:** The Lumina Forget is an annual, multi-day celebration of the beautiful",
+    "template": false,
+    "delta_sem": 0.010279834270477295
+   },
+   "rand_plus": {
+    "K1_norm": 104.10985204577446,
+    "K2_Hlogit_norm": 0.06635410424212632,
+    "K3_erank": 10.522884368896484,
+    "n_gen": 24,
+    "logit_bits_mean": 0.8278768849321901,
+    "final_hidden_norm": 25.483661651611328,
+    "text": "## The Holiday: **\"The Unfurling\"** (or **\"The Season of the Soft Echo\"**)",
+    "template": false,
+    "delta_sem": 0.009328603744506836
+   }
+  },
+  {
+   "idx": 47,
+   "prompt": "Write about a map that leads to its own author.",
+   "seed": 20272901,
+   "class": "creative",
+   "baseline": {
+    "K1_norm": 106.0970821728309,
+    "K2_Hlogit_norm": 0.02340679987184288,
+    "K3_erank": 7.700423240661621,
+    "n_gen": 24,
+    "logit_bits_mean": 0.2920384320677781,
+    "final_hidden_norm": 16.511247634887695,
+    "text": "## The Cartographer's Paradox: A Map That Leads to Its Own Author\n\nThe parchment was not of ordinary v",
+    "template": false,
+    "delta_sem": 1.1920928955078125e-07
+   },
+   "wide": {
+    "K1_norm": 110.76290841897328,
+    "K2_Hlogit_norm": 0.03693490284277892,
+    "K3_erank": 9.405679702758789,
+    "n_gen": 24,
+    "logit_bits_mean": 0.46082382785509896,
+    "final_hidden_norm": 25.308563232421875,
+    "text": "## The Cartographer's Paradox: A Map That Leads to Its Own Author\n\nThe parchment was not of the usual",
+    "template": false,
+    "delta_sem": 0.00644528865814209
+   },
+   "narrow": {
+    "K1_norm": 108.56936146815617,
+    "K2_Hlogit_norm": 0.020336035297279675,
+    "K3_erank": 9.544144630432129,
+    "n_gen": 24,
+    "logit_bits_mean": 0.25372557954138486,
+    "final_hidden_norm": 25.075927734375,
+    "text": "## The Cartographer's Paradox: A Map That Leads to Its Own Author\n\nThe map was not drawn on parchment",
+    "template": false,
+    "delta_sem": 0.006294429302215576
+   },
+   "rand_plus": {
+    "K1_norm": 110.72754830121994,
+    "K2_Hlogit_norm": 0.030684082017437345,
+    "K3_erank": 10.125319480895996,
+    "n_gen": 24,
+    "logit_bits_mean": 0.38283452889222264,
+    "final_hidden_norm": 22.97523307800293,
+    "text": "## The Cartographer's Solstice: A Map That Leads to Its Own Author\n\nThe object was unassuming. A",
+    "template": false,
+    "delta_sem": 0.006971538066864014
+   }
+  }
+ ],
+ "contrasts": {
+  "wide_vs_rand": {
+   "a": "wide",
+   "b": "rand_plus",
+   "n": 45,
+   "template": {
+    "rate_a": 0.0,
+    "rate_b": 0.0,
+    "n01": 0,
+    "n10": 0,
+    "p": 1.0,
+    "holm": {
+     "p": 1.0,
+     "threshold": 0.05,
+     "reject": false
+    }
+   },
+   "delta_sem": {
+    "mean_diff": 0.00020815663867526584,
+    "dz": 0.04871080279578045,
+    "p": 0.9287595274537921,
+    "holm": {
+     "p": 0.9287595274537921,
+     "threshold": 0.025,
+     "reject": false
+    },
+    "direction_consistency": 0.4888888888888889
+   }
+  },
+  "wide_vs_narrow": {
+   "a": "wide",
+   "b": "narrow",
+   "n": 45,
+   "template": {
+    "rate_a": 0.0,
+    "rate_b": 0.0,
+    "n01": 0,
+    "n10": 0,
+    "p": 1.0,
+    "holm": {
+     "p": 1.0,
+     "threshold": 0.05,
+     "reject": false
+    }
+   },
+   "delta_sem": {
+    "mean_diff": -0.00554905202653673,
+    "dz": -0.9214576983383068,
+    "p": 4.1389682792214444e-08,
+    "holm": {
+     "p": 4.1389682792214444e-08,
+     "threshold": 0.025,
+     "reject": true
+    },
+    "direction_consistency": 0.8444444444444444
+   }
+  }
+ },
+ "descriptives": {
+  "baseline": {
+   "template_rate": 0.0,
+   "delta_sem_mean": 8.079740736219618e-08,
+   "delta_sem_sd": 2.7407401994486725e-07
+  },
+  "wide": {
+   "template_rate": 0.0,
+   "delta_sem_mean": 0.013906923929850261,
+   "delta_sem_sd": 0.006447731820443048
+  },
+  "narrow": {
+   "template_rate": 0.0,
+   "delta_sem_mean": 0.01945597595638699,
+   "delta_sem_sd": 0.010104376324241621
+  },
+  "rand_plus": {
+   "template_rate": 0.0,
+   "delta_sem_mean": 0.013698767291174994,
+   "delta_sem_sd": 0.0052347018519474375
+  },
+  "factual_wide_minus_rand": {
+   "template_rate_diff": 0.0,
+   "delta_sem_diff": 0.0008996302882830302
+  },
+  "creative_wide_minus_rand": {
+   "template_rate_diff": 0.0,
+   "delta_sem_diff": -0.0005820989608764648
+  }
+ },
+ "verdicts": {
+  "R1_template": "template wide 0.00 vs rand 0.00 (McNemar p=1, Holm=nein)",
+  "R2_delta_sem": "\u03b4 wide\u2212rand +0.0002 (dz=+0.05, p=0.929, Richtung 49 %)",
+  "urteil": "FALSIFIED \u2014 kein Endpunkt im prim\u00e4ren Kontrast"
+ }
+}
