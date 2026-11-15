@@ -83,11 +83,26 @@ das Modell (KV-Cache akkumuliert, `cache_position` gesetzt, `no_grad`):
 **Speicher bleibt flach** (6,1–6,4 GB) statt O(T²) → 36 k Prefill auf 12 GB,
 vorher OOM bei 8,4 k. Modell: Embedding-GF5 (5,5 GB) + fp16.
 
-**Wichtiger Zwischenbefund:** der Needle-Prompt liefert in *allen* Varianten
-eine leere Antwort — auch über den normalen `model.generate`-Pfad bei 1 147
-Tokens (Argmax-Token = `<turn|>`). Das ist ein **Prompt-/Format-Effekt**, kein
-Chunking-Fehler. Der Recall-Test muss mit dem Haystack-Format aus
-`bench/capability_bench.py` wiederholt werden.
+**Recall validiert** (Haystack-Format aus `bench/capability_bench.py`, Tiefe 50 %):
+
+| ~Tokens (Builder) | T | Zeit | Peak | Treffer |
+|---|---|---|---|---|
+| 2 000 | 1 169 | 2,9 s | 6,08 GB | ✅ |
+| 8 000 | 4 534 | 3,7 s | 6,10 GB | ✅ |
+| 20 000 | 11 262 | 6,8 s | 6,14 GB | ✅ |
+| 40 000 | 22 478 | 14,1 s | 6,21 GB | ✅ |
+| 60 000 | 33 693 | 23,6 s | 6,28 GB | ✅ |
+| 120 000 | 67 335 | 62,6 s | 6,48 GB | ✅ |
+| **240 000** | **134 625** | **194,1 s** | **6,90 GB** | **✅** |
+
+**Damit ist die Kontext-Achse gelöst: 4 k (Registry) → 134 625 Tokens mit
+korrektem Needle-Recall auf einer 12-GB-Karte.** Der frühere Leerbefund war
+tatsächlich nur das Prompt-Format (der reguläre `generate`-Pfad lieferte bei
+1 147 Tokens dasselbe leere Ergebnis; Argmax = `<turn|>`).
+
+Einschränkung, ehrlich: 134 625 liegt **über** den deklarierten
+`max_position_embeddings = 131 072` — die RoPE-Extrapolation trug hier, ist
+aber nicht garantiert; 128 k ist die belastbare Zahl.
 
 Nebenbefund: der erste Versuch OOM'te bei 8 k, weil der Chunk-Loop **ohne
 `torch.no_grad()`** lief — die Autograd-Graphen hielten jeden Chunk.
