@@ -101,14 +101,27 @@ Ausgabeeffekt. Eval Q muss diese drei Rollen trennen:
 | Schritt-Geometrie / Taktung | „hohe Validität" | Faktor 73,2; `wick_curvature` und `layer_step` invariant gegen Relay | **als Prädiktor unbrauchbar** |
 | `Φ^201`-Skalierung | „beste Stützung" | −83,9 %; Exponent 197,2; Wyler-Notationsfehler | **falsifiziert** |
 
-## 5. Was als Nächstes sinnvoll ist
+## 5. Eval Q — die offene Frage ist beantwortet (negativ)
 
-Kein weiteres TCI-Derivat. Die einzige offene, empirisch tragfähige Frage ist:
-**Gibt es eine basis-invariante Größe, die den Relay-Effekt auf die Ausgabe
-vorhersagt?** Drei Kandidaten, einer davon (Norm) als Manipulations-Check:
-`‖h‖` (L27–34), `H_logit/ln V` bzw. Kurtosis K, `erank` der Sequenz-Trajektorie.
-Design: `N = 48` distinkte Prompts × 4 Arme, gleiche Seeds pro Prompt,
-`min_new_tokens = 24`, Holm über 3 Kandidaten. Power (Simulation, Holm,
-α = 0,05): dz = 0,5 → ≥ 0,90; dz = 0,65 → ≥ 0,99.
+**Frage:** Gibt es eine basis-invariante Größe, die den Relay-Effekt auf die
+Ausgabe vorhersagt? **Antwort: nein.** 48 distinkte Prompts × 4 Arme, gleiche
+Seeds, exakt 24 Tokens, Holm über 3 Kandidaten:
+
+| Kandidat | wide vs narrow | wide vs rand (Spezifität) |
+|---|---|---|
+| `‖h‖` (L27–34) | dz +0,05, p = 0,65 | dz +0,46, p = 0,004 |
+| `H_logit/ln V` | dz **+0,56**, p = 2,5e-4 | dz +0,03, **p = 0,83** |
+| `erank` (SVD) | dz **+0,48**, p = 9,7e-4 | dz −0,38, p = 0,008 |
+
+**Kern:** `H_logit` steigt unter `wide` (0,0317) **exakt so stark wie unter
+einer norm-gematchten Zufallsrichtung** (0,0314, p = 0,83). Die Norm steigt
+unter `wide` und `narrow` gleichermaßen (100,07 / 99,89 vs baseline 97,03) —
+`‖h+v‖² = ‖h‖² + ‖v‖²`. Der Effekt ist **generisch**, nicht semantisch.
+
+**Methodische Konsequenz:** Der primäre Endpunkt jeder künftigen
+Steuerungs-Behauptung muss `wide − rand_plus` mit **norm-gematchter** Norm
+sein. Genau dieser Endpunkt ist für die Logit-Entropie null. Bis dahin gilt:
+die Relay-Steuerung verändert die Ausgabestatistik reproduzierbar, aber nicht
+richtungsabhängig.
 
 Details: `results/PREREG_Eval_Q_2026-11-15.md`.

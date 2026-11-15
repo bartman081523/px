@@ -109,3 +109,77 @@ Kleinster Effekt von Interesse: **dz = 0,5**. Bei n = 48 liegt die Power
 Ein JSON-Dump (`results/eval_Q_relay_predictor_gemma4.json`): pro Session
 K1/K2/K3, pro Prompt die vier Arme, pro Kontrast Wilcoxon/t, Holm, Richtungs-
 konsistenz. Urteil 1:1 angehängt, keine Nachjustierung.
+
+---
+
+## ERGEBNIS (nach dem Lauf angehängt, Urteile unverändert übernommen)
+
+Rohdaten: `results/eval_Q_relay_predictor_gemma4.json` · Log:
+`/tmp/opencode/eval_q_run.log` · 48 Prompts × 4 Arme = 192 Sessions,
+**jede mit exakt 24 Tokens** (`n_gen` einheitlich 24, EOS unterdrückt),
+gleicher Seed pro Prompt in allen Armen.
+
+### Deskriptiv (Mittel ± SD über 48 Prompts)
+
+| Arm | `K1‖h‖` (L27–34) | `K2 H_logit/ln V` | `K3 erank` |
+|---|---|---|---|
+| baseline | 97,03 ± 7,39 | 0,0233 ± 0,0135 | 8,95 ± 2,21 |
+| **wide** | 100,07 ± 7,30 | **0,0317 ± 0,0177** | **10,02 ± 2,10** |
+| **narrow** | 99,89 ± 7,93 | 0,0230 ± 0,0144 | 8,87 ± 2,12 |
+| rand_plus | 98,43 ± 8,27 | 0,0314 ± 0,0190 | 10,74 ± 2,05 |
+
+### Kontraste (gepaart pro Prompt, Wilcoxon, Holm k=3)
+
+| Kandidat | dz | p | Holm | Richtung | Urteil |
+|---|---|---|---|---|---|
+| **wide vs narrow** | | | | | |
+| `K1‖h‖` | +0,05 | 0,651 | – | 60 % | **kein Effekt** |
+| `K2 H_logit` | **+0,56** | **2,5e-4** | ja | 77 % | Effekt da, Konsistenz < 80 % |
+| `K3 erank` | **+0,48** | **9,7e-4** | ja | 73 % | Effekt da, Konsistenz < 80 % |
+| **wide vs rand (Spezifität)** | | | | | |
+| `K1‖h‖` | +0,46 | 3,7e-3 | ja | 71 % | signifikant, unspezifisch |
+| `K2 H_logit` | **+0,03** | **0,827** | – | 52 % | **keine Spezifität** |
+| `K3 erank` | −0,38 | 8,2e-3 | ja | 67 % | rand hat *mehr* erank |
+
+### Der eigentliche Befund: der Effekt ist generisch, nicht semantisch
+
+1. **`K2` reagiert auf jede Störung gleich.** `wide` 0,0317 vs `rand_plus`
+   0,0314 (p = 0,83). Die Logit-Entropie steigt also nicht, weil der Vektor
+   `d_width` bedeutet, sondern weil an Layer 26 ein Vektor der Norm
+   `0,40·‖h‖` addiert wird. Die Richtung ist irrelevant.
+2. **Die Norm ist symmetrisch, nicht gerichtet.** `wide` 100,07 und `narrow`
+   99,89 liegen beide ~3 über `baseline` 97,03 (p = 0,65 zwischen ihnen):
+   `‖h + v‖² = ‖h‖² + ‖v‖²` — jedes Additiv erhöht die Norm. Der P2-Befund
+   „wide > narrow auf der finalen Norm" war eine Ausrichtung an
+   `cos(h, d_width)`, kein Steuerungssignal.
+3. **`K3` ist klassenabhängig.** `erank`-Differenz wide − narrow:
+   faktenorientiert +2,34, kreativ **−0,04**. Der Effekt existiert nur dort,
+   wo das Modell noch nicht im hohen Entropie-Regime ist.
+4. **`K1` (L27–34) trennt wide/narrow nicht** (dz = +0,05). Die Vorhersage
+   „K1 wird signifikant" ist damit **falsifiziert** — die Injektion wird von
+   den RMSNormen der Folgelayer teilweise resorbiert.
+
+### Urteil
+
+Beide Kontraste: **PARTIAL** nach den vorab fixierten Kriterien (Signifikanz
+ja, Richtungskonsistenz 73–77 % < 80 %). Die substanzielle Lesart ist
+schärfer:
+
+> **Es gibt keinen basis-invarianten Prädiktor, der für die *semantische*
+> Richtung des Relay spezifisch ist.** `K2` und `K3` sind echte
+> Downstream-Effekte, aber sie reagieren auf die *Störung als solche*
+> (Norm, Richtung egal); `K1` ist bei L27–34 gar kein Effekt. Die in P2
+> gefundene Norm-Differenz war eine Ausrichtungsgröße, keine Steuerung.
+
+Damit ist auch die letzte offene Frage aus Eval O/P beantwortet — negativ.
+Was bleibt, ist die generische Beobachtung: **jede** Intervention an Layer 26
+mit dieser Norm verschiebt die Ausgabestatistik reproduzierbar
+(Logit-Entropie +36 % relativ, erank +12 %), unabhängig von der Richtung.
+
+**Konsequenz für die Methodik:** Die in O/P/Q gemessenen „Effekte" der
+Relay-Steuerung sind zu einem großen Teil *Perturbations*-Effekte. Wer
+semantische Steuerung belegen will, braucht einen Arm mit **norm-gematchter
+Zufallsrichtung** (hier: `rand_plus`) **und** einen Arm mit **norm-gematchter
+orthogonaler Richtung bei gleichem ‖v‖** — und muss die Differenz
+`wide − rand` als primären Endpunkt setzen. Genau dieser Endpunkt ist in Q
+für `K2` **null** (p = 0,83).
