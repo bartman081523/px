@@ -66,6 +66,32 @@ Drei Wege, in dieser Reihenfolge:
    Konverter schreiben, dann `llama-server` mit KV-Reuse/`--jinja` — das würde
    Kontext *und* Performance *und* Tools in einem Schritt lösen.
 
+## B2 — Ergebnis: Chunked Prefill trägt (gemessen)
+
+`ququint_quant/gf5_chunked_prefill.py` schiebt den Prompt in 512er-Chunks durch
+das Modell (KV-Cache akkumuliert, `cache_position` gesetzt, `no_grad`):
+
+| T | Prefill | Peak-VRAM |
+|---|---|---|
+| 1 147 | 0,7 s | 6,08 GB |
+| 2 828 | 1,1 s | 6,10 GB |
+| 5 632 | 2,1 s | 6,13 GB |
+| 8 435 | 4,0 s | 6,12 GB |
+| 18 250 | 9,1 s | 6,24 GB |
+| **36 473** | **22,0 s** | **6,41 GB** |
+
+**Speicher bleibt flach** (6,1–6,4 GB) statt O(T²) → 36 k Prefill auf 12 GB,
+vorher OOM bei 8,4 k. Modell: Embedding-GF5 (5,5 GB) + fp16.
+
+**Wichtiger Zwischenbefund:** der Needle-Prompt liefert in *allen* Varianten
+eine leere Antwort — auch über den normalen `model.generate`-Pfad bei 1 147
+Tokens (Argmax-Token = `<turn|>`). Das ist ein **Prompt-/Format-Effekt**, kein
+Chunking-Fehler. Der Recall-Test muss mit dem Haystack-Format aus
+`bench/capability_bench.py` wiederholt werden.
+
+Nebenbefund: der erste Versuch OOM'te bei 8 k, weil der Chunk-Loop **ohne
+`torch.no_grad()`** lief — die Autograd-Graphen hielten jeden Chunk.
+
 ## C — Größe (nach dem Audit neu aufgesetzt)
 
 GF(5) ist als 5-Zustands-Raster **gescheitert** (strukturierter Fehler, nicht
