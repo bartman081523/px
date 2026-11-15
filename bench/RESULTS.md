@@ -346,3 +346,39 @@ identisch — die Kernel sind also nicht die Ursache.
 `neuralworm/gemma-4-E2B-it-gf5` (HF, public): 6,2 GB, Runtime
 (`gf5_runtime.py`, `gf5_gemv.py`, `gf5_gemm.py`), `generate.py`, Manifest,
 README mit Messwerten und Grenzen. Kein `AutoModel.from_pretrained`-Drop-in.
+
+---
+
+## 12. Kalibrierte Quantisierung (AWQ-Stil) — versucht, gemessen, ohne Gewinn
+
+Vorschlag war: blockweise amax-Quantisierung durch aktivierungsgewichtete
+Skalierung ersetzen (AWQ-Stil), weil die Kanäle starke Ausreißer haben.
+
+**Umsetzung:** `ququint_quant/gf5_calibrate.py` sammelt für alle 277 linearen
+Schichten das mittlere |x| je Eingangskanal über 10 diverse Texte (EN/DE/Code).
+Der Packer skaliert die Gewichte spaltenweise mit `s = (a/median(a))^0.5`
+(geclippt auf [0,01, 20]) und legt den Faktor im Manifest ab; die Runtime
+dividiert die Aktivierung vor dem Kernel durch `s` — kein Kernel-Eingriff.
+
+**Ausreißer sind real** (Rechtfertigung für AWQ):
+`layers.20.mlp.down_proj` max/median = 51, `per_layer_input_gate` = 304,
+p99/median bis 7,4.
+
+| Variante | Größe | rel-L2 | PPL (4 Texte) | Text |
+|---|---|---|---|---|
+| bf16 | 10,25 GB | – | **2778** | sauber |
+| GF5 2 Stufen, ohne AWQ | 4,5 GB | 0,114 | – | Artefakte |
+| GF5 2 Stufen, **mit AWQ** | 4,95 GB | 0,130 | **3016 (+8,5 %)** | Artefakte |
+
+**Befund:** AWQ senkt den *aktivierungsgewichteten* Fehler, aber die
+Token-Artefakte bleiben; die PPL liegt 8,5 % über bf16. Bei greedy-Decoding
+reicht diese Verschiebung, um nach wenigen Tokens in andere Pfade zu laufen.
+Der Flaschenhals ist damit nicht die Skalierung, sondern die **Auflösung**:
+5 Zustände pro Gewicht (2,59 bit/Stufe) sind für dieses Modell zu grob, und
+mehr Stufen kosten linear Größe (7,76 bit für rel-L2 0,045).
+
+**Konsequenz:** Das hochgeladene Modell bleibt die 3-Stufen-Variante
+(6,2 GB, rel-L2 0,045, Top-50 0,28–0,58). AWQ wurde nicht hochgeladen, weil
+es bei gleicher Textqualität größer ist. Wer echte Kompression mit
+brauchbarer Qualität will, kommt an INT4/GPTQ-Kalibrierung mit
+Fehlerkompensation (nicht nur Skalierung) nicht vorbei.

@@ -268,6 +268,9 @@ def cmd_pack(a):
     os.makedirs(out, exist_ok=True)
     files = sorted(f for f in os.listdir(src) if f.endswith(".safetensors"))
     packed, rest, manifest = {}, {}, {}
+    awq = np.load(a.awq) if getattr(a, "awq", "") else None
+    if awq is not None:
+        print(f"[awq] Kalibrierung: {len(awq.files)} Layer, alpha={a.awq_alpha}", flush=True)
     t_start = time.time()
     n_q = 0
     total_q_bytes = 0
@@ -309,6 +312,16 @@ def cmd_pack(a):
                     rel = float((((ref - rec) ** 2).sum() / (ref ** 2).sum()) ** 0.5)
                 else:
                     Wn = t.float().numpy()
+                    in_scale = None
+                    _akey = key[:-7] if key.endswith(".weight") else key
+                    if awq is not None and _akey in awq.files:
+                        av = awq[_akey].astype(np.float32)
+                        med = float(np.median(av))
+                        if med > 0:
+                            in_scale = np.power(np.maximum(av / med, 1e-3),
+                                                a.awq_alpha).astype(np.float32)
+                            in_scale = np.clip(in_scale, 0.01, 20.0)
+                            Wn = Wn * in_scale[None, :]
                     rec = np.zeros_like(Wn)
                     n_st = max(1, int(a.stages))
                     for _st in range(n_st):
@@ -325,6 +338,8 @@ def cmd_pack(a):
                                  "stages": n_st,
                                  "rec_per_row": rec_per_row,
                                  "rel_l2": round(rel, 5),
+                                 "in_scale": (None if in_scale is None
+                                              else [round(float(v), 5) for v in in_scale]),
                                  "bits": round(32.0 / ND + 16.0 / block, 3)}
                 n_q += 1
                 total_q_bytes += sum(v.numel() * v.element_size()
@@ -387,7 +402,8 @@ class GF5Linear(torch.nn.Module):
       * Sonst: Dequant nach bf16 + F.linear.
     """
 
-    def __init__(self, stages, out_features, in_features, block, bias=None):
+    def __init__(self, stages, out_features, in_features, block, bias=None,
+                 in_scale=None):
         super().__init__()
         self.stages = [(u.to(torch.int32), S.to(torch.float16)) for u, S in stages]
         self.out_features = out_features
@@ -395,6 +411,9 @@ class GF5Linear(torch.nn.Module):
         self.block = block
         self.bias = bias
         self._deq = None
+        if in_scale is not None:
+            self.register_buffer("in_scale", torch.tensor(in_scale, dtype=torch.float32),
+                                 persistent=False)
 
     # Geräte-Transfer der gepackten Stufen (keine registrierten Buffer, weil
     # sie je nach Pfad im RAM oder VRAM liegen sollen)
@@ -438,7 +457,13 @@ class GF5Linear(torch.nn.Module):
             out = out + self.bias.float()
         return out.to(x.dtype).reshape(*shp[:-1], self.out_features)
 
+    def _awq_scale(self, x):
+        if getattr(self, "in_scale", None) is None:
+            return x
+        return x / self.in_scale.to(x.device, x.dtype)
+
     def forward(self, x):
+        x = self._awq_scale(x)
         on_cuda = (x.is_cuda and x.dim() >= 2 and x.shape[0] == 1
                    and self.stages[0][0].is_cuda
                    and os.environ.get("PX_GF5_NO_KERNEL", "0") != "1")
@@ -548,7 +573,8 @@ def load_gf5_model(out_dir: str, device: str = "cuda", dtype=torch.bfloat16):
                 stages.append((packed[uk2], packed[uk2.replace("_u32", "_scale")].reshape(
                     nb, meta["shape"][0])))
             new = GF5Linear(stages, meta["shape"][0], meta["shape"][1],
-                            meta["block"], bias=mod.bias)
+                            meta["block"], bias=mod.bias,
+                            in_scale=meta.get("in_scale"))
             replaced_l += 1
         elif isinstance(mod, torch.nn.Embedding):
             est = []
@@ -659,6 +685,8 @@ def main():
     p1 = sub.add_parser("pack")
     p1.add_argument("--src", required=True)
     p1.add_argument("--out", required=True)
+    p1.add_argument("--awq", default="", help="calib.npz aus gf5_calibrate.py")
+    p1.add_argument("--awq-alpha", type=float, default=0.5)
     p1.add_argument("--keep-bf16", default="",
                     help="Komma-Liste von Key-Substrings, die bitgenau bf16 bleiben "
                          "(z. B. 'self_attn.' für Attention-exakt + MLP-quantisiert)")
