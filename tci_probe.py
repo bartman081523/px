@@ -208,3 +208,196 @@ class RelaySteer:
             self.handle.remove()
             self.handle = None
         return False
+
+
+# ── Attention-Ebene: der Kontext-Horizont statt des Vokabular-Horizonts ─────
+@dataclass
+class AttnStep:
+    step: int
+    layer: int
+    layer_type: str
+    kv_shared: bool
+    n_keys: int
+    n_allowed: int
+    prefill: bool
+    H_norm: List[float]        # pro Head, H/ln(n_allowed) in [0,1]
+    top1: List[float]
+    eff_horizon: List[float]   # exp(H) in Positionen
+
+class TCIAttentionProbe:
+    """Mittelt die Attention-Verteilung pro Head und Token.
+
+    Warum nicht `output_attentions=True`: Gemma-4 ruft die Attention über
+    `ALL_ATTENTION_FUNCTIONS.get_interface(config._attn_implementation, ...)`
+    auf (modeling_gemma4.py, `Gemma4TextAttention.forward`). Der Eintrag lässt
+    sich prozessweit umhüllen — dann laufen q/k (nach QK-Norm und RoPE) durch
+    die Sonde, ohne den SDPA-Kernel zu ersetzen und ohne T×T-Matrizen zu
+    speichern. Im `eager`-Modus (der kein Dictionary-Entry ist) fällt die
+    Sonde auf einen Modul-Hook zurück, der die zurückgegebenen
+    Attention-Gewichte liest.
+
+    Wichtig für die Interpretation: Gemma-4 E2B hat 35 Layer, aber
+    `num_kv_shared_layers = 20`. Layer 15..34 teilen sich k/v mit dem letzten
+    nicht-teilenden Layer ihres Typs; q wird pro Layer neu berechnet, die
+    Verteilungen sind also ähnlich, aber nicht identisch. Die 8 Query-Heads
+    teilen sich **einen** KV-Head (MQA), d. h. alle Heads sehen dieselben
+    Keys und unterscheiden sich nur über q.
+    """
+
+    def __init__(self, text_model):
+        self.text_model = text_model
+        self.records: List[AttnStep] = []
+        self._impl: Optional[str] = None
+        self._orig = None
+        self._handles: List[object] = []
+        self._last_layer = -1
+        self._step = -1
+
+    # ── Installation ────────────────────────────────────────────────────
+    def attach(self) -> "TCIAttentionProbe":
+        self.detach()
+        from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
+        impl = getattr(self.text_model.config, "_attn_implementation", None)
+        self._impl = str(impl or "eager")
+
+        if self._impl in ALL_ATTENTION_FUNCTIONS:
+            orig = ALL_ATTENTION_FUNCTIONS[self._impl]
+            self._orig = orig
+
+            def wrapped(module, query, key, value, attention_mask=None,
+                        dropout=0.0, scaling=None, **kwargs):
+                out = orig(module, query, key, value, attention_mask,
+                           dropout=dropout, scaling=scaling, **kwargs)
+                try:
+                    self._record_from_qk(module, query, key, scaling)
+                except Exception:
+                    pass
+                return out
+
+            ALL_ATTENTION_FUNCTIONS[self._impl] = wrapped
+            self._handles.append(("global", self._impl))
+        else:
+            # eager: die Gewichte kommen aus dem Modul-Rückgabewert
+            def mk(module):
+                def hook(_m, _inp, out):
+                    if isinstance(out, tuple) and out[1] is not None:
+                        try:
+                            self._record_from_weights(module, out[1])
+                        except Exception:
+                            pass
+                return hook
+            for layer in self.text_model.layers:
+                attn = getattr(layer, "self_attn", None)
+                if attn is not None:
+                    self._handles.append(("hook", attn.register_forward_hook(mk(attn))))
+        return self
+
+    def detach(self) -> None:
+        from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
+        for kind, obj in self._handles:
+            try:
+                if kind == "global":
+                    if self._orig is not None:
+                        ALL_ATTENTION_FUNCTIONS[obj] = self._orig
+                else:
+                    obj.remove()
+            except Exception:
+                pass
+        self._handles.clear()
+        self._orig = None
+
+    def clear(self) -> None:
+        self.records.clear()
+        self._last_layer = -1
+        self._step = -1
+
+    # ── Aufzeichnung ────────────────────────────────────────────────────
+    def _next_step(self, module):
+        li = int(getattr(module, "layer_idx", -1))
+        if li <= self._last_layer:
+            self._step += 1
+        self._last_layer = li
+        return self._step
+
+    def _metrics(self, p: torch.Tensor) -> tuple:
+        """p: [H, n] Wahrscheinlichkeiten über erlaubte Keys."""
+        p = p.float().clamp_min(1e-30)
+        n = p.shape[-1]
+        h = -(p * p.log()).sum(dim=-1)                # [H] nats
+        hn = h / math.log(n) if n > 1 else torch.zeros_like(h)
+        top1 = p.max(dim=-1).values
+        return (hn.tolist(), top1.tolist(), torch.exp(h).tolist())
+
+    def _record_from_qk(self, module, query, key, scaling):
+        q = query[0].detach().float()                 # [Hq, Tq, Dh]
+        k = key[0].detach().float()                   # [Hkv, Tk, Dh]
+        Hq, Tq, _ = q.shape
+        Hkv, Tk, _ = k.shape
+        if Tk < 2:
+            return
+        rep = max(1, Hq // Hkv)
+        kk = k.repeat_interleave(rep, dim=0)[:, :Tk, :]
+        q_last = q[:, -1:, :]                         # [Hq,1,Dh]
+        scores = (q_last @ kk.transpose(1, 2)).squeeze(1) * (1.0 if scaling is None else scaling)
+
+        start = 0
+        if getattr(module, "is_sliding", False) and getattr(module, "sliding_window", None):
+            start = max(0, (Tk - 1) - int(module.sliding_window) + 1)
+        scores = scores[:, start:]
+        p = torch.softmax(scores, dim=-1)
+        hn, t1, eh = self._metrics(p)
+        self.records.append(AttnStep(
+            step=self._next_step(module), layer=int(getattr(module, "layer_idx", -1)),
+            layer_type=str(getattr(module, "layer_type", "?")),
+            kv_shared=bool(getattr(module, "is_kv_shared_layer", False)),
+            n_keys=int(Tk), n_allowed=int(p.shape[-1]), prefill=bool(Tq > 1),
+            H_norm=hn, top1=t1, eff_horizon=eh))
+
+    def _record_from_weights(self, module, weights):
+        w = weights[0].detach().float()               # [H, Tq, Tk]
+        p = w[:, -1, :]
+        hn, t1, eh = self._metrics(p)
+        self.records.append(AttnStep(
+            step=self._next_step(module), layer=int(getattr(module, "layer_idx", -1)),
+            layer_type=str(getattr(module, "layer_type", "?")),
+            kv_shared=bool(getattr(module, "is_kv_shared_layer", False)),
+            n_keys=int(p.shape[-1]), n_allowed=int(p.shape[-1]),
+            prefill=bool(w.shape[1] > 1), H_norm=hn, top1=t1, eff_horizon=eh))
+
+    # ── Auswertung ──────────────────────────────────────────────────────
+    def summary(self, drop_prefill: bool = True, dedup_kv: bool = False) -> Dict[str, object]:
+        recs = [r for r in self.records if not (drop_prefill and r.prefill)]
+        if dedup_kv:
+            # ACHTUNG: kv-geteilte Layer teilen nur k/v, nicht q — die
+            # Verteilungen sind NICHT identisch. Nur für Speicher-Diagnose.
+            seen = set()
+            kept = []
+            for r in recs:
+                key = (r.layer_type, r.step)
+                if r.kv_shared and key in seen:
+                    continue
+                seen.add(key)
+                kept.append(r)
+            recs = kept
+        if not recs:
+            return {}
+        flat = [x for r in recs for x in r.H_norm]
+        per_layer = {}
+        for r in recs:
+            per_layer.setdefault(r.layer, []).extend(r.H_norm)
+        return {
+            "n_records": len(recs),
+            "n_entries": len(flat),
+            "H_norm_mean": float(np.mean(flat)),
+            "H_norm_std": float(np.std(flat)),
+            "H_norm_min": float(np.min(flat)),
+            "H_norm_max": float(np.max(flat)),
+            "H_norm_p05": float(np.percentile(flat, 5)),
+            "H_norm_p95": float(np.percentile(flat, 95)),
+            "frac_above_phi_inv": float(np.mean(np.array(flat) > 1 / ((1 + 5 ** 0.5) / 2))),
+            "eff_horizon_mean": float(np.mean([x for r in recs for x in r.eff_horizon])),
+            "top1_mean": float(np.mean([x for r in recs for x in r.top1])),
+            "per_layer_mean": {str(k): float(np.mean(v)) for k, v in sorted(per_layer.items())},
+            "layers_recorded": sorted(per_layer.keys()),
+            "kv_shared_layers": sorted({r.layer for r in recs if r.kv_shared}),
+        }

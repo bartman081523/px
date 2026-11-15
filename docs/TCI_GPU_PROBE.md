@@ -79,6 +79,32 @@ neutralen Kalibrier-Prompts (kein Prompt-Leakage). `RelaySteer` ist die
 1:1-Version von `relay_inject.install_relay` (Layer 26, `h += sign·α·‖h‖·d̂`,
 Prefill verworfen), damit Wide/Narrow-Arme mit Eval L vergleichbar bleiben.
 
+## Attention-Ebene (verifiziert 2026-11-15)
+
+`TCIAttentionProbe` umhüllt `ALL_ATTENTION_FUNCTIONS["sdpa"]`; q/k laufen nach
+QK-Norm und RoPE durch die Sonde, der SDPA-Kernel bleibt unangetastet. Kein
+`output_attentions`, kein eager, keine T×T-Matrizen im VRAM.
+
+Messung (Prompt 16 Tokens, 6 Decode-Schritte, 35 Layer × 8 Heads = 1680
+Einträge):
+
+| Größe | Wert |
+|---|---|
+| `H_attn/ln(n_allowed)` | **0,002 … 0,956** (Mittel 0,561, σ 0,209) |
+| p05 / p95 | 0,174 / 0,867 |
+| Anteil über Φ⁻¹ | **44,7 %** |
+| effektiver Horizont `exp(H)` | 4,68 Positionen |
+| Top-1-Masse | 0,493 |
+
+Damit ist die Verteilung der einzige Ort, an dem die Φ⁻¹-Frage überhaupt
+sinnvoll ist: sie überstreicht [0,1] und hat eine definierte Maximalkapazität
+`ln(T)` — anders als die Logits (max. 0,059 von `ln V`).
+
+**Struktur-Caveat:** 8 Query-Heads teilen sich **einen** KV-Head (MQA), und
+`num_kv_shared_layers = 20` (Layer 15–34 teilen k/v). Die 280 Attention-Maps
+pro Token sind also nur über q verschieden; unabhängige Key-Räume gibt es
+zwei (sliding / full).
+
 ## Grenzen (vor dem nächsten Schritt lesen)
 
 1. **Logit-Entropie ist die falsche Verteilung für Φ⁻¹.** Das Maximum der
