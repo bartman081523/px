@@ -250,6 +250,14 @@ async def main():
                 sign=sign, alpha=alpha)
             r = session(model, tok, format_prompt(tok, p), hprobe, steer, seed)
             row[arm] = r
+        # Text-Capture: δ gegen baseline, Roh-Embedding nicht serialisieren
+        base_emb = row["baseline"].pop("emb")
+        row["baseline"]["delta_sem"] = 0.0
+        for arm, *_ in ARMS:
+            if arm == "baseline":
+                continue
+            e = row[arm].pop("emb")
+            row[arm]["delta_sem"] = 1.0 - float(F.cosine_similarity(e, base_emb, dim=0))
         rows.append(row)
         print(f"  [Q {i+1:2d}/{len(prompts)}] base={row['baseline']['K1_norm']:.2f} "
               f"wide={row['wide']['K1_norm']:.2f} narrow={row['narrow']['K1_norm']:.2f} "
@@ -264,6 +272,15 @@ async def main():
            "arms": [x[0] for x in ARMS], "rows": rows}
     out["contrasts"] = {"wide_vs_narrow": contrast(rows, "wide", "narrow"),
                         "wide_vs_rand": contrast(rows, "wide", "rand_plus")}
+    from scripts.analyze_steering_texts import feats as _feats
+    def _tmpl(t):
+        f = _feats(t)
+        return int(f["listing_prefix"] or f["meta_offer"] or f["numbered_list"])
+    out["text_descriptives"] = {
+        arm: {"template_rate": float(np.mean([_tmpl(r[arm]["text"]) for r in rows])),
+              "delta_sem_mean": float(np.mean([r[arm]["delta_sem"] for r in rows])),
+              "delta_sem_sd": float(np.std([r[arm]["delta_sem"] for r in rows], ddof=1))}
+        for arm, *_ in ARMS}
     out["descriptives"] = {
         arm: {k: {"mean": float(np.mean([r[arm][k] for r in rows])),
                   "sd": float(np.std([r[arm][k] for r in rows], ddof=1))}

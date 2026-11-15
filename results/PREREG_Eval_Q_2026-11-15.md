@@ -183,3 +183,42 @@ Zufallsrichtung** (hier: `rand_plus`) **und** einen Arm mit **norm-gematchter
 orthogonaler Richtung bei gleichem ‖v‖** — und muss die Differenz
 `wide − rand` als primären Endpunkt setzen. Genau dieser Endpunkt ist in Q
 für `K2` **null** (p = 0,83).
+
+---
+
+## NACHTRAG — Text-Capture-Re-Run (Daten, kein neues Urteil)
+
+Der erste Q-Lauf hat keine Texte gespeichert (Designfehler). Der Lauf wurde mit
+**identischen Seeds, Prompts, Armen und Token-Längen** wiederholt, nur mit
+`text`- und `delta_sem`-Logging:
+
+`results/eval_Q_relay_predictor_gemma4_texts.json`
+
+**Reproduzierbarkeit:** `K1`, `K2`, `K3` sind zwischen den beiden Dateien
+**bit-identisch** (max |Differenz| = 0,0 über 192 Sessions). Es sind dieselben
+Trajektorien; das Urteil bleibt beim ersten Lauf (`PARTIAL` in beiden
+Kontrasten).
+
+### Textbefunde
+
+- **Template-Marker: 1/48 in jedem Arm** — nur Prompt 26 („Combine three
+  unrelated domains") löst ein Listen-Schema aus. Kein allgemeiner
+  Text-Effekt.
+- **Prompt 26 über drei unabhängige Seed-Sets** (O3, P2, Q):
+
+| Arm | „Quantum Physics" im Text |
+|---|---|
+| baseline | 3/3 (O3-Referenz) + 2/2 (P2) + 1/1 (Q) |
+| narrow | **6/6** |
+| rand_plus | **6/6** |
+| **wide** | **0/6** |
+
+  Der Inhaltseffekt ist auf diesem Prompt **reproduzierbar** — und bleibt
+  prompt-spezifisch (in den 47 anderen Prompts tritt das Muster nicht auf).
+- **`delta_sem`** (1 − cos zum baseline-Embedding): wide 0,0138 · narrow
+  0,0192 · rand 0,0140. Die Asymmetrie aus Eval R (narrow > wide ≈ rand)
+  repliziert.
+
+**Fazit:** Der Inhaltseffekt ist real, aber an eine Prompt-Familie gebunden;
+eine allgemeine semantische Steuerung durch `d_width` ist auf 45 frischen
+Prompts nicht nachweisbar (Eval R: p = 0,93).
