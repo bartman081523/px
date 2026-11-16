@@ -115,6 +115,16 @@ _PX_MODEL_TABLE: Dict[str, Dict[str, Any]] = {
         n_layers=34, hidden_size=2560, px_gamma=0.05, inject_layer=25,
         relay_available=True,
     ),
+    # GF(5)-Embedding-Variante (langkontext-Experiment, 2026-11-15):
+    # gleiche Architektur wie gemma4-e2b-it, aber ohne PX-Patch — die
+    # Relay-/Injektions-Defaults sind hier nur Metadaten für die UI.
+    "gemma4-e2b-gf5": dict(
+        n_layers=35, hidden_size=1536, px_gamma=0.12, inject_layer=26,
+        relay_available=False,
+        thinking_default=False,
+        thinking_budget_default=2048,
+        thinking_budget_range=(0, 8192),
+    ),
     "gemma4-e2b-it": dict(
         n_layers=35, hidden_size=1536, px_gamma=0.12, inject_layer=26,
         relay_available=True,
