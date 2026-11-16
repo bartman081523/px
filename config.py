@@ -105,6 +105,21 @@ MODEL_REGISTRY = {
         "max_length": 131072,
     },
 
+    # ── Gemma4 E2B, GF(5)-Embedding-Variante (langer Kontext) ──
+    # Nur die Per-Layer-Lookup-Tabelle (4,7 GB) ist GF(5)-gepackt (3 Stufen,
+    # rel-L2 0,045); alle Matrizen bleiben bitgenau. Modell 10,25 -> 5,5 GB
+    # VRAM. Zusammen mit fp16 + Chunked-Prefill trägt das 128k auf 12 GB
+    # (gemessen: 134 625 Tokens, Needle-Recall korrekt, 6,9 GB Peak).
+    "gemma4-e2b-gf5": {
+        "hf_id": "/home/julian/.cache/huggingface/gf5-emb3",
+        "tokenizer_id": "/home/julian/.cache/huggingface/gf5-emb3",
+        "patch_dir": None,
+        "patch_kwargs": {},
+        "model_type": "gf5_gemma4",
+        "dtype": "float16",
+        "max_length": 131072,
+    },
+
     # ── MiniCPM5 1B ──
     "minicpm5-1b": {
         "hf_id": "openbmb/MiniCPM5-1B",

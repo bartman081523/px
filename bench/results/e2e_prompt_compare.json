@@ -1,0 +1,24 @@
+[
+ {
+  "model": "gemma4-e2b-gf5",
+  "wall_s": 137.0,
+  "prompt_tokens": 1431,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": null,
+  "chars": 823,
+  "repeat_ratio": 0.0,
+  "preview": "call_functioncalldeclarationinordersequencecallsetbackpropetractortoolcallcallsexecutetoolstringcallactionpromptstringpromptwithoutputonlyoutputtextstringspct_pct_pctpctpctpctpctpctpctpctpctpctpctpctpctpctpctpctpctpctpct"
+ },
+ {
+  "model": "gemma4-e2b-it",
+  "wall_s": 48.3,
+  "prompt_tokens": 1431,
+  "completion_tokens": 28,
+  "finish": "stop",
+  "tool_calls": null,
+  "chars": 67,
+  "repeat_ratio": 0.0,
+  "preview": "read_test_file(\"hello.py\")\nrun_test(\"hello_test.py\", \"hello.test\")\n"
+ }
+]

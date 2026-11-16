@@ -165,3 +165,36 @@ richtungsartig; Trefferquote steigt über Zufall → erster eigener WSP-Beleg.
 5. **E** Coding-Tiers nach jedem Schritt erneut
 
 Jede Achse: Vorher-Messung, eine Änderung, A/B mit same-seed, Doku-Update.
+
+---
+
+## B3 — Korrektur: die 128k-Demo war auf einem qualitativ degradierten Modell
+
+Der Vergleich `bench/probes/e2e_prompt_compare.py` (identischer Request,
+1 431 Prompt-Tokens, dieselben zwei Tools) trennt die Ursache des
+opencode-Degenerations-Loops:
+
+| Modell | Tokens | Zeit | Ausgabe |
+|---|---|---|---|
+| **bf16** (`gemma4-e2b-it`) | 28 | 48 s | `read_test_file("hello.py")` / `run_test(...)` — schwach, aber **kein Loop** |
+| **GF(5)-Embedding** (`gemma4-e2b-gf5`) | 256 | 137 s | `call_functioncalldeclarationinordersequencecallsetback…` → **Degenerations-Loop** |
+| GF(5), **ohne** Tools | 256 | 22 s | `## Code Implementation Plan"})pythonscriptscriptcall…` → **Loop** |
+
+**Damit ist entschieden:** nicht die Prompt-Länge allein und nicht die
+Tool-Schemas — die **GF(5)-Quantisierung der Per-Layer-Embedding-Tabelle**
+bricht das Modell bei mehrzeiligen Prompts. Die Needle-Tests (1,2k–134k) haben
+das nicht gezeigt, weil sie eine einzelne Faktenabfrage sind.
+
+**Konsequenzen, ehrlich:**
+
+1. Die in §B2 gemeldete 128k-Fähigkeit ist **speicherseitig** korrekt und
+   reproduzierbar, aber **auf einem Modell gemessen, das im normalen Dialog
+   degeneriert**. Sie ist damit eine Machbarkeitsdemonstration, kein
+   nutzbares Feature.
+2. Für den Harness bleibt **bf16 + Chunked Prefill** — real nutzbar bis
+   ~8–10k Tokens auf 12 GB (11,5 GB Peak bei 8,4k; 36k OOM).
+3. Der belastbare Weg für Agentic-Langkontext bleibt der **27B über
+   llama.cpp** (128k, KV-Reuse 111×, Tool-Calls, bereits verifiziert).
+4. Eine *qualitätsneutrale* Speicherersparnis für gemma4 ist weiterhin offen:
+   Kandidaten sind int8-Linears (Pipeline existiert, ungetestet) oder ein
+   kalibriertes INT4/GPTQ — nicht GF(5) auf Embeddings.

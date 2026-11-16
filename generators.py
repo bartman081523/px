@@ -449,46 +449,76 @@ def _split_gemma_args(body: str):
     return out
 
 
-def _extract_gemma4_tool_calls(text: str, tools):
-    """gemma-4-Chat-Template-Format aus dem Content holen.
+def _balanced_body(text: str, open_idx: int):
+    """Inhalt zwischen der '{' bei open_idx und der passenden '}'.
 
-    Das Template schreibt Aufrufe als Klartext `call:NAME{key:value,...}`
-    (Werte ohne Quoting), NICHT als `<tool_call>`-Block. Der bestehende
-    Shim kennt nur die Tag-Form; ohne diesen Parser landet der Aufruf als
-    Content beim Client. Gemessen (2026-11-15): gemma4-e2b-it liefert
-    `call:read_file{path:src/main.py}` korrekt, aber `tool_calls=None`.
+    Bei abgeschnittener Generierung (Token-Limit mitten im Rumpf) gibt es
+    keine schließende Klammer — dann gilt der Rest als Rumpf, statt den
+    Aufruf zu verlieren.
     """
+    depth = 0
+    for k in range(open_idx, len(text)):
+        if text[k] == "{":
+            depth += 1
+        elif text[k] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[open_idx + 1:k], k
+    if depth > 0:
+        return text[open_idx + 1:], len(text) - 1
+    return None, None
+
+
+def _unwrap_gemma_args(body: str):
+    """`parameters:{max_fail:3},type_:OBJECT` -> `max_fail:3` (Template-Rauschen)."""
+    stripped = body.strip()
+    if stripped.startswith("parameters:{"):
+        inner, _ = _balanced_body(stripped, stripped.index("{"))
+        if inner is not None:
+            return inner
+    return body
+
+
+def _extract_gemma4_tool_calls(text: str, tools):
+    """gemma-4-Chat-Template-Aufrufe aus dem Content holen.
+
+    Zwei beobachtete Formen (2026-11-15, gemma4-e2b-it):
+      mit Denk-Kanal an : `call:read_file{path:src/main.py}`
+      ohne Denk-Kanal   : `read_file{path:src/main.py}` (Zeilenanfang)
+    Beide werden über die **bekannten Tool-Namen** gematcht (kein Prosatext-
+    Rauschen), Werte bleiben roh (kein JSON-Rückparse — Dateitexte sind
+    manchmal valides JSON), Typen kommen aus dem Tool-Schema.
+    """
+    # Markdown-Escapes der Modellausgabe normalisieren (`read\_file`,
+    # `src/main\_py`): gleich lange Ersetzung, Indizes bleiben gültig.
+    text = text.replace("\\_", "_").replace("\\.", ".")
     types = _ToolCallStreamShim._extract_param_types(tools)
+    names = sorted(types.keys(), key=len, reverse=True)
     out, calls, i = [], [], 0
+    patterns = []
+    if names:
+        alt = "|".join(re.escape(n) for n in names)
+        patterns.append(re.compile(r"call:\s*(" + alt + r")\s*\{"))
+        patterns.append(re.compile(r"(?m)^[ \t]*(" + alt + r")\s*\{"))
     while True:
-        m = _GEMMA_CALL_RE.search(text, i)
-        if not m:
+        best = None
+        for pat in patterns:
+            m = pat.search(text, i)
+            if m and (best is None or m.start() < best[0].start()):
+                best = (m, pat)
+        if best is None:
             break
+        m, _pat = best
         name = m.group(1)
-        k = m.end() - 1
-        depth = 0
-        end = None
-        while k < len(text):
-            if text[k] == "{":
-                depth += 1
-            elif text[k] == "}":
-                depth -= 1
-                if depth == 0:
-                    end = k
-                    break
-            k += 1
-        if end is None:
+        body, end = _balanced_body(text, m.end() - 1)
+        if body is None:
             break
-        body = text[m.end():end]
         schema = types.get(name, {})
-        args = {key: _coerce_gemma_arg(val, schema.get(key)) for key, val in
-                _split_gemma_args(body)}
+        args = {k: _coerce_gemma_arg(v, schema.get(k))
+                for k, v in _split_gemma_args(_unwrap_gemma_args(body))}
         out.append(text[i:m.start()])
-        calls.append({
-            "id": f"call_gemma_{len(calls)}",
-            "type": "function",
-            "function": {"name": name, "arguments": json.dumps(args)},
-        })
+        calls.append({"id": f"call_gemma_{len(calls)}", "type": "function",
+                      "function": {"name": name, "arguments": json.dumps(args)}})
         i = end + 1
     out.append(text[i:])
     return "".join(out), calls
@@ -1265,6 +1295,27 @@ async def generate_chat_completion(
     # Konvention (CLAUDE.md): Cache vor jeder Generierung leeren — beim
     # GF(3)-Lauf zwingend, sonst OOM im Folge-Request nach einem Langlauf.
     _px_pre_generation_cache_flush(model)
+
+    if getattr(model, "_px_chunked_prefill", False) and input_len > 3000:
+        # GF(5)-gemma4: langer Prompt → Chunked Prefill (Maske chunk×T statt T×T)
+        _text, _n = _generate_chunked_prefill(
+            model, inputs["input_ids"], tokenizer,
+            max_new_tokens=gen_kwargs.get("max_new_tokens", 256),
+            do_sample=gen_kwargs.get("do_sample", False),
+            temperature=gen_kwargs.get("temperature", 1.0),
+            top_p=gen_kwargs.get("top_p", 0.9),
+            eos_token_id=tokenizer.eos_token_id,
+        )
+        res = {"text": _text, "prompt_tokens": input_len, "completion_tokens": _n,
+               "finish_reason": "stop"}
+        if stop:
+            for _s in (stop if isinstance(stop, list) else [stop]):
+                _i = res["text"].find(_s)
+                if _i >= 0:
+                    res["text"] = res["text"][:_i]
+        if tools_active:
+            res = _apply_tool_shim_to_result(res, tools)
+        return res
 
     with torch.no_grad():
         # Stufe-3e: GF(3)-Lauf + langer Input → long_context.generate_long

@@ -233,6 +233,22 @@ class ModelManager:
                 device_map="auto",
                 trust_remote_code=True,
             )
+        elif model_type == "gf5_gemma4":
+            # GF(5)-Embedding-Variante: eigener Loader (ququint_quant), fp16
+            # (nur damit greift der Memory-Efficient-SDPA-Kernel auf sm75).
+            import os as _os_branch
+            import sys as _sys
+            _qq = _os_branch.path.join(_os_branch.path.dirname(_os_branch.path.abspath(__file__)),
+                                       "ququint_quant")
+            if _qq not in _sys.path:
+                _sys.path.insert(0, _qq)
+            from gf5_gemma4 import load_gf5_model   # ququint_quant/gf5_gemma4.py
+            model = load_gf5_model(hf_id, device="cuda", dtype=torch.float16)
+            # Marker für generators: langer Input -> Chunked Prefill
+            model._px_chunked_prefill = True
+            print(f"[ModelManager] {model_id} GF(5)-Embedding geladen "
+                  f"(fp16, chunked-prefill aktiv)")
+
         elif model_type == "qwen35_ptq":
             # Ternary-Bonsai-2-27B: GGUF PTQ1_0 → HF-Safetensors, kein
             # FromPretrained — die gepackten Ternary-Aufnahmen werden von der
