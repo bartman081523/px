@@ -63,10 +63,15 @@ def test_remove_px_patch_leaves_no_generation_attrs(monkeypatch):
     assert not any(a.startswith("_px_") for a in vars(text_model))
 
 
-def test_px_gen_kwargs_ignores_stripped_attrs():
-    """Nach dem Strip darf generators._px_gen_kwargs nichts mehr injizieren."""
+def test_px_gen_kwargs_ignores_stripped_attrs(monkeypatch):
+    """Nach dem Strip darf generators._px_gen_kwargs nichts aus dem Modell ziehen.
+
+    Der serverseitige Loop-Guard (Default an, siehe 2026-11-17) wird hier
+    abgeschaltet, damit der Test weiterhin die *Attribut*-Zusage prüft.
+    """
     from generators import _px_gen_kwargs, _find_px_attr
 
+    monkeypatch.setenv("PX_NGRAM_GUARD", "0")
     m = _StubTextModel()
     _strip_px_attrs(m)
     assert _find_px_attr(m, "_px_repetition_penalty", default=1.0) == 1.0

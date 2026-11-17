@@ -765,16 +765,50 @@ class TestEosEndOfTurnInjection(unittest.TestCase):
                          "_px_gen_kwargs must find _px_no_repeat_ngram_size in submodules")
 
     def test_px_gen_kwargs_no_attrs_is_passthrough(self):
-        """If model has no PX attrs, _px_gen_kwargs returns base unchanged."""
+        """Ohne PX-Attribute injiziert _px_gen_kwargs nichts aus dem Modell.
+
+        Seit 2026-11-17 setzt der Server zusätzlich einen Loop-Guard als
+        Default (kleine Modelle laufen im Harness-Prompt in Repetitions-Loops).
+        Der Guard ist per Env abschaltbar; dann gilt die reine Passthrough-
+        Zusage weiterhin.
+        """
+        import os
         from generators import _px_gen_kwargs
         outer = MagicMock()
         type(outer).named_modules = MagicMock(return_value=iter([]))
         base = {"max_new_tokens": 100, "temperature": 0.7}
-        out = _px_gen_kwargs(outer, base)
+
+        _prev = os.environ.get("PX_NGRAM_GUARD")
+        os.environ["PX_NGRAM_GUARD"] = "0"
+        try:
+            out = _px_gen_kwargs(outer, base)
+        finally:
+            if _prev is None:
+                os.environ.pop("PX_NGRAM_GUARD", None)
+            else:
+                os.environ["PX_NGRAM_GUARD"] = _prev
         self.assertEqual(out, base,
-                         "Without PX attrs, _px_gen_kwargs is a pure passthrough")
+                         "Ohne Guard und ohne PX-Attrs: reine Passthrough")
         self.assertNotIn("repetition_penalty", out)
         self.assertNotIn("no_repeat_ngram_size", out)
+
+    def test_px_gen_kwargs_applies_loop_guard_by_default(self):
+        """Default: n-Gramm-Guard an (3), Repetitionsstrafe aus."""
+        import os
+        from generators import _px_gen_kwargs
+        outer = MagicMock()
+        type(outer).named_modules = MagicMock(return_value=iter([]))
+        _prev = os.environ.pop("PX_NGRAM_GUARD", None)
+        _prevn = os.environ.pop("PX_NGRAM_GUARD_N", None)
+        try:
+            out = _px_gen_kwargs(outer, {"max_new_tokens": 100})
+        finally:
+            if _prev is not None:
+                os.environ["PX_NGRAM_GUARD"] = _prev
+            if _prevn is not None:
+                os.environ["PX_NGRAM_GUARD_N"] = _prevn
+        self.assertEqual(out["no_repeat_ngram_size"], 3)
+        self.assertNotIn("repetition_penalty", out)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
