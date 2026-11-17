@@ -1015,6 +1015,20 @@ def _px_gen_kwargs(model, base: dict) -> dict:
     ngram = _find_px_attr(model, "_px_no_repeat_ngram_size", default=0) or 0
     if isinstance(ngram, (int, float)) and ngram:
         base["no_repeat_ngram_size"] = int(ngram)
+    # Loop-Guard als Server-Default (2026-11-17): kleine Modelle laufen im
+    # Harness-Prompt (langer Systemtext + Tool-Schema) in Repetitions-Loops,
+    # unabhängig vom Preset (gemessen: gemma3-270m 0,72; gemma3-1b LEAN 0,62;
+    # RELAY +1/-1 0,20/0,33). Die code-bewusste Sperre
+    # (NoRepeatNgramWhenProse) schaltet sich in Code-Blöcken selbst ab.
+    if os.environ.get("PX_NGRAM_GUARD", "1") == "1" and "no_repeat_ngram_size" not in base:
+        base["no_repeat_ngram_size"] = int(os.environ.get("PX_NGRAM_GUARD_N", "3"))
+    # Sanfte Repetitionsstrafe zusätzlich: die n-Gramm-Sperre schaltet in
+    # Code-Blöcken absichtlich ab (sonst zerstört sie Code), die Loops
+    # entstehen aber INNERHALB von Code. 1.05 bremst nur verbatim-Wiederholung.
+    # Default AUS: im Test (gemma3-1b, gemma4) hat 1.05 die Loops nicht
+    # gebrochen, kostet aber Qualität. Nur per Env aktivieren.
+    if os.environ.get("PX_REP_PENALTY", "0") == "1" and "repetition_penalty" not in base:
+        base["repetition_penalty"] = float(os.environ.get("PX_REP_PENALTY_VALUE", "1.05"))
     
     # SR-61b: Hard-stop criteria for chat delimiters (e.g. <end_of_turn>)
     eos_ids = base.get("eos_token_id", [])

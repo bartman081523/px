@@ -1,0 +1,74 @@
+[
+ {
+  "wall_s": 10.1,
+  "prompt_tokens": 1343,
+  "completion_tokens": 153,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```python\nimport sys\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return Fal",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "BASELINE"
+ },
+ {
+  "wall_s": 14.1,
+  "prompt_tokens": 1343,
+  "completion_tokens": 224,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```python\ndef print_primes():\n    print(\"The first 5 primes are:\")\n    print(\"This is a placeholder.\")\n\ndef run_tests():\n    print(\"Running tests...\")\n    print",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD"
+ },
+ {
+  "wall_s": 18.3,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.615,
+  "preview": "```python\ndef print_primes():\n    print(\"The first 5 primes are:\")\n    print(\"This is a placeholder.\")\n\ndef run_tests():\n    print(\"Running tests...\")\n    print",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 39.5,
+  "prompt_tokens": 1343,
+  "completion_tokens": 11,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```tool_code\nrun_tests\n```",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "BASELINE"
+ },
+ {
+  "wall_s": 115.8,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.229,
+  "preview": "```python\nread_file('hello.py')\n```\n```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD"
+ },
+ {
+  "wall_s": 122.8,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.313,
+  "preview": "```python\nread_file(\"hello.py\")\n```\n```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ }
+]
