@@ -1,0 +1,12 @@
+{
+ "model": "openbmb/MiniCPM5-1B",
+ "dtype": "float16",
+ "load_s": 34.1,
+ "gen_s": 4.03,
+ "tokens": 116,
+ "tok_s": 28.8,
+ "outputs": [
+  " The following code is given.\n\n```python\ndef add(a, b):\n    return a + b\n```\n\nThe code should be placed in a single line.\n\n```python\ndef add(a, b):\n    return a",
+  " \n\n[A]. The sky appears blue because of the way sunlight interacts with the Earth's atmosphere. [B]. The blue color of the sky is due to the scattering of sunli"
+ ]
+}

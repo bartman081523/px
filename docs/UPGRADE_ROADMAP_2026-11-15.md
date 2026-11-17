@@ -234,3 +234,53 @@ Mit **`px_config_preset=BASELINE`** und Chunked Prefill (512) über die API:
    bei `ACTIVE_MANIFOLD` las das Modell `KESTREL77-41` statt `KESTREL-7741`;
    unter `BASELINE` war der Treffer exakt. Der Patch verstärkt den
    Quantisierungsfehler also sichtbar.
+
+---
+
+## D1 — Ternary ohne GF(3)/GF(5) + vLLM-Prüfung (2026-11-17)
+
+### Ternary: llama.cpp mit PTQ1_0 schlägt die GF(3)-Runtime um ~700×
+
+| Weg | Decode | Prefill | Harness-Prompt (1 652 Tok) | Tool-Call |
+|---|---|---|---|---|
+| **llama.cpp, PTQ1_0-GGUF** | **17,0 tok/s** | **365 tok/s** | 6,0 s | ✅ `read_file{path}` |
+| px-Server, GF(3)-Kernel-Runtime | ~0,025 tok/s (993 s für 25 Tokens) | – | – | – |
+
+Needle-Recall in llama.cpp: 11 264 / 33 695 / 67 338 Tokens → **alle Treffer**
+(31 s / 107 s / 268 s). Also: GF(3) aus dem Ternary-Betrieb nehmen, PTQ1_0
+bleibt — genau wie vermutet.
+
+### Modell × Patch-Matrix (px-Server, 1 343-Token-Harness-Prompt)
+
+| Modell | Preset | Repeat-Ratio | Bewertung |
+|---|---|---|---|
+| gemma3-270m-it | BASELINE | 0,72 | Loop |
+| gemma3-1b-it | BASELINE | 0,00 | sauber |
+| gemma3-1b-it | ACTIVE_MANIFOLD | 0,00 | sauber |
+| gemma3-1b-it | LEAN | 0,62 | Loop |
+| gemma3-1b-it | RELAY +1 / −1 | 0,20 / 0,33 | teils repetitiv |
+| gemma3-4b-it | BASELINE | 0,00 | sauber (Tool-Call in ```tool_code) |
+| gemma4-e2b-it (bf16) | alle | 0,00 | sauber, kurze Antworten |
+| gemma4-e2b-it (int8) | alle | 0,00 | sauber |
+| minicpm5-1b | BASELINE | 0,00 | sauber |
+| minicpm5-1b | alle Patches | – | **HTTP 500** |
+| ternary-bonsai-27b | px/GF(3) | – | 40 s/Token → unbrauchbar (llama.cpp s. o.) |
+
+Befund: Patches sind nicht neutral — LEAN und RELAY erzeugen Repetitions-Loops
+bei 1B-Modellen, minicpm5 bricht mit jedem Patch.
+
+### vLLM: auf dieser Karte nicht tragfähig (gemessen)
+
+Installiert in **unserem** venv (`pip install --no-deps vllm==0.31.0` + Deps ohne
+torch; torch 2.12.0 und triton 3.7.0 unverändert, Testsuite danach 736 passed).
+
+| Modell | vLLM-Ergebnis |
+|---|---|
+| gemma4-E2B fp16 | **OOM** im vLLM-Profil-Lauf (10,2 GB Modell auf 12 GB) |
+| gemma3 (1b/4b) | vLLM verlangt bf16 („Numerical instability"), bf16 braucht **sm80** → sm75 abgelehnt |
+| MiniCPM5-1B fp16 | läuft: **28,8 tok/s** (2 Prompts, 64 Tok) |
+
+Gegenprobe im px-Server (warm, gleicher Prompt): MiniCPM5-1B **43,7 tok/s**,
+gemma4-E2B **18,5 tok/s**. → vLLM ist hier **nicht schneller** (Single-User,
+enforce_eager, kein Batch-Vorteil) und kann die Zielmodelle gar nicht laden.
+Ein Port unserer Long-Context-Patches in vLLM lohnt damit nicht.
