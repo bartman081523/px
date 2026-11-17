@@ -341,6 +341,11 @@ class ModelManager:
                 from quantize_pipeline import quantize_all_linears
             n_replaced = quantize_all_linears(model)
             print(f"[ModelManager] {model_id} quantized int8: {n_replaced} Linears replaced")
+            # gemma4: int8-Linears (10,25 -> 7,9 GB) + Chunked Prefill. Der
+            # Prefill baut sonst eine dichte (T,T)-Maske und OOM't ab ~8,4k.
+            if model_type == "gemma4_conditional":
+                model._px_chunked_prefill = True
+                print(f"[ModelManager] {model_id} chunked-prefill aktiv (int8)")
         else:
             print(f"[ModelManager] {model_id} quantization=none (bf16 path)")
 

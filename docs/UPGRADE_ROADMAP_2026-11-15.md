@@ -198,3 +198,39 @@ das nicht gezeigt, weil sie eine einzelne Faktenabfrage sind.
 4. Eine *qualitätsneutrale* Speicherersparnis für gemma4 ist weiterhin offen:
    Kandidaten sind int8-Linears (Pipeline existiert, ungetestet) oder ein
    kalibriertes INT4/GPTQ — nicht GF(5) auf Embeddings.
+
+---
+
+## C1 — int8-Linears + Chunked Prefill: der nutzbare Langkontext (gemessen)
+
+Der int8-Pfad (`scratches/4b-image/quantize_pipeline.py`, per-channel symmetrisch,
+on-the-fly-Dequant) senkt gemma4-E2B von **10,25 GB auf 7,88 GB** (gemessen:
+`cuda.memory_allocated` = 7,88 GB; params 5,54 + buffers 2,34; die
+Per-Layer-Embedding-Tabelle bleibt mit 4,7 GB bf16).
+
+Mit **`px_config_preset=BASELINE`** und Chunked Prefill (512) über die API:
+
+| ~Tokens | T | Zeit | Treffer |
+|---|---|---|---|
+| 2 000 | 1 169 | 4,0 s | ✅ `KESTREL-7741` |
+| 8 000 | 4 534 | 9,5 s | ✅ |
+| 20 000 | 11 262 | 21,8 s | ✅ |
+| 40 000 | 22 478 | 46,3 s | ✅ |
+| **80 000** | **44 909** | **112,0 s** | **✅** |
+| 160 000 | ~89 k | – | ❌ OOM (11,0 GB belegt) |
+
+**Das ist die erste Kombination, die Kontext *und* Qualität liefert:**
+4 k → **44,9 k** (~11×) mit exaktem Needle-Recall, ohne GF(5)-Degeneration.
+
+### Zwei harte Befunde aus dieser Runde
+
+1. **Der PX-Patch ist mit inkrementellem Prefill unverträglich.** Mit
+   `ACTIVE_MANIFOLD` bricht SDPA mit
+   `size of tensor a (512) must match tensor b (1023)` — die
+   Sliding-Window-Maske rechnet `sliding_window-1+query_len` (511+512), der
+   Cache liefert aber nur `chunk` Keys. Mit `BASELINE` verschwindet der Fehler
+   vollständig. **Konsequenz: langer Kontext ⇒ BASELINE erzwingen.**
+2. **int8 ist qualitativ nicht ganz neutral**, aber deutlich besser als GF(5):
+   bei `ACTIVE_MANIFOLD` las das Modell `KESTREL77-41` statt `KESTREL-7741`;
+   unter `BASELINE` war der Treffer exakt. Der Patch verstärkt den
+   Quantisierungsfehler also sichtbar.

@@ -524,6 +524,61 @@ def _extract_gemma4_tool_calls(text: str, tools):
     return "".join(out), calls
 
 
+def _sample_next(logits, do_sample: bool, temperature: float, top_p: float):
+    """Greedy oder Top-p-Sampling auf einem (1, vocab)-Logits-Tensor."""
+    if not do_sample or temperature <= 0:
+        return int(logits[0].argmax())
+    logits = logits.float() / temperature
+    probs = torch.softmax(logits, dim=-1)
+    if top_p and top_p < 1.0:
+        sorted_probs, sorted_idx = torch.sort(probs, descending=True)
+        cum = torch.cumsum(sorted_probs, dim=-1)
+        keep = cum - sorted_probs < top_p
+        keep[..., 0] = True
+        probs = torch.zeros_like(probs).scatter_(-1, sorted_idx, sorted_probs * keep)
+    probs = probs / probs.sum()
+    return int(torch.multinomial(probs, 1))
+
+
+def _generate_chunked_prefill(model, input_ids, tokenizer, max_new_tokens=256,
+                              do_sample=False, temperature=1.0, top_p=0.9,
+                              eos_token_id=None, chunk_size=512):
+    """Chunked Prefill + inkrementeller Decode für gemma-4.
+
+    Der Prefill über T Tokens baut eine dichte (T,T)-Maske; auf 12 GB ist ab
+    ~8,4k Schluss. Chunks begrenzen sie auf (chunk, T). Gemessen (bf16 ohne
+    Quantisierung fehlt hier, GF(5)-Variante): 134 625 Tokens, 6,9 GB Peak.
+    """
+    T = input_ids.shape[1]
+    past = None
+    pos = 0
+    out = None
+    with torch.no_grad():
+        while pos < T:
+            end = min(T, pos + chunk_size)
+            cp = torch.arange(pos, end, device=input_ids.device)
+            out = model(input_ids=input_ids[:, pos:end], past_key_values=past,
+                        use_cache=True, cache_position=cp, logits_to_keep=1)
+            past = out.past_key_values
+            pos = end
+        logits = out.logits[:, -1, :]
+        del out
+        gen = []
+        for _ in range(max_new_tokens):
+            nxt = _sample_next(logits, do_sample, temperature, top_p)
+            gen.append(nxt)
+            if eos_token_id is not None and nxt == eos_token_id:
+                break
+            step = torch.tensor([[nxt]], device=input_ids.device)
+            cp = torch.arange(T + len(gen) - 1, T + len(gen), device=input_ids.device)
+            o = model(input_ids=step, past_key_values=past, use_cache=True,
+                      cache_position=cp)
+            past = o.past_key_values
+            logits = o.logits[:, -1, :]
+            del o
+    return tokenizer.decode(gen, skip_special_tokens=True), len(gen)
+
+
 def _apply_tool_shim_to_result(res: dict, tools) -> dict:
     """Non-Stream: Funktionsaufrufe aus dem fertigen Text herausnehmen."""
     shim = _ToolCallStreamShim(tools)
