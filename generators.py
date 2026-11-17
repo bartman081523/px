@@ -553,12 +553,45 @@ def _generate_chunked_prefill(model, input_ids, tokenizer, max_new_tokens=256,
     past = None
     pos = 0
     out = None
+    # Eigene Masken statt transformers' Maskenfabrik: deren Sliding-Sizing
+    # (kv_length = window-1+query) passt nicht zu den vollen KV-States, die
+    # gemma-4 über shared_kv_states liefert ("512 vs 1023"). Wir bauen die
+    # Maske pro Chunk passend zur tatsächlichen Key-Länge.
+    sw = int(getattr(model.config.get_text_config(), "sliding_window", 0) or 0) \
+        if hasattr(model.config, "get_text_config") else 0
+    try:
+        _mdtype = next(model.parameters()).dtype
+    except StopIteration:
+        _mdtype = torch.float32
     with torch.no_grad():
         while pos < T:
             end = min(T, pos + chunk_size)
+            q = end - pos
+            total = end
+            qi = torch.arange(pos, end, device=input_ids.device).unsqueeze(1)   # (q,1) absolut
+            # Full-Attention: alle bisherigen Positionen
+            ki = torch.arange(total, device=input_ids.device).unsqueeze(0)
+            base = ki <= qi
+            full_m = torch.zeros((1, 1, q, total), dtype=_mdtype, device=input_ids.device)
+            full_m.masked_fill_(~base, torch.finfo(_mdtype).min)
+            masks = {"full_attention": full_m}
+            if sw > 0:
+                # Sliding-Layer cachen nur die letzten sw-1 Keys:
+                # kv_len = min(total, sw-1+q), Spalten sind die letzten kv_len
+                # absoluten Positionen (Offset = total-kv_len).
+                kv_len = min(total, sw - 1 + q)
+                off = total - kv_len
+                kpos = (torch.arange(kv_len, device=input_ids.device) + off).unsqueeze(0)
+                band = (kpos <= qi) & (kpos > qi - sw)
+                sl_m = torch.zeros((1, 1, q, kv_len), dtype=_mdtype, device=input_ids.device)
+                sl_m.masked_fill_(~band, torch.finfo(_mdtype).min)
+                masks["sliding_attention"] = sl_m
+            else:
+                masks["sliding_attention"] = full_m
             cp = torch.arange(pos, end, device=input_ids.device)
             out = model(input_ids=input_ids[:, pos:end], past_key_values=past,
-                        use_cache=True, cache_position=cp, logits_to_keep=1)
+                        use_cache=True, cache_position=cp, logits_to_keep=1,
+                        attention_mask=masks)
             past = out.past_key_values
             pos = end
         logits = out.logits[:, -1, :]

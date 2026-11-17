@@ -175,10 +175,37 @@ def _px_forward(self, input_ids=None, attention_mask=None, position_ids=None, pa
         # `inputs_embeds` (plural) und kein `cache_position` mehr (entfernt).
         mk = dict(config=self.config, inputs_embeds=inputs_embeds, attention_mask=attention_mask,
                   past_key_values=past_key_values, position_ids=position_ids)
-        causal_mask_mapping = {
-            "full_attention": create_causal_mask(**mk),
-            "sliding_attention": create_sliding_window_causal_mask(**mk),
-        }
+        # Chunked-Prefill-Fix (2026-11-17): create_sliding_window_causal_mask
+        # liefert kv_length = sliding_window-1+query (1023), die Layer geben
+        # über shared_kv_states aber die VOLLE Länge zurück
+        # ("size of tensor a (512) must match tensor b (1023)").
+        # Gemma-4 selbst baut die Band-Maske an anderer Stelle per Overlay
+        # (create_causal_mask + sliding_window_mask_function). Genau dieses
+        # Overlay benutzen wir hier: Maske passt zur vollen KV-Länge, die
+        # Fenster-Begrenzung bleibt semantisch erhalten.
+        try:
+            from transformers.models.gemma4.modeling_gemma4 import (
+                sliding_window_mask_function,
+            )
+            _sw = int(getattr(self.config, "sliding_window", 0) or 0)
+            if _sw > 0:
+                causal_mask_mapping = {
+                    "full_attention": create_causal_mask(**mk),
+                    "sliding_attention": create_causal_mask(
+                        **mk,
+                        and_mask_function=sliding_window_mask_function((_sw - 1, 0)),
+                    ),
+                }
+            else:
+                causal_mask_mapping = {
+                    "full_attention": create_causal_mask(**mk),
+                    "sliding_attention": create_causal_mask(**mk),
+                }
+        except Exception:
+            causal_mask_mapping = {
+                "full_attention": create_causal_mask(**mk),
+                "sliding_attention": create_sliding_window_causal_mask(**mk),
+            }
 
     # Position embeddings — transformers 5.13.0 mit gemma4: rotary_emb.forward
     # braucht expliziten ``layer_type`` kwarg (default None crasht mit
