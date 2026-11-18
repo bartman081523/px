@@ -1020,8 +1020,14 @@ def _px_gen_kwargs(model, base: dict) -> dict:
     # unabhängig vom Preset (gemessen: gemma3-270m 0,72; gemma3-1b LEAN 0,62;
     # RELAY +1/-1 0,20/0,33). Die code-bewusste Sperre
     # (NoRepeatNgramWhenProse) schaltet sich in Code-Blöcken selbst ab.
-    if os.environ.get("PX_NGRAM_GUARD", "1") == "1" and "no_repeat_ngram_size" not in base:
-        base["no_repeat_ngram_size"] = int(os.environ.get("PX_NGRAM_GUARD_N", "3"))
+    if os.environ.get("PX_NGRAM_GUARD", "1") == "1":
+        _n_guard = int(os.environ.get("PX_NGRAM_GUARD_N", "3"))
+        if os.environ.get("PX_NGRAM_GUARD_OVERRIDE", "0") == "1":
+            # Override gewinnt gegen den Patch-Wert (LEAN/RELAY setzen 3 und
+            # laufen damit trotzdem in Loops -> per Env hoeher drehen).
+            base["no_repeat_ngram_size"] = _n_guard
+        elif "no_repeat_ngram_size" not in base:
+            base["no_repeat_ngram_size"] = _n_guard
     # Sanfte Repetitionsstrafe zusätzlich: die n-Gramm-Sperre schaltet in
     # Code-Blöcken absichtlich ab (sonst zerstört sie Code), die Loops
     # entstehen aber INNERHALB von Code. 1.05 bremst nur verbatim-Wiederholung.

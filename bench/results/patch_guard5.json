@@ -1,0 +1,74 @@
+[
+ {
+  "wall_s": 17.0,
+  "prompt_tokens": 1343,
+  "completion_tokens": 239,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```python\ndef print_primes():\n    print(\"The first 5 primes are:\")\n    print(\"This is a placeholder.\")\n\ndef run_tests():\n    print(\"Running tests...\")\n    print",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 15.7,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.202,
+  "preview": "```python\nimport sys\n\ndef run_tests():\n    print(\"Running tests...\")\n    print(\"This is a simple test for the prime number test.\")\n    print(\"Please provide a t",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:+1"
+ },
+ {
+  "wall_s": 18.2,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.381,
+  "preview": "```python\nimport collections\n\ndef run_tests(test_data):\n    \"\"\"\n    Tests the execution of a simplified test suite.\n    \"\"\"\n    print(\"Running tests...\")\n    pr",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:-1"
+ },
+ {
+  "wall_s": 149.9,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.313,
+  "preview": "```python\nread_file('hello.py')\n```\n```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 11.0,
+  "prompt_tokens": 1343,
+  "completion_tokens": 20,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```python\nread_file(\"hello.py\")\nrun_tests()\n```\n",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:+1"
+ },
+ {
+  "wall_s": 104.9,
+  "prompt_tokens": 1343,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.345,
+  "preview": "```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    retur",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:-1"
+ }
+]
