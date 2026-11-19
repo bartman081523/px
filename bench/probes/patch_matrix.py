@@ -27,6 +27,17 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from e2e_prompt_compare import SYSTEM, TASK, TOOLS, repeat_ratio  # noqa: E402
 
+# Strikte Tool-First-Variante (2026-11-19): die Loops/Redundanzen der kleinen
+# Modelle entstehen, weil sie statt eines Tool-Calls mehrere Code-Blöcke
+# schreiben. Diese Direktive verbietet das explizit.
+STRICT = (
+    "\n\nSTRICT OUTPUT CONTRACT:\n"
+    "- Do not write code in your reply. No code fences, no implementation.\n"
+    "- Act by calling exactly one tool per turn.\n"
+    "- Never repeat a previous sentence or block.\n"
+    "- If you already know the answer, call run_tests instead of explaining.\n"
+)
+
 API = os.environ.get("PX_API", "http://127.0.0.1:7860/v1")
 
 DEFAULT_MODELS = [
@@ -39,10 +50,10 @@ DEFAULT_PRESETS = [
 ]
 
 
-def ask(model, preset, quantization=None, max_tokens=256, timeout=1800):
+def ask(model, preset, quantization=None, max_tokens=256, timeout=1800, strict=False):
     body = {
         "model": model,
-        "messages": [{"role": "system", "content": SYSTEM},
+        "messages": [{"role": "system", "content": SYSTEM + (STRICT if strict else "")},
                      {"role": "user", "content": TASK}],
         "max_tokens": max_tokens,
         "temperature": 0.0,
@@ -83,6 +94,8 @@ def main():
     ap.add_argument("--models", default=",".join(DEFAULT_MODELS))
     ap.add_argument("--presets", default=",".join(DEFAULT_PRESETS))
     ap.add_argument("--out", default="bench/results/patch_matrix.json")
+    ap.add_argument("--strict", action="store_true",
+                    help="Tool-First-Vertrag an den Systemprompt hängen")
     a = ap.parse_args()
     models = [m.strip() for m in a.models.split(",") if m.strip()]
     presets = [p.strip() for p in a.presets.split(",") if p.strip()]
@@ -95,7 +108,7 @@ def main():
                 label = f"{model}{'/' + quant if quant else ''}/{preset}"
                 print(f"\n=== {label} ===", flush=True)
                 try:
-                    r = ask(model, preset, quant)
+                    r = ask(model, preset, quant, strict=a.strict)
                 except Exception as e:  # noqa: BLE001
                     r = {"error": f"{type(e).__name__}: {str(e)[:140]}"}
                 r.update({"model": model, "quantization": quant, "preset": preset})

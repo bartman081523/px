@@ -284,3 +284,45 @@ Gegenprobe im px-Server (warm, gleicher Prompt): MiniCPM5-1B **43,7 tok/s**,
 gemma4-E2B **18,5 tok/s**. → vLLM ist hier **nicht schneller** (Single-User,
 enforce_eager, kein Batch-Vorteil) und kann die Zielmodelle gar nicht laden.
 Ein Port unserer Long-Context-Patches in vLLM lohnt damit nicht.
+
+---
+
+## E — Vollständige Modell × Preset-Matrix (2026-11-19)
+
+Wert = Repeat-Ratio der 20-Gramm (0,00 = sauber; > 0,2 = degeneriert), gemessen
+mit dem Harness-Prompt (1 343 Tokens + Tool-Schema).
+
+| Modell | BASELINE | ACTIVE_MANIFOLD | LEAN | RELAY:+1 | RELAY:-1 |
+|---|---|---|---|---|---|
+| gemma3-270m-it | 0,00 | 0,34 | 0,34 | 0,03 | **0,72** |
+| gemma3-1b-it | 0,00 | 0,00 | **0,61** | 0,20 | 0,33 |
+| gemma3-4b-it | 0,00 | 0,31 | 0,00 | 0,00 | 0,30 |
+| **gemma4-e2b-it** | **0,00** | **0,00** | **0,00** | **0,00** | **0,00** |
+| **gemma4-e2b-it (int8)** | **0,00** | **0,00** | **0,00** | **0,00** | **0,00** |
+| minicpm5-1b | 0,00 | OOM | OOM | OOM | OOM |
+
+**Nur gemma4 ist über alle Presets sauber — auch in int8.** Das ist der
+belastbare Kern der Kampagne.
+
+### Tool-First-Vertrag als Gegenmittel (gemessen)
+
+Zusätzlicher Systemprompt-Block („kein Code in der Antwort, genau ein Tool-Call
+pro Turn, nichts wiederholen"):
+
+| Modell | ohne Vertrag | mit Vertrag |
+|---|---|---|
+| gemma3-4b MANIFOLD / LEAN / RELAY−1 | 0,31 / 0,00 / 0,30 | **0,00 / 0,00 / 0,00** |
+| gemma3-270m MANIFOLD / LEAN | 0,34 / 0,34 | **0,00 / 0,04** |
+| gemma3-270m RELAY−1 | 0,72 | 0,43 |
+| gemma3-1b MANIFOLD / LEAN | 0,00 / 0,61 | 0,74 / 0,74 |
+
+**Der Vertrag repariert 4b und 270m, aber nicht 1b** — das 1B-Modell ignoriert
+die Anweisung und schreibt weiter Code. Für 1b bleibt es beim Loop-Guard
+(n-Gramm) bzw. bei BASELINE.
+
+### minicpm5 + Patches: OOM, kein Logikfehler
+
+Die 500er im Matrixlauf sind `torch.OutOfMemoryError` (11,04 GB belegt, 157 MB
+frei) bei 1 343-Token-Prompt + Patch — der Patch kostet Speicher, den die Karte
+nach dem vorherigen Modell nicht mehr hat. Einzelanfragen mit kurzem Prompt
+funktionieren.

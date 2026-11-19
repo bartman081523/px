@@ -1,0 +1,110 @@
+[
+ {
+  "wall_s": 17.5,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```\n```\ndef bubble_prime(self):\n    \"Generates a list of prime numbers.\"\n    for num in [i for j in range(1, int), 1] if (num) => isprime(1) or (2) count:\n     ",
+  "model": "gemma3-270m-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD"
+ },
+ {
+  "wall_s": 15.2,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.035,
+  "preview": "```\n```\ndef bubble_true(i):\n    \"Stringing the list of primes that are prime.\"\n    for p in [i for _ in range(1, 101)]([1, 2, 3, 4, 5]));\n    for p in [i for _ ",
+  "model": "gemma3-270m-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 18.5,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.429,
+  "preview": "```\ndef large_prime(int):\n    def large_prime(int):\n        return 4()\n        if (int(7) == 11):\n            7 - 7 + 1 = 1\n        else:\n            print(7 - ",
+  "model": "gemma3-270m-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:-1"
+ },
+ {
+  "wall_s": 22.6,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.738,
+  "preview": "```python\ndef run_tests():\n    print(\"Running tests...\")\n    print(\"Testing the function...\")\n    print(\"Testing the function...\")\n    print(\"Testing the functi",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD"
+ },
+ {
+  "wall_s": 18.9,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.738,
+  "preview": "```python\ndef run_tests():\n    print(\"Running tests...\")\n    print(\"Testing the function...\")\n    print(\"Testing the function...\")\n    print(\"Testing the functi",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 23.6,
+  "prompt_tokens": 1404,
+  "completion_tokens": 256,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.14,
+  "preview": "```python\ndef run_tests(test_data):\n  \"\"\"\n  A simplified test suite for verifying the core functionality of the\n  \"hello.py\" script.\n  \"\"\"\n  print(\"Test Data:\")",
+  "model": "gemma3-1b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:-1"
+ },
+ {
+  "wall_s": 41.0,
+  "prompt_tokens": 1404,
+  "completion_tokens": 10,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```tool\nrun_tests\n```\n",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD"
+ },
+ {
+  "wall_s": 7.0,
+  "prompt_tokens": 1404,
+  "completion_tokens": 10,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```tool\nrun_tests\n```\n",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_LEAN"
+ },
+ {
+  "wall_s": 7.7,
+  "prompt_tokens": 1404,
+  "completion_tokens": 12,
+  "finish": "stop",
+  "tool_calls": false,
+  "repeat_ratio": 0.0,
+  "preview": "```tool\ndef run_tests()\n```\n",
+  "model": "gemma3-4b-it",
+  "quantization": null,
+  "preset": "ACTIVE_MANIFOLD_RELAY:-1"
+ }
+]
